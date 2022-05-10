@@ -1,0 +1,32 @@
+{
+  "name": "truemark-cdk-lib",
+  "version": "0.0.2",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.4.1",
+    "@types/node": "10.17.27",
+    "aws-cdk-lib": "2.23.0",
+    "constructs": "10.0.5",
+    "jest": "^27.5.1",
+    "ts-jest": "^27.1.4",
+    "typescript": "~3.9.7"
+  },
+  "peerDependencies": {
+    "aws-cdk-lib": "2.23.0",
+    "constructs": "^10.0.5"
+  },
+  "exports": {
+    ".": "./index.js",
+    "./package.json": "./package.json",
+    "./aws-route53": "./aws-route53/index.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
