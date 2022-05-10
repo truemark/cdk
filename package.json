@@ -1,0 +1,10 @@
+{
+  "name": "truemark-cdk",
+  "version": "0.0.0",
+  "private": true,
+  "devDependencies": {
+    "@types/node": "^17.0.31",
+    "lerna": "^4.0.0",
+    "typescript": "^4.6.4"
+  }
+}
