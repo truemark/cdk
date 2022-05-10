@@ -24,10 +24,11 @@
   "exports": {
     ".": "./index.js",
     "./package.json": "./package.json",
-    "./aws-route53": "./aws-route53/index.js",
-    "./aws-monitoring": "./aws-monitoring/index.js",
+    "./aws-cloudwatch": "./aws-cloudwatch/index.js",
     "./aws-lambda": "./aws-lambda/index.js",
-    "./aws-cloudwatch": "./aws-cloudwatch/index.js"
+    "./aws-monitoring": "./aws-monitoring/index.js",
+    "./aws-route53": "./aws-route53/index.js",
+    "./aws-sqs": "./aws-sqs/index.js"
   },
   "publishConfig": {
     "access": "public"
