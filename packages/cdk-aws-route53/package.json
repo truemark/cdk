@@ -1,6 +1,6 @@
 {
   "name": "@truemark/cdk-aws-route53",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
@@ -20,5 +20,8 @@
   "peerDependencies": {
     "aws-cdk-lib": "2.23.0",
     "constructs": "^10.0.5"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
