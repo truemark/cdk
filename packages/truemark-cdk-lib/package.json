@@ -24,9 +24,15 @@
   "exports": {
     ".": "./index.js",
     "./package.json": "./package.json",
-    "./aws-route53": "./aws-route53/index.js"
+    "./aws-route53": "./aws-route53/index.js",
+    "./aws-monitoring": "./aws-monitoring/index.js",
+    "./aws-lambda": "./aws-lambda/index.js",
+    "./aws-cloudwatch": "./aws-cloudwatch/index.js"
   },
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "cdk-monitoring-constructs": "^1.6.4"
   }
 }
