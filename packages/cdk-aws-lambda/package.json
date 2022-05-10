@@ -1,6 +1,6 @@
 {
   "name": "@truemark/cdk-aws-lambda",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
@@ -25,5 +25,8 @@
     "@truemark/cdk-aws-cloudwatch": "^0.0.1",
     "@truemark/cdk-aws-monitoring": "^0.0.1",
     "cdk-monitoring-constructs": "^1.6.4"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
