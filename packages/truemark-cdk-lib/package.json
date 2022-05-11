@@ -11,14 +11,14 @@
   "devDependencies": {
     "@types/jest": "^27.4.1",
     "@types/node": "10.17.27",
-    "aws-cdk-lib": "2.23.0",
+    "aws-cdk-lib": "2.18.0",
     "constructs": "10.0.5",
     "jest": "^27.5.1",
     "ts-jest": "^27.1.4",
     "typescript": "~3.9.7"
   },
   "peerDependencies": {
-    "aws-cdk-lib": "2.23.0",
+    "aws-cdk-lib": "^2.18.0",
     "constructs": "^10.0.5"
   },
   "exports": {
@@ -34,6 +34,11 @@
     "access": "public"
   },
   "dependencies": {
-    "cdk-monitoring-constructs": "^1.6.4"
+    "cdk-monitoring-constructs": "^1.6.4",
+    "@aws-cdk/aws-apigatewayv2-alpha": "^2.18.0-alpha.0",
+    "@aws-cdk/aws-appsync-alpha": "^2.18.0-alpha.0",
+    "@aws-cdk/aws-redshift-alpha": "^2.18.0-alpha.0",
+    "@aws-cdk/aws-synthetics-alpha": "^2.18.0-alpha.0",
+    "@aws-cdk/aws-apigatewayv2-integrations-alpha": "^2.18.0-alpha.0"
   }
 }
