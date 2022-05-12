@@ -41,5 +41,5 @@
     "@aws-cdk/aws-synthetics-alpha": "^2.18.0-alpha.0",
     "cdk-monitoring-constructs": "^1.6.4"
   },
-  "gitHead": "8da7ae60b1a3894670fffc359ab6374d90f99e61"
+  "gitHead": "ea53dec0c34947554b292a2abdc2b92278c41bb7"
 }
