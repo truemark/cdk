@@ -120,12 +120,12 @@ export interface StandardFunctionAlarmProps {
   /**
    * Topics to send alarm notifications
    */
-  readonly notifyTopics?: [ITopic];
+  readonly notifyTopics?: ITopic[];
 
   /**
    * Actions to send alarm notifications
    */
-  readonly notifyActions?: [IAlarmAction];
+  readonly notifyActions?: IAlarmAction[];
 
   /**
    * Log pattern to match for metrics.
