@@ -5,7 +5,11 @@ import {Architecture, Runtime, Tracing} from "aws-cdk-lib/aws-lambda";
 import * as logs from "aws-cdk-lib/aws-logs";
 import * as ec2 from "aws-cdk-lib/aws-ec2";
 import {IDashboardFactory} from "cdk-monitoring-constructs";
+import {ILambdaDeploymentConfig, LambdaDeploymentConfig} from "aws-cdk-lib/aws-codedeploy/lib/lambda/deployment-config";
 
+/**
+ * CloudWatch alarm properties for lambda functions.
+ */
 export interface StandardFunctionAlarmProps {
 
   /**
@@ -130,6 +134,25 @@ export interface StandardFunctionAlarmProps {
   readonly maxLogCount?: number
 }
 
+/**
+ * Properties for lambda function deployments.
+ */
+export interface StandardFunctionDeploymentProps {
+
+  /**
+   * Deployment configuration to use.
+   */
+  readonly config: ILambdaDeploymentConfig,
+
+  /**
+   * Name of the alias to use for deployment.
+   */
+  readonly aliasName: string
+}
+
+/**
+ * Properties for lambda functions.
+ */
 export interface StandardFunctionProps {
 
   /**
@@ -213,4 +236,10 @@ export interface StandardFunctionProps {
    * If no properties are provided, a set of default alarms are created.
    */
   readonly warningAlarmProps?: StandardFunctionAlarmProps;
+
+  /**
+   * Deployment properties. If no properties are provided a LambdaDeploymentGroup
+   * is not created.
+   */
+  readonly deploymentProps?: StandardFunctionDeploymentProps
 }

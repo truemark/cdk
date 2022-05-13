@@ -1,5 +1,5 @@
 import {StandardFunctionProps} from "./standard-function";
-import {Architecture, Code, Function, Runtime, Tracing} from "aws-cdk-lib/aws-lambda";
+import {Alias, Architecture, Code, Function, Runtime, Tracing} from "aws-cdk-lib/aws-lambda";
 import {Construct} from "constructs";
 import {
   DurationThreshold,
@@ -17,6 +17,7 @@ import * as logs from "aws-cdk-lib/aws-logs";
 import {IAlarmAction} from "aws-cdk-lib/aws-cloudwatch";
 import {SnsAction} from "aws-cdk-lib/aws-cloudwatch-actions";
 import {toAlarmProps} from "./helper";
+import {LambdaDeploymentGroup} from "aws-cdk-lib/aws-codedeploy";
 
 export interface PythonFunctionProps extends StandardFunctionProps {
 
@@ -55,6 +56,8 @@ export class PythonFunction extends Construct {
   static readonly DEFAULT_LOG_INSIGHTS_PATTERN = '\\\[ERROR\\\]';
   readonly declare monitoring: MonitoringFacade
   readonly declare function: Function;
+  readonly declare alias: Alias;
+  readonly declare deploymentGroup: LambdaDeploymentGroup;
   readonly declare criticalLogAlarm: LogAlarm;
   readonly declare warningLogAlarm: LogAlarm;
 
@@ -95,6 +98,18 @@ export class PythonFunction extends Construct {
       code: Code.fromAsset(props.entry, {bundling}),
       handler: (props.index??'index.py').replace('.py', '') + '.' + (props.handler??'handler'),
     });
+
+    if (props.deploymentProps !== undefined) {
+      this.alias = new Alias(this, 'Alias', {
+        aliasName: props.deploymentProps.aliasName,
+        version: this.function.currentVersion
+      });
+
+      this.deploymentGroup = new LambdaDeploymentGroup(this, 'DeployGroup', {
+        alias: this.alias,
+        deploymentConfig: props.deploymentProps.config
+      });
+    }
 
     const warnProps = props.warningAlarmProps;
     const warnActions: IAlarmAction[] = [];
