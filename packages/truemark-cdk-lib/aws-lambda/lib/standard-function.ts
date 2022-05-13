@@ -1,11 +1,11 @@
 import {Duration} from "aws-cdk-lib";
 import {ITopic} from "aws-cdk-lib/aws-sns";
 import {IAlarmAction} from "aws-cdk-lib/aws-cloudwatch";
-import {Architecture, Runtime, Tracing} from "aws-cdk-lib/aws-lambda";
+import {Architecture, Tracing} from "aws-cdk-lib/aws-lambda";
 import * as logs from "aws-cdk-lib/aws-logs";
 import * as ec2 from "aws-cdk-lib/aws-ec2";
 import {IDashboardFactory} from "cdk-monitoring-constructs";
-import {ILambdaDeploymentConfig, LambdaDeploymentConfig} from "aws-cdk-lib/aws-codedeploy/lib/lambda/deployment-config";
+import {ILambdaDeploymentConfig} from "aws-cdk-lib/aws-codedeploy/lib/lambda/deployment-config";
 
 /**
  * CloudWatch alarm properties for lambda functions.
