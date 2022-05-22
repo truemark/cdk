@@ -1,2 +1,2 @@
-export * from './standard-function';
+export * from './observed-function';
 export * from './python-function';
