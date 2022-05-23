@@ -2,6 +2,14 @@ import {spawnSync} from "child_process";
 import * as process from "process";
 import * as fs from "fs";
 
+export interface BashExecutionProps {
+  readonly script: string,
+  readonly workingDirectory?: string,
+  readonly environment?: {
+    [key: string]: string;
+  };
+}
+
 /**
  * Simple helper class for executing shell scripts and commands
  */
@@ -45,12 +53,16 @@ export class ShellHelper {
     }
   }
 
-  static executeBash(script: string, workingDirectory?: string): boolean {
-    ShellHelper.checkDirectoryAccess(workingDirectory);
+  static executeBash(props: BashExecutionProps): boolean {
+    ShellHelper.checkDirectoryAccess(props.workingDirectory);
     const res = spawnSync('bash', {
-      input: script,
-      cwd: workingDirectory,
-      stdio: ['pipe', process.stdout, process.stderr]
+      input: props.script,
+      cwd: props.workingDirectory,
+      stdio: ['pipe', process.stdout, process.stderr],
+      env: {
+        ...process.env,
+        ...props.environment
+      }
     });
     if (res.error) {
       throw res.error;
@@ -58,11 +70,15 @@ export class ShellHelper {
     return res.status === 0;
   }
 
-  static executeBashScript(scriptLocation: string, workingDirectory?: string): boolean {
-    ShellHelper.checkDirectoryAccess(workingDirectory);
-    const res = spawnSync('bash', [scriptLocation], {
+  static executeBashScript(props: BashExecutionProps): boolean {
+    ShellHelper.checkDirectoryAccess(props.workingDirectory);
+    const res = spawnSync('bash', [props.script], {
+      cwd: props.workingDirectory,
       stdio: 'inherit',
-      cwd: workingDirectory
+      env: {
+        ...process.env,
+        ...props.environment
+      }
     });
     if (res.error) {
       throw res.error;
