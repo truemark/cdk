@@ -1,5 +1,6 @@
 import {spawnSync} from "child_process";
 import * as process from "process";
+import * as fs from "fs";
 
 /**
  * Simple helper class for executing shell scripts and commands
@@ -35,18 +36,37 @@ export class ShellHelper {
     return ShellHelper.version('dotnet', ['--version']);
   }
 
-  static executeBash(script: string): boolean {
+  static checkDirectoryAccess(dir?: string) {
+    if (dir !== undefined) {
+      fs.accessSync(dir);
+      if (!fs.lstatSync(dir).isDirectory()) {
+        throw new Error(`${dir} is not a directory`);
+      }
+    }
+  }
+
+  static executeBash(script: string, workingDirectory?: string): boolean {
+    ShellHelper.checkDirectoryAccess(workingDirectory);
     const res = spawnSync('bash', {
       input: script,
+      cwd: workingDirectory,
       stdio: ['pipe', process.stdout, process.stderr]
     });
+    if (res.error) {
+      throw res.error;
+    }
     return res.status === 0;
   }
 
-  static executeBashScript(scriptLocation: string): boolean {
+  static executeBashScript(scriptLocation: string, workingDirectory?: string): boolean {
+    ShellHelper.checkDirectoryAccess(workingDirectory);
     const res = spawnSync('bash', [scriptLocation], {
-      stdio: 'inherit'
+      stdio: 'inherit',
+      cwd: workingDirectory
     });
+    if (res.error) {
+      throw res.error;
+    }
     return res.status === 0;
   }
 }
