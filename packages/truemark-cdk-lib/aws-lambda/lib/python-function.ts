@@ -45,7 +45,6 @@ export class PythonFunction extends BundledFunction {
   if [ -f requirements.txt ]; then
     pip install --target "\${CDK_BUNDLING_OUTPUT_DIR}" -r requirements.txt
   fi
-  echo "MOOO: \${PIP_PROGRESS_BAR}"
   cp -a * "\${CDK_BUNDLING_OUTPUT_DIR}"
   `
 
@@ -72,6 +71,11 @@ export class PythonFunction extends BundledFunction {
       memorySize: 768,
       timeout: Duration.seconds(30),
       ...props,
+      bundlingEnvironment: {
+        PIP_PROGRESS_BAR: 'off',
+        PIP_DISABLE_PIP_VERSION_CHECK: '1',
+        ...props.bundlingEnvironment
+      },
       runtime,
       handler,
       defaultBundlingScript: PythonFunction.DEFAULT_BUNDLE_SCRIPT,
