@@ -1,22 +1,15 @@
-import {Architecture, Code, FunctionOptions, Runtime, RuntimeFamily, Tracing} from 'aws-cdk-lib/aws-lambda';
+import {Architecture, FunctionOptions, Runtime, RuntimeFamily, Tracing} from 'aws-cdk-lib/aws-lambda';
 import {Construct} from "constructs";
-import {BundlingOptions, BundlingOutput, Duration} from "aws-cdk-lib";
+import {Duration} from "aws-cdk-lib";
 import {RetentionDays} from "aws-cdk-lib/aws-logs";
-import {FunctionAlarmProps, ObservedFunction} from '../../aws-lambda';
-import {ILocalBundling} from "aws-cdk-lib/core/lib/bundling";
+import {FunctionAlarmProps} from '../../aws-lambda';
 import {ShellHelper} from "../../helpers";
+import {BundledFunction, BundledFunctionOptions} from "./bundled-function";
 
 /**
  * Properties for PythonFunction.
  */
-export interface PythonFunctionProps extends FunctionOptions, FunctionAlarmProps {
-
-  /**
-   * Path to the source of the function.
-   *
-   * Example: path.join(__dirname, '..', 'mylambda')
-   */
-  readonly entry: string;
+export interface PythonFunctionProps extends BundledFunctionOptions, FunctionOptions, FunctionAlarmProps {
 
   /**
    * The path (relative to entry) to the index file containing the exported handler.
@@ -32,43 +25,6 @@ export interface PythonFunctionProps extends FunctionOptions, FunctionAlarmProps
    */
   readonly handler?: string;
 
-
-  /**
-   * Turns off local bundling.
-   *
-   * @default false
-   */
-  readonly disableLocalBundling?: boolean
-
-  /**
-   * Turns off docker bundling.
-   *
-   * @default false
-   */
-  readonly disableDockerBundling?: boolean
-
-  /**
-   * Overrides the default bundling script.
-   *
-   * @default PythonFunction.DEFAULT_BUNDLE_SCRIPT
-   */
-  readonly bundlingScript?: string
-
-  /**
-   * Additional environment variable to be passed to the bundling script.
-   */
-  readonly bundlingEnvironment?: {
-    [key: string]: string;
-  };
-
-  /**
-   * Bundling options to use for this function. Use this to specify custom bundling options like
-   * the bundling Docker image, asset hash type, custom hash, architecture, etc.
-   *
-   * @default
-   */
-  readonly bundling?: BundlingOptions;
-
   /**
    * The runtime environment. Only runtimes of the Python family are supported.
    *
@@ -81,7 +37,7 @@ export interface PythonFunctionProps extends FunctionOptions, FunctionAlarmProps
 /**
  * Python based Lambda Function
  */
-export class PythonFunction extends ObservedFunction {
+export class PythonFunction extends BundledFunction {
 
   static readonly DEFAULT_BUNDLE_SCRIPT = `
   #!/usr/bin/env bash
@@ -92,6 +48,10 @@ export class PythonFunction extends ObservedFunction {
   echo "MOOO: \${PIP_PROGRESS_BAR}"
   cp -a * "\${CDK_BUNDLING_OUTPUT_DIR}"
   `
+
+  static isLocalBundlingSupported(): boolean {
+    return ShellHelper.pythonVersion() !== null;
+  }
 
   /**
    * Creates a new Lambda Function
@@ -105,42 +65,6 @@ export class PythonFunction extends ObservedFunction {
 
     const handler = (props.index??'index.py').replace('.py', '') + '.' + (props.handler??'handler');
 
-    const local: ILocalBundling | undefined = props.disableLocalBundling ? undefined : {
-      tryBundle(outputDir: string, options: BundlingOptions): boolean {
-        try {
-          if (!ShellHelper.pythonVersion()) {
-            return false;
-          }
-        } catch {
-          return false;
-        }
-        return ShellHelper.executeBash({
-          script: props.bundlingScript??PythonFunction.DEFAULT_BUNDLE_SCRIPT,
-          workingDirectory: props.entry,
-          environment: {
-            ...options.environment,
-            CDK_BUNDLING_OUTPUT_DIR: outputDir,
-          }
-        });
-      }
-    };
-
-    const command = props.disableDockerBundling ? undefined : ['bash', '-c', props.bundlingScript??PythonFunction.DEFAULT_BUNDLE_SCRIPT];
-
-    const bundling: BundlingOptions = {
-      image: props.runtime?.bundlingImage??Runtime.PYTHON_3_9.bundlingImage,
-      local,
-      command,
-      environment: {
-        CDK_BUNDLING_OUTPUT_DIR: '/asset-output/',
-        PIP_PROGRESS_BAR: 'off',
-        PIP_DISABLE_PIP_VERSION_CHECK: '1',
-        ...props.bundlingEnvironment
-      },
-      outputType: BundlingOutput.NOT_ARCHIVED,
-      ...props.bundling
-    }
-
     super(scope, id, {
       tracing: Tracing.PASS_THROUGH,
       logRetention: RetentionDays.THREE_DAYS,
@@ -150,7 +74,9 @@ export class PythonFunction extends ObservedFunction {
       ...props,
       runtime,
       handler,
-      code: Code.fromAsset(props.entry, {bundling})
+      defaultBundlingScript: PythonFunction.DEFAULT_BUNDLE_SCRIPT,
+      defaultBundlingImage: runtime.bundlingImage,
+      isLocalBundlingSupported: PythonFunction.isLocalBundlingSupported
     });
   }
 }
