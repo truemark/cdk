@@ -430,11 +430,11 @@ export class ObservedFunctionAlarms extends Construct {
     this.criticalAlarms = [];
     this.warningAlarms = [];
 
-    this.monitoring = props.monitoringFacade ?? new MonitoringFacade(this, id, {
+    this.monitoring = props.monitoringFacade ?? new MonitoringFacade(this, 'Monitoring', {
       metricFactoryDefaults: {},
       alarmFactoryDefaults: {
         actionsEnabled: true,
-        alarmNamePrefix: scope.node.path.replace(/\//g, '-')
+        alarmNamePrefix: scope.node.path.replace(/\//g, '')
       },
       dashboardFactory: props.dashboardFactory
     });
