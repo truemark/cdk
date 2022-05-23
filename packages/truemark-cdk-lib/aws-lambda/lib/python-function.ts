@@ -1,8 +1,10 @@
 import {Architecture, Code, Function, FunctionOptions, Runtime, RuntimeFamily, Tracing} from 'aws-cdk-lib/aws-lambda';
 import {Construct} from "constructs";
-import {BundlingOptions, Duration} from "aws-cdk-lib";
+import {BundlingOptions, BundlingOutput, Duration} from "aws-cdk-lib";
 import {RetentionDays} from "aws-cdk-lib/aws-logs";
 import {FunctionAlarmProps, ObservedFunction} from "./observed-function";
+import {ILocalBundling} from "aws-cdk-lib/core/lib/bundling";
+import {spawnSync} from "child_process";
 
 /**
  * Properties for PythonFunction.
@@ -64,8 +66,34 @@ export class PythonFunction extends ObservedFunction {
 
     const handler = (props.index??'index.py').replace('.py', '') + '.' + (props.handler??'handler');
 
+    const local: ILocalBundling = {
+      tryBundle(outputDir: string, options: BundlingOptions): boolean {
+        try {
+          spawnSync('pip -V')
+        } catch {
+          return false;
+        }
+        spawnSync('bash', ['-c', [
+          `cp -a ${props.entry}/* ${outputDir}`
+        ].join('&&')]);
+        // spawnSync('ls -l && pwd');
+        // spawnSync(`cp -ra * ${outputDir}`);
+        return true;
+      }
+    };
+
+    const command = [
+      'bash', '-c', [
+        'pip install --target /asset-output/ -r requirements.txt',
+        'cp -ra * /asset-output/'
+      ].join('&&')
+    ];
+
     const bundling: BundlingOptions = {
       image: props.runtime?.bundlingImage??Runtime.PYTHON_3_9.bundlingImage,
+      local,
+      command,
+      outputType: BundlingOutput.NOT_ARCHIVED,
       ...props.bundling
     }
 
