@@ -11,7 +11,7 @@ export interface LogMetricFilterProps {
   /**
    * The namespace of the metric to emit.
    *
-   * @default 'AWS/Logs'
+   * @default 'TrueMark/Logs'
    */
   readonly metricNamespace?: string;
 
@@ -43,7 +43,7 @@ export class LogMetricFilter extends MetricFilter {
   constructor(scope: Construct, id: string, props: LogMetricFilterProps) {
     super(scope, id, {
       ...props,
-      metricNamespace: props.metricNamespace??'AWS/Logs',
+      metricNamespace: props.metricNamespace??'TrueMark/Logs',
       defaultValue: 0,
       metricValue: '1',
       filterPattern: {
