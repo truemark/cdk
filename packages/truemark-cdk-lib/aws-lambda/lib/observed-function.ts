@@ -1,4 +1,4 @@
-import {Duration} from "aws-cdk-lib";
+import {Duration, Stack, Stage} from "aws-cdk-lib";
 import {ITopic} from "aws-cdk-lib/aws-sns";
 import {Alarm, IAlarmAction} from "aws-cdk-lib/aws-cloudwatch";
 import {Function, FunctionProps, IFunction} from "aws-cdk-lib/aws-lambda";
@@ -430,13 +430,11 @@ export class ObservedFunctionAlarms extends Construct {
     this.criticalAlarms = [];
     this.warningAlarms = [];
 
-    console.log("DEBUG: " + scope.node.path.replace(/\//g, 'X'));
-
     this.monitoring = props.monitoringFacade ?? new MonitoringFacade(this, 'Monitoring', {
       metricFactoryDefaults: {},
       alarmFactoryDefaults: {
         actionsEnabled: true,
-        alarmNamePrefix: scope.node.path.replace(/\//g, 'X')
+        alarmNamePrefix: (Stage.of(this)?.stageName ? Stage.of(this)?.stageName + '-' : '') + Stack.of(this).stackName
       },
       dashboardFactory: props.dashboardFactory
     });
