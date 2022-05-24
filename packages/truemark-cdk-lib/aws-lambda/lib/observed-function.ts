@@ -434,7 +434,7 @@ export class ObservedFunctionAlarms extends Construct {
       metricFactoryDefaults: {},
       alarmFactoryDefaults: {
         actionsEnabled: true,
-        alarmNamePrefix: (Stage.of(this)?.stageName ? Stage.of(this)?.stageName + '-' : '') + Stack.of(this).stackName
+        alarmNamePrefix: Stack.of(this).stackName
       },
       dashboardFactory: props.dashboardFactory
     });
