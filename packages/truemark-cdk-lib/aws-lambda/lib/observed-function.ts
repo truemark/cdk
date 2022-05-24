@@ -434,7 +434,7 @@ export class ObservedFunctionAlarms extends Construct {
       metricFactoryDefaults: {},
       alarmFactoryDefaults: {
         actionsEnabled: true,
-        alarmNamePrefix: scope.node.path.replace(/\//g, '-')
+        alarmNamePrefix: scope.node.path.replace(/\//g, 'X')
       },
       dashboardFactory: props.dashboardFactory
     });
