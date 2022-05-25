@@ -210,7 +210,7 @@ export interface FunctionAlarmProps {
  * @param category the alarm category
  */
 function getFunctionAlarmCategoryProps(props: FunctionAlarmProps, category: FunctionAlarmCategory): FunctionAlarmCategoryProps | undefined {
-  const fprop: keyof FunctionAlarmProps = category == 'Critical' ? 'criticalAlarmProps' : 'warningAlarmProps';
+  const fprop: keyof FunctionAlarmProps = category === 'Critical' ? 'criticalAlarmProps' : 'warningAlarmProps';
   return props[fprop];
 }
 
@@ -251,9 +251,9 @@ interface FunctionAlarmFacadeProps {
  */
 class FunctionAlarmFacade {
 
-  readonly actions: IAlarmAction[]
+  readonly actions: IAlarmAction[];
 
-  private props: FunctionAlarmFacadeProps
+  private props: FunctionAlarmFacadeProps;
 
   constructor(props: FunctionAlarmFacadeProps) {
     this.props = props
@@ -266,18 +266,17 @@ class FunctionAlarmFacade {
         [this.props.prop]: this.props.threshold??this.props.defaultThreshold,
         actionsEnabled: true,
         actionOverride: new StandardAlarmActionsStrategy({actions: this.actions})
-      }
+      };
     }
-    return undefined
+    return undefined;
   }
 
   addCustomAlarmThreshold(category: FunctionAlarmCategory, record: Record<string, CustomAlarmThreshold>) {
     const c = this.toCustomAlarmThreshold();
     if (c !== undefined) {
-      record[category] = c
+      record[category] = c;
     }
   }
-
 }
 
 /**
@@ -286,7 +285,7 @@ class FunctionAlarmFacade {
 export interface ObservedFunctionAlarmsProps extends FunctionAlarmProps {
 
   /**
-   * The function to observer.
+   * The function to observe.
    */
   readonly function: IFunction
 
@@ -297,7 +296,7 @@ export interface ObservedFunctionAlarmsProps extends FunctionAlarmProps {
 }
 
 /**
- * Created CloudWatch alarms for a Lambda Function.
+ * Creates CloudWatch alarms for a Lambda Function.
  */
 export class ObservedFunctionAlarms extends Construct {
 
@@ -319,7 +318,7 @@ export class ObservedFunctionAlarms extends Construct {
   /**
    * The MonitoringFacade instance either passed in or generated.
    */
-  readonly monitoring: MonitoringFacade;
+  readonly monitoringFacade: MonitoringFacade;
 
   /**
    * Generated critical alarms.
@@ -331,7 +330,7 @@ export class ObservedFunctionAlarms extends Construct {
    */
   readonly warningAlarms: Alarm[];
 
-  private readonly props: ObservedFunctionAlarmsProps
+  private readonly props: ObservedFunctionAlarmsProps;
 
   private addRecordValue(record: Record<string, CustomAlarmThreshold>,
                          category: FunctionAlarmCategory,
@@ -349,10 +348,10 @@ export class ObservedFunctionAlarms extends Construct {
   }
 
   private toRecord(sprop: keyof FunctionAlarmCategoryProps, tprop: string, defaultThreshold?: number|Duration): Record<string, CustomAlarmThreshold> | undefined {
-    const record: Record<string, CustomAlarmThreshold> = {}
-    this.addRecordValue(record, FunctionAlarmCategory.Critical, sprop, tprop, defaultThreshold)
-    this.addRecordValue(record, FunctionAlarmCategory.Warning, sprop, tprop, defaultThreshold)
-    return Object.keys(record).length > 0 ? record : undefined
+    const record: Record<string, CustomAlarmThreshold> = {};
+    this.addRecordValue(record, FunctionAlarmCategory.Critical, sprop, tprop, defaultThreshold);
+    this.addRecordValue(record, FunctionAlarmCategory.Warning, sprop, tprop, defaultThreshold);
+    return Object.keys(record).length > 0 ? record : undefined;
   }
 
   private addAlarm(category: FunctionAlarmCategory, ...alarm: Alarm[]) {
@@ -361,7 +360,7 @@ export class ObservedFunctionAlarms extends Construct {
   }
 
   private addFunctionMonitoring() {
-    this.monitoring.monitorLambdaFunction({
+    this.monitoringFacade.monitorLambdaFunction({
       lambdaFunction: this.props.function,
       addToAlarmDashboard: this.props.addToAlarmDashboard ?? true,
       addToDetailDashboard: this.props.addToDetailDashboard ?? true,
@@ -386,8 +385,8 @@ export class ObservedFunctionAlarms extends Construct {
     });
 
     // Add generated alarms to this object
-    this.addAlarm(FunctionAlarmCategory.Critical, ...this.monitoring.createdAlarmsWithDisambiguator(FunctionAlarmCategory.Critical).map((awa) => awa.alarm));
-    this.addAlarm(FunctionAlarmCategory.Warning, ...this.monitoring.createdAlarmsWithDisambiguator(FunctionAlarmCategory.Warning).map((awa) => awa.alarm));
+    this.addAlarm(FunctionAlarmCategory.Critical, ...this.monitoringFacade.createdAlarmsWithDisambiguator(FunctionAlarmCategory.Critical).map((awa) => awa.alarm));
+    this.addAlarm(FunctionAlarmCategory.Warning, ...this.monitoringFacade.createdAlarmsWithDisambiguator(FunctionAlarmCategory.Warning).map((awa) => awa.alarm));
   }
 
   private addLogMonitoringToDashboard() {
@@ -398,7 +397,7 @@ export class ObservedFunctionAlarms extends Construct {
     pattern += this.props.criticalAlarmProps?.dashboardLogPattern??'';
     pattern += (pattern !== ''? '|' : '') + this.props.warningAlarmProps?.dashboardLogPattern??'';
     if (pattern !== '') {
-      this.monitoring.monitorLog({
+      this.monitoringFacade.monitorLog({
         logGroupName: this.props.logGroup.logGroupName,
         pattern,
       });
@@ -430,7 +429,7 @@ export class ObservedFunctionAlarms extends Construct {
     this.criticalAlarms = [];
     this.warningAlarms = [];
 
-    this.monitoring = props.monitoringFacade ?? new MonitoringFacade(this, 'Monitoring', {
+    this.monitoringFacade = props.monitoringFacade??new MonitoringFacade(this, 'MonitoringFacade', {
       metricFactoryDefaults: {},
       alarmFactoryDefaults: {
         actionsEnabled: true,
@@ -456,13 +455,12 @@ export interface ObservedFunctionProps extends FunctionProps, FunctionAlarmProps
  */
 export class ObservedFunction extends Function {
 
-  /**
-   * Creates a new Lambda Function.
-   */
+  readonly functionAlarms: ObservedFunctionAlarms;
+
   constructor(scope: Construct, id: string, props: ObservedFunctionProps) {
     super(scope, id, props);
 
-    new ObservedFunctionAlarms(this, 'Monitoring', {
+    this.functionAlarms = new ObservedFunctionAlarms(this, 'Monitoring', {
       function: this,
       logGroup: this.logGroup,
       ...props
