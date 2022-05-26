@@ -63,7 +63,7 @@ export class StandardQueue extends ObservedQueue {
     const maxReceiveCount = props.maxReceiveCount??StandardQueue.DEFAULT_MAX_RECEIVE_COUNT;
 
     const deadLetterQueue: DeadLetterQueue | undefined = maxReceiveCount <= 0 ? undefined : {
-      queue: new Queue(scope, 'DeadLetter', {
+      queue: new Queue(scope, id + 'DeadLetter', {
         encryption,
         encryptionMasterKey: props.encryptionMasterKey,
         dataKeyReuse: props.dataKeyReuse??Duration.minutes(15),
