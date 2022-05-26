@@ -9,7 +9,7 @@ import {
   MaxMessageCountThreshold, MaxTimeToDrainThreshold, MinIncomingMessagesCountThreshold,
   MinMessageCountThreshold
 } from "cdk-monitoring-constructs";
-import {Queue, QueueEncryption, QueueProps} from "aws-cdk-lib/aws-sqs";
+import {Queue, QueueProps} from "aws-cdk-lib/aws-sqs";
 import {Construct} from "constructs";
 import {SnsAction} from "aws-cdk-lib/aws-cloudwatch-actions";
 import {StandardAlarmActionsStrategy} from "../../aws-monitoring";
@@ -29,9 +29,9 @@ export interface QueueAlarmCategoryProps {
   /**
    * Maximum approximate age of the oldest message in the queue.
    *
-   * @default Duration.minutes(15) for critical alarm
+   * @default 15 for critical alarm
    */
-  readonly maxAge?: Duration;
+  readonly maxAgeInSeconds?: number;
 
   /**
    * Maximum time to drain the queue.
@@ -58,7 +58,7 @@ export interface QueueAlarmCategoryProps {
   /**
    * Maximum age of the oldest messages in the dead-letter queue
    */
-  readonly deadLetterQueueMaxAge?: Duration;
+  readonly deadLetterQueueMaxAgeInSeconds?: number;
 
   /**
    * Maximum number of incoming messages in the dead-letter queue
@@ -263,7 +263,7 @@ export class ObservedQueueAlarms extends Construct {
         queue: props.queue,
         addQueueMinSizeAlarm: this.toRecord('minSize', 'minMessageCount') as Record<string, MinMessageCountThreshold>,
         addQueueMaxSizeAlarm: this.toRecord('maxSize', 'maxMessageCount') as Record<string, MaxMessageCountThreshold>,
-        addQueueMaxMessageAgeAlarm: this.toRecord('maxAge', 'maxAgeInSeconds', Duration.minutes(15).toSeconds()) as Record<string, MaxMessageAgeThreshold>,
+        addQueueMaxMessageAgeAlarm: this.toRecord('maxAgeInSeconds', 'maxAgeInSeconds', 15) as Record<string, MaxMessageAgeThreshold>,
         addQueueMaxTimeToDrainMessagesAlarm: this.toRecord('maxTimeToDrain', 'maxTimeToDrain') as Record<string, MaxTimeToDrainThreshold>,
         addQueueMinIncomingMessagesAlarm: this.toRecord('minIncoming', 'minIncomingMessagesCount') as Record<string, MinIncomingMessagesCountThreshold>,
         addQueueMaxIncomingMessagesAlarm: this.toRecord('maxIncoming', 'maxIncomingMessagesCount')  as Record<string, MaxIncomingMessagesCountThreshold>
@@ -274,12 +274,12 @@ export class ObservedQueueAlarms extends Construct {
         deadLetterQueue: props.queue.deadLetterQueue.queue,
         addQueueMinSizeAlarm: this.toRecord('minSize', 'minMessageCount') as Record<string, MinMessageCountThreshold>,
         addQueueMaxSizeAlarm: this.toRecord('maxSize', 'maxMessageCount') as Record<string, MaxMessageCountThreshold>,
-        addQueueMaxMessageAgeAlarm: this.toRecord('maxAge', 'maxAgeInSeconds', Duration.minutes(15).toSeconds()) as Record<string, MaxMessageAgeThreshold>,
+        addQueueMaxMessageAgeAlarm: this.toRecord('maxAgeInSeconds', 'maxAgeInSeconds', 15) as Record<string, MaxMessageAgeThreshold>,
         addQueueMaxTimeToDrainMessagesAlarm: this.toRecord('maxTimeToDrain', 'maxTimeToDrain') as Record<string, MaxTimeToDrainThreshold>,
         addQueueMinIncomingMessagesAlarm: this.toRecord('minIncoming', 'minIncomingMessagesCount') as Record<string, MinIncomingMessagesCountThreshold>,
         addQueueMaxIncomingMessagesAlarm: this.toRecord('maxIncoming', 'maxIncomingMessagesCount') as Record<string, MaxIncomingMessagesCountThreshold>,
         addDeadLetterQueueMaxSizeAlarm: this.toRecord('deadLetterQueueMaxSize', 'maxMessageCount', 0) as Record<string, MaxMessageCountThreshold>,
-        addDeadLetterQueueMaxMessageAgeAlarm: this.toRecord('deadLetterQueueMaxAge', 'maxAgeInSeconds') as Record<string, MaxMessageAgeThreshold>,
+        addDeadLetterQueueMaxMessageAgeAlarm: this.toRecord('deadLetterQueueMaxAgeInSeconds', 'maxAgeInSeconds') as Record<string, MaxMessageAgeThreshold>,
         addDeadLetterQueueMaxIncomingMessagesAlarm: this.toRecord('deadLetterQueueMaxIncoming', 'maxIncomingMessagesCount') as Record<string, MaxIncomingMessagesCountThreshold>,
         addDeadLetterQueueToSummaryDashboard: true
       });
@@ -301,7 +301,7 @@ export interface ObservedQueueProps extends QueueProps, QueueAlarmProps {}
 export class ObservedQueue extends Queue {
 
   readonly queueAlarms: ObservedQueueAlarms;
-  
+
   constructor(scope: Construct, id: string, props: ObservedQueueProps) {
     super(scope, id, props);
 
