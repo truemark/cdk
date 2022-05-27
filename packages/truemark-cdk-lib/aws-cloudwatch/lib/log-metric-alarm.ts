@@ -50,7 +50,7 @@ export interface LogMetricAlarmProps extends LogMetricFilterProps {
   /**
    * The number of periods over which data is compared to the specified threshold.
    *
-   * @default 3
+   * @default 2
    */
   readonly evaluationPeriods?: number;
 
@@ -119,7 +119,7 @@ export class LogMetricAlarm extends ExtendedAlarm {
     super(scope, id, {
       ...props,
       threshold: props.threshold??1,
-      evaluationPeriods: props.evaluationPeriods??3,
+      evaluationPeriods: props.evaluationPeriods??2,
       datapointsToAlarm: props.datapointsToAlarm??1,
       metric
     });
