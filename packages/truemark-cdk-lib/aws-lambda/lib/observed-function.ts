@@ -125,6 +125,20 @@ export interface FunctionAlarmCategoryProps {
   readonly maxLogCount?: number
 
   /**
+   * Number of evaluation periods over which data is compared for log events.
+   *
+   * @default 2
+   */
+  readonly logEvaluationPeriods?: number
+
+  /**
+   * Number of data points that must be breaching to trigger the alarm for log events.
+   *
+   * @default 1
+   */
+  readonly logDataPointsToAlarm?: number
+
+  /**
    * Log pattern to match for the dashboard
    *
    * @default '"[ERROR]"'
@@ -411,11 +425,15 @@ export class ObservedFunctionAlarms extends Construct {
       category === FunctionAlarmCategory.Critical
         ? ObservedFunctionAlarms.DEFAULT_CRITICAL_LOG_METRIC_PATTERN
         : ObservedFunctionAlarms.DEFAULT_WARNING_LOG_METRIC_PATTERN;
+    const evaluationPeriods = fprops?.logEvaluationPeriods??2
+    const datapointsToAlarm = fprops?.logDataPointsToAlarm??1
     if (threshold !== undefined && threshold > 0) {
       const logAlarm = new LogMetricAlarm(this, category + 'LogCount', {
         logGroup: this.props.logGroup,
         pattern,
         threshold,
+        evaluationPeriods,
+        datapointsToAlarm,
         metricName: category + 'LogCount',
       });
       // Add generated alarm to this object
