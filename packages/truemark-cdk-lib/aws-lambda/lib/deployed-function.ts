@@ -1,5 +1,5 @@
 import {Construct} from "constructs";
-import {Alias, FunctionProps, IFunction} from "aws-cdk-lib/aws-lambda";
+import {Alias, IFunction} from "aws-cdk-lib/aws-lambda";
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import {IRole} from 'aws-cdk-lib/aws-iam';
 import {
@@ -9,8 +9,8 @@ import {
   LambdaDeploymentGroup
 } from "aws-cdk-lib/aws-codedeploy";
 import {IAlarm} from "aws-cdk-lib/aws-cloudwatch";
-import {AutoRollbackConfig} from "aws-cdk-lib/aws-codedeploy/lib/rollback-config";
-import {FunctionAlarmProps, ObservedFunction} from "./observed-function";
+import {AutoRollbackConfig} from "aws-cdk-lib/aws-codedeploy";
+import {BundledFunction, BundledFunctionProps} from "./bundled-function";
 
 export interface FunctionDeploymentProps {
 
@@ -148,12 +148,12 @@ export interface FunctionDeploymentConfig {
 /**
  * Properties for DeployedFunction.
  */
-export interface DeployedFunctionProps extends FunctionDeploymentConfig, FunctionProps, FunctionAlarmProps {}
+export interface DeployedFunctionProps extends BundledFunctionProps, FunctionDeploymentConfig {}
 
 /**
  * Lambda function with CodeDeploy deployment group.
  */
-export class DeployedFunction extends ObservedFunction {
+export class DeployedFunction extends BundledFunction {
 
   /**
    * Generated alias for the deployment group.

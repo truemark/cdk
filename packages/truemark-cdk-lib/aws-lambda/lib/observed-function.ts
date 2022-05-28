@@ -2,7 +2,7 @@ import {Duration, Stack} from "aws-cdk-lib";
 import {ITopic} from "aws-cdk-lib/aws-sns";
 import {Alarm, IAlarmAction} from "aws-cdk-lib/aws-cloudwatch";
 import {Function, FunctionProps, IFunction} from "aws-cdk-lib/aws-lambda";
-import {MonitoringFacade} from "cdk-monitoring-constructs/lib/facade/MonitoringFacade";
+import {MonitoringFacade} from "cdk-monitoring-constructs";
 import {
   CustomAlarmThreshold, DurationThreshold,
   ErrorCountThreshold, ErrorRateThreshold, HighTpsThreshold,
