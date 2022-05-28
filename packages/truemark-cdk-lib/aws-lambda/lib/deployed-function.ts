@@ -168,7 +168,7 @@ export class DeployedFunction extends ObservedFunction {
   constructor(scope: Construct, id: string, props: DeployedFunctionProps) {
     super(scope, id, props);
 
-    if (props.skipDeploymentConfig !== undefined && props.skipDeploymentConfig) {
+    if (props.skipDeploymentConfig === undefined || !props.skipDeploymentConfig) {
       const alarms: IAlarm[] = [];
       if (props.deploymentOptions?.includeCriticalAlarms === undefined || props.deploymentOptions.includeCriticalAlarms) {
         alarms.push(...this.functionAlarms.criticalAlarms);
