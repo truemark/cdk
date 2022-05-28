@@ -16,9 +16,9 @@ import {ILogGroup} from "aws-cdk-lib/aws-logs";
 import {LogMetricAlarm} from "../../aws-cloudwatch";
 
 /**
- * Properties for a category of CloudWatch alarms for Lambda Functions
+ * Category options for CloudWatch alarms for Lambda Functions.
  */
-export interface FunctionAlarmCategoryProps {
+export interface FunctionAlarmsCategoryOptions {
 
   /**
    * Maximum 50th percentile latency
@@ -157,22 +157,23 @@ export interface FunctionAlarmCategoryProps {
 }
 
 /**
- * CloudWatch alarm properties for Lambda Functions
+ * Options for CloudWatch alarms for Lambda Functions
  */
-export interface FunctionAlarmProps {
+export interface FunctionAlarmsOptions {
+
   /**
    * Alarm thresholds for critical alarms.
    *
    * If no properties are provided, a set of default alarms are created.
    */
-  readonly criticalAlarmProps?: FunctionAlarmCategoryProps
+  readonly criticalAlarmOptions?: FunctionAlarmsCategoryOptions
 
   /**
    * Alarm threshold for warning alarms.
    *
    * If no properties are provided, a set of default alarms are created.
    */
-  readonly warningAlarmProps?: FunctionAlarmCategoryProps
+  readonly warningAlarmOptions?: FunctionAlarmsCategoryOptions
 
   /**
    * Main entry point for monitoring.
@@ -218,13 +219,13 @@ export interface FunctionAlarmProps {
 }
 
 /**
- * Helper function to get the correct critical or warning properties from FunctionAlarmProps dynamically.
+ * Helper function to get the correct critical or warning options from FunctionAlarmsOptions dynamically.
  *
  * @param props the properties holding the values
  * @param category the alarm category
  */
-function getFunctionAlarmCategoryProps(props: FunctionAlarmProps, category: FunctionAlarmCategory): FunctionAlarmCategoryProps | undefined {
-  const fprop: keyof FunctionAlarmProps = category === 'Critical' ? 'criticalAlarmProps' : 'warningAlarmProps';
+function getFunctionAlarmsCategoryOptions(props: FunctionAlarmsOptions, category: FunctionAlarmCategory): FunctionAlarmsCategoryOptions | undefined {
+  const fprop: keyof FunctionAlarmsOptions = category === 'Critical' ? 'criticalAlarmOptions' : 'warningAlarmOptions';
   return props[fprop];
 }
 
@@ -294,9 +295,9 @@ class FunctionAlarmFacade {
 }
 
 /**
- * Properties for ObservedFunctionAlarms
+ * Properties for FunctionAlarms
  */
-export interface ObservedFunctionAlarmsProps extends FunctionAlarmProps {
+export interface FunctionAlarmsProps extends FunctionAlarmsOptions {
 
   /**
    * The function to observe.
@@ -312,7 +313,7 @@ export interface ObservedFunctionAlarmsProps extends FunctionAlarmProps {
 /**
  * Creates CloudWatch alarms for a Lambda Function.
  */
-export class ObservedFunctionAlarms extends Construct {
+export class FunctionAlarms extends Construct {
 
   /**
    * Default pattern used for the critical log metric.
@@ -344,14 +345,14 @@ export class ObservedFunctionAlarms extends Construct {
    */
   readonly warningAlarms: Alarm[];
 
-  private readonly props: ObservedFunctionAlarmsProps;
+  private readonly props: FunctionAlarmsProps;
 
   private addRecordValue(record: Record<string, CustomAlarmThreshold>,
                          category: FunctionAlarmCategory,
-                         sprop: keyof FunctionAlarmCategoryProps,
+                         sprop: keyof FunctionAlarmsCategoryOptions,
                          tprop: string,
                          defaultThreshold?: number|Duration) {
-    const fprops = getFunctionAlarmCategoryProps(this.props, category);
+    const fprops = getFunctionAlarmsCategoryOptions(this.props, category);
     new FunctionAlarmFacade({
       prop: tprop,
       threshold: fprops?.[sprop] as number | Duration,
@@ -361,7 +362,7 @@ export class ObservedFunctionAlarms extends Construct {
     }).addCustomAlarmThreshold(category, record);
   }
 
-  private toRecord(sprop: keyof FunctionAlarmCategoryProps, tprop: string, defaultThreshold?: number|Duration): Record<string, CustomAlarmThreshold> | undefined {
+  private toRecord(sprop: keyof FunctionAlarmsCategoryOptions, tprop: string, defaultThreshold?: number|Duration): Record<string, CustomAlarmThreshold> | undefined {
     const record: Record<string, CustomAlarmThreshold> = {};
     this.addRecordValue(record, FunctionAlarmCategory.Critical, sprop, tprop, defaultThreshold);
     this.addRecordValue(record, FunctionAlarmCategory.Warning, sprop, tprop, defaultThreshold);
@@ -404,12 +405,12 @@ export class ObservedFunctionAlarms extends Construct {
   }
 
   private addLogMonitoringToDashboard() {
-    let pattern = this.props.criticalAlarmProps?.dashboardLogPattern === undefined
-        && this.props.warningAlarmProps?.dashboardLogPattern === undefined
-        ? ObservedFunctionAlarms.DEFAULT_LOG_INSIGHTS_PATTERN
+    let pattern = this.props.criticalAlarmOptions?.dashboardLogPattern === undefined
+        && this.props.warningAlarmOptions?.dashboardLogPattern === undefined
+        ? FunctionAlarms.DEFAULT_LOG_INSIGHTS_PATTERN
         : ''
-    pattern += this.props.criticalAlarmProps?.dashboardLogPattern??'';
-    pattern += (pattern !== ''? '|' : '') + this.props.warningAlarmProps?.dashboardLogPattern??'';
+    pattern += this.props.criticalAlarmOptions?.dashboardLogPattern??'';
+    pattern += (pattern !== ''? '|' : '') + this.props.warningAlarmOptions?.dashboardLogPattern??'';
     if (pattern !== '') {
       this.monitoringFacade.monitorLog({
         logGroupName: this.props.logGroup.logGroupName,
@@ -419,12 +420,12 @@ export class ObservedFunctionAlarms extends Construct {
   }
 
   private addLogAlarm(category: FunctionAlarmCategory, defaultThreshold?: number) {
-    const fprops = getFunctionAlarmCategoryProps(this.props, category);
+    const fprops = getFunctionAlarmsCategoryOptions(this.props, category);
     const threshold = fprops?.maxLogCount??defaultThreshold
     const pattern = fprops?.metricLogPattern??
       category === FunctionAlarmCategory.Critical
-        ? ObservedFunctionAlarms.DEFAULT_CRITICAL_LOG_METRIC_PATTERN
-        : ObservedFunctionAlarms.DEFAULT_WARNING_LOG_METRIC_PATTERN;
+        ? FunctionAlarms.DEFAULT_CRITICAL_LOG_METRIC_PATTERN
+        : FunctionAlarms.DEFAULT_WARNING_LOG_METRIC_PATTERN;
     const evaluationPeriods = fprops?.logEvaluationPeriods??2
     const datapointsToAlarm = fprops?.logDataPointsToAlarm??1
     if (threshold !== undefined && threshold > 0) {
@@ -441,7 +442,7 @@ export class ObservedFunctionAlarms extends Construct {
     }
   }
 
-  constructor(scope: Construct, id: string, props: ObservedFunctionAlarmsProps) {
+  constructor(scope: Construct, id: string, props: FunctionAlarmsProps) {
     super(scope, id);
     this.props = props;
     this.criticalAlarms = [];
@@ -466,19 +467,19 @@ export class ObservedFunctionAlarms extends Construct {
 /**
  * Properties for ObservedFunction.
  */
-export interface ObservedFunctionProps extends FunctionProps, FunctionAlarmProps {}
+export interface ObservedFunctionProps extends FunctionProps, FunctionAlarmsOptions {}
 
 /**
  * Lambda Function with CloudWatch alarms.
  */
 export class ObservedFunction extends Function {
 
-  readonly functionAlarms: ObservedFunctionAlarms;
+  readonly functionAlarms: FunctionAlarms;
 
   constructor(scope: Construct, id: string, props: ObservedFunctionProps) {
     super(scope, id, props);
 
-    this.functionAlarms = new ObservedFunctionAlarms(this, 'Monitoring', {
+    this.functionAlarms = new FunctionAlarms(this, 'Monitoring', {
       function: this,
       logGroup: this.logGroup,
       ...props

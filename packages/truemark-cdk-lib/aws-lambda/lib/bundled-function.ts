@@ -1,9 +1,10 @@
-import {FunctionAlarmProps, ObservedFunction} from "./observed-function";
 import {Construct} from "constructs";
 import {DockerImage, ILocalBundling} from "aws-cdk-lib/core/lib/bundling";
 import {BundlingOptions, BundlingOutput} from "aws-cdk-lib";
 import {ShellHelper} from "../../helpers";
 import {Code, FunctionOptions, Runtime} from "aws-cdk-lib/aws-lambda";
+import {FunctionAlarmsOptions} from "./observed-function";
+import {DeployedFunction, DeployedFunctionOptions} from "./deployed-function";
 
 /**
  * Options for BundledFunction.
@@ -57,7 +58,7 @@ export interface BundledFunctionOptions {
 /**
  * Properties for BundledFunction
  */
-export interface BundledFunctionProps extends BundledFunctionOptions, FunctionOptions, FunctionAlarmProps {
+export interface BundledFunctionProps extends FunctionOptions, FunctionAlarmsOptions, DeployedFunctionOptions, BundledFunctionOptions {
 
   /**
    * Callback function to check if local bundling is supported.
@@ -85,7 +86,7 @@ export interface BundledFunctionProps extends BundledFunctionOptions, FunctionOp
   readonly handler: string;
 }
 
-export class BundledFunction extends ObservedFunction {
+export class BundledFunction extends DeployedFunction {
 
   constructor(scope: Construct, id: string, props: BundledFunctionProps) {
 

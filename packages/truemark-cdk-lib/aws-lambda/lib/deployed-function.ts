@@ -10,9 +10,9 @@ import {
 } from "aws-cdk-lib/aws-codedeploy";
 import {IAlarm} from "aws-cdk-lib/aws-cloudwatch";
 import {AutoRollbackConfig} from "aws-cdk-lib/aws-codedeploy";
-import {BundledFunction, BundledFunctionProps} from "./bundled-function";
+import {ObservedFunction, ObservedFunctionProps} from "./observed-function";
 
-export interface FunctionDeploymentProps {
+export interface FunctionDeploymentGroupOptions {
 
   /**
    * The reference to the CodeDeploy Lambda Application that this Deployment Group belongs to.
@@ -98,9 +98,9 @@ export interface FunctionDeploymentProps {
 }
 
 
-export interface FunctionDeploymentGroupProps extends FunctionDeploymentProps {
+export interface FunctionDeploymentGroupProps extends FunctionDeploymentGroupOptions {
 
-  readonly lambdaFunction: lambda.Function;
+  readonly function: lambda.Function;
 
 }
 
@@ -113,7 +113,7 @@ export class FunctionDeploymentGroup extends LambdaDeploymentGroup {
 
     const alias = new Alias(scope, 'DeploymentAlias', {
       aliasName: props.aliasName??'deploy',
-      version: props.lambdaFunction.currentVersion,
+      version: props.function.currentVersion,
     });
 
     const deploymentConfig = props.deploymentConfig??LambdaDeploymentConfig.CANARY_10PERCENT_5MINUTES;
@@ -129,7 +129,7 @@ export class FunctionDeploymentGroup extends LambdaDeploymentGroup {
   }
 }
 
-export interface FunctionDeploymentConfig {
+export interface DeployedFunctionOptions {
 
   /**
    * Skips creation of the deployment group and associated resources. This
@@ -142,18 +142,18 @@ export interface FunctionDeploymentConfig {
   /**
    * The deployment configuration settings to use. If none are provided a default is used.
    */
-  readonly deploymentProps?: FunctionDeploymentProps;
+  readonly deploymentOptions?: FunctionDeploymentGroupOptions;
 }
 
 /**
  * Properties for DeployedFunction.
  */
-export interface DeployedFunctionProps extends BundledFunctionProps, FunctionDeploymentConfig {}
+export interface DeployedFunctionProps extends ObservedFunctionProps, DeployedFunctionOptions {}
 
 /**
  * Lambda function with CodeDeploy deployment group.
  */
-export class DeployedFunction extends BundledFunction {
+export class DeployedFunction extends ObservedFunction {
 
   /**
    * Generated alias for the deployment group.
@@ -170,18 +170,18 @@ export class DeployedFunction extends BundledFunction {
 
     if (props.skipDeploymentConfig !== undefined && props.skipDeploymentConfig) {
       const alarms: IAlarm[] = [];
-      if (props.deploymentProps?.includeCriticalAlarms === undefined || props.deploymentProps.includeCriticalAlarms) {
+      if (props.deploymentOptions?.includeCriticalAlarms === undefined || props.deploymentOptions.includeCriticalAlarms) {
         alarms.push(...this.functionAlarms.criticalAlarms);
       }
-      if (props.deploymentProps?.includeWarningAlarms) {
+      if (props.deploymentOptions?.includeWarningAlarms) {
         alarms.push(...this.functionAlarms.warningAlarms);
       }
-      if (props.deploymentProps?.alarms) {
-        alarms.push(...props.deploymentProps.alarms);
+      if (props.deploymentOptions?.alarms) {
+        alarms.push(...props.deploymentOptions.alarms);
       }
       this.deploymentGroup = new FunctionDeploymentGroup(this, id, {
         ...props,
-        lambdaFunction: this,
+        function: this,
         alarms,
       });
       this.deploymentAlias = this.deploymentGroup.alias;

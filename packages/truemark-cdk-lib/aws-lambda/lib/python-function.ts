@@ -2,18 +2,15 @@ import {Architecture, FunctionOptions, Runtime, RuntimeFamily, Tracing} from 'aw
 import {Construct} from "constructs";
 import {Duration} from "aws-cdk-lib";
 import {RetentionDays} from "aws-cdk-lib/aws-logs";
-import {
-  DeployedFunction,
-  FunctionAlarmProps,
-  FunctionDeploymentConfig
-} from '../../aws-lambda';
 import {ShellHelper} from "../../helpers";
-import {BundledFunctionOptions} from "./bundled-function";
+import {BundledFunction, BundledFunctionOptions} from "./bundled-function";
+import {FunctionAlarmsOptions} from "./observed-function";
+import {DeployedFunctionOptions} from "./deployed-function";
 
 /**
  * Properties for PythonFunction.
  */
-export interface PythonFunctionProps extends FunctionDeploymentConfig, BundledFunctionOptions, FunctionOptions, FunctionAlarmProps {
+export interface PythonFunctionProps extends FunctionOptions, FunctionAlarmsOptions, DeployedFunctionOptions, BundledFunctionOptions {
 
   /**
    * The path (relative to entry) to the index file containing the exported handler.
@@ -41,7 +38,7 @@ export interface PythonFunctionProps extends FunctionDeploymentConfig, BundledFu
 /**
  * Python based Lambda Function
  */
-export class PythonFunction extends DeployedFunction {
+export class PythonFunction extends BundledFunction {
 
   static readonly DEFAULT_BUNDLE_SCRIPT = `
   #!/usr/bin/env bash
