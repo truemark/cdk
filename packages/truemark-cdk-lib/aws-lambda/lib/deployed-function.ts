@@ -129,20 +129,24 @@ export class FunctionDeploymentGroup extends LambdaDeploymentGroup {
   }
 }
 
+export interface DeployedFunctionGroupOptions extends FunctionDeploymentGroupOptions {
+
+  /**
+   * Settings this to fault will prevent the creation of the function alias and
+   * deployment group for the function.
+   *
+   * @default true
+   */
+  readonly createDeploymentGroup?: boolean;
+
+}
+
 export interface DeployedFunctionOptions {
 
   /**
-   * Skips creation of the deployment group and associated resources. This
-   * does not prevent the lambda from being deployed.
-   *
-   * @default false
+   * The deployment configuration settings to use. If none are provided a default set is used.
    */
-  readonly skipDeploymentConfig?: boolean;
-
-  /**
-   * The deployment configuration settings to use. If none are provided a default is used.
-   */
-  readonly deploymentOptions?: FunctionDeploymentGroupOptions;
+  readonly deploymentOptions?: DeployedFunctionGroupOptions;
 }
 
 /**
@@ -165,24 +169,29 @@ export class DeployedFunction extends ObservedFunction {
    */
   readonly deploymentGroup: FunctionDeploymentGroup;
 
+  /**
+   * Alarms used by the deployment group.
+   */
+  readonly deploymentAlarms: IAlarm[];
+
   constructor(scope: Construct, id: string, props: DeployedFunctionProps) {
     super(scope, id, props);
 
-    if (props.skipDeploymentConfig === undefined || !props.skipDeploymentConfig) {
-      const alarms: IAlarm[] = [];
+    if (props.deploymentOptions?.createDeploymentGroup === undefined || props.deploymentOptions.createDeploymentGroup) {
+      this.deploymentAlarms = [];
       if (props.deploymentOptions?.includeCriticalAlarms === undefined || props.deploymentOptions.includeCriticalAlarms) {
-        alarms.push(...this.functionAlarms.criticalAlarms);
+        this.deploymentAlarms.push(...this.functionAlarms.criticalAlarms);
       }
       if (props.deploymentOptions?.includeWarningAlarms) {
-        alarms.push(...this.functionAlarms.warningAlarms);
+        this.deploymentAlarms.push(...this.functionAlarms.warningAlarms);
       }
       if (props.deploymentOptions?.alarms) {
-        alarms.push(...props.deploymentOptions.alarms);
+        this.deploymentAlarms.push(...props.deploymentOptions.alarms);
       }
       this.deploymentGroup = new FunctionDeploymentGroup(this, id, {
         ...props,
         function: this,
-        alarms,
+        alarms: this.deploymentAlarms,
       });
       this.deploymentAlias = this.deploymentGroup.alias;
     }
