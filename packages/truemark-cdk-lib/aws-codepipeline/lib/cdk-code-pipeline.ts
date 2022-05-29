@@ -113,7 +113,7 @@ export class CdkCodePipeline extends CodePipeline {
       accountIds: props.accountIds,
     });
 
-    const underlyingPipeline = new Pipeline(scope, id + 'Pipeline', {
+    const underlyingPipeline = new Pipeline(scope, id + 'CodePipeline', {
       artifactBucket
     });
 
