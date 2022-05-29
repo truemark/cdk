@@ -3,6 +3,7 @@ import {Pipeline} from "aws-cdk-lib/aws-codepipeline";
 import {CodePipeline, CodePipelineSource, ShellStep} from "aws-cdk-lib/pipelines";
 import {CdkArtifactBucket} from "./cdk-artifact-bucket";
 import {ComputeType, IBuildImage, LinuxBuildImage} from "aws-cdk-lib/aws-codebuild";
+import {PipelineNotificationRule} from "./pipeline-notification-rule";
 
 export interface CdkCodePipelineProps {
 
@@ -61,12 +62,49 @@ export interface CdkCodePipelineProps {
    */
   readonly buildImage?: IBuildImage;
 
+  /**
+   * The Slack channel configuration to use for notifications.
+   */
+  readonly slackChannelConfigurationArn?: string;
+
+  /**
+   * The list of notification events to receive. By default this is all notifications.
+   *
+   * @see https://docs.aws.amazon.com/dtconsole/latest/userguide/concepts.html#events-ref-pipeline
+   */
+  readonly notificationEvents?: string[];
 }
 
 /**
  * A useful abstraction to CodePipeline for creating CDK pipelines.
  */
 export class CdkCodePipeline extends CodePipeline {
+
+  static readonly ALL_NOTIFICATION_EVENTS = [
+    'codepipeline-pipeline-action-execution-succeeded',
+    'codepipeline-pipeline-action-execution-failed',
+    'codepipeline-pipeline-action-execution-canceled',
+    'codepipeline-pipeline-action-execution-started',
+
+    'codepipeline-pipeline-stage-execution-started',
+    'codepipeline-pipeline-stage-execution-succeeded',
+    'codepipeline-pipeline-stage-execution-resumed',
+    'codepipeline-pipeline-stage-execution-canceled',
+    'codepipeline-pipeline-stage-execution-failed',
+
+    'codepipeline-pipeline-pipeline-execution-failed',
+    'codepipeline-pipeline-pipeline-execution-canceled',
+    'codepipeline-pipeline-pipeline-execution-started',
+    'codepipeline-pipeline-pipeline-execution-resumed',
+    'codepipeline-pipeline-pipeline-execution-succeeded',
+    'codepipeline-pipeline-pipeline-execution-superseded',
+
+    'codepipeline-pipeline-manual-approval-failed',
+    'codepipeline-pipeline-manual-approval-needed',
+    'codepipeline-pipeline-manual-approval-succeeded'
+  ];
+
+  readonly notificationRule: PipelineNotificationRule;
 
   constructor(scope: Construct, id: string, props: CdkCodePipelineProps) {
 
@@ -105,5 +143,12 @@ export class CdkCodePipeline extends CodePipeline {
         }
       }
     });
+
+    if (props.slackChannelConfigurationArn) {
+      this.notificationRule = new PipelineNotificationRule(this, 'Notifications', {
+        source: underlyingPipeline,
+        slackChannelConfigurationArn: props.slackChannelConfigurationArn
+      });
+    }
   }
 }
