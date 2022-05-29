@@ -34,11 +34,6 @@ export interface CdkCodePipelineProps {
   readonly branch: string;
 
   /**
-   * Name of the pipeline stack to synthesize.
-   */
-  readonly stackName: string;
-
-  /**
    * Enable docker for the 'synth' step.
    *
    * @default true
@@ -99,7 +94,7 @@ export class CdkCodePipeline extends CodePipeline {
           'npm ci',
           'npm run build',
           'npm run test',
-          `npm cdk synth ${props.stackName}`
+          `npm cdk synth ${id}`
         ],
         additionalInputs: {},
       }),
