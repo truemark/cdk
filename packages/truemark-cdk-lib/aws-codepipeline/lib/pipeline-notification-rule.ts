@@ -30,7 +30,7 @@ export interface PipelineNotificationRuleProps {
 /**
  * Configures notifications for a pipeline to a ChatOps Slack channel.
  */
-export class PipelineNotificationRule extends NotificationRule {
+export class PipelineNotificationRule extends Construct {
 
   static readonly ACTION_EXECUTION_EVENTS = [
     'codepipeline-pipeline-action-execution-succeeded',
@@ -70,17 +70,15 @@ export class PipelineNotificationRule extends NotificationRule {
   ];
 
   readonly slackChannel: ISlackChannelConfiguration;
+  readonly notificationRule: NotificationRule;
 
   constructor(scope: Construct, id: string, props: PipelineNotificationRuleProps) {
-
-    const slackChannel = SlackChannelConfiguration.fromSlackChannelConfigurationArn(scope, id + 'SlackChannel', props.slackChannelConfigurationArn);
-
-    super(scope, id , {
+    super(scope, id);
+    this.slackChannel = SlackChannelConfiguration.fromSlackChannelConfigurationArn(this, 'SlackChannel', props.slackChannelConfigurationArn);
+    this.notificationRule = new NotificationRule(this, 'Rule', {
       source: props.source,
       events: props.events??PipelineNotificationRule.PIPELINE_EXECUTION_EVENTS,
-      targets: [slackChannel]
+      targets: [this.slackChannel]
     });
-
-    this.slackChannel = slackChannel;
   }
 }

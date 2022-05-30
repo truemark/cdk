@@ -5,6 +5,9 @@ import {CdkArtifactBucket} from "./cdk-artifact-bucket";
 import {ComputeType, IBuildImage, LinuxBuildImage} from "aws-cdk-lib/aws-codebuild";
 import {PipelineNotificationRule} from "./pipeline-notification-rule";
 
+/**
+ * Properties for CdkCodePipeline.
+ */
 export interface CdkCodePipelineProps {
 
   /**
@@ -78,63 +81,40 @@ export interface CdkCodePipelineProps {
 /**
  * A useful abstraction to CodePipeline for creating CDK pipelines.
  */
-export class CdkCodePipeline extends CodePipeline {
+export class CdkCodePipeline extends Construct {
 
-  static readonly ALL_NOTIFICATION_EVENTS = [
-    'codepipeline-pipeline-action-execution-succeeded',
-    'codepipeline-pipeline-action-execution-failed',
-    'codepipeline-pipeline-action-execution-canceled',
-    'codepipeline-pipeline-action-execution-started',
-
-    'codepipeline-pipeline-stage-execution-started',
-    'codepipeline-pipeline-stage-execution-succeeded',
-    'codepipeline-pipeline-stage-execution-resumed',
-    'codepipeline-pipeline-stage-execution-canceled',
-    'codepipeline-pipeline-stage-execution-failed',
-
-    'codepipeline-pipeline-pipeline-execution-failed',
-    'codepipeline-pipeline-pipeline-execution-canceled',
-    'codepipeline-pipeline-pipeline-execution-started',
-    'codepipeline-pipeline-pipeline-execution-resumed',
-    'codepipeline-pipeline-pipeline-execution-succeeded',
-    'codepipeline-pipeline-pipeline-execution-superseded',
-
-    'codepipeline-pipeline-manual-approval-failed',
-    'codepipeline-pipeline-manual-approval-needed',
-    'codepipeline-pipeline-manual-approval-succeeded'
-  ];
-
-  readonly notificationRule: PipelineNotificationRule;
+  readonly artifactBucket: CdkArtifactBucket;
+  readonly underlyingPipeline: Pipeline;
+  readonly codePipeline: CodePipeline;
+  readonly input: CodePipelineSource;
+  readonly pipelineNotificationRule: PipelineNotificationRule;
 
   constructor(scope: Construct, id: string, props: CdkCodePipelineProps) {
-
-    const artifactBucket = new CdkArtifactBucket(scope, id + 'Artifacts', {
+    super(scope, id);
+    this.artifactBucket = new CdkArtifactBucket(scope, 'Artifact', {
       keyArn: props.keyArn,
-      accountIds: props.accountIds,
+      accountIds: props.accountIds
     });
-
-    const underlyingPipeline = new Pipeline(scope, id + 'CodePipeline', {
-      artifactBucket
+    this.underlyingPipeline = new Pipeline(this, 'Underlying', {
+      artifactBucket: this.artifactBucket.bucket
     });
-
-    const input = CodePipelineSource.connection(props.repo, props.branch, {
+    this.input = CodePipelineSource.connection(props.repo, props.branch, {
       connectionArn: props.connectionArn
     });
-
-    super(scope, id, {
-      codePipeline: underlyingPipeline,
+    this.codePipeline = new CodePipeline(this, 'Pipeline', {
+      codePipeline: this.underlyingPipeline,
       dockerEnabledForSynth: props.dockerEnabledForSynth??true,
       dockerEnabledForSelfMutation: props.dockerEnabledForSelfMutation??true,
       synth: new ShellStep('Synth', {
         primaryOutputDirectory: 'cdk.out',
-        input,
+        input: this.input,
         commands: [
           'npm ci',
           'npm run build',
           'npm run test',
           `npm cdk synth ${id}`
         ],
-        additionalInputs: {},
+        additionalInputs: {}
       }),
       synthCodeBuildDefaults: {
         buildEnvironment: {
@@ -143,10 +123,9 @@ export class CdkCodePipeline extends CodePipeline {
         }
       }
     });
-
     if (props.slackChannelConfigurationArn) {
-      this.notificationRule = new PipelineNotificationRule(this, 'Notifications', {
-        source: underlyingPipeline,
+      this.pipelineNotificationRule = new PipelineNotificationRule(this, 'Notification', {
+        source: this.underlyingPipeline,
         slackChannelConfigurationArn: props.slackChannelConfigurationArn
       });
     }

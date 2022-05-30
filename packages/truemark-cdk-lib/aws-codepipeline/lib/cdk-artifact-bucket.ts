@@ -2,7 +2,11 @@ import {BlockPublicAccess, Bucket} from "aws-cdk-lib/aws-s3";
 import {Construct} from "constructs";
 import {RemovalPolicy} from "aws-cdk-lib";
 import {IKey, Key} from "aws-cdk-lib/aws-kms";
-import {AccountPrincipal, Effect, PolicyStatement} from "aws-cdk-lib/aws-iam";
+import {
+  AccountPrincipal,
+  Effect,
+  PolicyStatement
+} from "aws-cdk-lib/aws-iam";
 
 /**
  * Properties for CdkArtifactBucket.
@@ -25,21 +29,21 @@ export interface CdkArtifactBucketProps {
  * Class used to override CDK's default artifact bucket. Unlike the bucket created
  * by CDK, this bucket will be deleted when the stack is deleted.
  */
-export class CdkArtifactBucket extends Bucket {
+export class CdkArtifactBucket extends Construct {
 
   readonly encryptionKey: IKey;
+  readonly bucket: Bucket;
 
   constructor(scope: Construct, id: string, props: CdkArtifactBucketProps) {
-    const encryptionKey = Key.fromKeyArn(scope, id + 'Key', props.keyArn);
-
-    super(scope, id, {
+    super(scope, id);
+    this.encryptionKey = Key.fromKeyArn(this, "EncryptionKey", props.keyArn);
+    this.bucket = new Bucket(this, 'Bucket', {
       autoDeleteObjects: true,
       removalPolicy: RemovalPolicy.DESTROY,
       blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
-      encryptionKey
+      encryptionKey: this.encryptionKey
     });
-
-    this.addToResourcePolicy(new PolicyStatement({
+    this.bucket.addToResourcePolicy(new PolicyStatement({
       effect: Effect.ALLOW,
       actions: [
         "s3:Get*",
@@ -47,11 +51,9 @@ export class CdkArtifactBucket extends Bucket {
       ],
       principals: props.accountIds.map((id) => new AccountPrincipal(id)),
       resources: [
-        this.arnForObjects('*'),
-        this.bucketArn
+        this.bucket.arnForObjects('*'),
+        this.bucket.bucketArn
       ]
     }));
-
-    this.encryptionKey = encryptionKey;
   }
 }
