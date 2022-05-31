@@ -13,7 +13,7 @@ import {
 } from "aws-cdk-lib/pipelines";
 import {ComputeType, IBuildImage, LinuxBuildImage} from "aws-cdk-lib/aws-codebuild";
 import {PipelineNotificationRule} from "./pipeline-notification-rule";
-import {Stage} from "aws-cdk-lib";
+import {Stack, Stage} from "aws-cdk-lib";
 
 export interface CdkPipelineProps {
 
@@ -109,6 +109,8 @@ export class CdkPipeline extends Construct {
       connectionArn: props.connectionArn
     });
 
+    const stackName = Stack.of(this).stackName;
+
     this.pipeline = new CodePipeline(this, 'CodePipeline', {
       codePipeline: underlyingPipeline,
       dockerEnabledForSynth: props.dockerEnabledForSynth??true,
@@ -120,7 +122,7 @@ export class CdkPipeline extends Construct {
           'npm ci',
           'npm run build',
           'npm run test',
-          `npm cdk synth ${id}`
+          `npm cdk synth ${stackName}`
         ],
         additionalInputs: {}
       }),
