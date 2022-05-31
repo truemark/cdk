@@ -83,7 +83,6 @@ export interface CdkPipelineProps {
    * @see https://docs.aws.amazon.com/dtconsole/latest/userguide/concepts.html#events-ref-pipeline
    */
   readonly notificationEvents?: string[];
-
 }
 
 export class CdkPipeline extends Construct {
@@ -96,7 +95,7 @@ export class CdkPipeline extends Construct {
 
     const encryptionKey = Key.fromKeyArn(this, 'EncryptionKey', props.keyArn);
 
-    const artifactBucket = new ArtifactBucket(this, 'ArtifactsBucket', {
+    const artifactBucket = new ArtifactBucket(this, 'ArtifactBucket', {
       encryptionKey,
       accountIds: props.accountIds
     });
