@@ -109,7 +109,7 @@ export class CdkPipeline extends Construct {
       connectionArn: props.connectionArn
     });
 
-    this.pipeline = new CodePipeline(this, 'Pipeline', {
+    this.pipeline = new CodePipeline(this, 'CodePipeline', {
       codePipeline: underlyingPipeline,
       dockerEnabledForSynth: props.dockerEnabledForSynth??true,
       dockerEnabledForSelfMutation: props.dockerEnabledForSelfMutation??true,
