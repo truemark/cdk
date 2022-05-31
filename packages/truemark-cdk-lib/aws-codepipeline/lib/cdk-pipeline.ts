@@ -15,6 +15,9 @@ import {ComputeType, IBuildImage, LinuxBuildImage} from "aws-cdk-lib/aws-codebui
 import {PipelineNotificationRule} from "./pipeline-notification-rule";
 import {Stack, Stage} from "aws-cdk-lib";
 
+/**
+ * Properties for CdkPipeline
+ */
 export interface CdkPipelineProps {
 
   /**
@@ -90,6 +93,9 @@ export interface CdkPipelineProps {
   readonly pipelineName?: string;
 }
 
+/**
+ * An abstraction to ease CDK pipeline creation and configuration.
+ */
 export class CdkPipeline extends Construct {
 
   readonly pipeline: CodePipeline;
