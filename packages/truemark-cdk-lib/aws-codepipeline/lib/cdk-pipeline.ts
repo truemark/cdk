@@ -133,7 +133,7 @@ export class CdkPipeline extends Construct {
           'npm ci',
           'npm run build',
           'npm run test',
-          `npm cdk synth ${stackName}`
+          `npx cdk synth ${stackName}`
         ],
         additionalInputs: {}
       }),
