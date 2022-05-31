@@ -1,14 +1,21 @@
 import {Construct} from "constructs";
 import {Pipeline} from "aws-cdk-lib/aws-codepipeline";
-import {CodePipeline, CodePipelineSource, ShellStep} from "aws-cdk-lib/pipelines";
-import {CdkArtifactBucket} from "./cdk-artifact-bucket";
+import {Key} from "aws-cdk-lib/aws-kms";
+import {ArtifactBucket} from "./artifact-bucket";
+import {
+  AddStageOpts,
+  CodePipeline,
+  CodePipelineSource,
+  ShellStep,
+  StageDeployment,
+  Wave,
+  WaveOptions
+} from "aws-cdk-lib/pipelines";
 import {ComputeType, IBuildImage, LinuxBuildImage} from "aws-cdk-lib/aws-codebuild";
 import {PipelineNotificationRule} from "./pipeline-notification-rule";
+import {Stage} from "aws-cdk-lib";
 
-/**
- * Properties for CdkCodePipeline.
- */
-export interface CdkCodePipelineProps {
+export interface CdkPipelineProps {
 
   /**
    * By default, CDK will create KMS keys for cross account deployments. This
@@ -76,38 +83,39 @@ export interface CdkCodePipelineProps {
    * @see https://docs.aws.amazon.com/dtconsole/latest/userguide/concepts.html#events-ref-pipeline
    */
   readonly notificationEvents?: string[];
+
 }
 
-/**
- * A useful abstraction to CodePipeline for creating CDK pipelines.
- */
-export class CdkCodePipeline extends Construct {
+export class CdkPipeline extends Construct {
 
-  readonly artifactBucket: CdkArtifactBucket;
-  readonly underlyingPipeline: Pipeline;
-  readonly codePipeline: CodePipeline;
-  readonly input: CodePipelineSource;
+  readonly pipeline: CodePipeline;
   readonly pipelineNotificationRule: PipelineNotificationRule;
 
-  constructor(scope: Construct, id: string, props: CdkCodePipelineProps) {
+  constructor(scope: Construct, id: string, props: CdkPipelineProps) {
     super(scope, id);
-    this.artifactBucket = new CdkArtifactBucket(scope, 'Artifact', {
-      keyArn: props.keyArn,
+
+    const encryptionKey = Key.fromKeyArn(this, 'EncryptionKey', props.keyArn);
+
+    const artifactBucket = new ArtifactBucket(this, 'ArtifactsBucket', {
+      encryptionKey,
       accountIds: props.accountIds
     });
-    this.underlyingPipeline = new Pipeline(this, 'Underlying', {
-      artifactBucket: this.artifactBucket.bucket
+
+    const underlyingPipeline = new Pipeline(this, 'Pipeline', {
+      artifactBucket
     });
-    this.input = CodePipelineSource.connection(props.repo, props.branch, {
+
+    const input = CodePipelineSource.connection(props.repo, props.branch, {
       connectionArn: props.connectionArn
     });
-    this.codePipeline = new CodePipeline(this, 'Pipeline', {
-      codePipeline: this.underlyingPipeline,
+
+    this.pipeline = new CodePipeline(this, 'Pipeline', {
+      codePipeline: underlyingPipeline,
       dockerEnabledForSynth: props.dockerEnabledForSynth??true,
       dockerEnabledForSelfMutation: props.dockerEnabledForSelfMutation??true,
       synth: new ShellStep('Synth', {
         primaryOutputDirectory: 'cdk.out',
-        input: this.input,
+        input,
         commands: [
           'npm ci',
           'npm run build',
@@ -125,9 +133,17 @@ export class CdkCodePipeline extends Construct {
     });
     if (props.slackChannelConfigurationArn) {
       this.pipelineNotificationRule = new PipelineNotificationRule(this, 'Notification', {
-        source: this.underlyingPipeline,
+        source: underlyingPipeline,
         slackChannelConfigurationArn: props.slackChannelConfigurationArn
       });
     }
+  }
+
+  addStage(stage: Stage, options?: AddStageOpts): StageDeployment {
+    return this.pipeline.addStage(stage, options);
+  }
+
+  addWave(id: string, options?: WaveOptions): Wave {
+    return this.pipeline.addWave(id, options);
   }
 }
