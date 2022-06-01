@@ -68,7 +68,7 @@ export class StandardQueue extends Construct {
     const dataKeyReuse = props.dataKeyReuse??Duration.minutes(15);
 
     const deadLetterQueue: DeadLetterQueue | undefined = maxReceiveCount <= 0 ? undefined : {
-      queue: new Queue(scope, 'DeadLetterQueue', {
+      queue: new Queue(this, 'DeadLetterQueue', {
         encryption,
         encryptionMasterKey,
         dataKeyReuse,
