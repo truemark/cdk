@@ -2,7 +2,8 @@ import {Construct} from "constructs";
 import {Duration} from "aws-cdk-lib";
 import {DeadLetterQueue, Queue, QueueEncryption} from "aws-cdk-lib/aws-sqs";
 import * as kms from 'aws-cdk-lib/aws-kms';
-import {ObservedQueue, QueueAlarmProps} from "./observed-queue";
+import {QueueAlarmProps} from "./observed-queue-alarms";
+import {ObservedQueue} from "./observed-queue";
 
 /**
  * Properties for a StandardQueue
@@ -51,33 +52,38 @@ export interface StandardQueueProps extends QueueAlarmProps {
   readonly maxReceiveCount?: number;
 }
 
-export class StandardQueue extends ObservedQueue {
+export class StandardQueue extends Construct {
 
   static readonly DEFAULT_MAX_RECEIVE_COUNT = 3;
   static readonly DEFAULT_RETENTION_PERIOD = Duration.seconds(1209600);
 
-  constructor(scope: Construct, id: string, props: StandardQueueProps = {}) {
+  readonly queue: ObservedQueue;
 
-    const encryption = props.encryptionMasterKey === undefined ? QueueEncryption.KMS_MANAGED : QueueEncryption.KMS;
+  constructor(scope: Construct, id: string, props: StandardQueueProps) {
+    super(scope, id);
 
     const maxReceiveCount = props.maxReceiveCount??StandardQueue.DEFAULT_MAX_RECEIVE_COUNT;
+    const encryption = props.encryptionMasterKey === undefined ? QueueEncryption.KMS_MANAGED : QueueEncryption.KMS;
+    const encryptionMasterKey = props.encryptionMasterKey;
+    const dataKeyReuse = props.dataKeyReuse??Duration.minutes(15);
 
     const deadLetterQueue: DeadLetterQueue | undefined = maxReceiveCount <= 0 ? undefined : {
-      queue: new Queue(scope, id + 'DeadLetter', {
+      queue: new Queue(scope, 'DeadLetterQueue', {
         encryption,
-        encryptionMasterKey: props.encryptionMasterKey,
-        dataKeyReuse: props.dataKeyReuse??Duration.minutes(15),
+        encryptionMasterKey,
+        dataKeyReuse,
         retentionPeriod: StandardQueue.DEFAULT_RETENTION_PERIOD
       }),
-      maxReceiveCount: maxReceiveCount
+      maxReceiveCount
     };
 
-    super(scope, id, {
+    this.queue = new ObservedQueue(this, 'Queue', {
       ...props,
+      deadLetterQueue,
       encryption,
-      dataKeyReuse: props.dataKeyReuse??Duration.minutes(15),
+      encryptionMasterKey,
+      dataKeyReuse,
       retentionPeriod: props.retentionPeriod??StandardQueue.DEFAULT_RETENTION_PERIOD,
-      deadLetterQueue: deadLetterQueue,
       visibilityTimeout: props.visibilityTimeout??Duration.seconds(30)
     });
   }
