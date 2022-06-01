@@ -1,9 +1,11 @@
 import {Construct} from "constructs";
-import {Duration} from "aws-cdk-lib";
-import {DeadLetterQueue, Queue, QueueEncryption} from "aws-cdk-lib/aws-sqs";
+import {Duration, RemovalPolicy, ResourceEnvironment, Stack} from "aws-cdk-lib";
+import {DeadLetterQueue, IQueue, Queue, QueueEncryption} from "aws-cdk-lib/aws-sqs";
 import * as kms from 'aws-cdk-lib/aws-kms';
 import {QueueAlarmProps} from "./observed-queue-alarms";
 import {ObservedQueue} from "./observed-queue";
+import {MetricOptions, Metric} from "aws-cdk-lib/aws-cloudwatch";
+import {PolicyStatement, AddToResourcePolicyResult, IGrantable, Grant} from "aws-cdk-lib/aws-iam";
 
 /**
  * Properties for a StandardQueue
@@ -52,20 +54,29 @@ export interface StandardQueueProps extends QueueAlarmProps {
   readonly maxReceiveCount?: number;
 }
 
-export class StandardQueue extends Construct {
+export class StandardQueue extends Construct implements IQueue {
 
   static readonly DEFAULT_MAX_RECEIVE_COUNT = 3;
   static readonly DEFAULT_RETENTION_PERIOD = Duration.seconds(1209600);
 
   readonly queue: ObservedQueue;
 
+  // From IQueue
+  readonly queueArn: string;
+  readonly queueUrl: string;
+  readonly queueName: string;
+  readonly encryptionMasterKey?: kms.IKey | undefined;
+  readonly fifo: boolean;
+  readonly stack: Stack;
+  readonly env: ResourceEnvironment;
+
   constructor(scope: Construct, id: string, props: StandardQueueProps) {
     super(scope, id);
 
-    const maxReceiveCount = props.maxReceiveCount??StandardQueue.DEFAULT_MAX_RECEIVE_COUNT;
+    const maxReceiveCount = props.maxReceiveCount ?? StandardQueue.DEFAULT_MAX_RECEIVE_COUNT;
     const encryption = props.encryptionMasterKey === undefined ? QueueEncryption.KMS_MANAGED : QueueEncryption.KMS;
     const encryptionMasterKey = props.encryptionMasterKey;
-    const dataKeyReuse = props.dataKeyReuse??Duration.minutes(15);
+    const dataKeyReuse = props.dataKeyReuse ?? Duration.minutes(15);
 
     const deadLetterQueue: DeadLetterQueue | undefined = maxReceiveCount <= 0 ? undefined : {
       queue: new Queue(this, 'DeadLetterQueue', {
@@ -83,8 +94,82 @@ export class StandardQueue extends Construct {
       encryption,
       encryptionMasterKey,
       dataKeyReuse,
-      retentionPeriod: props.retentionPeriod??StandardQueue.DEFAULT_RETENTION_PERIOD,
-      visibilityTimeout: props.visibilityTimeout??Duration.seconds(30)
+      retentionPeriod: props.retentionPeriod ?? StandardQueue.DEFAULT_RETENTION_PERIOD,
+      visibilityTimeout: props.visibilityTimeout ?? Duration.seconds(30)
     });
+
+    this.queueArn = this.queue.queueArn;
+    this.queueUrl = this.queue.queueUrl;
+    this.queueName = this.queue.queueName;
+    this.encryptionMasterKey = this.queue.encryptionMasterKey;
+    this.fifo = this.queue.fifo;
+    this.stack = this.queue.stack;
+    this.env = this.queue.env;
+  }
+
+  // From IQueue
+
+  addToResourcePolicy(statement: PolicyStatement): AddToResourcePolicyResult {
+    return this.queue.addToResourcePolicy(statement);
+  }
+
+  grantConsumeMessages(grantee: IGrantable): Grant {
+    return this.queue.grantConsumeMessages(grantee);
+  }
+
+  grantSendMessages(grantee: IGrantable): Grant {
+    return this.queue.grantSendMessages(grantee);
+  }
+
+  grantPurge(grantee: IGrantable): Grant {
+    return this.queue.grantPurge(grantee);
+  }
+
+  grant(grantee: IGrantable, ...queueActions: string[]): Grant {
+    return this.queue.grant(grantee, ...queueActions);
+  }
+
+  metric(metricName: string, props?: MetricOptions): Metric {
+    return this.queue.metric(metricName, props);
+  }
+
+  metricApproximateAgeOfOldestMessage(props?: MetricOptions): Metric {
+    return this.queue.metricApproximateAgeOfOldestMessage(props);
+  }
+
+  metricApproximateNumberOfMessagesDelayed(props?: MetricOptions): Metric {
+    return this.queue.metricApproximateNumberOfMessagesDelayed(props);
+  }
+
+  metricApproximateNumberOfMessagesNotVisible(props?: MetricOptions): Metric {
+    return this.queue.metricApproximateNumberOfMessagesNotVisible(props);
+  }
+
+  metricApproximateNumberOfMessagesVisible(props?: MetricOptions): Metric {
+    return this.queue.metricApproximateNumberOfMessagesVisible(props);
+  }
+
+  metricNumberOfEmptyReceives(props?: MetricOptions): Metric {
+    return this.queue.metricNumberOfEmptyReceives(props);
+  }
+
+  metricNumberOfMessagesDeleted(props?: MetricOptions): Metric {
+    return this.queue.metricNumberOfMessagesDeleted(props);
+  }
+
+  metricNumberOfMessagesReceived(props?: MetricOptions): Metric {
+    return this.queue.metricNumberOfMessagesReceived(props);
+  }
+
+  metricNumberOfMessagesSent(props?: MetricOptions): Metric {
+    return this.queue.metricNumberOfMessagesSent(props);
+  }
+
+  metricSentMessageSize(props?: MetricOptions): Metric {
+    return this.queue.metricSentMessageSize(props);
+  }
+
+  applyRemovalPolicy(policy: RemovalPolicy): void {
+    return this.queue.applyRemovalPolicy(policy);
   }
 }
