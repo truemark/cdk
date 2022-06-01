@@ -86,11 +86,6 @@ export interface CdkPipelineProps {
    * @see https://docs.aws.amazon.com/dtconsole/latest/userguide/concepts.html#events-ref-pipeline
    */
   readonly notificationEvents?: string[];
-
-  /**
-   * Name of the pipeline. One will be generated if not provided.
-   */
-  readonly pipelineName?: string;
 }
 
 /**
@@ -112,8 +107,7 @@ export class CdkPipeline extends Construct {
     });
 
     const underlyingPipeline = new Pipeline(this, 'Pipeline', {
-      artifactBucket,
-      pipelineName: props.pipelineName
+      artifactBucket
     });
 
     const input = CodePipelineSource.connection(props.repo, props.branch, {
