@@ -3,8 +3,8 @@ import {DockerImage, ILocalBundling} from "aws-cdk-lib/core/lib/bundling";
 import {BundlingOptions, BundlingOutput} from "aws-cdk-lib";
 import {ShellHelper} from "../../helpers";
 import {Code, FunctionOptions, Runtime} from "aws-cdk-lib/aws-lambda";
-import {FunctionAlarmsOptions} from "./observed-function";
 import {DeployedFunction, DeployedFunctionOptions} from "./deployed-function";
+import {FunctionAlarmsOptions} from "./function-alarms";
 
 /**
  * Options for BundledFunction.
