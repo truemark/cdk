@@ -438,7 +438,7 @@ export class FunctionAlarms extends Construct {
         metricName: category + 'LogCount',
       });
       // Add generated alarm to this object
-      this.addAlarm(category, logAlarm);
+      this.addAlarm(category, logAlarm.alarm);
     }
   }
 

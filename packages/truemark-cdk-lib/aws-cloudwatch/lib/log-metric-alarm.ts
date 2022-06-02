@@ -1,9 +1,12 @@
-import {Metric} from "aws-cdk-lib/aws-cloudwatch";
+import {Alarm, Metric} from "aws-cdk-lib/aws-cloudwatch";
 import {Construct} from "constructs";
 import {LogMetricFilter, LogMetricFilterProps} from "./log-metric-filter";
-import {Duration} from "aws-cdk-lib";
+import {Duration, RemovalPolicy, ResourceEnvironment, Stack} from "aws-cdk-lib";
 import {ComparisonOperator, TreatMissingData} from "aws-cdk-lib/aws-cloudwatch/lib/alarm";
-import {ExtendedAlarm} from "./extended-alarm";
+import {IAlarm} from "aws-cdk-lib/aws-cloudwatch/lib/alarm-base";
+import {ITopic} from "aws-cdk-lib/aws-sns";
+import {SnsAction} from "aws-cdk-lib/aws-cloudwatch-actions";
+import {IAlarmAction} from "aws-cdk-lib/aws-cloudwatch/lib/alarm-action";
 
 /**
  * Properties for LogAlarm.
@@ -93,38 +96,102 @@ export interface LogMetricAlarmProps extends LogMetricFilterProps {
  * CloudWatch alarm that matches patterns on a LogGroup. This class is a higher-level
  * construct than LogMetricAlarm and will create the filter and metric.
  */
-export class LogMetricAlarm extends ExtendedAlarm {
+export class LogMetricAlarm extends Construct implements IAlarm {
 
-  /**
-   * The filter created using the parent scope.
-   */
   readonly filter: LogMetricFilter;
+  readonly alarm: Alarm;
+  readonly metric: Metric;
 
-  /**
-   * The metric created from the filter.
-   */
-  readonly metric: Metric
+  // From IAlarm
+  readonly alarmArn: string;
+  readonly alarmName: string;
+  readonly env: ResourceEnvironment;
+  readonly stack: Stack;
 
-  /**
-   * Creates a new LogAlarm.
-   */
   constructor(scope: Construct, id: string, props: LogMetricAlarmProps) {
+    super(scope, id);
 
-    const filter = new LogMetricFilter(scope, id + 'Filter', {
+    this.filter = new LogMetricFilter(this, 'Filter', {
       ...props
     });
 
-    const metric = filter.sumMetric(props.period);
+    this.metric = this.filter.sumMetric(props.period);
 
-    super(scope, id, {
+    this.alarm = new Alarm(this, 'Alarm', {
       ...props,
       threshold: props.threshold??1,
       evaluationPeriods: props.evaluationPeriods??2,
-      datapointsToAlarm: props.datapointsToAlarm??1,
-      metric
+      datapointsToAlarm:props.datapointsToAlarm??1,
+      metric: this.metric
     });
 
-    this.filter = filter;
-    this.metric = metric;
+    this.alarmArn = this.alarm.alarmArn;
+    this.alarmName = this.alarm.alarmName;
+    this.env = this.alarm.env;
+    this.stack = this.alarm.stack;
+  }
+
+  /**
+   * Notify SNS topics if the alarm fires.
+   *
+   * @param topics the topics to notify
+   */
+  addAlarmTopic(...topics: ITopic[]): void {
+    this.alarm.addAlarmAction(...topics.map((topic) => new SnsAction(topic)));
+  }
+
+  /**
+   * Notify SNS topics if the alarm returns from breaching a state into an ok state.
+   *
+   * @param topics the topics to notify
+   */
+  addOkTopic(...topics: ITopic[]): void {
+    this.alarm.addOkAction(...topics.map((topic) => new SnsAction(topic)));
+  }
+
+  /**
+   * Notify SNS topics if there is insufficient data to evaluate the alarm.
+   *
+   * @param topics the topics to notify
+   */
+  addInsufficientDataTopic(...topics: ITopic[]): void {
+    this.alarm.addInsufficientDataAction(...topics.map((topic) => new SnsAction(topic)));
+  }
+
+  /**
+   * Trigger actions if the alarm fires.
+   *
+   * @param actions the actions to trigger
+   */
+  addAlarmAction(...actions: IAlarmAction[]): void {
+    return this.alarm.addAlarmAction(...actions);
+  }
+
+  /**
+   * Trigger actions if there is insufficient data to evaluate the alarm.
+   *
+   * @param actions the actions to trigger
+   */
+  addInsufficientDataAction(...actions: IAlarmAction[]): void {
+    return this.alarm.addInsufficientDataAction(...actions);
+  }
+
+  /**
+   * Trigger actions if the alarm returns from breaching a state into an ok state.
+   *
+   * @param actions the actions to trigger
+   */
+  addOkAction(...actions: IAlarmAction[]): void {
+    return this.alarm.addOkAction(...actions);
+  }
+
+  // From IAlarm
+
+  applyRemovalPolicy(policy: RemovalPolicy): void {
+    this.alarm.applyRemovalPolicy(policy);
+  }
+
+  renderAlarmRule(): string {
+    return this.alarm.renderAlarmRule();
   }
 }
