@@ -27,8 +27,6 @@ export interface BundledFunctionOptions {
 
   /**
    * Overrides the default bundling script.
-   *
-   * @default PythonFunction.DEFAULT_BUNDLE_SCRIPT
    */
   readonly bundlingScript?: string
 

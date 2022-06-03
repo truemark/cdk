@@ -6,6 +6,8 @@ import {ShellHelper} from "../../helpers";
 import {BundledFunction, BundledFunctionOptions} from "./bundled-function";
 import {DeployedFunctionOptions} from "./deployed-function";
 import {FunctionAlarmsOptions} from "./function-alarms";
+import * as path from 'path';
+import * as fs from 'fs';
 
 /**
  * Properties for PythonFunction.
@@ -40,15 +42,6 @@ export interface PythonFunctionProps extends FunctionOptions, FunctionAlarmsOpti
  */
 export class PythonFunction extends BundledFunction {
 
-  static readonly DEFAULT_BUNDLE_SCRIPT = `
-  #!/usr/bin/env bash
-  set -euo pipefail
-  if [ -f requirements.txt ]; then
-    pip install --target "\${CDK_BUNDLING_OUTPUT_DIR}" -r requirements.txt
-  fi
-  cp -a * "\${CDK_BUNDLING_OUTPUT_DIR}"
-  `
-
   static isLocalBundlingSupported(): boolean {
     return ShellHelper.pythonVersion() !== null;
   }
@@ -65,7 +58,10 @@ export class PythonFunction extends BundledFunction {
 
     const handler = (props.index??'index.py').replace('.py', '') + '.' + (props.handler??'handler');
 
+    const defaultBundlingScript = path.join(path.dirname(fs.realpathSync(__filename)), 'bundle-python.sh');
+
     super(scope, id, {
+      // defaults which may be overridden by ...props
       tracing: Tracing.PASS_THROUGH,
       logRetention: RetentionDays.THREE_DAYS,
       architecture: Architecture.ARM_64,
@@ -79,7 +75,7 @@ export class PythonFunction extends BundledFunction {
       },
       runtime,
       handler,
-      defaultBundlingScript: PythonFunction.DEFAULT_BUNDLE_SCRIPT,
+      defaultBundlingScript,
       defaultBundlingImage: runtime.bundlingImage,
       isLocalBundlingSupported: PythonFunction.isLocalBundlingSupported
     });
