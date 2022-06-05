@@ -32,9 +32,6 @@
     "./aws-sqs": "./aws-sqs/index.js",
     "./helpers": "./helpers/index.js"
   },
-  "files": [
-    "*.sh"
-  ],
   "publishConfig": {
     "access": "public"
   },
