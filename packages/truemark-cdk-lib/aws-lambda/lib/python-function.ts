@@ -58,6 +58,9 @@ export class PythonFunction extends BundledFunction {
 
     const handler = (props.index??'index.py').replace('.py', '') + '.' + (props.handler??'handler');
 
+    console.log('MOO: Filename: ' + __filename);
+    console.log('MOO: Dirname: ' + path.dirname(fs.realpathSync(__filename)));
+    console.log('MOO: ' + path.join(path.dirname(fs.realpathSync(__filename)), 'bundle-python.sh'));
     const defaultBundlingScript = path.join(path.dirname(fs.realpathSync(__filename)), 'bundle-python.sh');
 
     super(scope, id, {
