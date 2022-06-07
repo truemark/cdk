@@ -1,4 +1,4 @@
-import {Function, FunctionProps, IFunction} from "aws-cdk-lib/aws-lambda";
+import {Function, FunctionProps} from "aws-cdk-lib/aws-lambda";
 import {Construct} from "constructs";
 import {FunctionAlarms, FunctionAlarmsOptions} from "./function-alarms";
 

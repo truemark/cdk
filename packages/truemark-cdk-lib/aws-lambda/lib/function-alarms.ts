@@ -1,4 +1,4 @@
-import {Duration, Names} from "aws-cdk-lib";
+import {Duration, Stack} from "aws-cdk-lib";
 import {ITopic} from "aws-cdk-lib/aws-sns";
 import {Alarm, IAlarmAction} from "aws-cdk-lib/aws-cloudwatch";
 import {
@@ -216,6 +216,13 @@ export interface FunctionAlarmsOptions {
    * @default true
    */
   readonly addToSummaryDashboard?: boolean;
+
+  /**
+   * Prefix for generated alarms.
+   *
+   * @default Stack.of(this).stackName
+   */
+  readonly alarmNamePrefix?: string;
 }
 
 /**
@@ -259,7 +266,6 @@ interface FunctionAlarmFacadeProps {
   defaultThreshold?: number | Duration;
   topics?: ITopic[];
   actions?: IAlarmAction[];
-  alarmNameOverride: string;
 }
 
 /**
@@ -282,7 +288,6 @@ class FunctionAlarmFacade {
         [this.props.prop]: this.props.threshold??this.props.defaultThreshold,
         actionsEnabled: true,
         actionOverride: new StandardAlarmActionsStrategy({actions: this.actions}),
-        alarmNameOverride: this.props.alarmNameOverride
       };
     }
     return undefined;
@@ -348,11 +353,9 @@ export class FunctionAlarms extends Construct {
   readonly warningAlarms: Alarm[];
 
   private readonly props: FunctionAlarmsProps;
-  private readonly alarmNamePrefix: string;
 
   private addRecordValue(record: Record<string, CustomAlarmThreshold>,
                          category: FunctionAlarmCategory,
-                         alarmNameOverride: string,
                          sprop: keyof FunctionAlarmsCategoryOptions,
                          tprop: string,
                          defaultThreshold?: number|Duration) {
@@ -362,15 +365,14 @@ export class FunctionAlarms extends Construct {
       threshold: fprops?.[sprop] as number | Duration,
       defaultThreshold,
       topics: fprops?.notifyTopics,
-      actions: fprops?.notifyActions,
-      alarmNameOverride: alarmNameOverride + "-" + category
+      actions: fprops?.notifyActions
     }).addCustomAlarmThreshold(category, record);
   }
 
-  private toRecord(alarmNameOverride: string, sprop: keyof FunctionAlarmsCategoryOptions, tprop: string, defaultThreshold?: number|Duration): Record<string, CustomAlarmThreshold> | undefined {
+  private toRecord(sprop: keyof FunctionAlarmsCategoryOptions, tprop: string, defaultThreshold?: number|Duration): Record<string, CustomAlarmThreshold> | undefined {
     const record: Record<string, CustomAlarmThreshold> = {};
-    this.addRecordValue(record, FunctionAlarmCategory.Critical, alarmNameOverride, sprop, tprop, defaultThreshold);
-    this.addRecordValue(record, FunctionAlarmCategory.Warning, alarmNameOverride, sprop, tprop, defaultThreshold);
+    this.addRecordValue(record, FunctionAlarmCategory.Critical, sprop, tprop, defaultThreshold);
+    this.addRecordValue(record, FunctionAlarmCategory.Warning, sprop, tprop, defaultThreshold);
     return Object.keys(record).length > 0 ? record : undefined;
   }
 
@@ -385,23 +387,23 @@ export class FunctionAlarms extends Construct {
       addToAlarmDashboard: this.props.addToAlarmDashboard ?? true,
       addToDetailDashboard: this.props.addToDetailDashboard ?? true,
       addToSummaryDashboard: this.props.addToSummaryDashboard ?? true,
-      addLatencyP50Alarm: this.toRecord(this.alarmNamePrefix + '-P50Latency', 'p50Latency', 'maxLatency') as Record<string, LatencyThreshold>,
-      addLatencyP90Alarm: this.toRecord(this.alarmNamePrefix + '-P90Latency', 'p90Latency', 'maxLatency') as Record<string, LatencyThreshold>,
-      addLatencyP99Alarm: this.toRecord(this.alarmNamePrefix + '-P99Latency', 'p99Latency', 'maxLatency') as Record<string, LatencyThreshold>,
-      addFaultCountAlarm: this.toRecord(this.alarmNamePrefix + '-MaxFaults', 'maxFaults', 'maxErrorCount', 0) as Record<string, ErrorCountThreshold>,
-      addFaultRateAlarm: this.toRecord(this.alarmNamePrefix + '-AvgFaults', 'avgFaults', 'maxErrorRate') as Record<string, ErrorRateThreshold>,
-      addLowTpsAlarm: this.toRecord(this.alarmNamePrefix + '-MinTps', 'minTps', 'minTps') as Record<string, LowTpsThreshold>,
-      addHighTpsAlarm: this.toRecord(this.alarmNamePrefix + '-MaxTps', 'maxTps', 'maxTps') as Record<string, HighTpsThreshold>,
-      addThrottlesCountAlarm: this.toRecord(this.alarmNamePrefix + '-MaxThrottles', 'maxThrottles', 'maxErrorCount', 0) as Record<string, ErrorCountThreshold>,
-      addThrottlesRateAlarm: this.toRecord(this.alarmNamePrefix + '-AvgThrottles', 'avgThrottles', 'maxErrorRate') as Record<string, ErrorRateThreshold>,
-      addConcurrentExecutionsCountAlarm: this.toRecord(this.alarmNamePrefix + '-MaxConcurrentExecutions', 'maxConcurrentExecutions', 'maxRunningTasks') as Record<string, RunningTaskCountThreshold>,
-      addMaxIteratorAgeAlarm: this.toRecord(this.alarmNamePrefix + '-MaxIteratorAge', 'maxIteratorAge', 'maxAgeInMillis') as Record<string, MaxAgeThreshold>,
-      addEnhancedMonitoringMaxCpuTotalTimeAlarm: this.toRecord(this.alarmNamePrefix + '-MaxCpuTime', 'maxCpuTime', 'maxDuration') as Record<string, DurationThreshold>,
-      addEnhancedMonitoringP90CpuTotalTimeAlarm: this.toRecord(this.alarmNamePrefix + '-P90CpuTime', 'p90CpuTime', 'maxDuration') as Record<string, DurationThreshold>,
-      addEnhancedMonitoringAvgCpuTotalTimeAlarm: this.toRecord(this.alarmNamePrefix + '0AvgCpuTime', 'avgCpuTime', 'maxDuration') as Record<string, DurationThreshold>,
-      addEnhancedMonitoringMaxMemoryUtilizationAlarm: this.toRecord(this.alarmNamePrefix + '-MaxMemory', 'maxMemory', 'maxUsagePercent') as Record<string, UsageThreshold>,
-      addEnhancedMonitoringP90MemoryUtilizationAlarm: this.toRecord(this.alarmNamePrefix + '-P90Memory', 'p90Memory', 'maxUsagePercent') as Record<string, UsageThreshold>,
-      addEnhancedMonitoringAvgMemoryUtilizationAlarm: this.toRecord(this.alarmNamePrefix + '-AvgMemory', 'avgMemory', 'maxUsagePercent') as Record<string, UsageThreshold>
+      addLatencyP50Alarm: this.toRecord('p50Latency', 'maxLatency') as Record<string, LatencyThreshold>,
+      addLatencyP90Alarm: this.toRecord('p90Latency', 'maxLatency') as Record<string, LatencyThreshold>,
+      addLatencyP99Alarm: this.toRecord('p99Latency', 'maxLatency') as Record<string, LatencyThreshold>,
+      addFaultCountAlarm: this.toRecord('maxFaults', 'maxErrorCount', 0) as Record<string, ErrorCountThreshold>,
+      addFaultRateAlarm: this.toRecord('avgFaults', 'maxErrorRate') as Record<string, ErrorRateThreshold>,
+      addLowTpsAlarm: this.toRecord('minTps', 'minTps') as Record<string, LowTpsThreshold>,
+      addHighTpsAlarm: this.toRecord('maxTps', 'maxTps') as Record<string, HighTpsThreshold>,
+      addThrottlesCountAlarm: this.toRecord('maxThrottles', 'maxErrorCount', 0) as Record<string, ErrorCountThreshold>,
+      addThrottlesRateAlarm: this.toRecord('avgThrottles', 'maxErrorRate') as Record<string, ErrorRateThreshold>,
+      addConcurrentExecutionsCountAlarm: this.toRecord('maxConcurrentExecutions', 'maxRunningTasks') as Record<string, RunningTaskCountThreshold>,
+      addMaxIteratorAgeAlarm: this.toRecord('maxIteratorAge', 'maxAgeInMillis') as Record<string, MaxAgeThreshold>,
+      addEnhancedMonitoringMaxCpuTotalTimeAlarm: this.toRecord('maxCpuTime', 'maxDuration') as Record<string, DurationThreshold>,
+      addEnhancedMonitoringP90CpuTotalTimeAlarm: this.toRecord('p90CpuTime', 'maxDuration') as Record<string, DurationThreshold>,
+      addEnhancedMonitoringAvgCpuTotalTimeAlarm: this.toRecord('avgCpuTime', 'maxDuration') as Record<string, DurationThreshold>,
+      addEnhancedMonitoringMaxMemoryUtilizationAlarm: this.toRecord('maxMemory', 'maxUsagePercent') as Record<string, UsageThreshold>,
+      addEnhancedMonitoringP90MemoryUtilizationAlarm: this.toRecord('p90Memory', 'maxUsagePercent') as Record<string, UsageThreshold>,
+      addEnhancedMonitoringAvgMemoryUtilizationAlarm: this.toRecord('avgMemory', 'maxUsagePercent') as Record<string, UsageThreshold>
     });
 
     // Add generated alarms to this object
@@ -453,13 +455,11 @@ export class FunctionAlarms extends Construct {
     this.criticalAlarms = [];
     this.warningAlarms = [];
 
-    this.alarmNamePrefix = Names.uniqueId(props.function);
-
     this.monitoringFacade = props.monitoringFacade??new MonitoringFacade(this, 'MonitoringFacade', {
       metricFactoryDefaults: {},
       alarmFactoryDefaults: {
         actionsEnabled: true,
-        alarmNamePrefix: this.alarmNamePrefix
+        alarmNamePrefix: props.alarmNamePrefix??Stack.of(this).stackName
       },
       dashboardFactory: props.dashboardFactory
     });
