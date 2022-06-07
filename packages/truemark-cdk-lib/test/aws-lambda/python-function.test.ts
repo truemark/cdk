@@ -11,4 +11,6 @@ test('Python Lambda Test', () => {
   });
   const template = Template.fromStack(stack);
   template.hasResourceProperties("AWS::Lambda::Function", {});
+  // console.log(template.findResources("AWS::CloudWatch::Alarm"));
+  // console.log(template.findResources("AWS::Lambda::Function"));
 });

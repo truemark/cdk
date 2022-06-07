@@ -254,14 +254,12 @@ export class ObservedQueueAlarms extends Construct {
     this.warningAlarms = [];
 
     const alarmNamePrefix = Names.uniqueId(props.queue);
-    // const alarmNamePrefix =  props.queue.node.path.replace(/\//g, "-");
 
     this.monitoringFacade = props.monitoringFacade??new MonitoringFacade(this, 'MonitoringFacade', {
       metricFactoryDefaults: {},
       alarmFactoryDefaults: {
         actionsEnabled: true,
         alarmNamePrefix
-        // alarmNamePrefix: props.queue.node.path.replace(/\//g, "-")
       },
       dashboardFactory: props.dashboardFactory
     });
@@ -286,9 +284,9 @@ export class ObservedQueueAlarms extends Construct {
         addQueueMaxTimeToDrainMessagesAlarm: this.toRecord(alarmNamePrefix + '-MaxTimeToDrain', 'maxTimeToDrain', 'maxTimeToDrain') as Record<string, MaxTimeToDrainThreshold>,
         addQueueMinIncomingMessagesAlarm: this.toRecord(alarmNamePrefix + '-MinIncoming', 'minIncoming', 'minIncomingMessagesCount') as Record<string, MinIncomingMessagesCountThreshold>,
         addQueueMaxIncomingMessagesAlarm: this.toRecord(alarmNamePrefix + '-MaxIncoming', 'maxIncoming', 'maxIncomingMessagesCount') as Record<string, MaxIncomingMessagesCountThreshold>,
-        addDeadLetterQueueMaxSizeAlarm: this.toRecord(alarmNamePrefix + '-DeadLetterMaxSize', 'deadLetterQueueMaxSize', 'maxMessageCount', 0) as Record<string, MaxMessageCountThreshold>,
-        addDeadLetterQueueMaxMessageAgeAlarm: this.toRecord(alarmNamePrefix + '-DeadLetterMaxAge', 'deadLetterQueueMaxAgeInSeconds', 'maxAgeInSeconds') as Record<string, MaxMessageAgeThreshold>,
-        addDeadLetterQueueMaxIncomingMessagesAlarm: this.toRecord(alarmNamePrefix + '-DeadLetterMaxIncoming', 'deadLetterQueueMaxIncoming', 'maxIncomingMessagesCount') as Record<string, MaxIncomingMessagesCountThreshold>,
+        addDeadLetterQueueMaxSizeAlarm: this.toRecord(alarmNamePrefix + '-DLQ-MaxSize', 'deadLetterQueueMaxSize', 'maxMessageCount', 0) as Record<string, MaxMessageCountThreshold>,
+        addDeadLetterQueueMaxMessageAgeAlarm: this.toRecord(alarmNamePrefix + '-DLQ-MaxAge', 'deadLetterQueueMaxAgeInSeconds', 'maxAgeInSeconds') as Record<string, MaxMessageAgeThreshold>,
+        addDeadLetterQueueMaxIncomingMessagesAlarm: this.toRecord(alarmNamePrefix + '-DLQ-MaxIncoming', 'deadLetterQueueMaxIncoming', 'maxIncomingMessagesCount') as Record<string, MaxIncomingMessagesCountThreshold>,
         addDeadLetterQueueToSummaryDashboard: true
       });
 
