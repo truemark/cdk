@@ -96,7 +96,7 @@ export class StandardQueue extends Construct implements IQueue {
       dataKeyReuse,
       retentionPeriod: props.retentionPeriod ?? StandardQueue.DEFAULT_RETENTION_PERIOD,
       visibilityTimeout: props.visibilityTimeout ?? Duration.seconds(30),
-      alarmNamePrefix: Stack.of(this).stackName + "-" + id
+      alarmNamePrefix: props.alarmNamePrefix??Stack.of(this).stackName + "-" + id
     });
 
     this.queueArn = this.queue.queueArn;
