@@ -1,4 +1,4 @@
-import {Duration, Stack} from "aws-cdk-lib";
+import {Duration, Names, Stack} from "aws-cdk-lib";
 import {ITopic} from "aws-cdk-lib/aws-sns";
 import {Alarm, IAlarmAction} from "aws-cdk-lib/aws-cloudwatch";
 import {MonitoringFacade} from "cdk-monitoring-constructs";
@@ -253,7 +253,7 @@ export class ObservedQueueAlarms extends Construct {
       metricFactoryDefaults: {},
       alarmFactoryDefaults: {
         actionsEnabled: true,
-        alarmNamePrefix: Stack.of(this).stackName
+        alarmNamePrefix: props.queue.node.path.replace(/\//g, "-")
       },
       dashboardFactory: props.dashboardFactory
     });
