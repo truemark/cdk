@@ -1,4 +1,4 @@
-import {Duration, Names, Stack} from "aws-cdk-lib";
+import {Duration, Stack} from "aws-cdk-lib";
 import {ITopic} from "aws-cdk-lib/aws-sns";
 import {Alarm, IAlarmAction} from "aws-cdk-lib/aws-cloudwatch";
 import {MonitoringFacade} from "cdk-monitoring-constructs";
@@ -155,7 +155,6 @@ interface QueueAlarmFacadeProps {
   defaultThreshold?: number | Duration;
   topics?: ITopic[];
   actions?: IAlarmAction[];
-  // alarmNameOverride: string;
 }
 
 /**
@@ -178,7 +177,6 @@ class QueueAlarmFacade {
         [this.props.prop]: this.props.threshold??this.props.defaultThreshold,
         actionsEnabled: true,
         actionOverride: new StandardAlarmActionsStrategy({actions: this.actions}),
-        // alarmNameOverride: this.props.alarmNameOverride
       };
     }
     return undefined;
@@ -227,7 +225,6 @@ export class QueueAlarms extends Construct {
 
   private addRecordValue(record: Record<string, CustomAlarmThreshold>,
                          category: QueueAlarmCategory,
-                         // alarmNameOverride: string,
                          sprop: keyof QueueAlarmsCategoryProps,
                          tprop: string,
                          defaultThreshold?: number|Duration) {
@@ -238,7 +235,6 @@ export class QueueAlarms extends Construct {
       defaultThreshold,
       topics: fprops?.notifyTopics,
       actions: fprops?.notifyActions,
-      // alarmNameOverride: alarmNameOverride + "-" + category
     }).addCustomAlarmThreshold(category, record);
   }
 
