@@ -2,7 +2,7 @@ import {Construct} from "constructs";
 import {Duration, RemovalPolicy, ResourceEnvironment, Stack} from "aws-cdk-lib";
 import {DeadLetterQueue, IQueue, Queue, QueueEncryption} from "aws-cdk-lib/aws-sqs";
 import * as kms from 'aws-cdk-lib/aws-kms';
-import {QueueAlarmProps} from "./observed-queue-alarms";
+import {QueueAlarmsOptions} from "./queue-alarms";
 import {ObservedQueue} from "./observed-queue";
 import {MetricOptions, Metric} from "aws-cdk-lib/aws-cloudwatch";
 import {PolicyStatement, AddToResourcePolicyResult, IGrantable, Grant} from "aws-cdk-lib/aws-iam";
@@ -10,7 +10,7 @@ import {PolicyStatement, AddToResourcePolicyResult, IGrantable, Grant} from "aws
 /**
  * Properties for a StandardQueue
  */
-export interface StandardQueueProps extends QueueAlarmProps {
+export interface StandardQueueProps extends QueueAlarmsOptions {
 
   /**
    * The number of seconds Amazon SQS retains a message. Value must be between

@@ -14,7 +14,7 @@ import {Construct} from "constructs";
 import {SnsAction} from "aws-cdk-lib/aws-cloudwatch-actions";
 import {StandardAlarmActionsStrategy} from "../../aws-monitoring";
 
-export interface QueueAlarmCategoryProps {
+export interface QueueAlarmsCategoryProps {
 
   /**
    * Minimum number of messages visible.
@@ -76,21 +76,21 @@ export interface QueueAlarmCategoryProps {
   readonly notifyActions?: [IAlarmAction];
 }
 
-export interface QueueAlarmProps {
+export interface QueueAlarmsOptions {
 
   /**
    * Alarm thresholds for critical alarms.
    *
    * If no properties are provided, a set of default alarms are created.
    */
-  readonly criticalAlarmProps?: QueueAlarmCategoryProps;
+  readonly criticalAlarmProps?: QueueAlarmsCategoryProps;
 
   /**
    * Alarm threshold for warning alarms.
    *
    * If no properties are provided, a set of default alarms are created.
    */
-  readonly warningAlarmProps?: QueueAlarmCategoryProps;
+  readonly warningAlarmProps?: QueueAlarmsCategoryProps;
 
   /**
    * Main entry point for monitoring.
@@ -113,8 +113,8 @@ export interface QueueAlarmProps {
  * @param props the properties holding the values
  * @param category the alarm category
  */
-function getQueueAlarmCategoryProps(props: QueueAlarmProps, category: QueueAlarmCategory): QueueAlarmCategoryProps | undefined {
-  const fprop: keyof QueueAlarmProps = category === 'Critical' ? 'criticalAlarmProps' : 'warningAlarmProps';
+function getQueueAlarmCategoryProps(props: QueueAlarmsOptions, category: QueueAlarmCategory): QueueAlarmsCategoryProps | undefined {
+  const fprop: keyof QueueAlarmsOptions = category === 'Critical' ? 'criticalAlarmProps' : 'warningAlarmProps';
   return props[fprop];
 }
 
@@ -148,7 +148,7 @@ interface QueueAlarmFacadeProps {
   defaultThreshold?: number | Duration;
   topics?: ITopic[];
   actions?: IAlarmAction[];
-  alarmNameOverride: string;
+  // alarmNameOverride: string;
 }
 
 /**
@@ -171,7 +171,7 @@ class QueueAlarmFacade {
         [this.props.prop]: this.props.threshold??this.props.defaultThreshold,
         actionsEnabled: true,
         actionOverride: new StandardAlarmActionsStrategy({actions: this.actions}),
-        alarmNameOverride: this.props.alarmNameOverride
+        // alarmNameOverride: this.props.alarmNameOverride
       };
     }
     return undefined;
@@ -186,9 +186,9 @@ class QueueAlarmFacade {
 }
 
 /**
- * Properties for ObservedQueueAlarms
+ * Properties for QueueAlarms
  */
-export interface ObservedQueueAlarmsProps extends QueueAlarmProps {
+export interface QueueAlarmsProps extends QueueAlarmsOptions {
 
   /**
    * The queue to observe.
@@ -199,7 +199,7 @@ export interface ObservedQueueAlarmsProps extends QueueAlarmProps {
 /**
  * Creates CloudWatch alarms for Queues.
  */
-export class ObservedQueueAlarms extends Construct {
+export class QueueAlarms extends Construct {
 
   /**
    * The MonitoringFacade instance either passed in or generated.
@@ -216,12 +216,12 @@ export class ObservedQueueAlarms extends Construct {
    */
   readonly warningAlarms: Alarm[];
 
-  private readonly props: ObservedQueueAlarmsProps;
+  private readonly props: QueueAlarmsProps;
 
   private addRecordValue(record: Record<string, CustomAlarmThreshold>,
                          category: QueueAlarmCategory,
-                         alarmNameOverride: string,
-                         sprop: keyof QueueAlarmCategoryProps,
+                         // alarmNameOverride: string,
+                         sprop: keyof QueueAlarmsCategoryProps,
                          tprop: string,
                          defaultThreshold?: number|Duration) {
     const fprops = getQueueAlarmCategoryProps(this.props, category);
@@ -231,14 +231,14 @@ export class ObservedQueueAlarms extends Construct {
       defaultThreshold,
       topics: fprops?.notifyTopics,
       actions: fprops?.notifyActions,
-      alarmNameOverride: alarmNameOverride + "-" + category
+      // alarmNameOverride: alarmNameOverride + "-" + category
     }).addCustomAlarmThreshold(category, record);
   }
 
-  private toRecord(alarmNameOverride: string, sprop: keyof QueueAlarmCategoryProps, tprop: string, defaultThreshold?: number|Duration): Record<string, CustomAlarmThreshold> | undefined {
+  private toRecord(sprop: keyof QueueAlarmsCategoryProps, tprop: string, defaultThreshold?: number|Duration): Record<string, CustomAlarmThreshold> | undefined {
     const record: Record<string, CustomAlarmThreshold> = {};
-    this.addRecordValue(record, QueueAlarmCategory.Critical, alarmNameOverride, sprop, tprop, defaultThreshold);
-    this.addRecordValue(record, QueueAlarmCategory.Warning, alarmNameOverride, sprop, tprop, defaultThreshold);
+    this.addRecordValue(record, QueueAlarmCategory.Critical, sprop, tprop, defaultThreshold);
+    this.addRecordValue(record, QueueAlarmCategory.Warning, sprop, tprop, defaultThreshold);
     return Object.keys(record).length > 0 ? record : undefined;
   }
 
@@ -247,13 +247,14 @@ export class ObservedQueueAlarms extends Construct {
     arr.push(...alarm);
   }
 
-  constructor(scope: Construct, id: string, props: ObservedQueueAlarmsProps) {
+  constructor(scope: Construct, id: string, props: QueueAlarmsProps) {
     super(scope, id);
     this.props = props;
     this.criticalAlarms = [];
     this.warningAlarms = [];
 
-    const alarmNamePrefix = Names.uniqueId(props.queue);
+    // const alarmNamePrefix = Names.uniqueId(props.queue);
+    const alarmNamePrefix = Stack.of(this).stackName;
 
     this.monitoringFacade = props.monitoringFacade??new MonitoringFacade(this, 'MonitoringFacade', {
       metricFactoryDefaults: {},
@@ -267,26 +268,26 @@ export class ObservedQueueAlarms extends Construct {
     if (props.queue.deadLetterQueue === undefined) {
       this.monitoringFacade.monitorSqsQueue({
         queue: props.queue,
-        addQueueMinSizeAlarm: this.toRecord(alarmNamePrefix + '-MinSize', 'minSize', 'minMessageCount') as Record<string, MinMessageCountThreshold>,
-        addQueueMaxSizeAlarm: this.toRecord(alarmNamePrefix + '-MaxSize', 'maxSize', 'maxMessageCount') as Record<string, MaxMessageCountThreshold>,
-        addQueueMaxMessageAgeAlarm: this.toRecord(alarmNamePrefix + '-MaxAge', 'maxAgeInSeconds', 'maxAgeInSeconds', 15) as Record<string, MaxMessageAgeThreshold>,
-        addQueueMaxTimeToDrainMessagesAlarm: this.toRecord(alarmNamePrefix + '-MaxTimeToDrain', 'maxTimeToDrain', 'maxTimeToDrain') as Record<string, MaxTimeToDrainThreshold>,
-        addQueueMinIncomingMessagesAlarm: this.toRecord(alarmNamePrefix + '-MinIncoming', 'minIncoming', 'minIncomingMessagesCount') as Record<string, MinIncomingMessagesCountThreshold>,
-        addQueueMaxIncomingMessagesAlarm: this.toRecord(alarmNamePrefix + '-MaxIncoming', 'maxIncoming', 'maxIncomingMessagesCount')  as Record<string, MaxIncomingMessagesCountThreshold>
+        addQueueMinSizeAlarm: this.toRecord('minSize', 'minMessageCount') as Record<string, MinMessageCountThreshold>,
+        addQueueMaxSizeAlarm: this.toRecord('maxSize', 'maxMessageCount') as Record<string, MaxMessageCountThreshold>,
+        addQueueMaxMessageAgeAlarm: this.toRecord('maxAgeInSeconds', 'maxAgeInSeconds', 15) as Record<string, MaxMessageAgeThreshold>,
+        addQueueMaxTimeToDrainMessagesAlarm: this.toRecord('maxTimeToDrain', 'maxTimeToDrain') as Record<string, MaxTimeToDrainThreshold>,
+        addQueueMinIncomingMessagesAlarm: this.toRecord('minIncoming', 'minIncomingMessagesCount') as Record<string, MinIncomingMessagesCountThreshold>,
+        addQueueMaxIncomingMessagesAlarm: this.toRecord('maxIncoming', 'maxIncomingMessagesCount')  as Record<string, MaxIncomingMessagesCountThreshold>
       });
     } else {
       this.monitoringFacade.monitorSqsQueueWithDlq({
         queue: props.queue,
         deadLetterQueue: props.queue.deadLetterQueue.queue,
-        addQueueMinSizeAlarm: this.toRecord(alarmNamePrefix + '-MinSize', 'minSize', 'minMessageCount') as Record<string, MinMessageCountThreshold>,
-        addQueueMaxSizeAlarm: this.toRecord(alarmNamePrefix + '-MaxSize', 'maxSize', 'maxMessageCount') as Record<string, MaxMessageCountThreshold>,
-        addQueueMaxMessageAgeAlarm: this.toRecord(alarmNamePrefix + '-MaxAge', 'maxAgeInSeconds', 'maxAgeInSeconds', 15) as Record<string, MaxMessageAgeThreshold>,
-        addQueueMaxTimeToDrainMessagesAlarm: this.toRecord(alarmNamePrefix + '-MaxTimeToDrain', 'maxTimeToDrain', 'maxTimeToDrain') as Record<string, MaxTimeToDrainThreshold>,
-        addQueueMinIncomingMessagesAlarm: this.toRecord(alarmNamePrefix + '-MinIncoming', 'minIncoming', 'minIncomingMessagesCount') as Record<string, MinIncomingMessagesCountThreshold>,
-        addQueueMaxIncomingMessagesAlarm: this.toRecord(alarmNamePrefix + '-MaxIncoming', 'maxIncoming', 'maxIncomingMessagesCount') as Record<string, MaxIncomingMessagesCountThreshold>,
-        addDeadLetterQueueMaxSizeAlarm: this.toRecord(alarmNamePrefix + '-DLQ-MaxSize', 'deadLetterQueueMaxSize', 'maxMessageCount', 0) as Record<string, MaxMessageCountThreshold>,
-        addDeadLetterQueueMaxMessageAgeAlarm: this.toRecord(alarmNamePrefix + '-DLQ-MaxAge', 'deadLetterQueueMaxAgeInSeconds', 'maxAgeInSeconds') as Record<string, MaxMessageAgeThreshold>,
-        addDeadLetterQueueMaxIncomingMessagesAlarm: this.toRecord(alarmNamePrefix + '-DLQ-MaxIncoming', 'deadLetterQueueMaxIncoming', 'maxIncomingMessagesCount') as Record<string, MaxIncomingMessagesCountThreshold>,
+        addQueueMinSizeAlarm: this.toRecord('minSize', 'minMessageCount') as Record<string, MinMessageCountThreshold>,
+        addQueueMaxSizeAlarm: this.toRecord('maxSize', 'maxMessageCount') as Record<string, MaxMessageCountThreshold>,
+        addQueueMaxMessageAgeAlarm: this.toRecord('maxAgeInSeconds', 'maxAgeInSeconds', 15) as Record<string, MaxMessageAgeThreshold>,
+        addQueueMaxTimeToDrainMessagesAlarm: this.toRecord('maxTimeToDrain', 'maxTimeToDrain') as Record<string, MaxTimeToDrainThreshold>,
+        addQueueMinIncomingMessagesAlarm: this.toRecord('minIncoming', 'minIncomingMessagesCount') as Record<string, MinIncomingMessagesCountThreshold>,
+        addQueueMaxIncomingMessagesAlarm: this.toRecord('maxIncoming', 'maxIncomingMessagesCount') as Record<string, MaxIncomingMessagesCountThreshold>,
+        addDeadLetterQueueMaxSizeAlarm: this.toRecord('deadLetterQueueMaxSize', 'maxMessageCount', 0) as Record<string, MaxMessageCountThreshold>,
+        addDeadLetterQueueMaxMessageAgeAlarm: this.toRecord('deadLetterQueueMaxAgeInSeconds', 'maxAgeInSeconds') as Record<string, MaxMessageAgeThreshold>,
+        addDeadLetterQueueMaxIncomingMessagesAlarm: this.toRecord('deadLetterQueueMaxIncoming', 'maxIncomingMessagesCount') as Record<string, MaxIncomingMessagesCountThreshold>,
         addDeadLetterQueueToSummaryDashboard: true
       });
 
