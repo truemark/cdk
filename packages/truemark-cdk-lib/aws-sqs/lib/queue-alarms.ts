@@ -105,6 +105,13 @@ export interface QueueAlarmsOptions {
    * If not defined, dashboards are not generated.
    */
   readonly dashboardFactory?: IDashboardFactory;
+
+  /**
+   * Prefix used for generated alarms.
+   *
+   * @default Stack.of(this).stackName;
+   */
+  readonly alarmNamePrefix?: string;
 }
 
 /**
@@ -253,14 +260,11 @@ export class QueueAlarms extends Construct {
     this.criticalAlarms = [];
     this.warningAlarms = [];
 
-    // const alarmNamePrefix = Names.uniqueId(props.queue);
-    const alarmNamePrefix = Stack.of(this).stackName;
-
     this.monitoringFacade = props.monitoringFacade??new MonitoringFacade(this, 'MonitoringFacade', {
       metricFactoryDefaults: {},
       alarmFactoryDefaults: {
         actionsEnabled: true,
-        alarmNamePrefix
+        alarmNamePrefix: props.alarmNamePrefix??`${Stack.of(this).stackName}`
       },
       dashboardFactory: props.dashboardFactory
     });
