@@ -29,6 +29,7 @@
     "./aws-lambda": "./aws-lambda/index.js",
     "./aws-monitoring": "./aws-monitoring/index.js",
     "./aws-route53": "./aws-route53/index.js",
+    "./aws-s3": "./aws-s3/index.js",
     "./aws-sqs": "./aws-sqs/index.js",
     "./aws-website": "./aws-website/index.js",
     "./helpers": "./helpers/index.js"
