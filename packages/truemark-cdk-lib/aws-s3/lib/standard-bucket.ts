@@ -1,8 +1,7 @@
-import {Bucket, BucketEncryption} from "aws-cdk-lib/aws-s3";
+import {Bucket, BucketEncryption, BlockPublicAccess} from "aws-cdk-lib/aws-s3";
 import {Construct} from "constructs";
 import * as kms from "aws-cdk-lib/aws-kms";
 import {RemovalPolicy} from "aws-cdk-lib";
-import {BlockPublicAccess} from "aws-cdk-lib/aws-s3/lib/bucket";
 
 export interface StandardBucketProps {
   /**
