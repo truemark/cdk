@@ -1,7 +1,6 @@
 import {Construct} from "constructs";
 import {DomainName} from "./domain-name";
 import {IBucket} from "aws-cdk-lib/aws-s3";
-import {StandardBucket} from "../../aws-s3/lib/standard-bucket";
 import {
   FunctionCode,
   OriginAccessIdentity,
@@ -16,6 +15,7 @@ import {CloudFrontTarget} from "aws-cdk-lib/aws-route53-targets";
 import {BucketDeployment, CacheControl, Source} from "aws-cdk-lib/aws-s3-deployment";
 import {Duration} from "aws-cdk-lib";
 import {DockerImage} from "aws-cdk-lib";
+import {StandardBucket} from "../../aws-s3";
 
 export interface WebsiteProps {
 
