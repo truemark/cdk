@@ -9,7 +9,7 @@ import {
 } from "aws-cdk-lib/aws-cloudfront";
 import {S3Origin} from "aws-cdk-lib/aws-cloudfront-origins";
 import {Certificate} from "aws-cdk-lib/aws-certificatemanager";
-import {ARecord, HostedZone, RecordTarget} from "aws-cdk-lib/aws-route53";
+import {ARecord, HostedZone, IHostedZone, RecordTarget} from "aws-cdk-lib/aws-route53";
 import {CloudFrontTarget} from "aws-cdk-lib/aws-route53-targets";
 import {BucketDeployment, CacheControl, Source} from "aws-cdk-lib/aws-s3-deployment";
 import {BundlingOptions, Duration} from "aws-cdk-lib";
@@ -22,10 +22,24 @@ export enum SourceType {
   Static = "Static"
 }
 
-export interface DomainNameProps {
-  prefix: string;
-  zone: string;
-  createRecord?: boolean;
+export class DomainName {
+  readonly prefix: string;
+  readonly zone: string | IHostedZone;
+  readonly createRecord?: boolean;
+
+  constructor(prefix: string, zone: string | IHostedZone, createRecord?: boolean) {
+    this.prefix = prefix;
+    this.zone = zone;
+    this.createRecord = createRecord
+  }
+
+  toString() {
+    return (this.prefix == '' ? '' : this.prefix + '.') + this.zone;
+  }
+
+  toIdentifier() {
+    return this.toString().replace('.', '-');
+  }
 }
 
 export interface WebsiteProps {
@@ -44,7 +58,7 @@ export interface WebsiteProps {
   /**
    * The domain names to be serviced. The first domain name in the list is treated as the apex domain.
    */
-  readonly domainNames?: DomainNameProps[]
+  readonly domainNames?: DomainName[]
 
   /**
    * Redirect traffic to the first domain in the list of domainNames.
@@ -188,14 +202,12 @@ function handler(event) {
     if (props?.domainNames != undefined && props.domainNames.length > 0) {
       for (let domainName of props.domainNames) {
         if (domainName.createRecord??true) {
-          const domainNameStr = (domainName.prefix === '' ? '' : domainName.prefix + ".") + domainName.zone;
-          const domainNameId = domainNameStr.replace(/\./g, '-');
-          let zone = HostedZone.fromLookup(this, 'zone-' + domainNameId, {
+          let zone = typeof domainName.zone !== "string" ? domainName.zone : HostedZone.fromLookup(this, 'zone-' + domainName.toIdentifier(), {
             domainName: domainName.zone
           });
-          this.aRecords.push(new ARecord(this, domainNameId, {
+          this.aRecords.push(new ARecord(this, domainName.toIdentifier(), {
             zone: zone,
-            recordName: domainNameStr,
+            recordName: domainName.toString(),
             target: RecordTarget.fromAlias(new CloudFrontTarget(this.distribution))
           }));
         }
