@@ -1,5 +1,4 @@
 import {Construct} from "constructs";
-import {DomainName} from "./domain-name";
 import {IBucket} from "aws-cdk-lib/aws-s3";
 import {
   FunctionCode,
@@ -17,10 +16,16 @@ import {BundlingOptions, Duration} from "aws-cdk-lib";
 import {DockerImage} from "aws-cdk-lib";
 import {StandardBucket} from "../../aws-s3";
 
-enum SourceType {
+export enum SourceType {
   Custom = "Custom",
   Hugo = "Hugo",
   Static = "Static"
+}
+
+export interface DomainNameProps {
+  prefix: string;
+  zone: string;
+  createRecord?: boolean;
 }
 
 export interface WebsiteProps {
@@ -39,7 +44,7 @@ export interface WebsiteProps {
   /**
    * The domain names to be serviced. The first domain name in the list is treated as the apex domain.
    */
-  readonly domainNames?: DomainName[]
+  readonly domainNames?: DomainNameProps[]
 
   /**
    * Redirect traffic to the first domain in the list of domainNames.
@@ -182,14 +187,18 @@ function handler(event) {
 
     if (props?.domainNames != undefined && props.domainNames.length > 0) {
       for (let domainName of props.domainNames) {
-        let zone = HostedZone.fromLookup(this, 'zone-' + domainName.toIdentifier(), {
-          domainName: domainName.zone
-        });
-        this.aRecords.push(new ARecord(this, domainName.toIdentifier(), {
-          zone: zone,
-          recordName: domainName.toString(),
-          target: RecordTarget.fromAlias(new CloudFrontTarget(this.distribution))
-        }));
+        if (domainName.createRecord??true) {
+          const domainNameStr = (domainName.prefix === '' ? '' : domainName.prefix + ".") + domainName.zone;
+          const domainNameId = domainNameStr.replace(/\./g, '-');
+          let zone = HostedZone.fromLookup(this, 'zone-' + domainNameId, {
+            domainName: domainName.zone
+          });
+          this.aRecords.push(new ARecord(this, domainNameId, {
+            zone: zone,
+            recordName: domainNameStr,
+            target: RecordTarget.fromAlias(new CloudFrontTarget(this.distribution))
+          }));
+        }
       }
     }
 
