@@ -36,6 +36,13 @@ export interface StandardBucketProps {
    * @default BlockPublicAccess.BLOCK_ALL
    */
   readonly blockPublicAccess?: BlockPublicAccess
+
+  /**
+   * Physical name of this bucket.
+   *
+   * @default - Assigned by CloudFormation (recommended).
+   */
+  readonly bucketName?: string;
 }
 
 export class StandardBucket extends Bucket {
