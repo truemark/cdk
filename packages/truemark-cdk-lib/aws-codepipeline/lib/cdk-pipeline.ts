@@ -92,6 +92,11 @@ export interface CdkPipelineProps {
    * Additional FileSets to put in other directories
    */
   readonly additionalInputs?: Record<string, IFileSetProducer>;
+
+  /**
+   * Overrides default commands.
+   */
+  readonly commands?: string[];
 }
 
 /**
@@ -129,7 +134,7 @@ export class CdkPipeline extends Construct {
       synth: new ShellStep('Synth', {
         primaryOutputDirectory: 'cdk.out',
         input,
-        commands: [
+        commands: props.commands??[
           'npm ci',
           'npm run build',
           'npm run test',
