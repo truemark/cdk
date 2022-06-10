@@ -13,9 +13,15 @@ import {Certificate} from "aws-cdk-lib/aws-certificatemanager";
 import {ARecord, HostedZone, RecordTarget} from "aws-cdk-lib/aws-route53";
 import {CloudFrontTarget} from "aws-cdk-lib/aws-route53-targets";
 import {BucketDeployment, CacheControl, Source} from "aws-cdk-lib/aws-s3-deployment";
-import {Duration} from "aws-cdk-lib";
+import {BundlingOptions, Duration} from "aws-cdk-lib";
 import {DockerImage} from "aws-cdk-lib";
 import {StandardBucket} from "../../aws-s3";
+
+enum SourceType {
+  Custom = "Custom",
+  Hugo = "Hugo",
+  Static = "Static"
+}
 
 export interface WebsiteProps {
 
@@ -34,6 +40,13 @@ export interface WebsiteProps {
    * The domain names to be serviced. The first domain name in the list is treated as the apex domain.
    */
   readonly domainNames?: DomainName[]
+
+  /**
+   * Redirect traffic to the first domain in the list of domainNames.
+   *
+   * @default true
+   */
+  readonly redirectToApexDomain?: boolean;
 
   /**
    * Price class for the CloudFront distribution.
@@ -64,12 +77,32 @@ export interface WebsiteProps {
   readonly maxAge?: Duration;
 
   /**
+   * The source type of the website.
+   *
+   * @default SourceType.Static
+   */
+  readonly sourceType?: SourceType;
+
+  /**
    * The directory where the website sources are located.
    */
-  readonly websiteSourceDirectory: string;
+  readonly sourceDirectory: string;
+
+  /**
+   * Custom bundling options to use to bundle website sources. The sourceType
+   * must be set to SourceType.Custom.
+   */
+  readonly sourceBundlingOptions?: BundlingOptions
 }
 
 export class Website extends Construct {
+
+  static readonly HUGO_BUNDLING_OPTIONS: BundlingOptions = {
+    image: DockerImage.fromRegistry("klakegg/hugo:latest-ext"),
+    command: [
+      '-d', '/asset-output'
+    ]
+  }
 
   readonly bucket: IBucket;
   readonly originAccessIdentity: OriginAccessIdentity;
@@ -111,7 +144,7 @@ function handler(event) {
   return event.request;
 }`
         .replace(/APEX_DOMAIN/g, this.apexDomain)
-        .replace(/MATCH_APEX/g, this.apexDomain !== '' ? 'true' : 'false'))
+        .replace(/MATCH_APEX/g, this.apexDomain !== '' && (props.redirectToApexDomain??true) ? 'true' : 'false'))
     });
 
     this.distribution = new Distribution(this, 'Distribution', {
@@ -160,15 +193,32 @@ function handler(event) {
       }
     }
 
+    let bundlingOptions: BundlingOptions | undefined = undefined
+
+    if (props.sourceType === SourceType.Custom) {
+      if (!props.sourceBundlingOptions) {
+        throw new Error("sourceBundlingOptions is required if source type is Custom");
+      }
+      bundlingOptions = props.sourceBundlingOptions
+    }
+
+    if (props.sourceType === SourceType.Static) {
+      if (props.sourceBundlingOptions) {
+        throw new Error("Cannot use sourceBundlingOptions with source type Static");
+      }
+    }
+
+    if (props.sourceType === SourceType.Hugo) {
+      bundlingOptions = Website.HUGO_BUNDLING_OPTIONS
+      if (props.sourceBundlingOptions) {
+        throw new Error("Cannot use sourceBundlingOptions with source type Hugo");
+      }
+    }
+
     this.deployment = new BucketDeployment(this, 'Assets', {
       sources: [
-        Source.asset(props.websiteSourceDirectory, {
-          bundling: {
-            image: DockerImage.fromRegistry('klakegg/hugo:latest-ext'),
-            command: [
-              '-d', '/asset-output'
-            ]
-          }
+        Source.asset(props.sourceDirectory, {
+          bundling: bundlingOptions
         })
       ],
       destinationBucket: this.bucket,

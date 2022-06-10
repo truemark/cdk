@@ -7,7 +7,7 @@ test("Create Website Test", () => {
   const app = new cdk.App();
   const stack = new cdk.Stack(app, "TestStack");
   new Website(stack, 'TestWebsite', {
-    websiteSourceDirectory: path.join(__dirname, "example-website")
+    sourceDirectory: path.join(__dirname, "hugo-website")
   });
   const template = Template.fromStack(stack);
   template.hasResourceProperties("AWS::CloudFront::Distribution", {});
