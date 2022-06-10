@@ -14,6 +14,7 @@ import {
 import {ComputeType, IBuildImage, LinuxBuildImage} from "aws-cdk-lib/aws-codebuild";
 import {PipelineNotificationRule} from "./pipeline-notification-rule";
 import {Stack, Stage} from "aws-cdk-lib";
+import {IFileSetProducer} from "aws-cdk-lib/pipelines";
 
 /**
  * Properties for CdkPipeline
@@ -86,6 +87,11 @@ export interface CdkPipelineProps {
    * @see https://docs.aws.amazon.com/dtconsole/latest/userguide/concepts.html#events-ref-pipeline
    */
   readonly notificationEvents?: string[];
+
+  /**
+   * Additional FileSets to put in other directories
+   */
+  readonly additionalInputs?: Record<string, IFileSetProducer>;
 }
 
 /**
@@ -129,7 +135,7 @@ export class CdkPipeline extends Construct {
           'npm run test',
           `npx cdk synth ${stackName}`
         ],
-        additionalInputs: {}
+        additionalInputs: props.additionalInputs??{}
       }),
       synthCodeBuildDefaults: {
         buildEnvironment: {
