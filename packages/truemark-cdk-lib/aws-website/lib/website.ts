@@ -7,7 +7,7 @@ import {
   Distribution,
   ViewerProtocolPolicy, FunctionEventType, HttpVersion, SecurityPolicyProtocol, PriceClass
 } from "aws-cdk-lib/aws-cloudfront";
-import {S3Origin} from "aws-cdk-lib/aws-cloudfront-origins";
+import {OriginGroup, S3Origin} from "aws-cdk-lib/aws-cloudfront-origins";
 import {Certificate} from "aws-cdk-lib/aws-certificatemanager";
 import {ARecord, HostedZone, IHostedZone, RecordTarget} from "aws-cdk-lib/aws-route53";
 import {CloudFrontTarget} from "aws-cdk-lib/aws-route53-targets";
@@ -48,6 +48,11 @@ export interface WebsiteProps {
    * Bucket to use to store website content. If one is not provided, one will be generated.
    */
   readonly bucket?: IBucket;
+
+  /**
+   * Bucket to use if the primary bucket fails. If one is not provided a fallback is not setup.
+   */
+  readonly fallbackBucket?: IBucket;
 
   /**
    * The ARN to the ACM Certificate to use on the CloudFront distribution. If one is not
@@ -124,6 +129,7 @@ export class Website extends Construct {
   }
 
   readonly bucket: IBucket;
+  readonly fallbackBucket?: IBucket;
   readonly originAccessIdentity: OriginAccessIdentity;
   readonly apexDomain: string;
   readonly viewerRequestFunction: Function;
@@ -131,14 +137,19 @@ export class Website extends Construct {
   readonly distributionUrl: string;
   readonly aRecords: ARecord[];
   readonly deployment: BucketDeployment;
+  readonly fallbackDeployment?: BucketDeployment;
 
   constructor(scope: Construct, id: string, props: WebsiteProps) {
     super(scope, id);
 
     this.bucket = props.bucket??new StandardBucket(this, 'Bucket');
+    this.fallbackBucket = props.fallbackBucket;
 
     this.originAccessIdentity = new OriginAccessIdentity(this, 'Access');
     this.bucket.grantRead(this.originAccessIdentity);
+    if (this.fallbackBucket) {
+      this.fallbackBucket.grantRead(this.originAccessIdentity);
+    }
 
     this.apexDomain = props?.domainNames?.[0].toString() || '';
 
@@ -166,11 +177,22 @@ function handler(event) {
         .replace(/MATCH_APEX/g, this.apexDomain !== '' && (props.redirectToApexDomain??true) ? 'true' : 'false'))
     });
 
+    const bucketOrigin = new S3Origin(this.bucket, {
+      originAccessIdentity: this.originAccessIdentity
+    });
+
+    const fallbackBucketOrigin = this.fallbackBucket === undefined ? undefined : new S3Origin(this.fallbackBucket, {
+      originAccessIdentity: this.originAccessIdentity
+    });
+
+    const defaultOrigin = fallbackBucketOrigin === undefined ? bucketOrigin : new OriginGroup({
+      primaryOrigin: bucketOrigin,
+      fallbackOrigin: fallbackBucketOrigin
+    });
+
     this.distribution = new Distribution(this, 'Distribution', {
       defaultBehavior: {
-        origin: new S3Origin(this.bucket, {
-          originAccessIdentity: this.originAccessIdentity
-        }),
+        origin: defaultOrigin,
         viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
         functionAssociations: [
           {
@@ -236,16 +258,25 @@ function handler(event) {
       }
     }
 
-    this.deployment = new BucketDeployment(this, 'Assets', {
-      sources: [
-        Source.asset(props.sourceDirectory, {
-          bundling: bundlingOptions
-        })
-      ],
+    const source = Source.asset(props.sourceDirectory, {
+      bundling: bundlingOptions
+    });
+
+    this.deployment = new BucketDeployment(this, "Assets", {
+      sources: [source],
       destinationBucket: this.bucket,
       distribution: this.distribution,
       cacheControl: [CacheControl.maxAge(props.maxAge??Duration.minutes(60))],
       prune: false
     });
+
+    if (this.fallbackBucket) {
+      this.fallbackDeployment = new BucketDeployment(this, "FallbackAssets", {
+        sources: [source],
+        destinationBucket: this.fallbackBucket,
+        cacheControl: [CacheControl.maxAge(props.maxAge??Duration.minutes(60))],
+        prune: false
+      })
+    }
   }
 }
