@@ -134,14 +134,14 @@ export class Website extends Construct {
 
   /**
    * The default bundling options for SourceType.NpmDist. It's expected that "npm run dist" command
-   * will place files in ${CDK_BUNDLING_OUTPUT_DIR}. Example: "ng build --outputPath=${CDK_BUNDLING_OUTPUT_DIR}"
+   * will place files in ${CDK_BUNDLING_OUTPUT_DIR}. Example: "ng build --output-path=/asset-output"
    */
   static readonly NPM_DIST_BUNDLING_OPTIONS: BundlingOptions = {
     image: DockerImage.fromRegistry("node:16-alpine"),
     command: [
       // TODO Figure out how to cache .npmcache
       'sh', '-c', [
-        'mkdir .npmcache',
+        'mkdir -p .npmcache',
         'npm ci --cache .npmcache --prefer-offline',
         'npm run dist'
       ].join(' && ')
@@ -275,6 +275,11 @@ function handler(event) {
       bundlingOptions = Website.HUGO_BUNDLING_OPTIONS
       if (props.sourceBundlingOptions) {
         throw new Error("Cannot use sourceBundlingOptions with source type Hugo");
+      }
+    } else if (props.sourceType === SourceType.NpmDist) {
+      bundlingOptions = Website.NPM_DIST_BUNDLING_OPTIONS
+      if (props.sourceBundlingOptions) {
+        throw new Error("Cannot use sourceBundlingOptions with source type NpmDist");
       }
     }
 

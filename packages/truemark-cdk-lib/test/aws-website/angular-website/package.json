@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "dist": "ng build --outputPath=${CDK_BUNDLING_OUTPUT_DIR}"
+    "dist": "ng build --output-path=/asset-output"
   },
   "private": true,
   "dependencies": {
