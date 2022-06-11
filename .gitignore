@@ -1,5 +1,6 @@
 notes.txt
 .hugo_build.lock
+.npmcache
 
 # VSCode extension
 
