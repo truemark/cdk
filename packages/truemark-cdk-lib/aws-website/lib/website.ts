@@ -19,6 +19,7 @@ import {StandardBucket} from "../../aws-s3";
 export enum SourceType {
   Custom = "Custom",
   Hugo = "Hugo",
+  NpmDist = "NpmDist",
   Static = "Static"
 }
 
@@ -121,10 +122,29 @@ export interface WebsiteProps {
 
 export class Website extends Construct {
 
+  /**
+   * The default bundling options for SourceType.Hugo.
+   */
   static readonly HUGO_BUNDLING_OPTIONS: BundlingOptions = {
     image: DockerImage.fromRegistry("klakegg/hugo:latest-ext"),
     command: [
       '-d', '/asset-output'
+    ]
+  }
+
+  /**
+   * The default bundling options for SourceType.NpmDist. It's expected that "npm run dist" command
+   * will place files in ${CDK_BUNDLING_OUTPUT_DIR}. Example: "ng build --outputPath=${CDK_BUNDLING_OUTPUT_DIR}"
+   */
+  static readonly NPM_DIST_BUNDLING_OPTIONS: BundlingOptions = {
+    image: DockerImage.fromRegistry("node:16-alpine"),
+    command: [
+      // TODO Figure out how to cache .npmcache
+      'sh', '-c', [
+        'mkdir .npmcache',
+        'npm ci --cache .npmcache --prefer-offline',
+        'npm run dist'
+      ].join(' && ')
     ]
   }
 

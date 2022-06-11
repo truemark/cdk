@@ -1,14 +1,27 @@
 import * as cdk from "aws-cdk-lib";
-import {Website} from "../../aws-website";
+import {SourceType, Website} from "../../aws-website";
 import * as path from "path";
 import {Template} from "aws-cdk-lib/assertions";
 
-test("Create Website Test", () => {
+test("Hugo Website Test", () => {
   const app = new cdk.App();
   const stack = new cdk.Stack(app, "TestStack");
   new Website(stack, 'TestWebsite', {
+    sourceType: SourceType.Hugo,
     sourceDirectory: path.join(__dirname, "hugo-website")
   });
   const template = Template.fromStack(stack);
   template.hasResourceProperties("AWS::CloudFront::Distribution", {});
 });
+
+test("Npm Dist Website Test", () => {
+  const app = new cdk.App();
+  const stack = new cdk.Stack(app, "TestStack");
+  new Website(stack, "TestWebsite", {
+    sourceType: SourceType.NpmDist,
+    sourceDirectory: path.join(__dirname, "angular-website")
+  });
+  const template = Template.fromStack(stack);
+  template.hasResourceProperties("AWS::CloudFront::Distribution", {});
+});
+
