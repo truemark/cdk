@@ -6,7 +6,7 @@ import {Effect, PolicyStatement} from "aws-cdk-lib/aws-iam";
  * Properties for ParameterReader
  */
 export interface ParameterReaderProps {
-  readonly name: string;
+  readonly parameterName: string;
   readonly region: string;
 }
 
@@ -20,7 +20,7 @@ export class ParameterReader extends AwsCustomResource {
       service: "SSM",
       action: "getParameter",
       parameters: {
-        Name: props.name
+        Name: props.parameterName
       },
       region: props.region,
       physicalResourceId: { id: Date.now().toString()}
@@ -38,7 +38,7 @@ export class ParameterReader extends AwsCustomResource {
     });
   }
 
-  getParameterValue(): string {
+  getStringValue(): string {
     return this.getResponseField("Parameter.Value").toString();
   }
 }
