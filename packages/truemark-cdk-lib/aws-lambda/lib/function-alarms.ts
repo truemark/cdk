@@ -166,14 +166,14 @@ export interface FunctionAlarmsOptions {
    *
    * If no properties are provided, a set of default alarms are created.
    */
-  readonly criticalAlarmOptions?: FunctionAlarmsCategoryOptions
+  readonly criticalAlarmOptions?: FunctionAlarmsCategoryOptions;
 
   /**
    * Alarm threshold for warning alarms.
    *
    * If no properties are provided, a set of default alarms are created.
    */
-  readonly warningAlarmOptions?: FunctionAlarmsCategoryOptions
+  readonly warningAlarmOptions?: FunctionAlarmsCategoryOptions;
 
   /**
    * Main entry point for monitoring.
