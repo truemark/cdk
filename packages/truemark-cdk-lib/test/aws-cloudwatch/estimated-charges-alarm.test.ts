@@ -8,7 +8,6 @@ test("Create EstimatedChargesAlarm", () => {
     maxMonthly: 10
   });
   const template = Template.fromStack(stack);
-  TestHelper.logResources(template, ResourceType.CLOUDWATCH_ALARM);
   template.resourceCountIs(ResourceType.CLOUDWATCH_ALARM, 1);
   template.hasResourceProperties(ResourceType.CLOUDWATCH_ALARM, {
     ComparisonOperator: "GreaterThanThreshold",
