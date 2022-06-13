@@ -23,7 +23,7 @@ export class ParameterReader extends AwsCustomResource {
         Name: props.parameterName
       },
       region: props.region,
-      physicalResourceId: { id: Date.now().toString()}
+      physicalResourceId: { id: Date.now().toString() }
     };
 
     super(scope, id, {
