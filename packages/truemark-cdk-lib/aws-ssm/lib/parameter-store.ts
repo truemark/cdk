@@ -6,7 +6,7 @@ import {ParameterReader} from "./parameter-reader";
 /**
  * Properties for ParameterStore
  */
-export interface ParameterStoreProps {
+export interface ParameterStoreOptions {
   readonly prefix?: string;
   readonly suffix?: string;
   readonly region?: string;
@@ -42,7 +42,7 @@ export class ParameterStore extends Construct {
    */
   readonly identifierSuffix: string;
 
-  constructor(scope: Construct, id: string, props?: ParameterStoreProps) {
+  constructor(scope: Construct, id: string, props?: ParameterStoreOptions) {
     super(scope, id);
     this.prefix = props?.prefix??"";
     this.identifierPrefix = this.prefix.replace(/\//, "-") + (this.prefix === "" ? "" : "-");
@@ -53,22 +53,6 @@ export class ParameterStore extends Construct {
 
   regionMatch(): boolean {
     return this.region === Stack.of(this).region;
-  }
-
-  /**
-   * Creates a new SSM parameter in the local region.
-   *
-   * @param name the name of the parameter
-   * @param value the value to store
-   */
-  write(name: string, value: string): StringParameter {
-    if (!this.regionMatch()) {
-      throw new Error("Cannot write to a different region");
-    }
-    return new StringParameter(this, this.identifierPrefix + name + this.identifierSuffix, {
-      parameterName: this.prefix + name + this.suffix,
-      stringValue: value
-    });
   }
 
   protected readLocal(name: string): string {
@@ -91,5 +75,21 @@ export class ParameterStore extends Construct {
    */
   read(name: string): string {
     return this.regionMatch() ? this.readLocal(name) : this.readRemote(name);
+  }
+
+  /**
+   * Creates a new SSM parameter in the local region.
+   *
+   * @param name the name of the parameter
+   * @param value the value to store
+   */
+  write(name: string, value: string): StringParameter {
+    if (!this.regionMatch()) {
+      throw new Error("Cannot write to a different region");
+    }
+    return new StringParameter(this, this.identifierPrefix + name + this.identifierSuffix, {
+      parameterName: this.prefix + name + this.suffix,
+      stringValue: value
+    });
   }
 }
