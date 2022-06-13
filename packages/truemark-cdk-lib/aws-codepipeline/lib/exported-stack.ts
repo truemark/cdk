@@ -21,16 +21,16 @@ export interface ExportedStackProps extends ExportedStackOptions, StackProps {}
 export class ExportedStack extends Stack {
 
   protected readonly parameterExports: ParameterStore;
-  readonly parameterExportsOptions: ParameterStoreOptions;
+  readonly parameterExportOptions: ParameterStoreOptions;
 
   constructor(scope: Construct, id: string, props?: ExportedStackProps) {
     super(scope, id, props);
     const stageName = Stage.of(this)?.stageName
-    this.parameterExportsOptions = {
+    this.parameterExportOptions = {
       prefix: props?.parameterExportsPrefix??(stageName === undefined ? "" : `/${stageName}`) + `/${id}/Exports/`,
       region: this.region
     }
-    this.parameterExports = new ParameterStore(this, "ParameterExports", this.parameterExportsOptions);
+    this.parameterExports = new ParameterStore(this, "ParameterExports", this.parameterExportOptions);
   }
 
   /**
@@ -38,6 +38,7 @@ export class ExportedStack extends Stack {
    *
    * @param name the parameter name
    * @param value the parameter value
+   * @param includeOutput true to include as a CfnOutput instance
    */
   exportParameter(name: string, value: string, includeOutput?: boolean): StringParameter {
     if (includeOutput) {
