@@ -28,14 +28,26 @@ export class ParameterStore extends Construct {
   readonly prefix: string;
 
   /**
+   * The prefix used on identifiers.
+   */
+  readonly identifierPrefix: string;
+
+  /**
    * The suffix on parameters read and written by this store.
    */
   readonly suffix: string;
 
+  /**
+   * The suffix used on identifiers.
+   */
+  readonly identifierSuffix: string;
+
   constructor(scope: Construct, id: string, props?: ParameterStoreProps) {
     super(scope, id);
     this.prefix = props?.prefix??"";
+    this.identifierPrefix = this.prefix.replace(/\//, "-") + (this.prefix === "" ? "" : "-");
     this.suffix = props?.suffix??"";
+    this.identifierSuffix = (this.suffix === ""? "" : "-") + this.suffix.replace(/\//, "-");
     this.region = props?.region??Stack.of(this).region;
   }
 
@@ -53,20 +65,20 @@ export class ParameterStore extends Construct {
     if (!this.regionMatch()) {
       throw new Error("Cannot write to a different region");
     }
-    return new StringParameter(this, name, {
+    return new StringParameter(this, this.identifierPrefix + name + this.identifierSuffix, {
       parameterName: this.prefix + name + this.suffix,
       stringValue: value
     });
   }
 
   protected readLocal(name: string): string {
-    return StringParameter.fromStringParameterAttributes(this, name, {
+    return StringParameter.fromStringParameterAttributes(this, this.identifierPrefix + name + this.identifierSuffix, {
       parameterName: this.prefix + name + this.suffix
     }).stringValue;
   }
 
   protected readRemote(name: string): string {
-    return new ParameterReader(this, name, {
+    return new ParameterReader(this, this.identifierPrefix + name + this.identifierSuffix, {
       parameterName: this.prefix + name + this.suffix,
       region: this.region
     }).getStringValue();

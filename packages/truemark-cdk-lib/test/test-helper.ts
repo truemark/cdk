@@ -8,6 +8,7 @@ export enum ResourceType {
   LAMBDA_FUNCTION = "AWS::Lambda::Function",
   CLOUDWATCH_ALARM = "AWS::CloudWatch::Alarm",
   DYNAMODB_TABLE = "AWS::DynamoDB::Table",
+  SSM_PARAMETER = "AWS::SSM::Parameter"
 }
 
 export class TestHelper {
@@ -19,11 +20,5 @@ export class TestHelper {
   static logResources(template: Template, type: string | ResourceType, props?: any) {
     console.log(template.findResources(type, props));
   }
-
-  // static testAlarm(stack: Stack, id?: string): IAlarm {
-  //   return new EstimatedChargesAlarm(stack, id??"TestAlarm", {
-  //     maxMonthly: 10
-  //   });
-  // }
 
 }
