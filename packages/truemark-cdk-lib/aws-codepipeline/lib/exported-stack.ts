@@ -1,4 +1,4 @@
-import {Stack, StackProps, Stage} from "aws-cdk-lib";
+import {CfnOutput, Stack, StackProps, Stage} from "aws-cdk-lib";
 import {Construct} from "constructs";
 import {ParameterStore, ParameterStoreOptions} from "../../aws-ssm";
 import {StringParameter} from "aws-cdk-lib/aws-ssm";
@@ -39,7 +39,22 @@ export class ExportedStack extends Stack {
    * @param name the parameter name
    * @param value the parameter value
    */
-  exportParameter(name: string, value: string): StringParameter {
+  exportParameter(name: string, value: string, includeOutput?: boolean): StringParameter {
+    if (includeOutput) {
+      this.outputParameter(name, value);
+    }
     return this.parameterExports.write(name, value);
+  }
+
+  /**
+   * Outputs a parameter as a CfnOutput.
+   *
+   * @param name the parameter name
+   * @param value the parameter value
+   */
+  outputParameter(name: string, value: string): CfnOutput {
+    return new CfnOutput(this, name, {
+      value
+    });
   }
 }
