@@ -2,7 +2,7 @@ import * as nodejs from "aws-cdk-lib/aws-lambda-nodejs"
 import {Construct} from "constructs";
 import {FunctionAlarms, FunctionAlarmsOptions} from "./function-alarms";
 import {FunctionDeployment} from "./function-deployment";
-import {DeployedFunctionOptions} from "./deployed-function";
+import {DeployedFunctionOptions} from "./function";
 
 /**
  * Properties for NodejsFunction

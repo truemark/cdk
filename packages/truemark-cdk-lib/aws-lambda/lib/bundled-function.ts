@@ -3,8 +3,8 @@ import {DockerImage, ILocalBundling} from "aws-cdk-lib/core/lib/bundling";
 import {BundlingOptions, BundlingOutput} from "aws-cdk-lib";
 import {ShellHelper} from "../../helpers";
 import {Code, FunctionOptions, Runtime} from "aws-cdk-lib/aws-lambda";
-import {DeployedFunction, DeployedFunctionOptions} from "./deployed-function";
 import {FunctionAlarmsOptions} from "./function-alarms";
+import {DeployedFunctionOptions, Function} from "./function";
 
 /**
  * Options for BundledFunction.
@@ -84,7 +84,7 @@ export interface BundledFunctionProps extends FunctionOptions, FunctionAlarmsOpt
   readonly handler: string;
 }
 
-export class BundledFunction extends DeployedFunction {
+export class BundledFunction extends Function {
 
   constructor(scope: Construct, id: string, props: BundledFunctionProps) {
 

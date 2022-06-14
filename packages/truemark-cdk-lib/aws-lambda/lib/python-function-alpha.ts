@@ -1,6 +1,6 @@
 import * as python from "@aws-cdk/aws-lambda-python-alpha";
 import {FunctionAlarms, FunctionAlarmsOptions} from "./function-alarms";
-import {DeployedFunctionOptions} from "./deployed-function";
+import {DeployedFunctionOptions} from "./function";
 import {FunctionDeployment} from "./function-deployment";
 import {Construct} from "constructs";
 

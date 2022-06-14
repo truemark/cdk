@@ -4,7 +4,7 @@ import {Duration} from "aws-cdk-lib";
 import {RetentionDays} from "aws-cdk-lib/aws-logs";
 import {ShellHelper} from "../../helpers";
 import {BundledFunction, BundledFunctionOptions} from "./bundled-function";
-import {DeployedFunctionOptions} from "./deployed-function";
+import {DeployedFunctionOptions} from "./function";
 import {FunctionAlarmsOptions} from "./function-alarms";
 import * as path from 'path';
 import * as fs from 'fs';

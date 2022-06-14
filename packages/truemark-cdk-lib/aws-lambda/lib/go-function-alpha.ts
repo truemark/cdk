@@ -2,7 +2,7 @@ import * as go from "@aws-cdk/aws-lambda-go-alpha";
 import {FunctionAlarms, FunctionAlarmsOptions} from "./function-alarms";
 import {FunctionDeployment} from "./function-deployment";
 import {Construct} from "constructs";
-import {DeployedFunctionOptions} from "./deployed-function";
+import {DeployedFunctionOptions} from "./function";
 
 /**
  * Properties for GoFunctionAlpha
@@ -12,7 +12,7 @@ export interface GoFunctionAlphaProps extends go.GoFunctionProps, FunctionAlarms
 }
 
 /**
- * Extended version of the alpha GoFunction that supports alarms and deployments.
+ * Extended version of the alpha GonFunction that supports alarms and deployments.
  */
 export class GoFunctionAlpha extends go.GoFunction {
 

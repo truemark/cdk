@@ -1,8 +1,39 @@
 import {FunctionAlarms, FunctionAlarmsOptions} from "./function-alarms";
-import {DeployedFunctionOptions} from "./deployed-function";
 import * as lambda from "aws-cdk-lib/aws-lambda";
 import {Construct} from "constructs";
-import {FunctionDeployment} from "./function-deployment";
+import {FunctionDeployment, FunctionDeploymentOptions} from "./function-deployment";
+
+export interface DeployedFunctionDeploymentOptions extends FunctionDeploymentOptions {
+  /**
+   * Include Warning CloudWatch alarms.
+   *
+   * @default false
+   */
+  readonly includeWarningAlarms?: boolean;
+
+  /**
+   * Include Critical CloudWatch alarms.
+   *
+   * @default true
+   */
+  readonly includeCriticalAlarms?: boolean;
+
+  /**
+   * Setting this to false will prevent the creation of the function alias and
+   * deployment group for the function.
+   *
+   * @default true
+   */
+  readonly createDeployment?: boolean;
+}
+
+export interface DeployedFunctionOptions {
+
+  /**
+   * The deployment configuration settings to use. If none are provided a default set is used.
+   */
+  readonly deploymentOptions?: DeployedFunctionDeploymentOptions;
+}
 
 /**
  * Properties for Function
