@@ -26,6 +26,7 @@
   "exclude": [
     "node_modules",
     "cdk.out",
-    "test/aws-website/angular-website"
+    "test/aws-website/angular-website",
+    "test/aws-lambda/typescript-lambda"
   ]
 }
