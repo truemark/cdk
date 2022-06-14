@@ -130,14 +130,14 @@ export abstract class AlarmsBase<C extends AlarmsCategoryOptions, P extends Alar
   }
 
   getAlarms(category: AlarmCategory): Alarm[] {
-    return this.monitoringFacade.createdAlarmsWithDisambiguator(category).map((awa) => awa.alarm);
+    return [...this.monitoringFacade.createdAlarmsWithDisambiguator(category).map((awa) => awa.alarm).values()];
   }
 
-  getCriticalAlarms() {
+  getCriticalAlarms(): Alarm[] {
     return this.getAlarms(AlarmCategory.Critical);
   }
 
-  getWarningAlarms() {
+  getWarningAlarms(): Alarm[] {
     return this.getAlarms(AlarmCategory.Warning);
   }
 }

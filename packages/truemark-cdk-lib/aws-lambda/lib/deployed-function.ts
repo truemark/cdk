@@ -57,10 +57,10 @@ export class DeployedFunction extends ObservedFunction {
       });
 
       if (props.deploymentOptions?.includeCriticalAlarms === undefined || props.deploymentOptions.includeCriticalAlarms) {
-        this.deployment.addAlarms(...this.functionAlarms.criticalAlarms);
+        this.deployment.addAlarms(...this.functionAlarms.getCriticalAlarms());
       }
       if (props.deploymentOptions?.includeWarningAlarms) {
-        this.deployment.addAlarms(...this.functionAlarms.warningAlarms);
+        this.deployment.addAlarms(...this.functionAlarms.getWarningAlarms());
       }
     }
   }

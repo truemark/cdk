@@ -1,24 +1,26 @@
-import {Duration, Stack} from "aws-cdk-lib";
-import {ITopic} from "aws-cdk-lib/aws-sns";
-import {Alarm, IAlarmAction} from "aws-cdk-lib/aws-cloudwatch";
+import {Duration} from "aws-cdk-lib";
 import {
-  CustomAlarmThreshold, DurationThreshold,
-  ErrorCountThreshold, ErrorRateThreshold, HighTpsThreshold,
-  IDashboardFactory,
-  LatencyThreshold, LowTpsThreshold, MaxAgeThreshold,
-  MonitoringFacade, RunningTaskCountThreshold, UsageThreshold
+  DurationThreshold,
+  ErrorCountThreshold,
+  ErrorRateThreshold,
+  HighTpsThreshold,
+  LatencyThreshold,
+  LowTpsThreshold,
+  MaxAgeThreshold,
+  RunningTaskCountThreshold,
+  UsageThreshold
 } from "cdk-monitoring-constructs";
-import {SnsAction} from "aws-cdk-lib/aws-cloudwatch-actions";
-import {StandardAlarmActionsStrategy} from "../../aws-monitoring";
+import {AlarmCategory, AlarmsBase, AlarmsCategoryOptions, AlarmsOptions} from "../../aws-monitoring";
 import {IFunction} from "aws-cdk-lib/aws-lambda";
 import {ILogGroup} from "aws-cdk-lib/aws-logs";
 import {Construct} from "constructs";
 import {LogMetricAlarm} from "../../aws-cloudwatch";
+import {Alarm} from "aws-cdk-lib/aws-cloudwatch";
 
 /**
  * Category options for CloudWatch alarms for Lambda Functions.
  */
-export interface FunctionAlarmsCategoryOptions {
+export interface FunctionAlarmsCategoryOptions extends AlarmsCategoryOptions {
 
   /**
    * Maximum 50th percentile latency
@@ -144,50 +146,12 @@ export interface FunctionAlarmsCategoryOptions {
    * @default '"[ERROR]"'
    */
   readonly dashboardLogPattern?: string
-
-  /**
-   * Topics to send alarm notifications
-   */
-  readonly notifyTopics?: ITopic[];
-
-  /**
-   * Actions to send alarm notifications
-   */
-  readonly notifyActions?: IAlarmAction[];
 }
 
 /**
  * Options for CloudWatch alarms for Lambda Functions
  */
-export interface FunctionAlarmsOptions {
-
-  /**
-   * Alarm thresholds for critical alarms.
-   *
-   * If no properties are provided, a set of default alarms are created.
-   */
-  readonly criticalAlarmOptions?: FunctionAlarmsCategoryOptions;
-
-  /**
-   * Alarm threshold for warning alarms.
-   *
-   * If no properties are provided, a set of default alarms are created.
-   */
-  readonly warningAlarmOptions?: FunctionAlarmsCategoryOptions;
-
-  /**
-   * Main entry point for monitoring.
-   *
-   * If no value is provided, a default facade will be created.
-   */
-  readonly monitoringFacade?: MonitoringFacade
-
-  /**
-   * The DashboardFactory to use when generating CloudWatch dashboards.
-   *
-   * If not defined, dashboards are not generated.
-   */
-  readonly dashboardFactory?: IDashboardFactory;
+export interface FunctionAlarmsOptions extends AlarmsOptions<FunctionAlarmsCategoryOptions> {
 
   /**
    * Generate dashboard charts for Lambda insights metrics.
@@ -195,110 +159,6 @@ export interface FunctionAlarmsOptions {
    * @default true
    */
   readonly lambdaInsightsEnabled?: boolean;
-
-  /**
-   * Add widgets to alarm dashboard.
-   *
-   * @default true
-   */
-  readonly addToAlarmDashboard?: boolean;
-
-  /**
-   * Add widgets to detailed dashboard.
-   *
-   * @default true
-   */
-  readonly addToDetailDashboard?: boolean;
-
-  /**
-   * Add widgets to summary dashboard.
-   *
-   * @default true
-   */
-  readonly addToSummaryDashboard?: boolean;
-
-  /**
-   * Prefix for generated alarms.
-   *
-   * @default Stack.of(this).stackName
-   */
-  readonly alarmNamePrefix?: string;
-}
-
-/**
- * Helper function to get the correct critical or warning options from FunctionAlarmsOptions dynamically.
- *
- * @param props the properties holding the values
- * @param category the alarm category
- */
-function getFunctionAlarmsCategoryOptions(props: FunctionAlarmsOptions, category: FunctionAlarmCategory): FunctionAlarmsCategoryOptions | undefined {
-  const fprop: keyof FunctionAlarmsOptions = category === 'Critical' ? 'criticalAlarmOptions' : 'warningAlarmOptions';
-  return props[fprop];
-}
-
-/**
- * Helper function to combine an array if IAlarmAction and ITopic objects into a single IAlarmAction array.
- *
- * @param actions the actions
- * @param topics the topics
- */
-function combineActions(actions?: IAlarmAction[], topics?: ITopic[]): IAlarmAction[] {
-  const combined: IAlarmAction[] = []
-  actions?.forEach((action) => combined.push(action));
-  topics?.forEach((topic) => combined.push(new SnsAction(topic)));
-  return combined;
-}
-
-/**
- * Used to disambiguate warning and critical alarms.
- */
-export enum FunctionAlarmCategory {
-  Critical = 'Critical',
-  Warning = 'Warning'
-}
-
-/**
- * Properties for FunctionAlarmFacade.
- */
-interface FunctionAlarmFacadeProps {
-  prop: string;
-  threshold?: number | Duration;
-  defaultThreshold?: number | Duration;
-  topics?: ITopic[];
-  actions?: IAlarmAction[];
-}
-
-/**
- * Internal class to assist in generating CustomAlarmThreshold instances.
- */
-class FunctionAlarmFacade {
-
-  readonly actions: IAlarmAction[];
-
-  private props: FunctionAlarmFacadeProps;
-
-  constructor(props: FunctionAlarmFacadeProps) {
-    this.props = props
-    this.actions = combineActions(props.actions, props.topics);
-  }
-
-  toCustomAlarmThreshold(): CustomAlarmThreshold | undefined {
-    if (this.props.threshold !== undefined || this.props.defaultThreshold !== undefined) {
-      return {
-        [this.props.prop]: this.props.threshold??this.props.defaultThreshold,
-        actionsEnabled: true,
-        actionOverride: new StandardAlarmActionsStrategy({actions: this.actions}),
-      };
-    }
-    return undefined;
-  }
-
-  addCustomAlarmThreshold(category: FunctionAlarmCategory, record: Record<string, CustomAlarmThreshold>) {
-    const c = this.toCustomAlarmThreshold();
-    if (c !== undefined) {
-      record[category] = c;
-    }
-  }
 }
 
 /**
@@ -320,7 +180,7 @@ export interface FunctionAlarmsProps extends FunctionAlarmsOptions {
 /**
  * Creates CloudWatch alarms for a Lambda Function.
  */
-export class FunctionAlarms extends Construct {
+export class FunctionAlarms extends AlarmsBase<FunctionAlarmsCategoryOptions, FunctionAlarmsProps> {
 
   /**
    * Default pattern used for the critical log metric.
@@ -337,78 +197,61 @@ export class FunctionAlarms extends Construct {
    */
   static readonly DEFAULT_LOG_INSIGHTS_PATTERN = '\\\[ERROR\\\]|\\\[WARNING\\\]';
 
-  /**
-   * The MonitoringFacade instance either passed in or generated.
-   */
-  readonly monitoringFacade: MonitoringFacade;
-
-  /**
-   * Generated critical alarms.
-   */
-  readonly criticalAlarms: Alarm[];
-
-  /**
-   * Generated warning alarms.
-   */
-  readonly warningAlarms: Alarm[];
-
-  private readonly props: FunctionAlarmsProps;
-
-  private addRecordValue(record: Record<string, CustomAlarmThreshold>,
-                         category: FunctionAlarmCategory,
-                         sprop: keyof FunctionAlarmsCategoryOptions,
-                         tprop: string,
-                         defaultThreshold?: number|Duration) {
-    const fprops = getFunctionAlarmsCategoryOptions(this.props, category);
-    new FunctionAlarmFacade({
-      prop: tprop,
-      threshold: fprops?.[sprop] as number | Duration,
-      defaultThreshold,
-      topics: fprops?.notifyTopics,
-      actions: fprops?.notifyActions
-    }).addCustomAlarmThreshold(category, record);
-  }
-
-  private toRecord(sprop: keyof FunctionAlarmsCategoryOptions, tprop: string, defaultThreshold?: number|Duration): Record<string, CustomAlarmThreshold> | undefined {
-    const record: Record<string, CustomAlarmThreshold> = {};
-    this.addRecordValue(record, FunctionAlarmCategory.Critical, sprop, tprop, defaultThreshold);
-    this.addRecordValue(record, FunctionAlarmCategory.Warning, sprop, tprop, defaultThreshold);
-    return Object.keys(record).length > 0 ? record : undefined;
-  }
-
-  private addAlarm(category: FunctionAlarmCategory, ...alarm: Alarm[]) {
-    const arr = category === FunctionAlarmCategory.Critical ? this.criticalAlarms : this.warningAlarms;
-    arr.push(...alarm);
-  }
-
   private addFunctionMonitoring() {
     this.monitoringFacade.monitorLambdaFunction({
       lambdaFunction: this.props.function,
-      addToAlarmDashboard: this.props.addToAlarmDashboard ?? true,
-      addToDetailDashboard: this.props.addToDetailDashboard ?? true,
-      addToSummaryDashboard: this.props.addToSummaryDashboard ?? true,
-      addLatencyP50Alarm: this.toRecord('p50Latency', 'maxLatency') as Record<string, LatencyThreshold>,
-      addLatencyP90Alarm: this.toRecord('p90Latency', 'maxLatency') as Record<string, LatencyThreshold>,
-      addLatencyP99Alarm: this.toRecord('p99Latency', 'maxLatency') as Record<string, LatencyThreshold>,
-      addFaultCountAlarm: this.toRecord('maxFaults', 'maxErrorCount', 0) as Record<string, ErrorCountThreshold>,
-      addFaultRateAlarm: this.toRecord('avgFaults', 'maxErrorRate') as Record<string, ErrorRateThreshold>,
-      addLowTpsAlarm: this.toRecord('minTps', 'minTps') as Record<string, LowTpsThreshold>,
-      addHighTpsAlarm: this.toRecord('maxTps', 'maxTps') as Record<string, HighTpsThreshold>,
-      addThrottlesCountAlarm: this.toRecord('maxThrottles', 'maxErrorCount', 0) as Record<string, ErrorCountThreshold>,
-      addThrottlesRateAlarm: this.toRecord('avgThrottles', 'maxErrorRate') as Record<string, ErrorRateThreshold>,
-      addConcurrentExecutionsCountAlarm: this.toRecord('maxConcurrentExecutions', 'maxRunningTasks') as Record<string, RunningTaskCountThreshold>,
-      addMaxIteratorAgeAlarm: this.toRecord('maxIteratorAge', 'maxAgeInMillis') as Record<string, MaxAgeThreshold>,
-      addEnhancedMonitoringMaxCpuTotalTimeAlarm: this.toRecord('maxCpuTime', 'maxDuration') as Record<string, DurationThreshold>,
-      addEnhancedMonitoringP90CpuTotalTimeAlarm: this.toRecord('p90CpuTime', 'maxDuration') as Record<string, DurationThreshold>,
-      addEnhancedMonitoringAvgCpuTotalTimeAlarm: this.toRecord('avgCpuTime', 'maxDuration') as Record<string, DurationThreshold>,
-      addEnhancedMonitoringMaxMemoryUtilizationAlarm: this.toRecord('maxMemory', 'maxUsagePercent') as Record<string, UsageThreshold>,
-      addEnhancedMonitoringP90MemoryUtilizationAlarm: this.toRecord('p90Memory', 'maxUsagePercent') as Record<string, UsageThreshold>,
-      addEnhancedMonitoringAvgMemoryUtilizationAlarm: this.toRecord('avgMemory', 'maxUsagePercent') as Record<string, UsageThreshold>
+      addToAlarmDashboard: this.props.addToAlarmDashboard??true,
+      addToDetailDashboard: this.props.addToDetailDashboard??true,
+      addToSummaryDashboard: this.props.addToSummaryDashboard??true,
+      addLatencyP50Alarm: this.toRecord<LatencyThreshold>("p50Latency", "maxLatency"),
+      addLatencyP90Alarm: this.toRecord<LatencyThreshold>("p90Latency", "maxLatency"),
+      addLatencyP99Alarm: this.toRecord<LatencyThreshold>("p99Latency", "maxLatency"),
+      addFaultCountAlarm: this.toRecord<ErrorCountThreshold>("maxFaults", "maxErrorCount", 0),
+      addFaultRateAlarm: this.toRecord<ErrorRateThreshold>("avgFaults", "maxErrorRate"),
+      addLowTpsAlarm: this.toRecord<LowTpsThreshold>("minTps", "minTps"),
+      addHighTpsAlarm: this.toRecord<HighTpsThreshold>("maxTps", "maxTps"),
+      addThrottlesCountAlarm: this.toRecord<ErrorCountThreshold>("maxThrottles", "maxErrorCount", 0),
+      addThrottlesRateAlarm: this.toRecord<ErrorRateThreshold>("avgThrottles", "maxErrorRate"),
+      addConcurrentExecutionsCountAlarm: this.toRecord<RunningTaskCountThreshold>("maxConcurrentExecutions", "maxRunningTasks"),
+      addMaxIteratorAgeAlarm: this.toRecord<MaxAgeThreshold>("maxIteratorAge", "maxAgeInMillis"),
+      addEnhancedMonitoringMaxCpuTotalTimeAlarm: this.toRecord<DurationThreshold>("maxCpuTime", "maxDuration"),
+      addEnhancedMonitoringP90CpuTotalTimeAlarm: this.toRecord<DurationThreshold>("p90CpuTime", "maxDuration"),
+      addEnhancedMonitoringAvgCpuTotalTimeAlarm: this.toRecord<DurationThreshold>("avgCpuTime", "maxDuration"),
+      addEnhancedMonitoringMaxMemoryUtilizationAlarm: this.toRecord<UsageThreshold>("maxMemory", "maxUsagePercent"),
+      addEnhancedMonitoringP90MemoryUtilizationAlarm: this.toRecord<UsageThreshold>("p90Memory", "maxUsagePercent"),
+      addEnhancedMonitoringAvgMemoryUtilizationAlarm: this.toRecord<UsageThreshold>("avgMemory", "maxUsagePercent")
     });
+  }
 
-    // Add generated alarms to this object
-    this.addAlarm(FunctionAlarmCategory.Critical, ...this.monitoringFacade.createdAlarmsWithDisambiguator(FunctionAlarmCategory.Critical).map((awa) => awa.alarm));
-    this.addAlarm(FunctionAlarmCategory.Warning, ...this.monitoringFacade.createdAlarmsWithDisambiguator(FunctionAlarmCategory.Warning).map((awa) => awa.alarm));
+  // TODO We need to figure out a way to extend monitoringFacade to support creating these alarms. Maybe extend MonotoringFacade.monitorLog()
+
+  private criticalLogAlarm: LogMetricAlarm | undefined;
+  private warningLogAlarm: LogMetricAlarm | undefined;
+
+  private addLogAlarm(category: AlarmCategory, defaultThreshold?: number) {
+    const fprops = category === AlarmCategory.Critical ? this.props.criticalAlarmOptions : this.props.warningAlarmOptions;
+    const threshold = fprops?.maxLogCount??defaultThreshold
+    const pattern = fprops?.metricLogPattern??
+    category === AlarmCategory.Critical
+      ? FunctionAlarms.DEFAULT_CRITICAL_LOG_METRIC_PATTERN
+      : FunctionAlarms.DEFAULT_WARNING_LOG_METRIC_PATTERN;
+    const evaluationPeriods = fprops?.logEvaluationPeriods??2
+    const datapointsToAlarm = fprops?.logDataPointsToAlarm??1
+    if (threshold !== undefined && threshold > 0) {
+      const logAlarm = new LogMetricAlarm(this, category + 'LogCount', {
+        logGroup: this.props.logGroup,
+        pattern,
+        threshold,
+        evaluationPeriods,
+        datapointsToAlarm,
+        metricName: category + 'LogCount',
+      });
+      if (category === AlarmCategory.Critical) {
+        this.criticalLogAlarm = logAlarm;
+      } else {
+        this.warningLogAlarm = logAlarm;
+      }
+    }
   }
 
   private addLogMonitoringToDashboard() {
@@ -426,47 +269,20 @@ export class FunctionAlarms extends Construct {
     }
   }
 
-  private addLogAlarm(category: FunctionAlarmCategory, defaultThreshold?: number) {
-    const fprops = getFunctionAlarmsCategoryOptions(this.props, category);
-    const threshold = fprops?.maxLogCount??defaultThreshold
-    const pattern = fprops?.metricLogPattern??
-    category === FunctionAlarmCategory.Critical
-      ? FunctionAlarms.DEFAULT_CRITICAL_LOG_METRIC_PATTERN
-      : FunctionAlarms.DEFAULT_WARNING_LOG_METRIC_PATTERN;
-    const evaluationPeriods = fprops?.logEvaluationPeriods??2
-    const datapointsToAlarm = fprops?.logDataPointsToAlarm??1
-    if (threshold !== undefined && threshold > 0) {
-      const logAlarm = new LogMetricAlarm(this, category + 'LogCount', {
-        logGroup: this.props.logGroup,
-        pattern,
-        threshold,
-        evaluationPeriods,
-        datapointsToAlarm,
-        metricName: category + 'LogCount',
-      });
-      // Add generated alarm to this object
-      this.addAlarm(category, logAlarm.alarm);
-    }
-  }
-
   constructor(scope: Construct, id: string, props: FunctionAlarmsProps) {
-    super(scope, id);
-    this.props = props;
-    this.criticalAlarms = [];
-    this.warningAlarms = [];
-
-    this.monitoringFacade = props.monitoringFacade??new MonitoringFacade(this, 'MonitoringFacade', {
-      metricFactoryDefaults: {},
-      alarmFactoryDefaults: {
-        actionsEnabled: true,
-        alarmNamePrefix: props.alarmNamePrefix??Stack.of(this).stackName
-      },
-      dashboardFactory: props.dashboardFactory
-    });
-
+    super(scope, id, props);
     this.addFunctionMonitoring();
     this.addLogMonitoringToDashboard();
-    this.addLogAlarm(FunctionAlarmCategory.Critical, 1);
-    this.addLogAlarm(FunctionAlarmCategory.Warning);
+    this.addLogAlarm(AlarmCategory.Critical, 1);
+    this.addLogAlarm(AlarmCategory.Warning);
+  }
+
+  getAlarms(category: AlarmCategory): Alarm[] {
+    const alarms = super.getAlarms(category);
+    const logAlarm = category === AlarmCategory.Critical ? this.criticalLogAlarm?.alarm : this.warningLogAlarm?.alarm;
+    if (logAlarm !== undefined) {
+      alarms.push(logAlarm);
+    }
+    return alarms;
   }
 }
