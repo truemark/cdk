@@ -1,6 +1,6 @@
 {
   "name": "truemark-cdk-lib",
-  "version": "0.0.24",
+  "version": "0.0.25",
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
@@ -43,10 +43,10 @@
     "@aws-cdk/aws-apigatewayv2-alpha": "^2.18.0-alpha.0",
     "@aws-cdk/aws-apigatewayv2-integrations-alpha": "^2.18.0-alpha.0",
     "@aws-cdk/aws-appsync-alpha": "^2.18.0-alpha.0",
+    "@aws-cdk/aws-lambda-go-alpha": "^2.18.0-alpha.0",
+    "@aws-cdk/aws-lambda-python-alpha": "^2.18.0-alpha.0",
     "@aws-cdk/aws-redshift-alpha": "^2.18.0-alpha.0",
     "@aws-cdk/aws-synthetics-alpha": "^2.18.0-alpha.0",
-    "@aws-cdk/aws-lambda-python-alpha": "^2.18.0-alpha.0",
-    "@aws-cdk/aws-lambda-go-alpha": "^2.18.0-alpha.0",
     "cdk-monitoring-constructs": "^1.6.4"
   },
   "gitHead": "ea53dec0c34947554b292a2abdc2b92278c41bb7"
