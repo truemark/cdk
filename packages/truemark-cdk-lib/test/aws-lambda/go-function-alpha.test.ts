@@ -1,16 +1,16 @@
-import {ResourceType, TestHelper} from "../test-helper";
-import {NodejsFunction} from "../../aws-lambda";
 import * as path from "path";
+import {ResourceType, TestHelper} from "../test-helper";
+import {GoFunctionAlpha} from "../../aws-lambda";
 import {Template} from "aws-cdk-lib/assertions";
 
-test("Test NodejsFunction", () => {
+test("Test GoFunctionAlpha", () => {
   const stack = TestHelper.stack();
-  new NodejsFunction(stack, "TestFunction", {
-    entry: path.join(__dirname, "typescript-lambda", "index.ts")
-  });
+  new GoFunctionAlpha(stack, "TestFunction", {
+    entry: path.join(__dirname, "go-lambda")
+  })
   const template = Template.fromStack(stack);
   template.hasResourceProperties(ResourceType.LAMBDA_FUNCTION, {
-    Runtime: "nodejs14.x"
+    Runtime: "provided.al2"
   });
   template.resourceCountIs(ResourceType.CLOUDWATCH_ALARM, 3);
 });

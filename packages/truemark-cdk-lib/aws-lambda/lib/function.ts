@@ -1,25 +1,25 @@
-import * as nodejs from "aws-cdk-lib/aws-lambda-nodejs"
-import {Construct} from "constructs";
 import {FunctionAlarms, FunctionAlarmsOptions} from "./function-alarms";
-import {FunctionDeployment} from "./function-deployment";
 import {DeployedFunctionOptions} from "./deployed-function";
+import * as lambda from "aws-cdk-lib/aws-lambda";
+import {Construct} from "constructs";
+import {FunctionDeployment} from "./function-deployment";
 
 /**
- * Properties for NodejsFunction
+ * Properties for Function
  */
-export interface NodejsFunctionProps extends nodejs.NodejsFunctionProps, FunctionAlarmsOptions, DeployedFunctionOptions {
+export interface FunctionProps extends lambda.FunctionProps,  FunctionAlarmsOptions,DeployedFunctionOptions {
 
 }
 
 /**
- * Extended version of the NodejsFunction that supports alarms and deployments.
+ * Extended version of Function that supports alarms and deployments.
  */
-export class NodejsFunction extends nodejs.NodejsFunction {
+export class Function extends lambda.Function {
 
   readonly alarms: FunctionAlarms;
   readonly deployment: FunctionDeployment;
 
-  constructor(scope: Construct, id: string, props: NodejsFunctionProps) {
+  constructor(scope: Construct, id: string, props: FunctionProps) {
     super(scope, id, props);
 
     this.alarms = new FunctionAlarms(this, "Alarms", {

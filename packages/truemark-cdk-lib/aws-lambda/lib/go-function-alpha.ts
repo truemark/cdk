@@ -1,25 +1,25 @@
-import * as nodejs from "aws-cdk-lib/aws-lambda-nodejs"
-import {Construct} from "constructs";
+import * as go from "@aws-cdk/aws-lambda-go-alpha";
 import {FunctionAlarms, FunctionAlarmsOptions} from "./function-alarms";
 import {FunctionDeployment} from "./function-deployment";
+import {Construct} from "constructs";
 import {DeployedFunctionOptions} from "./deployed-function";
 
 /**
- * Properties for NodejsFunction
+ * Properties for GoFunctionAlpha
  */
-export interface NodejsFunctionProps extends nodejs.NodejsFunctionProps, FunctionAlarmsOptions, DeployedFunctionOptions {
+export interface GoFunctionAlphaProps extends go.GoFunctionProps, FunctionAlarmsOptions, DeployedFunctionOptions {
 
 }
 
 /**
- * Extended version of the NodejsFunction that supports alarms and deployments.
+ * Extended version of the alpha GoFunction that supports alarms and deployments.
  */
-export class NodejsFunction extends nodejs.NodejsFunction {
+export class GoFunctionAlpha extends go.GoFunction {
 
   readonly alarms: FunctionAlarms;
   readonly deployment: FunctionDeployment;
 
-  constructor(scope: Construct, id: string, props: NodejsFunctionProps) {
+  constructor(scope: Construct, id: string, props: GoFunctionAlphaProps) {
     super(scope, id, props);
 
     this.alarms = new FunctionAlarms(this, "Alarms", {
