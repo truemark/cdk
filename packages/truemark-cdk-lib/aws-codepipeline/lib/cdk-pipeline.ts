@@ -49,6 +49,13 @@ export interface CdkPipelineProps {
   readonly branch: string;
 
   /**
+   * Enable or disable self-mutation. Useful for cdk pipeline development.
+   *
+   * @default true
+   */
+  readonly selfMutation?: boolean;
+
+  /**
    * Enable docker for the 'synth' step.
    *
    * @default true
@@ -129,6 +136,7 @@ export class CdkPipeline extends Construct {
 
     this.pipeline = new CodePipeline(this, 'CodePipeline', {
       codePipeline: underlyingPipeline,
+      selfMutation: props.selfMutation??true,
       dockerEnabledForSynth: props.dockerEnabledForSynth??true,
       dockerEnabledForSelfMutation: props.dockerEnabledForSelfMutation??true,
       synth: new ShellStep('Synth', {
