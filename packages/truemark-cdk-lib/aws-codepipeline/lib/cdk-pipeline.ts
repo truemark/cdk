@@ -158,8 +158,11 @@ export class CdkPipeline extends Construct {
           phases: {
             install: {
               "runtime-versions": {
-                nodejs: 16
-              }
+                nodejs: 12
+              },
+              commands: [
+                "n 16"
+              ]
             }
           }
         }),
