@@ -11,7 +11,7 @@ import {
   Wave,
   WaveOptions
 } from "aws-cdk-lib/pipelines";
-import {ComputeType, IBuildImage, LinuxBuildImage} from "aws-cdk-lib/aws-codebuild";
+import {BuildSpec, ComputeType, IBuildImage, LinuxBuildImage} from "aws-cdk-lib/aws-codebuild";
 import {PipelineNotificationRule} from "./pipeline-notification-rule";
 import {Stack, Stage} from "aws-cdk-lib";
 import {IFileSetProducer} from "aws-cdk-lib/pipelines";
@@ -135,7 +135,10 @@ export class CdkPipeline extends Construct {
         primaryOutputDirectory: 'cdk.out',
         input,
         commands: props.commands??[
-          'npm ci',
+          // TODO Need to figure out how to retain .npmcache between runs to speed up builds
+          'mkdir -p .npmcache',
+          'npm ci --cache .npmcache --prefer-offline',
+          'node --version',
           'npm run build',
           'npm run test',
           `npx cdk synth ${stackName}`
@@ -143,6 +146,15 @@ export class CdkPipeline extends Construct {
         additionalInputs: props.additionalInputs??{}
       }),
       synthCodeBuildDefaults: {
+        partialBuildSpec: BuildSpec.fromObject({
+          phases: {
+            install: {
+              "runtime-versions": {
+                nodejs: 16
+              }
+            }
+          }
+        }),
         buildEnvironment: {
           computeType: props.computeType??ComputeType.SMALL,
           buildImage: props.buildImage??LinuxBuildImage.AMAZON_LINUX_2_3
