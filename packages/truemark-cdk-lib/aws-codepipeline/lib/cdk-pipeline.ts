@@ -31,7 +31,7 @@ export interface CdkPipelineProps {
   /**
    * List of account IDs this pipeline will deploy into.
    */
-  readonly accountIds: string[];
+  readonly accountIds?: string[];
 
   /**
    * Arn of the CodeStar connection used to access the source code repository.
@@ -89,7 +89,7 @@ export interface CdkPipelineProps {
   readonly slackChannelConfigurationArn?: string;
 
   /**
-   * The list of notification events to receive. By default this is all notifications.
+   * The list of notification events to receive. By default, this is all notifications.
    *
    * @see https://docs.aws.amazon.com/dtconsole/latest/userguide/concepts.html#events-ref-pipeline
    */
@@ -146,7 +146,6 @@ export class CdkPipeline extends Construct {
           // TODO Need to figure out how to retain .npmcache between runs to speed up builds
           'mkdir -p .npmcache',
           'npm ci --cache .npmcache --prefer-offline',
-          'node --version',
           'npm run build',
           'npm run test',
           `npx cdk synth ${stackName}`
@@ -158,7 +157,7 @@ export class CdkPipeline extends Construct {
           phases: {
             install: {
               commands: [
-                "n 16"
+                "n 16" // Install Node v16
               ]
             }
           }

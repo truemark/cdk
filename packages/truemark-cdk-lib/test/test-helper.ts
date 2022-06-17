@@ -2,8 +2,9 @@ import * as cdk from "aws-cdk-lib";
 import {Template} from "aws-cdk-lib/assertions";
 
 export enum ResourceType {
-  LAMBDA_FUNCTION = "AWS::Lambda::Function",
+  CODEPIPELINE = "AWS::CodePipeline::Pipeline",
   CLOUDWATCH_ALARM = "AWS::CloudWatch::Alarm",
+  LAMBDA_FUNCTION = "AWS::Lambda::Function",
   DYNAMODB_TABLE = "AWS::DynamoDB::Table",
   SSM_PARAMETER = "AWS::SSM::Parameter"
 }
