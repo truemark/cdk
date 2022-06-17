@@ -157,9 +157,6 @@ export class CdkPipeline extends Construct {
         partialBuildSpec: BuildSpec.fromObject({
           phases: {
             install: {
-              "runtime-versions": {
-                nodejs: 12
-              },
               commands: [
                 "n 16"
               ]
