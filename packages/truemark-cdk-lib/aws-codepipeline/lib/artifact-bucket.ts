@@ -18,7 +18,7 @@ export interface ArtifactBucketProps {
   /**
    * List of AWS account IDs that should have access to this bucket.
    */
-  readonly accountIds: string[];
+  readonly accountIds?: string[];
 }
 
 /**
@@ -35,17 +35,20 @@ export class ArtifactBucket extends Bucket {
       blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
       encryptionKey: props.encryptionKey
     });
-    this.addToResourcePolicy(new PolicyStatement({
-      effect: Effect.ALLOW,
-      actions: [
-        "s3:Get*",
-        "s3:List*"
-      ],
-      principals: props.accountIds.map((id) => new AccountPrincipal(id)),
-      resources: [
-        this.arnForObjects('*'),
-        this.bucketArn
-      ]
-    }));
+    if (props.accountIds !== undefined) {
+      this.addToResourcePolicy(new PolicyStatement({
+        effect: Effect.ALLOW,
+        actions: [
+          "s3:Get*",
+          "s3:List*"
+        ],
+        principals: props.accountIds.map((id) => new AccountPrincipal(id)),
+        resources: [
+          this.arnForObjects('*'),
+          this.bucketArn
+        ]
+      }));
+    }
+
   }
 }
