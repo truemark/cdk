@@ -3,6 +3,9 @@ import {Construct} from "constructs";
 import {FunctionAlarms, FunctionAlarmsOptions} from "./function-alarms";
 import {FunctionDeployment} from "./function-deployment";
 import {DeployedFunctionOptions} from "./function";
+import {RetentionDays} from "aws-cdk-lib/aws-logs";
+import {Architecture, Runtime} from "aws-cdk-lib/aws-lambda";
+import {Duration} from "aws-cdk-lib";
 
 /**
  * Properties for NodejsFunction
@@ -12,7 +15,7 @@ export interface NodejsFunctionProps extends nodejs.NodejsFunctionProps, Functio
 }
 
 /**
- * Extended version of the NodejsFunction that supports alarms and deployments.
+ * Extended version of the NodejsFunction that supports alarms and deployments and modified defaults.
  */
 export class NodejsFunction extends nodejs.NodejsFunction {
 
@@ -20,7 +23,14 @@ export class NodejsFunction extends nodejs.NodejsFunction {
   readonly deployment: FunctionDeployment;
 
   constructor(scope: Construct, id: string, props: NodejsFunctionProps) {
-    super(scope, id, props);
+    super(scope, id, {
+      logRetention: RetentionDays.THREE_DAYS, // change default from INFINITE
+      architecture: Architecture.ARM_64, // change default from X86_64
+      memorySize: 768, // change default from 128
+      timeout: Duration.seconds(30), // change default from 3
+      runtime: Runtime.NODEJS_16_X, // change default from NODEJS_14_X
+      ...props
+    });
 
     this.alarms = new FunctionAlarms(this, "Alarms", {
       function: this,
