@@ -45,7 +45,6 @@ export class NodejsFunction extends nodejs.NodejsFunction {
         commandHooks: {
           beforeBundling(inputDir: string, outputDir: string): string[] {
             return [
-              `ls -l ${inputDir}`,
               `if [ -f ${inputDir}/package-lock.json ]; then npm ci --prefix ./${inputDir} --prefer-offline --no-fund; fi`
             ]
           },
