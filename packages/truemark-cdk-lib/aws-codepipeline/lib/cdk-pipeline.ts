@@ -143,9 +143,9 @@ export class CdkPipeline extends Construct {
         primaryOutputDirectory: 'cdk.out',
         input,
         commands: props.commands??[
-          // TODO Need to figure out how to retain .npmcache between runs to speed up builds
-          'mkdir -p .npmcache',
-          'npm ci --cache .npmcache --prefer-offline',
+          'mkdir /tmp/npm-cache',
+          'npm config set cache /tmp/npm-cache --global',
+          'npm ci --prefer-offline --no-fund',
           'npm run build',
           'npm run test',
           `npx cdk synth ${stackName}`
@@ -154,10 +154,14 @@ export class CdkPipeline extends Construct {
       }),
       synthCodeBuildDefaults: {
         partialBuildSpec: BuildSpec.fromObject({
+          cache: {
+            paths: "/tmp/npm-cache"
+          },
           phases: {
             install: {
               commands: [
-                "n 16" // Install Node v16
+                "n 16", // Install Node v16
+                "npm i -g esbuild" // Install esbuild locally
               ]
             }
           }
