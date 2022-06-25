@@ -144,7 +144,7 @@ export class CdkPipeline extends Construct {
         input,
         commands: props.commands??[
           'mkdir /tmp/npm-cache',
-          'npm config set cache /tmp/npm-cache --global',
+          'npm config set cache /tmp/npm-cache --location=global',
           'npm ci --prefer-offline --no-fund',
           'npm run build',
           'npm run test',
@@ -161,7 +161,7 @@ export class CdkPipeline extends Construct {
             install: {
               commands: [
                 "n 16", // Install Node v16
-                "npm i -g esbuild" // Install esbuild locally
+                "npm i --location=global --no-fund esbuild" // Install esbuild locally
               ]
             }
           }
