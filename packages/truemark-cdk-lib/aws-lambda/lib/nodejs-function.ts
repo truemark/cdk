@@ -41,11 +41,12 @@ export class NodejsFunction extends nodejs.NodejsFunction {
       timeout: Duration.seconds(30), // change default from 3
       runtime: Runtime.NODEJS_16_X, // change default from NODEJS_14_X
       depsLockFilePath: NodejsFunction.findDepsLockFile(props.entry),
+      ...props,
       bundling: {
         commandHooks: {
           beforeBundling(inputDir: string, outputDir: string): string[] {
             return [
-              `if [ -f ${inputDir}/package-lock.json ]; then npm ci --prefix ./${inputDir} --prefer-offline --no-fund; fi`
+              `if [ -f ${inputDir}/package-lock.json ]; then cd ${inputDir} && npm ci --prefer-offline --np-fund; fi`
             ]
           },
           beforeInstall(inputDir: string, outputDir: string): string[] {
@@ -54,9 +55,9 @@ export class NodejsFunction extends nodejs.NodejsFunction {
           afterBundling(inputDir: string, outputDir: string): string[] {
             return [];
           }
-        }
+        },
+        ...props.bundling
       },
-      ...props
     });
 
     this.alarms = new FunctionAlarms(this, "Alarms", {

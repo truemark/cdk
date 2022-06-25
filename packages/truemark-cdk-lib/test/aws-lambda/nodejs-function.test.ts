@@ -8,7 +8,10 @@ test("Test NodejsFunction", () => {
   const stack = TestHelper.stack();
   new NodejsFunction(stack, "TestFunction", {
     entry: path.join(__dirname, "typescript-lambda", "index.ts"),
-    runtime: Runtime.NODEJS_16_X
+    runtime: Runtime.NODEJS_16_X,
+    // bundling: {
+    //   forceDockerBundling: true
+    // }
   });
   const template = Template.fromStack(stack);
   template.hasResourceProperties(ResourceType.LAMBDA_FUNCTION, {
