@@ -1,11 +1,11 @@
-import {ObservedTable} from "../../aws-dynamodb";
+import {Table} from "../../aws-dynamodb";
 import {Template} from "aws-cdk-lib/assertions";
 import {AttributeType, BillingMode} from "aws-cdk-lib/aws-dynamodb";
 import {ResourceType, TestHelper} from "../test-helper";
 
-test('Create ObservedTable', () => {
+test('Create Table', () => {
   const stack = TestHelper.stack();
-  const table = new ObservedTable(stack, "TestTable", {
+  const table = new Table(stack, "TestTable", {
     partitionKey: {
       name: "Pk", type: AttributeType.STRING
     },

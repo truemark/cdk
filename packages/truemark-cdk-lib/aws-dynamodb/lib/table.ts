@@ -1,20 +1,20 @@
 import {TableAlarms, TableAlarmsOptions} from "./table-alarms";
-import {GlobalSecondaryIndexProps, Table, TableProps} from "aws-cdk-lib/aws-dynamodb";
+import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
 import {Construct} from "constructs";
 
 /**
  * Properties for ObservedTable.
  */
-export interface ObservedTableProps extends TableProps, TableAlarmsOptions {}
+export interface TableProps extends dynamodb.TableProps, TableAlarmsOptions {}
 
 /**
  * DynamoDB Table with CloudWatch Alarms.
  */
-export class ObservedTable extends Table {
+export class Table extends dynamodb.Table {
 
   readonly tableAlarms: TableAlarms;
 
-  constructor(scope: Construct, id: string, props: ObservedTableProps) {
+  constructor(scope: Construct, id: string, props: TableProps) {
     super(scope, id, props);
 
     this.tableAlarms = new TableAlarms(this, "Alarms", {
@@ -28,7 +28,7 @@ export class ObservedTable extends Table {
    *
    * @param props the property of global secondary index
    */
-  addGlobalSecondaryIndex(props: GlobalSecondaryIndexProps) {
+  addGlobalSecondaryIndex(props: dynamodb.GlobalSecondaryIndexProps) {
     super.addGlobalSecondaryIndex(props);
     this.tableAlarms.addGlobalSecondaryIndexMonitoring(props.indexName);
   }
