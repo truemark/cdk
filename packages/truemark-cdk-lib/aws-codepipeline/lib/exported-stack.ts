@@ -20,7 +20,7 @@ export interface ExportedStackProps extends ExportedStackOptions, StackProps {}
  */
 export class ExportedStack extends Stack {
 
-  protected readonly parameterExports: ParameterStore;
+  readonly parameterExports: ParameterStore;
   readonly parameterExportOptions: ParameterStoreOptions;
 
   constructor(scope: Construct, id: string, props?: ExportedStackProps) {
