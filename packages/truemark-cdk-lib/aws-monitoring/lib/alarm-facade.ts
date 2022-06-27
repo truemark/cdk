@@ -10,11 +10,11 @@ import {AlarmCategory, AlarmsCategoryOptions, AlarmsOptions} from "./alarms-base
  * Properties for AlarmFacade
  */
 export interface AlarmFacadeProps {
-  prop: string;
-  threshold?: number | Duration;
-  defaultThreshold?: number | Duration;
-  topics?: ITopic[];
-  actions?: IAlarmAction[];
+  readonly prop?: string;
+  readonly threshold?: number | Duration;
+  readonly defaultThreshold?: number | Duration;
+  readonly topics?: ITopic[];
+  readonly actions?: IAlarmAction[];
 }
 
 /**
@@ -40,7 +40,7 @@ export class AlarmFacade {
       if ((typeof threshold === "number" && threshold > -1)
         || (typeof threshold === "object" && (threshold as Duration).toSeconds() > 0)) {
         return {
-          [this.props.prop]: this.props.threshold ?? this.props.defaultThreshold,
+          [this.props.prop!!]: this.props.threshold ?? this.props.defaultThreshold,
           actionsEnabled: true,
           actionOverride: new StandardAlarmActionsStrategy({actions: this.actions}),
         }

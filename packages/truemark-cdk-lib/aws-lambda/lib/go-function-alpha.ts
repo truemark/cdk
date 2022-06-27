@@ -17,7 +17,7 @@ export interface GoFunctionAlphaProps extends go.GoFunctionProps, FunctionAlarms
 export class GoFunctionAlpha extends go.GoFunction {
 
   readonly alarms: FunctionAlarms;
-  readonly deployment: FunctionDeployment;
+  readonly deployment!: FunctionDeployment;
 
   constructor(scope: Construct, id: string, props: GoFunctionAlphaProps) {
     super(scope, id, props);

@@ -70,6 +70,12 @@ export class Function extends lambda.Function {
       if (props.deploymentOptions?.includeWarningAlarms??false) {
         this.deployment.addAlarms(...this.alarms.getWarningAlarms());
       }
+    } else {
+      // TODO: Our default. ERIK - is this what we want?
+      this.deployment = new FunctionDeployment(this, "Deployment", {
+        ...props.deploymentOptions,
+        function: this
+      });
     }
   }
 }

@@ -17,7 +17,7 @@ export interface PythonFunctionAlphaProps extends python.PythonFunctionProps, Fu
 export class PythonFunctionAlpha extends python.PythonFunction {
 
   readonly alarms: FunctionAlarms;
-  readonly deployment: FunctionDeployment;
+  readonly deployment!: FunctionDeployment;
 
   constructor(scope: Construct, id: string, props: PythonFunctionAlphaProps) {
     super(scope, id, props);

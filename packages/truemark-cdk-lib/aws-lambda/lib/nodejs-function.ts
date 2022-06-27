@@ -17,7 +17,7 @@ export interface NodejsFunctionProps extends nodejs.NodejsFunctionProps, Functio
 export class NodejsFunction extends nodejs.NodejsFunction {
 
   readonly alarms: FunctionAlarms;
-  readonly deployment: FunctionDeployment;
+  readonly deployment!: FunctionDeployment;
 
   constructor(scope: Construct, id: string, props: NodejsFunctionProps) {
     super(scope, id, props);

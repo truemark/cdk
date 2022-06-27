@@ -7,7 +7,7 @@ import {StringParameter} from "aws-cdk-lib/aws-ssm";
  * Options for ExportedStackProps.
  */
 export interface ExportedStackOptions {
-  parameterExportsPrefix?: string;
+  readonly parameterExportsPrefix?: string;
 }
 
 /**

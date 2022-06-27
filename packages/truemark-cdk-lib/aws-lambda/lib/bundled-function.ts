@@ -61,8 +61,9 @@ export interface BundledFunctionProps extends FunctionOptions, FunctionAlarmsOpt
   /**
    * Callback function to check if local bundling is supported.
    */
-  readonly isLocalBundlingSupported: () => boolean;
-
+  // isLocalBundlingSupported() : boolean;
+  readonly isLocalBundlingSupported: boolean;
+  
   /**
    * The default bundling script to use.
    */
@@ -91,7 +92,7 @@ export class BundledFunction extends Function {
     const local: ILocalBundling | undefined = props.disableLocalBundling ? undefined : {
       tryBundle(outputDir: string, options: BundlingOptions): boolean {
         try {
-          if (!props.isLocalBundlingSupported()){
+          if (!props.isLocalBundlingSupported){
             return false;
           }
         } catch {

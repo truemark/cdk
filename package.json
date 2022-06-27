@@ -2,9 +2,52 @@
   "name": "truemark-cdk",
   "version": "0.0.0",
   "private": true,
+  "description": "TBD:JSII",
+  "author": {
+    "name": "Erik Jensen",
+    "email": "ejensen@truemark.io"
+  },
+  "repository": {
+    "url": "https://github.com/truemark/cdk",
+    "type": "git"
+  },
+  "keywords": [],
+  "license": "Apache-2.0",
+  "main": "./packages/truemark-cdk-lib/index.ts",
+  "scripts": {
+    "build": "jsii",
+    "build:watch": "jsii --watch",
+    "package": "jsii-pacmak"
+  },
   "devDependencies": {
     "@types/node": "^17.0.31",
+    "jsii": "^1.61.0",
+    "jsii-pacmak": "^1.61.0",
     "lerna": "^4.0.0",
     "typescript": "^4.6.4"
+  },
+
+  "stability": "stable",
+  "types": "index.d.ts",
+  "jsii": {
+    "outdir": "dist",
+    "versionFormat": "short",
+    "targets": {
+      "java": {
+        "package": "io.truemark.cdk",
+        "maven": {
+          "groupId": "io.truemark.cdk",
+          "artifactId": "cdklib"
+        }
+      },
+      "python": {
+        "distName": "truemark-cdk-lib",
+        "module": "truemark.cdk"
+      },
+      "dotnet": {
+        "namespace": "TrueMark.CDK",
+        "packageId": "TrueMark.CDK"
+      }
+    }
   }
 }

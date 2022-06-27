@@ -16,7 +16,7 @@ export interface EstimatedChargesAlarmProps extends MetricAlarmBaseProps {
  */
 export class EstimatedChargesAlarm extends MetricAlarmBase<EstimatedChargesAlarmProps> {
 
-  protected createMetric(props: EstimatedChargesAlarmProps): Metric {
+  protected createMetric(_props: EstimatedChargesAlarmProps): Metric {
     return MetricHelper.billingEstimatedCharges();
   }
 
