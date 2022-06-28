@@ -47,7 +47,7 @@
     "eslint-plugin-import": "^2.26.0",
     "jsii": "^1.61.0",
     "jsii-diff": "^1.61.0",
-    "jsii-docgen": "^7.0.42",
+    "jsii-docgen": "^7.0.43",
     "jsii-pacmak": "^1.61.0",
     "json-schema": "^0.4.0",
     "npm-check-updates": "^12",

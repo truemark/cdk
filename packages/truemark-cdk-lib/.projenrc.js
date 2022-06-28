@@ -20,8 +20,10 @@ const project = new awscdk.AwsCdkConstructLibrary({
     '@aws-cdk/aws-apigatewayv2-alpha@^2.18.0-alpha.0',
     '@aws-cdk/aws-apigatewayv2-integrations-alpha@^2.18.0-alpha.0',
     '@aws-cdk/aws-appsync-alpha@^2.18.0-alpha.0',
+    
     '@aws-cdk/aws-lambda-go-alpha@^2.18.0-alpha.0',
     '@aws-cdk/aws-lambda-python-alpha@^2.18.0-alpha.0',
+
     '@aws-cdk/aws-redshift-alpha@^2.18.0-alpha.0',
     '@aws-cdk/aws-synthetics-alpha@^2.18.0-alpha.0',
   ],
