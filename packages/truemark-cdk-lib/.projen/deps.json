@@ -102,16 +102,6 @@
       "type": "bundled"
     },
     {
-      "name": "@aws-cdk/aws-lambda-go-alpha",
-      "version": "^2.18.0-alpha.0",
-      "type": "bundled"
-    },
-    {
-      "name": "@aws-cdk/aws-lambda-python-alpha",
-      "version": "^2.18.0-alpha.0",
-      "type": "bundled"
-    },
-    {
       "name": "@aws-cdk/aws-redshift-alpha",
       "version": "^2.18.0-alpha.0",
       "type": "bundled"

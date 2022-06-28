@@ -1,4 +1,4 @@
-import * as nodejs from 'aws-cdk-lib/aws-lambda-nodejs';
+import { NodejsFunction, NodejsFunctionProps } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Construct } from 'constructs';
 import { DeployedFunctionOptions } from './function';
 import { FunctionAlarms, FunctionAlarmsOptions } from './function-alarms';
@@ -7,14 +7,14 @@ import { FunctionDeployment } from './function-deployment';
 /**
  * Properties for NodejsFunction
  */
-export interface NodejsFunctionProps extends nodejs.NodejsFunctionProps, FunctionAlarmsOptions, DeployedFunctionOptions {
+export interface NodeJSFunctionProps extends NodejsFunctionProps, FunctionAlarmsOptions, DeployedFunctionOptions {
 
 }
 
 /**
  * Extended version of the NodejsFunction that supports alarms and deployments.
  */
-export class NodejsFunction extends nodejs.NodejsFunction {
+export class NodeJSFunction extends NodejsFunction {
 
   readonly alarms: FunctionAlarms;
   readonly deployment!: FunctionDeployment;
@@ -28,17 +28,17 @@ export class NodejsFunction extends nodejs.NodejsFunction {
       ...props,
     });
 
-    if (props.deploymentOptions?.createDeployment??true) {
-      this.deployment = new FunctionDeployment(this, 'Deployment', {
-        ...props.deploymentOptions,
-        function: this,
-      });
-      if (props.deploymentOptions?.includeCriticalAlarms??true) {
-        this.deployment.addAlarms(...this.alarms.criticalAlarms());
-      }
-      if (props.deploymentOptions?.includeWarningAlarms??false) {
-        this.deployment.addAlarms(...this.alarms.warningAlarms());
-      }
-    }
+    // if (props.deploymentOptions?.createDeployment??true) {
+    //   this.deployment = new FunctionDeployment(this, 'Deployment', {
+    //     ...props.deploymentOptions,
+    //     function: this,
+    //   });
+    //   if (props.deploymentOptions?.includeCriticalAlarms??true) {
+    //     this.deployment.addAlarms(...this.alarms.criticalAlarms());
+    //   }
+    //   if (props.deploymentOptions?.includeWarningAlarms??false) {
+    //     this.deployment.addAlarms(...this.alarms.warningAlarms());
+    //   }
+    // }
   }
 }

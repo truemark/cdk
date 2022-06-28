@@ -1206,6 +1206,1030 @@ first call to addToResourcePolicy(s).
 ---
 
 
+### BundledFunction <a name="BundledFunction" id="truemark-cdk-lib.aws_lambda.BundledFunction"></a>
+
+#### Initializers <a name="Initializers" id="truemark-cdk-lib.aws_lambda.BundledFunction.Initializer"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+new aws_lambda.BundledFunction(scope: Construct, id: string, props: BundledFunctionProps)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.Initializer.parameter.id">id</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.Initializer.parameter.props">props</a></code> | <code>truemark-cdk-lib.aws_lambda.BundledFunctionProps</code> | *No description.* |
+
+---
+
+##### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_lambda.BundledFunction.Initializer.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+##### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_lambda.BundledFunction.Initializer.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+##### `props`<sup>Required</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.BundledFunction.Initializer.parameter.props"></a>
+
+- *Type:* truemark-cdk-lib.aws_lambda.BundledFunctionProps
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.applyRemovalPolicy">applyRemovalPolicy</a></code> | Apply the given removal policy to this resource. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.addEventSource">addEventSource</a></code> | Adds an event source to this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.addEventSourceMapping">addEventSourceMapping</a></code> | Adds an event source that maps to this AWS Lambda function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.addFunctionUrl">addFunctionUrl</a></code> | Adds a url to this lambda function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.addPermission">addPermission</a></code> | Adds a permission to the Lambda resource policy. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.addToRolePolicy">addToRolePolicy</a></code> | Adds a statement to the IAM role assumed by the instance. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.configureAsyncInvoke">configureAsyncInvoke</a></code> | Configures options for asynchronous invocation. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.considerWarningOnInvokeFunctionPermissions">considerWarningOnInvokeFunctionPermissions</a></code> | A warning will be added to functions under the following conditions: - permissions that include `lambda:InvokeFunction` are added to the unqualified function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.grantInvoke">grantInvoke</a></code> | Grant the given identity permissions to invoke this Lambda. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.grantInvokeUrl">grantInvokeUrl</a></code> | Grant the given identity permissions to invoke this Lambda Function URL. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.metric">metric</a></code> | Return the given named metric for this Function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.metricDuration">metricDuration</a></code> | How long execution of this Lambda takes. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.metricErrors">metricErrors</a></code> | How many invocations of this Lambda fail. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.metricInvocations">metricInvocations</a></code> | How often this Lambda is invoked. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.metricThrottles">metricThrottles</a></code> | How often this Lambda is throttled. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.addAlias">addAlias</a></code> | Defines an alias for this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.addEnvironment">addEnvironment</a></code> | Adds an environment variable to this Lambda function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.addLayers">addLayers</a></code> | Adds one or more Lambda Layers to this Lambda function. |
+
+---
+
+##### `toString` <a name="toString" id="truemark-cdk-lib.aws_lambda.BundledFunction.toString"></a>
+
+```typescript
+public toString(): string
+```
+
+Returns a string representation of this construct.
+
+##### `applyRemovalPolicy` <a name="applyRemovalPolicy" id="truemark-cdk-lib.aws_lambda.BundledFunction.applyRemovalPolicy"></a>
+
+```typescript
+public applyRemovalPolicy(policy: RemovalPolicy): void
+```
+
+Apply the given removal policy to this resource.
+
+The Removal Policy controls what happens to this resource when it stops
+being managed by CloudFormation, either because you've removed it from the
+CDK application or because you've made a change that requires the resource
+to be replaced.
+
+The resource can be deleted (`RemovalPolicy.DESTROY`), or left in your AWS
+account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
+
+###### `policy`<sup>Required</sup> <a name="policy" id="truemark-cdk-lib.aws_lambda.BundledFunction.applyRemovalPolicy.parameter.policy"></a>
+
+- *Type:* aws-cdk-lib.RemovalPolicy
+
+---
+
+##### `addEventSource` <a name="addEventSource" id="truemark-cdk-lib.aws_lambda.BundledFunction.addEventSource"></a>
+
+```typescript
+public addEventSource(source: IEventSource): void
+```
+
+Adds an event source to this function.
+
+Event sources are implemented in the @aws-cdk/aws-lambda-event-sources module.
+
+The following example adds an SQS Queue as an event source:
+```
+import { SqsEventSource } from '@aws-cdk/aws-lambda-event-sources';
+myFunction.addEventSource(new SqsEventSource(myQueue));
+```
+
+###### `source`<sup>Required</sup> <a name="source" id="truemark-cdk-lib.aws_lambda.BundledFunction.addEventSource.parameter.source"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.IEventSource
+
+---
+
+##### `addEventSourceMapping` <a name="addEventSourceMapping" id="truemark-cdk-lib.aws_lambda.BundledFunction.addEventSourceMapping"></a>
+
+```typescript
+public addEventSourceMapping(id: string, options: EventSourceMappingOptions): EventSourceMapping
+```
+
+Adds an event source that maps to this AWS Lambda function.
+
+###### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_lambda.BundledFunction.addEventSourceMapping.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+###### `options`<sup>Required</sup> <a name="options" id="truemark-cdk-lib.aws_lambda.BundledFunction.addEventSourceMapping.parameter.options"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.EventSourceMappingOptions
+
+---
+
+##### `addFunctionUrl` <a name="addFunctionUrl" id="truemark-cdk-lib.aws_lambda.BundledFunction.addFunctionUrl"></a>
+
+```typescript
+public addFunctionUrl(options?: FunctionUrlOptions): FunctionUrl
+```
+
+Adds a url to this lambda function.
+
+###### `options`<sup>Optional</sup> <a name="options" id="truemark-cdk-lib.aws_lambda.BundledFunction.addFunctionUrl.parameter.options"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.FunctionUrlOptions
+
+---
+
+##### `addPermission` <a name="addPermission" id="truemark-cdk-lib.aws_lambda.BundledFunction.addPermission"></a>
+
+```typescript
+public addPermission(id: string, permission: Permission): void
+```
+
+Adds a permission to the Lambda resource policy.
+
+> [Permission for details.](Permission for details.)
+
+###### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_lambda.BundledFunction.addPermission.parameter.id"></a>
+
+- *Type:* string
+
+The id for the permission construct.
+
+---
+
+###### `permission`<sup>Required</sup> <a name="permission" id="truemark-cdk-lib.aws_lambda.BundledFunction.addPermission.parameter.permission"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.Permission
+
+The permission to grant to this Lambda function.
+
+---
+
+##### `addToRolePolicy` <a name="addToRolePolicy" id="truemark-cdk-lib.aws_lambda.BundledFunction.addToRolePolicy"></a>
+
+```typescript
+public addToRolePolicy(statement: PolicyStatement): void
+```
+
+Adds a statement to the IAM role assumed by the instance.
+
+###### `statement`<sup>Required</sup> <a name="statement" id="truemark-cdk-lib.aws_lambda.BundledFunction.addToRolePolicy.parameter.statement"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.PolicyStatement
+
+---
+
+##### `configureAsyncInvoke` <a name="configureAsyncInvoke" id="truemark-cdk-lib.aws_lambda.BundledFunction.configureAsyncInvoke"></a>
+
+```typescript
+public configureAsyncInvoke(options: EventInvokeConfigOptions): void
+```
+
+Configures options for asynchronous invocation.
+
+###### `options`<sup>Required</sup> <a name="options" id="truemark-cdk-lib.aws_lambda.BundledFunction.configureAsyncInvoke.parameter.options"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.EventInvokeConfigOptions
+
+---
+
+##### `considerWarningOnInvokeFunctionPermissions` <a name="considerWarningOnInvokeFunctionPermissions" id="truemark-cdk-lib.aws_lambda.BundledFunction.considerWarningOnInvokeFunctionPermissions"></a>
+
+```typescript
+public considerWarningOnInvokeFunctionPermissions(scope: Construct, action: string): void
+```
+
+A warning will be added to functions under the following conditions: - permissions that include `lambda:InvokeFunction` are added to the unqualified function.
+
+function.currentVersion is invoked before or after the permission is created.
+
+This applies only to permissions on Lambda functions, not versions or aliases.
+This function is overridden as a noOp for QualifiedFunctionBase.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_lambda.BundledFunction.considerWarningOnInvokeFunctionPermissions.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+###### `action`<sup>Required</sup> <a name="action" id="truemark-cdk-lib.aws_lambda.BundledFunction.considerWarningOnInvokeFunctionPermissions.parameter.action"></a>
+
+- *Type:* string
+
+---
+
+##### `grantInvoke` <a name="grantInvoke" id="truemark-cdk-lib.aws_lambda.BundledFunction.grantInvoke"></a>
+
+```typescript
+public grantInvoke(grantee: IGrantable): Grant
+```
+
+Grant the given identity permissions to invoke this Lambda.
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="truemark-cdk-lib.aws_lambda.BundledFunction.grantInvoke.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+---
+
+##### `grantInvokeUrl` <a name="grantInvokeUrl" id="truemark-cdk-lib.aws_lambda.BundledFunction.grantInvokeUrl"></a>
+
+```typescript
+public grantInvokeUrl(grantee: IGrantable): Grant
+```
+
+Grant the given identity permissions to invoke this Lambda Function URL.
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="truemark-cdk-lib.aws_lambda.BundledFunction.grantInvokeUrl.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+---
+
+##### `metric` <a name="metric" id="truemark-cdk-lib.aws_lambda.BundledFunction.metric"></a>
+
+```typescript
+public metric(metricName: string, props?: MetricOptions): Metric
+```
+
+Return the given named metric for this Function.
+
+###### `metricName`<sup>Required</sup> <a name="metricName" id="truemark-cdk-lib.aws_lambda.BundledFunction.metric.parameter.metricName"></a>
+
+- *Type:* string
+
+---
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.BundledFunction.metric.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricDuration` <a name="metricDuration" id="truemark-cdk-lib.aws_lambda.BundledFunction.metricDuration"></a>
+
+```typescript
+public metricDuration(props?: MetricOptions): Metric
+```
+
+How long execution of this Lambda takes.
+
+Average over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.BundledFunction.metricDuration.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricErrors` <a name="metricErrors" id="truemark-cdk-lib.aws_lambda.BundledFunction.metricErrors"></a>
+
+```typescript
+public metricErrors(props?: MetricOptions): Metric
+```
+
+How many invocations of this Lambda fail.
+
+Sum over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.BundledFunction.metricErrors.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricInvocations` <a name="metricInvocations" id="truemark-cdk-lib.aws_lambda.BundledFunction.metricInvocations"></a>
+
+```typescript
+public metricInvocations(props?: MetricOptions): Metric
+```
+
+How often this Lambda is invoked.
+
+Sum over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.BundledFunction.metricInvocations.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricThrottles` <a name="metricThrottles" id="truemark-cdk-lib.aws_lambda.BundledFunction.metricThrottles"></a>
+
+```typescript
+public metricThrottles(props?: MetricOptions): Metric
+```
+
+How often this Lambda is throttled.
+
+Sum over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.BundledFunction.metricThrottles.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `addAlias` <a name="addAlias" id="truemark-cdk-lib.aws_lambda.BundledFunction.addAlias"></a>
+
+```typescript
+public addAlias(aliasName: string, options?: AliasOptions): Alias
+```
+
+Defines an alias for this function.
+
+The alias will automatically be updated to point to the latest version of
+the function as it is being updated during a deployment.
+
+```ts
+declare const fn: lambda.Function;
+
+fn.addAlias('Live');
+
+// Is equivalent to
+
+new lambda.Alias(this, 'AliasLive', {
+   aliasName: 'Live',
+   version: fn.currentVersion,
+});
+```
+
+###### `aliasName`<sup>Required</sup> <a name="aliasName" id="truemark-cdk-lib.aws_lambda.BundledFunction.addAlias.parameter.aliasName"></a>
+
+- *Type:* string
+
+The name of the alias.
+
+---
+
+###### `options`<sup>Optional</sup> <a name="options" id="truemark-cdk-lib.aws_lambda.BundledFunction.addAlias.parameter.options"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.AliasOptions
+
+Alias options.
+
+---
+
+##### `addEnvironment` <a name="addEnvironment" id="truemark-cdk-lib.aws_lambda.BundledFunction.addEnvironment"></a>
+
+```typescript
+public addEnvironment(key: string, value: string, options?: EnvironmentOptions): Function
+```
+
+Adds an environment variable to this Lambda function.
+
+If this is a ref to a Lambda function, this operation results in a no-op.
+
+###### `key`<sup>Required</sup> <a name="key" id="truemark-cdk-lib.aws_lambda.BundledFunction.addEnvironment.parameter.key"></a>
+
+- *Type:* string
+
+The environment variable key.
+
+---
+
+###### `value`<sup>Required</sup> <a name="value" id="truemark-cdk-lib.aws_lambda.BundledFunction.addEnvironment.parameter.value"></a>
+
+- *Type:* string
+
+The environment variable's value.
+
+---
+
+###### `options`<sup>Optional</sup> <a name="options" id="truemark-cdk-lib.aws_lambda.BundledFunction.addEnvironment.parameter.options"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.EnvironmentOptions
+
+Environment variable options.
+
+---
+
+##### `addLayers` <a name="addLayers" id="truemark-cdk-lib.aws_lambda.BundledFunction.addLayers"></a>
+
+```typescript
+public addLayers(layers: ILayerVersion): void
+```
+
+Adds one or more Lambda Layers to this Lambda function.
+
+###### `layers`<sup>Required</sup> <a name="layers" id="truemark-cdk-lib.aws_lambda.BundledFunction.addLayers.parameter.layers"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.ILayerVersion
+
+the layers to be added.
+
+---
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.isResource">isResource</a></code> | Check whether the given construct is a Resource. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.classifyVersionProperty">classifyVersionProperty</a></code> | Record whether specific properties in the `AWS::Lambda::Function` resource should also be associated to the Version resource. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.fromFunctionArn">fromFunctionArn</a></code> | Import a lambda function into the CDK using its ARN. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.fromFunctionAttributes">fromFunctionAttributes</a></code> | Creates a Lambda function object which represents a function not defined within this stack. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.fromFunctionName">fromFunctionName</a></code> | Import a lambda function into the CDK using its name. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.metricAll">metricAll</a></code> | Return the given named metric for this Lambda. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.metricAllConcurrentExecutions">metricAllConcurrentExecutions</a></code> | Metric for the number of concurrent executions across all Lambdas. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.metricAllDuration">metricAllDuration</a></code> | Metric for the Duration executing all Lambdas. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.metricAllErrors">metricAllErrors</a></code> | Metric for the number of Errors executing all Lambdas. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.metricAllInvocations">metricAllInvocations</a></code> | Metric for the number of invocations of all Lambdas. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.metricAllThrottles">metricAllThrottles</a></code> | Metric for the number of throttled invocations of all Lambdas. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.metricAllUnreservedConcurrentExecutions">metricAllUnreservedConcurrentExecutions</a></code> | Metric for the number of unreserved concurrent executions across all Lambdas. |
+
+---
+
+##### ~~`isConstruct`~~ <a name="isConstruct" id="truemark-cdk-lib.aws_lambda.BundledFunction.isConstruct"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.BundledFunction.isConstruct(x: any)
+```
+
+Checks if `x` is a construct.
+
+###### `x`<sup>Required</sup> <a name="x" id="truemark-cdk-lib.aws_lambda.BundledFunction.isConstruct.parameter.x"></a>
+
+- *Type:* any
+
+Any object.
+
+---
+
+##### `isResource` <a name="isResource" id="truemark-cdk-lib.aws_lambda.BundledFunction.isResource"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.BundledFunction.isResource(construct: IConstruct)
+```
+
+Check whether the given construct is a Resource.
+
+###### `construct`<sup>Required</sup> <a name="construct" id="truemark-cdk-lib.aws_lambda.BundledFunction.isResource.parameter.construct"></a>
+
+- *Type:* constructs.IConstruct
+
+---
+
+##### `classifyVersionProperty` <a name="classifyVersionProperty" id="truemark-cdk-lib.aws_lambda.BundledFunction.classifyVersionProperty"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.BundledFunction.classifyVersionProperty(propertyName: string, locked: boolean)
+```
+
+Record whether specific properties in the `AWS::Lambda::Function` resource should also be associated to the Version resource.
+
+See 'currentVersion' section in the module README for more details.
+
+###### `propertyName`<sup>Required</sup> <a name="propertyName" id="truemark-cdk-lib.aws_lambda.BundledFunction.classifyVersionProperty.parameter.propertyName"></a>
+
+- *Type:* string
+
+The property to classify.
+
+---
+
+###### `locked`<sup>Required</sup> <a name="locked" id="truemark-cdk-lib.aws_lambda.BundledFunction.classifyVersionProperty.parameter.locked"></a>
+
+- *Type:* boolean
+
+whether the property should be associated to the version or not.
+
+---
+
+##### `fromFunctionArn` <a name="fromFunctionArn" id="truemark-cdk-lib.aws_lambda.BundledFunction.fromFunctionArn"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.BundledFunction.fromFunctionArn(scope: Construct, id: string, functionArn: string)
+```
+
+Import a lambda function into the CDK using its ARN.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_lambda.BundledFunction.fromFunctionArn.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+###### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_lambda.BundledFunction.fromFunctionArn.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+###### `functionArn`<sup>Required</sup> <a name="functionArn" id="truemark-cdk-lib.aws_lambda.BundledFunction.fromFunctionArn.parameter.functionArn"></a>
+
+- *Type:* string
+
+---
+
+##### `fromFunctionAttributes` <a name="fromFunctionAttributes" id="truemark-cdk-lib.aws_lambda.BundledFunction.fromFunctionAttributes"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.BundledFunction.fromFunctionAttributes(scope: Construct, id: string, attrs: FunctionAttributes)
+```
+
+Creates a Lambda function object which represents a function not defined within this stack.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_lambda.BundledFunction.fromFunctionAttributes.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+The parent construct.
+
+---
+
+###### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_lambda.BundledFunction.fromFunctionAttributes.parameter.id"></a>
+
+- *Type:* string
+
+The name of the lambda construct.
+
+---
+
+###### `attrs`<sup>Required</sup> <a name="attrs" id="truemark-cdk-lib.aws_lambda.BundledFunction.fromFunctionAttributes.parameter.attrs"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.FunctionAttributes
+
+the attributes of the function to import.
+
+---
+
+##### `fromFunctionName` <a name="fromFunctionName" id="truemark-cdk-lib.aws_lambda.BundledFunction.fromFunctionName"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.BundledFunction.fromFunctionName(scope: Construct, id: string, functionName: string)
+```
+
+Import a lambda function into the CDK using its name.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_lambda.BundledFunction.fromFunctionName.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+###### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_lambda.BundledFunction.fromFunctionName.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+###### `functionName`<sup>Required</sup> <a name="functionName" id="truemark-cdk-lib.aws_lambda.BundledFunction.fromFunctionName.parameter.functionName"></a>
+
+- *Type:* string
+
+---
+
+##### `metricAll` <a name="metricAll" id="truemark-cdk-lib.aws_lambda.BundledFunction.metricAll"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.BundledFunction.metricAll(metricName: string, props?: MetricOptions)
+```
+
+Return the given named metric for this Lambda.
+
+###### `metricName`<sup>Required</sup> <a name="metricName" id="truemark-cdk-lib.aws_lambda.BundledFunction.metricAll.parameter.metricName"></a>
+
+- *Type:* string
+
+---
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.BundledFunction.metricAll.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricAllConcurrentExecutions` <a name="metricAllConcurrentExecutions" id="truemark-cdk-lib.aws_lambda.BundledFunction.metricAllConcurrentExecutions"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.BundledFunction.metricAllConcurrentExecutions(props?: MetricOptions)
+```
+
+Metric for the number of concurrent executions across all Lambdas.
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.BundledFunction.metricAllConcurrentExecutions.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricAllDuration` <a name="metricAllDuration" id="truemark-cdk-lib.aws_lambda.BundledFunction.metricAllDuration"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.BundledFunction.metricAllDuration(props?: MetricOptions)
+```
+
+Metric for the Duration executing all Lambdas.
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.BundledFunction.metricAllDuration.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricAllErrors` <a name="metricAllErrors" id="truemark-cdk-lib.aws_lambda.BundledFunction.metricAllErrors"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.BundledFunction.metricAllErrors(props?: MetricOptions)
+```
+
+Metric for the number of Errors executing all Lambdas.
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.BundledFunction.metricAllErrors.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricAllInvocations` <a name="metricAllInvocations" id="truemark-cdk-lib.aws_lambda.BundledFunction.metricAllInvocations"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.BundledFunction.metricAllInvocations(props?: MetricOptions)
+```
+
+Metric for the number of invocations of all Lambdas.
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.BundledFunction.metricAllInvocations.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricAllThrottles` <a name="metricAllThrottles" id="truemark-cdk-lib.aws_lambda.BundledFunction.metricAllThrottles"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.BundledFunction.metricAllThrottles(props?: MetricOptions)
+```
+
+Metric for the number of throttled invocations of all Lambdas.
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.BundledFunction.metricAllThrottles.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricAllUnreservedConcurrentExecutions` <a name="metricAllUnreservedConcurrentExecutions" id="truemark-cdk-lib.aws_lambda.BundledFunction.metricAllUnreservedConcurrentExecutions"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.BundledFunction.metricAllUnreservedConcurrentExecutions(props?: MetricOptions)
+```
+
+Metric for the number of unreserved concurrent executions across all Lambdas.
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.BundledFunction.metricAllUnreservedConcurrentExecutions.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.property.architecture">architecture</a></code> | <code>aws-cdk-lib.aws_lambda.Architecture</code> | The architecture of this Lambda Function (this is an optional attribute and defaults to X86_64). |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.property.connections">connections</a></code> | <code>aws-cdk-lib.aws_ec2.Connections</code> | Access the Connections object. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.property.functionArn">functionArn</a></code> | <code>string</code> | ARN of this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.property.functionName">functionName</a></code> | <code>string</code> | Name of this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.property.grantPrincipal">grantPrincipal</a></code> | <code>aws-cdk-lib.aws_iam.IPrincipal</code> | The principal this Lambda Function is running as. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.property.isBoundToVpc">isBoundToVpc</a></code> | <code>boolean</code> | Whether or not this Lambda function was bound to a VPC. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.property.latestVersion">latestVersion</a></code> | <code>aws-cdk-lib.aws_lambda.IVersion</code> | The `$LATEST` version of this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.property.permissionsNode">permissionsNode</a></code> | <code>constructs.Node</code> | The construct node where permissions are attached. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.property.resourceArnsForGrantInvoke">resourceArnsForGrantInvoke</a></code> | <code>string[]</code> | The ARN(s) to put into the resource field of the generated IAM policy for grantInvoke(). |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.property.role">role</a></code> | <code>aws-cdk-lib.aws_iam.IRole</code> | Execution role associated with this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.property.currentVersion">currentVersion</a></code> | <code>aws-cdk-lib.aws_lambda.Version</code> | Returns a `lambda.Version` which represents the current version of this Lambda function. A new version will be created every time the function's configuration changes. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.property.logGroup">logGroup</a></code> | <code>aws-cdk-lib.aws_logs.ILogGroup</code> | The LogGroup where the Lambda function's logs are made available. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.property.runtime">runtime</a></code> | <code>aws-cdk-lib.aws_lambda.Runtime</code> | The runtime configured for this lambda. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.property.deadLetterQueue">deadLetterQueue</a></code> | <code>aws-cdk-lib.aws_sqs.IQueue</code> | The DLQ (as queue) associated with this Lambda Function (this is an optional attribute). |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.property.deadLetterTopic">deadLetterTopic</a></code> | <code>aws-cdk-lib.aws_sns.ITopic</code> | The DLQ (as topic) associated with this Lambda Function (this is an optional attribute). |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.property.timeout">timeout</a></code> | <code>aws-cdk-lib.Duration</code> | The timeout configured for this lambda. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.property.alarms">alarms</a></code> | <code>truemark-cdk-lib.aws_lambda.FunctionAlarms</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunction.property.deployment">deployment</a></code> | <code>truemark-cdk-lib.aws_lambda.FunctionDeployment</code> | *No description.* |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="truemark-cdk-lib.aws_lambda.BundledFunction.property.node"></a>
+
+```typescript
+public readonly node: Node;
+```
+
+- *Type:* constructs.Node
+
+The tree node.
+
+---
+
+##### `env`<sup>Required</sup> <a name="env" id="truemark-cdk-lib.aws_lambda.BundledFunction.property.env"></a>
+
+```typescript
+public readonly env: ResourceEnvironment;
+```
+
+- *Type:* aws-cdk-lib.ResourceEnvironment
+
+The environment this resource belongs to.
+
+For resources that are created and managed by the CDK
+(generally, those created by creating new class instances like Role, Bucket, etc.),
+this is always the same as the environment of the stack they belong to;
+however, for imported resources
+(those obtained from static methods like fromRoleArn, fromBucketName, etc.),
+that might be different than the stack they were imported into.
+
+---
+
+##### `stack`<sup>Required</sup> <a name="stack" id="truemark-cdk-lib.aws_lambda.BundledFunction.property.stack"></a>
+
+```typescript
+public readonly stack: Stack;
+```
+
+- *Type:* aws-cdk-lib.Stack
+
+The stack in which this resource is defined.
+
+---
+
+##### `architecture`<sup>Required</sup> <a name="architecture" id="truemark-cdk-lib.aws_lambda.BundledFunction.property.architecture"></a>
+
+```typescript
+public readonly architecture: Architecture;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Architecture
+
+The architecture of this Lambda Function (this is an optional attribute and defaults to X86_64).
+
+---
+
+##### `connections`<sup>Required</sup> <a name="connections" id="truemark-cdk-lib.aws_lambda.BundledFunction.property.connections"></a>
+
+```typescript
+public readonly connections: Connections;
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.Connections
+
+Access the Connections object.
+
+Will fail if not a VPC-enabled Lambda Function
+
+---
+
+##### `functionArn`<sup>Required</sup> <a name="functionArn" id="truemark-cdk-lib.aws_lambda.BundledFunction.property.functionArn"></a>
+
+```typescript
+public readonly functionArn: string;
+```
+
+- *Type:* string
+
+ARN of this function.
+
+---
+
+##### `functionName`<sup>Required</sup> <a name="functionName" id="truemark-cdk-lib.aws_lambda.BundledFunction.property.functionName"></a>
+
+```typescript
+public readonly functionName: string;
+```
+
+- *Type:* string
+
+Name of this function.
+
+---
+
+##### `grantPrincipal`<sup>Required</sup> <a name="grantPrincipal" id="truemark-cdk-lib.aws_lambda.BundledFunction.property.grantPrincipal"></a>
+
+```typescript
+public readonly grantPrincipal: IPrincipal;
+```
+
+- *Type:* aws-cdk-lib.aws_iam.IPrincipal
+
+The principal this Lambda Function is running as.
+
+---
+
+##### `isBoundToVpc`<sup>Required</sup> <a name="isBoundToVpc" id="truemark-cdk-lib.aws_lambda.BundledFunction.property.isBoundToVpc"></a>
+
+```typescript
+public readonly isBoundToVpc: boolean;
+```
+
+- *Type:* boolean
+
+Whether or not this Lambda function was bound to a VPC.
+
+If this is is `false`, trying to access the `connections` object will fail.
+
+---
+
+##### `latestVersion`<sup>Required</sup> <a name="latestVersion" id="truemark-cdk-lib.aws_lambda.BundledFunction.property.latestVersion"></a>
+
+```typescript
+public readonly latestVersion: IVersion;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.IVersion
+
+The `$LATEST` version of this function.
+
+Note that this is reference to a non-specific AWS Lambda version, which
+means the function this version refers to can return different results in
+different invocations.
+
+To obtain a reference to an explicit version which references the current
+function configuration, use `lambdaFunction.currentVersion` instead.
+
+---
+
+##### `permissionsNode`<sup>Required</sup> <a name="permissionsNode" id="truemark-cdk-lib.aws_lambda.BundledFunction.property.permissionsNode"></a>
+
+```typescript
+public readonly permissionsNode: Node;
+```
+
+- *Type:* constructs.Node
+
+The construct node where permissions are attached.
+
+---
+
+##### `resourceArnsForGrantInvoke`<sup>Required</sup> <a name="resourceArnsForGrantInvoke" id="truemark-cdk-lib.aws_lambda.BundledFunction.property.resourceArnsForGrantInvoke"></a>
+
+```typescript
+public readonly resourceArnsForGrantInvoke: string[];
+```
+
+- *Type:* string[]
+
+The ARN(s) to put into the resource field of the generated IAM policy for grantInvoke().
+
+---
+
+##### `role`<sup>Optional</sup> <a name="role" id="truemark-cdk-lib.aws_lambda.BundledFunction.property.role"></a>
+
+```typescript
+public readonly role: IRole;
+```
+
+- *Type:* aws-cdk-lib.aws_iam.IRole
+
+Execution role associated with this function.
+
+---
+
+##### `currentVersion`<sup>Required</sup> <a name="currentVersion" id="truemark-cdk-lib.aws_lambda.BundledFunction.property.currentVersion"></a>
+
+```typescript
+public readonly currentVersion: Version;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Version
+
+Returns a `lambda.Version` which represents the current version of this Lambda function. A new version will be created every time the function's configuration changes.
+
+You can specify options for this version using the `currentVersionOptions`
+prop when initializing the `lambda.Function`.
+
+---
+
+##### `logGroup`<sup>Required</sup> <a name="logGroup" id="truemark-cdk-lib.aws_lambda.BundledFunction.property.logGroup"></a>
+
+```typescript
+public readonly logGroup: ILogGroup;
+```
+
+- *Type:* aws-cdk-lib.aws_logs.ILogGroup
+
+The LogGroup where the Lambda function's logs are made available.
+
+If either `logRetention` is set or this property is called, a CloudFormation custom resource is added to the stack that
+pre-creates the log group as part of the stack deployment, if it already doesn't exist, and sets the correct log retention
+period (never expire, by default).
+
+Further, if the log group already exists and the `logRetention` is not set, the custom resource will reset the log retention
+to never expire even if it was configured with a different value.
+
+---
+
+##### `runtime`<sup>Required</sup> <a name="runtime" id="truemark-cdk-lib.aws_lambda.BundledFunction.property.runtime"></a>
+
+```typescript
+public readonly runtime: Runtime;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Runtime
+
+The runtime configured for this lambda.
+
+---
+
+##### `deadLetterQueue`<sup>Optional</sup> <a name="deadLetterQueue" id="truemark-cdk-lib.aws_lambda.BundledFunction.property.deadLetterQueue"></a>
+
+```typescript
+public readonly deadLetterQueue: IQueue;
+```
+
+- *Type:* aws-cdk-lib.aws_sqs.IQueue
+
+The DLQ (as queue) associated with this Lambda Function (this is an optional attribute).
+
+---
+
+##### `deadLetterTopic`<sup>Optional</sup> <a name="deadLetterTopic" id="truemark-cdk-lib.aws_lambda.BundledFunction.property.deadLetterTopic"></a>
+
+```typescript
+public readonly deadLetterTopic: ITopic;
+```
+
+- *Type:* aws-cdk-lib.aws_sns.ITopic
+
+The DLQ (as topic) associated with this Lambda Function (this is an optional attribute).
+
+---
+
+##### `timeout`<sup>Optional</sup> <a name="timeout" id="truemark-cdk-lib.aws_lambda.BundledFunction.property.timeout"></a>
+
+```typescript
+public readonly timeout: Duration;
+```
+
+- *Type:* aws-cdk-lib.Duration
+
+The timeout configured for this lambda.
+
+---
+
+##### `alarms`<sup>Required</sup> <a name="alarms" id="truemark-cdk-lib.aws_lambda.BundledFunction.property.alarms"></a>
+
+```typescript
+public readonly alarms: FunctionAlarms;
+```
+
+- *Type:* truemark-cdk-lib.aws_lambda.FunctionAlarms
+
+---
+
+##### `deployment`<sup>Required</sup> <a name="deployment" id="truemark-cdk-lib.aws_lambda.BundledFunction.property.deployment"></a>
+
+```typescript
+public readonly deployment: FunctionDeployment;
+```
+
+- *Type:* truemark-cdk-lib.aws_lambda.FunctionDeployment
+
+---
+
+
 ### CdkPipeline <a name="CdkPipeline" id="truemark-cdk-lib.aws_codepipeline.CdkPipeline"></a>
 
 An abstraction to ease CDK pipeline creation and configuration.
@@ -2931,6 +3955,2469 @@ The metric object this alarm was based on.
 ---
 
 
+### Function <a name="Function" id="truemark-cdk-lib.aws_lambda.Function"></a>
+
+Extended version of Function that supports alarms and deployments.
+
+#### Initializers <a name="Initializers" id="truemark-cdk-lib.aws_lambda.Function.Initializer"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+new aws_lambda.Function(scope: Construct, id: string, props: FunctionProps)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.Initializer.parameter.id">id</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.Initializer.parameter.props">props</a></code> | <code>truemark-cdk-lib.aws_lambda.FunctionProps</code> | *No description.* |
+
+---
+
+##### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_lambda.Function.Initializer.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+##### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_lambda.Function.Initializer.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+##### `props`<sup>Required</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.Function.Initializer.parameter.props"></a>
+
+- *Type:* truemark-cdk-lib.aws_lambda.FunctionProps
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.applyRemovalPolicy">applyRemovalPolicy</a></code> | Apply the given removal policy to this resource. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.addEventSource">addEventSource</a></code> | Adds an event source to this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.addEventSourceMapping">addEventSourceMapping</a></code> | Adds an event source that maps to this AWS Lambda function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.addFunctionUrl">addFunctionUrl</a></code> | Adds a url to this lambda function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.addPermission">addPermission</a></code> | Adds a permission to the Lambda resource policy. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.addToRolePolicy">addToRolePolicy</a></code> | Adds a statement to the IAM role assumed by the instance. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.configureAsyncInvoke">configureAsyncInvoke</a></code> | Configures options for asynchronous invocation. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.considerWarningOnInvokeFunctionPermissions">considerWarningOnInvokeFunctionPermissions</a></code> | A warning will be added to functions under the following conditions: - permissions that include `lambda:InvokeFunction` are added to the unqualified function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.grantInvoke">grantInvoke</a></code> | Grant the given identity permissions to invoke this Lambda. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.grantInvokeUrl">grantInvokeUrl</a></code> | Grant the given identity permissions to invoke this Lambda Function URL. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.metric">metric</a></code> | Return the given named metric for this Function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.metricDuration">metricDuration</a></code> | How long execution of this Lambda takes. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.metricErrors">metricErrors</a></code> | How many invocations of this Lambda fail. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.metricInvocations">metricInvocations</a></code> | How often this Lambda is invoked. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.metricThrottles">metricThrottles</a></code> | How often this Lambda is throttled. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.addAlias">addAlias</a></code> | Defines an alias for this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.addEnvironment">addEnvironment</a></code> | Adds an environment variable to this Lambda function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.addLayers">addLayers</a></code> | Adds one or more Lambda Layers to this Lambda function. |
+
+---
+
+##### `toString` <a name="toString" id="truemark-cdk-lib.aws_lambda.Function.toString"></a>
+
+```typescript
+public toString(): string
+```
+
+Returns a string representation of this construct.
+
+##### `applyRemovalPolicy` <a name="applyRemovalPolicy" id="truemark-cdk-lib.aws_lambda.Function.applyRemovalPolicy"></a>
+
+```typescript
+public applyRemovalPolicy(policy: RemovalPolicy): void
+```
+
+Apply the given removal policy to this resource.
+
+The Removal Policy controls what happens to this resource when it stops
+being managed by CloudFormation, either because you've removed it from the
+CDK application or because you've made a change that requires the resource
+to be replaced.
+
+The resource can be deleted (`RemovalPolicy.DESTROY`), or left in your AWS
+account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
+
+###### `policy`<sup>Required</sup> <a name="policy" id="truemark-cdk-lib.aws_lambda.Function.applyRemovalPolicy.parameter.policy"></a>
+
+- *Type:* aws-cdk-lib.RemovalPolicy
+
+---
+
+##### `addEventSource` <a name="addEventSource" id="truemark-cdk-lib.aws_lambda.Function.addEventSource"></a>
+
+```typescript
+public addEventSource(source: IEventSource): void
+```
+
+Adds an event source to this function.
+
+Event sources are implemented in the @aws-cdk/aws-lambda-event-sources module.
+
+The following example adds an SQS Queue as an event source:
+```
+import { SqsEventSource } from '@aws-cdk/aws-lambda-event-sources';
+myFunction.addEventSource(new SqsEventSource(myQueue));
+```
+
+###### `source`<sup>Required</sup> <a name="source" id="truemark-cdk-lib.aws_lambda.Function.addEventSource.parameter.source"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.IEventSource
+
+---
+
+##### `addEventSourceMapping` <a name="addEventSourceMapping" id="truemark-cdk-lib.aws_lambda.Function.addEventSourceMapping"></a>
+
+```typescript
+public addEventSourceMapping(id: string, options: EventSourceMappingOptions): EventSourceMapping
+```
+
+Adds an event source that maps to this AWS Lambda function.
+
+###### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_lambda.Function.addEventSourceMapping.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+###### `options`<sup>Required</sup> <a name="options" id="truemark-cdk-lib.aws_lambda.Function.addEventSourceMapping.parameter.options"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.EventSourceMappingOptions
+
+---
+
+##### `addFunctionUrl` <a name="addFunctionUrl" id="truemark-cdk-lib.aws_lambda.Function.addFunctionUrl"></a>
+
+```typescript
+public addFunctionUrl(options?: FunctionUrlOptions): FunctionUrl
+```
+
+Adds a url to this lambda function.
+
+###### `options`<sup>Optional</sup> <a name="options" id="truemark-cdk-lib.aws_lambda.Function.addFunctionUrl.parameter.options"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.FunctionUrlOptions
+
+---
+
+##### `addPermission` <a name="addPermission" id="truemark-cdk-lib.aws_lambda.Function.addPermission"></a>
+
+```typescript
+public addPermission(id: string, permission: Permission): void
+```
+
+Adds a permission to the Lambda resource policy.
+
+> [Permission for details.](Permission for details.)
+
+###### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_lambda.Function.addPermission.parameter.id"></a>
+
+- *Type:* string
+
+The id for the permission construct.
+
+---
+
+###### `permission`<sup>Required</sup> <a name="permission" id="truemark-cdk-lib.aws_lambda.Function.addPermission.parameter.permission"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.Permission
+
+The permission to grant to this Lambda function.
+
+---
+
+##### `addToRolePolicy` <a name="addToRolePolicy" id="truemark-cdk-lib.aws_lambda.Function.addToRolePolicy"></a>
+
+```typescript
+public addToRolePolicy(statement: PolicyStatement): void
+```
+
+Adds a statement to the IAM role assumed by the instance.
+
+###### `statement`<sup>Required</sup> <a name="statement" id="truemark-cdk-lib.aws_lambda.Function.addToRolePolicy.parameter.statement"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.PolicyStatement
+
+---
+
+##### `configureAsyncInvoke` <a name="configureAsyncInvoke" id="truemark-cdk-lib.aws_lambda.Function.configureAsyncInvoke"></a>
+
+```typescript
+public configureAsyncInvoke(options: EventInvokeConfigOptions): void
+```
+
+Configures options for asynchronous invocation.
+
+###### `options`<sup>Required</sup> <a name="options" id="truemark-cdk-lib.aws_lambda.Function.configureAsyncInvoke.parameter.options"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.EventInvokeConfigOptions
+
+---
+
+##### `considerWarningOnInvokeFunctionPermissions` <a name="considerWarningOnInvokeFunctionPermissions" id="truemark-cdk-lib.aws_lambda.Function.considerWarningOnInvokeFunctionPermissions"></a>
+
+```typescript
+public considerWarningOnInvokeFunctionPermissions(scope: Construct, action: string): void
+```
+
+A warning will be added to functions under the following conditions: - permissions that include `lambda:InvokeFunction` are added to the unqualified function.
+
+function.currentVersion is invoked before or after the permission is created.
+
+This applies only to permissions on Lambda functions, not versions or aliases.
+This function is overridden as a noOp for QualifiedFunctionBase.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_lambda.Function.considerWarningOnInvokeFunctionPermissions.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+###### `action`<sup>Required</sup> <a name="action" id="truemark-cdk-lib.aws_lambda.Function.considerWarningOnInvokeFunctionPermissions.parameter.action"></a>
+
+- *Type:* string
+
+---
+
+##### `grantInvoke` <a name="grantInvoke" id="truemark-cdk-lib.aws_lambda.Function.grantInvoke"></a>
+
+```typescript
+public grantInvoke(grantee: IGrantable): Grant
+```
+
+Grant the given identity permissions to invoke this Lambda.
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="truemark-cdk-lib.aws_lambda.Function.grantInvoke.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+---
+
+##### `grantInvokeUrl` <a name="grantInvokeUrl" id="truemark-cdk-lib.aws_lambda.Function.grantInvokeUrl"></a>
+
+```typescript
+public grantInvokeUrl(grantee: IGrantable): Grant
+```
+
+Grant the given identity permissions to invoke this Lambda Function URL.
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="truemark-cdk-lib.aws_lambda.Function.grantInvokeUrl.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+---
+
+##### `metric` <a name="metric" id="truemark-cdk-lib.aws_lambda.Function.metric"></a>
+
+```typescript
+public metric(metricName: string, props?: MetricOptions): Metric
+```
+
+Return the given named metric for this Function.
+
+###### `metricName`<sup>Required</sup> <a name="metricName" id="truemark-cdk-lib.aws_lambda.Function.metric.parameter.metricName"></a>
+
+- *Type:* string
+
+---
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.Function.metric.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricDuration` <a name="metricDuration" id="truemark-cdk-lib.aws_lambda.Function.metricDuration"></a>
+
+```typescript
+public metricDuration(props?: MetricOptions): Metric
+```
+
+How long execution of this Lambda takes.
+
+Average over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.Function.metricDuration.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricErrors` <a name="metricErrors" id="truemark-cdk-lib.aws_lambda.Function.metricErrors"></a>
+
+```typescript
+public metricErrors(props?: MetricOptions): Metric
+```
+
+How many invocations of this Lambda fail.
+
+Sum over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.Function.metricErrors.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricInvocations` <a name="metricInvocations" id="truemark-cdk-lib.aws_lambda.Function.metricInvocations"></a>
+
+```typescript
+public metricInvocations(props?: MetricOptions): Metric
+```
+
+How often this Lambda is invoked.
+
+Sum over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.Function.metricInvocations.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricThrottles` <a name="metricThrottles" id="truemark-cdk-lib.aws_lambda.Function.metricThrottles"></a>
+
+```typescript
+public metricThrottles(props?: MetricOptions): Metric
+```
+
+How often this Lambda is throttled.
+
+Sum over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.Function.metricThrottles.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `addAlias` <a name="addAlias" id="truemark-cdk-lib.aws_lambda.Function.addAlias"></a>
+
+```typescript
+public addAlias(aliasName: string, options?: AliasOptions): Alias
+```
+
+Defines an alias for this function.
+
+The alias will automatically be updated to point to the latest version of
+the function as it is being updated during a deployment.
+
+```ts
+declare const fn: lambda.Function;
+
+fn.addAlias('Live');
+
+// Is equivalent to
+
+new lambda.Alias(this, 'AliasLive', {
+   aliasName: 'Live',
+   version: fn.currentVersion,
+});
+```
+
+###### `aliasName`<sup>Required</sup> <a name="aliasName" id="truemark-cdk-lib.aws_lambda.Function.addAlias.parameter.aliasName"></a>
+
+- *Type:* string
+
+The name of the alias.
+
+---
+
+###### `options`<sup>Optional</sup> <a name="options" id="truemark-cdk-lib.aws_lambda.Function.addAlias.parameter.options"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.AliasOptions
+
+Alias options.
+
+---
+
+##### `addEnvironment` <a name="addEnvironment" id="truemark-cdk-lib.aws_lambda.Function.addEnvironment"></a>
+
+```typescript
+public addEnvironment(key: string, value: string, options?: EnvironmentOptions): Function
+```
+
+Adds an environment variable to this Lambda function.
+
+If this is a ref to a Lambda function, this operation results in a no-op.
+
+###### `key`<sup>Required</sup> <a name="key" id="truemark-cdk-lib.aws_lambda.Function.addEnvironment.parameter.key"></a>
+
+- *Type:* string
+
+The environment variable key.
+
+---
+
+###### `value`<sup>Required</sup> <a name="value" id="truemark-cdk-lib.aws_lambda.Function.addEnvironment.parameter.value"></a>
+
+- *Type:* string
+
+The environment variable's value.
+
+---
+
+###### `options`<sup>Optional</sup> <a name="options" id="truemark-cdk-lib.aws_lambda.Function.addEnvironment.parameter.options"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.EnvironmentOptions
+
+Environment variable options.
+
+---
+
+##### `addLayers` <a name="addLayers" id="truemark-cdk-lib.aws_lambda.Function.addLayers"></a>
+
+```typescript
+public addLayers(layers: ILayerVersion): void
+```
+
+Adds one or more Lambda Layers to this Lambda function.
+
+###### `layers`<sup>Required</sup> <a name="layers" id="truemark-cdk-lib.aws_lambda.Function.addLayers.parameter.layers"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.ILayerVersion
+
+the layers to be added.
+
+---
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.isResource">isResource</a></code> | Check whether the given construct is a Resource. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.classifyVersionProperty">classifyVersionProperty</a></code> | Record whether specific properties in the `AWS::Lambda::Function` resource should also be associated to the Version resource. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.fromFunctionArn">fromFunctionArn</a></code> | Import a lambda function into the CDK using its ARN. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.fromFunctionAttributes">fromFunctionAttributes</a></code> | Creates a Lambda function object which represents a function not defined within this stack. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.fromFunctionName">fromFunctionName</a></code> | Import a lambda function into the CDK using its name. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.metricAll">metricAll</a></code> | Return the given named metric for this Lambda. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.metricAllConcurrentExecutions">metricAllConcurrentExecutions</a></code> | Metric for the number of concurrent executions across all Lambdas. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.metricAllDuration">metricAllDuration</a></code> | Metric for the Duration executing all Lambdas. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.metricAllErrors">metricAllErrors</a></code> | Metric for the number of Errors executing all Lambdas. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.metricAllInvocations">metricAllInvocations</a></code> | Metric for the number of invocations of all Lambdas. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.metricAllThrottles">metricAllThrottles</a></code> | Metric for the number of throttled invocations of all Lambdas. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.metricAllUnreservedConcurrentExecutions">metricAllUnreservedConcurrentExecutions</a></code> | Metric for the number of unreserved concurrent executions across all Lambdas. |
+
+---
+
+##### ~~`isConstruct`~~ <a name="isConstruct" id="truemark-cdk-lib.aws_lambda.Function.isConstruct"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.Function.isConstruct(x: any)
+```
+
+Checks if `x` is a construct.
+
+###### `x`<sup>Required</sup> <a name="x" id="truemark-cdk-lib.aws_lambda.Function.isConstruct.parameter.x"></a>
+
+- *Type:* any
+
+Any object.
+
+---
+
+##### `isResource` <a name="isResource" id="truemark-cdk-lib.aws_lambda.Function.isResource"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.Function.isResource(construct: IConstruct)
+```
+
+Check whether the given construct is a Resource.
+
+###### `construct`<sup>Required</sup> <a name="construct" id="truemark-cdk-lib.aws_lambda.Function.isResource.parameter.construct"></a>
+
+- *Type:* constructs.IConstruct
+
+---
+
+##### `classifyVersionProperty` <a name="classifyVersionProperty" id="truemark-cdk-lib.aws_lambda.Function.classifyVersionProperty"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.Function.classifyVersionProperty(propertyName: string, locked: boolean)
+```
+
+Record whether specific properties in the `AWS::Lambda::Function` resource should also be associated to the Version resource.
+
+See 'currentVersion' section in the module README for more details.
+
+###### `propertyName`<sup>Required</sup> <a name="propertyName" id="truemark-cdk-lib.aws_lambda.Function.classifyVersionProperty.parameter.propertyName"></a>
+
+- *Type:* string
+
+The property to classify.
+
+---
+
+###### `locked`<sup>Required</sup> <a name="locked" id="truemark-cdk-lib.aws_lambda.Function.classifyVersionProperty.parameter.locked"></a>
+
+- *Type:* boolean
+
+whether the property should be associated to the version or not.
+
+---
+
+##### `fromFunctionArn` <a name="fromFunctionArn" id="truemark-cdk-lib.aws_lambda.Function.fromFunctionArn"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.Function.fromFunctionArn(scope: Construct, id: string, functionArn: string)
+```
+
+Import a lambda function into the CDK using its ARN.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_lambda.Function.fromFunctionArn.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+###### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_lambda.Function.fromFunctionArn.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+###### `functionArn`<sup>Required</sup> <a name="functionArn" id="truemark-cdk-lib.aws_lambda.Function.fromFunctionArn.parameter.functionArn"></a>
+
+- *Type:* string
+
+---
+
+##### `fromFunctionAttributes` <a name="fromFunctionAttributes" id="truemark-cdk-lib.aws_lambda.Function.fromFunctionAttributes"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.Function.fromFunctionAttributes(scope: Construct, id: string, attrs: FunctionAttributes)
+```
+
+Creates a Lambda function object which represents a function not defined within this stack.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_lambda.Function.fromFunctionAttributes.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+The parent construct.
+
+---
+
+###### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_lambda.Function.fromFunctionAttributes.parameter.id"></a>
+
+- *Type:* string
+
+The name of the lambda construct.
+
+---
+
+###### `attrs`<sup>Required</sup> <a name="attrs" id="truemark-cdk-lib.aws_lambda.Function.fromFunctionAttributes.parameter.attrs"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.FunctionAttributes
+
+the attributes of the function to import.
+
+---
+
+##### `fromFunctionName` <a name="fromFunctionName" id="truemark-cdk-lib.aws_lambda.Function.fromFunctionName"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.Function.fromFunctionName(scope: Construct, id: string, functionName: string)
+```
+
+Import a lambda function into the CDK using its name.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_lambda.Function.fromFunctionName.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+###### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_lambda.Function.fromFunctionName.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+###### `functionName`<sup>Required</sup> <a name="functionName" id="truemark-cdk-lib.aws_lambda.Function.fromFunctionName.parameter.functionName"></a>
+
+- *Type:* string
+
+---
+
+##### `metricAll` <a name="metricAll" id="truemark-cdk-lib.aws_lambda.Function.metricAll"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.Function.metricAll(metricName: string, props?: MetricOptions)
+```
+
+Return the given named metric for this Lambda.
+
+###### `metricName`<sup>Required</sup> <a name="metricName" id="truemark-cdk-lib.aws_lambda.Function.metricAll.parameter.metricName"></a>
+
+- *Type:* string
+
+---
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.Function.metricAll.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricAllConcurrentExecutions` <a name="metricAllConcurrentExecutions" id="truemark-cdk-lib.aws_lambda.Function.metricAllConcurrentExecutions"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.Function.metricAllConcurrentExecutions(props?: MetricOptions)
+```
+
+Metric for the number of concurrent executions across all Lambdas.
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.Function.metricAllConcurrentExecutions.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricAllDuration` <a name="metricAllDuration" id="truemark-cdk-lib.aws_lambda.Function.metricAllDuration"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.Function.metricAllDuration(props?: MetricOptions)
+```
+
+Metric for the Duration executing all Lambdas.
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.Function.metricAllDuration.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricAllErrors` <a name="metricAllErrors" id="truemark-cdk-lib.aws_lambda.Function.metricAllErrors"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.Function.metricAllErrors(props?: MetricOptions)
+```
+
+Metric for the number of Errors executing all Lambdas.
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.Function.metricAllErrors.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricAllInvocations` <a name="metricAllInvocations" id="truemark-cdk-lib.aws_lambda.Function.metricAllInvocations"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.Function.metricAllInvocations(props?: MetricOptions)
+```
+
+Metric for the number of invocations of all Lambdas.
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.Function.metricAllInvocations.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricAllThrottles` <a name="metricAllThrottles" id="truemark-cdk-lib.aws_lambda.Function.metricAllThrottles"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.Function.metricAllThrottles(props?: MetricOptions)
+```
+
+Metric for the number of throttled invocations of all Lambdas.
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.Function.metricAllThrottles.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricAllUnreservedConcurrentExecutions` <a name="metricAllUnreservedConcurrentExecutions" id="truemark-cdk-lib.aws_lambda.Function.metricAllUnreservedConcurrentExecutions"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.Function.metricAllUnreservedConcurrentExecutions(props?: MetricOptions)
+```
+
+Metric for the number of unreserved concurrent executions across all Lambdas.
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.Function.metricAllUnreservedConcurrentExecutions.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.property.architecture">architecture</a></code> | <code>aws-cdk-lib.aws_lambda.Architecture</code> | The architecture of this Lambda Function (this is an optional attribute and defaults to X86_64). |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.property.connections">connections</a></code> | <code>aws-cdk-lib.aws_ec2.Connections</code> | Access the Connections object. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.property.functionArn">functionArn</a></code> | <code>string</code> | ARN of this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.property.functionName">functionName</a></code> | <code>string</code> | Name of this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.property.grantPrincipal">grantPrincipal</a></code> | <code>aws-cdk-lib.aws_iam.IPrincipal</code> | The principal this Lambda Function is running as. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.property.isBoundToVpc">isBoundToVpc</a></code> | <code>boolean</code> | Whether or not this Lambda function was bound to a VPC. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.property.latestVersion">latestVersion</a></code> | <code>aws-cdk-lib.aws_lambda.IVersion</code> | The `$LATEST` version of this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.property.permissionsNode">permissionsNode</a></code> | <code>constructs.Node</code> | The construct node where permissions are attached. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.property.resourceArnsForGrantInvoke">resourceArnsForGrantInvoke</a></code> | <code>string[]</code> | The ARN(s) to put into the resource field of the generated IAM policy for grantInvoke(). |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.property.role">role</a></code> | <code>aws-cdk-lib.aws_iam.IRole</code> | Execution role associated with this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.property.currentVersion">currentVersion</a></code> | <code>aws-cdk-lib.aws_lambda.Version</code> | Returns a `lambda.Version` which represents the current version of this Lambda function. A new version will be created every time the function's configuration changes. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.property.logGroup">logGroup</a></code> | <code>aws-cdk-lib.aws_logs.ILogGroup</code> | The LogGroup where the Lambda function's logs are made available. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.property.runtime">runtime</a></code> | <code>aws-cdk-lib.aws_lambda.Runtime</code> | The runtime configured for this lambda. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.property.deadLetterQueue">deadLetterQueue</a></code> | <code>aws-cdk-lib.aws_sqs.IQueue</code> | The DLQ (as queue) associated with this Lambda Function (this is an optional attribute). |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.property.deadLetterTopic">deadLetterTopic</a></code> | <code>aws-cdk-lib.aws_sns.ITopic</code> | The DLQ (as topic) associated with this Lambda Function (this is an optional attribute). |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.property.timeout">timeout</a></code> | <code>aws-cdk-lib.Duration</code> | The timeout configured for this lambda. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.property.alarms">alarms</a></code> | <code>truemark-cdk-lib.aws_lambda.FunctionAlarms</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_lambda.Function.property.deployment">deployment</a></code> | <code>truemark-cdk-lib.aws_lambda.FunctionDeployment</code> | *No description.* |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="truemark-cdk-lib.aws_lambda.Function.property.node"></a>
+
+```typescript
+public readonly node: Node;
+```
+
+- *Type:* constructs.Node
+
+The tree node.
+
+---
+
+##### `env`<sup>Required</sup> <a name="env" id="truemark-cdk-lib.aws_lambda.Function.property.env"></a>
+
+```typescript
+public readonly env: ResourceEnvironment;
+```
+
+- *Type:* aws-cdk-lib.ResourceEnvironment
+
+The environment this resource belongs to.
+
+For resources that are created and managed by the CDK
+(generally, those created by creating new class instances like Role, Bucket, etc.),
+this is always the same as the environment of the stack they belong to;
+however, for imported resources
+(those obtained from static methods like fromRoleArn, fromBucketName, etc.),
+that might be different than the stack they were imported into.
+
+---
+
+##### `stack`<sup>Required</sup> <a name="stack" id="truemark-cdk-lib.aws_lambda.Function.property.stack"></a>
+
+```typescript
+public readonly stack: Stack;
+```
+
+- *Type:* aws-cdk-lib.Stack
+
+The stack in which this resource is defined.
+
+---
+
+##### `architecture`<sup>Required</sup> <a name="architecture" id="truemark-cdk-lib.aws_lambda.Function.property.architecture"></a>
+
+```typescript
+public readonly architecture: Architecture;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Architecture
+
+The architecture of this Lambda Function (this is an optional attribute and defaults to X86_64).
+
+---
+
+##### `connections`<sup>Required</sup> <a name="connections" id="truemark-cdk-lib.aws_lambda.Function.property.connections"></a>
+
+```typescript
+public readonly connections: Connections;
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.Connections
+
+Access the Connections object.
+
+Will fail if not a VPC-enabled Lambda Function
+
+---
+
+##### `functionArn`<sup>Required</sup> <a name="functionArn" id="truemark-cdk-lib.aws_lambda.Function.property.functionArn"></a>
+
+```typescript
+public readonly functionArn: string;
+```
+
+- *Type:* string
+
+ARN of this function.
+
+---
+
+##### `functionName`<sup>Required</sup> <a name="functionName" id="truemark-cdk-lib.aws_lambda.Function.property.functionName"></a>
+
+```typescript
+public readonly functionName: string;
+```
+
+- *Type:* string
+
+Name of this function.
+
+---
+
+##### `grantPrincipal`<sup>Required</sup> <a name="grantPrincipal" id="truemark-cdk-lib.aws_lambda.Function.property.grantPrincipal"></a>
+
+```typescript
+public readonly grantPrincipal: IPrincipal;
+```
+
+- *Type:* aws-cdk-lib.aws_iam.IPrincipal
+
+The principal this Lambda Function is running as.
+
+---
+
+##### `isBoundToVpc`<sup>Required</sup> <a name="isBoundToVpc" id="truemark-cdk-lib.aws_lambda.Function.property.isBoundToVpc"></a>
+
+```typescript
+public readonly isBoundToVpc: boolean;
+```
+
+- *Type:* boolean
+
+Whether or not this Lambda function was bound to a VPC.
+
+If this is is `false`, trying to access the `connections` object will fail.
+
+---
+
+##### `latestVersion`<sup>Required</sup> <a name="latestVersion" id="truemark-cdk-lib.aws_lambda.Function.property.latestVersion"></a>
+
+```typescript
+public readonly latestVersion: IVersion;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.IVersion
+
+The `$LATEST` version of this function.
+
+Note that this is reference to a non-specific AWS Lambda version, which
+means the function this version refers to can return different results in
+different invocations.
+
+To obtain a reference to an explicit version which references the current
+function configuration, use `lambdaFunction.currentVersion` instead.
+
+---
+
+##### `permissionsNode`<sup>Required</sup> <a name="permissionsNode" id="truemark-cdk-lib.aws_lambda.Function.property.permissionsNode"></a>
+
+```typescript
+public readonly permissionsNode: Node;
+```
+
+- *Type:* constructs.Node
+
+The construct node where permissions are attached.
+
+---
+
+##### `resourceArnsForGrantInvoke`<sup>Required</sup> <a name="resourceArnsForGrantInvoke" id="truemark-cdk-lib.aws_lambda.Function.property.resourceArnsForGrantInvoke"></a>
+
+```typescript
+public readonly resourceArnsForGrantInvoke: string[];
+```
+
+- *Type:* string[]
+
+The ARN(s) to put into the resource field of the generated IAM policy for grantInvoke().
+
+---
+
+##### `role`<sup>Optional</sup> <a name="role" id="truemark-cdk-lib.aws_lambda.Function.property.role"></a>
+
+```typescript
+public readonly role: IRole;
+```
+
+- *Type:* aws-cdk-lib.aws_iam.IRole
+
+Execution role associated with this function.
+
+---
+
+##### `currentVersion`<sup>Required</sup> <a name="currentVersion" id="truemark-cdk-lib.aws_lambda.Function.property.currentVersion"></a>
+
+```typescript
+public readonly currentVersion: Version;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Version
+
+Returns a `lambda.Version` which represents the current version of this Lambda function. A new version will be created every time the function's configuration changes.
+
+You can specify options for this version using the `currentVersionOptions`
+prop when initializing the `lambda.Function`.
+
+---
+
+##### `logGroup`<sup>Required</sup> <a name="logGroup" id="truemark-cdk-lib.aws_lambda.Function.property.logGroup"></a>
+
+```typescript
+public readonly logGroup: ILogGroup;
+```
+
+- *Type:* aws-cdk-lib.aws_logs.ILogGroup
+
+The LogGroup where the Lambda function's logs are made available.
+
+If either `logRetention` is set or this property is called, a CloudFormation custom resource is added to the stack that
+pre-creates the log group as part of the stack deployment, if it already doesn't exist, and sets the correct log retention
+period (never expire, by default).
+
+Further, if the log group already exists and the `logRetention` is not set, the custom resource will reset the log retention
+to never expire even if it was configured with a different value.
+
+---
+
+##### `runtime`<sup>Required</sup> <a name="runtime" id="truemark-cdk-lib.aws_lambda.Function.property.runtime"></a>
+
+```typescript
+public readonly runtime: Runtime;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Runtime
+
+The runtime configured for this lambda.
+
+---
+
+##### `deadLetterQueue`<sup>Optional</sup> <a name="deadLetterQueue" id="truemark-cdk-lib.aws_lambda.Function.property.deadLetterQueue"></a>
+
+```typescript
+public readonly deadLetterQueue: IQueue;
+```
+
+- *Type:* aws-cdk-lib.aws_sqs.IQueue
+
+The DLQ (as queue) associated with this Lambda Function (this is an optional attribute).
+
+---
+
+##### `deadLetterTopic`<sup>Optional</sup> <a name="deadLetterTopic" id="truemark-cdk-lib.aws_lambda.Function.property.deadLetterTopic"></a>
+
+```typescript
+public readonly deadLetterTopic: ITopic;
+```
+
+- *Type:* aws-cdk-lib.aws_sns.ITopic
+
+The DLQ (as topic) associated with this Lambda Function (this is an optional attribute).
+
+---
+
+##### `timeout`<sup>Optional</sup> <a name="timeout" id="truemark-cdk-lib.aws_lambda.Function.property.timeout"></a>
+
+```typescript
+public readonly timeout: Duration;
+```
+
+- *Type:* aws-cdk-lib.Duration
+
+The timeout configured for this lambda.
+
+---
+
+##### `alarms`<sup>Required</sup> <a name="alarms" id="truemark-cdk-lib.aws_lambda.Function.property.alarms"></a>
+
+```typescript
+public readonly alarms: FunctionAlarms;
+```
+
+- *Type:* truemark-cdk-lib.aws_lambda.FunctionAlarms
+
+---
+
+##### `deployment`<sup>Required</sup> <a name="deployment" id="truemark-cdk-lib.aws_lambda.Function.property.deployment"></a>
+
+```typescript
+public readonly deployment: FunctionDeployment;
+```
+
+- *Type:* truemark-cdk-lib.aws_lambda.FunctionDeployment
+
+---
+
+
+### FunctionAlarms <a name="FunctionAlarms" id="truemark-cdk-lib.aws_lambda.FunctionAlarms"></a>
+
+Creates CloudWatch alarms for a Lambda Function.
+
+#### Initializers <a name="Initializers" id="truemark-cdk-lib.aws_lambda.FunctionAlarms.Initializer"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+new aws_lambda.FunctionAlarms(scope: Construct, id: string, props: FunctionAlarmsProps)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarms.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarms.Initializer.parameter.id">id</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarms.Initializer.parameter.props">props</a></code> | <code>truemark-cdk-lib.aws_lambda.FunctionAlarmsProps</code> | *No description.* |
+
+---
+
+##### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_lambda.FunctionAlarms.Initializer.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+##### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_lambda.FunctionAlarms.Initializer.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+##### `props`<sup>Required</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.FunctionAlarms.Initializer.parameter.props"></a>
+
+- *Type:* truemark-cdk-lib.aws_lambda.FunctionAlarmsProps
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarms.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarms.alarms">alarms</a></code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarms.criticalAlarms">criticalAlarms</a></code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarms.warningAlarms">warningAlarms</a></code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarms.getAlarms">getAlarms</a></code> | *No description.* |
+
+---
+
+##### `toString` <a name="toString" id="truemark-cdk-lib.aws_lambda.FunctionAlarms.toString"></a>
+
+```typescript
+public toString(): string
+```
+
+Returns a string representation of this construct.
+
+##### `alarms` <a name="alarms" id="truemark-cdk-lib.aws_lambda.FunctionAlarms.alarms"></a>
+
+```typescript
+public alarms(category: AlarmCategory): Alarm[]
+```
+
+###### `category`<sup>Required</sup> <a name="category" id="truemark-cdk-lib.aws_lambda.FunctionAlarms.alarms.parameter.category"></a>
+
+- *Type:* truemark-cdk-lib.aws_monitoring.AlarmCategory
+
+---
+
+##### `criticalAlarms` <a name="criticalAlarms" id="truemark-cdk-lib.aws_lambda.FunctionAlarms.criticalAlarms"></a>
+
+```typescript
+public criticalAlarms(): Alarm[]
+```
+
+##### `warningAlarms` <a name="warningAlarms" id="truemark-cdk-lib.aws_lambda.FunctionAlarms.warningAlarms"></a>
+
+```typescript
+public warningAlarms(): Alarm[]
+```
+
+##### `getAlarms` <a name="getAlarms" id="truemark-cdk-lib.aws_lambda.FunctionAlarms.getAlarms"></a>
+
+```typescript
+public getAlarms(category: AlarmCategory): Alarm[]
+```
+
+###### `category`<sup>Required</sup> <a name="category" id="truemark-cdk-lib.aws_lambda.FunctionAlarms.getAlarms.parameter.category"></a>
+
+- *Type:* truemark-cdk-lib.aws_monitoring.AlarmCategory
+
+---
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarms.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+
+---
+
+##### ~~`isConstruct`~~ <a name="isConstruct" id="truemark-cdk-lib.aws_lambda.FunctionAlarms.isConstruct"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.FunctionAlarms.isConstruct(x: any)
+```
+
+Checks if `x` is a construct.
+
+###### `x`<sup>Required</sup> <a name="x" id="truemark-cdk-lib.aws_lambda.FunctionAlarms.isConstruct.parameter.x"></a>
+
+- *Type:* any
+
+Any object.
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarms.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarms.property.monitoringFacade">monitoringFacade</a></code> | <code>cdk-monitoring-constructs.MonitoringFacade</code> | The MonitoringFacade instance either passed in or generated. |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="truemark-cdk-lib.aws_lambda.FunctionAlarms.property.node"></a>
+
+```typescript
+public readonly node: Node;
+```
+
+- *Type:* constructs.Node
+
+The tree node.
+
+---
+
+##### `monitoringFacade`<sup>Required</sup> <a name="monitoringFacade" id="truemark-cdk-lib.aws_lambda.FunctionAlarms.property.monitoringFacade"></a>
+
+```typescript
+public readonly monitoringFacade: MonitoringFacade;
+```
+
+- *Type:* cdk-monitoring-constructs.MonitoringFacade
+
+The MonitoringFacade instance either passed in or generated.
+
+---
+
+#### Constants <a name="Constants" id="Constants"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarms.property.DEFAULT_CRITICAL_LOG_METRIC_PATTERN">DEFAULT_CRITICAL_LOG_METRIC_PATTERN</a></code> | <code>string</code> | Default pattern used for the critical log metric. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarms.property.DEFAULT_LOG_INSIGHTS_PATTERN">DEFAULT_LOG_INSIGHTS_PATTERN</a></code> | <code>string</code> | Default pattern used to show logs on the CloudWatch dashboard. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarms.property.DEFAULT_WARNING_LOG_METRIC_PATTERN">DEFAULT_WARNING_LOG_METRIC_PATTERN</a></code> | <code>string</code> | Default pattern used for the warning log metric. |
+
+---
+
+##### `DEFAULT_CRITICAL_LOG_METRIC_PATTERN`<sup>Required</sup> <a name="DEFAULT_CRITICAL_LOG_METRIC_PATTERN" id="truemark-cdk-lib.aws_lambda.FunctionAlarms.property.DEFAULT_CRITICAL_LOG_METRIC_PATTERN"></a>
+
+```typescript
+public readonly DEFAULT_CRITICAL_LOG_METRIC_PATTERN: string;
+```
+
+- *Type:* string
+
+Default pattern used for the critical log metric.
+
+---
+
+##### `DEFAULT_LOG_INSIGHTS_PATTERN`<sup>Required</sup> <a name="DEFAULT_LOG_INSIGHTS_PATTERN" id="truemark-cdk-lib.aws_lambda.FunctionAlarms.property.DEFAULT_LOG_INSIGHTS_PATTERN"></a>
+
+```typescript
+public readonly DEFAULT_LOG_INSIGHTS_PATTERN: string;
+```
+
+- *Type:* string
+
+Default pattern used to show logs on the CloudWatch dashboard.
+
+---
+
+##### `DEFAULT_WARNING_LOG_METRIC_PATTERN`<sup>Required</sup> <a name="DEFAULT_WARNING_LOG_METRIC_PATTERN" id="truemark-cdk-lib.aws_lambda.FunctionAlarms.property.DEFAULT_WARNING_LOG_METRIC_PATTERN"></a>
+
+```typescript
+public readonly DEFAULT_WARNING_LOG_METRIC_PATTERN: string;
+```
+
+- *Type:* string
+
+Default pattern used for the warning log metric.
+
+---
+
+### FunctionDeployment <a name="FunctionDeployment" id="truemark-cdk-lib.aws_lambda.FunctionDeployment"></a>
+
+Creates an Alias and LambdaDeploymentGroup with reasonable defaults.
+
+#### Initializers <a name="Initializers" id="truemark-cdk-lib.aws_lambda.FunctionDeployment.Initializer"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+new aws_lambda.FunctionDeployment(scope: Construct, id: string, props: FunctionDeploymentProps)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionDeployment.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionDeployment.Initializer.parameter.id">id</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionDeployment.Initializer.parameter.props">props</a></code> | <code>truemark-cdk-lib.aws_lambda.FunctionDeploymentProps</code> | *No description.* |
+
+---
+
+##### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_lambda.FunctionDeployment.Initializer.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+##### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_lambda.FunctionDeployment.Initializer.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+##### `props`<sup>Required</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.FunctionDeployment.Initializer.parameter.props"></a>
+
+- *Type:* truemark-cdk-lib.aws_lambda.FunctionDeploymentProps
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionDeployment.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionDeployment.addAlarm">addAlarm</a></code> | Associates an additional alarm with this Deployment Group. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionDeployment.addAlarms">addAlarms</a></code> | Associates additional alarms with this Deployment Group. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionDeployment.addPostHook">addPostHook</a></code> | Associate a function to run after deployment completes. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionDeployment.addPreHook">addPreHook</a></code> | Associate a function to run before deployment begins. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionDeployment.grantPutLifecycleEventHookExecutionStatus">grantPutLifecycleEventHookExecutionStatus</a></code> | Grant a principal permission to codedeploy:PutLifecycleEventHookExecutionStatus on this deployment group resource. |
+
+---
+
+##### `toString` <a name="toString" id="truemark-cdk-lib.aws_lambda.FunctionDeployment.toString"></a>
+
+```typescript
+public toString(): string
+```
+
+Returns a string representation of this construct.
+
+##### `addAlarm` <a name="addAlarm" id="truemark-cdk-lib.aws_lambda.FunctionDeployment.addAlarm"></a>
+
+```typescript
+public addAlarm(alarm: IAlarm): void
+```
+
+Associates an additional alarm with this Deployment Group.
+
+###### `alarm`<sup>Required</sup> <a name="alarm" id="truemark-cdk-lib.aws_lambda.FunctionDeployment.addAlarm.parameter.alarm"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.IAlarm
+
+the alarm to associate.
+
+---
+
+##### `addAlarms` <a name="addAlarms" id="truemark-cdk-lib.aws_lambda.FunctionDeployment.addAlarms"></a>
+
+```typescript
+public addAlarms(alarms: IAlarm): void
+```
+
+Associates additional alarms with this Deployment Group.
+
+###### `alarms`<sup>Required</sup> <a name="alarms" id="truemark-cdk-lib.aws_lambda.FunctionDeployment.addAlarms.parameter.alarms"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.IAlarm
+
+the alarms to associate.
+
+---
+
+##### `addPostHook` <a name="addPostHook" id="truemark-cdk-lib.aws_lambda.FunctionDeployment.addPostHook"></a>
+
+```typescript
+public addPostHook(postHook: IFunction): void
+```
+
+Associate a function to run after deployment completes.
+
+###### `postHook`<sup>Required</sup> <a name="postHook" id="truemark-cdk-lib.aws_lambda.FunctionDeployment.addPostHook.parameter.postHook"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.IFunction
+
+the function to associate.
+
+---
+
+##### `addPreHook` <a name="addPreHook" id="truemark-cdk-lib.aws_lambda.FunctionDeployment.addPreHook"></a>
+
+```typescript
+public addPreHook(preHook: IFunction): void
+```
+
+Associate a function to run before deployment begins.
+
+###### `preHook`<sup>Required</sup> <a name="preHook" id="truemark-cdk-lib.aws_lambda.FunctionDeployment.addPreHook.parameter.preHook"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.IFunction
+
+the function to associate.
+
+---
+
+##### `grantPutLifecycleEventHookExecutionStatus` <a name="grantPutLifecycleEventHookExecutionStatus" id="truemark-cdk-lib.aws_lambda.FunctionDeployment.grantPutLifecycleEventHookExecutionStatus"></a>
+
+```typescript
+public grantPutLifecycleEventHookExecutionStatus(grantee: IGrantable): Grant
+```
+
+Grant a principal permission to codedeploy:PutLifecycleEventHookExecutionStatus on this deployment group resource.
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="truemark-cdk-lib.aws_lambda.FunctionDeployment.grantPutLifecycleEventHookExecutionStatus.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+resource to grant permission to.
+
+---
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionDeployment.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+
+---
+
+##### ~~`isConstruct`~~ <a name="isConstruct" id="truemark-cdk-lib.aws_lambda.FunctionDeployment.isConstruct"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.FunctionDeployment.isConstruct(x: any)
+```
+
+Checks if `x` is a construct.
+
+###### `x`<sup>Required</sup> <a name="x" id="truemark-cdk-lib.aws_lambda.FunctionDeployment.isConstruct.parameter.x"></a>
+
+- *Type:* any
+
+Any object.
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionDeployment.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionDeployment.property.alias">alias</a></code> | <code>aws-cdk-lib.aws_lambda.Alias</code> | The alias created for the deployment. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionDeployment.property.deploymentGroup">deploymentGroup</a></code> | <code>aws-cdk-lib.aws_codedeploy.LambdaDeploymentGroup</code> | The deployment group created for the Lambda Function. |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="truemark-cdk-lib.aws_lambda.FunctionDeployment.property.node"></a>
+
+```typescript
+public readonly node: Node;
+```
+
+- *Type:* constructs.Node
+
+The tree node.
+
+---
+
+##### `alias`<sup>Required</sup> <a name="alias" id="truemark-cdk-lib.aws_lambda.FunctionDeployment.property.alias"></a>
+
+```typescript
+public readonly alias: Alias;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Alias
+
+The alias created for the deployment.
+
+---
+
+##### `deploymentGroup`<sup>Required</sup> <a name="deploymentGroup" id="truemark-cdk-lib.aws_lambda.FunctionDeployment.property.deploymentGroup"></a>
+
+```typescript
+public readonly deploymentGroup: LambdaDeploymentGroup;
+```
+
+- *Type:* aws-cdk-lib.aws_codedeploy.LambdaDeploymentGroup
+
+The deployment group created for the Lambda Function.
+
+---
+
+
+### GoFunctionAlpha <a name="GoFunctionAlpha" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha"></a>
+
+Extended version of the alpha GonFunction that supports alarms and deployments.
+
+#### Initializers <a name="Initializers" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.Initializer"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+new aws_lambda.GoFunctionAlpha(scope: Construct, id: string, props: GoFunctionAlphaProps)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.Initializer.parameter.id">id</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.Initializer.parameter.props">props</a></code> | <code>truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps</code> | *No description.* |
+
+---
+
+##### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.Initializer.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+##### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.Initializer.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+##### `props`<sup>Required</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.Initializer.parameter.props"></a>
+
+- *Type:* truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.applyRemovalPolicy">applyRemovalPolicy</a></code> | Apply the given removal policy to this resource. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.addEventSource">addEventSource</a></code> | Adds an event source to this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.addEventSourceMapping">addEventSourceMapping</a></code> | Adds an event source that maps to this AWS Lambda function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.addFunctionUrl">addFunctionUrl</a></code> | Adds a url to this lambda function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.addPermission">addPermission</a></code> | Adds a permission to the Lambda resource policy. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.addToRolePolicy">addToRolePolicy</a></code> | Adds a statement to the IAM role assumed by the instance. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.configureAsyncInvoke">configureAsyncInvoke</a></code> | Configures options for asynchronous invocation. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.considerWarningOnInvokeFunctionPermissions">considerWarningOnInvokeFunctionPermissions</a></code> | A warning will be added to functions under the following conditions: - permissions that include `lambda:InvokeFunction` are added to the unqualified function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.grantInvoke">grantInvoke</a></code> | Grant the given identity permissions to invoke this Lambda. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.grantInvokeUrl">grantInvokeUrl</a></code> | Grant the given identity permissions to invoke this Lambda Function URL. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.metric">metric</a></code> | Return the given named metric for this Function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.metricDuration">metricDuration</a></code> | How long execution of this Lambda takes. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.metricErrors">metricErrors</a></code> | How many invocations of this Lambda fail. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.metricInvocations">metricInvocations</a></code> | How often this Lambda is invoked. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.metricThrottles">metricThrottles</a></code> | How often this Lambda is throttled. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.addAlias">addAlias</a></code> | Defines an alias for this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.addEnvironment">addEnvironment</a></code> | Adds an environment variable to this Lambda function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.addLayers">addLayers</a></code> | Adds one or more Lambda Layers to this Lambda function. |
+
+---
+
+##### `toString` <a name="toString" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.toString"></a>
+
+```typescript
+public toString(): string
+```
+
+Returns a string representation of this construct.
+
+##### `applyRemovalPolicy` <a name="applyRemovalPolicy" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.applyRemovalPolicy"></a>
+
+```typescript
+public applyRemovalPolicy(policy: RemovalPolicy): void
+```
+
+Apply the given removal policy to this resource.
+
+The Removal Policy controls what happens to this resource when it stops
+being managed by CloudFormation, either because you've removed it from the
+CDK application or because you've made a change that requires the resource
+to be replaced.
+
+The resource can be deleted (`RemovalPolicy.DESTROY`), or left in your AWS
+account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
+
+###### `policy`<sup>Required</sup> <a name="policy" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.applyRemovalPolicy.parameter.policy"></a>
+
+- *Type:* aws-cdk-lib.RemovalPolicy
+
+---
+
+##### `addEventSource` <a name="addEventSource" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.addEventSource"></a>
+
+```typescript
+public addEventSource(source: IEventSource): void
+```
+
+Adds an event source to this function.
+
+Event sources are implemented in the @aws-cdk/aws-lambda-event-sources module.
+
+The following example adds an SQS Queue as an event source:
+```
+import { SqsEventSource } from '@aws-cdk/aws-lambda-event-sources';
+myFunction.addEventSource(new SqsEventSource(myQueue));
+```
+
+###### `source`<sup>Required</sup> <a name="source" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.addEventSource.parameter.source"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.IEventSource
+
+---
+
+##### `addEventSourceMapping` <a name="addEventSourceMapping" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.addEventSourceMapping"></a>
+
+```typescript
+public addEventSourceMapping(id: string, options: EventSourceMappingOptions): EventSourceMapping
+```
+
+Adds an event source that maps to this AWS Lambda function.
+
+###### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.addEventSourceMapping.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+###### `options`<sup>Required</sup> <a name="options" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.addEventSourceMapping.parameter.options"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.EventSourceMappingOptions
+
+---
+
+##### `addFunctionUrl` <a name="addFunctionUrl" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.addFunctionUrl"></a>
+
+```typescript
+public addFunctionUrl(options?: FunctionUrlOptions): FunctionUrl
+```
+
+Adds a url to this lambda function.
+
+###### `options`<sup>Optional</sup> <a name="options" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.addFunctionUrl.parameter.options"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.FunctionUrlOptions
+
+---
+
+##### `addPermission` <a name="addPermission" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.addPermission"></a>
+
+```typescript
+public addPermission(id: string, permission: Permission): void
+```
+
+Adds a permission to the Lambda resource policy.
+
+> [Permission for details.](Permission for details.)
+
+###### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.addPermission.parameter.id"></a>
+
+- *Type:* string
+
+The id for the permission construct.
+
+---
+
+###### `permission`<sup>Required</sup> <a name="permission" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.addPermission.parameter.permission"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.Permission
+
+The permission to grant to this Lambda function.
+
+---
+
+##### `addToRolePolicy` <a name="addToRolePolicy" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.addToRolePolicy"></a>
+
+```typescript
+public addToRolePolicy(statement: PolicyStatement): void
+```
+
+Adds a statement to the IAM role assumed by the instance.
+
+###### `statement`<sup>Required</sup> <a name="statement" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.addToRolePolicy.parameter.statement"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.PolicyStatement
+
+---
+
+##### `configureAsyncInvoke` <a name="configureAsyncInvoke" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.configureAsyncInvoke"></a>
+
+```typescript
+public configureAsyncInvoke(options: EventInvokeConfigOptions): void
+```
+
+Configures options for asynchronous invocation.
+
+###### `options`<sup>Required</sup> <a name="options" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.configureAsyncInvoke.parameter.options"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.EventInvokeConfigOptions
+
+---
+
+##### `considerWarningOnInvokeFunctionPermissions` <a name="considerWarningOnInvokeFunctionPermissions" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.considerWarningOnInvokeFunctionPermissions"></a>
+
+```typescript
+public considerWarningOnInvokeFunctionPermissions(scope: Construct, action: string): void
+```
+
+A warning will be added to functions under the following conditions: - permissions that include `lambda:InvokeFunction` are added to the unqualified function.
+
+function.currentVersion is invoked before or after the permission is created.
+
+This applies only to permissions on Lambda functions, not versions or aliases.
+This function is overridden as a noOp for QualifiedFunctionBase.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.considerWarningOnInvokeFunctionPermissions.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+###### `action`<sup>Required</sup> <a name="action" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.considerWarningOnInvokeFunctionPermissions.parameter.action"></a>
+
+- *Type:* string
+
+---
+
+##### `grantInvoke` <a name="grantInvoke" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.grantInvoke"></a>
+
+```typescript
+public grantInvoke(grantee: IGrantable): Grant
+```
+
+Grant the given identity permissions to invoke this Lambda.
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.grantInvoke.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+---
+
+##### `grantInvokeUrl` <a name="grantInvokeUrl" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.grantInvokeUrl"></a>
+
+```typescript
+public grantInvokeUrl(grantee: IGrantable): Grant
+```
+
+Grant the given identity permissions to invoke this Lambda Function URL.
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.grantInvokeUrl.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+---
+
+##### `metric` <a name="metric" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.metric"></a>
+
+```typescript
+public metric(metricName: string, props?: MetricOptions): Metric
+```
+
+Return the given named metric for this Function.
+
+###### `metricName`<sup>Required</sup> <a name="metricName" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.metric.parameter.metricName"></a>
+
+- *Type:* string
+
+---
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.metric.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricDuration` <a name="metricDuration" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.metricDuration"></a>
+
+```typescript
+public metricDuration(props?: MetricOptions): Metric
+```
+
+How long execution of this Lambda takes.
+
+Average over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.metricDuration.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricErrors` <a name="metricErrors" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.metricErrors"></a>
+
+```typescript
+public metricErrors(props?: MetricOptions): Metric
+```
+
+How many invocations of this Lambda fail.
+
+Sum over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.metricErrors.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricInvocations` <a name="metricInvocations" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.metricInvocations"></a>
+
+```typescript
+public metricInvocations(props?: MetricOptions): Metric
+```
+
+How often this Lambda is invoked.
+
+Sum over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.metricInvocations.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricThrottles` <a name="metricThrottles" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.metricThrottles"></a>
+
+```typescript
+public metricThrottles(props?: MetricOptions): Metric
+```
+
+How often this Lambda is throttled.
+
+Sum over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.metricThrottles.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `addAlias` <a name="addAlias" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.addAlias"></a>
+
+```typescript
+public addAlias(aliasName: string, options?: AliasOptions): Alias
+```
+
+Defines an alias for this function.
+
+The alias will automatically be updated to point to the latest version of
+the function as it is being updated during a deployment.
+
+```ts
+declare const fn: lambda.Function;
+
+fn.addAlias('Live');
+
+// Is equivalent to
+
+new lambda.Alias(this, 'AliasLive', {
+   aliasName: 'Live',
+   version: fn.currentVersion,
+});
+```
+
+###### `aliasName`<sup>Required</sup> <a name="aliasName" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.addAlias.parameter.aliasName"></a>
+
+- *Type:* string
+
+The name of the alias.
+
+---
+
+###### `options`<sup>Optional</sup> <a name="options" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.addAlias.parameter.options"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.AliasOptions
+
+Alias options.
+
+---
+
+##### `addEnvironment` <a name="addEnvironment" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.addEnvironment"></a>
+
+```typescript
+public addEnvironment(key: string, value: string, options?: EnvironmentOptions): Function
+```
+
+Adds an environment variable to this Lambda function.
+
+If this is a ref to a Lambda function, this operation results in a no-op.
+
+###### `key`<sup>Required</sup> <a name="key" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.addEnvironment.parameter.key"></a>
+
+- *Type:* string
+
+The environment variable key.
+
+---
+
+###### `value`<sup>Required</sup> <a name="value" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.addEnvironment.parameter.value"></a>
+
+- *Type:* string
+
+The environment variable's value.
+
+---
+
+###### `options`<sup>Optional</sup> <a name="options" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.addEnvironment.parameter.options"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.EnvironmentOptions
+
+Environment variable options.
+
+---
+
+##### `addLayers` <a name="addLayers" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.addLayers"></a>
+
+```typescript
+public addLayers(layers: ILayerVersion): void
+```
+
+Adds one or more Lambda Layers to this Lambda function.
+
+###### `layers`<sup>Required</sup> <a name="layers" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.addLayers.parameter.layers"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.ILayerVersion
+
+the layers to be added.
+
+---
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.isResource">isResource</a></code> | Check whether the given construct is a Resource. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.classifyVersionProperty">classifyVersionProperty</a></code> | Record whether specific properties in the `AWS::Lambda::Function` resource should also be associated to the Version resource. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.fromFunctionArn">fromFunctionArn</a></code> | Import a lambda function into the CDK using its ARN. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.fromFunctionAttributes">fromFunctionAttributes</a></code> | Creates a Lambda function object which represents a function not defined within this stack. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.fromFunctionName">fromFunctionName</a></code> | Import a lambda function into the CDK using its name. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.metricAll">metricAll</a></code> | Return the given named metric for this Lambda. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.metricAllConcurrentExecutions">metricAllConcurrentExecutions</a></code> | Metric for the number of concurrent executions across all Lambdas. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.metricAllDuration">metricAllDuration</a></code> | Metric for the Duration executing all Lambdas. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.metricAllErrors">metricAllErrors</a></code> | Metric for the number of Errors executing all Lambdas. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.metricAllInvocations">metricAllInvocations</a></code> | Metric for the number of invocations of all Lambdas. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.metricAllThrottles">metricAllThrottles</a></code> | Metric for the number of throttled invocations of all Lambdas. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.metricAllUnreservedConcurrentExecutions">metricAllUnreservedConcurrentExecutions</a></code> | Metric for the number of unreserved concurrent executions across all Lambdas. |
+
+---
+
+##### ~~`isConstruct`~~ <a name="isConstruct" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.isConstruct"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.GoFunctionAlpha.isConstruct(x: any)
+```
+
+Checks if `x` is a construct.
+
+###### `x`<sup>Required</sup> <a name="x" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.isConstruct.parameter.x"></a>
+
+- *Type:* any
+
+Any object.
+
+---
+
+##### `isResource` <a name="isResource" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.isResource"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.GoFunctionAlpha.isResource(construct: IConstruct)
+```
+
+Check whether the given construct is a Resource.
+
+###### `construct`<sup>Required</sup> <a name="construct" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.isResource.parameter.construct"></a>
+
+- *Type:* constructs.IConstruct
+
+---
+
+##### `classifyVersionProperty` <a name="classifyVersionProperty" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.classifyVersionProperty"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.GoFunctionAlpha.classifyVersionProperty(propertyName: string, locked: boolean)
+```
+
+Record whether specific properties in the `AWS::Lambda::Function` resource should also be associated to the Version resource.
+
+See 'currentVersion' section in the module README for more details.
+
+###### `propertyName`<sup>Required</sup> <a name="propertyName" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.classifyVersionProperty.parameter.propertyName"></a>
+
+- *Type:* string
+
+The property to classify.
+
+---
+
+###### `locked`<sup>Required</sup> <a name="locked" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.classifyVersionProperty.parameter.locked"></a>
+
+- *Type:* boolean
+
+whether the property should be associated to the version or not.
+
+---
+
+##### `fromFunctionArn` <a name="fromFunctionArn" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.fromFunctionArn"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.GoFunctionAlpha.fromFunctionArn(scope: Construct, id: string, functionArn: string)
+```
+
+Import a lambda function into the CDK using its ARN.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.fromFunctionArn.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+###### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.fromFunctionArn.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+###### `functionArn`<sup>Required</sup> <a name="functionArn" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.fromFunctionArn.parameter.functionArn"></a>
+
+- *Type:* string
+
+---
+
+##### `fromFunctionAttributes` <a name="fromFunctionAttributes" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.fromFunctionAttributes"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.GoFunctionAlpha.fromFunctionAttributes(scope: Construct, id: string, attrs: FunctionAttributes)
+```
+
+Creates a Lambda function object which represents a function not defined within this stack.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.fromFunctionAttributes.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+The parent construct.
+
+---
+
+###### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.fromFunctionAttributes.parameter.id"></a>
+
+- *Type:* string
+
+The name of the lambda construct.
+
+---
+
+###### `attrs`<sup>Required</sup> <a name="attrs" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.fromFunctionAttributes.parameter.attrs"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.FunctionAttributes
+
+the attributes of the function to import.
+
+---
+
+##### `fromFunctionName` <a name="fromFunctionName" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.fromFunctionName"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.GoFunctionAlpha.fromFunctionName(scope: Construct, id: string, functionName: string)
+```
+
+Import a lambda function into the CDK using its name.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.fromFunctionName.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+###### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.fromFunctionName.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+###### `functionName`<sup>Required</sup> <a name="functionName" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.fromFunctionName.parameter.functionName"></a>
+
+- *Type:* string
+
+---
+
+##### `metricAll` <a name="metricAll" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.metricAll"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.GoFunctionAlpha.metricAll(metricName: string, props?: MetricOptions)
+```
+
+Return the given named metric for this Lambda.
+
+###### `metricName`<sup>Required</sup> <a name="metricName" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.metricAll.parameter.metricName"></a>
+
+- *Type:* string
+
+---
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.metricAll.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricAllConcurrentExecutions` <a name="metricAllConcurrentExecutions" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.metricAllConcurrentExecutions"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.GoFunctionAlpha.metricAllConcurrentExecutions(props?: MetricOptions)
+```
+
+Metric for the number of concurrent executions across all Lambdas.
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.metricAllConcurrentExecutions.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricAllDuration` <a name="metricAllDuration" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.metricAllDuration"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.GoFunctionAlpha.metricAllDuration(props?: MetricOptions)
+```
+
+Metric for the Duration executing all Lambdas.
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.metricAllDuration.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricAllErrors` <a name="metricAllErrors" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.metricAllErrors"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.GoFunctionAlpha.metricAllErrors(props?: MetricOptions)
+```
+
+Metric for the number of Errors executing all Lambdas.
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.metricAllErrors.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricAllInvocations` <a name="metricAllInvocations" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.metricAllInvocations"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.GoFunctionAlpha.metricAllInvocations(props?: MetricOptions)
+```
+
+Metric for the number of invocations of all Lambdas.
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.metricAllInvocations.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricAllThrottles` <a name="metricAllThrottles" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.metricAllThrottles"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.GoFunctionAlpha.metricAllThrottles(props?: MetricOptions)
+```
+
+Metric for the number of throttled invocations of all Lambdas.
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.metricAllThrottles.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricAllUnreservedConcurrentExecutions` <a name="metricAllUnreservedConcurrentExecutions" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.metricAllUnreservedConcurrentExecutions"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.GoFunctionAlpha.metricAllUnreservedConcurrentExecutions(props?: MetricOptions)
+```
+
+Metric for the number of unreserved concurrent executions across all Lambdas.
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.metricAllUnreservedConcurrentExecutions.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.architecture">architecture</a></code> | <code>aws-cdk-lib.aws_lambda.Architecture</code> | The architecture of this Lambda Function (this is an optional attribute and defaults to X86_64). |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.connections">connections</a></code> | <code>aws-cdk-lib.aws_ec2.Connections</code> | Access the Connections object. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.functionArn">functionArn</a></code> | <code>string</code> | ARN of this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.functionName">functionName</a></code> | <code>string</code> | Name of this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.grantPrincipal">grantPrincipal</a></code> | <code>aws-cdk-lib.aws_iam.IPrincipal</code> | The principal this Lambda Function is running as. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.isBoundToVpc">isBoundToVpc</a></code> | <code>boolean</code> | Whether or not this Lambda function was bound to a VPC. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.latestVersion">latestVersion</a></code> | <code>aws-cdk-lib.aws_lambda.IVersion</code> | The `$LATEST` version of this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.permissionsNode">permissionsNode</a></code> | <code>constructs.Node</code> | The construct node where permissions are attached. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.resourceArnsForGrantInvoke">resourceArnsForGrantInvoke</a></code> | <code>string[]</code> | The ARN(s) to put into the resource field of the generated IAM policy for grantInvoke(). |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.role">role</a></code> | <code>aws-cdk-lib.aws_iam.IRole</code> | Execution role associated with this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.currentVersion">currentVersion</a></code> | <code>aws-cdk-lib.aws_lambda.Version</code> | Returns a `lambda.Version` which represents the current version of this Lambda function. A new version will be created every time the function's configuration changes. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.logGroup">logGroup</a></code> | <code>aws-cdk-lib.aws_logs.ILogGroup</code> | The LogGroup where the Lambda function's logs are made available. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.runtime">runtime</a></code> | <code>aws-cdk-lib.aws_lambda.Runtime</code> | The runtime configured for this lambda. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.deadLetterQueue">deadLetterQueue</a></code> | <code>aws-cdk-lib.aws_sqs.IQueue</code> | The DLQ (as queue) associated with this Lambda Function (this is an optional attribute). |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.deadLetterTopic">deadLetterTopic</a></code> | <code>aws-cdk-lib.aws_sns.ITopic</code> | The DLQ (as topic) associated with this Lambda Function (this is an optional attribute). |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.timeout">timeout</a></code> | <code>aws-cdk-lib.Duration</code> | The timeout configured for this lambda. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.alarms">alarms</a></code> | <code>truemark-cdk-lib.aws_lambda.FunctionAlarms</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.deployment">deployment</a></code> | <code>truemark-cdk-lib.aws_lambda.FunctionDeployment</code> | *No description.* |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.node"></a>
+
+```typescript
+public readonly node: Node;
+```
+
+- *Type:* constructs.Node
+
+The tree node.
+
+---
+
+##### `env`<sup>Required</sup> <a name="env" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.env"></a>
+
+```typescript
+public readonly env: ResourceEnvironment;
+```
+
+- *Type:* aws-cdk-lib.ResourceEnvironment
+
+The environment this resource belongs to.
+
+For resources that are created and managed by the CDK
+(generally, those created by creating new class instances like Role, Bucket, etc.),
+this is always the same as the environment of the stack they belong to;
+however, for imported resources
+(those obtained from static methods like fromRoleArn, fromBucketName, etc.),
+that might be different than the stack they were imported into.
+
+---
+
+##### `stack`<sup>Required</sup> <a name="stack" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.stack"></a>
+
+```typescript
+public readonly stack: Stack;
+```
+
+- *Type:* aws-cdk-lib.Stack
+
+The stack in which this resource is defined.
+
+---
+
+##### `architecture`<sup>Required</sup> <a name="architecture" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.architecture"></a>
+
+```typescript
+public readonly architecture: Architecture;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Architecture
+
+The architecture of this Lambda Function (this is an optional attribute and defaults to X86_64).
+
+---
+
+##### `connections`<sup>Required</sup> <a name="connections" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.connections"></a>
+
+```typescript
+public readonly connections: Connections;
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.Connections
+
+Access the Connections object.
+
+Will fail if not a VPC-enabled Lambda Function
+
+---
+
+##### `functionArn`<sup>Required</sup> <a name="functionArn" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.functionArn"></a>
+
+```typescript
+public readonly functionArn: string;
+```
+
+- *Type:* string
+
+ARN of this function.
+
+---
+
+##### `functionName`<sup>Required</sup> <a name="functionName" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.functionName"></a>
+
+```typescript
+public readonly functionName: string;
+```
+
+- *Type:* string
+
+Name of this function.
+
+---
+
+##### `grantPrincipal`<sup>Required</sup> <a name="grantPrincipal" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.grantPrincipal"></a>
+
+```typescript
+public readonly grantPrincipal: IPrincipal;
+```
+
+- *Type:* aws-cdk-lib.aws_iam.IPrincipal
+
+The principal this Lambda Function is running as.
+
+---
+
+##### `isBoundToVpc`<sup>Required</sup> <a name="isBoundToVpc" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.isBoundToVpc"></a>
+
+```typescript
+public readonly isBoundToVpc: boolean;
+```
+
+- *Type:* boolean
+
+Whether or not this Lambda function was bound to a VPC.
+
+If this is is `false`, trying to access the `connections` object will fail.
+
+---
+
+##### `latestVersion`<sup>Required</sup> <a name="latestVersion" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.latestVersion"></a>
+
+```typescript
+public readonly latestVersion: IVersion;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.IVersion
+
+The `$LATEST` version of this function.
+
+Note that this is reference to a non-specific AWS Lambda version, which
+means the function this version refers to can return different results in
+different invocations.
+
+To obtain a reference to an explicit version which references the current
+function configuration, use `lambdaFunction.currentVersion` instead.
+
+---
+
+##### `permissionsNode`<sup>Required</sup> <a name="permissionsNode" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.permissionsNode"></a>
+
+```typescript
+public readonly permissionsNode: Node;
+```
+
+- *Type:* constructs.Node
+
+The construct node where permissions are attached.
+
+---
+
+##### `resourceArnsForGrantInvoke`<sup>Required</sup> <a name="resourceArnsForGrantInvoke" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.resourceArnsForGrantInvoke"></a>
+
+```typescript
+public readonly resourceArnsForGrantInvoke: string[];
+```
+
+- *Type:* string[]
+
+The ARN(s) to put into the resource field of the generated IAM policy for grantInvoke().
+
+---
+
+##### `role`<sup>Optional</sup> <a name="role" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.role"></a>
+
+```typescript
+public readonly role: IRole;
+```
+
+- *Type:* aws-cdk-lib.aws_iam.IRole
+
+Execution role associated with this function.
+
+---
+
+##### `currentVersion`<sup>Required</sup> <a name="currentVersion" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.currentVersion"></a>
+
+```typescript
+public readonly currentVersion: Version;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Version
+
+Returns a `lambda.Version` which represents the current version of this Lambda function. A new version will be created every time the function's configuration changes.
+
+You can specify options for this version using the `currentVersionOptions`
+prop when initializing the `lambda.Function`.
+
+---
+
+##### `logGroup`<sup>Required</sup> <a name="logGroup" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.logGroup"></a>
+
+```typescript
+public readonly logGroup: ILogGroup;
+```
+
+- *Type:* aws-cdk-lib.aws_logs.ILogGroup
+
+The LogGroup where the Lambda function's logs are made available.
+
+If either `logRetention` is set or this property is called, a CloudFormation custom resource is added to the stack that
+pre-creates the log group as part of the stack deployment, if it already doesn't exist, and sets the correct log retention
+period (never expire, by default).
+
+Further, if the log group already exists and the `logRetention` is not set, the custom resource will reset the log retention
+to never expire even if it was configured with a different value.
+
+---
+
+##### `runtime`<sup>Required</sup> <a name="runtime" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.runtime"></a>
+
+```typescript
+public readonly runtime: Runtime;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Runtime
+
+The runtime configured for this lambda.
+
+---
+
+##### `deadLetterQueue`<sup>Optional</sup> <a name="deadLetterQueue" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.deadLetterQueue"></a>
+
+```typescript
+public readonly deadLetterQueue: IQueue;
+```
+
+- *Type:* aws-cdk-lib.aws_sqs.IQueue
+
+The DLQ (as queue) associated with this Lambda Function (this is an optional attribute).
+
+---
+
+##### `deadLetterTopic`<sup>Optional</sup> <a name="deadLetterTopic" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.deadLetterTopic"></a>
+
+```typescript
+public readonly deadLetterTopic: ITopic;
+```
+
+- *Type:* aws-cdk-lib.aws_sns.ITopic
+
+The DLQ (as topic) associated with this Lambda Function (this is an optional attribute).
+
+---
+
+##### `timeout`<sup>Optional</sup> <a name="timeout" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.timeout"></a>
+
+```typescript
+public readonly timeout: Duration;
+```
+
+- *Type:* aws-cdk-lib.Duration
+
+The timeout configured for this lambda.
+
+---
+
+##### `alarms`<sup>Required</sup> <a name="alarms" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.alarms"></a>
+
+```typescript
+public readonly alarms: FunctionAlarms;
+```
+
+- *Type:* truemark-cdk-lib.aws_lambda.FunctionAlarms
+
+---
+
+##### `deployment`<sup>Required</sup> <a name="deployment" id="truemark-cdk-lib.aws_lambda.GoFunctionAlpha.property.deployment"></a>
+
+```typescript
+public readonly deployment: FunctionDeployment;
+```
+
+- *Type:* truemark-cdk-lib.aws_lambda.FunctionDeployment
+
+---
+
+
 ### LatencyARecord <a name="LatencyARecord" id="truemark-cdk-lib.aws_route53.LatencyARecord"></a>
 
 An extended ARecord that performs latency based routing.
@@ -3968,6 +7455,1650 @@ public readonly stack: Stack;
 - *Type:* aws-cdk-lib.Stack
 
 The stack in which this resource is defined.
+
+---
+
+
+### NodeJSFunction <a name="NodeJSFunction" id="truemark-cdk-lib.aws_lambda.NodeJSFunction"></a>
+
+Extended version of the NodejsFunction that supports alarms and deployments.
+
+#### Initializers <a name="Initializers" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.Initializer"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+new aws_lambda.NodeJSFunction(scope: Construct, id: string, props: NodejsFunctionProps)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.Initializer.parameter.id">id</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.Initializer.parameter.props">props</a></code> | <code>aws-cdk-lib.aws_lambda_nodejs.NodejsFunctionProps</code> | *No description.* |
+
+---
+
+##### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.Initializer.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+##### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.Initializer.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+##### `props`<sup>Required</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.Initializer.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda_nodejs.NodejsFunctionProps
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.applyRemovalPolicy">applyRemovalPolicy</a></code> | Apply the given removal policy to this resource. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.addEventSource">addEventSource</a></code> | Adds an event source to this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.addEventSourceMapping">addEventSourceMapping</a></code> | Adds an event source that maps to this AWS Lambda function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.addFunctionUrl">addFunctionUrl</a></code> | Adds a url to this lambda function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.addPermission">addPermission</a></code> | Adds a permission to the Lambda resource policy. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.addToRolePolicy">addToRolePolicy</a></code> | Adds a statement to the IAM role assumed by the instance. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.configureAsyncInvoke">configureAsyncInvoke</a></code> | Configures options for asynchronous invocation. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.considerWarningOnInvokeFunctionPermissions">considerWarningOnInvokeFunctionPermissions</a></code> | A warning will be added to functions under the following conditions: - permissions that include `lambda:InvokeFunction` are added to the unqualified function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.grantInvoke">grantInvoke</a></code> | Grant the given identity permissions to invoke this Lambda. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.grantInvokeUrl">grantInvokeUrl</a></code> | Grant the given identity permissions to invoke this Lambda Function URL. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.metric">metric</a></code> | Return the given named metric for this Function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.metricDuration">metricDuration</a></code> | How long execution of this Lambda takes. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.metricErrors">metricErrors</a></code> | How many invocations of this Lambda fail. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.metricInvocations">metricInvocations</a></code> | How often this Lambda is invoked. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.metricThrottles">metricThrottles</a></code> | How often this Lambda is throttled. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.addAlias">addAlias</a></code> | Defines an alias for this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.addEnvironment">addEnvironment</a></code> | Adds an environment variable to this Lambda function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.addLayers">addLayers</a></code> | Adds one or more Lambda Layers to this Lambda function. |
+
+---
+
+##### `toString` <a name="toString" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.toString"></a>
+
+```typescript
+public toString(): string
+```
+
+Returns a string representation of this construct.
+
+##### `applyRemovalPolicy` <a name="applyRemovalPolicy" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.applyRemovalPolicy"></a>
+
+```typescript
+public applyRemovalPolicy(policy: RemovalPolicy): void
+```
+
+Apply the given removal policy to this resource.
+
+The Removal Policy controls what happens to this resource when it stops
+being managed by CloudFormation, either because you've removed it from the
+CDK application or because you've made a change that requires the resource
+to be replaced.
+
+The resource can be deleted (`RemovalPolicy.DESTROY`), or left in your AWS
+account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
+
+###### `policy`<sup>Required</sup> <a name="policy" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.applyRemovalPolicy.parameter.policy"></a>
+
+- *Type:* aws-cdk-lib.RemovalPolicy
+
+---
+
+##### `addEventSource` <a name="addEventSource" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.addEventSource"></a>
+
+```typescript
+public addEventSource(source: IEventSource): void
+```
+
+Adds an event source to this function.
+
+Event sources are implemented in the @aws-cdk/aws-lambda-event-sources module.
+
+The following example adds an SQS Queue as an event source:
+```
+import { SqsEventSource } from '@aws-cdk/aws-lambda-event-sources';
+myFunction.addEventSource(new SqsEventSource(myQueue));
+```
+
+###### `source`<sup>Required</sup> <a name="source" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.addEventSource.parameter.source"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.IEventSource
+
+---
+
+##### `addEventSourceMapping` <a name="addEventSourceMapping" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.addEventSourceMapping"></a>
+
+```typescript
+public addEventSourceMapping(id: string, options: EventSourceMappingOptions): EventSourceMapping
+```
+
+Adds an event source that maps to this AWS Lambda function.
+
+###### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.addEventSourceMapping.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+###### `options`<sup>Required</sup> <a name="options" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.addEventSourceMapping.parameter.options"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.EventSourceMappingOptions
+
+---
+
+##### `addFunctionUrl` <a name="addFunctionUrl" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.addFunctionUrl"></a>
+
+```typescript
+public addFunctionUrl(options?: FunctionUrlOptions): FunctionUrl
+```
+
+Adds a url to this lambda function.
+
+###### `options`<sup>Optional</sup> <a name="options" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.addFunctionUrl.parameter.options"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.FunctionUrlOptions
+
+---
+
+##### `addPermission` <a name="addPermission" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.addPermission"></a>
+
+```typescript
+public addPermission(id: string, permission: Permission): void
+```
+
+Adds a permission to the Lambda resource policy.
+
+> [Permission for details.](Permission for details.)
+
+###### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.addPermission.parameter.id"></a>
+
+- *Type:* string
+
+The id for the permission construct.
+
+---
+
+###### `permission`<sup>Required</sup> <a name="permission" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.addPermission.parameter.permission"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.Permission
+
+The permission to grant to this Lambda function.
+
+---
+
+##### `addToRolePolicy` <a name="addToRolePolicy" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.addToRolePolicy"></a>
+
+```typescript
+public addToRolePolicy(statement: PolicyStatement): void
+```
+
+Adds a statement to the IAM role assumed by the instance.
+
+###### `statement`<sup>Required</sup> <a name="statement" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.addToRolePolicy.parameter.statement"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.PolicyStatement
+
+---
+
+##### `configureAsyncInvoke` <a name="configureAsyncInvoke" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.configureAsyncInvoke"></a>
+
+```typescript
+public configureAsyncInvoke(options: EventInvokeConfigOptions): void
+```
+
+Configures options for asynchronous invocation.
+
+###### `options`<sup>Required</sup> <a name="options" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.configureAsyncInvoke.parameter.options"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.EventInvokeConfigOptions
+
+---
+
+##### `considerWarningOnInvokeFunctionPermissions` <a name="considerWarningOnInvokeFunctionPermissions" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.considerWarningOnInvokeFunctionPermissions"></a>
+
+```typescript
+public considerWarningOnInvokeFunctionPermissions(scope: Construct, action: string): void
+```
+
+A warning will be added to functions under the following conditions: - permissions that include `lambda:InvokeFunction` are added to the unqualified function.
+
+function.currentVersion is invoked before or after the permission is created.
+
+This applies only to permissions on Lambda functions, not versions or aliases.
+This function is overridden as a noOp for QualifiedFunctionBase.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.considerWarningOnInvokeFunctionPermissions.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+###### `action`<sup>Required</sup> <a name="action" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.considerWarningOnInvokeFunctionPermissions.parameter.action"></a>
+
+- *Type:* string
+
+---
+
+##### `grantInvoke` <a name="grantInvoke" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.grantInvoke"></a>
+
+```typescript
+public grantInvoke(grantee: IGrantable): Grant
+```
+
+Grant the given identity permissions to invoke this Lambda.
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.grantInvoke.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+---
+
+##### `grantInvokeUrl` <a name="grantInvokeUrl" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.grantInvokeUrl"></a>
+
+```typescript
+public grantInvokeUrl(grantee: IGrantable): Grant
+```
+
+Grant the given identity permissions to invoke this Lambda Function URL.
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.grantInvokeUrl.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+---
+
+##### `metric` <a name="metric" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.metric"></a>
+
+```typescript
+public metric(metricName: string, props?: MetricOptions): Metric
+```
+
+Return the given named metric for this Function.
+
+###### `metricName`<sup>Required</sup> <a name="metricName" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.metric.parameter.metricName"></a>
+
+- *Type:* string
+
+---
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.metric.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricDuration` <a name="metricDuration" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.metricDuration"></a>
+
+```typescript
+public metricDuration(props?: MetricOptions): Metric
+```
+
+How long execution of this Lambda takes.
+
+Average over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.metricDuration.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricErrors` <a name="metricErrors" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.metricErrors"></a>
+
+```typescript
+public metricErrors(props?: MetricOptions): Metric
+```
+
+How many invocations of this Lambda fail.
+
+Sum over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.metricErrors.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricInvocations` <a name="metricInvocations" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.metricInvocations"></a>
+
+```typescript
+public metricInvocations(props?: MetricOptions): Metric
+```
+
+How often this Lambda is invoked.
+
+Sum over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.metricInvocations.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricThrottles` <a name="metricThrottles" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.metricThrottles"></a>
+
+```typescript
+public metricThrottles(props?: MetricOptions): Metric
+```
+
+How often this Lambda is throttled.
+
+Sum over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.metricThrottles.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `addAlias` <a name="addAlias" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.addAlias"></a>
+
+```typescript
+public addAlias(aliasName: string, options?: AliasOptions): Alias
+```
+
+Defines an alias for this function.
+
+The alias will automatically be updated to point to the latest version of
+the function as it is being updated during a deployment.
+
+```ts
+declare const fn: lambda.Function;
+
+fn.addAlias('Live');
+
+// Is equivalent to
+
+new lambda.Alias(this, 'AliasLive', {
+   aliasName: 'Live',
+   version: fn.currentVersion,
+});
+```
+
+###### `aliasName`<sup>Required</sup> <a name="aliasName" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.addAlias.parameter.aliasName"></a>
+
+- *Type:* string
+
+The name of the alias.
+
+---
+
+###### `options`<sup>Optional</sup> <a name="options" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.addAlias.parameter.options"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.AliasOptions
+
+Alias options.
+
+---
+
+##### `addEnvironment` <a name="addEnvironment" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.addEnvironment"></a>
+
+```typescript
+public addEnvironment(key: string, value: string, options?: EnvironmentOptions): Function
+```
+
+Adds an environment variable to this Lambda function.
+
+If this is a ref to a Lambda function, this operation results in a no-op.
+
+###### `key`<sup>Required</sup> <a name="key" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.addEnvironment.parameter.key"></a>
+
+- *Type:* string
+
+The environment variable key.
+
+---
+
+###### `value`<sup>Required</sup> <a name="value" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.addEnvironment.parameter.value"></a>
+
+- *Type:* string
+
+The environment variable's value.
+
+---
+
+###### `options`<sup>Optional</sup> <a name="options" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.addEnvironment.parameter.options"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.EnvironmentOptions
+
+Environment variable options.
+
+---
+
+##### `addLayers` <a name="addLayers" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.addLayers"></a>
+
+```typescript
+public addLayers(layers: ILayerVersion): void
+```
+
+Adds one or more Lambda Layers to this Lambda function.
+
+###### `layers`<sup>Required</sup> <a name="layers" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.addLayers.parameter.layers"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.ILayerVersion
+
+the layers to be added.
+
+---
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.isResource">isResource</a></code> | Check whether the given construct is a Resource. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.classifyVersionProperty">classifyVersionProperty</a></code> | Record whether specific properties in the `AWS::Lambda::Function` resource should also be associated to the Version resource. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.fromFunctionArn">fromFunctionArn</a></code> | Import a lambda function into the CDK using its ARN. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.fromFunctionAttributes">fromFunctionAttributes</a></code> | Creates a Lambda function object which represents a function not defined within this stack. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.fromFunctionName">fromFunctionName</a></code> | Import a lambda function into the CDK using its name. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.metricAll">metricAll</a></code> | Return the given named metric for this Lambda. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.metricAllConcurrentExecutions">metricAllConcurrentExecutions</a></code> | Metric for the number of concurrent executions across all Lambdas. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.metricAllDuration">metricAllDuration</a></code> | Metric for the Duration executing all Lambdas. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.metricAllErrors">metricAllErrors</a></code> | Metric for the number of Errors executing all Lambdas. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.metricAllInvocations">metricAllInvocations</a></code> | Metric for the number of invocations of all Lambdas. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.metricAllThrottles">metricAllThrottles</a></code> | Metric for the number of throttled invocations of all Lambdas. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.metricAllUnreservedConcurrentExecutions">metricAllUnreservedConcurrentExecutions</a></code> | Metric for the number of unreserved concurrent executions across all Lambdas. |
+
+---
+
+##### ~~`isConstruct`~~ <a name="isConstruct" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.isConstruct"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.NodeJSFunction.isConstruct(x: any)
+```
+
+Checks if `x` is a construct.
+
+###### `x`<sup>Required</sup> <a name="x" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.isConstruct.parameter.x"></a>
+
+- *Type:* any
+
+Any object.
+
+---
+
+##### `isResource` <a name="isResource" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.isResource"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.NodeJSFunction.isResource(construct: IConstruct)
+```
+
+Check whether the given construct is a Resource.
+
+###### `construct`<sup>Required</sup> <a name="construct" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.isResource.parameter.construct"></a>
+
+- *Type:* constructs.IConstruct
+
+---
+
+##### `classifyVersionProperty` <a name="classifyVersionProperty" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.classifyVersionProperty"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.NodeJSFunction.classifyVersionProperty(propertyName: string, locked: boolean)
+```
+
+Record whether specific properties in the `AWS::Lambda::Function` resource should also be associated to the Version resource.
+
+See 'currentVersion' section in the module README for more details.
+
+###### `propertyName`<sup>Required</sup> <a name="propertyName" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.classifyVersionProperty.parameter.propertyName"></a>
+
+- *Type:* string
+
+The property to classify.
+
+---
+
+###### `locked`<sup>Required</sup> <a name="locked" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.classifyVersionProperty.parameter.locked"></a>
+
+- *Type:* boolean
+
+whether the property should be associated to the version or not.
+
+---
+
+##### `fromFunctionArn` <a name="fromFunctionArn" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.fromFunctionArn"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.NodeJSFunction.fromFunctionArn(scope: Construct, id: string, functionArn: string)
+```
+
+Import a lambda function into the CDK using its ARN.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.fromFunctionArn.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+###### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.fromFunctionArn.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+###### `functionArn`<sup>Required</sup> <a name="functionArn" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.fromFunctionArn.parameter.functionArn"></a>
+
+- *Type:* string
+
+---
+
+##### `fromFunctionAttributes` <a name="fromFunctionAttributes" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.fromFunctionAttributes"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.NodeJSFunction.fromFunctionAttributes(scope: Construct, id: string, attrs: FunctionAttributes)
+```
+
+Creates a Lambda function object which represents a function not defined within this stack.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.fromFunctionAttributes.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+The parent construct.
+
+---
+
+###### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.fromFunctionAttributes.parameter.id"></a>
+
+- *Type:* string
+
+The name of the lambda construct.
+
+---
+
+###### `attrs`<sup>Required</sup> <a name="attrs" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.fromFunctionAttributes.parameter.attrs"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.FunctionAttributes
+
+the attributes of the function to import.
+
+---
+
+##### `fromFunctionName` <a name="fromFunctionName" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.fromFunctionName"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.NodeJSFunction.fromFunctionName(scope: Construct, id: string, functionName: string)
+```
+
+Import a lambda function into the CDK using its name.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.fromFunctionName.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+###### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.fromFunctionName.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+###### `functionName`<sup>Required</sup> <a name="functionName" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.fromFunctionName.parameter.functionName"></a>
+
+- *Type:* string
+
+---
+
+##### `metricAll` <a name="metricAll" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.metricAll"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.NodeJSFunction.metricAll(metricName: string, props?: MetricOptions)
+```
+
+Return the given named metric for this Lambda.
+
+###### `metricName`<sup>Required</sup> <a name="metricName" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.metricAll.parameter.metricName"></a>
+
+- *Type:* string
+
+---
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.metricAll.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricAllConcurrentExecutions` <a name="metricAllConcurrentExecutions" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.metricAllConcurrentExecutions"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.NodeJSFunction.metricAllConcurrentExecutions(props?: MetricOptions)
+```
+
+Metric for the number of concurrent executions across all Lambdas.
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.metricAllConcurrentExecutions.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricAllDuration` <a name="metricAllDuration" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.metricAllDuration"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.NodeJSFunction.metricAllDuration(props?: MetricOptions)
+```
+
+Metric for the Duration executing all Lambdas.
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.metricAllDuration.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricAllErrors` <a name="metricAllErrors" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.metricAllErrors"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.NodeJSFunction.metricAllErrors(props?: MetricOptions)
+```
+
+Metric for the number of Errors executing all Lambdas.
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.metricAllErrors.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricAllInvocations` <a name="metricAllInvocations" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.metricAllInvocations"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.NodeJSFunction.metricAllInvocations(props?: MetricOptions)
+```
+
+Metric for the number of invocations of all Lambdas.
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.metricAllInvocations.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricAllThrottles` <a name="metricAllThrottles" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.metricAllThrottles"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.NodeJSFunction.metricAllThrottles(props?: MetricOptions)
+```
+
+Metric for the number of throttled invocations of all Lambdas.
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.metricAllThrottles.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricAllUnreservedConcurrentExecutions` <a name="metricAllUnreservedConcurrentExecutions" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.metricAllUnreservedConcurrentExecutions"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.NodeJSFunction.metricAllUnreservedConcurrentExecutions(props?: MetricOptions)
+```
+
+Metric for the number of unreserved concurrent executions across all Lambdas.
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.metricAllUnreservedConcurrentExecutions.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.property.architecture">architecture</a></code> | <code>aws-cdk-lib.aws_lambda.Architecture</code> | The architecture of this Lambda Function (this is an optional attribute and defaults to X86_64). |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.property.connections">connections</a></code> | <code>aws-cdk-lib.aws_ec2.Connections</code> | Access the Connections object. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.property.functionArn">functionArn</a></code> | <code>string</code> | ARN of this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.property.functionName">functionName</a></code> | <code>string</code> | Name of this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.property.grantPrincipal">grantPrincipal</a></code> | <code>aws-cdk-lib.aws_iam.IPrincipal</code> | The principal this Lambda Function is running as. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.property.isBoundToVpc">isBoundToVpc</a></code> | <code>boolean</code> | Whether or not this Lambda function was bound to a VPC. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.property.latestVersion">latestVersion</a></code> | <code>aws-cdk-lib.aws_lambda.IVersion</code> | The `$LATEST` version of this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.property.permissionsNode">permissionsNode</a></code> | <code>constructs.Node</code> | The construct node where permissions are attached. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.property.resourceArnsForGrantInvoke">resourceArnsForGrantInvoke</a></code> | <code>string[]</code> | The ARN(s) to put into the resource field of the generated IAM policy for grantInvoke(). |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.property.role">role</a></code> | <code>aws-cdk-lib.aws_iam.IRole</code> | Execution role associated with this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.property.currentVersion">currentVersion</a></code> | <code>aws-cdk-lib.aws_lambda.Version</code> | Returns a `lambda.Version` which represents the current version of this Lambda function. A new version will be created every time the function's configuration changes. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.property.logGroup">logGroup</a></code> | <code>aws-cdk-lib.aws_logs.ILogGroup</code> | The LogGroup where the Lambda function's logs are made available. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.property.runtime">runtime</a></code> | <code>aws-cdk-lib.aws_lambda.Runtime</code> | The runtime configured for this lambda. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.property.deadLetterQueue">deadLetterQueue</a></code> | <code>aws-cdk-lib.aws_sqs.IQueue</code> | The DLQ (as queue) associated with this Lambda Function (this is an optional attribute). |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.property.deadLetterTopic">deadLetterTopic</a></code> | <code>aws-cdk-lib.aws_sns.ITopic</code> | The DLQ (as topic) associated with this Lambda Function (this is an optional attribute). |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.property.timeout">timeout</a></code> | <code>aws-cdk-lib.Duration</code> | The timeout configured for this lambda. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.property.alarms">alarms</a></code> | <code>truemark-cdk-lib.aws_lambda.FunctionAlarms</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunction.property.deployment">deployment</a></code> | <code>truemark-cdk-lib.aws_lambda.FunctionDeployment</code> | *No description.* |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.property.node"></a>
+
+```typescript
+public readonly node: Node;
+```
+
+- *Type:* constructs.Node
+
+The tree node.
+
+---
+
+##### `env`<sup>Required</sup> <a name="env" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.property.env"></a>
+
+```typescript
+public readonly env: ResourceEnvironment;
+```
+
+- *Type:* aws-cdk-lib.ResourceEnvironment
+
+The environment this resource belongs to.
+
+For resources that are created and managed by the CDK
+(generally, those created by creating new class instances like Role, Bucket, etc.),
+this is always the same as the environment of the stack they belong to;
+however, for imported resources
+(those obtained from static methods like fromRoleArn, fromBucketName, etc.),
+that might be different than the stack they were imported into.
+
+---
+
+##### `stack`<sup>Required</sup> <a name="stack" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.property.stack"></a>
+
+```typescript
+public readonly stack: Stack;
+```
+
+- *Type:* aws-cdk-lib.Stack
+
+The stack in which this resource is defined.
+
+---
+
+##### `architecture`<sup>Required</sup> <a name="architecture" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.property.architecture"></a>
+
+```typescript
+public readonly architecture: Architecture;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Architecture
+
+The architecture of this Lambda Function (this is an optional attribute and defaults to X86_64).
+
+---
+
+##### `connections`<sup>Required</sup> <a name="connections" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.property.connections"></a>
+
+```typescript
+public readonly connections: Connections;
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.Connections
+
+Access the Connections object.
+
+Will fail if not a VPC-enabled Lambda Function
+
+---
+
+##### `functionArn`<sup>Required</sup> <a name="functionArn" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.property.functionArn"></a>
+
+```typescript
+public readonly functionArn: string;
+```
+
+- *Type:* string
+
+ARN of this function.
+
+---
+
+##### `functionName`<sup>Required</sup> <a name="functionName" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.property.functionName"></a>
+
+```typescript
+public readonly functionName: string;
+```
+
+- *Type:* string
+
+Name of this function.
+
+---
+
+##### `grantPrincipal`<sup>Required</sup> <a name="grantPrincipal" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.property.grantPrincipal"></a>
+
+```typescript
+public readonly grantPrincipal: IPrincipal;
+```
+
+- *Type:* aws-cdk-lib.aws_iam.IPrincipal
+
+The principal this Lambda Function is running as.
+
+---
+
+##### `isBoundToVpc`<sup>Required</sup> <a name="isBoundToVpc" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.property.isBoundToVpc"></a>
+
+```typescript
+public readonly isBoundToVpc: boolean;
+```
+
+- *Type:* boolean
+
+Whether or not this Lambda function was bound to a VPC.
+
+If this is is `false`, trying to access the `connections` object will fail.
+
+---
+
+##### `latestVersion`<sup>Required</sup> <a name="latestVersion" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.property.latestVersion"></a>
+
+```typescript
+public readonly latestVersion: IVersion;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.IVersion
+
+The `$LATEST` version of this function.
+
+Note that this is reference to a non-specific AWS Lambda version, which
+means the function this version refers to can return different results in
+different invocations.
+
+To obtain a reference to an explicit version which references the current
+function configuration, use `lambdaFunction.currentVersion` instead.
+
+---
+
+##### `permissionsNode`<sup>Required</sup> <a name="permissionsNode" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.property.permissionsNode"></a>
+
+```typescript
+public readonly permissionsNode: Node;
+```
+
+- *Type:* constructs.Node
+
+The construct node where permissions are attached.
+
+---
+
+##### `resourceArnsForGrantInvoke`<sup>Required</sup> <a name="resourceArnsForGrantInvoke" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.property.resourceArnsForGrantInvoke"></a>
+
+```typescript
+public readonly resourceArnsForGrantInvoke: string[];
+```
+
+- *Type:* string[]
+
+The ARN(s) to put into the resource field of the generated IAM policy for grantInvoke().
+
+---
+
+##### `role`<sup>Optional</sup> <a name="role" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.property.role"></a>
+
+```typescript
+public readonly role: IRole;
+```
+
+- *Type:* aws-cdk-lib.aws_iam.IRole
+
+Execution role associated with this function.
+
+---
+
+##### `currentVersion`<sup>Required</sup> <a name="currentVersion" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.property.currentVersion"></a>
+
+```typescript
+public readonly currentVersion: Version;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Version
+
+Returns a `lambda.Version` which represents the current version of this Lambda function. A new version will be created every time the function's configuration changes.
+
+You can specify options for this version using the `currentVersionOptions`
+prop when initializing the `lambda.Function`.
+
+---
+
+##### `logGroup`<sup>Required</sup> <a name="logGroup" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.property.logGroup"></a>
+
+```typescript
+public readonly logGroup: ILogGroup;
+```
+
+- *Type:* aws-cdk-lib.aws_logs.ILogGroup
+
+The LogGroup where the Lambda function's logs are made available.
+
+If either `logRetention` is set or this property is called, a CloudFormation custom resource is added to the stack that
+pre-creates the log group as part of the stack deployment, if it already doesn't exist, and sets the correct log retention
+period (never expire, by default).
+
+Further, if the log group already exists and the `logRetention` is not set, the custom resource will reset the log retention
+to never expire even if it was configured with a different value.
+
+---
+
+##### `runtime`<sup>Required</sup> <a name="runtime" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.property.runtime"></a>
+
+```typescript
+public readonly runtime: Runtime;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Runtime
+
+The runtime configured for this lambda.
+
+---
+
+##### `deadLetterQueue`<sup>Optional</sup> <a name="deadLetterQueue" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.property.deadLetterQueue"></a>
+
+```typescript
+public readonly deadLetterQueue: IQueue;
+```
+
+- *Type:* aws-cdk-lib.aws_sqs.IQueue
+
+The DLQ (as queue) associated with this Lambda Function (this is an optional attribute).
+
+---
+
+##### `deadLetterTopic`<sup>Optional</sup> <a name="deadLetterTopic" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.property.deadLetterTopic"></a>
+
+```typescript
+public readonly deadLetterTopic: ITopic;
+```
+
+- *Type:* aws-cdk-lib.aws_sns.ITopic
+
+The DLQ (as topic) associated with this Lambda Function (this is an optional attribute).
+
+---
+
+##### `timeout`<sup>Optional</sup> <a name="timeout" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.property.timeout"></a>
+
+```typescript
+public readonly timeout: Duration;
+```
+
+- *Type:* aws-cdk-lib.Duration
+
+The timeout configured for this lambda.
+
+---
+
+##### `alarms`<sup>Required</sup> <a name="alarms" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.property.alarms"></a>
+
+```typescript
+public readonly alarms: FunctionAlarms;
+```
+
+- *Type:* truemark-cdk-lib.aws_lambda.FunctionAlarms
+
+---
+
+##### `deployment`<sup>Required</sup> <a name="deployment" id="truemark-cdk-lib.aws_lambda.NodeJSFunction.property.deployment"></a>
+
+```typescript
+public readonly deployment: FunctionDeployment;
+```
+
+- *Type:* truemark-cdk-lib.aws_lambda.FunctionDeployment
+
+---
+
+
+### ObservedQueue <a name="ObservedQueue" id="truemark-cdk-lib.aws_sqs.ObservedQueue"></a>
+
+Queue with CloudWatch alarms.
+
+#### Initializers <a name="Initializers" id="truemark-cdk-lib.aws_sqs.ObservedQueue.Initializer"></a>
+
+```typescript
+import { aws_sqs } from 'truemark-cdk-lib'
+
+new aws_sqs.ObservedQueue(scope: Construct, id: string, props: ObservedQueueProps)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueue.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueue.Initializer.parameter.id">id</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueue.Initializer.parameter.props">props</a></code> | <code>truemark-cdk-lib.aws_sqs.ObservedQueueProps</code> | *No description.* |
+
+---
+
+##### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_sqs.ObservedQueue.Initializer.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+##### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_sqs.ObservedQueue.Initializer.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+##### `props`<sup>Required</sup> <a name="props" id="truemark-cdk-lib.aws_sqs.ObservedQueue.Initializer.parameter.props"></a>
+
+- *Type:* truemark-cdk-lib.aws_sqs.ObservedQueueProps
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueue.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueue.applyRemovalPolicy">applyRemovalPolicy</a></code> | Apply the given removal policy to this resource. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueue.addToResourcePolicy">addToResourcePolicy</a></code> | Adds a statement to the IAM resource policy associated with this queue. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueue.grant">grant</a></code> | Grant the actions defined in queueActions to the identity Principal given on this SQS queue resource. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueue.grantConsumeMessages">grantConsumeMessages</a></code> | Grant permissions to consume messages from a queue. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueue.grantPurge">grantPurge</a></code> | Grant an IAM principal permissions to purge all messages from the queue. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueue.grantSendMessages">grantSendMessages</a></code> | Grant access to send messages to a queue to the given identity. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueue.metric">metric</a></code> | Return the given named metric for this Queue. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueue.metricApproximateAgeOfOldestMessage">metricApproximateAgeOfOldestMessage</a></code> | The approximate age of the oldest non-deleted message in the queue. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueue.metricApproximateNumberOfMessagesDelayed">metricApproximateNumberOfMessagesDelayed</a></code> | The number of messages in the queue that are delayed and not available for reading immediately. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueue.metricApproximateNumberOfMessagesNotVisible">metricApproximateNumberOfMessagesNotVisible</a></code> | The number of messages that are in flight. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueue.metricApproximateNumberOfMessagesVisible">metricApproximateNumberOfMessagesVisible</a></code> | The number of messages available for retrieval from the queue. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueue.metricNumberOfEmptyReceives">metricNumberOfEmptyReceives</a></code> | The number of ReceiveMessage API calls that did not return a message. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueue.metricNumberOfMessagesDeleted">metricNumberOfMessagesDeleted</a></code> | The number of messages deleted from the queue. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueue.metricNumberOfMessagesReceived">metricNumberOfMessagesReceived</a></code> | The number of messages returned by calls to the ReceiveMessage action. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueue.metricNumberOfMessagesSent">metricNumberOfMessagesSent</a></code> | The number of messages added to a queue. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueue.metricSentMessageSize">metricSentMessageSize</a></code> | The size of messages added to a queue. |
+
+---
+
+##### `toString` <a name="toString" id="truemark-cdk-lib.aws_sqs.ObservedQueue.toString"></a>
+
+```typescript
+public toString(): string
+```
+
+Returns a string representation of this construct.
+
+##### `applyRemovalPolicy` <a name="applyRemovalPolicy" id="truemark-cdk-lib.aws_sqs.ObservedQueue.applyRemovalPolicy"></a>
+
+```typescript
+public applyRemovalPolicy(policy: RemovalPolicy): void
+```
+
+Apply the given removal policy to this resource.
+
+The Removal Policy controls what happens to this resource when it stops
+being managed by CloudFormation, either because you've removed it from the
+CDK application or because you've made a change that requires the resource
+to be replaced.
+
+The resource can be deleted (`RemovalPolicy.DESTROY`), or left in your AWS
+account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
+
+###### `policy`<sup>Required</sup> <a name="policy" id="truemark-cdk-lib.aws_sqs.ObservedQueue.applyRemovalPolicy.parameter.policy"></a>
+
+- *Type:* aws-cdk-lib.RemovalPolicy
+
+---
+
+##### `addToResourcePolicy` <a name="addToResourcePolicy" id="truemark-cdk-lib.aws_sqs.ObservedQueue.addToResourcePolicy"></a>
+
+```typescript
+public addToResourcePolicy(statement: PolicyStatement): AddToResourcePolicyResult
+```
+
+Adds a statement to the IAM resource policy associated with this queue.
+
+If this queue was created in this stack (`new Queue`), a queue policy
+will be automatically created upon the first call to `addToPolicy`. If
+the queue is imported (`Queue.import`), then this is a no-op.
+
+###### `statement`<sup>Required</sup> <a name="statement" id="truemark-cdk-lib.aws_sqs.ObservedQueue.addToResourcePolicy.parameter.statement"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.PolicyStatement
+
+---
+
+##### `grant` <a name="grant" id="truemark-cdk-lib.aws_sqs.ObservedQueue.grant"></a>
+
+```typescript
+public grant(grantee: IGrantable, actions: string): Grant
+```
+
+Grant the actions defined in queueActions to the identity Principal given on this SQS queue resource.
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="truemark-cdk-lib.aws_sqs.ObservedQueue.grant.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+Principal to grant right to.
+
+---
+
+###### `actions`<sup>Required</sup> <a name="actions" id="truemark-cdk-lib.aws_sqs.ObservedQueue.grant.parameter.actions"></a>
+
+- *Type:* string
+
+The actions to grant.
+
+---
+
+##### `grantConsumeMessages` <a name="grantConsumeMessages" id="truemark-cdk-lib.aws_sqs.ObservedQueue.grantConsumeMessages"></a>
+
+```typescript
+public grantConsumeMessages(grantee: IGrantable): Grant
+```
+
+Grant permissions to consume messages from a queue.
+
+This will grant the following permissions:
+
+   - sqs:ChangeMessageVisibility
+   - sqs:DeleteMessage
+   - sqs:ReceiveMessage
+   - sqs:GetQueueAttributes
+   - sqs:GetQueueUrl
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="truemark-cdk-lib.aws_sqs.ObservedQueue.grantConsumeMessages.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+Principal to grant consume rights to.
+
+---
+
+##### `grantPurge` <a name="grantPurge" id="truemark-cdk-lib.aws_sqs.ObservedQueue.grantPurge"></a>
+
+```typescript
+public grantPurge(grantee: IGrantable): Grant
+```
+
+Grant an IAM principal permissions to purge all messages from the queue.
+
+This will grant the following permissions:
+
+  - sqs:PurgeQueue
+  - sqs:GetQueueAttributes
+  - sqs:GetQueueUrl
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="truemark-cdk-lib.aws_sqs.ObservedQueue.grantPurge.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+Principal to grant send rights to.
+
+---
+
+##### `grantSendMessages` <a name="grantSendMessages" id="truemark-cdk-lib.aws_sqs.ObservedQueue.grantSendMessages"></a>
+
+```typescript
+public grantSendMessages(grantee: IGrantable): Grant
+```
+
+Grant access to send messages to a queue to the given identity.
+
+This will grant the following permissions:
+
+  - sqs:SendMessage
+  - sqs:GetQueueAttributes
+  - sqs:GetQueueUrl
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="truemark-cdk-lib.aws_sqs.ObservedQueue.grantSendMessages.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+Principal to grant send rights to.
+
+---
+
+##### `metric` <a name="metric" id="truemark-cdk-lib.aws_sqs.ObservedQueue.metric"></a>
+
+```typescript
+public metric(metricName: string, props?: MetricOptions): Metric
+```
+
+Return the given named metric for this Queue.
+
+###### `metricName`<sup>Required</sup> <a name="metricName" id="truemark-cdk-lib.aws_sqs.ObservedQueue.metric.parameter.metricName"></a>
+
+- *Type:* string
+
+---
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_sqs.ObservedQueue.metric.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricApproximateAgeOfOldestMessage` <a name="metricApproximateAgeOfOldestMessage" id="truemark-cdk-lib.aws_sqs.ObservedQueue.metricApproximateAgeOfOldestMessage"></a>
+
+```typescript
+public metricApproximateAgeOfOldestMessage(props?: MetricOptions): Metric
+```
+
+The approximate age of the oldest non-deleted message in the queue.
+
+Maximum over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_sqs.ObservedQueue.metricApproximateAgeOfOldestMessage.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricApproximateNumberOfMessagesDelayed` <a name="metricApproximateNumberOfMessagesDelayed" id="truemark-cdk-lib.aws_sqs.ObservedQueue.metricApproximateNumberOfMessagesDelayed"></a>
+
+```typescript
+public metricApproximateNumberOfMessagesDelayed(props?: MetricOptions): Metric
+```
+
+The number of messages in the queue that are delayed and not available for reading immediately.
+
+Maximum over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_sqs.ObservedQueue.metricApproximateNumberOfMessagesDelayed.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricApproximateNumberOfMessagesNotVisible` <a name="metricApproximateNumberOfMessagesNotVisible" id="truemark-cdk-lib.aws_sqs.ObservedQueue.metricApproximateNumberOfMessagesNotVisible"></a>
+
+```typescript
+public metricApproximateNumberOfMessagesNotVisible(props?: MetricOptions): Metric
+```
+
+The number of messages that are in flight.
+
+Maximum over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_sqs.ObservedQueue.metricApproximateNumberOfMessagesNotVisible.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricApproximateNumberOfMessagesVisible` <a name="metricApproximateNumberOfMessagesVisible" id="truemark-cdk-lib.aws_sqs.ObservedQueue.metricApproximateNumberOfMessagesVisible"></a>
+
+```typescript
+public metricApproximateNumberOfMessagesVisible(props?: MetricOptions): Metric
+```
+
+The number of messages available for retrieval from the queue.
+
+Maximum over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_sqs.ObservedQueue.metricApproximateNumberOfMessagesVisible.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricNumberOfEmptyReceives` <a name="metricNumberOfEmptyReceives" id="truemark-cdk-lib.aws_sqs.ObservedQueue.metricNumberOfEmptyReceives"></a>
+
+```typescript
+public metricNumberOfEmptyReceives(props?: MetricOptions): Metric
+```
+
+The number of ReceiveMessage API calls that did not return a message.
+
+Sum over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_sqs.ObservedQueue.metricNumberOfEmptyReceives.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricNumberOfMessagesDeleted` <a name="metricNumberOfMessagesDeleted" id="truemark-cdk-lib.aws_sqs.ObservedQueue.metricNumberOfMessagesDeleted"></a>
+
+```typescript
+public metricNumberOfMessagesDeleted(props?: MetricOptions): Metric
+```
+
+The number of messages deleted from the queue.
+
+Sum over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_sqs.ObservedQueue.metricNumberOfMessagesDeleted.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricNumberOfMessagesReceived` <a name="metricNumberOfMessagesReceived" id="truemark-cdk-lib.aws_sqs.ObservedQueue.metricNumberOfMessagesReceived"></a>
+
+```typescript
+public metricNumberOfMessagesReceived(props?: MetricOptions): Metric
+```
+
+The number of messages returned by calls to the ReceiveMessage action.
+
+Sum over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_sqs.ObservedQueue.metricNumberOfMessagesReceived.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricNumberOfMessagesSent` <a name="metricNumberOfMessagesSent" id="truemark-cdk-lib.aws_sqs.ObservedQueue.metricNumberOfMessagesSent"></a>
+
+```typescript
+public metricNumberOfMessagesSent(props?: MetricOptions): Metric
+```
+
+The number of messages added to a queue.
+
+Sum over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_sqs.ObservedQueue.metricNumberOfMessagesSent.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricSentMessageSize` <a name="metricSentMessageSize" id="truemark-cdk-lib.aws_sqs.ObservedQueue.metricSentMessageSize"></a>
+
+```typescript
+public metricSentMessageSize(props?: MetricOptions): Metric
+```
+
+The size of messages added to a queue.
+
+Average over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_sqs.ObservedQueue.metricSentMessageSize.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueue.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueue.isResource">isResource</a></code> | Check whether the given construct is a Resource. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueue.fromQueueArn">fromQueueArn</a></code> | Import an existing SQS queue provided an ARN. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueue.fromQueueAttributes">fromQueueAttributes</a></code> | Import an existing queue. |
+
+---
+
+##### ~~`isConstruct`~~ <a name="isConstruct" id="truemark-cdk-lib.aws_sqs.ObservedQueue.isConstruct"></a>
+
+```typescript
+import { aws_sqs } from 'truemark-cdk-lib'
+
+aws_sqs.ObservedQueue.isConstruct(x: any)
+```
+
+Checks if `x` is a construct.
+
+###### `x`<sup>Required</sup> <a name="x" id="truemark-cdk-lib.aws_sqs.ObservedQueue.isConstruct.parameter.x"></a>
+
+- *Type:* any
+
+Any object.
+
+---
+
+##### `isResource` <a name="isResource" id="truemark-cdk-lib.aws_sqs.ObservedQueue.isResource"></a>
+
+```typescript
+import { aws_sqs } from 'truemark-cdk-lib'
+
+aws_sqs.ObservedQueue.isResource(construct: IConstruct)
+```
+
+Check whether the given construct is a Resource.
+
+###### `construct`<sup>Required</sup> <a name="construct" id="truemark-cdk-lib.aws_sqs.ObservedQueue.isResource.parameter.construct"></a>
+
+- *Type:* constructs.IConstruct
+
+---
+
+##### `fromQueueArn` <a name="fromQueueArn" id="truemark-cdk-lib.aws_sqs.ObservedQueue.fromQueueArn"></a>
+
+```typescript
+import { aws_sqs } from 'truemark-cdk-lib'
+
+aws_sqs.ObservedQueue.fromQueueArn(scope: Construct, id: string, queueArn: string)
+```
+
+Import an existing SQS queue provided an ARN.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_sqs.ObservedQueue.fromQueueArn.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+The parent creating construct.
+
+---
+
+###### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_sqs.ObservedQueue.fromQueueArn.parameter.id"></a>
+
+- *Type:* string
+
+The construct's name.
+
+---
+
+###### `queueArn`<sup>Required</sup> <a name="queueArn" id="truemark-cdk-lib.aws_sqs.ObservedQueue.fromQueueArn.parameter.queueArn"></a>
+
+- *Type:* string
+
+queue ARN (i.e. arn:aws:sqs:us-east-2:444455556666:queue1).
+
+---
+
+##### `fromQueueAttributes` <a name="fromQueueAttributes" id="truemark-cdk-lib.aws_sqs.ObservedQueue.fromQueueAttributes"></a>
+
+```typescript
+import { aws_sqs } from 'truemark-cdk-lib'
+
+aws_sqs.ObservedQueue.fromQueueAttributes(scope: Construct, id: string, attrs: QueueAttributes)
+```
+
+Import an existing queue.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_sqs.ObservedQueue.fromQueueAttributes.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+###### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_sqs.ObservedQueue.fromQueueAttributes.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+###### `attrs`<sup>Required</sup> <a name="attrs" id="truemark-cdk-lib.aws_sqs.ObservedQueue.fromQueueAttributes.parameter.attrs"></a>
+
+- *Type:* aws-cdk-lib.aws_sqs.QueueAttributes
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueue.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueue.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueue.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueue.property.fifo">fifo</a></code> | <code>boolean</code> | Whether this queue is an Amazon SQS FIFO queue. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueue.property.queueArn">queueArn</a></code> | <code>string</code> | The ARN of this queue. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueue.property.queueName">queueName</a></code> | <code>string</code> | The name of this queue. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueue.property.queueUrl">queueUrl</a></code> | <code>string</code> | The URL of this queue. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueue.property.encryptionMasterKey">encryptionMasterKey</a></code> | <code>aws-cdk-lib.aws_kms.IKey</code> | If this queue is encrypted, this is the KMS key. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueue.property.deadLetterQueue">deadLetterQueue</a></code> | <code>aws-cdk-lib.aws_sqs.DeadLetterQueue</code> | If this queue is configured with a dead-letter queue, this is the dead-letter queue settings. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueue.property.queueAlarms">queueAlarms</a></code> | <code>truemark-cdk-lib.aws_sqs.QueueAlarms</code> | *No description.* |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="truemark-cdk-lib.aws_sqs.ObservedQueue.property.node"></a>
+
+```typescript
+public readonly node: Node;
+```
+
+- *Type:* constructs.Node
+
+The tree node.
+
+---
+
+##### `env`<sup>Required</sup> <a name="env" id="truemark-cdk-lib.aws_sqs.ObservedQueue.property.env"></a>
+
+```typescript
+public readonly env: ResourceEnvironment;
+```
+
+- *Type:* aws-cdk-lib.ResourceEnvironment
+
+The environment this resource belongs to.
+
+For resources that are created and managed by the CDK
+(generally, those created by creating new class instances like Role, Bucket, etc.),
+this is always the same as the environment of the stack they belong to;
+however, for imported resources
+(those obtained from static methods like fromRoleArn, fromBucketName, etc.),
+that might be different than the stack they were imported into.
+
+---
+
+##### `stack`<sup>Required</sup> <a name="stack" id="truemark-cdk-lib.aws_sqs.ObservedQueue.property.stack"></a>
+
+```typescript
+public readonly stack: Stack;
+```
+
+- *Type:* aws-cdk-lib.Stack
+
+The stack in which this resource is defined.
+
+---
+
+##### `fifo`<sup>Required</sup> <a name="fifo" id="truemark-cdk-lib.aws_sqs.ObservedQueue.property.fifo"></a>
+
+```typescript
+public readonly fifo: boolean;
+```
+
+- *Type:* boolean
+
+Whether this queue is an Amazon SQS FIFO queue.
+
+If false, this is a standard queue.
+
+---
+
+##### `queueArn`<sup>Required</sup> <a name="queueArn" id="truemark-cdk-lib.aws_sqs.ObservedQueue.property.queueArn"></a>
+
+```typescript
+public readonly queueArn: string;
+```
+
+- *Type:* string
+
+The ARN of this queue.
+
+---
+
+##### `queueName`<sup>Required</sup> <a name="queueName" id="truemark-cdk-lib.aws_sqs.ObservedQueue.property.queueName"></a>
+
+```typescript
+public readonly queueName: string;
+```
+
+- *Type:* string
+
+The name of this queue.
+
+---
+
+##### `queueUrl`<sup>Required</sup> <a name="queueUrl" id="truemark-cdk-lib.aws_sqs.ObservedQueue.property.queueUrl"></a>
+
+```typescript
+public readonly queueUrl: string;
+```
+
+- *Type:* string
+
+The URL of this queue.
+
+---
+
+##### `encryptionMasterKey`<sup>Optional</sup> <a name="encryptionMasterKey" id="truemark-cdk-lib.aws_sqs.ObservedQueue.property.encryptionMasterKey"></a>
+
+```typescript
+public readonly encryptionMasterKey: IKey;
+```
+
+- *Type:* aws-cdk-lib.aws_kms.IKey
+
+If this queue is encrypted, this is the KMS key.
+
+---
+
+##### `deadLetterQueue`<sup>Optional</sup> <a name="deadLetterQueue" id="truemark-cdk-lib.aws_sqs.ObservedQueue.property.deadLetterQueue"></a>
+
+```typescript
+public readonly deadLetterQueue: DeadLetterQueue;
+```
+
+- *Type:* aws-cdk-lib.aws_sqs.DeadLetterQueue
+
+If this queue is configured with a dead-letter queue, this is the dead-letter queue settings.
+
+---
+
+##### `queueAlarms`<sup>Required</sup> <a name="queueAlarms" id="truemark-cdk-lib.aws_sqs.ObservedQueue.property.queueAlarms"></a>
+
+```typescript
+public readonly queueAlarms: QueueAlarms;
+```
+
+- *Type:* truemark-cdk-lib.aws_sqs.QueueAlarms
 
 ---
 
@@ -5356,6 +10487,3806 @@ public readonly STAGE_EXECUTION_EVENTS: string[];
 
 ---
 
+### PythonFunction <a name="PythonFunction" id="truemark-cdk-lib.aws_lambda.PythonFunction"></a>
+
+Python based Lambda Function.
+
+#### Initializers <a name="Initializers" id="truemark-cdk-lib.aws_lambda.PythonFunction.Initializer"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+new aws_lambda.PythonFunction(scope: Construct, id: string, props: PythonFunctionProps)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.Initializer.parameter.id">id</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.Initializer.parameter.props">props</a></code> | <code>truemark-cdk-lib.aws_lambda.PythonFunctionProps</code> | *No description.* |
+
+---
+
+##### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_lambda.PythonFunction.Initializer.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+##### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_lambda.PythonFunction.Initializer.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+##### `props`<sup>Required</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.PythonFunction.Initializer.parameter.props"></a>
+
+- *Type:* truemark-cdk-lib.aws_lambda.PythonFunctionProps
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.applyRemovalPolicy">applyRemovalPolicy</a></code> | Apply the given removal policy to this resource. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.addEventSource">addEventSource</a></code> | Adds an event source to this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.addEventSourceMapping">addEventSourceMapping</a></code> | Adds an event source that maps to this AWS Lambda function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.addFunctionUrl">addFunctionUrl</a></code> | Adds a url to this lambda function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.addPermission">addPermission</a></code> | Adds a permission to the Lambda resource policy. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.addToRolePolicy">addToRolePolicy</a></code> | Adds a statement to the IAM role assumed by the instance. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.configureAsyncInvoke">configureAsyncInvoke</a></code> | Configures options for asynchronous invocation. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.considerWarningOnInvokeFunctionPermissions">considerWarningOnInvokeFunctionPermissions</a></code> | A warning will be added to functions under the following conditions: - permissions that include `lambda:InvokeFunction` are added to the unqualified function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.grantInvoke">grantInvoke</a></code> | Grant the given identity permissions to invoke this Lambda. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.grantInvokeUrl">grantInvokeUrl</a></code> | Grant the given identity permissions to invoke this Lambda Function URL. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.metric">metric</a></code> | Return the given named metric for this Function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.metricDuration">metricDuration</a></code> | How long execution of this Lambda takes. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.metricErrors">metricErrors</a></code> | How many invocations of this Lambda fail. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.metricInvocations">metricInvocations</a></code> | How often this Lambda is invoked. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.metricThrottles">metricThrottles</a></code> | How often this Lambda is throttled. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.addAlias">addAlias</a></code> | Defines an alias for this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.addEnvironment">addEnvironment</a></code> | Adds an environment variable to this Lambda function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.addLayers">addLayers</a></code> | Adds one or more Lambda Layers to this Lambda function. |
+
+---
+
+##### `toString` <a name="toString" id="truemark-cdk-lib.aws_lambda.PythonFunction.toString"></a>
+
+```typescript
+public toString(): string
+```
+
+Returns a string representation of this construct.
+
+##### `applyRemovalPolicy` <a name="applyRemovalPolicy" id="truemark-cdk-lib.aws_lambda.PythonFunction.applyRemovalPolicy"></a>
+
+```typescript
+public applyRemovalPolicy(policy: RemovalPolicy): void
+```
+
+Apply the given removal policy to this resource.
+
+The Removal Policy controls what happens to this resource when it stops
+being managed by CloudFormation, either because you've removed it from the
+CDK application or because you've made a change that requires the resource
+to be replaced.
+
+The resource can be deleted (`RemovalPolicy.DESTROY`), or left in your AWS
+account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
+
+###### `policy`<sup>Required</sup> <a name="policy" id="truemark-cdk-lib.aws_lambda.PythonFunction.applyRemovalPolicy.parameter.policy"></a>
+
+- *Type:* aws-cdk-lib.RemovalPolicy
+
+---
+
+##### `addEventSource` <a name="addEventSource" id="truemark-cdk-lib.aws_lambda.PythonFunction.addEventSource"></a>
+
+```typescript
+public addEventSource(source: IEventSource): void
+```
+
+Adds an event source to this function.
+
+Event sources are implemented in the @aws-cdk/aws-lambda-event-sources module.
+
+The following example adds an SQS Queue as an event source:
+```
+import { SqsEventSource } from '@aws-cdk/aws-lambda-event-sources';
+myFunction.addEventSource(new SqsEventSource(myQueue));
+```
+
+###### `source`<sup>Required</sup> <a name="source" id="truemark-cdk-lib.aws_lambda.PythonFunction.addEventSource.parameter.source"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.IEventSource
+
+---
+
+##### `addEventSourceMapping` <a name="addEventSourceMapping" id="truemark-cdk-lib.aws_lambda.PythonFunction.addEventSourceMapping"></a>
+
+```typescript
+public addEventSourceMapping(id: string, options: EventSourceMappingOptions): EventSourceMapping
+```
+
+Adds an event source that maps to this AWS Lambda function.
+
+###### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_lambda.PythonFunction.addEventSourceMapping.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+###### `options`<sup>Required</sup> <a name="options" id="truemark-cdk-lib.aws_lambda.PythonFunction.addEventSourceMapping.parameter.options"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.EventSourceMappingOptions
+
+---
+
+##### `addFunctionUrl` <a name="addFunctionUrl" id="truemark-cdk-lib.aws_lambda.PythonFunction.addFunctionUrl"></a>
+
+```typescript
+public addFunctionUrl(options?: FunctionUrlOptions): FunctionUrl
+```
+
+Adds a url to this lambda function.
+
+###### `options`<sup>Optional</sup> <a name="options" id="truemark-cdk-lib.aws_lambda.PythonFunction.addFunctionUrl.parameter.options"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.FunctionUrlOptions
+
+---
+
+##### `addPermission` <a name="addPermission" id="truemark-cdk-lib.aws_lambda.PythonFunction.addPermission"></a>
+
+```typescript
+public addPermission(id: string, permission: Permission): void
+```
+
+Adds a permission to the Lambda resource policy.
+
+> [Permission for details.](Permission for details.)
+
+###### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_lambda.PythonFunction.addPermission.parameter.id"></a>
+
+- *Type:* string
+
+The id for the permission construct.
+
+---
+
+###### `permission`<sup>Required</sup> <a name="permission" id="truemark-cdk-lib.aws_lambda.PythonFunction.addPermission.parameter.permission"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.Permission
+
+The permission to grant to this Lambda function.
+
+---
+
+##### `addToRolePolicy` <a name="addToRolePolicy" id="truemark-cdk-lib.aws_lambda.PythonFunction.addToRolePolicy"></a>
+
+```typescript
+public addToRolePolicy(statement: PolicyStatement): void
+```
+
+Adds a statement to the IAM role assumed by the instance.
+
+###### `statement`<sup>Required</sup> <a name="statement" id="truemark-cdk-lib.aws_lambda.PythonFunction.addToRolePolicy.parameter.statement"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.PolicyStatement
+
+---
+
+##### `configureAsyncInvoke` <a name="configureAsyncInvoke" id="truemark-cdk-lib.aws_lambda.PythonFunction.configureAsyncInvoke"></a>
+
+```typescript
+public configureAsyncInvoke(options: EventInvokeConfigOptions): void
+```
+
+Configures options for asynchronous invocation.
+
+###### `options`<sup>Required</sup> <a name="options" id="truemark-cdk-lib.aws_lambda.PythonFunction.configureAsyncInvoke.parameter.options"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.EventInvokeConfigOptions
+
+---
+
+##### `considerWarningOnInvokeFunctionPermissions` <a name="considerWarningOnInvokeFunctionPermissions" id="truemark-cdk-lib.aws_lambda.PythonFunction.considerWarningOnInvokeFunctionPermissions"></a>
+
+```typescript
+public considerWarningOnInvokeFunctionPermissions(scope: Construct, action: string): void
+```
+
+A warning will be added to functions under the following conditions: - permissions that include `lambda:InvokeFunction` are added to the unqualified function.
+
+function.currentVersion is invoked before or after the permission is created.
+
+This applies only to permissions on Lambda functions, not versions or aliases.
+This function is overridden as a noOp for QualifiedFunctionBase.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_lambda.PythonFunction.considerWarningOnInvokeFunctionPermissions.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+###### `action`<sup>Required</sup> <a name="action" id="truemark-cdk-lib.aws_lambda.PythonFunction.considerWarningOnInvokeFunctionPermissions.parameter.action"></a>
+
+- *Type:* string
+
+---
+
+##### `grantInvoke` <a name="grantInvoke" id="truemark-cdk-lib.aws_lambda.PythonFunction.grantInvoke"></a>
+
+```typescript
+public grantInvoke(grantee: IGrantable): Grant
+```
+
+Grant the given identity permissions to invoke this Lambda.
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="truemark-cdk-lib.aws_lambda.PythonFunction.grantInvoke.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+---
+
+##### `grantInvokeUrl` <a name="grantInvokeUrl" id="truemark-cdk-lib.aws_lambda.PythonFunction.grantInvokeUrl"></a>
+
+```typescript
+public grantInvokeUrl(grantee: IGrantable): Grant
+```
+
+Grant the given identity permissions to invoke this Lambda Function URL.
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="truemark-cdk-lib.aws_lambda.PythonFunction.grantInvokeUrl.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+---
+
+##### `metric` <a name="metric" id="truemark-cdk-lib.aws_lambda.PythonFunction.metric"></a>
+
+```typescript
+public metric(metricName: string, props?: MetricOptions): Metric
+```
+
+Return the given named metric for this Function.
+
+###### `metricName`<sup>Required</sup> <a name="metricName" id="truemark-cdk-lib.aws_lambda.PythonFunction.metric.parameter.metricName"></a>
+
+- *Type:* string
+
+---
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.PythonFunction.metric.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricDuration` <a name="metricDuration" id="truemark-cdk-lib.aws_lambda.PythonFunction.metricDuration"></a>
+
+```typescript
+public metricDuration(props?: MetricOptions): Metric
+```
+
+How long execution of this Lambda takes.
+
+Average over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.PythonFunction.metricDuration.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricErrors` <a name="metricErrors" id="truemark-cdk-lib.aws_lambda.PythonFunction.metricErrors"></a>
+
+```typescript
+public metricErrors(props?: MetricOptions): Metric
+```
+
+How many invocations of this Lambda fail.
+
+Sum over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.PythonFunction.metricErrors.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricInvocations` <a name="metricInvocations" id="truemark-cdk-lib.aws_lambda.PythonFunction.metricInvocations"></a>
+
+```typescript
+public metricInvocations(props?: MetricOptions): Metric
+```
+
+How often this Lambda is invoked.
+
+Sum over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.PythonFunction.metricInvocations.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricThrottles` <a name="metricThrottles" id="truemark-cdk-lib.aws_lambda.PythonFunction.metricThrottles"></a>
+
+```typescript
+public metricThrottles(props?: MetricOptions): Metric
+```
+
+How often this Lambda is throttled.
+
+Sum over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.PythonFunction.metricThrottles.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `addAlias` <a name="addAlias" id="truemark-cdk-lib.aws_lambda.PythonFunction.addAlias"></a>
+
+```typescript
+public addAlias(aliasName: string, options?: AliasOptions): Alias
+```
+
+Defines an alias for this function.
+
+The alias will automatically be updated to point to the latest version of
+the function as it is being updated during a deployment.
+
+```ts
+declare const fn: lambda.Function;
+
+fn.addAlias('Live');
+
+// Is equivalent to
+
+new lambda.Alias(this, 'AliasLive', {
+   aliasName: 'Live',
+   version: fn.currentVersion,
+});
+```
+
+###### `aliasName`<sup>Required</sup> <a name="aliasName" id="truemark-cdk-lib.aws_lambda.PythonFunction.addAlias.parameter.aliasName"></a>
+
+- *Type:* string
+
+The name of the alias.
+
+---
+
+###### `options`<sup>Optional</sup> <a name="options" id="truemark-cdk-lib.aws_lambda.PythonFunction.addAlias.parameter.options"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.AliasOptions
+
+Alias options.
+
+---
+
+##### `addEnvironment` <a name="addEnvironment" id="truemark-cdk-lib.aws_lambda.PythonFunction.addEnvironment"></a>
+
+```typescript
+public addEnvironment(key: string, value: string, options?: EnvironmentOptions): Function
+```
+
+Adds an environment variable to this Lambda function.
+
+If this is a ref to a Lambda function, this operation results in a no-op.
+
+###### `key`<sup>Required</sup> <a name="key" id="truemark-cdk-lib.aws_lambda.PythonFunction.addEnvironment.parameter.key"></a>
+
+- *Type:* string
+
+The environment variable key.
+
+---
+
+###### `value`<sup>Required</sup> <a name="value" id="truemark-cdk-lib.aws_lambda.PythonFunction.addEnvironment.parameter.value"></a>
+
+- *Type:* string
+
+The environment variable's value.
+
+---
+
+###### `options`<sup>Optional</sup> <a name="options" id="truemark-cdk-lib.aws_lambda.PythonFunction.addEnvironment.parameter.options"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.EnvironmentOptions
+
+Environment variable options.
+
+---
+
+##### `addLayers` <a name="addLayers" id="truemark-cdk-lib.aws_lambda.PythonFunction.addLayers"></a>
+
+```typescript
+public addLayers(layers: ILayerVersion): void
+```
+
+Adds one or more Lambda Layers to this Lambda function.
+
+###### `layers`<sup>Required</sup> <a name="layers" id="truemark-cdk-lib.aws_lambda.PythonFunction.addLayers.parameter.layers"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.ILayerVersion
+
+the layers to be added.
+
+---
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.isResource">isResource</a></code> | Check whether the given construct is a Resource. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.classifyVersionProperty">classifyVersionProperty</a></code> | Record whether specific properties in the `AWS::Lambda::Function` resource should also be associated to the Version resource. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.fromFunctionArn">fromFunctionArn</a></code> | Import a lambda function into the CDK using its ARN. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.fromFunctionAttributes">fromFunctionAttributes</a></code> | Creates a Lambda function object which represents a function not defined within this stack. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.fromFunctionName">fromFunctionName</a></code> | Import a lambda function into the CDK using its name. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.metricAll">metricAll</a></code> | Return the given named metric for this Lambda. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.metricAllConcurrentExecutions">metricAllConcurrentExecutions</a></code> | Metric for the number of concurrent executions across all Lambdas. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.metricAllDuration">metricAllDuration</a></code> | Metric for the Duration executing all Lambdas. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.metricAllErrors">metricAllErrors</a></code> | Metric for the number of Errors executing all Lambdas. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.metricAllInvocations">metricAllInvocations</a></code> | Metric for the number of invocations of all Lambdas. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.metricAllThrottles">metricAllThrottles</a></code> | Metric for the number of throttled invocations of all Lambdas. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.metricAllUnreservedConcurrentExecutions">metricAllUnreservedConcurrentExecutions</a></code> | Metric for the number of unreserved concurrent executions across all Lambdas. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.isLocalBundlingSupported">isLocalBundlingSupported</a></code> | *No description.* |
+
+---
+
+##### ~~`isConstruct`~~ <a name="isConstruct" id="truemark-cdk-lib.aws_lambda.PythonFunction.isConstruct"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.PythonFunction.isConstruct(x: any)
+```
+
+Checks if `x` is a construct.
+
+###### `x`<sup>Required</sup> <a name="x" id="truemark-cdk-lib.aws_lambda.PythonFunction.isConstruct.parameter.x"></a>
+
+- *Type:* any
+
+Any object.
+
+---
+
+##### `isResource` <a name="isResource" id="truemark-cdk-lib.aws_lambda.PythonFunction.isResource"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.PythonFunction.isResource(construct: IConstruct)
+```
+
+Check whether the given construct is a Resource.
+
+###### `construct`<sup>Required</sup> <a name="construct" id="truemark-cdk-lib.aws_lambda.PythonFunction.isResource.parameter.construct"></a>
+
+- *Type:* constructs.IConstruct
+
+---
+
+##### `classifyVersionProperty` <a name="classifyVersionProperty" id="truemark-cdk-lib.aws_lambda.PythonFunction.classifyVersionProperty"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.PythonFunction.classifyVersionProperty(propertyName: string, locked: boolean)
+```
+
+Record whether specific properties in the `AWS::Lambda::Function` resource should also be associated to the Version resource.
+
+See 'currentVersion' section in the module README for more details.
+
+###### `propertyName`<sup>Required</sup> <a name="propertyName" id="truemark-cdk-lib.aws_lambda.PythonFunction.classifyVersionProperty.parameter.propertyName"></a>
+
+- *Type:* string
+
+The property to classify.
+
+---
+
+###### `locked`<sup>Required</sup> <a name="locked" id="truemark-cdk-lib.aws_lambda.PythonFunction.classifyVersionProperty.parameter.locked"></a>
+
+- *Type:* boolean
+
+whether the property should be associated to the version or not.
+
+---
+
+##### `fromFunctionArn` <a name="fromFunctionArn" id="truemark-cdk-lib.aws_lambda.PythonFunction.fromFunctionArn"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.PythonFunction.fromFunctionArn(scope: Construct, id: string, functionArn: string)
+```
+
+Import a lambda function into the CDK using its ARN.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_lambda.PythonFunction.fromFunctionArn.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+###### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_lambda.PythonFunction.fromFunctionArn.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+###### `functionArn`<sup>Required</sup> <a name="functionArn" id="truemark-cdk-lib.aws_lambda.PythonFunction.fromFunctionArn.parameter.functionArn"></a>
+
+- *Type:* string
+
+---
+
+##### `fromFunctionAttributes` <a name="fromFunctionAttributes" id="truemark-cdk-lib.aws_lambda.PythonFunction.fromFunctionAttributes"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.PythonFunction.fromFunctionAttributes(scope: Construct, id: string, attrs: FunctionAttributes)
+```
+
+Creates a Lambda function object which represents a function not defined within this stack.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_lambda.PythonFunction.fromFunctionAttributes.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+The parent construct.
+
+---
+
+###### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_lambda.PythonFunction.fromFunctionAttributes.parameter.id"></a>
+
+- *Type:* string
+
+The name of the lambda construct.
+
+---
+
+###### `attrs`<sup>Required</sup> <a name="attrs" id="truemark-cdk-lib.aws_lambda.PythonFunction.fromFunctionAttributes.parameter.attrs"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.FunctionAttributes
+
+the attributes of the function to import.
+
+---
+
+##### `fromFunctionName` <a name="fromFunctionName" id="truemark-cdk-lib.aws_lambda.PythonFunction.fromFunctionName"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.PythonFunction.fromFunctionName(scope: Construct, id: string, functionName: string)
+```
+
+Import a lambda function into the CDK using its name.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_lambda.PythonFunction.fromFunctionName.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+###### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_lambda.PythonFunction.fromFunctionName.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+###### `functionName`<sup>Required</sup> <a name="functionName" id="truemark-cdk-lib.aws_lambda.PythonFunction.fromFunctionName.parameter.functionName"></a>
+
+- *Type:* string
+
+---
+
+##### `metricAll` <a name="metricAll" id="truemark-cdk-lib.aws_lambda.PythonFunction.metricAll"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.PythonFunction.metricAll(metricName: string, props?: MetricOptions)
+```
+
+Return the given named metric for this Lambda.
+
+###### `metricName`<sup>Required</sup> <a name="metricName" id="truemark-cdk-lib.aws_lambda.PythonFunction.metricAll.parameter.metricName"></a>
+
+- *Type:* string
+
+---
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.PythonFunction.metricAll.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricAllConcurrentExecutions` <a name="metricAllConcurrentExecutions" id="truemark-cdk-lib.aws_lambda.PythonFunction.metricAllConcurrentExecutions"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.PythonFunction.metricAllConcurrentExecutions(props?: MetricOptions)
+```
+
+Metric for the number of concurrent executions across all Lambdas.
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.PythonFunction.metricAllConcurrentExecutions.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricAllDuration` <a name="metricAllDuration" id="truemark-cdk-lib.aws_lambda.PythonFunction.metricAllDuration"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.PythonFunction.metricAllDuration(props?: MetricOptions)
+```
+
+Metric for the Duration executing all Lambdas.
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.PythonFunction.metricAllDuration.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricAllErrors` <a name="metricAllErrors" id="truemark-cdk-lib.aws_lambda.PythonFunction.metricAllErrors"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.PythonFunction.metricAllErrors(props?: MetricOptions)
+```
+
+Metric for the number of Errors executing all Lambdas.
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.PythonFunction.metricAllErrors.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricAllInvocations` <a name="metricAllInvocations" id="truemark-cdk-lib.aws_lambda.PythonFunction.metricAllInvocations"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.PythonFunction.metricAllInvocations(props?: MetricOptions)
+```
+
+Metric for the number of invocations of all Lambdas.
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.PythonFunction.metricAllInvocations.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricAllThrottles` <a name="metricAllThrottles" id="truemark-cdk-lib.aws_lambda.PythonFunction.metricAllThrottles"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.PythonFunction.metricAllThrottles(props?: MetricOptions)
+```
+
+Metric for the number of throttled invocations of all Lambdas.
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.PythonFunction.metricAllThrottles.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricAllUnreservedConcurrentExecutions` <a name="metricAllUnreservedConcurrentExecutions" id="truemark-cdk-lib.aws_lambda.PythonFunction.metricAllUnreservedConcurrentExecutions"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.PythonFunction.metricAllUnreservedConcurrentExecutions(props?: MetricOptions)
+```
+
+Metric for the number of unreserved concurrent executions across all Lambdas.
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.PythonFunction.metricAllUnreservedConcurrentExecutions.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `isLocalBundlingSupported` <a name="isLocalBundlingSupported" id="truemark-cdk-lib.aws_lambda.PythonFunction.isLocalBundlingSupported"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.PythonFunction.isLocalBundlingSupported()
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.property.architecture">architecture</a></code> | <code>aws-cdk-lib.aws_lambda.Architecture</code> | The architecture of this Lambda Function (this is an optional attribute and defaults to X86_64). |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.property.connections">connections</a></code> | <code>aws-cdk-lib.aws_ec2.Connections</code> | Access the Connections object. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.property.functionArn">functionArn</a></code> | <code>string</code> | ARN of this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.property.functionName">functionName</a></code> | <code>string</code> | Name of this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.property.grantPrincipal">grantPrincipal</a></code> | <code>aws-cdk-lib.aws_iam.IPrincipal</code> | The principal this Lambda Function is running as. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.property.isBoundToVpc">isBoundToVpc</a></code> | <code>boolean</code> | Whether or not this Lambda function was bound to a VPC. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.property.latestVersion">latestVersion</a></code> | <code>aws-cdk-lib.aws_lambda.IVersion</code> | The `$LATEST` version of this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.property.permissionsNode">permissionsNode</a></code> | <code>constructs.Node</code> | The construct node where permissions are attached. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.property.resourceArnsForGrantInvoke">resourceArnsForGrantInvoke</a></code> | <code>string[]</code> | The ARN(s) to put into the resource field of the generated IAM policy for grantInvoke(). |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.property.role">role</a></code> | <code>aws-cdk-lib.aws_iam.IRole</code> | Execution role associated with this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.property.currentVersion">currentVersion</a></code> | <code>aws-cdk-lib.aws_lambda.Version</code> | Returns a `lambda.Version` which represents the current version of this Lambda function. A new version will be created every time the function's configuration changes. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.property.logGroup">logGroup</a></code> | <code>aws-cdk-lib.aws_logs.ILogGroup</code> | The LogGroup where the Lambda function's logs are made available. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.property.runtime">runtime</a></code> | <code>aws-cdk-lib.aws_lambda.Runtime</code> | The runtime configured for this lambda. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.property.deadLetterQueue">deadLetterQueue</a></code> | <code>aws-cdk-lib.aws_sqs.IQueue</code> | The DLQ (as queue) associated with this Lambda Function (this is an optional attribute). |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.property.deadLetterTopic">deadLetterTopic</a></code> | <code>aws-cdk-lib.aws_sns.ITopic</code> | The DLQ (as topic) associated with this Lambda Function (this is an optional attribute). |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.property.timeout">timeout</a></code> | <code>aws-cdk-lib.Duration</code> | The timeout configured for this lambda. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.property.alarms">alarms</a></code> | <code>truemark-cdk-lib.aws_lambda.FunctionAlarms</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunction.property.deployment">deployment</a></code> | <code>truemark-cdk-lib.aws_lambda.FunctionDeployment</code> | *No description.* |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="truemark-cdk-lib.aws_lambda.PythonFunction.property.node"></a>
+
+```typescript
+public readonly node: Node;
+```
+
+- *Type:* constructs.Node
+
+The tree node.
+
+---
+
+##### `env`<sup>Required</sup> <a name="env" id="truemark-cdk-lib.aws_lambda.PythonFunction.property.env"></a>
+
+```typescript
+public readonly env: ResourceEnvironment;
+```
+
+- *Type:* aws-cdk-lib.ResourceEnvironment
+
+The environment this resource belongs to.
+
+For resources that are created and managed by the CDK
+(generally, those created by creating new class instances like Role, Bucket, etc.),
+this is always the same as the environment of the stack they belong to;
+however, for imported resources
+(those obtained from static methods like fromRoleArn, fromBucketName, etc.),
+that might be different than the stack they were imported into.
+
+---
+
+##### `stack`<sup>Required</sup> <a name="stack" id="truemark-cdk-lib.aws_lambda.PythonFunction.property.stack"></a>
+
+```typescript
+public readonly stack: Stack;
+```
+
+- *Type:* aws-cdk-lib.Stack
+
+The stack in which this resource is defined.
+
+---
+
+##### `architecture`<sup>Required</sup> <a name="architecture" id="truemark-cdk-lib.aws_lambda.PythonFunction.property.architecture"></a>
+
+```typescript
+public readonly architecture: Architecture;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Architecture
+
+The architecture of this Lambda Function (this is an optional attribute and defaults to X86_64).
+
+---
+
+##### `connections`<sup>Required</sup> <a name="connections" id="truemark-cdk-lib.aws_lambda.PythonFunction.property.connections"></a>
+
+```typescript
+public readonly connections: Connections;
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.Connections
+
+Access the Connections object.
+
+Will fail if not a VPC-enabled Lambda Function
+
+---
+
+##### `functionArn`<sup>Required</sup> <a name="functionArn" id="truemark-cdk-lib.aws_lambda.PythonFunction.property.functionArn"></a>
+
+```typescript
+public readonly functionArn: string;
+```
+
+- *Type:* string
+
+ARN of this function.
+
+---
+
+##### `functionName`<sup>Required</sup> <a name="functionName" id="truemark-cdk-lib.aws_lambda.PythonFunction.property.functionName"></a>
+
+```typescript
+public readonly functionName: string;
+```
+
+- *Type:* string
+
+Name of this function.
+
+---
+
+##### `grantPrincipal`<sup>Required</sup> <a name="grantPrincipal" id="truemark-cdk-lib.aws_lambda.PythonFunction.property.grantPrincipal"></a>
+
+```typescript
+public readonly grantPrincipal: IPrincipal;
+```
+
+- *Type:* aws-cdk-lib.aws_iam.IPrincipal
+
+The principal this Lambda Function is running as.
+
+---
+
+##### `isBoundToVpc`<sup>Required</sup> <a name="isBoundToVpc" id="truemark-cdk-lib.aws_lambda.PythonFunction.property.isBoundToVpc"></a>
+
+```typescript
+public readonly isBoundToVpc: boolean;
+```
+
+- *Type:* boolean
+
+Whether or not this Lambda function was bound to a VPC.
+
+If this is is `false`, trying to access the `connections` object will fail.
+
+---
+
+##### `latestVersion`<sup>Required</sup> <a name="latestVersion" id="truemark-cdk-lib.aws_lambda.PythonFunction.property.latestVersion"></a>
+
+```typescript
+public readonly latestVersion: IVersion;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.IVersion
+
+The `$LATEST` version of this function.
+
+Note that this is reference to a non-specific AWS Lambda version, which
+means the function this version refers to can return different results in
+different invocations.
+
+To obtain a reference to an explicit version which references the current
+function configuration, use `lambdaFunction.currentVersion` instead.
+
+---
+
+##### `permissionsNode`<sup>Required</sup> <a name="permissionsNode" id="truemark-cdk-lib.aws_lambda.PythonFunction.property.permissionsNode"></a>
+
+```typescript
+public readonly permissionsNode: Node;
+```
+
+- *Type:* constructs.Node
+
+The construct node where permissions are attached.
+
+---
+
+##### `resourceArnsForGrantInvoke`<sup>Required</sup> <a name="resourceArnsForGrantInvoke" id="truemark-cdk-lib.aws_lambda.PythonFunction.property.resourceArnsForGrantInvoke"></a>
+
+```typescript
+public readonly resourceArnsForGrantInvoke: string[];
+```
+
+- *Type:* string[]
+
+The ARN(s) to put into the resource field of the generated IAM policy for grantInvoke().
+
+---
+
+##### `role`<sup>Optional</sup> <a name="role" id="truemark-cdk-lib.aws_lambda.PythonFunction.property.role"></a>
+
+```typescript
+public readonly role: IRole;
+```
+
+- *Type:* aws-cdk-lib.aws_iam.IRole
+
+Execution role associated with this function.
+
+---
+
+##### `currentVersion`<sup>Required</sup> <a name="currentVersion" id="truemark-cdk-lib.aws_lambda.PythonFunction.property.currentVersion"></a>
+
+```typescript
+public readonly currentVersion: Version;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Version
+
+Returns a `lambda.Version` which represents the current version of this Lambda function. A new version will be created every time the function's configuration changes.
+
+You can specify options for this version using the `currentVersionOptions`
+prop when initializing the `lambda.Function`.
+
+---
+
+##### `logGroup`<sup>Required</sup> <a name="logGroup" id="truemark-cdk-lib.aws_lambda.PythonFunction.property.logGroup"></a>
+
+```typescript
+public readonly logGroup: ILogGroup;
+```
+
+- *Type:* aws-cdk-lib.aws_logs.ILogGroup
+
+The LogGroup where the Lambda function's logs are made available.
+
+If either `logRetention` is set or this property is called, a CloudFormation custom resource is added to the stack that
+pre-creates the log group as part of the stack deployment, if it already doesn't exist, and sets the correct log retention
+period (never expire, by default).
+
+Further, if the log group already exists and the `logRetention` is not set, the custom resource will reset the log retention
+to never expire even if it was configured with a different value.
+
+---
+
+##### `runtime`<sup>Required</sup> <a name="runtime" id="truemark-cdk-lib.aws_lambda.PythonFunction.property.runtime"></a>
+
+```typescript
+public readonly runtime: Runtime;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Runtime
+
+The runtime configured for this lambda.
+
+---
+
+##### `deadLetterQueue`<sup>Optional</sup> <a name="deadLetterQueue" id="truemark-cdk-lib.aws_lambda.PythonFunction.property.deadLetterQueue"></a>
+
+```typescript
+public readonly deadLetterQueue: IQueue;
+```
+
+- *Type:* aws-cdk-lib.aws_sqs.IQueue
+
+The DLQ (as queue) associated with this Lambda Function (this is an optional attribute).
+
+---
+
+##### `deadLetterTopic`<sup>Optional</sup> <a name="deadLetterTopic" id="truemark-cdk-lib.aws_lambda.PythonFunction.property.deadLetterTopic"></a>
+
+```typescript
+public readonly deadLetterTopic: ITopic;
+```
+
+- *Type:* aws-cdk-lib.aws_sns.ITopic
+
+The DLQ (as topic) associated with this Lambda Function (this is an optional attribute).
+
+---
+
+##### `timeout`<sup>Optional</sup> <a name="timeout" id="truemark-cdk-lib.aws_lambda.PythonFunction.property.timeout"></a>
+
+```typescript
+public readonly timeout: Duration;
+```
+
+- *Type:* aws-cdk-lib.Duration
+
+The timeout configured for this lambda.
+
+---
+
+##### `alarms`<sup>Required</sup> <a name="alarms" id="truemark-cdk-lib.aws_lambda.PythonFunction.property.alarms"></a>
+
+```typescript
+public readonly alarms: FunctionAlarms;
+```
+
+- *Type:* truemark-cdk-lib.aws_lambda.FunctionAlarms
+
+---
+
+##### `deployment`<sup>Required</sup> <a name="deployment" id="truemark-cdk-lib.aws_lambda.PythonFunction.property.deployment"></a>
+
+```typescript
+public readonly deployment: FunctionDeployment;
+```
+
+- *Type:* truemark-cdk-lib.aws_lambda.FunctionDeployment
+
+---
+
+
+### PythonFunctionAlpha <a name="PythonFunctionAlpha" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha"></a>
+
+Extended version of the alpha PythonFunction that supports alarms and deployments.
+
+#### Initializers <a name="Initializers" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.Initializer"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+new aws_lambda.PythonFunctionAlpha(scope: Construct, id: string, props: PythonFunctionAlphaProps)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.Initializer.parameter.id">id</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.Initializer.parameter.props">props</a></code> | <code>truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps</code> | *No description.* |
+
+---
+
+##### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.Initializer.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+##### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.Initializer.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+##### `props`<sup>Required</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.Initializer.parameter.props"></a>
+
+- *Type:* truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.applyRemovalPolicy">applyRemovalPolicy</a></code> | Apply the given removal policy to this resource. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.addEventSource">addEventSource</a></code> | Adds an event source to this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.addEventSourceMapping">addEventSourceMapping</a></code> | Adds an event source that maps to this AWS Lambda function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.addFunctionUrl">addFunctionUrl</a></code> | Adds a url to this lambda function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.addPermission">addPermission</a></code> | Adds a permission to the Lambda resource policy. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.addToRolePolicy">addToRolePolicy</a></code> | Adds a statement to the IAM role assumed by the instance. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.configureAsyncInvoke">configureAsyncInvoke</a></code> | Configures options for asynchronous invocation. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.considerWarningOnInvokeFunctionPermissions">considerWarningOnInvokeFunctionPermissions</a></code> | A warning will be added to functions under the following conditions: - permissions that include `lambda:InvokeFunction` are added to the unqualified function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.grantInvoke">grantInvoke</a></code> | Grant the given identity permissions to invoke this Lambda. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.grantInvokeUrl">grantInvokeUrl</a></code> | Grant the given identity permissions to invoke this Lambda Function URL. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.metric">metric</a></code> | Return the given named metric for this Function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.metricDuration">metricDuration</a></code> | How long execution of this Lambda takes. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.metricErrors">metricErrors</a></code> | How many invocations of this Lambda fail. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.metricInvocations">metricInvocations</a></code> | How often this Lambda is invoked. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.metricThrottles">metricThrottles</a></code> | How often this Lambda is throttled. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.addAlias">addAlias</a></code> | Defines an alias for this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.addEnvironment">addEnvironment</a></code> | Adds an environment variable to this Lambda function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.addLayers">addLayers</a></code> | Adds one or more Lambda Layers to this Lambda function. |
+
+---
+
+##### `toString` <a name="toString" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.toString"></a>
+
+```typescript
+public toString(): string
+```
+
+Returns a string representation of this construct.
+
+##### `applyRemovalPolicy` <a name="applyRemovalPolicy" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.applyRemovalPolicy"></a>
+
+```typescript
+public applyRemovalPolicy(policy: RemovalPolicy): void
+```
+
+Apply the given removal policy to this resource.
+
+The Removal Policy controls what happens to this resource when it stops
+being managed by CloudFormation, either because you've removed it from the
+CDK application or because you've made a change that requires the resource
+to be replaced.
+
+The resource can be deleted (`RemovalPolicy.DESTROY`), or left in your AWS
+account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
+
+###### `policy`<sup>Required</sup> <a name="policy" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.applyRemovalPolicy.parameter.policy"></a>
+
+- *Type:* aws-cdk-lib.RemovalPolicy
+
+---
+
+##### `addEventSource` <a name="addEventSource" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.addEventSource"></a>
+
+```typescript
+public addEventSource(source: IEventSource): void
+```
+
+Adds an event source to this function.
+
+Event sources are implemented in the @aws-cdk/aws-lambda-event-sources module.
+
+The following example adds an SQS Queue as an event source:
+```
+import { SqsEventSource } from '@aws-cdk/aws-lambda-event-sources';
+myFunction.addEventSource(new SqsEventSource(myQueue));
+```
+
+###### `source`<sup>Required</sup> <a name="source" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.addEventSource.parameter.source"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.IEventSource
+
+---
+
+##### `addEventSourceMapping` <a name="addEventSourceMapping" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.addEventSourceMapping"></a>
+
+```typescript
+public addEventSourceMapping(id: string, options: EventSourceMappingOptions): EventSourceMapping
+```
+
+Adds an event source that maps to this AWS Lambda function.
+
+###### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.addEventSourceMapping.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+###### `options`<sup>Required</sup> <a name="options" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.addEventSourceMapping.parameter.options"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.EventSourceMappingOptions
+
+---
+
+##### `addFunctionUrl` <a name="addFunctionUrl" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.addFunctionUrl"></a>
+
+```typescript
+public addFunctionUrl(options?: FunctionUrlOptions): FunctionUrl
+```
+
+Adds a url to this lambda function.
+
+###### `options`<sup>Optional</sup> <a name="options" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.addFunctionUrl.parameter.options"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.FunctionUrlOptions
+
+---
+
+##### `addPermission` <a name="addPermission" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.addPermission"></a>
+
+```typescript
+public addPermission(id: string, permission: Permission): void
+```
+
+Adds a permission to the Lambda resource policy.
+
+> [Permission for details.](Permission for details.)
+
+###### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.addPermission.parameter.id"></a>
+
+- *Type:* string
+
+The id for the permission construct.
+
+---
+
+###### `permission`<sup>Required</sup> <a name="permission" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.addPermission.parameter.permission"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.Permission
+
+The permission to grant to this Lambda function.
+
+---
+
+##### `addToRolePolicy` <a name="addToRolePolicy" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.addToRolePolicy"></a>
+
+```typescript
+public addToRolePolicy(statement: PolicyStatement): void
+```
+
+Adds a statement to the IAM role assumed by the instance.
+
+###### `statement`<sup>Required</sup> <a name="statement" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.addToRolePolicy.parameter.statement"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.PolicyStatement
+
+---
+
+##### `configureAsyncInvoke` <a name="configureAsyncInvoke" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.configureAsyncInvoke"></a>
+
+```typescript
+public configureAsyncInvoke(options: EventInvokeConfigOptions): void
+```
+
+Configures options for asynchronous invocation.
+
+###### `options`<sup>Required</sup> <a name="options" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.configureAsyncInvoke.parameter.options"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.EventInvokeConfigOptions
+
+---
+
+##### `considerWarningOnInvokeFunctionPermissions` <a name="considerWarningOnInvokeFunctionPermissions" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.considerWarningOnInvokeFunctionPermissions"></a>
+
+```typescript
+public considerWarningOnInvokeFunctionPermissions(scope: Construct, action: string): void
+```
+
+A warning will be added to functions under the following conditions: - permissions that include `lambda:InvokeFunction` are added to the unqualified function.
+
+function.currentVersion is invoked before or after the permission is created.
+
+This applies only to permissions on Lambda functions, not versions or aliases.
+This function is overridden as a noOp for QualifiedFunctionBase.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.considerWarningOnInvokeFunctionPermissions.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+###### `action`<sup>Required</sup> <a name="action" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.considerWarningOnInvokeFunctionPermissions.parameter.action"></a>
+
+- *Type:* string
+
+---
+
+##### `grantInvoke` <a name="grantInvoke" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.grantInvoke"></a>
+
+```typescript
+public grantInvoke(grantee: IGrantable): Grant
+```
+
+Grant the given identity permissions to invoke this Lambda.
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.grantInvoke.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+---
+
+##### `grantInvokeUrl` <a name="grantInvokeUrl" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.grantInvokeUrl"></a>
+
+```typescript
+public grantInvokeUrl(grantee: IGrantable): Grant
+```
+
+Grant the given identity permissions to invoke this Lambda Function URL.
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.grantInvokeUrl.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+---
+
+##### `metric` <a name="metric" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.metric"></a>
+
+```typescript
+public metric(metricName: string, props?: MetricOptions): Metric
+```
+
+Return the given named metric for this Function.
+
+###### `metricName`<sup>Required</sup> <a name="metricName" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.metric.parameter.metricName"></a>
+
+- *Type:* string
+
+---
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.metric.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricDuration` <a name="metricDuration" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.metricDuration"></a>
+
+```typescript
+public metricDuration(props?: MetricOptions): Metric
+```
+
+How long execution of this Lambda takes.
+
+Average over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.metricDuration.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricErrors` <a name="metricErrors" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.metricErrors"></a>
+
+```typescript
+public metricErrors(props?: MetricOptions): Metric
+```
+
+How many invocations of this Lambda fail.
+
+Sum over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.metricErrors.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricInvocations` <a name="metricInvocations" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.metricInvocations"></a>
+
+```typescript
+public metricInvocations(props?: MetricOptions): Metric
+```
+
+How often this Lambda is invoked.
+
+Sum over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.metricInvocations.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricThrottles` <a name="metricThrottles" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.metricThrottles"></a>
+
+```typescript
+public metricThrottles(props?: MetricOptions): Metric
+```
+
+How often this Lambda is throttled.
+
+Sum over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.metricThrottles.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `addAlias` <a name="addAlias" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.addAlias"></a>
+
+```typescript
+public addAlias(aliasName: string, options?: AliasOptions): Alias
+```
+
+Defines an alias for this function.
+
+The alias will automatically be updated to point to the latest version of
+the function as it is being updated during a deployment.
+
+```ts
+declare const fn: lambda.Function;
+
+fn.addAlias('Live');
+
+// Is equivalent to
+
+new lambda.Alias(this, 'AliasLive', {
+   aliasName: 'Live',
+   version: fn.currentVersion,
+});
+```
+
+###### `aliasName`<sup>Required</sup> <a name="aliasName" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.addAlias.parameter.aliasName"></a>
+
+- *Type:* string
+
+The name of the alias.
+
+---
+
+###### `options`<sup>Optional</sup> <a name="options" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.addAlias.parameter.options"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.AliasOptions
+
+Alias options.
+
+---
+
+##### `addEnvironment` <a name="addEnvironment" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.addEnvironment"></a>
+
+```typescript
+public addEnvironment(key: string, value: string, options?: EnvironmentOptions): Function
+```
+
+Adds an environment variable to this Lambda function.
+
+If this is a ref to a Lambda function, this operation results in a no-op.
+
+###### `key`<sup>Required</sup> <a name="key" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.addEnvironment.parameter.key"></a>
+
+- *Type:* string
+
+The environment variable key.
+
+---
+
+###### `value`<sup>Required</sup> <a name="value" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.addEnvironment.parameter.value"></a>
+
+- *Type:* string
+
+The environment variable's value.
+
+---
+
+###### `options`<sup>Optional</sup> <a name="options" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.addEnvironment.parameter.options"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.EnvironmentOptions
+
+Environment variable options.
+
+---
+
+##### `addLayers` <a name="addLayers" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.addLayers"></a>
+
+```typescript
+public addLayers(layers: ILayerVersion): void
+```
+
+Adds one or more Lambda Layers to this Lambda function.
+
+###### `layers`<sup>Required</sup> <a name="layers" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.addLayers.parameter.layers"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.ILayerVersion
+
+the layers to be added.
+
+---
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.isResource">isResource</a></code> | Check whether the given construct is a Resource. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.classifyVersionProperty">classifyVersionProperty</a></code> | Record whether specific properties in the `AWS::Lambda::Function` resource should also be associated to the Version resource. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.fromFunctionArn">fromFunctionArn</a></code> | Import a lambda function into the CDK using its ARN. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.fromFunctionAttributes">fromFunctionAttributes</a></code> | Creates a Lambda function object which represents a function not defined within this stack. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.fromFunctionName">fromFunctionName</a></code> | Import a lambda function into the CDK using its name. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.metricAll">metricAll</a></code> | Return the given named metric for this Lambda. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.metricAllConcurrentExecutions">metricAllConcurrentExecutions</a></code> | Metric for the number of concurrent executions across all Lambdas. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.metricAllDuration">metricAllDuration</a></code> | Metric for the Duration executing all Lambdas. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.metricAllErrors">metricAllErrors</a></code> | Metric for the number of Errors executing all Lambdas. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.metricAllInvocations">metricAllInvocations</a></code> | Metric for the number of invocations of all Lambdas. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.metricAllThrottles">metricAllThrottles</a></code> | Metric for the number of throttled invocations of all Lambdas. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.metricAllUnreservedConcurrentExecutions">metricAllUnreservedConcurrentExecutions</a></code> | Metric for the number of unreserved concurrent executions across all Lambdas. |
+
+---
+
+##### ~~`isConstruct`~~ <a name="isConstruct" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.isConstruct"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.PythonFunctionAlpha.isConstruct(x: any)
+```
+
+Checks if `x` is a construct.
+
+###### `x`<sup>Required</sup> <a name="x" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.isConstruct.parameter.x"></a>
+
+- *Type:* any
+
+Any object.
+
+---
+
+##### `isResource` <a name="isResource" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.isResource"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.PythonFunctionAlpha.isResource(construct: IConstruct)
+```
+
+Check whether the given construct is a Resource.
+
+###### `construct`<sup>Required</sup> <a name="construct" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.isResource.parameter.construct"></a>
+
+- *Type:* constructs.IConstruct
+
+---
+
+##### `classifyVersionProperty` <a name="classifyVersionProperty" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.classifyVersionProperty"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.PythonFunctionAlpha.classifyVersionProperty(propertyName: string, locked: boolean)
+```
+
+Record whether specific properties in the `AWS::Lambda::Function` resource should also be associated to the Version resource.
+
+See 'currentVersion' section in the module README for more details.
+
+###### `propertyName`<sup>Required</sup> <a name="propertyName" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.classifyVersionProperty.parameter.propertyName"></a>
+
+- *Type:* string
+
+The property to classify.
+
+---
+
+###### `locked`<sup>Required</sup> <a name="locked" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.classifyVersionProperty.parameter.locked"></a>
+
+- *Type:* boolean
+
+whether the property should be associated to the version or not.
+
+---
+
+##### `fromFunctionArn` <a name="fromFunctionArn" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.fromFunctionArn"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.PythonFunctionAlpha.fromFunctionArn(scope: Construct, id: string, functionArn: string)
+```
+
+Import a lambda function into the CDK using its ARN.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.fromFunctionArn.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+###### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.fromFunctionArn.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+###### `functionArn`<sup>Required</sup> <a name="functionArn" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.fromFunctionArn.parameter.functionArn"></a>
+
+- *Type:* string
+
+---
+
+##### `fromFunctionAttributes` <a name="fromFunctionAttributes" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.fromFunctionAttributes"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.PythonFunctionAlpha.fromFunctionAttributes(scope: Construct, id: string, attrs: FunctionAttributes)
+```
+
+Creates a Lambda function object which represents a function not defined within this stack.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.fromFunctionAttributes.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+The parent construct.
+
+---
+
+###### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.fromFunctionAttributes.parameter.id"></a>
+
+- *Type:* string
+
+The name of the lambda construct.
+
+---
+
+###### `attrs`<sup>Required</sup> <a name="attrs" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.fromFunctionAttributes.parameter.attrs"></a>
+
+- *Type:* aws-cdk-lib.aws_lambda.FunctionAttributes
+
+the attributes of the function to import.
+
+---
+
+##### `fromFunctionName` <a name="fromFunctionName" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.fromFunctionName"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.PythonFunctionAlpha.fromFunctionName(scope: Construct, id: string, functionName: string)
+```
+
+Import a lambda function into the CDK using its name.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.fromFunctionName.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+###### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.fromFunctionName.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+###### `functionName`<sup>Required</sup> <a name="functionName" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.fromFunctionName.parameter.functionName"></a>
+
+- *Type:* string
+
+---
+
+##### `metricAll` <a name="metricAll" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.metricAll"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.PythonFunctionAlpha.metricAll(metricName: string, props?: MetricOptions)
+```
+
+Return the given named metric for this Lambda.
+
+###### `metricName`<sup>Required</sup> <a name="metricName" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.metricAll.parameter.metricName"></a>
+
+- *Type:* string
+
+---
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.metricAll.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricAllConcurrentExecutions` <a name="metricAllConcurrentExecutions" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.metricAllConcurrentExecutions"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.PythonFunctionAlpha.metricAllConcurrentExecutions(props?: MetricOptions)
+```
+
+Metric for the number of concurrent executions across all Lambdas.
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.metricAllConcurrentExecutions.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricAllDuration` <a name="metricAllDuration" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.metricAllDuration"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.PythonFunctionAlpha.metricAllDuration(props?: MetricOptions)
+```
+
+Metric for the Duration executing all Lambdas.
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.metricAllDuration.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricAllErrors` <a name="metricAllErrors" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.metricAllErrors"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.PythonFunctionAlpha.metricAllErrors(props?: MetricOptions)
+```
+
+Metric for the number of Errors executing all Lambdas.
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.metricAllErrors.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricAllInvocations` <a name="metricAllInvocations" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.metricAllInvocations"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.PythonFunctionAlpha.metricAllInvocations(props?: MetricOptions)
+```
+
+Metric for the number of invocations of all Lambdas.
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.metricAllInvocations.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricAllThrottles` <a name="metricAllThrottles" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.metricAllThrottles"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.PythonFunctionAlpha.metricAllThrottles(props?: MetricOptions)
+```
+
+Metric for the number of throttled invocations of all Lambdas.
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.metricAllThrottles.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricAllUnreservedConcurrentExecutions` <a name="metricAllUnreservedConcurrentExecutions" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.metricAllUnreservedConcurrentExecutions"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+aws_lambda.PythonFunctionAlpha.metricAllUnreservedConcurrentExecutions(props?: MetricOptions)
+```
+
+Metric for the number of unreserved concurrent executions across all Lambdas.
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.metricAllUnreservedConcurrentExecutions.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.architecture">architecture</a></code> | <code>aws-cdk-lib.aws_lambda.Architecture</code> | The architecture of this Lambda Function (this is an optional attribute and defaults to X86_64). |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.connections">connections</a></code> | <code>aws-cdk-lib.aws_ec2.Connections</code> | Access the Connections object. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.functionArn">functionArn</a></code> | <code>string</code> | ARN of this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.functionName">functionName</a></code> | <code>string</code> | Name of this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.grantPrincipal">grantPrincipal</a></code> | <code>aws-cdk-lib.aws_iam.IPrincipal</code> | The principal this Lambda Function is running as. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.isBoundToVpc">isBoundToVpc</a></code> | <code>boolean</code> | Whether or not this Lambda function was bound to a VPC. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.latestVersion">latestVersion</a></code> | <code>aws-cdk-lib.aws_lambda.IVersion</code> | The `$LATEST` version of this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.permissionsNode">permissionsNode</a></code> | <code>constructs.Node</code> | The construct node where permissions are attached. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.resourceArnsForGrantInvoke">resourceArnsForGrantInvoke</a></code> | <code>string[]</code> | The ARN(s) to put into the resource field of the generated IAM policy for grantInvoke(). |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.role">role</a></code> | <code>aws-cdk-lib.aws_iam.IRole</code> | Execution role associated with this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.currentVersion">currentVersion</a></code> | <code>aws-cdk-lib.aws_lambda.Version</code> | Returns a `lambda.Version` which represents the current version of this Lambda function. A new version will be created every time the function's configuration changes. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.logGroup">logGroup</a></code> | <code>aws-cdk-lib.aws_logs.ILogGroup</code> | The LogGroup where the Lambda function's logs are made available. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.runtime">runtime</a></code> | <code>aws-cdk-lib.aws_lambda.Runtime</code> | The runtime configured for this lambda. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.deadLetterQueue">deadLetterQueue</a></code> | <code>aws-cdk-lib.aws_sqs.IQueue</code> | The DLQ (as queue) associated with this Lambda Function (this is an optional attribute). |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.deadLetterTopic">deadLetterTopic</a></code> | <code>aws-cdk-lib.aws_sns.ITopic</code> | The DLQ (as topic) associated with this Lambda Function (this is an optional attribute). |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.timeout">timeout</a></code> | <code>aws-cdk-lib.Duration</code> | The timeout configured for this lambda. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.alarms">alarms</a></code> | <code>truemark-cdk-lib.aws_lambda.FunctionAlarms</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.deployment">deployment</a></code> | <code>truemark-cdk-lib.aws_lambda.FunctionDeployment</code> | *No description.* |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.node"></a>
+
+```typescript
+public readonly node: Node;
+```
+
+- *Type:* constructs.Node
+
+The tree node.
+
+---
+
+##### `env`<sup>Required</sup> <a name="env" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.env"></a>
+
+```typescript
+public readonly env: ResourceEnvironment;
+```
+
+- *Type:* aws-cdk-lib.ResourceEnvironment
+
+The environment this resource belongs to.
+
+For resources that are created and managed by the CDK
+(generally, those created by creating new class instances like Role, Bucket, etc.),
+this is always the same as the environment of the stack they belong to;
+however, for imported resources
+(those obtained from static methods like fromRoleArn, fromBucketName, etc.),
+that might be different than the stack they were imported into.
+
+---
+
+##### `stack`<sup>Required</sup> <a name="stack" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.stack"></a>
+
+```typescript
+public readonly stack: Stack;
+```
+
+- *Type:* aws-cdk-lib.Stack
+
+The stack in which this resource is defined.
+
+---
+
+##### `architecture`<sup>Required</sup> <a name="architecture" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.architecture"></a>
+
+```typescript
+public readonly architecture: Architecture;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Architecture
+
+The architecture of this Lambda Function (this is an optional attribute and defaults to X86_64).
+
+---
+
+##### `connections`<sup>Required</sup> <a name="connections" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.connections"></a>
+
+```typescript
+public readonly connections: Connections;
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.Connections
+
+Access the Connections object.
+
+Will fail if not a VPC-enabled Lambda Function
+
+---
+
+##### `functionArn`<sup>Required</sup> <a name="functionArn" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.functionArn"></a>
+
+```typescript
+public readonly functionArn: string;
+```
+
+- *Type:* string
+
+ARN of this function.
+
+---
+
+##### `functionName`<sup>Required</sup> <a name="functionName" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.functionName"></a>
+
+```typescript
+public readonly functionName: string;
+```
+
+- *Type:* string
+
+Name of this function.
+
+---
+
+##### `grantPrincipal`<sup>Required</sup> <a name="grantPrincipal" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.grantPrincipal"></a>
+
+```typescript
+public readonly grantPrincipal: IPrincipal;
+```
+
+- *Type:* aws-cdk-lib.aws_iam.IPrincipal
+
+The principal this Lambda Function is running as.
+
+---
+
+##### `isBoundToVpc`<sup>Required</sup> <a name="isBoundToVpc" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.isBoundToVpc"></a>
+
+```typescript
+public readonly isBoundToVpc: boolean;
+```
+
+- *Type:* boolean
+
+Whether or not this Lambda function was bound to a VPC.
+
+If this is is `false`, trying to access the `connections` object will fail.
+
+---
+
+##### `latestVersion`<sup>Required</sup> <a name="latestVersion" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.latestVersion"></a>
+
+```typescript
+public readonly latestVersion: IVersion;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.IVersion
+
+The `$LATEST` version of this function.
+
+Note that this is reference to a non-specific AWS Lambda version, which
+means the function this version refers to can return different results in
+different invocations.
+
+To obtain a reference to an explicit version which references the current
+function configuration, use `lambdaFunction.currentVersion` instead.
+
+---
+
+##### `permissionsNode`<sup>Required</sup> <a name="permissionsNode" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.permissionsNode"></a>
+
+```typescript
+public readonly permissionsNode: Node;
+```
+
+- *Type:* constructs.Node
+
+The construct node where permissions are attached.
+
+---
+
+##### `resourceArnsForGrantInvoke`<sup>Required</sup> <a name="resourceArnsForGrantInvoke" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.resourceArnsForGrantInvoke"></a>
+
+```typescript
+public readonly resourceArnsForGrantInvoke: string[];
+```
+
+- *Type:* string[]
+
+The ARN(s) to put into the resource field of the generated IAM policy for grantInvoke().
+
+---
+
+##### `role`<sup>Optional</sup> <a name="role" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.role"></a>
+
+```typescript
+public readonly role: IRole;
+```
+
+- *Type:* aws-cdk-lib.aws_iam.IRole
+
+Execution role associated with this function.
+
+---
+
+##### `currentVersion`<sup>Required</sup> <a name="currentVersion" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.currentVersion"></a>
+
+```typescript
+public readonly currentVersion: Version;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Version
+
+Returns a `lambda.Version` which represents the current version of this Lambda function. A new version will be created every time the function's configuration changes.
+
+You can specify options for this version using the `currentVersionOptions`
+prop when initializing the `lambda.Function`.
+
+---
+
+##### `logGroup`<sup>Required</sup> <a name="logGroup" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.logGroup"></a>
+
+```typescript
+public readonly logGroup: ILogGroup;
+```
+
+- *Type:* aws-cdk-lib.aws_logs.ILogGroup
+
+The LogGroup where the Lambda function's logs are made available.
+
+If either `logRetention` is set or this property is called, a CloudFormation custom resource is added to the stack that
+pre-creates the log group as part of the stack deployment, if it already doesn't exist, and sets the correct log retention
+period (never expire, by default).
+
+Further, if the log group already exists and the `logRetention` is not set, the custom resource will reset the log retention
+to never expire even if it was configured with a different value.
+
+---
+
+##### `runtime`<sup>Required</sup> <a name="runtime" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.runtime"></a>
+
+```typescript
+public readonly runtime: Runtime;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Runtime
+
+The runtime configured for this lambda.
+
+---
+
+##### `deadLetterQueue`<sup>Optional</sup> <a name="deadLetterQueue" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.deadLetterQueue"></a>
+
+```typescript
+public readonly deadLetterQueue: IQueue;
+```
+
+- *Type:* aws-cdk-lib.aws_sqs.IQueue
+
+The DLQ (as queue) associated with this Lambda Function (this is an optional attribute).
+
+---
+
+##### `deadLetterTopic`<sup>Optional</sup> <a name="deadLetterTopic" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.deadLetterTopic"></a>
+
+```typescript
+public readonly deadLetterTopic: ITopic;
+```
+
+- *Type:* aws-cdk-lib.aws_sns.ITopic
+
+The DLQ (as topic) associated with this Lambda Function (this is an optional attribute).
+
+---
+
+##### `timeout`<sup>Optional</sup> <a name="timeout" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.timeout"></a>
+
+```typescript
+public readonly timeout: Duration;
+```
+
+- *Type:* aws-cdk-lib.Duration
+
+The timeout configured for this lambda.
+
+---
+
+##### `alarms`<sup>Required</sup> <a name="alarms" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.alarms"></a>
+
+```typescript
+public readonly alarms: FunctionAlarms;
+```
+
+- *Type:* truemark-cdk-lib.aws_lambda.FunctionAlarms
+
+---
+
+##### `deployment`<sup>Required</sup> <a name="deployment" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlpha.property.deployment"></a>
+
+```typescript
+public readonly deployment: FunctionDeployment;
+```
+
+- *Type:* truemark-cdk-lib.aws_lambda.FunctionDeployment
+
+---
+
+
+### QueueAlarms <a name="QueueAlarms" id="truemark-cdk-lib.aws_sqs.QueueAlarms"></a>
+
+Creates CloudWatch alarms for Queues.
+
+#### Initializers <a name="Initializers" id="truemark-cdk-lib.aws_sqs.QueueAlarms.Initializer"></a>
+
+```typescript
+import { aws_sqs } from 'truemark-cdk-lib'
+
+new aws_sqs.QueueAlarms(scope: Construct, id: string, props: QueueAlarmsProps)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_sqs.QueueAlarms.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_sqs.QueueAlarms.Initializer.parameter.id">id</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_sqs.QueueAlarms.Initializer.parameter.props">props</a></code> | <code>truemark-cdk-lib.aws_sqs.QueueAlarmsProps</code> | *No description.* |
+
+---
+
+##### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_sqs.QueueAlarms.Initializer.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+##### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_sqs.QueueAlarms.Initializer.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+##### `props`<sup>Required</sup> <a name="props" id="truemark-cdk-lib.aws_sqs.QueueAlarms.Initializer.parameter.props"></a>
+
+- *Type:* truemark-cdk-lib.aws_sqs.QueueAlarmsProps
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_sqs.QueueAlarms.toString">toString</a></code> | Returns a string representation of this construct. |
+
+---
+
+##### `toString` <a name="toString" id="truemark-cdk-lib.aws_sqs.QueueAlarms.toString"></a>
+
+```typescript
+public toString(): string
+```
+
+Returns a string representation of this construct.
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_sqs.QueueAlarms.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+
+---
+
+##### ~~`isConstruct`~~ <a name="isConstruct" id="truemark-cdk-lib.aws_sqs.QueueAlarms.isConstruct"></a>
+
+```typescript
+import { aws_sqs } from 'truemark-cdk-lib'
+
+aws_sqs.QueueAlarms.isConstruct(x: any)
+```
+
+Checks if `x` is a construct.
+
+###### `x`<sup>Required</sup> <a name="x" id="truemark-cdk-lib.aws_sqs.QueueAlarms.isConstruct.parameter.x"></a>
+
+- *Type:* any
+
+Any object.
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_sqs.QueueAlarms.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.QueueAlarms.property.criticalAlarms">criticalAlarms</a></code> | <code>aws-cdk-lib.aws_cloudwatch.Alarm[]</code> | Generated critical alarms. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.QueueAlarms.property.monitoringFacade">monitoringFacade</a></code> | <code>cdk-monitoring-constructs.MonitoringFacade</code> | The MonitoringFacade instance either passed in or generated. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.QueueAlarms.property.warningAlarms">warningAlarms</a></code> | <code>aws-cdk-lib.aws_cloudwatch.Alarm[]</code> | Generated warning alarms. |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="truemark-cdk-lib.aws_sqs.QueueAlarms.property.node"></a>
+
+```typescript
+public readonly node: Node;
+```
+
+- *Type:* constructs.Node
+
+The tree node.
+
+---
+
+##### `criticalAlarms`<sup>Required</sup> <a name="criticalAlarms" id="truemark-cdk-lib.aws_sqs.QueueAlarms.property.criticalAlarms"></a>
+
+```typescript
+public readonly criticalAlarms: Alarm[];
+```
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.Alarm[]
+
+Generated critical alarms.
+
+---
+
+##### `monitoringFacade`<sup>Required</sup> <a name="monitoringFacade" id="truemark-cdk-lib.aws_sqs.QueueAlarms.property.monitoringFacade"></a>
+
+```typescript
+public readonly monitoringFacade: MonitoringFacade;
+```
+
+- *Type:* cdk-monitoring-constructs.MonitoringFacade
+
+The MonitoringFacade instance either passed in or generated.
+
+---
+
+##### `warningAlarms`<sup>Required</sup> <a name="warningAlarms" id="truemark-cdk-lib.aws_sqs.QueueAlarms.property.warningAlarms"></a>
+
+```typescript
+public readonly warningAlarms: Alarm[];
+```
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.Alarm[]
+
+Generated warning alarms.
+
+---
+
+
+### StandardBucket <a name="StandardBucket" id="truemark-cdk-lib.aws_s3.StandardBucket"></a>
+
+#### Initializers <a name="Initializers" id="truemark-cdk-lib.aws_s3.StandardBucket.Initializer"></a>
+
+```typescript
+import { aws_s3 } from 'truemark-cdk-lib'
+
+new aws_s3.StandardBucket(scope: Construct, id: string, props?: StandardBucketProps)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.Initializer.parameter.id">id</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.Initializer.parameter.props">props</a></code> | <code>truemark-cdk-lib.aws_s3.StandardBucketProps</code> | *No description.* |
+
+---
+
+##### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_s3.StandardBucket.Initializer.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+##### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_s3.StandardBucket.Initializer.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+##### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_s3.StandardBucket.Initializer.parameter.props"></a>
+
+- *Type:* truemark-cdk-lib.aws_s3.StandardBucketProps
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.applyRemovalPolicy">applyRemovalPolicy</a></code> | Apply the given removal policy to this resource. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.addEventNotification">addEventNotification</a></code> | Adds a bucket notification event destination. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.addObjectCreatedNotification">addObjectCreatedNotification</a></code> | Subscribes a destination to receive notifications when an object is created in the bucket. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.addObjectRemovedNotification">addObjectRemovedNotification</a></code> | Subscribes a destination to receive notifications when an object is removed from the bucket. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.addToResourcePolicy">addToResourcePolicy</a></code> | Adds a statement to the resource policy for a principal (i.e. account/role/service) to perform actions on this bucket and/or its contents. Use `bucketArn` and `arnForObjects(keys)` to obtain ARNs for this bucket or objects. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.arnForObjects">arnForObjects</a></code> | Returns an ARN that represents all objects within the bucket that match the key pattern specified. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.grantDelete">grantDelete</a></code> | Grants s3:DeleteObject* permission to an IAM principal for objects in this bucket. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.grantPublicAccess">grantPublicAccess</a></code> | Allows unrestricted access to objects from this bucket. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.grantPut">grantPut</a></code> | Grants s3:PutObject* and s3:Abort* permissions for this bucket to an IAM principal. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.grantPutAcl">grantPutAcl</a></code> | Grant the given IAM identity permissions to modify the ACLs of objects in the given Bucket. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.grantRead">grantRead</a></code> | Grant read permissions for this bucket and it's contents to an IAM principal (Role/Group/User). |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.grantReadWrite">grantReadWrite</a></code> | Grants read/write permissions for this bucket and it's contents to an IAM principal (Role/Group/User). |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.grantWrite">grantWrite</a></code> | Grant write permissions to this bucket to an IAM principal. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.onCloudTrailEvent">onCloudTrailEvent</a></code> | Define a CloudWatch event that triggers when something happens to this repository. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.onCloudTrailPutObject">onCloudTrailPutObject</a></code> | Defines an AWS CloudWatch event that triggers when an object is uploaded to the specified paths (keys) in this bucket using the PutObject API call. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.onCloudTrailWriteObject">onCloudTrailWriteObject</a></code> | Defines an AWS CloudWatch event that triggers when an object at the specified paths (keys) in this bucket are written to. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.s3UrlForObject">s3UrlForObject</a></code> | The S3 URL of an S3 object. For example:. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.transferAccelerationUrlForObject">transferAccelerationUrlForObject</a></code> | The https Transfer Acceleration URL of an S3 object. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.urlForObject">urlForObject</a></code> | The https URL of an S3 object. Specify `regional: false` at the options for non-regional URLs. For example:. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.virtualHostedUrlForObject">virtualHostedUrlForObject</a></code> | The virtual hosted-style URL of an S3 object. Specify `regional: false` at the options for non-regional URL. For example:. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.addCorsRule">addCorsRule</a></code> | Adds a cross-origin access configuration for objects in an Amazon S3 bucket. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.addInventory">addInventory</a></code> | Add an inventory configuration. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.addLifecycleRule">addLifecycleRule</a></code> | Add a lifecycle rule to the bucket. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.addMetric">addMetric</a></code> | Adds a metrics configuration for the CloudWatch request metrics from the bucket. |
+
+---
+
+##### `toString` <a name="toString" id="truemark-cdk-lib.aws_s3.StandardBucket.toString"></a>
+
+```typescript
+public toString(): string
+```
+
+Returns a string representation of this construct.
+
+##### `applyRemovalPolicy` <a name="applyRemovalPolicy" id="truemark-cdk-lib.aws_s3.StandardBucket.applyRemovalPolicy"></a>
+
+```typescript
+public applyRemovalPolicy(policy: RemovalPolicy): void
+```
+
+Apply the given removal policy to this resource.
+
+The Removal Policy controls what happens to this resource when it stops
+being managed by CloudFormation, either because you've removed it from the
+CDK application or because you've made a change that requires the resource
+to be replaced.
+
+The resource can be deleted (`RemovalPolicy.DESTROY`), or left in your AWS
+account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
+
+###### `policy`<sup>Required</sup> <a name="policy" id="truemark-cdk-lib.aws_s3.StandardBucket.applyRemovalPolicy.parameter.policy"></a>
+
+- *Type:* aws-cdk-lib.RemovalPolicy
+
+---
+
+##### `addEventNotification` <a name="addEventNotification" id="truemark-cdk-lib.aws_s3.StandardBucket.addEventNotification"></a>
+
+```typescript
+public addEventNotification(event: EventType, dest: IBucketNotificationDestination, filters: NotificationKeyFilter): void
+```
+
+Adds a bucket notification event destination.
+
+> [https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html](https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html)
+
+*Example*
+
+```typescript
+   declare const myLambda: lambda.Function;
+   const bucket = new s3.Bucket(this, 'MyBucket');
+   bucket.addEventNotification(s3.EventType.OBJECT_CREATED, new s3n.LambdaDestination(myLambda), {prefix: 'home/myusername/*'});
+```
+
+
+###### `event`<sup>Required</sup> <a name="event" id="truemark-cdk-lib.aws_s3.StandardBucket.addEventNotification.parameter.event"></a>
+
+- *Type:* aws-cdk-lib.aws_s3.EventType
+
+The event to trigger the notification.
+
+---
+
+###### `dest`<sup>Required</sup> <a name="dest" id="truemark-cdk-lib.aws_s3.StandardBucket.addEventNotification.parameter.dest"></a>
+
+- *Type:* aws-cdk-lib.aws_s3.IBucketNotificationDestination
+
+The notification destination (Lambda, SNS Topic or SQS Queue).
+
+---
+
+###### `filters`<sup>Required</sup> <a name="filters" id="truemark-cdk-lib.aws_s3.StandardBucket.addEventNotification.parameter.filters"></a>
+
+- *Type:* aws-cdk-lib.aws_s3.NotificationKeyFilter
+
+S3 object key filter rules to determine which objects trigger this event.
+
+Each filter must include a `prefix` and/or `suffix`
+that will be matched against the s3 object key. Refer to the S3 Developer Guide
+for details about allowed filter rules.
+
+---
+
+##### `addObjectCreatedNotification` <a name="addObjectCreatedNotification" id="truemark-cdk-lib.aws_s3.StandardBucket.addObjectCreatedNotification"></a>
+
+```typescript
+public addObjectCreatedNotification(dest: IBucketNotificationDestination, filters: NotificationKeyFilter): void
+```
+
+Subscribes a destination to receive notifications when an object is created in the bucket.
+
+This is identical to calling
+`onEvent(EventType.OBJECT_CREATED)`.
+
+###### `dest`<sup>Required</sup> <a name="dest" id="truemark-cdk-lib.aws_s3.StandardBucket.addObjectCreatedNotification.parameter.dest"></a>
+
+- *Type:* aws-cdk-lib.aws_s3.IBucketNotificationDestination
+
+The notification destination (see onEvent).
+
+---
+
+###### `filters`<sup>Required</sup> <a name="filters" id="truemark-cdk-lib.aws_s3.StandardBucket.addObjectCreatedNotification.parameter.filters"></a>
+
+- *Type:* aws-cdk-lib.aws_s3.NotificationKeyFilter
+
+Filters (see onEvent).
+
+---
+
+##### `addObjectRemovedNotification` <a name="addObjectRemovedNotification" id="truemark-cdk-lib.aws_s3.StandardBucket.addObjectRemovedNotification"></a>
+
+```typescript
+public addObjectRemovedNotification(dest: IBucketNotificationDestination, filters: NotificationKeyFilter): void
+```
+
+Subscribes a destination to receive notifications when an object is removed from the bucket.
+
+This is identical to calling
+`onEvent(EventType.OBJECT_REMOVED)`.
+
+###### `dest`<sup>Required</sup> <a name="dest" id="truemark-cdk-lib.aws_s3.StandardBucket.addObjectRemovedNotification.parameter.dest"></a>
+
+- *Type:* aws-cdk-lib.aws_s3.IBucketNotificationDestination
+
+The notification destination (see onEvent).
+
+---
+
+###### `filters`<sup>Required</sup> <a name="filters" id="truemark-cdk-lib.aws_s3.StandardBucket.addObjectRemovedNotification.parameter.filters"></a>
+
+- *Type:* aws-cdk-lib.aws_s3.NotificationKeyFilter
+
+Filters (see onEvent).
+
+---
+
+##### `addToResourcePolicy` <a name="addToResourcePolicy" id="truemark-cdk-lib.aws_s3.StandardBucket.addToResourcePolicy"></a>
+
+```typescript
+public addToResourcePolicy(permission: PolicyStatement): AddToResourcePolicyResult
+```
+
+Adds a statement to the resource policy for a principal (i.e. account/role/service) to perform actions on this bucket and/or its contents. Use `bucketArn` and `arnForObjects(keys)` to obtain ARNs for this bucket or objects.
+
+Note that the policy statement may or may not be added to the policy.
+For example, when an `IBucket` is created from an existing bucket,
+it's not possible to tell whether the bucket already has a policy
+attached, let alone to re-use that policy to add more statements to it.
+So it's safest to do nothing in these cases.
+
+###### `permission`<sup>Required</sup> <a name="permission" id="truemark-cdk-lib.aws_s3.StandardBucket.addToResourcePolicy.parameter.permission"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.PolicyStatement
+
+the policy statement to be added to the bucket's policy.
+
+---
+
+##### `arnForObjects` <a name="arnForObjects" id="truemark-cdk-lib.aws_s3.StandardBucket.arnForObjects"></a>
+
+```typescript
+public arnForObjects(keyPattern: string): string
+```
+
+Returns an ARN that represents all objects within the bucket that match the key pattern specified.
+
+To represent all keys, specify ``"*"``.
+
+If you need to specify a keyPattern with multiple components, concatenate them into a single string, e.g.:
+
+   arnForObjects(`home/${team}/${user}/*`)
+
+###### `keyPattern`<sup>Required</sup> <a name="keyPattern" id="truemark-cdk-lib.aws_s3.StandardBucket.arnForObjects.parameter.keyPattern"></a>
+
+- *Type:* string
+
+---
+
+##### `grantDelete` <a name="grantDelete" id="truemark-cdk-lib.aws_s3.StandardBucket.grantDelete"></a>
+
+```typescript
+public grantDelete(identity: IGrantable, objectsKeyPattern?: any): Grant
+```
+
+Grants s3:DeleteObject* permission to an IAM principal for objects in this bucket.
+
+###### `identity`<sup>Required</sup> <a name="identity" id="truemark-cdk-lib.aws_s3.StandardBucket.grantDelete.parameter.identity"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+The principal.
+
+---
+
+###### `objectsKeyPattern`<sup>Optional</sup> <a name="objectsKeyPattern" id="truemark-cdk-lib.aws_s3.StandardBucket.grantDelete.parameter.objectsKeyPattern"></a>
+
+- *Type:* any
+
+Restrict the permission to a certain key pattern (default '*').
+
+---
+
+##### `grantPublicAccess` <a name="grantPublicAccess" id="truemark-cdk-lib.aws_s3.StandardBucket.grantPublicAccess"></a>
+
+```typescript
+public grantPublicAccess(allowedActions: string, keyPrefix?: string): Grant
+```
+
+Allows unrestricted access to objects from this bucket.
+
+IMPORTANT: This permission allows anyone to perform actions on S3 objects
+in this bucket, which is useful for when you configure your bucket as a
+website and want everyone to be able to read objects in the bucket without
+needing to authenticate.
+
+Without arguments, this method will grant read ("s3:GetObject") access to
+all objects ("*") in the bucket.
+
+The method returns the `iam.Grant` object, which can then be modified
+as needed. For example, you can add a condition that will restrict access only
+to an IPv4 range like this:
+
+     const grant = bucket.grantPublicAccess();
+     grant.resourceStatement!.addCondition(‘IpAddress’, { “aws:SourceIp”: “54.240.143.0/24” });
+
+Note that if this `IBucket` refers to an existing bucket, possibly not
+managed by CloudFormation, this method will have no effect, since it's
+impossible to modify the policy of an existing bucket.
+
+###### `allowedActions`<sup>Required</sup> <a name="allowedActions" id="truemark-cdk-lib.aws_s3.StandardBucket.grantPublicAccess.parameter.allowedActions"></a>
+
+- *Type:* string
+
+the set of S3 actions to allow.
+
+Default is "s3:GetObject".
+
+---
+
+###### `keyPrefix`<sup>Optional</sup> <a name="keyPrefix" id="truemark-cdk-lib.aws_s3.StandardBucket.grantPublicAccess.parameter.keyPrefix"></a>
+
+- *Type:* string
+
+the prefix of S3 object keys (e.g. `home/*`). Default is "*".
+
+---
+
+##### `grantPut` <a name="grantPut" id="truemark-cdk-lib.aws_s3.StandardBucket.grantPut"></a>
+
+```typescript
+public grantPut(identity: IGrantable, objectsKeyPattern?: any): Grant
+```
+
+Grants s3:PutObject* and s3:Abort* permissions for this bucket to an IAM principal.
+
+If encryption is used, permission to use the key to encrypt the contents
+of written files will also be granted to the same principal.
+
+###### `identity`<sup>Required</sup> <a name="identity" id="truemark-cdk-lib.aws_s3.StandardBucket.grantPut.parameter.identity"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+The principal.
+
+---
+
+###### `objectsKeyPattern`<sup>Optional</sup> <a name="objectsKeyPattern" id="truemark-cdk-lib.aws_s3.StandardBucket.grantPut.parameter.objectsKeyPattern"></a>
+
+- *Type:* any
+
+Restrict the permission to a certain key pattern (default '*').
+
+---
+
+##### `grantPutAcl` <a name="grantPutAcl" id="truemark-cdk-lib.aws_s3.StandardBucket.grantPutAcl"></a>
+
+```typescript
+public grantPutAcl(identity: IGrantable, objectsKeyPattern?: string): Grant
+```
+
+Grant the given IAM identity permissions to modify the ACLs of objects in the given Bucket.
+
+If your application has the '@aws-cdk/aws-s3:grantWriteWithoutAcl' feature flag set,
+calling {@link grantWrite} or {@link grantReadWrite} no longer grants permissions to modify the ACLs of the objects;
+in this case, if you need to modify object ACLs, call this method explicitly.
+
+###### `identity`<sup>Required</sup> <a name="identity" id="truemark-cdk-lib.aws_s3.StandardBucket.grantPutAcl.parameter.identity"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+---
+
+###### `objectsKeyPattern`<sup>Optional</sup> <a name="objectsKeyPattern" id="truemark-cdk-lib.aws_s3.StandardBucket.grantPutAcl.parameter.objectsKeyPattern"></a>
+
+- *Type:* string
+
+---
+
+##### `grantRead` <a name="grantRead" id="truemark-cdk-lib.aws_s3.StandardBucket.grantRead"></a>
+
+```typescript
+public grantRead(identity: IGrantable, objectsKeyPattern?: any): Grant
+```
+
+Grant read permissions for this bucket and it's contents to an IAM principal (Role/Group/User).
+
+If encryption is used, permission to use the key to decrypt the contents
+of the bucket will also be granted to the same principal.
+
+###### `identity`<sup>Required</sup> <a name="identity" id="truemark-cdk-lib.aws_s3.StandardBucket.grantRead.parameter.identity"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+The principal.
+
+---
+
+###### `objectsKeyPattern`<sup>Optional</sup> <a name="objectsKeyPattern" id="truemark-cdk-lib.aws_s3.StandardBucket.grantRead.parameter.objectsKeyPattern"></a>
+
+- *Type:* any
+
+Restrict the permission to a certain key pattern (default '*').
+
+---
+
+##### `grantReadWrite` <a name="grantReadWrite" id="truemark-cdk-lib.aws_s3.StandardBucket.grantReadWrite"></a>
+
+```typescript
+public grantReadWrite(identity: IGrantable, objectsKeyPattern?: any): Grant
+```
+
+Grants read/write permissions for this bucket and it's contents to an IAM principal (Role/Group/User).
+
+If an encryption key is used, permission to use the key for
+encrypt/decrypt will also be granted.
+
+Before CDK version 1.85.0, this method granted the `s3:PutObject*` permission that included `s3:PutObjectAcl`,
+which could be used to grant read/write object access to IAM principals in other accounts.
+If you want to get rid of that behavior, update your CDK version to 1.85.0 or later,
+and make sure the `@aws-cdk/aws-s3:grantWriteWithoutAcl` feature flag is set to `true`
+in the `context` key of your cdk.json file.
+If you've already updated, but still need the principal to have permissions to modify the ACLs,
+use the {@link grantPutAcl} method.
+
+###### `identity`<sup>Required</sup> <a name="identity" id="truemark-cdk-lib.aws_s3.StandardBucket.grantReadWrite.parameter.identity"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+---
+
+###### `objectsKeyPattern`<sup>Optional</sup> <a name="objectsKeyPattern" id="truemark-cdk-lib.aws_s3.StandardBucket.grantReadWrite.parameter.objectsKeyPattern"></a>
+
+- *Type:* any
+
+---
+
+##### `grantWrite` <a name="grantWrite" id="truemark-cdk-lib.aws_s3.StandardBucket.grantWrite"></a>
+
+```typescript
+public grantWrite(identity: IGrantable, objectsKeyPattern?: any): Grant
+```
+
+Grant write permissions to this bucket to an IAM principal.
+
+If encryption is used, permission to use the key to encrypt the contents
+of written files will also be granted to the same principal.
+
+Before CDK version 1.85.0, this method granted the `s3:PutObject*` permission that included `s3:PutObjectAcl`,
+which could be used to grant read/write object access to IAM principals in other accounts.
+If you want to get rid of that behavior, update your CDK version to 1.85.0 or later,
+and make sure the `@aws-cdk/aws-s3:grantWriteWithoutAcl` feature flag is set to `true`
+in the `context` key of your cdk.json file.
+If you've already updated, but still need the principal to have permissions to modify the ACLs,
+use the {@link grantPutAcl} method.
+
+###### `identity`<sup>Required</sup> <a name="identity" id="truemark-cdk-lib.aws_s3.StandardBucket.grantWrite.parameter.identity"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+---
+
+###### `objectsKeyPattern`<sup>Optional</sup> <a name="objectsKeyPattern" id="truemark-cdk-lib.aws_s3.StandardBucket.grantWrite.parameter.objectsKeyPattern"></a>
+
+- *Type:* any
+
+---
+
+##### `onCloudTrailEvent` <a name="onCloudTrailEvent" id="truemark-cdk-lib.aws_s3.StandardBucket.onCloudTrailEvent"></a>
+
+```typescript
+public onCloudTrailEvent(id: string, options?: OnCloudTrailBucketEventOptions): Rule
+```
+
+Define a CloudWatch event that triggers when something happens to this repository.
+
+Requires that there exists at least one CloudTrail Trail in your account
+that captures the event. This method will not create the Trail.
+
+###### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_s3.StandardBucket.onCloudTrailEvent.parameter.id"></a>
+
+- *Type:* string
+
+The id of the rule.
+
+---
+
+###### `options`<sup>Optional</sup> <a name="options" id="truemark-cdk-lib.aws_s3.StandardBucket.onCloudTrailEvent.parameter.options"></a>
+
+- *Type:* aws-cdk-lib.aws_s3.OnCloudTrailBucketEventOptions
+
+Options for adding the rule.
+
+---
+
+##### `onCloudTrailPutObject` <a name="onCloudTrailPutObject" id="truemark-cdk-lib.aws_s3.StandardBucket.onCloudTrailPutObject"></a>
+
+```typescript
+public onCloudTrailPutObject(id: string, options?: OnCloudTrailBucketEventOptions): Rule
+```
+
+Defines an AWS CloudWatch event that triggers when an object is uploaded to the specified paths (keys) in this bucket using the PutObject API call.
+
+Note that some tools like `aws s3 cp` will automatically use either
+PutObject or the multipart upload API depending on the file size,
+so using `onCloudTrailWriteObject` may be preferable.
+
+Requires that there exists at least one CloudTrail Trail in your account
+that captures the event. This method will not create the Trail.
+
+###### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_s3.StandardBucket.onCloudTrailPutObject.parameter.id"></a>
+
+- *Type:* string
+
+The id of the rule.
+
+---
+
+###### `options`<sup>Optional</sup> <a name="options" id="truemark-cdk-lib.aws_s3.StandardBucket.onCloudTrailPutObject.parameter.options"></a>
+
+- *Type:* aws-cdk-lib.aws_s3.OnCloudTrailBucketEventOptions
+
+Options for adding the rule.
+
+---
+
+##### `onCloudTrailWriteObject` <a name="onCloudTrailWriteObject" id="truemark-cdk-lib.aws_s3.StandardBucket.onCloudTrailWriteObject"></a>
+
+```typescript
+public onCloudTrailWriteObject(id: string, options?: OnCloudTrailBucketEventOptions): Rule
+```
+
+Defines an AWS CloudWatch event that triggers when an object at the specified paths (keys) in this bucket are written to.
+
+This includes
+the events PutObject, CopyObject, and CompleteMultipartUpload.
+
+Note that some tools like `aws s3 cp` will automatically use either
+PutObject or the multipart upload API depending on the file size,
+so using this method may be preferable to `onCloudTrailPutObject`.
+
+Requires that there exists at least one CloudTrail Trail in your account
+that captures the event. This method will not create the Trail.
+
+###### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_s3.StandardBucket.onCloudTrailWriteObject.parameter.id"></a>
+
+- *Type:* string
+
+The id of the rule.
+
+---
+
+###### `options`<sup>Optional</sup> <a name="options" id="truemark-cdk-lib.aws_s3.StandardBucket.onCloudTrailWriteObject.parameter.options"></a>
+
+- *Type:* aws-cdk-lib.aws_s3.OnCloudTrailBucketEventOptions
+
+Options for adding the rule.
+
+---
+
+##### `s3UrlForObject` <a name="s3UrlForObject" id="truemark-cdk-lib.aws_s3.StandardBucket.s3UrlForObject"></a>
+
+```typescript
+public s3UrlForObject(key?: string): string
+```
+
+The S3 URL of an S3 object. For example:.
+
+`s3://onlybucket`
+- `s3://bucket/key`
+
+###### `key`<sup>Optional</sup> <a name="key" id="truemark-cdk-lib.aws_s3.StandardBucket.s3UrlForObject.parameter.key"></a>
+
+- *Type:* string
+
+The S3 key of the object.
+
+If not specified, the S3 URL of the
+bucket is returned.
+
+---
+
+##### `transferAccelerationUrlForObject` <a name="transferAccelerationUrlForObject" id="truemark-cdk-lib.aws_s3.StandardBucket.transferAccelerationUrlForObject"></a>
+
+```typescript
+public transferAccelerationUrlForObject(key?: string, options?: TransferAccelerationUrlOptions): string
+```
+
+The https Transfer Acceleration URL of an S3 object.
+
+Specify `dualStack: true` at the options
+for dual-stack endpoint (connect to the bucket over IPv6). For example:
+
+- `https://bucket.s3-accelerate.amazonaws.com`
+- `https://bucket.s3-accelerate.amazonaws.com/key`
+
+###### `key`<sup>Optional</sup> <a name="key" id="truemark-cdk-lib.aws_s3.StandardBucket.transferAccelerationUrlForObject.parameter.key"></a>
+
+- *Type:* string
+
+The S3 key of the object.
+
+If not specified, the URL of the
+bucket is returned.
+
+---
+
+###### `options`<sup>Optional</sup> <a name="options" id="truemark-cdk-lib.aws_s3.StandardBucket.transferAccelerationUrlForObject.parameter.options"></a>
+
+- *Type:* aws-cdk-lib.aws_s3.TransferAccelerationUrlOptions
+
+Options for generating URL.
+
+---
+
+##### `urlForObject` <a name="urlForObject" id="truemark-cdk-lib.aws_s3.StandardBucket.urlForObject"></a>
+
+```typescript
+public urlForObject(key?: string): string
+```
+
+The https URL of an S3 object. Specify `regional: false` at the options for non-regional URLs. For example:.
+
+`https://s3.us-west-1.amazonaws.com/onlybucket`
+- `https://s3.us-west-1.amazonaws.com/bucket/key`
+- `https://s3.cn-north-1.amazonaws.com.cn/china-bucket/mykey`
+
+###### `key`<sup>Optional</sup> <a name="key" id="truemark-cdk-lib.aws_s3.StandardBucket.urlForObject.parameter.key"></a>
+
+- *Type:* string
+
+The S3 key of the object.
+
+If not specified, the URL of the
+bucket is returned.
+
+---
+
+##### `virtualHostedUrlForObject` <a name="virtualHostedUrlForObject" id="truemark-cdk-lib.aws_s3.StandardBucket.virtualHostedUrlForObject"></a>
+
+```typescript
+public virtualHostedUrlForObject(key?: string, options?: VirtualHostedStyleUrlOptions): string
+```
+
+The virtual hosted-style URL of an S3 object. Specify `regional: false` at the options for non-regional URL. For example:.
+
+`https://only-bucket.s3.us-west-1.amazonaws.com`
+- `https://bucket.s3.us-west-1.amazonaws.com/key`
+- `https://bucket.s3.amazonaws.com/key`
+- `https://china-bucket.s3.cn-north-1.amazonaws.com.cn/mykey`
+
+###### `key`<sup>Optional</sup> <a name="key" id="truemark-cdk-lib.aws_s3.StandardBucket.virtualHostedUrlForObject.parameter.key"></a>
+
+- *Type:* string
+
+The S3 key of the object.
+
+If not specified, the URL of the
+bucket is returned.
+
+---
+
+###### `options`<sup>Optional</sup> <a name="options" id="truemark-cdk-lib.aws_s3.StandardBucket.virtualHostedUrlForObject.parameter.options"></a>
+
+- *Type:* aws-cdk-lib.aws_s3.VirtualHostedStyleUrlOptions
+
+Options for generating URL.
+
+---
+
+##### `addCorsRule` <a name="addCorsRule" id="truemark-cdk-lib.aws_s3.StandardBucket.addCorsRule"></a>
+
+```typescript
+public addCorsRule(rule: CorsRule): void
+```
+
+Adds a cross-origin access configuration for objects in an Amazon S3 bucket.
+
+###### `rule`<sup>Required</sup> <a name="rule" id="truemark-cdk-lib.aws_s3.StandardBucket.addCorsRule.parameter.rule"></a>
+
+- *Type:* aws-cdk-lib.aws_s3.CorsRule
+
+The CORS configuration rule to add.
+
+---
+
+##### `addInventory` <a name="addInventory" id="truemark-cdk-lib.aws_s3.StandardBucket.addInventory"></a>
+
+```typescript
+public addInventory(inventory: Inventory): void
+```
+
+Add an inventory configuration.
+
+###### `inventory`<sup>Required</sup> <a name="inventory" id="truemark-cdk-lib.aws_s3.StandardBucket.addInventory.parameter.inventory"></a>
+
+- *Type:* aws-cdk-lib.aws_s3.Inventory
+
+configuration to add.
+
+---
+
+##### `addLifecycleRule` <a name="addLifecycleRule" id="truemark-cdk-lib.aws_s3.StandardBucket.addLifecycleRule"></a>
+
+```typescript
+public addLifecycleRule(rule: LifecycleRule): void
+```
+
+Add a lifecycle rule to the bucket.
+
+###### `rule`<sup>Required</sup> <a name="rule" id="truemark-cdk-lib.aws_s3.StandardBucket.addLifecycleRule.parameter.rule"></a>
+
+- *Type:* aws-cdk-lib.aws_s3.LifecycleRule
+
+The rule to add.
+
+---
+
+##### `addMetric` <a name="addMetric" id="truemark-cdk-lib.aws_s3.StandardBucket.addMetric"></a>
+
+```typescript
+public addMetric(metric: BucketMetrics): void
+```
+
+Adds a metrics configuration for the CloudWatch request metrics from the bucket.
+
+###### `metric`<sup>Required</sup> <a name="metric" id="truemark-cdk-lib.aws_s3.StandardBucket.addMetric.parameter.metric"></a>
+
+- *Type:* aws-cdk-lib.aws_s3.BucketMetrics
+
+The metric configuration to add.
+
+---
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.isResource">isResource</a></code> | Check whether the given construct is a Resource. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.fromBucketArn">fromBucketArn</a></code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.fromBucketAttributes">fromBucketAttributes</a></code> | Creates a Bucket construct that represents an external bucket. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.fromBucketName">fromBucketName</a></code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.validateBucketName">validateBucketName</a></code> | Thrown an exception if the given bucket name is not valid. |
+
+---
+
+##### ~~`isConstruct`~~ <a name="isConstruct" id="truemark-cdk-lib.aws_s3.StandardBucket.isConstruct"></a>
+
+```typescript
+import { aws_s3 } from 'truemark-cdk-lib'
+
+aws_s3.StandardBucket.isConstruct(x: any)
+```
+
+Checks if `x` is a construct.
+
+###### `x`<sup>Required</sup> <a name="x" id="truemark-cdk-lib.aws_s3.StandardBucket.isConstruct.parameter.x"></a>
+
+- *Type:* any
+
+Any object.
+
+---
+
+##### `isResource` <a name="isResource" id="truemark-cdk-lib.aws_s3.StandardBucket.isResource"></a>
+
+```typescript
+import { aws_s3 } from 'truemark-cdk-lib'
+
+aws_s3.StandardBucket.isResource(construct: IConstruct)
+```
+
+Check whether the given construct is a Resource.
+
+###### `construct`<sup>Required</sup> <a name="construct" id="truemark-cdk-lib.aws_s3.StandardBucket.isResource.parameter.construct"></a>
+
+- *Type:* constructs.IConstruct
+
+---
+
+##### `fromBucketArn` <a name="fromBucketArn" id="truemark-cdk-lib.aws_s3.StandardBucket.fromBucketArn"></a>
+
+```typescript
+import { aws_s3 } from 'truemark-cdk-lib'
+
+aws_s3.StandardBucket.fromBucketArn(scope: Construct, id: string, bucketArn: string)
+```
+
+###### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_s3.StandardBucket.fromBucketArn.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+###### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_s3.StandardBucket.fromBucketArn.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+###### `bucketArn`<sup>Required</sup> <a name="bucketArn" id="truemark-cdk-lib.aws_s3.StandardBucket.fromBucketArn.parameter.bucketArn"></a>
+
+- *Type:* string
+
+---
+
+##### `fromBucketAttributes` <a name="fromBucketAttributes" id="truemark-cdk-lib.aws_s3.StandardBucket.fromBucketAttributes"></a>
+
+```typescript
+import { aws_s3 } from 'truemark-cdk-lib'
+
+aws_s3.StandardBucket.fromBucketAttributes(scope: Construct, id: string, attrs: BucketAttributes)
+```
+
+Creates a Bucket construct that represents an external bucket.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_s3.StandardBucket.fromBucketAttributes.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+The parent creating construct (usually `this`).
+
+---
+
+###### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_s3.StandardBucket.fromBucketAttributes.parameter.id"></a>
+
+- *Type:* string
+
+The construct's name.
+
+---
+
+###### `attrs`<sup>Required</sup> <a name="attrs" id="truemark-cdk-lib.aws_s3.StandardBucket.fromBucketAttributes.parameter.attrs"></a>
+
+- *Type:* aws-cdk-lib.aws_s3.BucketAttributes
+
+A `BucketAttributes` object.
+
+Can be obtained from a call to
+`bucket.export()` or manually created.
+
+---
+
+##### `fromBucketName` <a name="fromBucketName" id="truemark-cdk-lib.aws_s3.StandardBucket.fromBucketName"></a>
+
+```typescript
+import { aws_s3 } from 'truemark-cdk-lib'
+
+aws_s3.StandardBucket.fromBucketName(scope: Construct, id: string, bucketName: string)
+```
+
+###### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_s3.StandardBucket.fromBucketName.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+###### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_s3.StandardBucket.fromBucketName.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+###### `bucketName`<sup>Required</sup> <a name="bucketName" id="truemark-cdk-lib.aws_s3.StandardBucket.fromBucketName.parameter.bucketName"></a>
+
+- *Type:* string
+
+---
+
+##### `validateBucketName` <a name="validateBucketName" id="truemark-cdk-lib.aws_s3.StandardBucket.validateBucketName"></a>
+
+```typescript
+import { aws_s3 } from 'truemark-cdk-lib'
+
+aws_s3.StandardBucket.validateBucketName(physicalName: string)
+```
+
+Thrown an exception if the given bucket name is not valid.
+
+###### `physicalName`<sup>Required</sup> <a name="physicalName" id="truemark-cdk-lib.aws_s3.StandardBucket.validateBucketName.parameter.physicalName"></a>
+
+- *Type:* string
+
+name of the bucket.
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.property.bucketArn">bucketArn</a></code> | <code>string</code> | The ARN of the bucket. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.property.bucketDomainName">bucketDomainName</a></code> | <code>string</code> | The IPv4 DNS name of the specified bucket. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.property.bucketDualStackDomainName">bucketDualStackDomainName</a></code> | <code>string</code> | The IPv6 DNS name of the specified bucket. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.property.bucketName">bucketName</a></code> | <code>string</code> | The name of the bucket. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.property.bucketRegionalDomainName">bucketRegionalDomainName</a></code> | <code>string</code> | The regional domain name of the specified bucket. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.property.bucketWebsiteDomainName">bucketWebsiteDomainName</a></code> | <code>string</code> | The Domain name of the static website. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.property.bucketWebsiteUrl">bucketWebsiteUrl</a></code> | <code>string</code> | The URL of the static website. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.property.encryptionKey">encryptionKey</a></code> | <code>aws-cdk-lib.aws_kms.IKey</code> | Optional KMS encryption key associated with this bucket. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.property.isWebsite">isWebsite</a></code> | <code>boolean</code> | If this bucket has been configured for static website hosting. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucket.property.policy">policy</a></code> | <code>aws-cdk-lib.aws_s3.BucketPolicy</code> | The resource policy associated with this bucket. |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="truemark-cdk-lib.aws_s3.StandardBucket.property.node"></a>
+
+```typescript
+public readonly node: Node;
+```
+
+- *Type:* constructs.Node
+
+The tree node.
+
+---
+
+##### `env`<sup>Required</sup> <a name="env" id="truemark-cdk-lib.aws_s3.StandardBucket.property.env"></a>
+
+```typescript
+public readonly env: ResourceEnvironment;
+```
+
+- *Type:* aws-cdk-lib.ResourceEnvironment
+
+The environment this resource belongs to.
+
+For resources that are created and managed by the CDK
+(generally, those created by creating new class instances like Role, Bucket, etc.),
+this is always the same as the environment of the stack they belong to;
+however, for imported resources
+(those obtained from static methods like fromRoleArn, fromBucketName, etc.),
+that might be different than the stack they were imported into.
+
+---
+
+##### `stack`<sup>Required</sup> <a name="stack" id="truemark-cdk-lib.aws_s3.StandardBucket.property.stack"></a>
+
+```typescript
+public readonly stack: Stack;
+```
+
+- *Type:* aws-cdk-lib.Stack
+
+The stack in which this resource is defined.
+
+---
+
+##### `bucketArn`<sup>Required</sup> <a name="bucketArn" id="truemark-cdk-lib.aws_s3.StandardBucket.property.bucketArn"></a>
+
+```typescript
+public readonly bucketArn: string;
+```
+
+- *Type:* string
+
+The ARN of the bucket.
+
+---
+
+##### `bucketDomainName`<sup>Required</sup> <a name="bucketDomainName" id="truemark-cdk-lib.aws_s3.StandardBucket.property.bucketDomainName"></a>
+
+```typescript
+public readonly bucketDomainName: string;
+```
+
+- *Type:* string
+
+The IPv4 DNS name of the specified bucket.
+
+---
+
+##### `bucketDualStackDomainName`<sup>Required</sup> <a name="bucketDualStackDomainName" id="truemark-cdk-lib.aws_s3.StandardBucket.property.bucketDualStackDomainName"></a>
+
+```typescript
+public readonly bucketDualStackDomainName: string;
+```
+
+- *Type:* string
+
+The IPv6 DNS name of the specified bucket.
+
+---
+
+##### `bucketName`<sup>Required</sup> <a name="bucketName" id="truemark-cdk-lib.aws_s3.StandardBucket.property.bucketName"></a>
+
+```typescript
+public readonly bucketName: string;
+```
+
+- *Type:* string
+
+The name of the bucket.
+
+---
+
+##### `bucketRegionalDomainName`<sup>Required</sup> <a name="bucketRegionalDomainName" id="truemark-cdk-lib.aws_s3.StandardBucket.property.bucketRegionalDomainName"></a>
+
+```typescript
+public readonly bucketRegionalDomainName: string;
+```
+
+- *Type:* string
+
+The regional domain name of the specified bucket.
+
+---
+
+##### `bucketWebsiteDomainName`<sup>Required</sup> <a name="bucketWebsiteDomainName" id="truemark-cdk-lib.aws_s3.StandardBucket.property.bucketWebsiteDomainName"></a>
+
+```typescript
+public readonly bucketWebsiteDomainName: string;
+```
+
+- *Type:* string
+
+The Domain name of the static website.
+
+---
+
+##### `bucketWebsiteUrl`<sup>Required</sup> <a name="bucketWebsiteUrl" id="truemark-cdk-lib.aws_s3.StandardBucket.property.bucketWebsiteUrl"></a>
+
+```typescript
+public readonly bucketWebsiteUrl: string;
+```
+
+- *Type:* string
+
+The URL of the static website.
+
+---
+
+##### `encryptionKey`<sup>Optional</sup> <a name="encryptionKey" id="truemark-cdk-lib.aws_s3.StandardBucket.property.encryptionKey"></a>
+
+```typescript
+public readonly encryptionKey: IKey;
+```
+
+- *Type:* aws-cdk-lib.aws_kms.IKey
+
+Optional KMS encryption key associated with this bucket.
+
+---
+
+##### `isWebsite`<sup>Optional</sup> <a name="isWebsite" id="truemark-cdk-lib.aws_s3.StandardBucket.property.isWebsite"></a>
+
+```typescript
+public readonly isWebsite: boolean;
+```
+
+- *Type:* boolean
+
+If this bucket has been configured for static website hosting.
+
+---
+
+##### `policy`<sup>Optional</sup> <a name="policy" id="truemark-cdk-lib.aws_s3.StandardBucket.property.policy"></a>
+
+```typescript
+public readonly policy: BucketPolicy;
+```
+
+- *Type:* aws-cdk-lib.aws_s3.BucketPolicy
+
+The resource policy associated with this bucket.
+
+If `autoCreatePolicy` is true, a `BucketPolicy` will be created upon the
+first call to addToResourcePolicy(s).
+
+---
+
+
+### StandardQueue <a name="StandardQueue" id="truemark-cdk-lib.aws_sqs.StandardQueue"></a>
+
+- *Implements:* aws-cdk-lib.aws_sqs.IQueue
+
+#### Initializers <a name="Initializers" id="truemark-cdk-lib.aws_sqs.StandardQueue.Initializer"></a>
+
+```typescript
+import { aws_sqs } from 'truemark-cdk-lib'
+
+new aws_sqs.StandardQueue(scope: Construct, id: string, props: StandardQueueProps)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueue.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueue.Initializer.parameter.id">id</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueue.Initializer.parameter.props">props</a></code> | <code>truemark-cdk-lib.aws_sqs.StandardQueueProps</code> | *No description.* |
+
+---
+
+##### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_sqs.StandardQueue.Initializer.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+##### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_sqs.StandardQueue.Initializer.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+##### `props`<sup>Required</sup> <a name="props" id="truemark-cdk-lib.aws_sqs.StandardQueue.Initializer.parameter.props"></a>
+
+- *Type:* truemark-cdk-lib.aws_sqs.StandardQueueProps
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueue.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueue.addToResourcePolicy">addToResourcePolicy</a></code> | Adds a statement to the IAM resource policy associated with this queue. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueue.applyRemovalPolicy">applyRemovalPolicy</a></code> | Apply the given removal policy to this resource. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueue.grant">grant</a></code> | Grant the actions defined in queueActions to the identity Principal given on this SQS queue resource. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueue.grantConsumeMessages">grantConsumeMessages</a></code> | Grant permissions to consume messages from a queue. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueue.grantPurge">grantPurge</a></code> | Grant an IAM principal permissions to purge all messages from the queue. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueue.grantSendMessages">grantSendMessages</a></code> | Grant access to send messages to a queue to the given identity. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueue.metric">metric</a></code> | Return the given named metric for this Queue. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueue.metricApproximateAgeOfOldestMessage">metricApproximateAgeOfOldestMessage</a></code> | The approximate age of the oldest non-deleted message in the queue. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueue.metricApproximateNumberOfMessagesDelayed">metricApproximateNumberOfMessagesDelayed</a></code> | The number of messages in the queue that are delayed and not available for reading immediately. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueue.metricApproximateNumberOfMessagesNotVisible">metricApproximateNumberOfMessagesNotVisible</a></code> | The number of messages that are in flight. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueue.metricApproximateNumberOfMessagesVisible">metricApproximateNumberOfMessagesVisible</a></code> | The number of messages available for retrieval from the queue. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueue.metricNumberOfEmptyReceives">metricNumberOfEmptyReceives</a></code> | The number of ReceiveMessage API calls that did not return a message. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueue.metricNumberOfMessagesDeleted">metricNumberOfMessagesDeleted</a></code> | The number of messages deleted from the queue. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueue.metricNumberOfMessagesReceived">metricNumberOfMessagesReceived</a></code> | The number of messages returned by calls to the ReceiveMessage action. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueue.metricNumberOfMessagesSent">metricNumberOfMessagesSent</a></code> | The number of messages added to a queue. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueue.metricSentMessageSize">metricSentMessageSize</a></code> | The size of messages added to a queue. |
+
+---
+
+##### `toString` <a name="toString" id="truemark-cdk-lib.aws_sqs.StandardQueue.toString"></a>
+
+```typescript
+public toString(): string
+```
+
+Returns a string representation of this construct.
+
+##### `addToResourcePolicy` <a name="addToResourcePolicy" id="truemark-cdk-lib.aws_sqs.StandardQueue.addToResourcePolicy"></a>
+
+```typescript
+public addToResourcePolicy(statement: PolicyStatement): AddToResourcePolicyResult
+```
+
+Adds a statement to the IAM resource policy associated with this queue.
+
+If this queue was created in this stack (`new Queue`), a queue policy
+will be automatically created upon the first call to `addToPolicy`. If
+the queue is imported (`Queue.import`), then this is a no-op.
+
+###### `statement`<sup>Required</sup> <a name="statement" id="truemark-cdk-lib.aws_sqs.StandardQueue.addToResourcePolicy.parameter.statement"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.PolicyStatement
+
+---
+
+##### `applyRemovalPolicy` <a name="applyRemovalPolicy" id="truemark-cdk-lib.aws_sqs.StandardQueue.applyRemovalPolicy"></a>
+
+```typescript
+public applyRemovalPolicy(policy: RemovalPolicy): void
+```
+
+Apply the given removal policy to this resource.
+
+The Removal Policy controls what happens to this resource when it stops
+being managed by CloudFormation, either because you've removed it from the
+CDK application or because you've made a change that requires the resource
+to be replaced.
+
+The resource can be deleted (`RemovalPolicy.DESTROY`), or left in your AWS
+account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
+
+###### `policy`<sup>Required</sup> <a name="policy" id="truemark-cdk-lib.aws_sqs.StandardQueue.applyRemovalPolicy.parameter.policy"></a>
+
+- *Type:* aws-cdk-lib.RemovalPolicy
+
+---
+
+##### `grant` <a name="grant" id="truemark-cdk-lib.aws_sqs.StandardQueue.grant"></a>
+
+```typescript
+public grant(grantee: IGrantable, queueActions: string): Grant
+```
+
+Grant the actions defined in queueActions to the identity Principal given on this SQS queue resource.
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="truemark-cdk-lib.aws_sqs.StandardQueue.grant.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+---
+
+###### `queueActions`<sup>Required</sup> <a name="queueActions" id="truemark-cdk-lib.aws_sqs.StandardQueue.grant.parameter.queueActions"></a>
+
+- *Type:* string
+
+---
+
+##### `grantConsumeMessages` <a name="grantConsumeMessages" id="truemark-cdk-lib.aws_sqs.StandardQueue.grantConsumeMessages"></a>
+
+```typescript
+public grantConsumeMessages(grantee: IGrantable): Grant
+```
+
+Grant permissions to consume messages from a queue.
+
+This will grant the following permissions:
+
+   - sqs:ChangeMessageVisibility
+   - sqs:DeleteMessage
+   - sqs:ReceiveMessage
+   - sqs:GetQueueAttributes
+   - sqs:GetQueueUrl
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="truemark-cdk-lib.aws_sqs.StandardQueue.grantConsumeMessages.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+---
+
+##### `grantPurge` <a name="grantPurge" id="truemark-cdk-lib.aws_sqs.StandardQueue.grantPurge"></a>
+
+```typescript
+public grantPurge(grantee: IGrantable): Grant
+```
+
+Grant an IAM principal permissions to purge all messages from the queue.
+
+This will grant the following permissions:
+
+  - sqs:PurgeQueue
+  - sqs:GetQueueAttributes
+  - sqs:GetQueueUrl
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="truemark-cdk-lib.aws_sqs.StandardQueue.grantPurge.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+---
+
+##### `grantSendMessages` <a name="grantSendMessages" id="truemark-cdk-lib.aws_sqs.StandardQueue.grantSendMessages"></a>
+
+```typescript
+public grantSendMessages(grantee: IGrantable): Grant
+```
+
+Grant access to send messages to a queue to the given identity.
+
+This will grant the following permissions:
+
+  - sqs:SendMessage
+  - sqs:GetQueueAttributes
+  - sqs:GetQueueUrl
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="truemark-cdk-lib.aws_sqs.StandardQueue.grantSendMessages.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+---
+
+##### `metric` <a name="metric" id="truemark-cdk-lib.aws_sqs.StandardQueue.metric"></a>
+
+```typescript
+public metric(metricName: string, props?: MetricOptions): Metric
+```
+
+Return the given named metric for this Queue.
+
+###### `metricName`<sup>Required</sup> <a name="metricName" id="truemark-cdk-lib.aws_sqs.StandardQueue.metric.parameter.metricName"></a>
+
+- *Type:* string
+
+---
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_sqs.StandardQueue.metric.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricApproximateAgeOfOldestMessage` <a name="metricApproximateAgeOfOldestMessage" id="truemark-cdk-lib.aws_sqs.StandardQueue.metricApproximateAgeOfOldestMessage"></a>
+
+```typescript
+public metricApproximateAgeOfOldestMessage(props?: MetricOptions): Metric
+```
+
+The approximate age of the oldest non-deleted message in the queue.
+
+Maximum over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_sqs.StandardQueue.metricApproximateAgeOfOldestMessage.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricApproximateNumberOfMessagesDelayed` <a name="metricApproximateNumberOfMessagesDelayed" id="truemark-cdk-lib.aws_sqs.StandardQueue.metricApproximateNumberOfMessagesDelayed"></a>
+
+```typescript
+public metricApproximateNumberOfMessagesDelayed(props?: MetricOptions): Metric
+```
+
+The number of messages in the queue that are delayed and not available for reading immediately.
+
+Maximum over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_sqs.StandardQueue.metricApproximateNumberOfMessagesDelayed.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricApproximateNumberOfMessagesNotVisible` <a name="metricApproximateNumberOfMessagesNotVisible" id="truemark-cdk-lib.aws_sqs.StandardQueue.metricApproximateNumberOfMessagesNotVisible"></a>
+
+```typescript
+public metricApproximateNumberOfMessagesNotVisible(props?: MetricOptions): Metric
+```
+
+The number of messages that are in flight.
+
+Maximum over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_sqs.StandardQueue.metricApproximateNumberOfMessagesNotVisible.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricApproximateNumberOfMessagesVisible` <a name="metricApproximateNumberOfMessagesVisible" id="truemark-cdk-lib.aws_sqs.StandardQueue.metricApproximateNumberOfMessagesVisible"></a>
+
+```typescript
+public metricApproximateNumberOfMessagesVisible(props?: MetricOptions): Metric
+```
+
+The number of messages available for retrieval from the queue.
+
+Maximum over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_sqs.StandardQueue.metricApproximateNumberOfMessagesVisible.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricNumberOfEmptyReceives` <a name="metricNumberOfEmptyReceives" id="truemark-cdk-lib.aws_sqs.StandardQueue.metricNumberOfEmptyReceives"></a>
+
+```typescript
+public metricNumberOfEmptyReceives(props?: MetricOptions): Metric
+```
+
+The number of ReceiveMessage API calls that did not return a message.
+
+Sum over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_sqs.StandardQueue.metricNumberOfEmptyReceives.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricNumberOfMessagesDeleted` <a name="metricNumberOfMessagesDeleted" id="truemark-cdk-lib.aws_sqs.StandardQueue.metricNumberOfMessagesDeleted"></a>
+
+```typescript
+public metricNumberOfMessagesDeleted(props?: MetricOptions): Metric
+```
+
+The number of messages deleted from the queue.
+
+Sum over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_sqs.StandardQueue.metricNumberOfMessagesDeleted.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricNumberOfMessagesReceived` <a name="metricNumberOfMessagesReceived" id="truemark-cdk-lib.aws_sqs.StandardQueue.metricNumberOfMessagesReceived"></a>
+
+```typescript
+public metricNumberOfMessagesReceived(props?: MetricOptions): Metric
+```
+
+The number of messages returned by calls to the ReceiveMessage action.
+
+Sum over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_sqs.StandardQueue.metricNumberOfMessagesReceived.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricNumberOfMessagesSent` <a name="metricNumberOfMessagesSent" id="truemark-cdk-lib.aws_sqs.StandardQueue.metricNumberOfMessagesSent"></a>
+
+```typescript
+public metricNumberOfMessagesSent(props?: MetricOptions): Metric
+```
+
+The number of messages added to a queue.
+
+Sum over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_sqs.StandardQueue.metricNumberOfMessagesSent.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricSentMessageSize` <a name="metricSentMessageSize" id="truemark-cdk-lib.aws_sqs.StandardQueue.metricSentMessageSize"></a>
+
+```typescript
+public metricSentMessageSize(props?: MetricOptions): Metric
+```
+
+The size of messages added to a queue.
+
+Average over 5 minutes
+
+###### `props`<sup>Optional</sup> <a name="props" id="truemark-cdk-lib.aws_sqs.StandardQueue.metricSentMessageSize.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueue.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+
+---
+
+##### ~~`isConstruct`~~ <a name="isConstruct" id="truemark-cdk-lib.aws_sqs.StandardQueue.isConstruct"></a>
+
+```typescript
+import { aws_sqs } from 'truemark-cdk-lib'
+
+aws_sqs.StandardQueue.isConstruct(x: any)
+```
+
+Checks if `x` is a construct.
+
+###### `x`<sup>Required</sup> <a name="x" id="truemark-cdk-lib.aws_sqs.StandardQueue.isConstruct.parameter.x"></a>
+
+- *Type:* any
+
+Any object.
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueue.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueue.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueue.property.fifo">fifo</a></code> | <code>boolean</code> | Whether this queue is an Amazon SQS FIFO queue. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueue.property.queue">queue</a></code> | <code>truemark-cdk-lib.aws_sqs.ObservedQueue</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueue.property.queueArn">queueArn</a></code> | <code>string</code> | The ARN of this queue. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueue.property.queueName">queueName</a></code> | <code>string</code> | The name of this queue. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueue.property.queueUrl">queueUrl</a></code> | <code>string</code> | The URL of this queue. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueue.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueue.property.encryptionMasterKey">encryptionMasterKey</a></code> | <code>aws-cdk-lib.aws_kms.IKey</code> | If this queue is server-side encrypted, this is the KMS encryption key. |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="truemark-cdk-lib.aws_sqs.StandardQueue.property.node"></a>
+
+```typescript
+public readonly node: Node;
+```
+
+- *Type:* constructs.Node
+
+The tree node.
+
+---
+
+##### `env`<sup>Required</sup> <a name="env" id="truemark-cdk-lib.aws_sqs.StandardQueue.property.env"></a>
+
+```typescript
+public readonly env: ResourceEnvironment;
+```
+
+- *Type:* aws-cdk-lib.ResourceEnvironment
+
+The environment this resource belongs to.
+
+For resources that are created and managed by the CDK
+(generally, those created by creating new class instances like Role, Bucket, etc.),
+this is always the same as the environment of the stack they belong to;
+however, for imported resources
+(those obtained from static methods like fromRoleArn, fromBucketName, etc.),
+that might be different than the stack they were imported into.
+
+---
+
+##### `fifo`<sup>Required</sup> <a name="fifo" id="truemark-cdk-lib.aws_sqs.StandardQueue.property.fifo"></a>
+
+```typescript
+public readonly fifo: boolean;
+```
+
+- *Type:* boolean
+
+Whether this queue is an Amazon SQS FIFO queue.
+
+If false, this is a standard queue.
+
+---
+
+##### `queue`<sup>Required</sup> <a name="queue" id="truemark-cdk-lib.aws_sqs.StandardQueue.property.queue"></a>
+
+```typescript
+public readonly queue: ObservedQueue;
+```
+
+- *Type:* truemark-cdk-lib.aws_sqs.ObservedQueue
+
+---
+
+##### `queueArn`<sup>Required</sup> <a name="queueArn" id="truemark-cdk-lib.aws_sqs.StandardQueue.property.queueArn"></a>
+
+```typescript
+public readonly queueArn: string;
+```
+
+- *Type:* string
+
+The ARN of this queue.
+
+---
+
+##### `queueName`<sup>Required</sup> <a name="queueName" id="truemark-cdk-lib.aws_sqs.StandardQueue.property.queueName"></a>
+
+```typescript
+public readonly queueName: string;
+```
+
+- *Type:* string
+
+The name of this queue.
+
+---
+
+##### `queueUrl`<sup>Required</sup> <a name="queueUrl" id="truemark-cdk-lib.aws_sqs.StandardQueue.property.queueUrl"></a>
+
+```typescript
+public readonly queueUrl: string;
+```
+
+- *Type:* string
+
+The URL of this queue.
+
+---
+
+##### `stack`<sup>Required</sup> <a name="stack" id="truemark-cdk-lib.aws_sqs.StandardQueue.property.stack"></a>
+
+```typescript
+public readonly stack: Stack;
+```
+
+- *Type:* aws-cdk-lib.Stack
+
+The stack in which this resource is defined.
+
+---
+
+##### `encryptionMasterKey`<sup>Optional</sup> <a name="encryptionMasterKey" id="truemark-cdk-lib.aws_sqs.StandardQueue.property.encryptionMasterKey"></a>
+
+```typescript
+public readonly encryptionMasterKey: IKey;
+```
+
+- *Type:* aws-cdk-lib.aws_kms.IKey
+
+If this queue is server-side encrypted, this is the KMS encryption key.
+
+---
+
+#### Constants <a name="Constants" id="Constants"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueue.property.DEFAULT_MAX_RECEIVE_COUNT">DEFAULT_MAX_RECEIVE_COUNT</a></code> | <code>number</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueue.property.DEFAULT_RETENTION_PERIOD">DEFAULT_RETENTION_PERIOD</a></code> | <code>aws-cdk-lib.Duration</code> | *No description.* |
+
+---
+
+##### `DEFAULT_MAX_RECEIVE_COUNT`<sup>Required</sup> <a name="DEFAULT_MAX_RECEIVE_COUNT" id="truemark-cdk-lib.aws_sqs.StandardQueue.property.DEFAULT_MAX_RECEIVE_COUNT"></a>
+
+```typescript
+public readonly DEFAULT_MAX_RECEIVE_COUNT: number;
+```
+
+- *Type:* number
+
+---
+
+##### `DEFAULT_RETENTION_PERIOD`<sup>Required</sup> <a name="DEFAULT_RETENTION_PERIOD" id="truemark-cdk-lib.aws_sqs.StandardQueue.property.DEFAULT_RETENTION_PERIOD"></a>
+
+```typescript
+public readonly DEFAULT_RETENTION_PERIOD: Duration;
+```
+
+- *Type:* aws-cdk-lib.Duration
+
+---
+
 ### TableAlarms <a name="TableAlarms" id="truemark-cdk-lib.aws_dynamodb.TableAlarms"></a>
 
 Creates CloudWatch alarms for DynamoDB Tables.
@@ -5509,6 +14440,247 @@ The MonitoringFacade instance either passed in or generated.
 
 ---
 
+
+### Website <a name="Website" id="truemark-cdk-lib.aws_website.Website"></a>
+
+#### Initializers <a name="Initializers" id="truemark-cdk-lib.aws_website.Website.Initializer"></a>
+
+```typescript
+import { aws_website } from 'truemark-cdk-lib'
+
+new aws_website.Website(scope: Construct, id: string, props: WebsiteProps)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_website.Website.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_website.Website.Initializer.parameter.id">id</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_website.Website.Initializer.parameter.props">props</a></code> | <code>truemark-cdk-lib.aws_website.WebsiteProps</code> | *No description.* |
+
+---
+
+##### `scope`<sup>Required</sup> <a name="scope" id="truemark-cdk-lib.aws_website.Website.Initializer.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+##### `id`<sup>Required</sup> <a name="id" id="truemark-cdk-lib.aws_website.Website.Initializer.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+##### `props`<sup>Required</sup> <a name="props" id="truemark-cdk-lib.aws_website.Website.Initializer.parameter.props"></a>
+
+- *Type:* truemark-cdk-lib.aws_website.WebsiteProps
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_website.Website.toString">toString</a></code> | Returns a string representation of this construct. |
+
+---
+
+##### `toString` <a name="toString" id="truemark-cdk-lib.aws_website.Website.toString"></a>
+
+```typescript
+public toString(): string
+```
+
+Returns a string representation of this construct.
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_website.Website.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+
+---
+
+##### ~~`isConstruct`~~ <a name="isConstruct" id="truemark-cdk-lib.aws_website.Website.isConstruct"></a>
+
+```typescript
+import { aws_website } from 'truemark-cdk-lib'
+
+aws_website.Website.isConstruct(x: any)
+```
+
+Checks if `x` is a construct.
+
+###### `x`<sup>Required</sup> <a name="x" id="truemark-cdk-lib.aws_website.Website.isConstruct.parameter.x"></a>
+
+- *Type:* any
+
+Any object.
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_website.Website.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#truemark-cdk-lib.aws_website.Website.property.apexDomain">apexDomain</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_website.Website.property.aRecords">aRecords</a></code> | <code>aws-cdk-lib.aws_route53.ARecord[]</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_website.Website.property.bucket">bucket</a></code> | <code>aws-cdk-lib.aws_s3.IBucket</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_website.Website.property.deployment">deployment</a></code> | <code>aws-cdk-lib.aws_s3_deployment.BucketDeployment</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_website.Website.property.distribution">distribution</a></code> | <code>aws-cdk-lib.aws_cloudfront.Distribution</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_website.Website.property.distributionUrl">distributionUrl</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_website.Website.property.originAccessIdentity">originAccessIdentity</a></code> | <code>aws-cdk-lib.aws_cloudfront.OriginAccessIdentity</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_website.Website.property.viewerRequestFunction">viewerRequestFunction</a></code> | <code>aws-cdk-lib.aws_cloudfront.Function</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_website.Website.property.fallbackBucket">fallbackBucket</a></code> | <code>aws-cdk-lib.aws_s3.IBucket</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_website.Website.property.fallbackDeployment">fallbackDeployment</a></code> | <code>aws-cdk-lib.aws_s3_deployment.BucketDeployment</code> | *No description.* |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="truemark-cdk-lib.aws_website.Website.property.node"></a>
+
+```typescript
+public readonly node: Node;
+```
+
+- *Type:* constructs.Node
+
+The tree node.
+
+---
+
+##### `apexDomain`<sup>Required</sup> <a name="apexDomain" id="truemark-cdk-lib.aws_website.Website.property.apexDomain"></a>
+
+```typescript
+public readonly apexDomain: string;
+```
+
+- *Type:* string
+
+---
+
+##### `aRecords`<sup>Required</sup> <a name="aRecords" id="truemark-cdk-lib.aws_website.Website.property.aRecords"></a>
+
+```typescript
+public readonly aRecords: ARecord[];
+```
+
+- *Type:* aws-cdk-lib.aws_route53.ARecord[]
+
+---
+
+##### `bucket`<sup>Required</sup> <a name="bucket" id="truemark-cdk-lib.aws_website.Website.property.bucket"></a>
+
+```typescript
+public readonly bucket: IBucket;
+```
+
+- *Type:* aws-cdk-lib.aws_s3.IBucket
+
+---
+
+##### `deployment`<sup>Required</sup> <a name="deployment" id="truemark-cdk-lib.aws_website.Website.property.deployment"></a>
+
+```typescript
+public readonly deployment: BucketDeployment;
+```
+
+- *Type:* aws-cdk-lib.aws_s3_deployment.BucketDeployment
+
+---
+
+##### `distribution`<sup>Required</sup> <a name="distribution" id="truemark-cdk-lib.aws_website.Website.property.distribution"></a>
+
+```typescript
+public readonly distribution: Distribution;
+```
+
+- *Type:* aws-cdk-lib.aws_cloudfront.Distribution
+
+---
+
+##### `distributionUrl`<sup>Required</sup> <a name="distributionUrl" id="truemark-cdk-lib.aws_website.Website.property.distributionUrl"></a>
+
+```typescript
+public readonly distributionUrl: string;
+```
+
+- *Type:* string
+
+---
+
+##### `originAccessIdentity`<sup>Required</sup> <a name="originAccessIdentity" id="truemark-cdk-lib.aws_website.Website.property.originAccessIdentity"></a>
+
+```typescript
+public readonly originAccessIdentity: OriginAccessIdentity;
+```
+
+- *Type:* aws-cdk-lib.aws_cloudfront.OriginAccessIdentity
+
+---
+
+##### `viewerRequestFunction`<sup>Required</sup> <a name="viewerRequestFunction" id="truemark-cdk-lib.aws_website.Website.property.viewerRequestFunction"></a>
+
+```typescript
+public readonly viewerRequestFunction: Function;
+```
+
+- *Type:* aws-cdk-lib.aws_cloudfront.Function
+
+---
+
+##### `fallbackBucket`<sup>Optional</sup> <a name="fallbackBucket" id="truemark-cdk-lib.aws_website.Website.property.fallbackBucket"></a>
+
+```typescript
+public readonly fallbackBucket: IBucket;
+```
+
+- *Type:* aws-cdk-lib.aws_s3.IBucket
+
+---
+
+##### `fallbackDeployment`<sup>Optional</sup> <a name="fallbackDeployment" id="truemark-cdk-lib.aws_website.Website.property.fallbackDeployment"></a>
+
+```typescript
+public readonly fallbackDeployment: BucketDeployment;
+```
+
+- *Type:* aws-cdk-lib.aws_s3_deployment.BucketDeployment
+
+---
+
+#### Constants <a name="Constants" id="Constants"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_website.Website.property.HUGO_BUNDLING_OPTIONS">HUGO_BUNDLING_OPTIONS</a></code> | <code>aws-cdk-lib.BundlingOptions</code> | The default bundling options for SourceType.Hugo. |
+| <code><a href="#truemark-cdk-lib.aws_website.Website.property.NPM_DIST_BUNDLING_OPTIONS">NPM_DIST_BUNDLING_OPTIONS</a></code> | <code>aws-cdk-lib.BundlingOptions</code> | The default bundling options for SourceType.NpmDist. It's expected that "npm run dist" command will place files in ${CDK_BUNDLING_OUTPUT_DIR}. Example: "ng build --output-path=/asset-output". |
+
+---
+
+##### `HUGO_BUNDLING_OPTIONS`<sup>Required</sup> <a name="HUGO_BUNDLING_OPTIONS" id="truemark-cdk-lib.aws_website.Website.property.HUGO_BUNDLING_OPTIONS"></a>
+
+```typescript
+public readonly HUGO_BUNDLING_OPTIONS: BundlingOptions;
+```
+
+- *Type:* aws-cdk-lib.BundlingOptions
+
+The default bundling options for SourceType.Hugo.
+
+---
+
+##### `NPM_DIST_BUNDLING_OPTIONS`<sup>Required</sup> <a name="NPM_DIST_BUNDLING_OPTIONS" id="truemark-cdk-lib.aws_website.Website.property.NPM_DIST_BUNDLING_OPTIONS"></a>
+
+```typescript
+public readonly NPM_DIST_BUNDLING_OPTIONS: BundlingOptions;
+```
+
+- *Type:* aws-cdk-lib.BundlingOptions
+
+The default bundling options for SourceType.NpmDist. It's expected that "npm run dist" command will place files in ${CDK_BUNDLING_OUTPUT_DIR}. Example: "ng build --output-path=/asset-output".
+
+---
 
 ### WeightedARecord <a name="WeightedARecord" id="truemark-cdk-lib.aws_route53.WeightedARecord"></a>
 
@@ -6242,6 +15414,985 @@ public readonly workingDirectory: string;
 
 ---
 
+### BundledFunctionOptions <a name="BundledFunctionOptions" id="truemark-cdk-lib.aws_lambda.BundledFunctionOptions"></a>
+
+Options for BundledFunction.
+
+#### Initializer <a name="Initializer" id="truemark-cdk-lib.aws_lambda.BundledFunctionOptions.Initializer"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+const bundledFunctionOptions: aws_lambda.BundledFunctionOptions = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionOptions.property.entry">entry</a></code> | <code>string</code> | Path to the source of the function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionOptions.property.bundling">bundling</a></code> | <code>aws-cdk-lib.BundlingOptions</code> | Bundling options to use for this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionOptions.property.bundlingEnvironment">bundlingEnvironment</a></code> | <code>{[ key: string ]: string}</code> | Additional environment variable to be passed to the bundling script. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionOptions.property.bundlingScript">bundlingScript</a></code> | <code>string</code> | Overrides the default bundling script. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionOptions.property.disableDockerBundling">disableDockerBundling</a></code> | <code>boolean</code> | Turns off docker bundling. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionOptions.property.disableLocalBundling">disableLocalBundling</a></code> | <code>boolean</code> | Turns off local bundling. |
+
+---
+
+##### `entry`<sup>Required</sup> <a name="entry" id="truemark-cdk-lib.aws_lambda.BundledFunctionOptions.property.entry"></a>
+
+```typescript
+public readonly entry: string;
+```
+
+- *Type:* string
+
+Path to the source of the function.
+
+Example: path.join(__dirname, '..', 'mylambda')
+
+---
+
+##### `bundling`<sup>Optional</sup> <a name="bundling" id="truemark-cdk-lib.aws_lambda.BundledFunctionOptions.property.bundling"></a>
+
+```typescript
+public readonly bundling: BundlingOptions;
+```
+
+- *Type:* aws-cdk-lib.BundlingOptions
+
+Bundling options to use for this function.
+
+Use this to specify custom bundling options like
+the bundling Docker image, asset hash type, custom hash, architecture, etc.
+
+---
+
+##### `bundlingEnvironment`<sup>Optional</sup> <a name="bundlingEnvironment" id="truemark-cdk-lib.aws_lambda.BundledFunctionOptions.property.bundlingEnvironment"></a>
+
+```typescript
+public readonly bundlingEnvironment: {[ key: string ]: string};
+```
+
+- *Type:* {[ key: string ]: string}
+
+Additional environment variable to be passed to the bundling script.
+
+---
+
+##### `bundlingScript`<sup>Optional</sup> <a name="bundlingScript" id="truemark-cdk-lib.aws_lambda.BundledFunctionOptions.property.bundlingScript"></a>
+
+```typescript
+public readonly bundlingScript: string;
+```
+
+- *Type:* string
+
+Overrides the default bundling script.
+
+---
+
+##### `disableDockerBundling`<sup>Optional</sup> <a name="disableDockerBundling" id="truemark-cdk-lib.aws_lambda.BundledFunctionOptions.property.disableDockerBundling"></a>
+
+```typescript
+public readonly disableDockerBundling: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false
+
+Turns off docker bundling.
+
+---
+
+##### `disableLocalBundling`<sup>Optional</sup> <a name="disableLocalBundling" id="truemark-cdk-lib.aws_lambda.BundledFunctionOptions.property.disableLocalBundling"></a>
+
+```typescript
+public readonly disableLocalBundling: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false
+
+Turns off local bundling.
+
+---
+
+### BundledFunctionProps <a name="BundledFunctionProps" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps"></a>
+
+Properties for BundledFunction.
+
+#### Initializer <a name="Initializer" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.Initializer"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+const bundledFunctionProps: aws_lambda.BundledFunctionProps = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.maxEventAge">maxEventAge</a></code> | <code>aws-cdk-lib.Duration</code> | The maximum age of a request that Lambda sends to a function for processing. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.onFailure">onFailure</a></code> | <code>aws-cdk-lib.aws_lambda.IDestination</code> | The destination for failed invocations. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.onSuccess">onSuccess</a></code> | <code>aws-cdk-lib.aws_lambda.IDestination</code> | The destination for successful invocations. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.retryAttempts">retryAttempts</a></code> | <code>number</code> | The maximum number of times to retry when the function returns an error. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.allowAllOutbound">allowAllOutbound</a></code> | <code>boolean</code> | Whether to allow the Lambda to send all network traffic. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.allowPublicSubnet">allowPublicSubnet</a></code> | <code>boolean</code> | Lambda Functions in a public subnet can NOT access the internet. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.architecture">architecture</a></code> | <code>aws-cdk-lib.aws_lambda.Architecture</code> | The system architectures compatible with this lambda function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.codeSigningConfig">codeSigningConfig</a></code> | <code>aws-cdk-lib.aws_lambda.ICodeSigningConfig</code> | Code signing config associated with this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.currentVersionOptions">currentVersionOptions</a></code> | <code>aws-cdk-lib.aws_lambda.VersionOptions</code> | Options for the `lambda.Version` resource automatically created by the `fn.currentVersion` method. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.deadLetterQueue">deadLetterQueue</a></code> | <code>aws-cdk-lib.aws_sqs.IQueue</code> | The SQS queue to use if DLQ is enabled. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.deadLetterQueueEnabled">deadLetterQueueEnabled</a></code> | <code>boolean</code> | Enabled DLQ. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.deadLetterTopic">deadLetterTopic</a></code> | <code>aws-cdk-lib.aws_sns.ITopic</code> | The SNS topic to use as a DLQ. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.description">description</a></code> | <code>string</code> | A description of the function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.environment">environment</a></code> | <code>{[ key: string ]: string}</code> | Key-value pairs that Lambda caches and makes available for your Lambda functions. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.environmentEncryption">environmentEncryption</a></code> | <code>aws-cdk-lib.aws_kms.IKey</code> | The AWS KMS key that's used to encrypt your function's environment variables. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.ephemeralStorageSize">ephemeralStorageSize</a></code> | <code>aws-cdk-lib.Size</code> | The size of the function’s /tmp directory in MiB. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.events">events</a></code> | <code>aws-cdk-lib.aws_lambda.IEventSource[]</code> | Event sources for this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.filesystem">filesystem</a></code> | <code>aws-cdk-lib.aws_lambda.FileSystem</code> | The filesystem configuration for the lambda function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.functionName">functionName</a></code> | <code>string</code> | A name for the function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.initialPolicy">initialPolicy</a></code> | <code>aws-cdk-lib.aws_iam.PolicyStatement[]</code> | Initial policy statements to add to the created Lambda Role. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.insightsVersion">insightsVersion</a></code> | <code>aws-cdk-lib.aws_lambda.LambdaInsightsVersion</code> | Specify the version of CloudWatch Lambda insights to use for monitoring. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.layers">layers</a></code> | <code>aws-cdk-lib.aws_lambda.ILayerVersion[]</code> | A list of layers to add to the function's execution environment. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.logRetention">logRetention</a></code> | <code>aws-cdk-lib.aws_logs.RetentionDays</code> | The number of days log events are kept in CloudWatch Logs. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.logRetentionRetryOptions">logRetentionRetryOptions</a></code> | <code>aws-cdk-lib.aws_lambda.LogRetentionRetryOptions</code> | When log retention is specified, a custom resource attempts to create the CloudWatch log group. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.logRetentionRole">logRetentionRole</a></code> | <code>aws-cdk-lib.aws_iam.IRole</code> | The IAM role for the Lambda function associated with the custom resource that sets the retention policy. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.memorySize">memorySize</a></code> | <code>number</code> | The amount of memory, in MB, that is allocated to your Lambda function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.profiling">profiling</a></code> | <code>boolean</code> | Enable profiling. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.profilingGroup">profilingGroup</a></code> | <code>aws-cdk-lib.aws_codeguruprofiler.IProfilingGroup</code> | Profiling Group. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.reservedConcurrentExecutions">reservedConcurrentExecutions</a></code> | <code>number</code> | The maximum of concurrent executions you want to reserve for the function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.role">role</a></code> | <code>aws-cdk-lib.aws_iam.IRole</code> | Lambda execution role. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.securityGroups">securityGroups</a></code> | <code>aws-cdk-lib.aws_ec2.ISecurityGroup[]</code> | The list of security groups to associate with the Lambda's network interfaces. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.timeout">timeout</a></code> | <code>aws-cdk-lib.Duration</code> | The function execution time (in seconds) after which Lambda terminates the function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.tracing">tracing</a></code> | <code>aws-cdk-lib.aws_lambda.Tracing</code> | Enable AWS X-Ray Tracing for Lambda Function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.vpc">vpc</a></code> | <code>aws-cdk-lib.aws_ec2.IVpc</code> | VPC network to place Lambda network interfaces. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.vpcSubnets">vpcSubnets</a></code> | <code>aws-cdk-lib.aws_ec2.SubnetSelection</code> | Where to place the network interfaces within the VPC. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.addToAlarmDashboard">addToAlarmDashboard</a></code> | <code>boolean</code> | Add widgets to alarm dashboard. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.addToDetailDashboard">addToDetailDashboard</a></code> | <code>boolean</code> | Add widgets to detailed dashboard. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.addToSummaryDashboard">addToSummaryDashboard</a></code> | <code>boolean</code> | Add widgets to summary dashboard. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.alarmNamePrefix">alarmNamePrefix</a></code> | <code>string</code> | Prefix for generated alarms. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.criticalAlarmOptions">criticalAlarmOptions</a></code> | <code>truemark-cdk-lib.aws_monitoring.AlarmsCategoryOptions</code> | Alarm thresholds for critical alarms. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.dashboardFactory">dashboardFactory</a></code> | <code>cdk-monitoring-constructs.IDashboardFactory</code> | The DashboardFactory to use when generating CloudWatch dashboards. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.monitoringFacade">monitoringFacade</a></code> | <code>cdk-monitoring-constructs.MonitoringFacade</code> | Main entry point for monitoring. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.warningAlarmOptions">warningAlarmOptions</a></code> | <code>truemark-cdk-lib.aws_monitoring.AlarmsCategoryOptions</code> | Alarm thresholds for warning alarms. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.lambdaInsightsEnabled">lambdaInsightsEnabled</a></code> | <code>boolean</code> | Generate dashboard charts for Lambda insights metrics. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.deploymentOptions">deploymentOptions</a></code> | <code>truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions</code> | The deployment configuration settings to use. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.entry">entry</a></code> | <code>string</code> | Path to the source of the function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.bundling">bundling</a></code> | <code>aws-cdk-lib.BundlingOptions</code> | Bundling options to use for this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.bundlingEnvironment">bundlingEnvironment</a></code> | <code>{[ key: string ]: string}</code> | Additional environment variable to be passed to the bundling script. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.bundlingScript">bundlingScript</a></code> | <code>string</code> | Overrides the default bundling script. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.disableDockerBundling">disableDockerBundling</a></code> | <code>boolean</code> | Turns off docker bundling. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.disableLocalBundling">disableLocalBundling</a></code> | <code>boolean</code> | Turns off local bundling. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.defaultBundlingImage">defaultBundlingImage</a></code> | <code>aws-cdk-lib.DockerImage</code> | The default bundling image to use. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.defaultBundlingScript">defaultBundlingScript</a></code> | <code>string</code> | The default bundling script to use. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.handler">handler</a></code> | <code>string</code> | The name of the method to execute the Lambda function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.isLocalBundlingSupported">isLocalBundlingSupported</a></code> | <code>boolean</code> | Callback function to check if local bundling is supported. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.runtime">runtime</a></code> | <code>aws-cdk-lib.aws_lambda.Runtime</code> | The runtime environment for the Lambda function. |
+
+---
+
+##### `maxEventAge`<sup>Optional</sup> <a name="maxEventAge" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.maxEventAge"></a>
+
+```typescript
+public readonly maxEventAge: Duration;
+```
+
+- *Type:* aws-cdk-lib.Duration
+- *Default:* Duration.hours(6)
+
+The maximum age of a request that Lambda sends to a function for processing.
+
+Minimum: 60 seconds
+Maximum: 6 hours
+
+---
+
+##### `onFailure`<sup>Optional</sup> <a name="onFailure" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.onFailure"></a>
+
+```typescript
+public readonly onFailure: IDestination;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.IDestination
+- *Default:* no destination
+
+The destination for failed invocations.
+
+---
+
+##### `onSuccess`<sup>Optional</sup> <a name="onSuccess" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.onSuccess"></a>
+
+```typescript
+public readonly onSuccess: IDestination;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.IDestination
+- *Default:* no destination
+
+The destination for successful invocations.
+
+---
+
+##### `retryAttempts`<sup>Optional</sup> <a name="retryAttempts" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.retryAttempts"></a>
+
+```typescript
+public readonly retryAttempts: number;
+```
+
+- *Type:* number
+- *Default:* 2
+
+The maximum number of times to retry when the function returns an error.
+
+Minimum: 0
+Maximum: 2
+
+---
+
+##### `allowAllOutbound`<sup>Optional</sup> <a name="allowAllOutbound" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.allowAllOutbound"></a>
+
+```typescript
+public readonly allowAllOutbound: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Whether to allow the Lambda to send all network traffic.
+
+If set to false, you must individually add traffic rules to allow the
+Lambda to connect to network targets.
+
+---
+
+##### `allowPublicSubnet`<sup>Optional</sup> <a name="allowPublicSubnet" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.allowPublicSubnet"></a>
+
+```typescript
+public readonly allowPublicSubnet: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false
+
+Lambda Functions in a public subnet can NOT access the internet.
+
+Use this property to acknowledge this limitation and still place the function in a public subnet.
+
+> [https://stackoverflow.com/questions/52992085/why-cant-an-aws-lambda-function-inside-a-public-subnet-in-a-vpc-connect-to-the/52994841#52994841](https://stackoverflow.com/questions/52992085/why-cant-an-aws-lambda-function-inside-a-public-subnet-in-a-vpc-connect-to-the/52994841#52994841)
+
+---
+
+##### `architecture`<sup>Optional</sup> <a name="architecture" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.architecture"></a>
+
+```typescript
+public readonly architecture: Architecture;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Architecture
+- *Default:* Architecture.X86_64
+
+The system architectures compatible with this lambda function.
+
+---
+
+##### `codeSigningConfig`<sup>Optional</sup> <a name="codeSigningConfig" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.codeSigningConfig"></a>
+
+```typescript
+public readonly codeSigningConfig: ICodeSigningConfig;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.ICodeSigningConfig
+- *Default:* Not Sign the Code
+
+Code signing config associated with this function.
+
+---
+
+##### `currentVersionOptions`<sup>Optional</sup> <a name="currentVersionOptions" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.currentVersionOptions"></a>
+
+```typescript
+public readonly currentVersionOptions: VersionOptions;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.VersionOptions
+- *Default:* default options as described in `VersionOptions`
+
+Options for the `lambda.Version` resource automatically created by the `fn.currentVersion` method.
+
+---
+
+##### `deadLetterQueue`<sup>Optional</sup> <a name="deadLetterQueue" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.deadLetterQueue"></a>
+
+```typescript
+public readonly deadLetterQueue: IQueue;
+```
+
+- *Type:* aws-cdk-lib.aws_sqs.IQueue
+- *Default:* SQS queue with 14 day retention period if `deadLetterQueueEnabled` is `true`
+
+The SQS queue to use if DLQ is enabled.
+
+If SNS topic is desired, specify `deadLetterTopic` property instead.
+
+---
+
+##### `deadLetterQueueEnabled`<sup>Optional</sup> <a name="deadLetterQueueEnabled" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.deadLetterQueueEnabled"></a>
+
+```typescript
+public readonly deadLetterQueueEnabled: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false unless `deadLetterQueue` is set, which implies DLQ is enabled.
+
+Enabled DLQ.
+
+If `deadLetterQueue` is undefined,
+an SQS queue with default options will be defined for your Function.
+
+---
+
+##### `deadLetterTopic`<sup>Optional</sup> <a name="deadLetterTopic" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.deadLetterTopic"></a>
+
+```typescript
+public readonly deadLetterTopic: ITopic;
+```
+
+- *Type:* aws-cdk-lib.aws_sns.ITopic
+- *Default:* no SNS topic
+
+The SNS topic to use as a DLQ.
+
+Note that if `deadLetterQueueEnabled` is set to `true`, an SQS queue will be created
+rather than an SNS topic. Using an SNS topic as a DLQ requires this property to be set explicitly.
+
+---
+
+##### `description`<sup>Optional</sup> <a name="description" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.description"></a>
+
+```typescript
+public readonly description: string;
+```
+
+- *Type:* string
+- *Default:* No description.
+
+A description of the function.
+
+---
+
+##### `environment`<sup>Optional</sup> <a name="environment" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.environment"></a>
+
+```typescript
+public readonly environment: {[ key: string ]: string};
+```
+
+- *Type:* {[ key: string ]: string}
+- *Default:* No environment variables.
+
+Key-value pairs that Lambda caches and makes available for your Lambda functions.
+
+Use environment variables to apply configuration changes, such
+as test and production environment configurations, without changing your
+Lambda function source code.
+
+---
+
+##### `environmentEncryption`<sup>Optional</sup> <a name="environmentEncryption" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.environmentEncryption"></a>
+
+```typescript
+public readonly environmentEncryption: IKey;
+```
+
+- *Type:* aws-cdk-lib.aws_kms.IKey
+- *Default:* AWS Lambda creates and uses an AWS managed customer master key (CMK).
+
+The AWS KMS key that's used to encrypt your function's environment variables.
+
+---
+
+##### `ephemeralStorageSize`<sup>Optional</sup> <a name="ephemeralStorageSize" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.ephemeralStorageSize"></a>
+
+```typescript
+public readonly ephemeralStorageSize: Size;
+```
+
+- *Type:* aws-cdk-lib.Size
+- *Default:* 512 MiB
+
+The size of the function’s /tmp directory in MiB.
+
+---
+
+##### `events`<sup>Optional</sup> <a name="events" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.events"></a>
+
+```typescript
+public readonly events: IEventSource[];
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.IEventSource[]
+- *Default:* No event sources.
+
+Event sources for this function.
+
+You can also add event sources using `addEventSource`.
+
+---
+
+##### `filesystem`<sup>Optional</sup> <a name="filesystem" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.filesystem"></a>
+
+```typescript
+public readonly filesystem: FileSystem;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.FileSystem
+- *Default:* will not mount any filesystem
+
+The filesystem configuration for the lambda function.
+
+---
+
+##### `functionName`<sup>Optional</sup> <a name="functionName" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.functionName"></a>
+
+```typescript
+public readonly functionName: string;
+```
+
+- *Type:* string
+- *Default:* AWS CloudFormation generates a unique physical ID and uses that ID for the function's name. For more information, see Name Type.
+
+A name for the function.
+
+---
+
+##### `initialPolicy`<sup>Optional</sup> <a name="initialPolicy" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.initialPolicy"></a>
+
+```typescript
+public readonly initialPolicy: PolicyStatement[];
+```
+
+- *Type:* aws-cdk-lib.aws_iam.PolicyStatement[]
+- *Default:* No policy statements are added to the created Lambda role.
+
+Initial policy statements to add to the created Lambda Role.
+
+You can call `addToRolePolicy` to the created lambda to add statements post creation.
+
+---
+
+##### `insightsVersion`<sup>Optional</sup> <a name="insightsVersion" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.insightsVersion"></a>
+
+```typescript
+public readonly insightsVersion: LambdaInsightsVersion;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.LambdaInsightsVersion
+- *Default:* No Lambda Insights
+
+Specify the version of CloudWatch Lambda insights to use for monitoring.
+
+> [https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Lambda-Insights-Getting-Started-docker.html](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Lambda-Insights-Getting-Started-docker.html)
+
+---
+
+##### `layers`<sup>Optional</sup> <a name="layers" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.layers"></a>
+
+```typescript
+public readonly layers: ILayerVersion[];
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.ILayerVersion[]
+- *Default:* No layers.
+
+A list of layers to add to the function's execution environment.
+
+You can configure your Lambda function to pull in
+additional code during initialization in the form of layers. Layers are packages of libraries or other dependencies
+that can be used by multiple functions.
+
+---
+
+##### `logRetention`<sup>Optional</sup> <a name="logRetention" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.logRetention"></a>
+
+```typescript
+public readonly logRetention: RetentionDays;
+```
+
+- *Type:* aws-cdk-lib.aws_logs.RetentionDays
+- *Default:* logs.RetentionDays.INFINITE
+
+The number of days log events are kept in CloudWatch Logs.
+
+When updating
+this property, unsetting it doesn't remove the log retention policy. To
+remove the retention policy, set the value to `INFINITE`.
+
+---
+
+##### `logRetentionRetryOptions`<sup>Optional</sup> <a name="logRetentionRetryOptions" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.logRetentionRetryOptions"></a>
+
+```typescript
+public readonly logRetentionRetryOptions: LogRetentionRetryOptions;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.LogRetentionRetryOptions
+- *Default:* Default AWS SDK retry options.
+
+When log retention is specified, a custom resource attempts to create the CloudWatch log group.
+
+These options control the retry policy when interacting with CloudWatch APIs.
+
+---
+
+##### `logRetentionRole`<sup>Optional</sup> <a name="logRetentionRole" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.logRetentionRole"></a>
+
+```typescript
+public readonly logRetentionRole: IRole;
+```
+
+- *Type:* aws-cdk-lib.aws_iam.IRole
+- *Default:* A new role is created.
+
+The IAM role for the Lambda function associated with the custom resource that sets the retention policy.
+
+---
+
+##### `memorySize`<sup>Optional</sup> <a name="memorySize" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.memorySize"></a>
+
+```typescript
+public readonly memorySize: number;
+```
+
+- *Type:* number
+- *Default:* 128
+
+The amount of memory, in MB, that is allocated to your Lambda function.
+
+Lambda uses this value to proportionally allocate the amount of CPU
+power. For more information, see Resource Model in the AWS Lambda
+Developer Guide.
+
+---
+
+##### `profiling`<sup>Optional</sup> <a name="profiling" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.profiling"></a>
+
+```typescript
+public readonly profiling: boolean;
+```
+
+- *Type:* boolean
+- *Default:* No profiling.
+
+Enable profiling.
+
+> [https://docs.aws.amazon.com/codeguru/latest/profiler-ug/setting-up-lambda.html](https://docs.aws.amazon.com/codeguru/latest/profiler-ug/setting-up-lambda.html)
+
+---
+
+##### `profilingGroup`<sup>Optional</sup> <a name="profilingGroup" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.profilingGroup"></a>
+
+```typescript
+public readonly profilingGroup: IProfilingGroup;
+```
+
+- *Type:* aws-cdk-lib.aws_codeguruprofiler.IProfilingGroup
+- *Default:* A new profiling group will be created if `profiling` is set.
+
+Profiling Group.
+
+> [https://docs.aws.amazon.com/codeguru/latest/profiler-ug/setting-up-lambda.html](https://docs.aws.amazon.com/codeguru/latest/profiler-ug/setting-up-lambda.html)
+
+---
+
+##### `reservedConcurrentExecutions`<sup>Optional</sup> <a name="reservedConcurrentExecutions" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.reservedConcurrentExecutions"></a>
+
+```typescript
+public readonly reservedConcurrentExecutions: number;
+```
+
+- *Type:* number
+- *Default:* No specific limit - account limit.
+
+The maximum of concurrent executions you want to reserve for the function.
+
+> [https://docs.aws.amazon.com/lambda/latest/dg/concurrent-executions.html](https://docs.aws.amazon.com/lambda/latest/dg/concurrent-executions.html)
+
+---
+
+##### `role`<sup>Optional</sup> <a name="role" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.role"></a>
+
+```typescript
+public readonly role: IRole;
+```
+
+- *Type:* aws-cdk-lib.aws_iam.IRole
+- *Default:* A unique role will be generated for this lambda function. Both supplied and generated roles can always be changed by calling `addToRolePolicy`.
+
+Lambda execution role.
+
+This is the role that will be assumed by the function upon execution.
+It controls the permissions that the function will have. The Role must
+be assumable by the 'lambda.amazonaws.com' service principal.
+
+The default Role automatically has permissions granted for Lambda execution. If you
+provide a Role, you must add the relevant AWS managed policies yourself.
+
+The relevant managed policies are "service-role/AWSLambdaBasicExecutionRole" and
+"service-role/AWSLambdaVPCAccessExecutionRole".
+
+---
+
+##### `securityGroups`<sup>Optional</sup> <a name="securityGroups" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.securityGroups"></a>
+
+```typescript
+public readonly securityGroups: ISecurityGroup[];
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.ISecurityGroup[]
+- *Default:* If the function is placed within a VPC and a security group is not specified, either by this or securityGroup prop, a dedicated security group will be created for this function.
+
+The list of security groups to associate with the Lambda's network interfaces.
+
+Only used if 'vpc' is supplied.
+
+---
+
+##### `timeout`<sup>Optional</sup> <a name="timeout" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.timeout"></a>
+
+```typescript
+public readonly timeout: Duration;
+```
+
+- *Type:* aws-cdk-lib.Duration
+- *Default:* Duration.seconds(3)
+
+The function execution time (in seconds) after which Lambda terminates the function.
+
+Because the execution time affects cost, set this value
+based on the function's expected execution time.
+
+---
+
+##### `tracing`<sup>Optional</sup> <a name="tracing" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.tracing"></a>
+
+```typescript
+public readonly tracing: Tracing;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Tracing
+- *Default:* Tracing.Disabled
+
+Enable AWS X-Ray Tracing for Lambda Function.
+
+---
+
+##### `vpc`<sup>Optional</sup> <a name="vpc" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.vpc"></a>
+
+```typescript
+public readonly vpc: IVpc;
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.IVpc
+- *Default:* Function is not placed within a VPC.
+
+VPC network to place Lambda network interfaces.
+
+Specify this if the Lambda function needs to access resources in a VPC.
+
+---
+
+##### `vpcSubnets`<sup>Optional</sup> <a name="vpcSubnets" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.vpcSubnets"></a>
+
+```typescript
+public readonly vpcSubnets: SubnetSelection;
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.SubnetSelection
+- *Default:* the Vpc default strategy if not specified
+
+Where to place the network interfaces within the VPC.
+
+Only used if 'vpc' is supplied. Note: internet access for Lambdas
+requires a NAT gateway, so picking Public subnets is not allowed.
+
+---
+
+##### `addToAlarmDashboard`<sup>Optional</sup> <a name="addToAlarmDashboard" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.addToAlarmDashboard"></a>
+
+```typescript
+public readonly addToAlarmDashboard: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Add widgets to alarm dashboard.
+
+---
+
+##### `addToDetailDashboard`<sup>Optional</sup> <a name="addToDetailDashboard" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.addToDetailDashboard"></a>
+
+```typescript
+public readonly addToDetailDashboard: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Add widgets to detailed dashboard.
+
+---
+
+##### `addToSummaryDashboard`<sup>Optional</sup> <a name="addToSummaryDashboard" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.addToSummaryDashboard"></a>
+
+```typescript
+public readonly addToSummaryDashboard: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Add widgets to summary dashboard.
+
+---
+
+##### `alarmNamePrefix`<sup>Optional</sup> <a name="alarmNamePrefix" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.alarmNamePrefix"></a>
+
+```typescript
+public readonly alarmNamePrefix: string;
+```
+
+- *Type:* string
+- *Default:* Stack.of(this).stackName
+
+Prefix for generated alarms.
+
+---
+
+##### `criticalAlarmOptions`<sup>Optional</sup> <a name="criticalAlarmOptions" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.criticalAlarmOptions"></a>
+
+```typescript
+public readonly criticalAlarmOptions: AlarmsCategoryOptions;
+```
+
+- *Type:* truemark-cdk-lib.aws_monitoring.AlarmsCategoryOptions
+
+Alarm thresholds for critical alarms.
+
+If no properties are provided, a set of default alarms are created.
+
+---
+
+##### `dashboardFactory`<sup>Optional</sup> <a name="dashboardFactory" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.dashboardFactory"></a>
+
+```typescript
+public readonly dashboardFactory: IDashboardFactory;
+```
+
+- *Type:* cdk-monitoring-constructs.IDashboardFactory
+
+The DashboardFactory to use when generating CloudWatch dashboards.
+
+If not defined, dashboards are not generated.
+
+---
+
+##### `monitoringFacade`<sup>Optional</sup> <a name="monitoringFacade" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.monitoringFacade"></a>
+
+```typescript
+public readonly monitoringFacade: MonitoringFacade;
+```
+
+- *Type:* cdk-monitoring-constructs.MonitoringFacade
+
+Main entry point for monitoring.
+
+If no value is provided, a default facade will be created.
+
+---
+
+##### `warningAlarmOptions`<sup>Optional</sup> <a name="warningAlarmOptions" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.warningAlarmOptions"></a>
+
+```typescript
+public readonly warningAlarmOptions: AlarmsCategoryOptions;
+```
+
+- *Type:* truemark-cdk-lib.aws_monitoring.AlarmsCategoryOptions
+
+Alarm thresholds for warning alarms.
+
+If no properties are provided, a set of default alarms are created.
+
+---
+
+##### `lambdaInsightsEnabled`<sup>Optional</sup> <a name="lambdaInsightsEnabled" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.lambdaInsightsEnabled"></a>
+
+```typescript
+public readonly lambdaInsightsEnabled: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Generate dashboard charts for Lambda insights metrics.
+
+---
+
+##### `deploymentOptions`<sup>Optional</sup> <a name="deploymentOptions" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.deploymentOptions"></a>
+
+```typescript
+public readonly deploymentOptions: DeployedFunctionDeploymentOptions;
+```
+
+- *Type:* truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions
+
+The deployment configuration settings to use.
+
+If none are provided a default set is used.
+
+---
+
+##### `entry`<sup>Required</sup> <a name="entry" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.entry"></a>
+
+```typescript
+public readonly entry: string;
+```
+
+- *Type:* string
+
+Path to the source of the function.
+
+Example: path.join(__dirname, '..', 'mylambda')
+
+---
+
+##### `bundling`<sup>Optional</sup> <a name="bundling" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.bundling"></a>
+
+```typescript
+public readonly bundling: BundlingOptions;
+```
+
+- *Type:* aws-cdk-lib.BundlingOptions
+
+Bundling options to use for this function.
+
+Use this to specify custom bundling options like
+the bundling Docker image, asset hash type, custom hash, architecture, etc.
+
+---
+
+##### `bundlingEnvironment`<sup>Optional</sup> <a name="bundlingEnvironment" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.bundlingEnvironment"></a>
+
+```typescript
+public readonly bundlingEnvironment: {[ key: string ]: string};
+```
+
+- *Type:* {[ key: string ]: string}
+
+Additional environment variable to be passed to the bundling script.
+
+---
+
+##### `bundlingScript`<sup>Optional</sup> <a name="bundlingScript" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.bundlingScript"></a>
+
+```typescript
+public readonly bundlingScript: string;
+```
+
+- *Type:* string
+
+Overrides the default bundling script.
+
+---
+
+##### `disableDockerBundling`<sup>Optional</sup> <a name="disableDockerBundling" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.disableDockerBundling"></a>
+
+```typescript
+public readonly disableDockerBundling: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false
+
+Turns off docker bundling.
+
+---
+
+##### `disableLocalBundling`<sup>Optional</sup> <a name="disableLocalBundling" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.disableLocalBundling"></a>
+
+```typescript
+public readonly disableLocalBundling: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false
+
+Turns off local bundling.
+
+---
+
+##### `defaultBundlingImage`<sup>Required</sup> <a name="defaultBundlingImage" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.defaultBundlingImage"></a>
+
+```typescript
+public readonly defaultBundlingImage: DockerImage;
+```
+
+- *Type:* aws-cdk-lib.DockerImage
+
+The default bundling image to use.
+
+---
+
+##### `defaultBundlingScript`<sup>Required</sup> <a name="defaultBundlingScript" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.defaultBundlingScript"></a>
+
+```typescript
+public readonly defaultBundlingScript: string;
+```
+
+- *Type:* string
+
+The default bundling script to use.
+
+---
+
+##### `handler`<sup>Required</sup> <a name="handler" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.handler"></a>
+
+```typescript
+public readonly handler: string;
+```
+
+- *Type:* string
+
+The name of the method to execute the Lambda function.
+
+---
+
+##### `isLocalBundlingSupported`<sup>Required</sup> <a name="isLocalBundlingSupported" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.isLocalBundlingSupported"></a>
+
+```typescript
+public readonly isLocalBundlingSupported: boolean;
+```
+
+- *Type:* boolean
+
+Callback function to check if local bundling is supported.
+
+---
+
+##### `runtime`<sup>Required</sup> <a name="runtime" id="truemark-cdk-lib.aws_lambda.BundledFunctionProps.property.runtime"></a>
+
+```typescript
+public readonly runtime: Runtime;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Runtime
+
+The runtime environment for the Lambda function.
+
+---
+
 ### CdkPipelineProps <a name="CdkPipelineProps" id="truemark-cdk-lib.aws_codepipeline.CdkPipelineProps"></a>
 
 Properties for CdkPipeline.
@@ -6455,6 +16606,236 @@ public readonly slackChannelConfigurationArn: string;
 - *Type:* string
 
 The Slack channel configuration to use for notifications.
+
+---
+
+### DeployedFunctionDeploymentOptions <a name="DeployedFunctionDeploymentOptions" id="truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions"></a>
+
+#### Initializer <a name="Initializer" id="truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions.Initializer"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+const deployedFunctionDeploymentOptions: aws_lambda.DeployedFunctionDeploymentOptions = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions.property.alarms">alarms</a></code> | <code>aws-cdk-lib.aws_cloudwatch.IAlarm[]</code> | CloudWatch alarms to associate with the deployment. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions.property.aliasName">aliasName</a></code> | <code>string</code> | Name of the alias to create for deployments. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions.property.application">application</a></code> | <code>aws-cdk-lib.aws_codedeploy.ILambdaApplication</code> | The reference to the CodeDeploy Lambda Application that this Deployment Group belongs to. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions.property.autoRollback">autoRollback</a></code> | <code>aws-cdk-lib.aws_codedeploy.AutoRollbackConfig</code> | The auto-rollback configuration for this Deployment Group. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions.property.deploymentConfig">deploymentConfig</a></code> | <code>aws-cdk-lib.aws_codedeploy.ILambdaDeploymentConfig</code> | Deployment configuration to use when deploying this lambda. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions.property.deploymentGroupName">deploymentGroupName</a></code> | <code>string</code> | The physical, human-readable name of the CodeDeploy Deployment Group. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions.property.ignorePollAlarmsFailure">ignorePollAlarmsFailure</a></code> | <code>boolean</code> | Whether to continue a deployment even if fetching the alarm status from CloudWatch failed. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions.property.postHook">postHook</a></code> | <code>aws-cdk-lib.aws_lambda.IFunction</code> | The Lambda function to run after traffic routing starts. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions.property.preHook">preHook</a></code> | <code>aws-cdk-lib.aws_lambda.IFunction</code> | The Lambda function to run before traffic routing starts. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions.property.role">role</a></code> | <code>aws-cdk-lib.aws_iam.IRole</code> | The service Role of this Deployment Group. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions.property.createDeployment">createDeployment</a></code> | <code>boolean</code> | Setting this to false will prevent the creation of the function alias and deployment group for the function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions.property.includeCriticalAlarms">includeCriticalAlarms</a></code> | <code>boolean</code> | Include Critical CloudWatch alarms. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions.property.includeWarningAlarms">includeWarningAlarms</a></code> | <code>boolean</code> | Include Warning CloudWatch alarms. |
+
+---
+
+##### `alarms`<sup>Optional</sup> <a name="alarms" id="truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions.property.alarms"></a>
+
+```typescript
+public readonly alarms: IAlarm[];
+```
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.IAlarm[]
+
+CloudWatch alarms to associate with the deployment.
+
+---
+
+##### `aliasName`<sup>Optional</sup> <a name="aliasName" id="truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions.property.aliasName"></a>
+
+```typescript
+public readonly aliasName: string;
+```
+
+- *Type:* string
+- *Default:* 'deploy'
+
+Name of the alias to create for deployments.
+
+---
+
+##### `application`<sup>Optional</sup> <a name="application" id="truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions.property.application"></a>
+
+```typescript
+public readonly application: ILambdaApplication;
+```
+
+- *Type:* aws-cdk-lib.aws_codedeploy.ILambdaApplication
+- *Default:* One will be created for you.
+
+The reference to the CodeDeploy Lambda Application that this Deployment Group belongs to.
+
+---
+
+##### `autoRollback`<sup>Optional</sup> <a name="autoRollback" id="truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions.property.autoRollback"></a>
+
+```typescript
+public readonly autoRollback: AutoRollbackConfig;
+```
+
+- *Type:* aws-cdk-lib.aws_codedeploy.AutoRollbackConfig
+- *Default:* default AutoRollbackConfig.
+
+The auto-rollback configuration for this Deployment Group.
+
+---
+
+##### `deploymentConfig`<sup>Optional</sup> <a name="deploymentConfig" id="truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions.property.deploymentConfig"></a>
+
+```typescript
+public readonly deploymentConfig: ILambdaDeploymentConfig;
+```
+
+- *Type:* aws-cdk-lib.aws_codedeploy.ILambdaDeploymentConfig
+- *Default:* LambdaDeploymentConfig.CANARY_10PERCENT_5MINUTES
+
+Deployment configuration to use when deploying this lambda.
+
+---
+
+##### `deploymentGroupName`<sup>Optional</sup> <a name="deploymentGroupName" id="truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions.property.deploymentGroupName"></a>
+
+```typescript
+public readonly deploymentGroupName: string;
+```
+
+- *Type:* string
+- *Default:* An auto-generated name will be used.
+
+The physical, human-readable name of the CodeDeploy Deployment Group.
+
+---
+
+##### `ignorePollAlarmsFailure`<sup>Optional</sup> <a name="ignorePollAlarmsFailure" id="truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions.property.ignorePollAlarmsFailure"></a>
+
+```typescript
+public readonly ignorePollAlarmsFailure: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false
+
+Whether to continue a deployment even if fetching the alarm status from CloudWatch failed.
+
+---
+
+##### `postHook`<sup>Optional</sup> <a name="postHook" id="truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions.property.postHook"></a>
+
+```typescript
+public readonly postHook: IFunction;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.IFunction
+- *Default:* None.
+
+The Lambda function to run after traffic routing starts.
+
+---
+
+##### `preHook`<sup>Optional</sup> <a name="preHook" id="truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions.property.preHook"></a>
+
+```typescript
+public readonly preHook: IFunction;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.IFunction
+- *Default:* None.
+
+The Lambda function to run before traffic routing starts.
+
+---
+
+##### `role`<sup>Optional</sup> <a name="role" id="truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions.property.role"></a>
+
+```typescript
+public readonly role: IRole;
+```
+
+- *Type:* aws-cdk-lib.aws_iam.IRole
+- *Default:* A new Role will be created.
+
+The service Role of this Deployment Group.
+
+---
+
+##### `createDeployment`<sup>Optional</sup> <a name="createDeployment" id="truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions.property.createDeployment"></a>
+
+```typescript
+public readonly createDeployment: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Setting this to false will prevent the creation of the function alias and deployment group for the function.
+
+---
+
+##### `includeCriticalAlarms`<sup>Optional</sup> <a name="includeCriticalAlarms" id="truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions.property.includeCriticalAlarms"></a>
+
+```typescript
+public readonly includeCriticalAlarms: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Include Critical CloudWatch alarms.
+
+---
+
+##### `includeWarningAlarms`<sup>Optional</sup> <a name="includeWarningAlarms" id="truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions.property.includeWarningAlarms"></a>
+
+```typescript
+public readonly includeWarningAlarms: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false
+
+Include Warning CloudWatch alarms.
+
+---
+
+### DeployedFunctionOptions <a name="DeployedFunctionOptions" id="truemark-cdk-lib.aws_lambda.DeployedFunctionOptions"></a>
+
+#### Initializer <a name="Initializer" id="truemark-cdk-lib.aws_lambda.DeployedFunctionOptions.Initializer"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+const deployedFunctionOptions: aws_lambda.DeployedFunctionOptions = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.DeployedFunctionOptions.property.deploymentOptions">deploymentOptions</a></code> | <code>truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions</code> | The deployment configuration settings to use. |
+
+---
+
+##### `deploymentOptions`<sup>Optional</sup> <a name="deploymentOptions" id="truemark-cdk-lib.aws_lambda.DeployedFunctionOptions.property.deploymentOptions"></a>
+
+```typescript
+public readonly deploymentOptions: DeployedFunctionDeploymentOptions;
+```
+
+- *Type:* truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions
+
+The deployment configuration settings to use.
+
+If none are provided a default set is used.
 
 ---
 
@@ -7155,6 +17536,2591 @@ Topics to notify when alarm returns to an ok status.
 
 ---
 
+### FunctionAlarmsCategoryOptions <a name="FunctionAlarmsCategoryOptions" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions"></a>
+
+Category options for CloudWatch alarms for Lambda Functions.
+
+#### Initializer <a name="Initializer" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.Initializer"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+const functionAlarmsCategoryOptions: aws_lambda.FunctionAlarmsCategoryOptions = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.notifyActions">notifyActions</a></code> | <code>aws-cdk-lib.aws_cloudwatch.IAlarmAction[]</code> | Actions to send alarm notifications. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.notifyTopics">notifyTopics</a></code> | <code>aws-cdk-lib.aws_sns.ITopic[]</code> | Topics to send alarm notifications. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.avgCpuTime">avgCpuTime</a></code> | <code>aws-cdk-lib.Duration</code> | Average CPU time. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.avgFaults">avgFaults</a></code> | <code>number</code> | Average number of faults. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.avgMemory">avgMemory</a></code> | <code>number</code> | Average memory. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.avgThrottles">avgThrottles</a></code> | <code>number</code> | Average number of throttles. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.dashboardLogPattern">dashboardLogPattern</a></code> | <code>string</code> | Log pattern to match for the dashboard. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.logDataPointsToAlarm">logDataPointsToAlarm</a></code> | <code>number</code> | Number of data points that must be breaching to trigger the alarm for log events. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.logEvaluationPeriods">logEvaluationPeriods</a></code> | <code>number</code> | Number of evaluation periods over which data is compared for log events. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.maxConcurrentExecutions">maxConcurrentExecutions</a></code> | <code>number</code> | Maximum concurrent executions. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.maxCpuTime">maxCpuTime</a></code> | <code>aws-cdk-lib.Duration</code> | Maximum amount of CPU time. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.maxFaults">maxFaults</a></code> | <code>number</code> | Maximum number of faults. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.maxIteratorAge">maxIteratorAge</a></code> | <code>number</code> | Amount of time data waits before being processed by the function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.maxLogCount">maxLogCount</a></code> | <code>number</code> | Maximum number of log events matching the metricLogPattern. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.maxMemory">maxMemory</a></code> | <code>number</code> | Maximum amount of memory. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.maxThrottles">maxThrottles</a></code> | <code>number</code> | Maximum number of throttles. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.maxTps">maxTps</a></code> | <code>number</code> | Maximum transactions. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.metricLogPattern">metricLogPattern</a></code> | <code>string</code> | Log pattern to match for metrics. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.minTps">minTps</a></code> | <code>number</code> | Minimum transactions. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.p50Latency">p50Latency</a></code> | <code>aws-cdk-lib.Duration</code> | Maximum 50th percentile latency. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.p90CpuTime">p90CpuTime</a></code> | <code>aws-cdk-lib.Duration</code> | 90th percentile CPU time. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.p90Latency">p90Latency</a></code> | <code>aws-cdk-lib.Duration</code> | Maximum 90th percentile latency. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.p90Memory">p90Memory</a></code> | <code>number</code> | 90th percentile memory. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.p99Latency">p99Latency</a></code> | <code>aws-cdk-lib.Duration</code> | Maximum 99th percentile latency. |
+
+---
+
+##### `notifyActions`<sup>Optional</sup> <a name="notifyActions" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.notifyActions"></a>
+
+```typescript
+public readonly notifyActions: IAlarmAction[];
+```
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.IAlarmAction[]
+
+Actions to send alarm notifications.
+
+---
+
+##### `notifyTopics`<sup>Optional</sup> <a name="notifyTopics" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.notifyTopics"></a>
+
+```typescript
+public readonly notifyTopics: ITopic[];
+```
+
+- *Type:* aws-cdk-lib.aws_sns.ITopic[]
+
+Topics to send alarm notifications.
+
+---
+
+##### `avgCpuTime`<sup>Optional</sup> <a name="avgCpuTime" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.avgCpuTime"></a>
+
+```typescript
+public readonly avgCpuTime: Duration;
+```
+
+- *Type:* aws-cdk-lib.Duration
+
+Average CPU time.
+
+---
+
+##### `avgFaults`<sup>Optional</sup> <a name="avgFaults" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.avgFaults"></a>
+
+```typescript
+public readonly avgFaults: number;
+```
+
+- *Type:* number
+
+Average number of faults.
+
+---
+
+##### `avgMemory`<sup>Optional</sup> <a name="avgMemory" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.avgMemory"></a>
+
+```typescript
+public readonly avgMemory: number;
+```
+
+- *Type:* number
+
+Average memory.
+
+---
+
+##### `avgThrottles`<sup>Optional</sup> <a name="avgThrottles" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.avgThrottles"></a>
+
+```typescript
+public readonly avgThrottles: number;
+```
+
+- *Type:* number
+
+Average number of throttles.
+
+---
+
+##### `dashboardLogPattern`<sup>Optional</sup> <a name="dashboardLogPattern" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.dashboardLogPattern"></a>
+
+```typescript
+public readonly dashboardLogPattern: string;
+```
+
+- *Type:* string
+- *Default:* '"[ERROR]"'
+
+Log pattern to match for the dashboard.
+
+---
+
+##### `logDataPointsToAlarm`<sup>Optional</sup> <a name="logDataPointsToAlarm" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.logDataPointsToAlarm"></a>
+
+```typescript
+public readonly logDataPointsToAlarm: number;
+```
+
+- *Type:* number
+- *Default:* 1
+
+Number of data points that must be breaching to trigger the alarm for log events.
+
+---
+
+##### `logEvaluationPeriods`<sup>Optional</sup> <a name="logEvaluationPeriods" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.logEvaluationPeriods"></a>
+
+```typescript
+public readonly logEvaluationPeriods: number;
+```
+
+- *Type:* number
+- *Default:* 2
+
+Number of evaluation periods over which data is compared for log events.
+
+---
+
+##### `maxConcurrentExecutions`<sup>Optional</sup> <a name="maxConcurrentExecutions" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.maxConcurrentExecutions"></a>
+
+```typescript
+public readonly maxConcurrentExecutions: number;
+```
+
+- *Type:* number
+
+Maximum concurrent executions.
+
+---
+
+##### `maxCpuTime`<sup>Optional</sup> <a name="maxCpuTime" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.maxCpuTime"></a>
+
+```typescript
+public readonly maxCpuTime: Duration;
+```
+
+- *Type:* aws-cdk-lib.Duration
+
+Maximum amount of CPU time.
+
+---
+
+##### `maxFaults`<sup>Optional</sup> <a name="maxFaults" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.maxFaults"></a>
+
+```typescript
+public readonly maxFaults: number;
+```
+
+- *Type:* number
+- *Default:* 0
+
+Maximum number of faults.
+
+---
+
+##### `maxIteratorAge`<sup>Optional</sup> <a name="maxIteratorAge" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.maxIteratorAge"></a>
+
+```typescript
+public readonly maxIteratorAge: number;
+```
+
+- *Type:* number
+
+Amount of time data waits before being processed by the function.
+
+See https://aws.amazon.com/premiumsupport/knowledge-center/lambda-iterator-age/
+
+---
+
+##### `maxLogCount`<sup>Optional</sup> <a name="maxLogCount" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.maxLogCount"></a>
+
+```typescript
+public readonly maxLogCount: number;
+```
+
+- *Type:* number
+- *Default:* 0 for Critical Alarm
+
+Maximum number of log events matching the metricLogPattern.
+
+---
+
+##### `maxMemory`<sup>Optional</sup> <a name="maxMemory" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.maxMemory"></a>
+
+```typescript
+public readonly maxMemory: number;
+```
+
+- *Type:* number
+
+Maximum amount of memory.
+
+---
+
+##### `maxThrottles`<sup>Optional</sup> <a name="maxThrottles" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.maxThrottles"></a>
+
+```typescript
+public readonly maxThrottles: number;
+```
+
+- *Type:* number
+- *Default:* 0
+
+Maximum number of throttles.
+
+---
+
+##### `maxTps`<sup>Optional</sup> <a name="maxTps" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.maxTps"></a>
+
+```typescript
+public readonly maxTps: number;
+```
+
+- *Type:* number
+
+Maximum transactions.
+
+---
+
+##### `metricLogPattern`<sup>Optional</sup> <a name="metricLogPattern" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.metricLogPattern"></a>
+
+```typescript
+public readonly metricLogPattern: string;
+```
+
+- *Type:* string
+- *Default:* '\\\[ERROR\\\]'
+
+Log pattern to match for metrics.
+
+---
+
+##### `minTps`<sup>Optional</sup> <a name="minTps" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.minTps"></a>
+
+```typescript
+public readonly minTps: number;
+```
+
+- *Type:* number
+
+Minimum transactions.
+
+---
+
+##### `p50Latency`<sup>Optional</sup> <a name="p50Latency" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.p50Latency"></a>
+
+```typescript
+public readonly p50Latency: Duration;
+```
+
+- *Type:* aws-cdk-lib.Duration
+
+Maximum 50th percentile latency.
+
+---
+
+##### `p90CpuTime`<sup>Optional</sup> <a name="p90CpuTime" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.p90CpuTime"></a>
+
+```typescript
+public readonly p90CpuTime: Duration;
+```
+
+- *Type:* aws-cdk-lib.Duration
+
+90th percentile CPU time.
+
+---
+
+##### `p90Latency`<sup>Optional</sup> <a name="p90Latency" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.p90Latency"></a>
+
+```typescript
+public readonly p90Latency: Duration;
+```
+
+- *Type:* aws-cdk-lib.Duration
+
+Maximum 90th percentile latency.
+
+---
+
+##### `p90Memory`<sup>Optional</sup> <a name="p90Memory" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.p90Memory"></a>
+
+```typescript
+public readonly p90Memory: number;
+```
+
+- *Type:* number
+
+90th percentile memory.
+
+---
+
+##### `p99Latency`<sup>Optional</sup> <a name="p99Latency" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsCategoryOptions.property.p99Latency"></a>
+
+```typescript
+public readonly p99Latency: Duration;
+```
+
+- *Type:* aws-cdk-lib.Duration
+
+Maximum 99th percentile latency.
+
+---
+
+### FunctionAlarmsOptions <a name="FunctionAlarmsOptions" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsOptions"></a>
+
+Options for CloudWatch alarms for Lambda Functions.
+
+#### Initializer <a name="Initializer" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsOptions.Initializer"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+const functionAlarmsOptions: aws_lambda.FunctionAlarmsOptions = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsOptions.property.addToAlarmDashboard">addToAlarmDashboard</a></code> | <code>boolean</code> | Add widgets to alarm dashboard. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsOptions.property.addToDetailDashboard">addToDetailDashboard</a></code> | <code>boolean</code> | Add widgets to detailed dashboard. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsOptions.property.addToSummaryDashboard">addToSummaryDashboard</a></code> | <code>boolean</code> | Add widgets to summary dashboard. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsOptions.property.alarmNamePrefix">alarmNamePrefix</a></code> | <code>string</code> | Prefix for generated alarms. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsOptions.property.criticalAlarmOptions">criticalAlarmOptions</a></code> | <code>truemark-cdk-lib.aws_monitoring.AlarmsCategoryOptions</code> | Alarm thresholds for critical alarms. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsOptions.property.dashboardFactory">dashboardFactory</a></code> | <code>cdk-monitoring-constructs.IDashboardFactory</code> | The DashboardFactory to use when generating CloudWatch dashboards. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsOptions.property.monitoringFacade">monitoringFacade</a></code> | <code>cdk-monitoring-constructs.MonitoringFacade</code> | Main entry point for monitoring. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsOptions.property.warningAlarmOptions">warningAlarmOptions</a></code> | <code>truemark-cdk-lib.aws_monitoring.AlarmsCategoryOptions</code> | Alarm thresholds for warning alarms. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsOptions.property.lambdaInsightsEnabled">lambdaInsightsEnabled</a></code> | <code>boolean</code> | Generate dashboard charts for Lambda insights metrics. |
+
+---
+
+##### `addToAlarmDashboard`<sup>Optional</sup> <a name="addToAlarmDashboard" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsOptions.property.addToAlarmDashboard"></a>
+
+```typescript
+public readonly addToAlarmDashboard: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Add widgets to alarm dashboard.
+
+---
+
+##### `addToDetailDashboard`<sup>Optional</sup> <a name="addToDetailDashboard" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsOptions.property.addToDetailDashboard"></a>
+
+```typescript
+public readonly addToDetailDashboard: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Add widgets to detailed dashboard.
+
+---
+
+##### `addToSummaryDashboard`<sup>Optional</sup> <a name="addToSummaryDashboard" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsOptions.property.addToSummaryDashboard"></a>
+
+```typescript
+public readonly addToSummaryDashboard: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Add widgets to summary dashboard.
+
+---
+
+##### `alarmNamePrefix`<sup>Optional</sup> <a name="alarmNamePrefix" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsOptions.property.alarmNamePrefix"></a>
+
+```typescript
+public readonly alarmNamePrefix: string;
+```
+
+- *Type:* string
+- *Default:* Stack.of(this).stackName
+
+Prefix for generated alarms.
+
+---
+
+##### `criticalAlarmOptions`<sup>Optional</sup> <a name="criticalAlarmOptions" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsOptions.property.criticalAlarmOptions"></a>
+
+```typescript
+public readonly criticalAlarmOptions: AlarmsCategoryOptions;
+```
+
+- *Type:* truemark-cdk-lib.aws_monitoring.AlarmsCategoryOptions
+
+Alarm thresholds for critical alarms.
+
+If no properties are provided, a set of default alarms are created.
+
+---
+
+##### `dashboardFactory`<sup>Optional</sup> <a name="dashboardFactory" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsOptions.property.dashboardFactory"></a>
+
+```typescript
+public readonly dashboardFactory: IDashboardFactory;
+```
+
+- *Type:* cdk-monitoring-constructs.IDashboardFactory
+
+The DashboardFactory to use when generating CloudWatch dashboards.
+
+If not defined, dashboards are not generated.
+
+---
+
+##### `monitoringFacade`<sup>Optional</sup> <a name="monitoringFacade" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsOptions.property.monitoringFacade"></a>
+
+```typescript
+public readonly monitoringFacade: MonitoringFacade;
+```
+
+- *Type:* cdk-monitoring-constructs.MonitoringFacade
+
+Main entry point for monitoring.
+
+If no value is provided, a default facade will be created.
+
+---
+
+##### `warningAlarmOptions`<sup>Optional</sup> <a name="warningAlarmOptions" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsOptions.property.warningAlarmOptions"></a>
+
+```typescript
+public readonly warningAlarmOptions: AlarmsCategoryOptions;
+```
+
+- *Type:* truemark-cdk-lib.aws_monitoring.AlarmsCategoryOptions
+
+Alarm thresholds for warning alarms.
+
+If no properties are provided, a set of default alarms are created.
+
+---
+
+##### `lambdaInsightsEnabled`<sup>Optional</sup> <a name="lambdaInsightsEnabled" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsOptions.property.lambdaInsightsEnabled"></a>
+
+```typescript
+public readonly lambdaInsightsEnabled: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Generate dashboard charts for Lambda insights metrics.
+
+---
+
+### FunctionAlarmsProps <a name="FunctionAlarmsProps" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsProps"></a>
+
+Properties for FunctionAlarms.
+
+#### Initializer <a name="Initializer" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsProps.Initializer"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+const functionAlarmsProps: aws_lambda.FunctionAlarmsProps = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsProps.property.addToAlarmDashboard">addToAlarmDashboard</a></code> | <code>boolean</code> | Add widgets to alarm dashboard. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsProps.property.addToDetailDashboard">addToDetailDashboard</a></code> | <code>boolean</code> | Add widgets to detailed dashboard. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsProps.property.addToSummaryDashboard">addToSummaryDashboard</a></code> | <code>boolean</code> | Add widgets to summary dashboard. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsProps.property.alarmNamePrefix">alarmNamePrefix</a></code> | <code>string</code> | Prefix for generated alarms. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsProps.property.criticalAlarmOptions">criticalAlarmOptions</a></code> | <code>truemark-cdk-lib.aws_monitoring.AlarmsCategoryOptions</code> | Alarm thresholds for critical alarms. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsProps.property.dashboardFactory">dashboardFactory</a></code> | <code>cdk-monitoring-constructs.IDashboardFactory</code> | The DashboardFactory to use when generating CloudWatch dashboards. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsProps.property.monitoringFacade">monitoringFacade</a></code> | <code>cdk-monitoring-constructs.MonitoringFacade</code> | Main entry point for monitoring. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsProps.property.warningAlarmOptions">warningAlarmOptions</a></code> | <code>truemark-cdk-lib.aws_monitoring.AlarmsCategoryOptions</code> | Alarm thresholds for warning alarms. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsProps.property.lambdaInsightsEnabled">lambdaInsightsEnabled</a></code> | <code>boolean</code> | Generate dashboard charts for Lambda insights metrics. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsProps.property.function">function</a></code> | <code>aws-cdk-lib.aws_lambda.IFunction</code> | The function to observe. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionAlarmsProps.property.logGroup">logGroup</a></code> | <code>aws-cdk-lib.aws_logs.ILogGroup</code> | The log group attached to the function to be observed. |
+
+---
+
+##### `addToAlarmDashboard`<sup>Optional</sup> <a name="addToAlarmDashboard" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsProps.property.addToAlarmDashboard"></a>
+
+```typescript
+public readonly addToAlarmDashboard: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Add widgets to alarm dashboard.
+
+---
+
+##### `addToDetailDashboard`<sup>Optional</sup> <a name="addToDetailDashboard" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsProps.property.addToDetailDashboard"></a>
+
+```typescript
+public readonly addToDetailDashboard: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Add widgets to detailed dashboard.
+
+---
+
+##### `addToSummaryDashboard`<sup>Optional</sup> <a name="addToSummaryDashboard" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsProps.property.addToSummaryDashboard"></a>
+
+```typescript
+public readonly addToSummaryDashboard: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Add widgets to summary dashboard.
+
+---
+
+##### `alarmNamePrefix`<sup>Optional</sup> <a name="alarmNamePrefix" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsProps.property.alarmNamePrefix"></a>
+
+```typescript
+public readonly alarmNamePrefix: string;
+```
+
+- *Type:* string
+- *Default:* Stack.of(this).stackName
+
+Prefix for generated alarms.
+
+---
+
+##### `criticalAlarmOptions`<sup>Optional</sup> <a name="criticalAlarmOptions" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsProps.property.criticalAlarmOptions"></a>
+
+```typescript
+public readonly criticalAlarmOptions: AlarmsCategoryOptions;
+```
+
+- *Type:* truemark-cdk-lib.aws_monitoring.AlarmsCategoryOptions
+
+Alarm thresholds for critical alarms.
+
+If no properties are provided, a set of default alarms are created.
+
+---
+
+##### `dashboardFactory`<sup>Optional</sup> <a name="dashboardFactory" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsProps.property.dashboardFactory"></a>
+
+```typescript
+public readonly dashboardFactory: IDashboardFactory;
+```
+
+- *Type:* cdk-monitoring-constructs.IDashboardFactory
+
+The DashboardFactory to use when generating CloudWatch dashboards.
+
+If not defined, dashboards are not generated.
+
+---
+
+##### `monitoringFacade`<sup>Optional</sup> <a name="monitoringFacade" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsProps.property.monitoringFacade"></a>
+
+```typescript
+public readonly monitoringFacade: MonitoringFacade;
+```
+
+- *Type:* cdk-monitoring-constructs.MonitoringFacade
+
+Main entry point for monitoring.
+
+If no value is provided, a default facade will be created.
+
+---
+
+##### `warningAlarmOptions`<sup>Optional</sup> <a name="warningAlarmOptions" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsProps.property.warningAlarmOptions"></a>
+
+```typescript
+public readonly warningAlarmOptions: AlarmsCategoryOptions;
+```
+
+- *Type:* truemark-cdk-lib.aws_monitoring.AlarmsCategoryOptions
+
+Alarm thresholds for warning alarms.
+
+If no properties are provided, a set of default alarms are created.
+
+---
+
+##### `lambdaInsightsEnabled`<sup>Optional</sup> <a name="lambdaInsightsEnabled" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsProps.property.lambdaInsightsEnabled"></a>
+
+```typescript
+public readonly lambdaInsightsEnabled: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Generate dashboard charts for Lambda insights metrics.
+
+---
+
+##### `function`<sup>Required</sup> <a name="function" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsProps.property.function"></a>
+
+```typescript
+public readonly function: IFunction;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.IFunction
+
+The function to observe.
+
+---
+
+##### `logGroup`<sup>Required</sup> <a name="logGroup" id="truemark-cdk-lib.aws_lambda.FunctionAlarmsProps.property.logGroup"></a>
+
+```typescript
+public readonly logGroup: ILogGroup;
+```
+
+- *Type:* aws-cdk-lib.aws_logs.ILogGroup
+
+The log group attached to the function to be observed.
+
+---
+
+### FunctionDeploymentOptions <a name="FunctionDeploymentOptions" id="truemark-cdk-lib.aws_lambda.FunctionDeploymentOptions"></a>
+
+#### Initializer <a name="Initializer" id="truemark-cdk-lib.aws_lambda.FunctionDeploymentOptions.Initializer"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+const functionDeploymentOptions: aws_lambda.FunctionDeploymentOptions = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionDeploymentOptions.property.alarms">alarms</a></code> | <code>aws-cdk-lib.aws_cloudwatch.IAlarm[]</code> | CloudWatch alarms to associate with the deployment. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionDeploymentOptions.property.aliasName">aliasName</a></code> | <code>string</code> | Name of the alias to create for deployments. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionDeploymentOptions.property.application">application</a></code> | <code>aws-cdk-lib.aws_codedeploy.ILambdaApplication</code> | The reference to the CodeDeploy Lambda Application that this Deployment Group belongs to. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionDeploymentOptions.property.autoRollback">autoRollback</a></code> | <code>aws-cdk-lib.aws_codedeploy.AutoRollbackConfig</code> | The auto-rollback configuration for this Deployment Group. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionDeploymentOptions.property.deploymentConfig">deploymentConfig</a></code> | <code>aws-cdk-lib.aws_codedeploy.ILambdaDeploymentConfig</code> | Deployment configuration to use when deploying this lambda. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionDeploymentOptions.property.deploymentGroupName">deploymentGroupName</a></code> | <code>string</code> | The physical, human-readable name of the CodeDeploy Deployment Group. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionDeploymentOptions.property.ignorePollAlarmsFailure">ignorePollAlarmsFailure</a></code> | <code>boolean</code> | Whether to continue a deployment even if fetching the alarm status from CloudWatch failed. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionDeploymentOptions.property.postHook">postHook</a></code> | <code>aws-cdk-lib.aws_lambda.IFunction</code> | The Lambda function to run after traffic routing starts. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionDeploymentOptions.property.preHook">preHook</a></code> | <code>aws-cdk-lib.aws_lambda.IFunction</code> | The Lambda function to run before traffic routing starts. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionDeploymentOptions.property.role">role</a></code> | <code>aws-cdk-lib.aws_iam.IRole</code> | The service Role of this Deployment Group. |
+
+---
+
+##### `alarms`<sup>Optional</sup> <a name="alarms" id="truemark-cdk-lib.aws_lambda.FunctionDeploymentOptions.property.alarms"></a>
+
+```typescript
+public readonly alarms: IAlarm[];
+```
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.IAlarm[]
+
+CloudWatch alarms to associate with the deployment.
+
+---
+
+##### `aliasName`<sup>Optional</sup> <a name="aliasName" id="truemark-cdk-lib.aws_lambda.FunctionDeploymentOptions.property.aliasName"></a>
+
+```typescript
+public readonly aliasName: string;
+```
+
+- *Type:* string
+- *Default:* 'deploy'
+
+Name of the alias to create for deployments.
+
+---
+
+##### `application`<sup>Optional</sup> <a name="application" id="truemark-cdk-lib.aws_lambda.FunctionDeploymentOptions.property.application"></a>
+
+```typescript
+public readonly application: ILambdaApplication;
+```
+
+- *Type:* aws-cdk-lib.aws_codedeploy.ILambdaApplication
+- *Default:* One will be created for you.
+
+The reference to the CodeDeploy Lambda Application that this Deployment Group belongs to.
+
+---
+
+##### `autoRollback`<sup>Optional</sup> <a name="autoRollback" id="truemark-cdk-lib.aws_lambda.FunctionDeploymentOptions.property.autoRollback"></a>
+
+```typescript
+public readonly autoRollback: AutoRollbackConfig;
+```
+
+- *Type:* aws-cdk-lib.aws_codedeploy.AutoRollbackConfig
+- *Default:* default AutoRollbackConfig.
+
+The auto-rollback configuration for this Deployment Group.
+
+---
+
+##### `deploymentConfig`<sup>Optional</sup> <a name="deploymentConfig" id="truemark-cdk-lib.aws_lambda.FunctionDeploymentOptions.property.deploymentConfig"></a>
+
+```typescript
+public readonly deploymentConfig: ILambdaDeploymentConfig;
+```
+
+- *Type:* aws-cdk-lib.aws_codedeploy.ILambdaDeploymentConfig
+- *Default:* LambdaDeploymentConfig.CANARY_10PERCENT_5MINUTES
+
+Deployment configuration to use when deploying this lambda.
+
+---
+
+##### `deploymentGroupName`<sup>Optional</sup> <a name="deploymentGroupName" id="truemark-cdk-lib.aws_lambda.FunctionDeploymentOptions.property.deploymentGroupName"></a>
+
+```typescript
+public readonly deploymentGroupName: string;
+```
+
+- *Type:* string
+- *Default:* An auto-generated name will be used.
+
+The physical, human-readable name of the CodeDeploy Deployment Group.
+
+---
+
+##### `ignorePollAlarmsFailure`<sup>Optional</sup> <a name="ignorePollAlarmsFailure" id="truemark-cdk-lib.aws_lambda.FunctionDeploymentOptions.property.ignorePollAlarmsFailure"></a>
+
+```typescript
+public readonly ignorePollAlarmsFailure: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false
+
+Whether to continue a deployment even if fetching the alarm status from CloudWatch failed.
+
+---
+
+##### `postHook`<sup>Optional</sup> <a name="postHook" id="truemark-cdk-lib.aws_lambda.FunctionDeploymentOptions.property.postHook"></a>
+
+```typescript
+public readonly postHook: IFunction;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.IFunction
+- *Default:* None.
+
+The Lambda function to run after traffic routing starts.
+
+---
+
+##### `preHook`<sup>Optional</sup> <a name="preHook" id="truemark-cdk-lib.aws_lambda.FunctionDeploymentOptions.property.preHook"></a>
+
+```typescript
+public readonly preHook: IFunction;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.IFunction
+- *Default:* None.
+
+The Lambda function to run before traffic routing starts.
+
+---
+
+##### `role`<sup>Optional</sup> <a name="role" id="truemark-cdk-lib.aws_lambda.FunctionDeploymentOptions.property.role"></a>
+
+```typescript
+public readonly role: IRole;
+```
+
+- *Type:* aws-cdk-lib.aws_iam.IRole
+- *Default:* A new Role will be created.
+
+The service Role of this Deployment Group.
+
+---
+
+### FunctionDeploymentProps <a name="FunctionDeploymentProps" id="truemark-cdk-lib.aws_lambda.FunctionDeploymentProps"></a>
+
+Properties for FunctionDeployment.
+
+#### Initializer <a name="Initializer" id="truemark-cdk-lib.aws_lambda.FunctionDeploymentProps.Initializer"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+const functionDeploymentProps: aws_lambda.FunctionDeploymentProps = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionDeploymentProps.property.alarms">alarms</a></code> | <code>aws-cdk-lib.aws_cloudwatch.IAlarm[]</code> | CloudWatch alarms to associate with the deployment. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionDeploymentProps.property.aliasName">aliasName</a></code> | <code>string</code> | Name of the alias to create for deployments. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionDeploymentProps.property.application">application</a></code> | <code>aws-cdk-lib.aws_codedeploy.ILambdaApplication</code> | The reference to the CodeDeploy Lambda Application that this Deployment Group belongs to. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionDeploymentProps.property.autoRollback">autoRollback</a></code> | <code>aws-cdk-lib.aws_codedeploy.AutoRollbackConfig</code> | The auto-rollback configuration for this Deployment Group. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionDeploymentProps.property.deploymentConfig">deploymentConfig</a></code> | <code>aws-cdk-lib.aws_codedeploy.ILambdaDeploymentConfig</code> | Deployment configuration to use when deploying this lambda. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionDeploymentProps.property.deploymentGroupName">deploymentGroupName</a></code> | <code>string</code> | The physical, human-readable name of the CodeDeploy Deployment Group. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionDeploymentProps.property.ignorePollAlarmsFailure">ignorePollAlarmsFailure</a></code> | <code>boolean</code> | Whether to continue a deployment even if fetching the alarm status from CloudWatch failed. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionDeploymentProps.property.postHook">postHook</a></code> | <code>aws-cdk-lib.aws_lambda.IFunction</code> | The Lambda function to run after traffic routing starts. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionDeploymentProps.property.preHook">preHook</a></code> | <code>aws-cdk-lib.aws_lambda.IFunction</code> | The Lambda function to run before traffic routing starts. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionDeploymentProps.property.role">role</a></code> | <code>aws-cdk-lib.aws_iam.IRole</code> | The service Role of this Deployment Group. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionDeploymentProps.property.function">function</a></code> | <code>aws-cdk-lib.aws_lambda.Function</code> | The function to deploy. |
+
+---
+
+##### `alarms`<sup>Optional</sup> <a name="alarms" id="truemark-cdk-lib.aws_lambda.FunctionDeploymentProps.property.alarms"></a>
+
+```typescript
+public readonly alarms: IAlarm[];
+```
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.IAlarm[]
+
+CloudWatch alarms to associate with the deployment.
+
+---
+
+##### `aliasName`<sup>Optional</sup> <a name="aliasName" id="truemark-cdk-lib.aws_lambda.FunctionDeploymentProps.property.aliasName"></a>
+
+```typescript
+public readonly aliasName: string;
+```
+
+- *Type:* string
+- *Default:* 'deploy'
+
+Name of the alias to create for deployments.
+
+---
+
+##### `application`<sup>Optional</sup> <a name="application" id="truemark-cdk-lib.aws_lambda.FunctionDeploymentProps.property.application"></a>
+
+```typescript
+public readonly application: ILambdaApplication;
+```
+
+- *Type:* aws-cdk-lib.aws_codedeploy.ILambdaApplication
+- *Default:* One will be created for you.
+
+The reference to the CodeDeploy Lambda Application that this Deployment Group belongs to.
+
+---
+
+##### `autoRollback`<sup>Optional</sup> <a name="autoRollback" id="truemark-cdk-lib.aws_lambda.FunctionDeploymentProps.property.autoRollback"></a>
+
+```typescript
+public readonly autoRollback: AutoRollbackConfig;
+```
+
+- *Type:* aws-cdk-lib.aws_codedeploy.AutoRollbackConfig
+- *Default:* default AutoRollbackConfig.
+
+The auto-rollback configuration for this Deployment Group.
+
+---
+
+##### `deploymentConfig`<sup>Optional</sup> <a name="deploymentConfig" id="truemark-cdk-lib.aws_lambda.FunctionDeploymentProps.property.deploymentConfig"></a>
+
+```typescript
+public readonly deploymentConfig: ILambdaDeploymentConfig;
+```
+
+- *Type:* aws-cdk-lib.aws_codedeploy.ILambdaDeploymentConfig
+- *Default:* LambdaDeploymentConfig.CANARY_10PERCENT_5MINUTES
+
+Deployment configuration to use when deploying this lambda.
+
+---
+
+##### `deploymentGroupName`<sup>Optional</sup> <a name="deploymentGroupName" id="truemark-cdk-lib.aws_lambda.FunctionDeploymentProps.property.deploymentGroupName"></a>
+
+```typescript
+public readonly deploymentGroupName: string;
+```
+
+- *Type:* string
+- *Default:* An auto-generated name will be used.
+
+The physical, human-readable name of the CodeDeploy Deployment Group.
+
+---
+
+##### `ignorePollAlarmsFailure`<sup>Optional</sup> <a name="ignorePollAlarmsFailure" id="truemark-cdk-lib.aws_lambda.FunctionDeploymentProps.property.ignorePollAlarmsFailure"></a>
+
+```typescript
+public readonly ignorePollAlarmsFailure: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false
+
+Whether to continue a deployment even if fetching the alarm status from CloudWatch failed.
+
+---
+
+##### `postHook`<sup>Optional</sup> <a name="postHook" id="truemark-cdk-lib.aws_lambda.FunctionDeploymentProps.property.postHook"></a>
+
+```typescript
+public readonly postHook: IFunction;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.IFunction
+- *Default:* None.
+
+The Lambda function to run after traffic routing starts.
+
+---
+
+##### `preHook`<sup>Optional</sup> <a name="preHook" id="truemark-cdk-lib.aws_lambda.FunctionDeploymentProps.property.preHook"></a>
+
+```typescript
+public readonly preHook: IFunction;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.IFunction
+- *Default:* None.
+
+The Lambda function to run before traffic routing starts.
+
+---
+
+##### `role`<sup>Optional</sup> <a name="role" id="truemark-cdk-lib.aws_lambda.FunctionDeploymentProps.property.role"></a>
+
+```typescript
+public readonly role: IRole;
+```
+
+- *Type:* aws-cdk-lib.aws_iam.IRole
+- *Default:* A new Role will be created.
+
+The service Role of this Deployment Group.
+
+---
+
+##### `function`<sup>Required</sup> <a name="function" id="truemark-cdk-lib.aws_lambda.FunctionDeploymentProps.property.function"></a>
+
+```typescript
+public readonly function: Function;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Function
+
+The function to deploy.
+
+---
+
+### FunctionProps <a name="FunctionProps" id="truemark-cdk-lib.aws_lambda.FunctionProps"></a>
+
+Properties for Function.
+
+#### Initializer <a name="Initializer" id="truemark-cdk-lib.aws_lambda.FunctionProps.Initializer"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+const functionProps: aws_lambda.FunctionProps = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.maxEventAge">maxEventAge</a></code> | <code>aws-cdk-lib.Duration</code> | The maximum age of a request that Lambda sends to a function for processing. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.onFailure">onFailure</a></code> | <code>aws-cdk-lib.aws_lambda.IDestination</code> | The destination for failed invocations. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.onSuccess">onSuccess</a></code> | <code>aws-cdk-lib.aws_lambda.IDestination</code> | The destination for successful invocations. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.retryAttempts">retryAttempts</a></code> | <code>number</code> | The maximum number of times to retry when the function returns an error. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.allowAllOutbound">allowAllOutbound</a></code> | <code>boolean</code> | Whether to allow the Lambda to send all network traffic. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.allowPublicSubnet">allowPublicSubnet</a></code> | <code>boolean</code> | Lambda Functions in a public subnet can NOT access the internet. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.architecture">architecture</a></code> | <code>aws-cdk-lib.aws_lambda.Architecture</code> | The system architectures compatible with this lambda function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.codeSigningConfig">codeSigningConfig</a></code> | <code>aws-cdk-lib.aws_lambda.ICodeSigningConfig</code> | Code signing config associated with this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.currentVersionOptions">currentVersionOptions</a></code> | <code>aws-cdk-lib.aws_lambda.VersionOptions</code> | Options for the `lambda.Version` resource automatically created by the `fn.currentVersion` method. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.deadLetterQueue">deadLetterQueue</a></code> | <code>aws-cdk-lib.aws_sqs.IQueue</code> | The SQS queue to use if DLQ is enabled. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.deadLetterQueueEnabled">deadLetterQueueEnabled</a></code> | <code>boolean</code> | Enabled DLQ. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.deadLetterTopic">deadLetterTopic</a></code> | <code>aws-cdk-lib.aws_sns.ITopic</code> | The SNS topic to use as a DLQ. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.description">description</a></code> | <code>string</code> | A description of the function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.environment">environment</a></code> | <code>{[ key: string ]: string}</code> | Key-value pairs that Lambda caches and makes available for your Lambda functions. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.environmentEncryption">environmentEncryption</a></code> | <code>aws-cdk-lib.aws_kms.IKey</code> | The AWS KMS key that's used to encrypt your function's environment variables. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.ephemeralStorageSize">ephemeralStorageSize</a></code> | <code>aws-cdk-lib.Size</code> | The size of the function’s /tmp directory in MiB. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.events">events</a></code> | <code>aws-cdk-lib.aws_lambda.IEventSource[]</code> | Event sources for this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.filesystem">filesystem</a></code> | <code>aws-cdk-lib.aws_lambda.FileSystem</code> | The filesystem configuration for the lambda function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.functionName">functionName</a></code> | <code>string</code> | A name for the function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.initialPolicy">initialPolicy</a></code> | <code>aws-cdk-lib.aws_iam.PolicyStatement[]</code> | Initial policy statements to add to the created Lambda Role. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.insightsVersion">insightsVersion</a></code> | <code>aws-cdk-lib.aws_lambda.LambdaInsightsVersion</code> | Specify the version of CloudWatch Lambda insights to use for monitoring. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.layers">layers</a></code> | <code>aws-cdk-lib.aws_lambda.ILayerVersion[]</code> | A list of layers to add to the function's execution environment. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.logRetention">logRetention</a></code> | <code>aws-cdk-lib.aws_logs.RetentionDays</code> | The number of days log events are kept in CloudWatch Logs. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.logRetentionRetryOptions">logRetentionRetryOptions</a></code> | <code>aws-cdk-lib.aws_lambda.LogRetentionRetryOptions</code> | When log retention is specified, a custom resource attempts to create the CloudWatch log group. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.logRetentionRole">logRetentionRole</a></code> | <code>aws-cdk-lib.aws_iam.IRole</code> | The IAM role for the Lambda function associated with the custom resource that sets the retention policy. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.memorySize">memorySize</a></code> | <code>number</code> | The amount of memory, in MB, that is allocated to your Lambda function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.profiling">profiling</a></code> | <code>boolean</code> | Enable profiling. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.profilingGroup">profilingGroup</a></code> | <code>aws-cdk-lib.aws_codeguruprofiler.IProfilingGroup</code> | Profiling Group. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.reservedConcurrentExecutions">reservedConcurrentExecutions</a></code> | <code>number</code> | The maximum of concurrent executions you want to reserve for the function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.role">role</a></code> | <code>aws-cdk-lib.aws_iam.IRole</code> | Lambda execution role. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.securityGroups">securityGroups</a></code> | <code>aws-cdk-lib.aws_ec2.ISecurityGroup[]</code> | The list of security groups to associate with the Lambda's network interfaces. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.timeout">timeout</a></code> | <code>aws-cdk-lib.Duration</code> | The function execution time (in seconds) after which Lambda terminates the function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.tracing">tracing</a></code> | <code>aws-cdk-lib.aws_lambda.Tracing</code> | Enable AWS X-Ray Tracing for Lambda Function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.vpc">vpc</a></code> | <code>aws-cdk-lib.aws_ec2.IVpc</code> | VPC network to place Lambda network interfaces. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.vpcSubnets">vpcSubnets</a></code> | <code>aws-cdk-lib.aws_ec2.SubnetSelection</code> | Where to place the network interfaces within the VPC. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.code">code</a></code> | <code>aws-cdk-lib.aws_lambda.Code</code> | The source code of your Lambda function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.handler">handler</a></code> | <code>string</code> | The name of the method within your code that Lambda calls to execute your function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.runtime">runtime</a></code> | <code>aws-cdk-lib.aws_lambda.Runtime</code> | The runtime environment for the Lambda function that you are uploading. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.addToAlarmDashboard">addToAlarmDashboard</a></code> | <code>boolean</code> | Add widgets to alarm dashboard. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.addToDetailDashboard">addToDetailDashboard</a></code> | <code>boolean</code> | Add widgets to detailed dashboard. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.addToSummaryDashboard">addToSummaryDashboard</a></code> | <code>boolean</code> | Add widgets to summary dashboard. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.alarmNamePrefix">alarmNamePrefix</a></code> | <code>string</code> | Prefix for generated alarms. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.criticalAlarmOptions">criticalAlarmOptions</a></code> | <code>truemark-cdk-lib.aws_monitoring.AlarmsCategoryOptions</code> | Alarm thresholds for critical alarms. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.dashboardFactory">dashboardFactory</a></code> | <code>cdk-monitoring-constructs.IDashboardFactory</code> | The DashboardFactory to use when generating CloudWatch dashboards. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.monitoringFacade">monitoringFacade</a></code> | <code>cdk-monitoring-constructs.MonitoringFacade</code> | Main entry point for monitoring. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.warningAlarmOptions">warningAlarmOptions</a></code> | <code>truemark-cdk-lib.aws_monitoring.AlarmsCategoryOptions</code> | Alarm thresholds for warning alarms. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.lambdaInsightsEnabled">lambdaInsightsEnabled</a></code> | <code>boolean</code> | Generate dashboard charts for Lambda insights metrics. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.FunctionProps.property.deploymentOptions">deploymentOptions</a></code> | <code>truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions</code> | The deployment configuration settings to use. |
+
+---
+
+##### `maxEventAge`<sup>Optional</sup> <a name="maxEventAge" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.maxEventAge"></a>
+
+```typescript
+public readonly maxEventAge: Duration;
+```
+
+- *Type:* aws-cdk-lib.Duration
+- *Default:* Duration.hours(6)
+
+The maximum age of a request that Lambda sends to a function for processing.
+
+Minimum: 60 seconds
+Maximum: 6 hours
+
+---
+
+##### `onFailure`<sup>Optional</sup> <a name="onFailure" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.onFailure"></a>
+
+```typescript
+public readonly onFailure: IDestination;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.IDestination
+- *Default:* no destination
+
+The destination for failed invocations.
+
+---
+
+##### `onSuccess`<sup>Optional</sup> <a name="onSuccess" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.onSuccess"></a>
+
+```typescript
+public readonly onSuccess: IDestination;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.IDestination
+- *Default:* no destination
+
+The destination for successful invocations.
+
+---
+
+##### `retryAttempts`<sup>Optional</sup> <a name="retryAttempts" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.retryAttempts"></a>
+
+```typescript
+public readonly retryAttempts: number;
+```
+
+- *Type:* number
+- *Default:* 2
+
+The maximum number of times to retry when the function returns an error.
+
+Minimum: 0
+Maximum: 2
+
+---
+
+##### `allowAllOutbound`<sup>Optional</sup> <a name="allowAllOutbound" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.allowAllOutbound"></a>
+
+```typescript
+public readonly allowAllOutbound: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Whether to allow the Lambda to send all network traffic.
+
+If set to false, you must individually add traffic rules to allow the
+Lambda to connect to network targets.
+
+---
+
+##### `allowPublicSubnet`<sup>Optional</sup> <a name="allowPublicSubnet" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.allowPublicSubnet"></a>
+
+```typescript
+public readonly allowPublicSubnet: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false
+
+Lambda Functions in a public subnet can NOT access the internet.
+
+Use this property to acknowledge this limitation and still place the function in a public subnet.
+
+> [https://stackoverflow.com/questions/52992085/why-cant-an-aws-lambda-function-inside-a-public-subnet-in-a-vpc-connect-to-the/52994841#52994841](https://stackoverflow.com/questions/52992085/why-cant-an-aws-lambda-function-inside-a-public-subnet-in-a-vpc-connect-to-the/52994841#52994841)
+
+---
+
+##### `architecture`<sup>Optional</sup> <a name="architecture" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.architecture"></a>
+
+```typescript
+public readonly architecture: Architecture;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Architecture
+- *Default:* Architecture.X86_64
+
+The system architectures compatible with this lambda function.
+
+---
+
+##### `codeSigningConfig`<sup>Optional</sup> <a name="codeSigningConfig" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.codeSigningConfig"></a>
+
+```typescript
+public readonly codeSigningConfig: ICodeSigningConfig;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.ICodeSigningConfig
+- *Default:* Not Sign the Code
+
+Code signing config associated with this function.
+
+---
+
+##### `currentVersionOptions`<sup>Optional</sup> <a name="currentVersionOptions" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.currentVersionOptions"></a>
+
+```typescript
+public readonly currentVersionOptions: VersionOptions;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.VersionOptions
+- *Default:* default options as described in `VersionOptions`
+
+Options for the `lambda.Version` resource automatically created by the `fn.currentVersion` method.
+
+---
+
+##### `deadLetterQueue`<sup>Optional</sup> <a name="deadLetterQueue" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.deadLetterQueue"></a>
+
+```typescript
+public readonly deadLetterQueue: IQueue;
+```
+
+- *Type:* aws-cdk-lib.aws_sqs.IQueue
+- *Default:* SQS queue with 14 day retention period if `deadLetterQueueEnabled` is `true`
+
+The SQS queue to use if DLQ is enabled.
+
+If SNS topic is desired, specify `deadLetterTopic` property instead.
+
+---
+
+##### `deadLetterQueueEnabled`<sup>Optional</sup> <a name="deadLetterQueueEnabled" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.deadLetterQueueEnabled"></a>
+
+```typescript
+public readonly deadLetterQueueEnabled: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false unless `deadLetterQueue` is set, which implies DLQ is enabled.
+
+Enabled DLQ.
+
+If `deadLetterQueue` is undefined,
+an SQS queue with default options will be defined for your Function.
+
+---
+
+##### `deadLetterTopic`<sup>Optional</sup> <a name="deadLetterTopic" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.deadLetterTopic"></a>
+
+```typescript
+public readonly deadLetterTopic: ITopic;
+```
+
+- *Type:* aws-cdk-lib.aws_sns.ITopic
+- *Default:* no SNS topic
+
+The SNS topic to use as a DLQ.
+
+Note that if `deadLetterQueueEnabled` is set to `true`, an SQS queue will be created
+rather than an SNS topic. Using an SNS topic as a DLQ requires this property to be set explicitly.
+
+---
+
+##### `description`<sup>Optional</sup> <a name="description" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.description"></a>
+
+```typescript
+public readonly description: string;
+```
+
+- *Type:* string
+- *Default:* No description.
+
+A description of the function.
+
+---
+
+##### `environment`<sup>Optional</sup> <a name="environment" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.environment"></a>
+
+```typescript
+public readonly environment: {[ key: string ]: string};
+```
+
+- *Type:* {[ key: string ]: string}
+- *Default:* No environment variables.
+
+Key-value pairs that Lambda caches and makes available for your Lambda functions.
+
+Use environment variables to apply configuration changes, such
+as test and production environment configurations, without changing your
+Lambda function source code.
+
+---
+
+##### `environmentEncryption`<sup>Optional</sup> <a name="environmentEncryption" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.environmentEncryption"></a>
+
+```typescript
+public readonly environmentEncryption: IKey;
+```
+
+- *Type:* aws-cdk-lib.aws_kms.IKey
+- *Default:* AWS Lambda creates and uses an AWS managed customer master key (CMK).
+
+The AWS KMS key that's used to encrypt your function's environment variables.
+
+---
+
+##### `ephemeralStorageSize`<sup>Optional</sup> <a name="ephemeralStorageSize" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.ephemeralStorageSize"></a>
+
+```typescript
+public readonly ephemeralStorageSize: Size;
+```
+
+- *Type:* aws-cdk-lib.Size
+- *Default:* 512 MiB
+
+The size of the function’s /tmp directory in MiB.
+
+---
+
+##### `events`<sup>Optional</sup> <a name="events" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.events"></a>
+
+```typescript
+public readonly events: IEventSource[];
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.IEventSource[]
+- *Default:* No event sources.
+
+Event sources for this function.
+
+You can also add event sources using `addEventSource`.
+
+---
+
+##### `filesystem`<sup>Optional</sup> <a name="filesystem" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.filesystem"></a>
+
+```typescript
+public readonly filesystem: FileSystem;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.FileSystem
+- *Default:* will not mount any filesystem
+
+The filesystem configuration for the lambda function.
+
+---
+
+##### `functionName`<sup>Optional</sup> <a name="functionName" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.functionName"></a>
+
+```typescript
+public readonly functionName: string;
+```
+
+- *Type:* string
+- *Default:* AWS CloudFormation generates a unique physical ID and uses that ID for the function's name. For more information, see Name Type.
+
+A name for the function.
+
+---
+
+##### `initialPolicy`<sup>Optional</sup> <a name="initialPolicy" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.initialPolicy"></a>
+
+```typescript
+public readonly initialPolicy: PolicyStatement[];
+```
+
+- *Type:* aws-cdk-lib.aws_iam.PolicyStatement[]
+- *Default:* No policy statements are added to the created Lambda role.
+
+Initial policy statements to add to the created Lambda Role.
+
+You can call `addToRolePolicy` to the created lambda to add statements post creation.
+
+---
+
+##### `insightsVersion`<sup>Optional</sup> <a name="insightsVersion" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.insightsVersion"></a>
+
+```typescript
+public readonly insightsVersion: LambdaInsightsVersion;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.LambdaInsightsVersion
+- *Default:* No Lambda Insights
+
+Specify the version of CloudWatch Lambda insights to use for monitoring.
+
+> [https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Lambda-Insights-Getting-Started-docker.html](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Lambda-Insights-Getting-Started-docker.html)
+
+---
+
+##### `layers`<sup>Optional</sup> <a name="layers" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.layers"></a>
+
+```typescript
+public readonly layers: ILayerVersion[];
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.ILayerVersion[]
+- *Default:* No layers.
+
+A list of layers to add to the function's execution environment.
+
+You can configure your Lambda function to pull in
+additional code during initialization in the form of layers. Layers are packages of libraries or other dependencies
+that can be used by multiple functions.
+
+---
+
+##### `logRetention`<sup>Optional</sup> <a name="logRetention" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.logRetention"></a>
+
+```typescript
+public readonly logRetention: RetentionDays;
+```
+
+- *Type:* aws-cdk-lib.aws_logs.RetentionDays
+- *Default:* logs.RetentionDays.INFINITE
+
+The number of days log events are kept in CloudWatch Logs.
+
+When updating
+this property, unsetting it doesn't remove the log retention policy. To
+remove the retention policy, set the value to `INFINITE`.
+
+---
+
+##### `logRetentionRetryOptions`<sup>Optional</sup> <a name="logRetentionRetryOptions" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.logRetentionRetryOptions"></a>
+
+```typescript
+public readonly logRetentionRetryOptions: LogRetentionRetryOptions;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.LogRetentionRetryOptions
+- *Default:* Default AWS SDK retry options.
+
+When log retention is specified, a custom resource attempts to create the CloudWatch log group.
+
+These options control the retry policy when interacting with CloudWatch APIs.
+
+---
+
+##### `logRetentionRole`<sup>Optional</sup> <a name="logRetentionRole" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.logRetentionRole"></a>
+
+```typescript
+public readonly logRetentionRole: IRole;
+```
+
+- *Type:* aws-cdk-lib.aws_iam.IRole
+- *Default:* A new role is created.
+
+The IAM role for the Lambda function associated with the custom resource that sets the retention policy.
+
+---
+
+##### `memorySize`<sup>Optional</sup> <a name="memorySize" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.memorySize"></a>
+
+```typescript
+public readonly memorySize: number;
+```
+
+- *Type:* number
+- *Default:* 128
+
+The amount of memory, in MB, that is allocated to your Lambda function.
+
+Lambda uses this value to proportionally allocate the amount of CPU
+power. For more information, see Resource Model in the AWS Lambda
+Developer Guide.
+
+---
+
+##### `profiling`<sup>Optional</sup> <a name="profiling" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.profiling"></a>
+
+```typescript
+public readonly profiling: boolean;
+```
+
+- *Type:* boolean
+- *Default:* No profiling.
+
+Enable profiling.
+
+> [https://docs.aws.amazon.com/codeguru/latest/profiler-ug/setting-up-lambda.html](https://docs.aws.amazon.com/codeguru/latest/profiler-ug/setting-up-lambda.html)
+
+---
+
+##### `profilingGroup`<sup>Optional</sup> <a name="profilingGroup" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.profilingGroup"></a>
+
+```typescript
+public readonly profilingGroup: IProfilingGroup;
+```
+
+- *Type:* aws-cdk-lib.aws_codeguruprofiler.IProfilingGroup
+- *Default:* A new profiling group will be created if `profiling` is set.
+
+Profiling Group.
+
+> [https://docs.aws.amazon.com/codeguru/latest/profiler-ug/setting-up-lambda.html](https://docs.aws.amazon.com/codeguru/latest/profiler-ug/setting-up-lambda.html)
+
+---
+
+##### `reservedConcurrentExecutions`<sup>Optional</sup> <a name="reservedConcurrentExecutions" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.reservedConcurrentExecutions"></a>
+
+```typescript
+public readonly reservedConcurrentExecutions: number;
+```
+
+- *Type:* number
+- *Default:* No specific limit - account limit.
+
+The maximum of concurrent executions you want to reserve for the function.
+
+> [https://docs.aws.amazon.com/lambda/latest/dg/concurrent-executions.html](https://docs.aws.amazon.com/lambda/latest/dg/concurrent-executions.html)
+
+---
+
+##### `role`<sup>Optional</sup> <a name="role" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.role"></a>
+
+```typescript
+public readonly role: IRole;
+```
+
+- *Type:* aws-cdk-lib.aws_iam.IRole
+- *Default:* A unique role will be generated for this lambda function. Both supplied and generated roles can always be changed by calling `addToRolePolicy`.
+
+Lambda execution role.
+
+This is the role that will be assumed by the function upon execution.
+It controls the permissions that the function will have. The Role must
+be assumable by the 'lambda.amazonaws.com' service principal.
+
+The default Role automatically has permissions granted for Lambda execution. If you
+provide a Role, you must add the relevant AWS managed policies yourself.
+
+The relevant managed policies are "service-role/AWSLambdaBasicExecutionRole" and
+"service-role/AWSLambdaVPCAccessExecutionRole".
+
+---
+
+##### `securityGroups`<sup>Optional</sup> <a name="securityGroups" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.securityGroups"></a>
+
+```typescript
+public readonly securityGroups: ISecurityGroup[];
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.ISecurityGroup[]
+- *Default:* If the function is placed within a VPC and a security group is not specified, either by this or securityGroup prop, a dedicated security group will be created for this function.
+
+The list of security groups to associate with the Lambda's network interfaces.
+
+Only used if 'vpc' is supplied.
+
+---
+
+##### `timeout`<sup>Optional</sup> <a name="timeout" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.timeout"></a>
+
+```typescript
+public readonly timeout: Duration;
+```
+
+- *Type:* aws-cdk-lib.Duration
+- *Default:* Duration.seconds(3)
+
+The function execution time (in seconds) after which Lambda terminates the function.
+
+Because the execution time affects cost, set this value
+based on the function's expected execution time.
+
+---
+
+##### `tracing`<sup>Optional</sup> <a name="tracing" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.tracing"></a>
+
+```typescript
+public readonly tracing: Tracing;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Tracing
+- *Default:* Tracing.Disabled
+
+Enable AWS X-Ray Tracing for Lambda Function.
+
+---
+
+##### `vpc`<sup>Optional</sup> <a name="vpc" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.vpc"></a>
+
+```typescript
+public readonly vpc: IVpc;
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.IVpc
+- *Default:* Function is not placed within a VPC.
+
+VPC network to place Lambda network interfaces.
+
+Specify this if the Lambda function needs to access resources in a VPC.
+
+---
+
+##### `vpcSubnets`<sup>Optional</sup> <a name="vpcSubnets" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.vpcSubnets"></a>
+
+```typescript
+public readonly vpcSubnets: SubnetSelection;
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.SubnetSelection
+- *Default:* the Vpc default strategy if not specified
+
+Where to place the network interfaces within the VPC.
+
+Only used if 'vpc' is supplied. Note: internet access for Lambdas
+requires a NAT gateway, so picking Public subnets is not allowed.
+
+---
+
+##### `code`<sup>Required</sup> <a name="code" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.code"></a>
+
+```typescript
+public readonly code: Code;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Code
+
+The source code of your Lambda function.
+
+You can point to a file in an
+Amazon Simple Storage Service (Amazon S3) bucket or specify your source
+code as inline text.
+
+---
+
+##### `handler`<sup>Required</sup> <a name="handler" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.handler"></a>
+
+```typescript
+public readonly handler: string;
+```
+
+- *Type:* string
+
+The name of the method within your code that Lambda calls to execute your function.
+
+The format includes the file name. It can also include
+namespaces and other qualifiers, depending on the runtime.
+For more information, see https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-features.html#gettingstarted-features-programmingmodel.
+
+Use `Handler.FROM_IMAGE` when defining a function from a Docker image.
+
+NOTE: If you specify your source code as inline text by specifying the
+ZipFile property within the Code property, specify index.function_name as
+the handler.
+
+---
+
+##### `runtime`<sup>Required</sup> <a name="runtime" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.runtime"></a>
+
+```typescript
+public readonly runtime: Runtime;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Runtime
+
+The runtime environment for the Lambda function that you are uploading.
+
+For valid values, see the Runtime property in the AWS Lambda Developer
+Guide.
+
+Use `Runtime.FROM_IMAGE` when defining a function from a Docker image.
+
+---
+
+##### `addToAlarmDashboard`<sup>Optional</sup> <a name="addToAlarmDashboard" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.addToAlarmDashboard"></a>
+
+```typescript
+public readonly addToAlarmDashboard: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Add widgets to alarm dashboard.
+
+---
+
+##### `addToDetailDashboard`<sup>Optional</sup> <a name="addToDetailDashboard" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.addToDetailDashboard"></a>
+
+```typescript
+public readonly addToDetailDashboard: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Add widgets to detailed dashboard.
+
+---
+
+##### `addToSummaryDashboard`<sup>Optional</sup> <a name="addToSummaryDashboard" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.addToSummaryDashboard"></a>
+
+```typescript
+public readonly addToSummaryDashboard: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Add widgets to summary dashboard.
+
+---
+
+##### `alarmNamePrefix`<sup>Optional</sup> <a name="alarmNamePrefix" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.alarmNamePrefix"></a>
+
+```typescript
+public readonly alarmNamePrefix: string;
+```
+
+- *Type:* string
+- *Default:* Stack.of(this).stackName
+
+Prefix for generated alarms.
+
+---
+
+##### `criticalAlarmOptions`<sup>Optional</sup> <a name="criticalAlarmOptions" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.criticalAlarmOptions"></a>
+
+```typescript
+public readonly criticalAlarmOptions: AlarmsCategoryOptions;
+```
+
+- *Type:* truemark-cdk-lib.aws_monitoring.AlarmsCategoryOptions
+
+Alarm thresholds for critical alarms.
+
+If no properties are provided, a set of default alarms are created.
+
+---
+
+##### `dashboardFactory`<sup>Optional</sup> <a name="dashboardFactory" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.dashboardFactory"></a>
+
+```typescript
+public readonly dashboardFactory: IDashboardFactory;
+```
+
+- *Type:* cdk-monitoring-constructs.IDashboardFactory
+
+The DashboardFactory to use when generating CloudWatch dashboards.
+
+If not defined, dashboards are not generated.
+
+---
+
+##### `monitoringFacade`<sup>Optional</sup> <a name="monitoringFacade" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.monitoringFacade"></a>
+
+```typescript
+public readonly monitoringFacade: MonitoringFacade;
+```
+
+- *Type:* cdk-monitoring-constructs.MonitoringFacade
+
+Main entry point for monitoring.
+
+If no value is provided, a default facade will be created.
+
+---
+
+##### `warningAlarmOptions`<sup>Optional</sup> <a name="warningAlarmOptions" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.warningAlarmOptions"></a>
+
+```typescript
+public readonly warningAlarmOptions: AlarmsCategoryOptions;
+```
+
+- *Type:* truemark-cdk-lib.aws_monitoring.AlarmsCategoryOptions
+
+Alarm thresholds for warning alarms.
+
+If no properties are provided, a set of default alarms are created.
+
+---
+
+##### `lambdaInsightsEnabled`<sup>Optional</sup> <a name="lambdaInsightsEnabled" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.lambdaInsightsEnabled"></a>
+
+```typescript
+public readonly lambdaInsightsEnabled: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Generate dashboard charts for Lambda insights metrics.
+
+---
+
+##### `deploymentOptions`<sup>Optional</sup> <a name="deploymentOptions" id="truemark-cdk-lib.aws_lambda.FunctionProps.property.deploymentOptions"></a>
+
+```typescript
+public readonly deploymentOptions: DeployedFunctionDeploymentOptions;
+```
+
+- *Type:* truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions
+
+The deployment configuration settings to use.
+
+If none are provided a default set is used.
+
+---
+
+### GoFunctionAlphaProps <a name="GoFunctionAlphaProps" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps"></a>
+
+Properties for GoFunctionAlpha.
+
+#### Initializer <a name="Initializer" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.Initializer"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+const goFunctionAlphaProps: aws_lambda.GoFunctionAlphaProps = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.maxEventAge">maxEventAge</a></code> | <code>aws-cdk-lib.Duration</code> | The maximum age of a request that Lambda sends to a function for processing. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.onFailure">onFailure</a></code> | <code>aws-cdk-lib.aws_lambda.IDestination</code> | The destination for failed invocations. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.onSuccess">onSuccess</a></code> | <code>aws-cdk-lib.aws_lambda.IDestination</code> | The destination for successful invocations. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.retryAttempts">retryAttempts</a></code> | <code>number</code> | The maximum number of times to retry when the function returns an error. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.allowAllOutbound">allowAllOutbound</a></code> | <code>boolean</code> | Whether to allow the Lambda to send all network traffic. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.allowPublicSubnet">allowPublicSubnet</a></code> | <code>boolean</code> | Lambda Functions in a public subnet can NOT access the internet. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.architecture">architecture</a></code> | <code>aws-cdk-lib.aws_lambda.Architecture</code> | The system architectures compatible with this lambda function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.codeSigningConfig">codeSigningConfig</a></code> | <code>aws-cdk-lib.aws_lambda.ICodeSigningConfig</code> | Code signing config associated with this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.currentVersionOptions">currentVersionOptions</a></code> | <code>aws-cdk-lib.aws_lambda.VersionOptions</code> | Options for the `lambda.Version` resource automatically created by the `fn.currentVersion` method. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.deadLetterQueue">deadLetterQueue</a></code> | <code>aws-cdk-lib.aws_sqs.IQueue</code> | The SQS queue to use if DLQ is enabled. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.deadLetterQueueEnabled">deadLetterQueueEnabled</a></code> | <code>boolean</code> | Enabled DLQ. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.deadLetterTopic">deadLetterTopic</a></code> | <code>aws-cdk-lib.aws_sns.ITopic</code> | The SNS topic to use as a DLQ. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.description">description</a></code> | <code>string</code> | A description of the function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.environment">environment</a></code> | <code>{[ key: string ]: string}</code> | Key-value pairs that Lambda caches and makes available for your Lambda functions. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.environmentEncryption">environmentEncryption</a></code> | <code>aws-cdk-lib.aws_kms.IKey</code> | The AWS KMS key that's used to encrypt your function's environment variables. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.ephemeralStorageSize">ephemeralStorageSize</a></code> | <code>aws-cdk-lib.Size</code> | The size of the function’s /tmp directory in MiB. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.events">events</a></code> | <code>aws-cdk-lib.aws_lambda.IEventSource[]</code> | Event sources for this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.filesystem">filesystem</a></code> | <code>aws-cdk-lib.aws_lambda.FileSystem</code> | The filesystem configuration for the lambda function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.functionName">functionName</a></code> | <code>string</code> | A name for the function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.initialPolicy">initialPolicy</a></code> | <code>aws-cdk-lib.aws_iam.PolicyStatement[]</code> | Initial policy statements to add to the created Lambda Role. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.insightsVersion">insightsVersion</a></code> | <code>aws-cdk-lib.aws_lambda.LambdaInsightsVersion</code> | Specify the version of CloudWatch Lambda insights to use for monitoring. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.layers">layers</a></code> | <code>aws-cdk-lib.aws_lambda.ILayerVersion[]</code> | A list of layers to add to the function's execution environment. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.logRetention">logRetention</a></code> | <code>aws-cdk-lib.aws_logs.RetentionDays</code> | The number of days log events are kept in CloudWatch Logs. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.logRetentionRetryOptions">logRetentionRetryOptions</a></code> | <code>aws-cdk-lib.aws_lambda.LogRetentionRetryOptions</code> | When log retention is specified, a custom resource attempts to create the CloudWatch log group. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.logRetentionRole">logRetentionRole</a></code> | <code>aws-cdk-lib.aws_iam.IRole</code> | The IAM role for the Lambda function associated with the custom resource that sets the retention policy. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.memorySize">memorySize</a></code> | <code>number</code> | The amount of memory, in MB, that is allocated to your Lambda function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.profiling">profiling</a></code> | <code>boolean</code> | Enable profiling. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.profilingGroup">profilingGroup</a></code> | <code>aws-cdk-lib.aws_codeguruprofiler.IProfilingGroup</code> | Profiling Group. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.reservedConcurrentExecutions">reservedConcurrentExecutions</a></code> | <code>number</code> | The maximum of concurrent executions you want to reserve for the function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.role">role</a></code> | <code>aws-cdk-lib.aws_iam.IRole</code> | Lambda execution role. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.securityGroups">securityGroups</a></code> | <code>aws-cdk-lib.aws_ec2.ISecurityGroup[]</code> | The list of security groups to associate with the Lambda's network interfaces. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.timeout">timeout</a></code> | <code>aws-cdk-lib.Duration</code> | The function execution time (in seconds) after which Lambda terminates the function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.tracing">tracing</a></code> | <code>aws-cdk-lib.aws_lambda.Tracing</code> | Enable AWS X-Ray Tracing for Lambda Function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.vpc">vpc</a></code> | <code>aws-cdk-lib.aws_ec2.IVpc</code> | VPC network to place Lambda network interfaces. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.vpcSubnets">vpcSubnets</a></code> | <code>aws-cdk-lib.aws_ec2.SubnetSelection</code> | Where to place the network interfaces within the VPC. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.entry">entry</a></code> | <code>string</code> | The path to the folder or file that contains the main application entry point files for the project. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.bundling">bundling</a></code> | <code>@aws-cdk/aws-lambda-go-alpha.BundlingOptions</code> | Bundling options. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.moduleDir">moduleDir</a></code> | <code>string</code> | Directory containing your go.mod file. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.runtime">runtime</a></code> | <code>aws-cdk-lib.aws_lambda.Runtime</code> | The runtime environment. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.addToAlarmDashboard">addToAlarmDashboard</a></code> | <code>boolean</code> | Add widgets to alarm dashboard. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.addToDetailDashboard">addToDetailDashboard</a></code> | <code>boolean</code> | Add widgets to detailed dashboard. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.addToSummaryDashboard">addToSummaryDashboard</a></code> | <code>boolean</code> | Add widgets to summary dashboard. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.alarmNamePrefix">alarmNamePrefix</a></code> | <code>string</code> | Prefix for generated alarms. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.criticalAlarmOptions">criticalAlarmOptions</a></code> | <code>truemark-cdk-lib.aws_monitoring.AlarmsCategoryOptions</code> | Alarm thresholds for critical alarms. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.dashboardFactory">dashboardFactory</a></code> | <code>cdk-monitoring-constructs.IDashboardFactory</code> | The DashboardFactory to use when generating CloudWatch dashboards. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.monitoringFacade">monitoringFacade</a></code> | <code>cdk-monitoring-constructs.MonitoringFacade</code> | Main entry point for monitoring. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.warningAlarmOptions">warningAlarmOptions</a></code> | <code>truemark-cdk-lib.aws_monitoring.AlarmsCategoryOptions</code> | Alarm thresholds for warning alarms. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.lambdaInsightsEnabled">lambdaInsightsEnabled</a></code> | <code>boolean</code> | Generate dashboard charts for Lambda insights metrics. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.deploymentOptions">deploymentOptions</a></code> | <code>truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions</code> | The deployment configuration settings to use. |
+
+---
+
+##### `maxEventAge`<sup>Optional</sup> <a name="maxEventAge" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.maxEventAge"></a>
+
+```typescript
+public readonly maxEventAge: Duration;
+```
+
+- *Type:* aws-cdk-lib.Duration
+- *Default:* Duration.hours(6)
+
+The maximum age of a request that Lambda sends to a function for processing.
+
+Minimum: 60 seconds
+Maximum: 6 hours
+
+---
+
+##### `onFailure`<sup>Optional</sup> <a name="onFailure" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.onFailure"></a>
+
+```typescript
+public readonly onFailure: IDestination;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.IDestination
+- *Default:* no destination
+
+The destination for failed invocations.
+
+---
+
+##### `onSuccess`<sup>Optional</sup> <a name="onSuccess" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.onSuccess"></a>
+
+```typescript
+public readonly onSuccess: IDestination;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.IDestination
+- *Default:* no destination
+
+The destination for successful invocations.
+
+---
+
+##### `retryAttempts`<sup>Optional</sup> <a name="retryAttempts" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.retryAttempts"></a>
+
+```typescript
+public readonly retryAttempts: number;
+```
+
+- *Type:* number
+- *Default:* 2
+
+The maximum number of times to retry when the function returns an error.
+
+Minimum: 0
+Maximum: 2
+
+---
+
+##### `allowAllOutbound`<sup>Optional</sup> <a name="allowAllOutbound" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.allowAllOutbound"></a>
+
+```typescript
+public readonly allowAllOutbound: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Whether to allow the Lambda to send all network traffic.
+
+If set to false, you must individually add traffic rules to allow the
+Lambda to connect to network targets.
+
+---
+
+##### `allowPublicSubnet`<sup>Optional</sup> <a name="allowPublicSubnet" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.allowPublicSubnet"></a>
+
+```typescript
+public readonly allowPublicSubnet: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false
+
+Lambda Functions in a public subnet can NOT access the internet.
+
+Use this property to acknowledge this limitation and still place the function in a public subnet.
+
+> [https://stackoverflow.com/questions/52992085/why-cant-an-aws-lambda-function-inside-a-public-subnet-in-a-vpc-connect-to-the/52994841#52994841](https://stackoverflow.com/questions/52992085/why-cant-an-aws-lambda-function-inside-a-public-subnet-in-a-vpc-connect-to-the/52994841#52994841)
+
+---
+
+##### `architecture`<sup>Optional</sup> <a name="architecture" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.architecture"></a>
+
+```typescript
+public readonly architecture: Architecture;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Architecture
+- *Default:* Architecture.X86_64
+
+The system architectures compatible with this lambda function.
+
+---
+
+##### `codeSigningConfig`<sup>Optional</sup> <a name="codeSigningConfig" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.codeSigningConfig"></a>
+
+```typescript
+public readonly codeSigningConfig: ICodeSigningConfig;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.ICodeSigningConfig
+- *Default:* Not Sign the Code
+
+Code signing config associated with this function.
+
+---
+
+##### `currentVersionOptions`<sup>Optional</sup> <a name="currentVersionOptions" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.currentVersionOptions"></a>
+
+```typescript
+public readonly currentVersionOptions: VersionOptions;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.VersionOptions
+- *Default:* default options as described in `VersionOptions`
+
+Options for the `lambda.Version` resource automatically created by the `fn.currentVersion` method.
+
+---
+
+##### `deadLetterQueue`<sup>Optional</sup> <a name="deadLetterQueue" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.deadLetterQueue"></a>
+
+```typescript
+public readonly deadLetterQueue: IQueue;
+```
+
+- *Type:* aws-cdk-lib.aws_sqs.IQueue
+- *Default:* SQS queue with 14 day retention period if `deadLetterQueueEnabled` is `true`
+
+The SQS queue to use if DLQ is enabled.
+
+If SNS topic is desired, specify `deadLetterTopic` property instead.
+
+---
+
+##### `deadLetterQueueEnabled`<sup>Optional</sup> <a name="deadLetterQueueEnabled" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.deadLetterQueueEnabled"></a>
+
+```typescript
+public readonly deadLetterQueueEnabled: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false unless `deadLetterQueue` is set, which implies DLQ is enabled.
+
+Enabled DLQ.
+
+If `deadLetterQueue` is undefined,
+an SQS queue with default options will be defined for your Function.
+
+---
+
+##### `deadLetterTopic`<sup>Optional</sup> <a name="deadLetterTopic" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.deadLetterTopic"></a>
+
+```typescript
+public readonly deadLetterTopic: ITopic;
+```
+
+- *Type:* aws-cdk-lib.aws_sns.ITopic
+- *Default:* no SNS topic
+
+The SNS topic to use as a DLQ.
+
+Note that if `deadLetterQueueEnabled` is set to `true`, an SQS queue will be created
+rather than an SNS topic. Using an SNS topic as a DLQ requires this property to be set explicitly.
+
+---
+
+##### `description`<sup>Optional</sup> <a name="description" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.description"></a>
+
+```typescript
+public readonly description: string;
+```
+
+- *Type:* string
+- *Default:* No description.
+
+A description of the function.
+
+---
+
+##### `environment`<sup>Optional</sup> <a name="environment" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.environment"></a>
+
+```typescript
+public readonly environment: {[ key: string ]: string};
+```
+
+- *Type:* {[ key: string ]: string}
+- *Default:* No environment variables.
+
+Key-value pairs that Lambda caches and makes available for your Lambda functions.
+
+Use environment variables to apply configuration changes, such
+as test and production environment configurations, without changing your
+Lambda function source code.
+
+---
+
+##### `environmentEncryption`<sup>Optional</sup> <a name="environmentEncryption" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.environmentEncryption"></a>
+
+```typescript
+public readonly environmentEncryption: IKey;
+```
+
+- *Type:* aws-cdk-lib.aws_kms.IKey
+- *Default:* AWS Lambda creates and uses an AWS managed customer master key (CMK).
+
+The AWS KMS key that's used to encrypt your function's environment variables.
+
+---
+
+##### `ephemeralStorageSize`<sup>Optional</sup> <a name="ephemeralStorageSize" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.ephemeralStorageSize"></a>
+
+```typescript
+public readonly ephemeralStorageSize: Size;
+```
+
+- *Type:* aws-cdk-lib.Size
+- *Default:* 512 MiB
+
+The size of the function’s /tmp directory in MiB.
+
+---
+
+##### `events`<sup>Optional</sup> <a name="events" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.events"></a>
+
+```typescript
+public readonly events: IEventSource[];
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.IEventSource[]
+- *Default:* No event sources.
+
+Event sources for this function.
+
+You can also add event sources using `addEventSource`.
+
+---
+
+##### `filesystem`<sup>Optional</sup> <a name="filesystem" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.filesystem"></a>
+
+```typescript
+public readonly filesystem: FileSystem;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.FileSystem
+- *Default:* will not mount any filesystem
+
+The filesystem configuration for the lambda function.
+
+---
+
+##### `functionName`<sup>Optional</sup> <a name="functionName" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.functionName"></a>
+
+```typescript
+public readonly functionName: string;
+```
+
+- *Type:* string
+- *Default:* AWS CloudFormation generates a unique physical ID and uses that ID for the function's name. For more information, see Name Type.
+
+A name for the function.
+
+---
+
+##### `initialPolicy`<sup>Optional</sup> <a name="initialPolicy" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.initialPolicy"></a>
+
+```typescript
+public readonly initialPolicy: PolicyStatement[];
+```
+
+- *Type:* aws-cdk-lib.aws_iam.PolicyStatement[]
+- *Default:* No policy statements are added to the created Lambda role.
+
+Initial policy statements to add to the created Lambda Role.
+
+You can call `addToRolePolicy` to the created lambda to add statements post creation.
+
+---
+
+##### `insightsVersion`<sup>Optional</sup> <a name="insightsVersion" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.insightsVersion"></a>
+
+```typescript
+public readonly insightsVersion: LambdaInsightsVersion;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.LambdaInsightsVersion
+- *Default:* No Lambda Insights
+
+Specify the version of CloudWatch Lambda insights to use for monitoring.
+
+> [https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Lambda-Insights-Getting-Started-docker.html](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Lambda-Insights-Getting-Started-docker.html)
+
+---
+
+##### `layers`<sup>Optional</sup> <a name="layers" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.layers"></a>
+
+```typescript
+public readonly layers: ILayerVersion[];
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.ILayerVersion[]
+- *Default:* No layers.
+
+A list of layers to add to the function's execution environment.
+
+You can configure your Lambda function to pull in
+additional code during initialization in the form of layers. Layers are packages of libraries or other dependencies
+that can be used by multiple functions.
+
+---
+
+##### `logRetention`<sup>Optional</sup> <a name="logRetention" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.logRetention"></a>
+
+```typescript
+public readonly logRetention: RetentionDays;
+```
+
+- *Type:* aws-cdk-lib.aws_logs.RetentionDays
+- *Default:* logs.RetentionDays.INFINITE
+
+The number of days log events are kept in CloudWatch Logs.
+
+When updating
+this property, unsetting it doesn't remove the log retention policy. To
+remove the retention policy, set the value to `INFINITE`.
+
+---
+
+##### `logRetentionRetryOptions`<sup>Optional</sup> <a name="logRetentionRetryOptions" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.logRetentionRetryOptions"></a>
+
+```typescript
+public readonly logRetentionRetryOptions: LogRetentionRetryOptions;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.LogRetentionRetryOptions
+- *Default:* Default AWS SDK retry options.
+
+When log retention is specified, a custom resource attempts to create the CloudWatch log group.
+
+These options control the retry policy when interacting with CloudWatch APIs.
+
+---
+
+##### `logRetentionRole`<sup>Optional</sup> <a name="logRetentionRole" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.logRetentionRole"></a>
+
+```typescript
+public readonly logRetentionRole: IRole;
+```
+
+- *Type:* aws-cdk-lib.aws_iam.IRole
+- *Default:* A new role is created.
+
+The IAM role for the Lambda function associated with the custom resource that sets the retention policy.
+
+---
+
+##### `memorySize`<sup>Optional</sup> <a name="memorySize" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.memorySize"></a>
+
+```typescript
+public readonly memorySize: number;
+```
+
+- *Type:* number
+- *Default:* 128
+
+The amount of memory, in MB, that is allocated to your Lambda function.
+
+Lambda uses this value to proportionally allocate the amount of CPU
+power. For more information, see Resource Model in the AWS Lambda
+Developer Guide.
+
+---
+
+##### `profiling`<sup>Optional</sup> <a name="profiling" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.profiling"></a>
+
+```typescript
+public readonly profiling: boolean;
+```
+
+- *Type:* boolean
+- *Default:* No profiling.
+
+Enable profiling.
+
+> [https://docs.aws.amazon.com/codeguru/latest/profiler-ug/setting-up-lambda.html](https://docs.aws.amazon.com/codeguru/latest/profiler-ug/setting-up-lambda.html)
+
+---
+
+##### `profilingGroup`<sup>Optional</sup> <a name="profilingGroup" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.profilingGroup"></a>
+
+```typescript
+public readonly profilingGroup: IProfilingGroup;
+```
+
+- *Type:* aws-cdk-lib.aws_codeguruprofiler.IProfilingGroup
+- *Default:* A new profiling group will be created if `profiling` is set.
+
+Profiling Group.
+
+> [https://docs.aws.amazon.com/codeguru/latest/profiler-ug/setting-up-lambda.html](https://docs.aws.amazon.com/codeguru/latest/profiler-ug/setting-up-lambda.html)
+
+---
+
+##### `reservedConcurrentExecutions`<sup>Optional</sup> <a name="reservedConcurrentExecutions" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.reservedConcurrentExecutions"></a>
+
+```typescript
+public readonly reservedConcurrentExecutions: number;
+```
+
+- *Type:* number
+- *Default:* No specific limit - account limit.
+
+The maximum of concurrent executions you want to reserve for the function.
+
+> [https://docs.aws.amazon.com/lambda/latest/dg/concurrent-executions.html](https://docs.aws.amazon.com/lambda/latest/dg/concurrent-executions.html)
+
+---
+
+##### `role`<sup>Optional</sup> <a name="role" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.role"></a>
+
+```typescript
+public readonly role: IRole;
+```
+
+- *Type:* aws-cdk-lib.aws_iam.IRole
+- *Default:* A unique role will be generated for this lambda function. Both supplied and generated roles can always be changed by calling `addToRolePolicy`.
+
+Lambda execution role.
+
+This is the role that will be assumed by the function upon execution.
+It controls the permissions that the function will have. The Role must
+be assumable by the 'lambda.amazonaws.com' service principal.
+
+The default Role automatically has permissions granted for Lambda execution. If you
+provide a Role, you must add the relevant AWS managed policies yourself.
+
+The relevant managed policies are "service-role/AWSLambdaBasicExecutionRole" and
+"service-role/AWSLambdaVPCAccessExecutionRole".
+
+---
+
+##### `securityGroups`<sup>Optional</sup> <a name="securityGroups" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.securityGroups"></a>
+
+```typescript
+public readonly securityGroups: ISecurityGroup[];
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.ISecurityGroup[]
+- *Default:* If the function is placed within a VPC and a security group is not specified, either by this or securityGroup prop, a dedicated security group will be created for this function.
+
+The list of security groups to associate with the Lambda's network interfaces.
+
+Only used if 'vpc' is supplied.
+
+---
+
+##### `timeout`<sup>Optional</sup> <a name="timeout" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.timeout"></a>
+
+```typescript
+public readonly timeout: Duration;
+```
+
+- *Type:* aws-cdk-lib.Duration
+- *Default:* Duration.seconds(3)
+
+The function execution time (in seconds) after which Lambda terminates the function.
+
+Because the execution time affects cost, set this value
+based on the function's expected execution time.
+
+---
+
+##### `tracing`<sup>Optional</sup> <a name="tracing" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.tracing"></a>
+
+```typescript
+public readonly tracing: Tracing;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Tracing
+- *Default:* Tracing.Disabled
+
+Enable AWS X-Ray Tracing for Lambda Function.
+
+---
+
+##### `vpc`<sup>Optional</sup> <a name="vpc" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.vpc"></a>
+
+```typescript
+public readonly vpc: IVpc;
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.IVpc
+- *Default:* Function is not placed within a VPC.
+
+VPC network to place Lambda network interfaces.
+
+Specify this if the Lambda function needs to access resources in a VPC.
+
+---
+
+##### `vpcSubnets`<sup>Optional</sup> <a name="vpcSubnets" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.vpcSubnets"></a>
+
+```typescript
+public readonly vpcSubnets: SubnetSelection;
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.SubnetSelection
+- *Default:* the Vpc default strategy if not specified
+
+Where to place the network interfaces within the VPC.
+
+Only used if 'vpc' is supplied. Note: internet access for Lambdas
+requires a NAT gateway, so picking Public subnets is not allowed.
+
+---
+
+##### `entry`<sup>Required</sup> <a name="entry" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.entry"></a>
+
+```typescript
+public readonly entry: string;
+```
+
+- *Type:* string
+
+The path to the folder or file that contains the main application entry point files for the project.
+
+This accepts either a path to a directory or file.
+
+If a directory path is provided then it will assume there is a Go entry file (i.e. `main.go`) and
+will construct the build command using the directory path.
+
+For example, if you provide the entry as:
+
+     entry: 'my-lambda-app/cmd/api'
+
+Then the `go build` command would be:
+
+     `go build ./cmd/api`
+
+If a path to a file is provided then it will use the filepath in the build command.
+
+For example, if you provide the entry as:
+
+     entry: 'my-lambda-app/cmd/api/main.go'
+
+Then the `go build` command would be:
+
+     `go build ./cmd/api/main.go`
+
+---
+
+##### `bundling`<sup>Optional</sup> <a name="bundling" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.bundling"></a>
+
+```typescript
+public readonly bundling: BundlingOptions;
+```
+
+- *Type:* @aws-cdk/aws-lambda-go-alpha.BundlingOptions
+- *Default:* use default bundling options
+
+Bundling options.
+
+---
+
+##### `moduleDir`<sup>Optional</sup> <a name="moduleDir" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.moduleDir"></a>
+
+```typescript
+public readonly moduleDir: string;
+```
+
+- *Type:* string
+- *Default:* the path is found by walking up parent directories searching for a `go.mod` file from the location of `entry`
+
+Directory containing your go.mod file.
+
+This will accept either a directory path containing a `go.mod` file
+or a filepath to your `go.mod` file (i.e. `path/to/go.mod`).
+
+This will be used as the source of the volume mounted in the Docker
+container and will be the directory where it will run `go build` from.
+
+---
+
+##### `runtime`<sup>Optional</sup> <a name="runtime" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.runtime"></a>
+
+```typescript
+public readonly runtime: Runtime;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Runtime
+- *Default:* lambda.Runtime.PROVIDED_AL2
+
+The runtime environment.
+
+Only runtimes of the Golang family and provided family are supported.
+
+---
+
+##### `addToAlarmDashboard`<sup>Optional</sup> <a name="addToAlarmDashboard" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.addToAlarmDashboard"></a>
+
+```typescript
+public readonly addToAlarmDashboard: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Add widgets to alarm dashboard.
+
+---
+
+##### `addToDetailDashboard`<sup>Optional</sup> <a name="addToDetailDashboard" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.addToDetailDashboard"></a>
+
+```typescript
+public readonly addToDetailDashboard: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Add widgets to detailed dashboard.
+
+---
+
+##### `addToSummaryDashboard`<sup>Optional</sup> <a name="addToSummaryDashboard" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.addToSummaryDashboard"></a>
+
+```typescript
+public readonly addToSummaryDashboard: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Add widgets to summary dashboard.
+
+---
+
+##### `alarmNamePrefix`<sup>Optional</sup> <a name="alarmNamePrefix" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.alarmNamePrefix"></a>
+
+```typescript
+public readonly alarmNamePrefix: string;
+```
+
+- *Type:* string
+- *Default:* Stack.of(this).stackName
+
+Prefix for generated alarms.
+
+---
+
+##### `criticalAlarmOptions`<sup>Optional</sup> <a name="criticalAlarmOptions" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.criticalAlarmOptions"></a>
+
+```typescript
+public readonly criticalAlarmOptions: AlarmsCategoryOptions;
+```
+
+- *Type:* truemark-cdk-lib.aws_monitoring.AlarmsCategoryOptions
+
+Alarm thresholds for critical alarms.
+
+If no properties are provided, a set of default alarms are created.
+
+---
+
+##### `dashboardFactory`<sup>Optional</sup> <a name="dashboardFactory" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.dashboardFactory"></a>
+
+```typescript
+public readonly dashboardFactory: IDashboardFactory;
+```
+
+- *Type:* cdk-monitoring-constructs.IDashboardFactory
+
+The DashboardFactory to use when generating CloudWatch dashboards.
+
+If not defined, dashboards are not generated.
+
+---
+
+##### `monitoringFacade`<sup>Optional</sup> <a name="monitoringFacade" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.monitoringFacade"></a>
+
+```typescript
+public readonly monitoringFacade: MonitoringFacade;
+```
+
+- *Type:* cdk-monitoring-constructs.MonitoringFacade
+
+Main entry point for monitoring.
+
+If no value is provided, a default facade will be created.
+
+---
+
+##### `warningAlarmOptions`<sup>Optional</sup> <a name="warningAlarmOptions" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.warningAlarmOptions"></a>
+
+```typescript
+public readonly warningAlarmOptions: AlarmsCategoryOptions;
+```
+
+- *Type:* truemark-cdk-lib.aws_monitoring.AlarmsCategoryOptions
+
+Alarm thresholds for warning alarms.
+
+If no properties are provided, a set of default alarms are created.
+
+---
+
+##### `lambdaInsightsEnabled`<sup>Optional</sup> <a name="lambdaInsightsEnabled" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.lambdaInsightsEnabled"></a>
+
+```typescript
+public readonly lambdaInsightsEnabled: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Generate dashboard charts for Lambda insights metrics.
+
+---
+
+##### `deploymentOptions`<sup>Optional</sup> <a name="deploymentOptions" id="truemark-cdk-lib.aws_lambda.GoFunctionAlphaProps.property.deploymentOptions"></a>
+
+```typescript
+public readonly deploymentOptions: DeployedFunctionDeploymentOptions;
+```
+
+- *Type:* truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions
+
+The deployment configuration settings to use.
+
+If none are provided a default set is used.
+
+---
+
 ### LatencyARecordProps <a name="LatencyARecordProps" id="truemark-cdk-lib.aws_route53.LatencyARecordProps"></a>
 
 Properties for LatencyARecord.
@@ -7701,6 +20667,1200 @@ public readonly alarmName: string;
 - *Default:* Automatically generated name
 
 Name of the alarm.
+
+---
+
+### NodeJSFunctionProps <a name="NodeJSFunctionProps" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps"></a>
+
+Properties for NodejsFunction.
+
+#### Initializer <a name="Initializer" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.Initializer"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+const nodeJSFunctionProps: aws_lambda.NodeJSFunctionProps = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.maxEventAge">maxEventAge</a></code> | <code>aws-cdk-lib.Duration</code> | The maximum age of a request that Lambda sends to a function for processing. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.onFailure">onFailure</a></code> | <code>aws-cdk-lib.aws_lambda.IDestination</code> | The destination for failed invocations. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.onSuccess">onSuccess</a></code> | <code>aws-cdk-lib.aws_lambda.IDestination</code> | The destination for successful invocations. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.retryAttempts">retryAttempts</a></code> | <code>number</code> | The maximum number of times to retry when the function returns an error. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.allowAllOutbound">allowAllOutbound</a></code> | <code>boolean</code> | Whether to allow the Lambda to send all network traffic. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.allowPublicSubnet">allowPublicSubnet</a></code> | <code>boolean</code> | Lambda Functions in a public subnet can NOT access the internet. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.architecture">architecture</a></code> | <code>aws-cdk-lib.aws_lambda.Architecture</code> | The system architectures compatible with this lambda function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.codeSigningConfig">codeSigningConfig</a></code> | <code>aws-cdk-lib.aws_lambda.ICodeSigningConfig</code> | Code signing config associated with this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.currentVersionOptions">currentVersionOptions</a></code> | <code>aws-cdk-lib.aws_lambda.VersionOptions</code> | Options for the `lambda.Version` resource automatically created by the `fn.currentVersion` method. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.deadLetterQueue">deadLetterQueue</a></code> | <code>aws-cdk-lib.aws_sqs.IQueue</code> | The SQS queue to use if DLQ is enabled. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.deadLetterQueueEnabled">deadLetterQueueEnabled</a></code> | <code>boolean</code> | Enabled DLQ. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.deadLetterTopic">deadLetterTopic</a></code> | <code>aws-cdk-lib.aws_sns.ITopic</code> | The SNS topic to use as a DLQ. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.description">description</a></code> | <code>string</code> | A description of the function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.environment">environment</a></code> | <code>{[ key: string ]: string}</code> | Key-value pairs that Lambda caches and makes available for your Lambda functions. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.environmentEncryption">environmentEncryption</a></code> | <code>aws-cdk-lib.aws_kms.IKey</code> | The AWS KMS key that's used to encrypt your function's environment variables. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.ephemeralStorageSize">ephemeralStorageSize</a></code> | <code>aws-cdk-lib.Size</code> | The size of the function’s /tmp directory in MiB. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.events">events</a></code> | <code>aws-cdk-lib.aws_lambda.IEventSource[]</code> | Event sources for this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.filesystem">filesystem</a></code> | <code>aws-cdk-lib.aws_lambda.FileSystem</code> | The filesystem configuration for the lambda function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.functionName">functionName</a></code> | <code>string</code> | A name for the function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.initialPolicy">initialPolicy</a></code> | <code>aws-cdk-lib.aws_iam.PolicyStatement[]</code> | Initial policy statements to add to the created Lambda Role. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.insightsVersion">insightsVersion</a></code> | <code>aws-cdk-lib.aws_lambda.LambdaInsightsVersion</code> | Specify the version of CloudWatch Lambda insights to use for monitoring. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.layers">layers</a></code> | <code>aws-cdk-lib.aws_lambda.ILayerVersion[]</code> | A list of layers to add to the function's execution environment. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.logRetention">logRetention</a></code> | <code>aws-cdk-lib.aws_logs.RetentionDays</code> | The number of days log events are kept in CloudWatch Logs. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.logRetentionRetryOptions">logRetentionRetryOptions</a></code> | <code>aws-cdk-lib.aws_lambda.LogRetentionRetryOptions</code> | When log retention is specified, a custom resource attempts to create the CloudWatch log group. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.logRetentionRole">logRetentionRole</a></code> | <code>aws-cdk-lib.aws_iam.IRole</code> | The IAM role for the Lambda function associated with the custom resource that sets the retention policy. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.memorySize">memorySize</a></code> | <code>number</code> | The amount of memory, in MB, that is allocated to your Lambda function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.profiling">profiling</a></code> | <code>boolean</code> | Enable profiling. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.profilingGroup">profilingGroup</a></code> | <code>aws-cdk-lib.aws_codeguruprofiler.IProfilingGroup</code> | Profiling Group. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.reservedConcurrentExecutions">reservedConcurrentExecutions</a></code> | <code>number</code> | The maximum of concurrent executions you want to reserve for the function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.role">role</a></code> | <code>aws-cdk-lib.aws_iam.IRole</code> | Lambda execution role. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.securityGroups">securityGroups</a></code> | <code>aws-cdk-lib.aws_ec2.ISecurityGroup[]</code> | The list of security groups to associate with the Lambda's network interfaces. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.timeout">timeout</a></code> | <code>aws-cdk-lib.Duration</code> | The function execution time (in seconds) after which Lambda terminates the function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.tracing">tracing</a></code> | <code>aws-cdk-lib.aws_lambda.Tracing</code> | Enable AWS X-Ray Tracing for Lambda Function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.vpc">vpc</a></code> | <code>aws-cdk-lib.aws_ec2.IVpc</code> | VPC network to place Lambda network interfaces. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.vpcSubnets">vpcSubnets</a></code> | <code>aws-cdk-lib.aws_ec2.SubnetSelection</code> | Where to place the network interfaces within the VPC. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.awsSdkConnectionReuse">awsSdkConnectionReuse</a></code> | <code>boolean</code> | Whether to automatically reuse TCP connections when working with the AWS SDK for JavaScript. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.bundling">bundling</a></code> | <code>aws-cdk-lib.aws_lambda_nodejs.BundlingOptions</code> | Bundling options. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.depsLockFilePath">depsLockFilePath</a></code> | <code>string</code> | The path to the dependencies lock file (`yarn.lock` or `package-lock.json`). |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.entry">entry</a></code> | <code>string</code> | Path to the entry file (JavaScript or TypeScript). |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.handler">handler</a></code> | <code>string</code> | The name of the exported handler in the entry file. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.projectRoot">projectRoot</a></code> | <code>string</code> | The path to the directory containing project config files (`package.json` or `tsconfig.json`). |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.runtime">runtime</a></code> | <code>aws-cdk-lib.aws_lambda.Runtime</code> | The runtime environment. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.addToAlarmDashboard">addToAlarmDashboard</a></code> | <code>boolean</code> | Add widgets to alarm dashboard. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.addToDetailDashboard">addToDetailDashboard</a></code> | <code>boolean</code> | Add widgets to detailed dashboard. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.addToSummaryDashboard">addToSummaryDashboard</a></code> | <code>boolean</code> | Add widgets to summary dashboard. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.alarmNamePrefix">alarmNamePrefix</a></code> | <code>string</code> | Prefix for generated alarms. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.criticalAlarmOptions">criticalAlarmOptions</a></code> | <code>truemark-cdk-lib.aws_monitoring.AlarmsCategoryOptions</code> | Alarm thresholds for critical alarms. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.dashboardFactory">dashboardFactory</a></code> | <code>cdk-monitoring-constructs.IDashboardFactory</code> | The DashboardFactory to use when generating CloudWatch dashboards. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.monitoringFacade">monitoringFacade</a></code> | <code>cdk-monitoring-constructs.MonitoringFacade</code> | Main entry point for monitoring. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.warningAlarmOptions">warningAlarmOptions</a></code> | <code>truemark-cdk-lib.aws_monitoring.AlarmsCategoryOptions</code> | Alarm thresholds for warning alarms. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.lambdaInsightsEnabled">lambdaInsightsEnabled</a></code> | <code>boolean</code> | Generate dashboard charts for Lambda insights metrics. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.deploymentOptions">deploymentOptions</a></code> | <code>truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions</code> | The deployment configuration settings to use. |
+
+---
+
+##### `maxEventAge`<sup>Optional</sup> <a name="maxEventAge" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.maxEventAge"></a>
+
+```typescript
+public readonly maxEventAge: Duration;
+```
+
+- *Type:* aws-cdk-lib.Duration
+- *Default:* Duration.hours(6)
+
+The maximum age of a request that Lambda sends to a function for processing.
+
+Minimum: 60 seconds
+Maximum: 6 hours
+
+---
+
+##### `onFailure`<sup>Optional</sup> <a name="onFailure" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.onFailure"></a>
+
+```typescript
+public readonly onFailure: IDestination;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.IDestination
+- *Default:* no destination
+
+The destination for failed invocations.
+
+---
+
+##### `onSuccess`<sup>Optional</sup> <a name="onSuccess" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.onSuccess"></a>
+
+```typescript
+public readonly onSuccess: IDestination;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.IDestination
+- *Default:* no destination
+
+The destination for successful invocations.
+
+---
+
+##### `retryAttempts`<sup>Optional</sup> <a name="retryAttempts" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.retryAttempts"></a>
+
+```typescript
+public readonly retryAttempts: number;
+```
+
+- *Type:* number
+- *Default:* 2
+
+The maximum number of times to retry when the function returns an error.
+
+Minimum: 0
+Maximum: 2
+
+---
+
+##### `allowAllOutbound`<sup>Optional</sup> <a name="allowAllOutbound" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.allowAllOutbound"></a>
+
+```typescript
+public readonly allowAllOutbound: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Whether to allow the Lambda to send all network traffic.
+
+If set to false, you must individually add traffic rules to allow the
+Lambda to connect to network targets.
+
+---
+
+##### `allowPublicSubnet`<sup>Optional</sup> <a name="allowPublicSubnet" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.allowPublicSubnet"></a>
+
+```typescript
+public readonly allowPublicSubnet: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false
+
+Lambda Functions in a public subnet can NOT access the internet.
+
+Use this property to acknowledge this limitation and still place the function in a public subnet.
+
+> [https://stackoverflow.com/questions/52992085/why-cant-an-aws-lambda-function-inside-a-public-subnet-in-a-vpc-connect-to-the/52994841#52994841](https://stackoverflow.com/questions/52992085/why-cant-an-aws-lambda-function-inside-a-public-subnet-in-a-vpc-connect-to-the/52994841#52994841)
+
+---
+
+##### `architecture`<sup>Optional</sup> <a name="architecture" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.architecture"></a>
+
+```typescript
+public readonly architecture: Architecture;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Architecture
+- *Default:* Architecture.X86_64
+
+The system architectures compatible with this lambda function.
+
+---
+
+##### `codeSigningConfig`<sup>Optional</sup> <a name="codeSigningConfig" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.codeSigningConfig"></a>
+
+```typescript
+public readonly codeSigningConfig: ICodeSigningConfig;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.ICodeSigningConfig
+- *Default:* Not Sign the Code
+
+Code signing config associated with this function.
+
+---
+
+##### `currentVersionOptions`<sup>Optional</sup> <a name="currentVersionOptions" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.currentVersionOptions"></a>
+
+```typescript
+public readonly currentVersionOptions: VersionOptions;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.VersionOptions
+- *Default:* default options as described in `VersionOptions`
+
+Options for the `lambda.Version` resource automatically created by the `fn.currentVersion` method.
+
+---
+
+##### `deadLetterQueue`<sup>Optional</sup> <a name="deadLetterQueue" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.deadLetterQueue"></a>
+
+```typescript
+public readonly deadLetterQueue: IQueue;
+```
+
+- *Type:* aws-cdk-lib.aws_sqs.IQueue
+- *Default:* SQS queue with 14 day retention period if `deadLetterQueueEnabled` is `true`
+
+The SQS queue to use if DLQ is enabled.
+
+If SNS topic is desired, specify `deadLetterTopic` property instead.
+
+---
+
+##### `deadLetterQueueEnabled`<sup>Optional</sup> <a name="deadLetterQueueEnabled" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.deadLetterQueueEnabled"></a>
+
+```typescript
+public readonly deadLetterQueueEnabled: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false unless `deadLetterQueue` is set, which implies DLQ is enabled.
+
+Enabled DLQ.
+
+If `deadLetterQueue` is undefined,
+an SQS queue with default options will be defined for your Function.
+
+---
+
+##### `deadLetterTopic`<sup>Optional</sup> <a name="deadLetterTopic" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.deadLetterTopic"></a>
+
+```typescript
+public readonly deadLetterTopic: ITopic;
+```
+
+- *Type:* aws-cdk-lib.aws_sns.ITopic
+- *Default:* no SNS topic
+
+The SNS topic to use as a DLQ.
+
+Note that if `deadLetterQueueEnabled` is set to `true`, an SQS queue will be created
+rather than an SNS topic. Using an SNS topic as a DLQ requires this property to be set explicitly.
+
+---
+
+##### `description`<sup>Optional</sup> <a name="description" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.description"></a>
+
+```typescript
+public readonly description: string;
+```
+
+- *Type:* string
+- *Default:* No description.
+
+A description of the function.
+
+---
+
+##### `environment`<sup>Optional</sup> <a name="environment" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.environment"></a>
+
+```typescript
+public readonly environment: {[ key: string ]: string};
+```
+
+- *Type:* {[ key: string ]: string}
+- *Default:* No environment variables.
+
+Key-value pairs that Lambda caches and makes available for your Lambda functions.
+
+Use environment variables to apply configuration changes, such
+as test and production environment configurations, without changing your
+Lambda function source code.
+
+---
+
+##### `environmentEncryption`<sup>Optional</sup> <a name="environmentEncryption" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.environmentEncryption"></a>
+
+```typescript
+public readonly environmentEncryption: IKey;
+```
+
+- *Type:* aws-cdk-lib.aws_kms.IKey
+- *Default:* AWS Lambda creates and uses an AWS managed customer master key (CMK).
+
+The AWS KMS key that's used to encrypt your function's environment variables.
+
+---
+
+##### `ephemeralStorageSize`<sup>Optional</sup> <a name="ephemeralStorageSize" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.ephemeralStorageSize"></a>
+
+```typescript
+public readonly ephemeralStorageSize: Size;
+```
+
+- *Type:* aws-cdk-lib.Size
+- *Default:* 512 MiB
+
+The size of the function’s /tmp directory in MiB.
+
+---
+
+##### `events`<sup>Optional</sup> <a name="events" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.events"></a>
+
+```typescript
+public readonly events: IEventSource[];
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.IEventSource[]
+- *Default:* No event sources.
+
+Event sources for this function.
+
+You can also add event sources using `addEventSource`.
+
+---
+
+##### `filesystem`<sup>Optional</sup> <a name="filesystem" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.filesystem"></a>
+
+```typescript
+public readonly filesystem: FileSystem;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.FileSystem
+- *Default:* will not mount any filesystem
+
+The filesystem configuration for the lambda function.
+
+---
+
+##### `functionName`<sup>Optional</sup> <a name="functionName" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.functionName"></a>
+
+```typescript
+public readonly functionName: string;
+```
+
+- *Type:* string
+- *Default:* AWS CloudFormation generates a unique physical ID and uses that ID for the function's name. For more information, see Name Type.
+
+A name for the function.
+
+---
+
+##### `initialPolicy`<sup>Optional</sup> <a name="initialPolicy" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.initialPolicy"></a>
+
+```typescript
+public readonly initialPolicy: PolicyStatement[];
+```
+
+- *Type:* aws-cdk-lib.aws_iam.PolicyStatement[]
+- *Default:* No policy statements are added to the created Lambda role.
+
+Initial policy statements to add to the created Lambda Role.
+
+You can call `addToRolePolicy` to the created lambda to add statements post creation.
+
+---
+
+##### `insightsVersion`<sup>Optional</sup> <a name="insightsVersion" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.insightsVersion"></a>
+
+```typescript
+public readonly insightsVersion: LambdaInsightsVersion;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.LambdaInsightsVersion
+- *Default:* No Lambda Insights
+
+Specify the version of CloudWatch Lambda insights to use for monitoring.
+
+> [https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Lambda-Insights-Getting-Started-docker.html](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Lambda-Insights-Getting-Started-docker.html)
+
+---
+
+##### `layers`<sup>Optional</sup> <a name="layers" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.layers"></a>
+
+```typescript
+public readonly layers: ILayerVersion[];
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.ILayerVersion[]
+- *Default:* No layers.
+
+A list of layers to add to the function's execution environment.
+
+You can configure your Lambda function to pull in
+additional code during initialization in the form of layers. Layers are packages of libraries or other dependencies
+that can be used by multiple functions.
+
+---
+
+##### `logRetention`<sup>Optional</sup> <a name="logRetention" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.logRetention"></a>
+
+```typescript
+public readonly logRetention: RetentionDays;
+```
+
+- *Type:* aws-cdk-lib.aws_logs.RetentionDays
+- *Default:* logs.RetentionDays.INFINITE
+
+The number of days log events are kept in CloudWatch Logs.
+
+When updating
+this property, unsetting it doesn't remove the log retention policy. To
+remove the retention policy, set the value to `INFINITE`.
+
+---
+
+##### `logRetentionRetryOptions`<sup>Optional</sup> <a name="logRetentionRetryOptions" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.logRetentionRetryOptions"></a>
+
+```typescript
+public readonly logRetentionRetryOptions: LogRetentionRetryOptions;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.LogRetentionRetryOptions
+- *Default:* Default AWS SDK retry options.
+
+When log retention is specified, a custom resource attempts to create the CloudWatch log group.
+
+These options control the retry policy when interacting with CloudWatch APIs.
+
+---
+
+##### `logRetentionRole`<sup>Optional</sup> <a name="logRetentionRole" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.logRetentionRole"></a>
+
+```typescript
+public readonly logRetentionRole: IRole;
+```
+
+- *Type:* aws-cdk-lib.aws_iam.IRole
+- *Default:* A new role is created.
+
+The IAM role for the Lambda function associated with the custom resource that sets the retention policy.
+
+---
+
+##### `memorySize`<sup>Optional</sup> <a name="memorySize" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.memorySize"></a>
+
+```typescript
+public readonly memorySize: number;
+```
+
+- *Type:* number
+- *Default:* 128
+
+The amount of memory, in MB, that is allocated to your Lambda function.
+
+Lambda uses this value to proportionally allocate the amount of CPU
+power. For more information, see Resource Model in the AWS Lambda
+Developer Guide.
+
+---
+
+##### `profiling`<sup>Optional</sup> <a name="profiling" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.profiling"></a>
+
+```typescript
+public readonly profiling: boolean;
+```
+
+- *Type:* boolean
+- *Default:* No profiling.
+
+Enable profiling.
+
+> [https://docs.aws.amazon.com/codeguru/latest/profiler-ug/setting-up-lambda.html](https://docs.aws.amazon.com/codeguru/latest/profiler-ug/setting-up-lambda.html)
+
+---
+
+##### `profilingGroup`<sup>Optional</sup> <a name="profilingGroup" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.profilingGroup"></a>
+
+```typescript
+public readonly profilingGroup: IProfilingGroup;
+```
+
+- *Type:* aws-cdk-lib.aws_codeguruprofiler.IProfilingGroup
+- *Default:* A new profiling group will be created if `profiling` is set.
+
+Profiling Group.
+
+> [https://docs.aws.amazon.com/codeguru/latest/profiler-ug/setting-up-lambda.html](https://docs.aws.amazon.com/codeguru/latest/profiler-ug/setting-up-lambda.html)
+
+---
+
+##### `reservedConcurrentExecutions`<sup>Optional</sup> <a name="reservedConcurrentExecutions" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.reservedConcurrentExecutions"></a>
+
+```typescript
+public readonly reservedConcurrentExecutions: number;
+```
+
+- *Type:* number
+- *Default:* No specific limit - account limit.
+
+The maximum of concurrent executions you want to reserve for the function.
+
+> [https://docs.aws.amazon.com/lambda/latest/dg/concurrent-executions.html](https://docs.aws.amazon.com/lambda/latest/dg/concurrent-executions.html)
+
+---
+
+##### `role`<sup>Optional</sup> <a name="role" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.role"></a>
+
+```typescript
+public readonly role: IRole;
+```
+
+- *Type:* aws-cdk-lib.aws_iam.IRole
+- *Default:* A unique role will be generated for this lambda function. Both supplied and generated roles can always be changed by calling `addToRolePolicy`.
+
+Lambda execution role.
+
+This is the role that will be assumed by the function upon execution.
+It controls the permissions that the function will have. The Role must
+be assumable by the 'lambda.amazonaws.com' service principal.
+
+The default Role automatically has permissions granted for Lambda execution. If you
+provide a Role, you must add the relevant AWS managed policies yourself.
+
+The relevant managed policies are "service-role/AWSLambdaBasicExecutionRole" and
+"service-role/AWSLambdaVPCAccessExecutionRole".
+
+---
+
+##### `securityGroups`<sup>Optional</sup> <a name="securityGroups" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.securityGroups"></a>
+
+```typescript
+public readonly securityGroups: ISecurityGroup[];
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.ISecurityGroup[]
+- *Default:* If the function is placed within a VPC and a security group is not specified, either by this or securityGroup prop, a dedicated security group will be created for this function.
+
+The list of security groups to associate with the Lambda's network interfaces.
+
+Only used if 'vpc' is supplied.
+
+---
+
+##### `timeout`<sup>Optional</sup> <a name="timeout" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.timeout"></a>
+
+```typescript
+public readonly timeout: Duration;
+```
+
+- *Type:* aws-cdk-lib.Duration
+- *Default:* Duration.seconds(3)
+
+The function execution time (in seconds) after which Lambda terminates the function.
+
+Because the execution time affects cost, set this value
+based on the function's expected execution time.
+
+---
+
+##### `tracing`<sup>Optional</sup> <a name="tracing" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.tracing"></a>
+
+```typescript
+public readonly tracing: Tracing;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Tracing
+- *Default:* Tracing.Disabled
+
+Enable AWS X-Ray Tracing for Lambda Function.
+
+---
+
+##### `vpc`<sup>Optional</sup> <a name="vpc" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.vpc"></a>
+
+```typescript
+public readonly vpc: IVpc;
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.IVpc
+- *Default:* Function is not placed within a VPC.
+
+VPC network to place Lambda network interfaces.
+
+Specify this if the Lambda function needs to access resources in a VPC.
+
+---
+
+##### `vpcSubnets`<sup>Optional</sup> <a name="vpcSubnets" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.vpcSubnets"></a>
+
+```typescript
+public readonly vpcSubnets: SubnetSelection;
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.SubnetSelection
+- *Default:* the Vpc default strategy if not specified
+
+Where to place the network interfaces within the VPC.
+
+Only used if 'vpc' is supplied. Note: internet access for Lambdas
+requires a NAT gateway, so picking Public subnets is not allowed.
+
+---
+
+##### `awsSdkConnectionReuse`<sup>Optional</sup> <a name="awsSdkConnectionReuse" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.awsSdkConnectionReuse"></a>
+
+```typescript
+public readonly awsSdkConnectionReuse: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Whether to automatically reuse TCP connections when working with the AWS SDK for JavaScript.
+
+This sets the `AWS_NODEJS_CONNECTION_REUSE_ENABLED` environment variable
+to `1`.
+
+> [https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/node-reusing-connections.html](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/node-reusing-connections.html)
+
+---
+
+##### `bundling`<sup>Optional</sup> <a name="bundling" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.bundling"></a>
+
+```typescript
+public readonly bundling: BundlingOptions;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda_nodejs.BundlingOptions
+- *Default:* use default bundling options: no minify, no sourcemap, all modules are bundled.
+
+Bundling options.
+
+---
+
+##### `depsLockFilePath`<sup>Optional</sup> <a name="depsLockFilePath" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.depsLockFilePath"></a>
+
+```typescript
+public readonly depsLockFilePath: string;
+```
+
+- *Type:* string
+- *Default:* the path is found by walking up parent directories searching for a `yarn.lock` or `package-lock.json` file
+
+The path to the dependencies lock file (`yarn.lock` or `package-lock.json`).
+
+This will be used as the source for the volume mounted in the Docker
+container.
+
+Modules specified in `nodeModules` will be installed using the right
+installer (`npm` or `yarn`) along with this lock file.
+
+---
+
+##### `entry`<sup>Optional</sup> <a name="entry" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.entry"></a>
+
+```typescript
+public readonly entry: string;
+```
+
+- *Type:* string
+- *Default:* Derived from the name of the defining file and the construct's id. If the `NodejsFunction` is defined in `stack.ts` with `my-handler` as id (`new NodejsFunction(this, 'my-handler')`), the construct will look at `stack.my-handler.ts` and `stack.my-handler.js`.
+
+Path to the entry file (JavaScript or TypeScript).
+
+---
+
+##### `handler`<sup>Optional</sup> <a name="handler" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.handler"></a>
+
+```typescript
+public readonly handler: string;
+```
+
+- *Type:* string
+- *Default:* handler
+
+The name of the exported handler in the entry file.
+
+---
+
+##### `projectRoot`<sup>Optional</sup> <a name="projectRoot" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.projectRoot"></a>
+
+```typescript
+public readonly projectRoot: string;
+```
+
+- *Type:* string
+- *Default:* the directory containing the `depsLockFilePath`
+
+The path to the directory containing project config files (`package.json` or `tsconfig.json`).
+
+---
+
+##### `runtime`<sup>Optional</sup> <a name="runtime" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.runtime"></a>
+
+```typescript
+public readonly runtime: Runtime;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Runtime
+- *Default:* Runtime.NODEJS_14_X
+
+The runtime environment.
+
+Only runtimes of the Node.js family are
+supported.
+
+---
+
+##### `addToAlarmDashboard`<sup>Optional</sup> <a name="addToAlarmDashboard" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.addToAlarmDashboard"></a>
+
+```typescript
+public readonly addToAlarmDashboard: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Add widgets to alarm dashboard.
+
+---
+
+##### `addToDetailDashboard`<sup>Optional</sup> <a name="addToDetailDashboard" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.addToDetailDashboard"></a>
+
+```typescript
+public readonly addToDetailDashboard: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Add widgets to detailed dashboard.
+
+---
+
+##### `addToSummaryDashboard`<sup>Optional</sup> <a name="addToSummaryDashboard" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.addToSummaryDashboard"></a>
+
+```typescript
+public readonly addToSummaryDashboard: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Add widgets to summary dashboard.
+
+---
+
+##### `alarmNamePrefix`<sup>Optional</sup> <a name="alarmNamePrefix" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.alarmNamePrefix"></a>
+
+```typescript
+public readonly alarmNamePrefix: string;
+```
+
+- *Type:* string
+- *Default:* Stack.of(this).stackName
+
+Prefix for generated alarms.
+
+---
+
+##### `criticalAlarmOptions`<sup>Optional</sup> <a name="criticalAlarmOptions" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.criticalAlarmOptions"></a>
+
+```typescript
+public readonly criticalAlarmOptions: AlarmsCategoryOptions;
+```
+
+- *Type:* truemark-cdk-lib.aws_monitoring.AlarmsCategoryOptions
+
+Alarm thresholds for critical alarms.
+
+If no properties are provided, a set of default alarms are created.
+
+---
+
+##### `dashboardFactory`<sup>Optional</sup> <a name="dashboardFactory" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.dashboardFactory"></a>
+
+```typescript
+public readonly dashboardFactory: IDashboardFactory;
+```
+
+- *Type:* cdk-monitoring-constructs.IDashboardFactory
+
+The DashboardFactory to use when generating CloudWatch dashboards.
+
+If not defined, dashboards are not generated.
+
+---
+
+##### `monitoringFacade`<sup>Optional</sup> <a name="monitoringFacade" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.monitoringFacade"></a>
+
+```typescript
+public readonly monitoringFacade: MonitoringFacade;
+```
+
+- *Type:* cdk-monitoring-constructs.MonitoringFacade
+
+Main entry point for monitoring.
+
+If no value is provided, a default facade will be created.
+
+---
+
+##### `warningAlarmOptions`<sup>Optional</sup> <a name="warningAlarmOptions" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.warningAlarmOptions"></a>
+
+```typescript
+public readonly warningAlarmOptions: AlarmsCategoryOptions;
+```
+
+- *Type:* truemark-cdk-lib.aws_monitoring.AlarmsCategoryOptions
+
+Alarm thresholds for warning alarms.
+
+If no properties are provided, a set of default alarms are created.
+
+---
+
+##### `lambdaInsightsEnabled`<sup>Optional</sup> <a name="lambdaInsightsEnabled" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.lambdaInsightsEnabled"></a>
+
+```typescript
+public readonly lambdaInsightsEnabled: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Generate dashboard charts for Lambda insights metrics.
+
+---
+
+##### `deploymentOptions`<sup>Optional</sup> <a name="deploymentOptions" id="truemark-cdk-lib.aws_lambda.NodeJSFunctionProps.property.deploymentOptions"></a>
+
+```typescript
+public readonly deploymentOptions: DeployedFunctionDeploymentOptions;
+```
+
+- *Type:* truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions
+
+The deployment configuration settings to use.
+
+If none are provided a default set is used.
+
+---
+
+### ObservedQueueProps <a name="ObservedQueueProps" id="truemark-cdk-lib.aws_sqs.ObservedQueueProps"></a>
+
+Properties for ObservedQueue.
+
+#### Initializer <a name="Initializer" id="truemark-cdk-lib.aws_sqs.ObservedQueueProps.Initializer"></a>
+
+```typescript
+import { aws_sqs } from 'truemark-cdk-lib'
+
+const observedQueueProps: aws_sqs.ObservedQueueProps = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.contentBasedDeduplication">contentBasedDeduplication</a></code> | <code>boolean</code> | Specifies whether to enable content-based deduplication. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.dataKeyReuse">dataKeyReuse</a></code> | <code>aws-cdk-lib.Duration</code> | The length of time that Amazon SQS reuses a data key before calling KMS again. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.deadLetterQueue">deadLetterQueue</a></code> | <code>aws-cdk-lib.aws_sqs.DeadLetterQueue</code> | Send messages to this queue if they were unsuccessfully dequeued a number of times. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.deduplicationScope">deduplicationScope</a></code> | <code>aws-cdk-lib.aws_sqs.DeduplicationScope</code> | For high throughput for FIFO queues, specifies whether message deduplication occurs at the message group or queue level. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.deliveryDelay">deliveryDelay</a></code> | <code>aws-cdk-lib.Duration</code> | The time in seconds that the delivery of all messages in the queue is delayed. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.encryption">encryption</a></code> | <code>aws-cdk-lib.aws_sqs.QueueEncryption</code> | Whether the contents of the queue are encrypted, and by what type of key. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.encryptionMasterKey">encryptionMasterKey</a></code> | <code>aws-cdk-lib.aws_kms.IKey</code> | External KMS master key to use for queue encryption. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.fifo">fifo</a></code> | <code>boolean</code> | Whether this a first-in-first-out (FIFO) queue. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.fifoThroughputLimit">fifoThroughputLimit</a></code> | <code>aws-cdk-lib.aws_sqs.FifoThroughputLimit</code> | For high throughput for FIFO queues, specifies whether the FIFO queue throughput quota applies to the entire queue or per message group. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.maxMessageSizeBytes">maxMessageSizeBytes</a></code> | <code>number</code> | The limit of how many bytes that a message can contain before Amazon SQS rejects it. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.queueName">queueName</a></code> | <code>string</code> | A name for the queue. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.receiveMessageWaitTime">receiveMessageWaitTime</a></code> | <code>aws-cdk-lib.Duration</code> | Default wait time for ReceiveMessage calls. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.removalPolicy">removalPolicy</a></code> | <code>aws-cdk-lib.RemovalPolicy</code> | Policy to apply when the queue is removed from the stack. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.retentionPeriod">retentionPeriod</a></code> | <code>aws-cdk-lib.Duration</code> | The number of seconds that Amazon SQS retains a message. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.visibilityTimeout">visibilityTimeout</a></code> | <code>aws-cdk-lib.Duration</code> | Timeout of processing a single message. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.alarmNamePrefix">alarmNamePrefix</a></code> | <code>string</code> | Prefix used for generated alarms. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.criticalAlarmProps">criticalAlarmProps</a></code> | <code>truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps</code> | Alarm thresholds for critical alarms. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.dashboardFactory">dashboardFactory</a></code> | <code>cdk-monitoring-constructs.IDashboardFactory</code> | The DashboardFactory to use when generating CloudWatch dashboards. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.monitoringFacade">monitoringFacade</a></code> | <code>cdk-monitoring-constructs.MonitoringFacade</code> | Main entry point for monitoring. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.warningAlarmProps">warningAlarmProps</a></code> | <code>truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps</code> | Alarm threshold for warning alarms. |
+
+---
+
+##### `contentBasedDeduplication`<sup>Optional</sup> <a name="contentBasedDeduplication" id="truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.contentBasedDeduplication"></a>
+
+```typescript
+public readonly contentBasedDeduplication: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false
+
+Specifies whether to enable content-based deduplication.
+
+During the deduplication interval (5 minutes), Amazon SQS treats
+messages that are sent with identical content (excluding attributes) as
+duplicates and delivers only one copy of the message.
+
+If you don't enable content-based deduplication and you want to deduplicate
+messages, provide an explicit deduplication ID in your SendMessage() call.
+
+(Only applies to FIFO queues.)
+
+---
+
+##### `dataKeyReuse`<sup>Optional</sup> <a name="dataKeyReuse" id="truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.dataKeyReuse"></a>
+
+```typescript
+public readonly dataKeyReuse: Duration;
+```
+
+- *Type:* aws-cdk-lib.Duration
+- *Default:* Duration.minutes(5)
+
+The length of time that Amazon SQS reuses a data key before calling KMS again.
+
+The value must be an integer between 60 (1 minute) and 86,400 (24
+hours). The default is 300 (5 minutes).
+
+---
+
+##### `deadLetterQueue`<sup>Optional</sup> <a name="deadLetterQueue" id="truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.deadLetterQueue"></a>
+
+```typescript
+public readonly deadLetterQueue: DeadLetterQueue;
+```
+
+- *Type:* aws-cdk-lib.aws_sqs.DeadLetterQueue
+- *Default:* no dead-letter queue
+
+Send messages to this queue if they were unsuccessfully dequeued a number of times.
+
+---
+
+##### `deduplicationScope`<sup>Optional</sup> <a name="deduplicationScope" id="truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.deduplicationScope"></a>
+
+```typescript
+public readonly deduplicationScope: DeduplicationScope;
+```
+
+- *Type:* aws-cdk-lib.aws_sqs.DeduplicationScope
+- *Default:* DeduplicationScope.QUEUE
+
+For high throughput for FIFO queues, specifies whether message deduplication occurs at the message group or queue level.
+
+(Only applies to FIFO queues.)
+
+---
+
+##### `deliveryDelay`<sup>Optional</sup> <a name="deliveryDelay" id="truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.deliveryDelay"></a>
+
+```typescript
+public readonly deliveryDelay: Duration;
+```
+
+- *Type:* aws-cdk-lib.Duration
+- *Default:* 0
+
+The time in seconds that the delivery of all messages in the queue is delayed.
+
+You can specify an integer value of 0 to 900 (15 minutes). The default
+value is 0.
+
+---
+
+##### `encryption`<sup>Optional</sup> <a name="encryption" id="truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.encryption"></a>
+
+```typescript
+public readonly encryption: QueueEncryption;
+```
+
+- *Type:* aws-cdk-lib.aws_sqs.QueueEncryption
+- *Default:* Unencrypted
+
+Whether the contents of the queue are encrypted, and by what type of key.
+
+Be aware that encryption is not available in all regions, please see the docs
+for current availability details.
+
+---
+
+##### `encryptionMasterKey`<sup>Optional</sup> <a name="encryptionMasterKey" id="truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.encryptionMasterKey"></a>
+
+```typescript
+public readonly encryptionMasterKey: IKey;
+```
+
+- *Type:* aws-cdk-lib.aws_kms.IKey
+- *Default:* If encryption is set to KMS and not specified, a key will be created.
+
+External KMS master key to use for queue encryption.
+
+Individual messages will be encrypted using data keys. The data keys in
+turn will be encrypted using this key, and reused for a maximum of
+`dataKeyReuseSecs` seconds.
+
+If the 'encryptionMasterKey' property is set, 'encryption' type will be
+implicitly set to "KMS".
+
+---
+
+##### `fifo`<sup>Optional</sup> <a name="fifo" id="truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.fifo"></a>
+
+```typescript
+public readonly fifo: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false, unless queueName ends in '.fifo' or 'contentBasedDeduplication' is true.
+
+Whether this a first-in-first-out (FIFO) queue.
+
+---
+
+##### `fifoThroughputLimit`<sup>Optional</sup> <a name="fifoThroughputLimit" id="truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.fifoThroughputLimit"></a>
+
+```typescript
+public readonly fifoThroughputLimit: FifoThroughputLimit;
+```
+
+- *Type:* aws-cdk-lib.aws_sqs.FifoThroughputLimit
+- *Default:* FifoThroughputLimit.PER_QUEUE
+
+For high throughput for FIFO queues, specifies whether the FIFO queue throughput quota applies to the entire queue or per message group.
+
+(Only applies to FIFO queues.)
+
+---
+
+##### `maxMessageSizeBytes`<sup>Optional</sup> <a name="maxMessageSizeBytes" id="truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.maxMessageSizeBytes"></a>
+
+```typescript
+public readonly maxMessageSizeBytes: number;
+```
+
+- *Type:* number
+- *Default:* 256KiB
+
+The limit of how many bytes that a message can contain before Amazon SQS rejects it.
+
+You can specify an integer value from 1024 bytes (1 KiB) to 262144 bytes
+(256 KiB). The default value is 262144 (256 KiB).
+
+---
+
+##### `queueName`<sup>Optional</sup> <a name="queueName" id="truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.queueName"></a>
+
+```typescript
+public readonly queueName: string;
+```
+
+- *Type:* string
+- *Default:* CloudFormation-generated name
+
+A name for the queue.
+
+If specified and this is a FIFO queue, must end in the string '.fifo'.
+
+---
+
+##### `receiveMessageWaitTime`<sup>Optional</sup> <a name="receiveMessageWaitTime" id="truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.receiveMessageWaitTime"></a>
+
+```typescript
+public readonly receiveMessageWaitTime: Duration;
+```
+
+- *Type:* aws-cdk-lib.Duration
+- *Default:* 0
+
+Default wait time for ReceiveMessage calls.
+
+Does not wait if set to 0, otherwise waits this amount of seconds
+by default for messages to arrive.
+
+For more information, see Amazon SQS Long Poll.
+
+---
+
+##### `removalPolicy`<sup>Optional</sup> <a name="removalPolicy" id="truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.removalPolicy"></a>
+
+```typescript
+public readonly removalPolicy: RemovalPolicy;
+```
+
+- *Type:* aws-cdk-lib.RemovalPolicy
+- *Default:* RemovalPolicy.DESTROY
+
+Policy to apply when the queue is removed from the stack.
+
+Even though queues are technically stateful, their contents are transient and it
+is common to add and remove Queues while rearchitecting your application. The
+default is therefore `DESTROY`. Change it to `RETAIN` if the messages are so
+valuable that accidentally losing them would be unacceptable.
+
+---
+
+##### `retentionPeriod`<sup>Optional</sup> <a name="retentionPeriod" id="truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.retentionPeriod"></a>
+
+```typescript
+public readonly retentionPeriod: Duration;
+```
+
+- *Type:* aws-cdk-lib.Duration
+- *Default:* Duration.days(4)
+
+The number of seconds that Amazon SQS retains a message.
+
+You can specify an integer value from 60 seconds (1 minute) to 1209600
+seconds (14 days). The default value is 345600 seconds (4 days).
+
+---
+
+##### `visibilityTimeout`<sup>Optional</sup> <a name="visibilityTimeout" id="truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.visibilityTimeout"></a>
+
+```typescript
+public readonly visibilityTimeout: Duration;
+```
+
+- *Type:* aws-cdk-lib.Duration
+- *Default:* Duration.seconds(30)
+
+Timeout of processing a single message.
+
+After dequeuing, the processor has this much time to handle the message
+and delete it from the queue before it becomes visible again for dequeueing
+by another processor.
+
+Values must be from 0 to 43200 seconds (12 hours). If you don't specify
+a value, AWS CloudFormation uses the default value of 30 seconds.
+
+---
+
+##### `alarmNamePrefix`<sup>Optional</sup> <a name="alarmNamePrefix" id="truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.alarmNamePrefix"></a>
+
+```typescript
+public readonly alarmNamePrefix: string;
+```
+
+- *Type:* string
+- *Default:* Stack.of(this).stackName;
+
+Prefix used for generated alarms.
+
+---
+
+##### `criticalAlarmProps`<sup>Optional</sup> <a name="criticalAlarmProps" id="truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.criticalAlarmProps"></a>
+
+```typescript
+public readonly criticalAlarmProps: QueueAlarmsCategoryProps;
+```
+
+- *Type:* truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps
+
+Alarm thresholds for critical alarms.
+
+If no properties are provided, a set of default alarms are created.
+
+---
+
+##### `dashboardFactory`<sup>Optional</sup> <a name="dashboardFactory" id="truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.dashboardFactory"></a>
+
+```typescript
+public readonly dashboardFactory: IDashboardFactory;
+```
+
+- *Type:* cdk-monitoring-constructs.IDashboardFactory
+
+The DashboardFactory to use when generating CloudWatch dashboards.
+
+If not defined, dashboards are not generated.
+
+---
+
+##### `monitoringFacade`<sup>Optional</sup> <a name="monitoringFacade" id="truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.monitoringFacade"></a>
+
+```typescript
+public readonly monitoringFacade: MonitoringFacade;
+```
+
+- *Type:* cdk-monitoring-constructs.MonitoringFacade
+
+Main entry point for monitoring.
+
+If no value is provided, a default facade will be created.
+
+---
+
+##### `warningAlarmProps`<sup>Optional</sup> <a name="warningAlarmProps" id="truemark-cdk-lib.aws_sqs.ObservedQueueProps.property.warningAlarmProps"></a>
+
+```typescript
+public readonly warningAlarmProps: QueueAlarmsCategoryProps;
+```
+
+- *Type:* truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps
+
+Alarm threshold for warning alarms.
+
+If no properties are provided, a set of default alarms are created.
 
 ---
 
@@ -8276,6 +22436,2019 @@ The events to notify on.
 
 ---
 
+### PythonFunctionAlphaProps <a name="PythonFunctionAlphaProps" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps"></a>
+
+Properties for PythonFunctionAlpha.
+
+#### Initializer <a name="Initializer" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.Initializer"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+const pythonFunctionAlphaProps: aws_lambda.PythonFunctionAlphaProps = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.maxEventAge">maxEventAge</a></code> | <code>aws-cdk-lib.Duration</code> | The maximum age of a request that Lambda sends to a function for processing. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.onFailure">onFailure</a></code> | <code>aws-cdk-lib.aws_lambda.IDestination</code> | The destination for failed invocations. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.onSuccess">onSuccess</a></code> | <code>aws-cdk-lib.aws_lambda.IDestination</code> | The destination for successful invocations. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.retryAttempts">retryAttempts</a></code> | <code>number</code> | The maximum number of times to retry when the function returns an error. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.allowAllOutbound">allowAllOutbound</a></code> | <code>boolean</code> | Whether to allow the Lambda to send all network traffic. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.allowPublicSubnet">allowPublicSubnet</a></code> | <code>boolean</code> | Lambda Functions in a public subnet can NOT access the internet. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.architecture">architecture</a></code> | <code>aws-cdk-lib.aws_lambda.Architecture</code> | The system architectures compatible with this lambda function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.codeSigningConfig">codeSigningConfig</a></code> | <code>aws-cdk-lib.aws_lambda.ICodeSigningConfig</code> | Code signing config associated with this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.currentVersionOptions">currentVersionOptions</a></code> | <code>aws-cdk-lib.aws_lambda.VersionOptions</code> | Options for the `lambda.Version` resource automatically created by the `fn.currentVersion` method. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.deadLetterQueue">deadLetterQueue</a></code> | <code>aws-cdk-lib.aws_sqs.IQueue</code> | The SQS queue to use if DLQ is enabled. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.deadLetterQueueEnabled">deadLetterQueueEnabled</a></code> | <code>boolean</code> | Enabled DLQ. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.deadLetterTopic">deadLetterTopic</a></code> | <code>aws-cdk-lib.aws_sns.ITopic</code> | The SNS topic to use as a DLQ. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.description">description</a></code> | <code>string</code> | A description of the function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.environment">environment</a></code> | <code>{[ key: string ]: string}</code> | Key-value pairs that Lambda caches and makes available for your Lambda functions. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.environmentEncryption">environmentEncryption</a></code> | <code>aws-cdk-lib.aws_kms.IKey</code> | The AWS KMS key that's used to encrypt your function's environment variables. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.ephemeralStorageSize">ephemeralStorageSize</a></code> | <code>aws-cdk-lib.Size</code> | The size of the function’s /tmp directory in MiB. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.events">events</a></code> | <code>aws-cdk-lib.aws_lambda.IEventSource[]</code> | Event sources for this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.filesystem">filesystem</a></code> | <code>aws-cdk-lib.aws_lambda.FileSystem</code> | The filesystem configuration for the lambda function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.functionName">functionName</a></code> | <code>string</code> | A name for the function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.initialPolicy">initialPolicy</a></code> | <code>aws-cdk-lib.aws_iam.PolicyStatement[]</code> | Initial policy statements to add to the created Lambda Role. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.insightsVersion">insightsVersion</a></code> | <code>aws-cdk-lib.aws_lambda.LambdaInsightsVersion</code> | Specify the version of CloudWatch Lambda insights to use for monitoring. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.layers">layers</a></code> | <code>aws-cdk-lib.aws_lambda.ILayerVersion[]</code> | A list of layers to add to the function's execution environment. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.logRetention">logRetention</a></code> | <code>aws-cdk-lib.aws_logs.RetentionDays</code> | The number of days log events are kept in CloudWatch Logs. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.logRetentionRetryOptions">logRetentionRetryOptions</a></code> | <code>aws-cdk-lib.aws_lambda.LogRetentionRetryOptions</code> | When log retention is specified, a custom resource attempts to create the CloudWatch log group. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.logRetentionRole">logRetentionRole</a></code> | <code>aws-cdk-lib.aws_iam.IRole</code> | The IAM role for the Lambda function associated with the custom resource that sets the retention policy. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.memorySize">memorySize</a></code> | <code>number</code> | The amount of memory, in MB, that is allocated to your Lambda function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.profiling">profiling</a></code> | <code>boolean</code> | Enable profiling. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.profilingGroup">profilingGroup</a></code> | <code>aws-cdk-lib.aws_codeguruprofiler.IProfilingGroup</code> | Profiling Group. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.reservedConcurrentExecutions">reservedConcurrentExecutions</a></code> | <code>number</code> | The maximum of concurrent executions you want to reserve for the function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.role">role</a></code> | <code>aws-cdk-lib.aws_iam.IRole</code> | Lambda execution role. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.securityGroups">securityGroups</a></code> | <code>aws-cdk-lib.aws_ec2.ISecurityGroup[]</code> | The list of security groups to associate with the Lambda's network interfaces. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.timeout">timeout</a></code> | <code>aws-cdk-lib.Duration</code> | The function execution time (in seconds) after which Lambda terminates the function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.tracing">tracing</a></code> | <code>aws-cdk-lib.aws_lambda.Tracing</code> | Enable AWS X-Ray Tracing for Lambda Function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.vpc">vpc</a></code> | <code>aws-cdk-lib.aws_ec2.IVpc</code> | VPC network to place Lambda network interfaces. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.vpcSubnets">vpcSubnets</a></code> | <code>aws-cdk-lib.aws_ec2.SubnetSelection</code> | Where to place the network interfaces within the VPC. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.entry">entry</a></code> | <code>string</code> | Path to the source of the function or the location for dependencies. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.runtime">runtime</a></code> | <code>aws-cdk-lib.aws_lambda.Runtime</code> | The runtime environment. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.bundling">bundling</a></code> | <code>@aws-cdk/aws-lambda-python-alpha.BundlingOptions</code> | Bundling options to use for this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.handler">handler</a></code> | <code>string</code> | The name of the exported handler in the index file. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.index">index</a></code> | <code>string</code> | The path (relative to entry) to the index file containing the exported handler. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.addToAlarmDashboard">addToAlarmDashboard</a></code> | <code>boolean</code> | Add widgets to alarm dashboard. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.addToDetailDashboard">addToDetailDashboard</a></code> | <code>boolean</code> | Add widgets to detailed dashboard. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.addToSummaryDashboard">addToSummaryDashboard</a></code> | <code>boolean</code> | Add widgets to summary dashboard. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.alarmNamePrefix">alarmNamePrefix</a></code> | <code>string</code> | Prefix for generated alarms. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.criticalAlarmOptions">criticalAlarmOptions</a></code> | <code>truemark-cdk-lib.aws_monitoring.AlarmsCategoryOptions</code> | Alarm thresholds for critical alarms. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.dashboardFactory">dashboardFactory</a></code> | <code>cdk-monitoring-constructs.IDashboardFactory</code> | The DashboardFactory to use when generating CloudWatch dashboards. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.monitoringFacade">monitoringFacade</a></code> | <code>cdk-monitoring-constructs.MonitoringFacade</code> | Main entry point for monitoring. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.warningAlarmOptions">warningAlarmOptions</a></code> | <code>truemark-cdk-lib.aws_monitoring.AlarmsCategoryOptions</code> | Alarm thresholds for warning alarms. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.lambdaInsightsEnabled">lambdaInsightsEnabled</a></code> | <code>boolean</code> | Generate dashboard charts for Lambda insights metrics. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.deploymentOptions">deploymentOptions</a></code> | <code>truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions</code> | The deployment configuration settings to use. |
+
+---
+
+##### `maxEventAge`<sup>Optional</sup> <a name="maxEventAge" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.maxEventAge"></a>
+
+```typescript
+public readonly maxEventAge: Duration;
+```
+
+- *Type:* aws-cdk-lib.Duration
+- *Default:* Duration.hours(6)
+
+The maximum age of a request that Lambda sends to a function for processing.
+
+Minimum: 60 seconds
+Maximum: 6 hours
+
+---
+
+##### `onFailure`<sup>Optional</sup> <a name="onFailure" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.onFailure"></a>
+
+```typescript
+public readonly onFailure: IDestination;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.IDestination
+- *Default:* no destination
+
+The destination for failed invocations.
+
+---
+
+##### `onSuccess`<sup>Optional</sup> <a name="onSuccess" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.onSuccess"></a>
+
+```typescript
+public readonly onSuccess: IDestination;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.IDestination
+- *Default:* no destination
+
+The destination for successful invocations.
+
+---
+
+##### `retryAttempts`<sup>Optional</sup> <a name="retryAttempts" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.retryAttempts"></a>
+
+```typescript
+public readonly retryAttempts: number;
+```
+
+- *Type:* number
+- *Default:* 2
+
+The maximum number of times to retry when the function returns an error.
+
+Minimum: 0
+Maximum: 2
+
+---
+
+##### `allowAllOutbound`<sup>Optional</sup> <a name="allowAllOutbound" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.allowAllOutbound"></a>
+
+```typescript
+public readonly allowAllOutbound: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Whether to allow the Lambda to send all network traffic.
+
+If set to false, you must individually add traffic rules to allow the
+Lambda to connect to network targets.
+
+---
+
+##### `allowPublicSubnet`<sup>Optional</sup> <a name="allowPublicSubnet" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.allowPublicSubnet"></a>
+
+```typescript
+public readonly allowPublicSubnet: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false
+
+Lambda Functions in a public subnet can NOT access the internet.
+
+Use this property to acknowledge this limitation and still place the function in a public subnet.
+
+> [https://stackoverflow.com/questions/52992085/why-cant-an-aws-lambda-function-inside-a-public-subnet-in-a-vpc-connect-to-the/52994841#52994841](https://stackoverflow.com/questions/52992085/why-cant-an-aws-lambda-function-inside-a-public-subnet-in-a-vpc-connect-to-the/52994841#52994841)
+
+---
+
+##### `architecture`<sup>Optional</sup> <a name="architecture" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.architecture"></a>
+
+```typescript
+public readonly architecture: Architecture;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Architecture
+- *Default:* Architecture.X86_64
+
+The system architectures compatible with this lambda function.
+
+---
+
+##### `codeSigningConfig`<sup>Optional</sup> <a name="codeSigningConfig" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.codeSigningConfig"></a>
+
+```typescript
+public readonly codeSigningConfig: ICodeSigningConfig;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.ICodeSigningConfig
+- *Default:* Not Sign the Code
+
+Code signing config associated with this function.
+
+---
+
+##### `currentVersionOptions`<sup>Optional</sup> <a name="currentVersionOptions" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.currentVersionOptions"></a>
+
+```typescript
+public readonly currentVersionOptions: VersionOptions;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.VersionOptions
+- *Default:* default options as described in `VersionOptions`
+
+Options for the `lambda.Version` resource automatically created by the `fn.currentVersion` method.
+
+---
+
+##### `deadLetterQueue`<sup>Optional</sup> <a name="deadLetterQueue" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.deadLetterQueue"></a>
+
+```typescript
+public readonly deadLetterQueue: IQueue;
+```
+
+- *Type:* aws-cdk-lib.aws_sqs.IQueue
+- *Default:* SQS queue with 14 day retention period if `deadLetterQueueEnabled` is `true`
+
+The SQS queue to use if DLQ is enabled.
+
+If SNS topic is desired, specify `deadLetterTopic` property instead.
+
+---
+
+##### `deadLetterQueueEnabled`<sup>Optional</sup> <a name="deadLetterQueueEnabled" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.deadLetterQueueEnabled"></a>
+
+```typescript
+public readonly deadLetterQueueEnabled: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false unless `deadLetterQueue` is set, which implies DLQ is enabled.
+
+Enabled DLQ.
+
+If `deadLetterQueue` is undefined,
+an SQS queue with default options will be defined for your Function.
+
+---
+
+##### `deadLetterTopic`<sup>Optional</sup> <a name="deadLetterTopic" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.deadLetterTopic"></a>
+
+```typescript
+public readonly deadLetterTopic: ITopic;
+```
+
+- *Type:* aws-cdk-lib.aws_sns.ITopic
+- *Default:* no SNS topic
+
+The SNS topic to use as a DLQ.
+
+Note that if `deadLetterQueueEnabled` is set to `true`, an SQS queue will be created
+rather than an SNS topic. Using an SNS topic as a DLQ requires this property to be set explicitly.
+
+---
+
+##### `description`<sup>Optional</sup> <a name="description" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.description"></a>
+
+```typescript
+public readonly description: string;
+```
+
+- *Type:* string
+- *Default:* No description.
+
+A description of the function.
+
+---
+
+##### `environment`<sup>Optional</sup> <a name="environment" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.environment"></a>
+
+```typescript
+public readonly environment: {[ key: string ]: string};
+```
+
+- *Type:* {[ key: string ]: string}
+- *Default:* No environment variables.
+
+Key-value pairs that Lambda caches and makes available for your Lambda functions.
+
+Use environment variables to apply configuration changes, such
+as test and production environment configurations, without changing your
+Lambda function source code.
+
+---
+
+##### `environmentEncryption`<sup>Optional</sup> <a name="environmentEncryption" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.environmentEncryption"></a>
+
+```typescript
+public readonly environmentEncryption: IKey;
+```
+
+- *Type:* aws-cdk-lib.aws_kms.IKey
+- *Default:* AWS Lambda creates and uses an AWS managed customer master key (CMK).
+
+The AWS KMS key that's used to encrypt your function's environment variables.
+
+---
+
+##### `ephemeralStorageSize`<sup>Optional</sup> <a name="ephemeralStorageSize" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.ephemeralStorageSize"></a>
+
+```typescript
+public readonly ephemeralStorageSize: Size;
+```
+
+- *Type:* aws-cdk-lib.Size
+- *Default:* 512 MiB
+
+The size of the function’s /tmp directory in MiB.
+
+---
+
+##### `events`<sup>Optional</sup> <a name="events" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.events"></a>
+
+```typescript
+public readonly events: IEventSource[];
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.IEventSource[]
+- *Default:* No event sources.
+
+Event sources for this function.
+
+You can also add event sources using `addEventSource`.
+
+---
+
+##### `filesystem`<sup>Optional</sup> <a name="filesystem" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.filesystem"></a>
+
+```typescript
+public readonly filesystem: FileSystem;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.FileSystem
+- *Default:* will not mount any filesystem
+
+The filesystem configuration for the lambda function.
+
+---
+
+##### `functionName`<sup>Optional</sup> <a name="functionName" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.functionName"></a>
+
+```typescript
+public readonly functionName: string;
+```
+
+- *Type:* string
+- *Default:* AWS CloudFormation generates a unique physical ID and uses that ID for the function's name. For more information, see Name Type.
+
+A name for the function.
+
+---
+
+##### `initialPolicy`<sup>Optional</sup> <a name="initialPolicy" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.initialPolicy"></a>
+
+```typescript
+public readonly initialPolicy: PolicyStatement[];
+```
+
+- *Type:* aws-cdk-lib.aws_iam.PolicyStatement[]
+- *Default:* No policy statements are added to the created Lambda role.
+
+Initial policy statements to add to the created Lambda Role.
+
+You can call `addToRolePolicy` to the created lambda to add statements post creation.
+
+---
+
+##### `insightsVersion`<sup>Optional</sup> <a name="insightsVersion" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.insightsVersion"></a>
+
+```typescript
+public readonly insightsVersion: LambdaInsightsVersion;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.LambdaInsightsVersion
+- *Default:* No Lambda Insights
+
+Specify the version of CloudWatch Lambda insights to use for monitoring.
+
+> [https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Lambda-Insights-Getting-Started-docker.html](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Lambda-Insights-Getting-Started-docker.html)
+
+---
+
+##### `layers`<sup>Optional</sup> <a name="layers" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.layers"></a>
+
+```typescript
+public readonly layers: ILayerVersion[];
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.ILayerVersion[]
+- *Default:* No layers.
+
+A list of layers to add to the function's execution environment.
+
+You can configure your Lambda function to pull in
+additional code during initialization in the form of layers. Layers are packages of libraries or other dependencies
+that can be used by multiple functions.
+
+---
+
+##### `logRetention`<sup>Optional</sup> <a name="logRetention" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.logRetention"></a>
+
+```typescript
+public readonly logRetention: RetentionDays;
+```
+
+- *Type:* aws-cdk-lib.aws_logs.RetentionDays
+- *Default:* logs.RetentionDays.INFINITE
+
+The number of days log events are kept in CloudWatch Logs.
+
+When updating
+this property, unsetting it doesn't remove the log retention policy. To
+remove the retention policy, set the value to `INFINITE`.
+
+---
+
+##### `logRetentionRetryOptions`<sup>Optional</sup> <a name="logRetentionRetryOptions" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.logRetentionRetryOptions"></a>
+
+```typescript
+public readonly logRetentionRetryOptions: LogRetentionRetryOptions;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.LogRetentionRetryOptions
+- *Default:* Default AWS SDK retry options.
+
+When log retention is specified, a custom resource attempts to create the CloudWatch log group.
+
+These options control the retry policy when interacting with CloudWatch APIs.
+
+---
+
+##### `logRetentionRole`<sup>Optional</sup> <a name="logRetentionRole" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.logRetentionRole"></a>
+
+```typescript
+public readonly logRetentionRole: IRole;
+```
+
+- *Type:* aws-cdk-lib.aws_iam.IRole
+- *Default:* A new role is created.
+
+The IAM role for the Lambda function associated with the custom resource that sets the retention policy.
+
+---
+
+##### `memorySize`<sup>Optional</sup> <a name="memorySize" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.memorySize"></a>
+
+```typescript
+public readonly memorySize: number;
+```
+
+- *Type:* number
+- *Default:* 128
+
+The amount of memory, in MB, that is allocated to your Lambda function.
+
+Lambda uses this value to proportionally allocate the amount of CPU
+power. For more information, see Resource Model in the AWS Lambda
+Developer Guide.
+
+---
+
+##### `profiling`<sup>Optional</sup> <a name="profiling" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.profiling"></a>
+
+```typescript
+public readonly profiling: boolean;
+```
+
+- *Type:* boolean
+- *Default:* No profiling.
+
+Enable profiling.
+
+> [https://docs.aws.amazon.com/codeguru/latest/profiler-ug/setting-up-lambda.html](https://docs.aws.amazon.com/codeguru/latest/profiler-ug/setting-up-lambda.html)
+
+---
+
+##### `profilingGroup`<sup>Optional</sup> <a name="profilingGroup" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.profilingGroup"></a>
+
+```typescript
+public readonly profilingGroup: IProfilingGroup;
+```
+
+- *Type:* aws-cdk-lib.aws_codeguruprofiler.IProfilingGroup
+- *Default:* A new profiling group will be created if `profiling` is set.
+
+Profiling Group.
+
+> [https://docs.aws.amazon.com/codeguru/latest/profiler-ug/setting-up-lambda.html](https://docs.aws.amazon.com/codeguru/latest/profiler-ug/setting-up-lambda.html)
+
+---
+
+##### `reservedConcurrentExecutions`<sup>Optional</sup> <a name="reservedConcurrentExecutions" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.reservedConcurrentExecutions"></a>
+
+```typescript
+public readonly reservedConcurrentExecutions: number;
+```
+
+- *Type:* number
+- *Default:* No specific limit - account limit.
+
+The maximum of concurrent executions you want to reserve for the function.
+
+> [https://docs.aws.amazon.com/lambda/latest/dg/concurrent-executions.html](https://docs.aws.amazon.com/lambda/latest/dg/concurrent-executions.html)
+
+---
+
+##### `role`<sup>Optional</sup> <a name="role" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.role"></a>
+
+```typescript
+public readonly role: IRole;
+```
+
+- *Type:* aws-cdk-lib.aws_iam.IRole
+- *Default:* A unique role will be generated for this lambda function. Both supplied and generated roles can always be changed by calling `addToRolePolicy`.
+
+Lambda execution role.
+
+This is the role that will be assumed by the function upon execution.
+It controls the permissions that the function will have. The Role must
+be assumable by the 'lambda.amazonaws.com' service principal.
+
+The default Role automatically has permissions granted for Lambda execution. If you
+provide a Role, you must add the relevant AWS managed policies yourself.
+
+The relevant managed policies are "service-role/AWSLambdaBasicExecutionRole" and
+"service-role/AWSLambdaVPCAccessExecutionRole".
+
+---
+
+##### `securityGroups`<sup>Optional</sup> <a name="securityGroups" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.securityGroups"></a>
+
+```typescript
+public readonly securityGroups: ISecurityGroup[];
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.ISecurityGroup[]
+- *Default:* If the function is placed within a VPC and a security group is not specified, either by this or securityGroup prop, a dedicated security group will be created for this function.
+
+The list of security groups to associate with the Lambda's network interfaces.
+
+Only used if 'vpc' is supplied.
+
+---
+
+##### `timeout`<sup>Optional</sup> <a name="timeout" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.timeout"></a>
+
+```typescript
+public readonly timeout: Duration;
+```
+
+- *Type:* aws-cdk-lib.Duration
+- *Default:* Duration.seconds(3)
+
+The function execution time (in seconds) after which Lambda terminates the function.
+
+Because the execution time affects cost, set this value
+based on the function's expected execution time.
+
+---
+
+##### `tracing`<sup>Optional</sup> <a name="tracing" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.tracing"></a>
+
+```typescript
+public readonly tracing: Tracing;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Tracing
+- *Default:* Tracing.Disabled
+
+Enable AWS X-Ray Tracing for Lambda Function.
+
+---
+
+##### `vpc`<sup>Optional</sup> <a name="vpc" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.vpc"></a>
+
+```typescript
+public readonly vpc: IVpc;
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.IVpc
+- *Default:* Function is not placed within a VPC.
+
+VPC network to place Lambda network interfaces.
+
+Specify this if the Lambda function needs to access resources in a VPC.
+
+---
+
+##### `vpcSubnets`<sup>Optional</sup> <a name="vpcSubnets" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.vpcSubnets"></a>
+
+```typescript
+public readonly vpcSubnets: SubnetSelection;
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.SubnetSelection
+- *Default:* the Vpc default strategy if not specified
+
+Where to place the network interfaces within the VPC.
+
+Only used if 'vpc' is supplied. Note: internet access for Lambdas
+requires a NAT gateway, so picking Public subnets is not allowed.
+
+---
+
+##### `entry`<sup>Required</sup> <a name="entry" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.entry"></a>
+
+```typescript
+public readonly entry: string;
+```
+
+- *Type:* string
+
+Path to the source of the function or the location for dependencies.
+
+---
+
+##### `runtime`<sup>Required</sup> <a name="runtime" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.runtime"></a>
+
+```typescript
+public readonly runtime: Runtime;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Runtime
+- *Default:* Runtime.PYTHON_3_7
+
+The runtime environment.
+
+Only runtimes of the Python family are
+supported.
+
+---
+
+##### `bundling`<sup>Optional</sup> <a name="bundling" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.bundling"></a>
+
+```typescript
+public readonly bundling: BundlingOptions;
+```
+
+- *Type:* @aws-cdk/aws-lambda-python-alpha.BundlingOptions
+- *Default:* Use the default bundling Docker image, with x86_64 architecture.
+
+Bundling options to use for this function.
+
+Use this to specify custom bundling options like
+the bundling Docker image, asset hash type, custom hash, architecture, etc.
+
+---
+
+##### `handler`<sup>Optional</sup> <a name="handler" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.handler"></a>
+
+```typescript
+public readonly handler: string;
+```
+
+- *Type:* string
+- *Default:* handler
+
+The name of the exported handler in the index file.
+
+---
+
+##### `index`<sup>Optional</sup> <a name="index" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.index"></a>
+
+```typescript
+public readonly index: string;
+```
+
+- *Type:* string
+- *Default:* index.py
+
+The path (relative to entry) to the index file containing the exported handler.
+
+---
+
+##### `addToAlarmDashboard`<sup>Optional</sup> <a name="addToAlarmDashboard" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.addToAlarmDashboard"></a>
+
+```typescript
+public readonly addToAlarmDashboard: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Add widgets to alarm dashboard.
+
+---
+
+##### `addToDetailDashboard`<sup>Optional</sup> <a name="addToDetailDashboard" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.addToDetailDashboard"></a>
+
+```typescript
+public readonly addToDetailDashboard: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Add widgets to detailed dashboard.
+
+---
+
+##### `addToSummaryDashboard`<sup>Optional</sup> <a name="addToSummaryDashboard" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.addToSummaryDashboard"></a>
+
+```typescript
+public readonly addToSummaryDashboard: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Add widgets to summary dashboard.
+
+---
+
+##### `alarmNamePrefix`<sup>Optional</sup> <a name="alarmNamePrefix" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.alarmNamePrefix"></a>
+
+```typescript
+public readonly alarmNamePrefix: string;
+```
+
+- *Type:* string
+- *Default:* Stack.of(this).stackName
+
+Prefix for generated alarms.
+
+---
+
+##### `criticalAlarmOptions`<sup>Optional</sup> <a name="criticalAlarmOptions" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.criticalAlarmOptions"></a>
+
+```typescript
+public readonly criticalAlarmOptions: AlarmsCategoryOptions;
+```
+
+- *Type:* truemark-cdk-lib.aws_monitoring.AlarmsCategoryOptions
+
+Alarm thresholds for critical alarms.
+
+If no properties are provided, a set of default alarms are created.
+
+---
+
+##### `dashboardFactory`<sup>Optional</sup> <a name="dashboardFactory" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.dashboardFactory"></a>
+
+```typescript
+public readonly dashboardFactory: IDashboardFactory;
+```
+
+- *Type:* cdk-monitoring-constructs.IDashboardFactory
+
+The DashboardFactory to use when generating CloudWatch dashboards.
+
+If not defined, dashboards are not generated.
+
+---
+
+##### `monitoringFacade`<sup>Optional</sup> <a name="monitoringFacade" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.monitoringFacade"></a>
+
+```typescript
+public readonly monitoringFacade: MonitoringFacade;
+```
+
+- *Type:* cdk-monitoring-constructs.MonitoringFacade
+
+Main entry point for monitoring.
+
+If no value is provided, a default facade will be created.
+
+---
+
+##### `warningAlarmOptions`<sup>Optional</sup> <a name="warningAlarmOptions" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.warningAlarmOptions"></a>
+
+```typescript
+public readonly warningAlarmOptions: AlarmsCategoryOptions;
+```
+
+- *Type:* truemark-cdk-lib.aws_monitoring.AlarmsCategoryOptions
+
+Alarm thresholds for warning alarms.
+
+If no properties are provided, a set of default alarms are created.
+
+---
+
+##### `lambdaInsightsEnabled`<sup>Optional</sup> <a name="lambdaInsightsEnabled" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.lambdaInsightsEnabled"></a>
+
+```typescript
+public readonly lambdaInsightsEnabled: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Generate dashboard charts for Lambda insights metrics.
+
+---
+
+##### `deploymentOptions`<sup>Optional</sup> <a name="deploymentOptions" id="truemark-cdk-lib.aws_lambda.PythonFunctionAlphaProps.property.deploymentOptions"></a>
+
+```typescript
+public readonly deploymentOptions: DeployedFunctionDeploymentOptions;
+```
+
+- *Type:* truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions
+
+The deployment configuration settings to use.
+
+If none are provided a default set is used.
+
+---
+
+### PythonFunctionProps <a name="PythonFunctionProps" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps"></a>
+
+Properties for PythonFunction.
+
+#### Initializer <a name="Initializer" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.Initializer"></a>
+
+```typescript
+import { aws_lambda } from 'truemark-cdk-lib'
+
+const pythonFunctionProps: aws_lambda.PythonFunctionProps = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.maxEventAge">maxEventAge</a></code> | <code>aws-cdk-lib.Duration</code> | The maximum age of a request that Lambda sends to a function for processing. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.onFailure">onFailure</a></code> | <code>aws-cdk-lib.aws_lambda.IDestination</code> | The destination for failed invocations. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.onSuccess">onSuccess</a></code> | <code>aws-cdk-lib.aws_lambda.IDestination</code> | The destination for successful invocations. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.retryAttempts">retryAttempts</a></code> | <code>number</code> | The maximum number of times to retry when the function returns an error. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.allowAllOutbound">allowAllOutbound</a></code> | <code>boolean</code> | Whether to allow the Lambda to send all network traffic. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.allowPublicSubnet">allowPublicSubnet</a></code> | <code>boolean</code> | Lambda Functions in a public subnet can NOT access the internet. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.architecture">architecture</a></code> | <code>aws-cdk-lib.aws_lambda.Architecture</code> | The system architectures compatible with this lambda function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.codeSigningConfig">codeSigningConfig</a></code> | <code>aws-cdk-lib.aws_lambda.ICodeSigningConfig</code> | Code signing config associated with this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.currentVersionOptions">currentVersionOptions</a></code> | <code>aws-cdk-lib.aws_lambda.VersionOptions</code> | Options for the `lambda.Version` resource automatically created by the `fn.currentVersion` method. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.deadLetterQueue">deadLetterQueue</a></code> | <code>aws-cdk-lib.aws_sqs.IQueue</code> | The SQS queue to use if DLQ is enabled. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.deadLetterQueueEnabled">deadLetterQueueEnabled</a></code> | <code>boolean</code> | Enabled DLQ. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.deadLetterTopic">deadLetterTopic</a></code> | <code>aws-cdk-lib.aws_sns.ITopic</code> | The SNS topic to use as a DLQ. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.description">description</a></code> | <code>string</code> | A description of the function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.environment">environment</a></code> | <code>{[ key: string ]: string}</code> | Key-value pairs that Lambda caches and makes available for your Lambda functions. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.environmentEncryption">environmentEncryption</a></code> | <code>aws-cdk-lib.aws_kms.IKey</code> | The AWS KMS key that's used to encrypt your function's environment variables. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.ephemeralStorageSize">ephemeralStorageSize</a></code> | <code>aws-cdk-lib.Size</code> | The size of the function’s /tmp directory in MiB. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.events">events</a></code> | <code>aws-cdk-lib.aws_lambda.IEventSource[]</code> | Event sources for this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.filesystem">filesystem</a></code> | <code>aws-cdk-lib.aws_lambda.FileSystem</code> | The filesystem configuration for the lambda function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.functionName">functionName</a></code> | <code>string</code> | A name for the function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.initialPolicy">initialPolicy</a></code> | <code>aws-cdk-lib.aws_iam.PolicyStatement[]</code> | Initial policy statements to add to the created Lambda Role. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.insightsVersion">insightsVersion</a></code> | <code>aws-cdk-lib.aws_lambda.LambdaInsightsVersion</code> | Specify the version of CloudWatch Lambda insights to use for monitoring. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.layers">layers</a></code> | <code>aws-cdk-lib.aws_lambda.ILayerVersion[]</code> | A list of layers to add to the function's execution environment. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.logRetention">logRetention</a></code> | <code>aws-cdk-lib.aws_logs.RetentionDays</code> | The number of days log events are kept in CloudWatch Logs. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.logRetentionRetryOptions">logRetentionRetryOptions</a></code> | <code>aws-cdk-lib.aws_lambda.LogRetentionRetryOptions</code> | When log retention is specified, a custom resource attempts to create the CloudWatch log group. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.logRetentionRole">logRetentionRole</a></code> | <code>aws-cdk-lib.aws_iam.IRole</code> | The IAM role for the Lambda function associated with the custom resource that sets the retention policy. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.memorySize">memorySize</a></code> | <code>number</code> | The amount of memory, in MB, that is allocated to your Lambda function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.profiling">profiling</a></code> | <code>boolean</code> | Enable profiling. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.profilingGroup">profilingGroup</a></code> | <code>aws-cdk-lib.aws_codeguruprofiler.IProfilingGroup</code> | Profiling Group. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.reservedConcurrentExecutions">reservedConcurrentExecutions</a></code> | <code>number</code> | The maximum of concurrent executions you want to reserve for the function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.role">role</a></code> | <code>aws-cdk-lib.aws_iam.IRole</code> | Lambda execution role. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.securityGroups">securityGroups</a></code> | <code>aws-cdk-lib.aws_ec2.ISecurityGroup[]</code> | The list of security groups to associate with the Lambda's network interfaces. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.timeout">timeout</a></code> | <code>aws-cdk-lib.Duration</code> | The function execution time (in seconds) after which Lambda terminates the function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.tracing">tracing</a></code> | <code>aws-cdk-lib.aws_lambda.Tracing</code> | Enable AWS X-Ray Tracing for Lambda Function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.vpc">vpc</a></code> | <code>aws-cdk-lib.aws_ec2.IVpc</code> | VPC network to place Lambda network interfaces. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.vpcSubnets">vpcSubnets</a></code> | <code>aws-cdk-lib.aws_ec2.SubnetSelection</code> | Where to place the network interfaces within the VPC. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.addToAlarmDashboard">addToAlarmDashboard</a></code> | <code>boolean</code> | Add widgets to alarm dashboard. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.addToDetailDashboard">addToDetailDashboard</a></code> | <code>boolean</code> | Add widgets to detailed dashboard. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.addToSummaryDashboard">addToSummaryDashboard</a></code> | <code>boolean</code> | Add widgets to summary dashboard. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.alarmNamePrefix">alarmNamePrefix</a></code> | <code>string</code> | Prefix for generated alarms. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.criticalAlarmOptions">criticalAlarmOptions</a></code> | <code>truemark-cdk-lib.aws_monitoring.AlarmsCategoryOptions</code> | Alarm thresholds for critical alarms. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.dashboardFactory">dashboardFactory</a></code> | <code>cdk-monitoring-constructs.IDashboardFactory</code> | The DashboardFactory to use when generating CloudWatch dashboards. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.monitoringFacade">monitoringFacade</a></code> | <code>cdk-monitoring-constructs.MonitoringFacade</code> | Main entry point for monitoring. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.warningAlarmOptions">warningAlarmOptions</a></code> | <code>truemark-cdk-lib.aws_monitoring.AlarmsCategoryOptions</code> | Alarm thresholds for warning alarms. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.lambdaInsightsEnabled">lambdaInsightsEnabled</a></code> | <code>boolean</code> | Generate dashboard charts for Lambda insights metrics. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.deploymentOptions">deploymentOptions</a></code> | <code>truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions</code> | The deployment configuration settings to use. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.entry">entry</a></code> | <code>string</code> | Path to the source of the function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.bundling">bundling</a></code> | <code>aws-cdk-lib.BundlingOptions</code> | Bundling options to use for this function. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.bundlingEnvironment">bundlingEnvironment</a></code> | <code>{[ key: string ]: string}</code> | Additional environment variable to be passed to the bundling script. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.bundlingScript">bundlingScript</a></code> | <code>string</code> | Overrides the default bundling script. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.disableDockerBundling">disableDockerBundling</a></code> | <code>boolean</code> | Turns off docker bundling. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.disableLocalBundling">disableLocalBundling</a></code> | <code>boolean</code> | Turns off local bundling. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.handler">handler</a></code> | <code>string</code> | The name of the exported handler in the index file. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.index">index</a></code> | <code>string</code> | The path (relative to entry) to the index file containing the exported handler. |
+| <code><a href="#truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.runtime">runtime</a></code> | <code>aws-cdk-lib.aws_lambda.Runtime</code> | The runtime environment. |
+
+---
+
+##### `maxEventAge`<sup>Optional</sup> <a name="maxEventAge" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.maxEventAge"></a>
+
+```typescript
+public readonly maxEventAge: Duration;
+```
+
+- *Type:* aws-cdk-lib.Duration
+- *Default:* Duration.hours(6)
+
+The maximum age of a request that Lambda sends to a function for processing.
+
+Minimum: 60 seconds
+Maximum: 6 hours
+
+---
+
+##### `onFailure`<sup>Optional</sup> <a name="onFailure" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.onFailure"></a>
+
+```typescript
+public readonly onFailure: IDestination;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.IDestination
+- *Default:* no destination
+
+The destination for failed invocations.
+
+---
+
+##### `onSuccess`<sup>Optional</sup> <a name="onSuccess" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.onSuccess"></a>
+
+```typescript
+public readonly onSuccess: IDestination;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.IDestination
+- *Default:* no destination
+
+The destination for successful invocations.
+
+---
+
+##### `retryAttempts`<sup>Optional</sup> <a name="retryAttempts" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.retryAttempts"></a>
+
+```typescript
+public readonly retryAttempts: number;
+```
+
+- *Type:* number
+- *Default:* 2
+
+The maximum number of times to retry when the function returns an error.
+
+Minimum: 0
+Maximum: 2
+
+---
+
+##### `allowAllOutbound`<sup>Optional</sup> <a name="allowAllOutbound" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.allowAllOutbound"></a>
+
+```typescript
+public readonly allowAllOutbound: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Whether to allow the Lambda to send all network traffic.
+
+If set to false, you must individually add traffic rules to allow the
+Lambda to connect to network targets.
+
+---
+
+##### `allowPublicSubnet`<sup>Optional</sup> <a name="allowPublicSubnet" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.allowPublicSubnet"></a>
+
+```typescript
+public readonly allowPublicSubnet: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false
+
+Lambda Functions in a public subnet can NOT access the internet.
+
+Use this property to acknowledge this limitation and still place the function in a public subnet.
+
+> [https://stackoverflow.com/questions/52992085/why-cant-an-aws-lambda-function-inside-a-public-subnet-in-a-vpc-connect-to-the/52994841#52994841](https://stackoverflow.com/questions/52992085/why-cant-an-aws-lambda-function-inside-a-public-subnet-in-a-vpc-connect-to-the/52994841#52994841)
+
+---
+
+##### `architecture`<sup>Optional</sup> <a name="architecture" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.architecture"></a>
+
+```typescript
+public readonly architecture: Architecture;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Architecture
+- *Default:* Architecture.X86_64
+
+The system architectures compatible with this lambda function.
+
+---
+
+##### `codeSigningConfig`<sup>Optional</sup> <a name="codeSigningConfig" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.codeSigningConfig"></a>
+
+```typescript
+public readonly codeSigningConfig: ICodeSigningConfig;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.ICodeSigningConfig
+- *Default:* Not Sign the Code
+
+Code signing config associated with this function.
+
+---
+
+##### `currentVersionOptions`<sup>Optional</sup> <a name="currentVersionOptions" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.currentVersionOptions"></a>
+
+```typescript
+public readonly currentVersionOptions: VersionOptions;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.VersionOptions
+- *Default:* default options as described in `VersionOptions`
+
+Options for the `lambda.Version` resource automatically created by the `fn.currentVersion` method.
+
+---
+
+##### `deadLetterQueue`<sup>Optional</sup> <a name="deadLetterQueue" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.deadLetterQueue"></a>
+
+```typescript
+public readonly deadLetterQueue: IQueue;
+```
+
+- *Type:* aws-cdk-lib.aws_sqs.IQueue
+- *Default:* SQS queue with 14 day retention period if `deadLetterQueueEnabled` is `true`
+
+The SQS queue to use if DLQ is enabled.
+
+If SNS topic is desired, specify `deadLetterTopic` property instead.
+
+---
+
+##### `deadLetterQueueEnabled`<sup>Optional</sup> <a name="deadLetterQueueEnabled" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.deadLetterQueueEnabled"></a>
+
+```typescript
+public readonly deadLetterQueueEnabled: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false unless `deadLetterQueue` is set, which implies DLQ is enabled.
+
+Enabled DLQ.
+
+If `deadLetterQueue` is undefined,
+an SQS queue with default options will be defined for your Function.
+
+---
+
+##### `deadLetterTopic`<sup>Optional</sup> <a name="deadLetterTopic" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.deadLetterTopic"></a>
+
+```typescript
+public readonly deadLetterTopic: ITopic;
+```
+
+- *Type:* aws-cdk-lib.aws_sns.ITopic
+- *Default:* no SNS topic
+
+The SNS topic to use as a DLQ.
+
+Note that if `deadLetterQueueEnabled` is set to `true`, an SQS queue will be created
+rather than an SNS topic. Using an SNS topic as a DLQ requires this property to be set explicitly.
+
+---
+
+##### `description`<sup>Optional</sup> <a name="description" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.description"></a>
+
+```typescript
+public readonly description: string;
+```
+
+- *Type:* string
+- *Default:* No description.
+
+A description of the function.
+
+---
+
+##### `environment`<sup>Optional</sup> <a name="environment" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.environment"></a>
+
+```typescript
+public readonly environment: {[ key: string ]: string};
+```
+
+- *Type:* {[ key: string ]: string}
+- *Default:* No environment variables.
+
+Key-value pairs that Lambda caches and makes available for your Lambda functions.
+
+Use environment variables to apply configuration changes, such
+as test and production environment configurations, without changing your
+Lambda function source code.
+
+---
+
+##### `environmentEncryption`<sup>Optional</sup> <a name="environmentEncryption" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.environmentEncryption"></a>
+
+```typescript
+public readonly environmentEncryption: IKey;
+```
+
+- *Type:* aws-cdk-lib.aws_kms.IKey
+- *Default:* AWS Lambda creates and uses an AWS managed customer master key (CMK).
+
+The AWS KMS key that's used to encrypt your function's environment variables.
+
+---
+
+##### `ephemeralStorageSize`<sup>Optional</sup> <a name="ephemeralStorageSize" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.ephemeralStorageSize"></a>
+
+```typescript
+public readonly ephemeralStorageSize: Size;
+```
+
+- *Type:* aws-cdk-lib.Size
+- *Default:* 512 MiB
+
+The size of the function’s /tmp directory in MiB.
+
+---
+
+##### `events`<sup>Optional</sup> <a name="events" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.events"></a>
+
+```typescript
+public readonly events: IEventSource[];
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.IEventSource[]
+- *Default:* No event sources.
+
+Event sources for this function.
+
+You can also add event sources using `addEventSource`.
+
+---
+
+##### `filesystem`<sup>Optional</sup> <a name="filesystem" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.filesystem"></a>
+
+```typescript
+public readonly filesystem: FileSystem;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.FileSystem
+- *Default:* will not mount any filesystem
+
+The filesystem configuration for the lambda function.
+
+---
+
+##### `functionName`<sup>Optional</sup> <a name="functionName" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.functionName"></a>
+
+```typescript
+public readonly functionName: string;
+```
+
+- *Type:* string
+- *Default:* AWS CloudFormation generates a unique physical ID and uses that ID for the function's name. For more information, see Name Type.
+
+A name for the function.
+
+---
+
+##### `initialPolicy`<sup>Optional</sup> <a name="initialPolicy" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.initialPolicy"></a>
+
+```typescript
+public readonly initialPolicy: PolicyStatement[];
+```
+
+- *Type:* aws-cdk-lib.aws_iam.PolicyStatement[]
+- *Default:* No policy statements are added to the created Lambda role.
+
+Initial policy statements to add to the created Lambda Role.
+
+You can call `addToRolePolicy` to the created lambda to add statements post creation.
+
+---
+
+##### `insightsVersion`<sup>Optional</sup> <a name="insightsVersion" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.insightsVersion"></a>
+
+```typescript
+public readonly insightsVersion: LambdaInsightsVersion;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.LambdaInsightsVersion
+- *Default:* No Lambda Insights
+
+Specify the version of CloudWatch Lambda insights to use for monitoring.
+
+> [https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Lambda-Insights-Getting-Started-docker.html](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Lambda-Insights-Getting-Started-docker.html)
+
+---
+
+##### `layers`<sup>Optional</sup> <a name="layers" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.layers"></a>
+
+```typescript
+public readonly layers: ILayerVersion[];
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.ILayerVersion[]
+- *Default:* No layers.
+
+A list of layers to add to the function's execution environment.
+
+You can configure your Lambda function to pull in
+additional code during initialization in the form of layers. Layers are packages of libraries or other dependencies
+that can be used by multiple functions.
+
+---
+
+##### `logRetention`<sup>Optional</sup> <a name="logRetention" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.logRetention"></a>
+
+```typescript
+public readonly logRetention: RetentionDays;
+```
+
+- *Type:* aws-cdk-lib.aws_logs.RetentionDays
+- *Default:* logs.RetentionDays.INFINITE
+
+The number of days log events are kept in CloudWatch Logs.
+
+When updating
+this property, unsetting it doesn't remove the log retention policy. To
+remove the retention policy, set the value to `INFINITE`.
+
+---
+
+##### `logRetentionRetryOptions`<sup>Optional</sup> <a name="logRetentionRetryOptions" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.logRetentionRetryOptions"></a>
+
+```typescript
+public readonly logRetentionRetryOptions: LogRetentionRetryOptions;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.LogRetentionRetryOptions
+- *Default:* Default AWS SDK retry options.
+
+When log retention is specified, a custom resource attempts to create the CloudWatch log group.
+
+These options control the retry policy when interacting with CloudWatch APIs.
+
+---
+
+##### `logRetentionRole`<sup>Optional</sup> <a name="logRetentionRole" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.logRetentionRole"></a>
+
+```typescript
+public readonly logRetentionRole: IRole;
+```
+
+- *Type:* aws-cdk-lib.aws_iam.IRole
+- *Default:* A new role is created.
+
+The IAM role for the Lambda function associated with the custom resource that sets the retention policy.
+
+---
+
+##### `memorySize`<sup>Optional</sup> <a name="memorySize" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.memorySize"></a>
+
+```typescript
+public readonly memorySize: number;
+```
+
+- *Type:* number
+- *Default:* 128
+
+The amount of memory, in MB, that is allocated to your Lambda function.
+
+Lambda uses this value to proportionally allocate the amount of CPU
+power. For more information, see Resource Model in the AWS Lambda
+Developer Guide.
+
+---
+
+##### `profiling`<sup>Optional</sup> <a name="profiling" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.profiling"></a>
+
+```typescript
+public readonly profiling: boolean;
+```
+
+- *Type:* boolean
+- *Default:* No profiling.
+
+Enable profiling.
+
+> [https://docs.aws.amazon.com/codeguru/latest/profiler-ug/setting-up-lambda.html](https://docs.aws.amazon.com/codeguru/latest/profiler-ug/setting-up-lambda.html)
+
+---
+
+##### `profilingGroup`<sup>Optional</sup> <a name="profilingGroup" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.profilingGroup"></a>
+
+```typescript
+public readonly profilingGroup: IProfilingGroup;
+```
+
+- *Type:* aws-cdk-lib.aws_codeguruprofiler.IProfilingGroup
+- *Default:* A new profiling group will be created if `profiling` is set.
+
+Profiling Group.
+
+> [https://docs.aws.amazon.com/codeguru/latest/profiler-ug/setting-up-lambda.html](https://docs.aws.amazon.com/codeguru/latest/profiler-ug/setting-up-lambda.html)
+
+---
+
+##### `reservedConcurrentExecutions`<sup>Optional</sup> <a name="reservedConcurrentExecutions" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.reservedConcurrentExecutions"></a>
+
+```typescript
+public readonly reservedConcurrentExecutions: number;
+```
+
+- *Type:* number
+- *Default:* No specific limit - account limit.
+
+The maximum of concurrent executions you want to reserve for the function.
+
+> [https://docs.aws.amazon.com/lambda/latest/dg/concurrent-executions.html](https://docs.aws.amazon.com/lambda/latest/dg/concurrent-executions.html)
+
+---
+
+##### `role`<sup>Optional</sup> <a name="role" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.role"></a>
+
+```typescript
+public readonly role: IRole;
+```
+
+- *Type:* aws-cdk-lib.aws_iam.IRole
+- *Default:* A unique role will be generated for this lambda function. Both supplied and generated roles can always be changed by calling `addToRolePolicy`.
+
+Lambda execution role.
+
+This is the role that will be assumed by the function upon execution.
+It controls the permissions that the function will have. The Role must
+be assumable by the 'lambda.amazonaws.com' service principal.
+
+The default Role automatically has permissions granted for Lambda execution. If you
+provide a Role, you must add the relevant AWS managed policies yourself.
+
+The relevant managed policies are "service-role/AWSLambdaBasicExecutionRole" and
+"service-role/AWSLambdaVPCAccessExecutionRole".
+
+---
+
+##### `securityGroups`<sup>Optional</sup> <a name="securityGroups" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.securityGroups"></a>
+
+```typescript
+public readonly securityGroups: ISecurityGroup[];
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.ISecurityGroup[]
+- *Default:* If the function is placed within a VPC and a security group is not specified, either by this or securityGroup prop, a dedicated security group will be created for this function.
+
+The list of security groups to associate with the Lambda's network interfaces.
+
+Only used if 'vpc' is supplied.
+
+---
+
+##### `timeout`<sup>Optional</sup> <a name="timeout" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.timeout"></a>
+
+```typescript
+public readonly timeout: Duration;
+```
+
+- *Type:* aws-cdk-lib.Duration
+- *Default:* Duration.seconds(3)
+
+The function execution time (in seconds) after which Lambda terminates the function.
+
+Because the execution time affects cost, set this value
+based on the function's expected execution time.
+
+---
+
+##### `tracing`<sup>Optional</sup> <a name="tracing" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.tracing"></a>
+
+```typescript
+public readonly tracing: Tracing;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Tracing
+- *Default:* Tracing.Disabled
+
+Enable AWS X-Ray Tracing for Lambda Function.
+
+---
+
+##### `vpc`<sup>Optional</sup> <a name="vpc" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.vpc"></a>
+
+```typescript
+public readonly vpc: IVpc;
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.IVpc
+- *Default:* Function is not placed within a VPC.
+
+VPC network to place Lambda network interfaces.
+
+Specify this if the Lambda function needs to access resources in a VPC.
+
+---
+
+##### `vpcSubnets`<sup>Optional</sup> <a name="vpcSubnets" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.vpcSubnets"></a>
+
+```typescript
+public readonly vpcSubnets: SubnetSelection;
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.SubnetSelection
+- *Default:* the Vpc default strategy if not specified
+
+Where to place the network interfaces within the VPC.
+
+Only used if 'vpc' is supplied. Note: internet access for Lambdas
+requires a NAT gateway, so picking Public subnets is not allowed.
+
+---
+
+##### `addToAlarmDashboard`<sup>Optional</sup> <a name="addToAlarmDashboard" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.addToAlarmDashboard"></a>
+
+```typescript
+public readonly addToAlarmDashboard: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Add widgets to alarm dashboard.
+
+---
+
+##### `addToDetailDashboard`<sup>Optional</sup> <a name="addToDetailDashboard" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.addToDetailDashboard"></a>
+
+```typescript
+public readonly addToDetailDashboard: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Add widgets to detailed dashboard.
+
+---
+
+##### `addToSummaryDashboard`<sup>Optional</sup> <a name="addToSummaryDashboard" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.addToSummaryDashboard"></a>
+
+```typescript
+public readonly addToSummaryDashboard: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Add widgets to summary dashboard.
+
+---
+
+##### `alarmNamePrefix`<sup>Optional</sup> <a name="alarmNamePrefix" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.alarmNamePrefix"></a>
+
+```typescript
+public readonly alarmNamePrefix: string;
+```
+
+- *Type:* string
+- *Default:* Stack.of(this).stackName
+
+Prefix for generated alarms.
+
+---
+
+##### `criticalAlarmOptions`<sup>Optional</sup> <a name="criticalAlarmOptions" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.criticalAlarmOptions"></a>
+
+```typescript
+public readonly criticalAlarmOptions: AlarmsCategoryOptions;
+```
+
+- *Type:* truemark-cdk-lib.aws_monitoring.AlarmsCategoryOptions
+
+Alarm thresholds for critical alarms.
+
+If no properties are provided, a set of default alarms are created.
+
+---
+
+##### `dashboardFactory`<sup>Optional</sup> <a name="dashboardFactory" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.dashboardFactory"></a>
+
+```typescript
+public readonly dashboardFactory: IDashboardFactory;
+```
+
+- *Type:* cdk-monitoring-constructs.IDashboardFactory
+
+The DashboardFactory to use when generating CloudWatch dashboards.
+
+If not defined, dashboards are not generated.
+
+---
+
+##### `monitoringFacade`<sup>Optional</sup> <a name="monitoringFacade" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.monitoringFacade"></a>
+
+```typescript
+public readonly monitoringFacade: MonitoringFacade;
+```
+
+- *Type:* cdk-monitoring-constructs.MonitoringFacade
+
+Main entry point for monitoring.
+
+If no value is provided, a default facade will be created.
+
+---
+
+##### `warningAlarmOptions`<sup>Optional</sup> <a name="warningAlarmOptions" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.warningAlarmOptions"></a>
+
+```typescript
+public readonly warningAlarmOptions: AlarmsCategoryOptions;
+```
+
+- *Type:* truemark-cdk-lib.aws_monitoring.AlarmsCategoryOptions
+
+Alarm thresholds for warning alarms.
+
+If no properties are provided, a set of default alarms are created.
+
+---
+
+##### `lambdaInsightsEnabled`<sup>Optional</sup> <a name="lambdaInsightsEnabled" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.lambdaInsightsEnabled"></a>
+
+```typescript
+public readonly lambdaInsightsEnabled: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Generate dashboard charts for Lambda insights metrics.
+
+---
+
+##### `deploymentOptions`<sup>Optional</sup> <a name="deploymentOptions" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.deploymentOptions"></a>
+
+```typescript
+public readonly deploymentOptions: DeployedFunctionDeploymentOptions;
+```
+
+- *Type:* truemark-cdk-lib.aws_lambda.DeployedFunctionDeploymentOptions
+
+The deployment configuration settings to use.
+
+If none are provided a default set is used.
+
+---
+
+##### `entry`<sup>Required</sup> <a name="entry" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.entry"></a>
+
+```typescript
+public readonly entry: string;
+```
+
+- *Type:* string
+
+Path to the source of the function.
+
+Example: path.join(__dirname, '..', 'mylambda')
+
+---
+
+##### `bundling`<sup>Optional</sup> <a name="bundling" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.bundling"></a>
+
+```typescript
+public readonly bundling: BundlingOptions;
+```
+
+- *Type:* aws-cdk-lib.BundlingOptions
+
+Bundling options to use for this function.
+
+Use this to specify custom bundling options like
+the bundling Docker image, asset hash type, custom hash, architecture, etc.
+
+---
+
+##### `bundlingEnvironment`<sup>Optional</sup> <a name="bundlingEnvironment" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.bundlingEnvironment"></a>
+
+```typescript
+public readonly bundlingEnvironment: {[ key: string ]: string};
+```
+
+- *Type:* {[ key: string ]: string}
+
+Additional environment variable to be passed to the bundling script.
+
+---
+
+##### `bundlingScript`<sup>Optional</sup> <a name="bundlingScript" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.bundlingScript"></a>
+
+```typescript
+public readonly bundlingScript: string;
+```
+
+- *Type:* string
+
+Overrides the default bundling script.
+
+---
+
+##### `disableDockerBundling`<sup>Optional</sup> <a name="disableDockerBundling" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.disableDockerBundling"></a>
+
+```typescript
+public readonly disableDockerBundling: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false
+
+Turns off docker bundling.
+
+---
+
+##### `disableLocalBundling`<sup>Optional</sup> <a name="disableLocalBundling" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.disableLocalBundling"></a>
+
+```typescript
+public readonly disableLocalBundling: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false
+
+Turns off local bundling.
+
+---
+
+##### `handler`<sup>Optional</sup> <a name="handler" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.handler"></a>
+
+```typescript
+public readonly handler: string;
+```
+
+- *Type:* string
+- *Default:* 'handler'
+
+The name of the exported handler in the index file.
+
+---
+
+##### `index`<sup>Optional</sup> <a name="index" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.index"></a>
+
+```typescript
+public readonly index: string;
+```
+
+- *Type:* string
+- *Default:* 'index.py'
+
+The path (relative to entry) to the index file containing the exported handler.
+
+---
+
+##### `runtime`<sup>Optional</sup> <a name="runtime" id="truemark-cdk-lib.aws_lambda.PythonFunctionProps.property.runtime"></a>
+
+```typescript
+public readonly runtime: Runtime;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Runtime
+- *Default:* Runtime.PYTHON_3_9
+
+The runtime environment.
+
+Only runtimes of the Python family are supported.
+
+---
+
+### QueueAlarmsCategoryProps <a name="QueueAlarmsCategoryProps" id="truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps"></a>
+
+#### Initializer <a name="Initializer" id="truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps.Initializer"></a>
+
+```typescript
+import { aws_sqs } from 'truemark-cdk-lib'
+
+const queueAlarmsCategoryProps: aws_sqs.QueueAlarmsCategoryProps = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps.property.deadLetterQueueMaxAgeInSeconds">deadLetterQueueMaxAgeInSeconds</a></code> | <code>number</code> | Maximum age of the oldest messages in the dead-letter queue. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps.property.deadLetterQueueMaxIncoming">deadLetterQueueMaxIncoming</a></code> | <code>number</code> | Maximum number of incoming messages in the dead-letter queue. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps.property.deadLetterQueueMaxSize">deadLetterQueueMaxSize</a></code> | <code>number</code> | Maximum number of visible messages in the dead-letter queue. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps.property.maxAgeInSeconds">maxAgeInSeconds</a></code> | <code>number</code> | Maximum approximate age of the oldest message in the queue. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps.property.maxIncoming">maxIncoming</a></code> | <code>number</code> | Maximum number of incoming messages. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps.property.maxSize">maxSize</a></code> | <code>number</code> | Maximum number of messages visible. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps.property.maxTimeToDrain">maxTimeToDrain</a></code> | <code>aws-cdk-lib.Duration</code> | Maximum time to drain the queue. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps.property.minIncoming">minIncoming</a></code> | <code>number</code> | Minimum number of incoming messages. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps.property.minSize">minSize</a></code> | <code>number</code> | Minimum number of messages visible. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps.property.notifyActions">notifyActions</a></code> | <code>object</code> | Actions to send alarm notifications. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps.property.notifyTopics">notifyTopics</a></code> | <code>object</code> | Topics to send alarm notifications. |
+
+---
+
+##### `deadLetterQueueMaxAgeInSeconds`<sup>Optional</sup> <a name="deadLetterQueueMaxAgeInSeconds" id="truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps.property.deadLetterQueueMaxAgeInSeconds"></a>
+
+```typescript
+public readonly deadLetterQueueMaxAgeInSeconds: number;
+```
+
+- *Type:* number
+
+Maximum age of the oldest messages in the dead-letter queue.
+
+---
+
+##### `deadLetterQueueMaxIncoming`<sup>Optional</sup> <a name="deadLetterQueueMaxIncoming" id="truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps.property.deadLetterQueueMaxIncoming"></a>
+
+```typescript
+public readonly deadLetterQueueMaxIncoming: number;
+```
+
+- *Type:* number
+
+Maximum number of incoming messages in the dead-letter queue.
+
+---
+
+##### `deadLetterQueueMaxSize`<sup>Optional</sup> <a name="deadLetterQueueMaxSize" id="truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps.property.deadLetterQueueMaxSize"></a>
+
+```typescript
+public readonly deadLetterQueueMaxSize: number;
+```
+
+- *Type:* number
+- *Default:* 0 for critical alarm
+
+Maximum number of visible messages in the dead-letter queue.
+
+---
+
+##### `maxAgeInSeconds`<sup>Optional</sup> <a name="maxAgeInSeconds" id="truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps.property.maxAgeInSeconds"></a>
+
+```typescript
+public readonly maxAgeInSeconds: number;
+```
+
+- *Type:* number
+- *Default:* 15 for critical alarm
+
+Maximum approximate age of the oldest message in the queue.
+
+---
+
+##### `maxIncoming`<sup>Optional</sup> <a name="maxIncoming" id="truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps.property.maxIncoming"></a>
+
+```typescript
+public readonly maxIncoming: number;
+```
+
+- *Type:* number
+
+Maximum number of incoming messages.
+
+---
+
+##### `maxSize`<sup>Optional</sup> <a name="maxSize" id="truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps.property.maxSize"></a>
+
+```typescript
+public readonly maxSize: number;
+```
+
+- *Type:* number
+
+Maximum number of messages visible.
+
+---
+
+##### `maxTimeToDrain`<sup>Optional</sup> <a name="maxTimeToDrain" id="truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps.property.maxTimeToDrain"></a>
+
+```typescript
+public readonly maxTimeToDrain: Duration;
+```
+
+- *Type:* aws-cdk-lib.Duration
+
+Maximum time to drain the queue.
+
+---
+
+##### `minIncoming`<sup>Optional</sup> <a name="minIncoming" id="truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps.property.minIncoming"></a>
+
+```typescript
+public readonly minIncoming: number;
+```
+
+- *Type:* number
+
+Minimum number of incoming messages.
+
+---
+
+##### `minSize`<sup>Optional</sup> <a name="minSize" id="truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps.property.minSize"></a>
+
+```typescript
+public readonly minSize: number;
+```
+
+- *Type:* number
+
+Minimum number of messages visible.
+
+---
+
+##### `notifyActions`<sup>Optional</sup> <a name="notifyActions" id="truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps.property.notifyActions"></a>
+
+```typescript
+public readonly notifyActions: object;
+```
+
+- *Type:* object
+
+Actions to send alarm notifications.
+
+---
+
+##### `notifyTopics`<sup>Optional</sup> <a name="notifyTopics" id="truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps.property.notifyTopics"></a>
+
+```typescript
+public readonly notifyTopics: object;
+```
+
+- *Type:* object
+
+Topics to send alarm notifications.
+
+---
+
+### QueueAlarmsOptions <a name="QueueAlarmsOptions" id="truemark-cdk-lib.aws_sqs.QueueAlarmsOptions"></a>
+
+#### Initializer <a name="Initializer" id="truemark-cdk-lib.aws_sqs.QueueAlarmsOptions.Initializer"></a>
+
+```typescript
+import { aws_sqs } from 'truemark-cdk-lib'
+
+const queueAlarmsOptions: aws_sqs.QueueAlarmsOptions = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_sqs.QueueAlarmsOptions.property.alarmNamePrefix">alarmNamePrefix</a></code> | <code>string</code> | Prefix used for generated alarms. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.QueueAlarmsOptions.property.criticalAlarmProps">criticalAlarmProps</a></code> | <code>truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps</code> | Alarm thresholds for critical alarms. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.QueueAlarmsOptions.property.dashboardFactory">dashboardFactory</a></code> | <code>cdk-monitoring-constructs.IDashboardFactory</code> | The DashboardFactory to use when generating CloudWatch dashboards. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.QueueAlarmsOptions.property.monitoringFacade">monitoringFacade</a></code> | <code>cdk-monitoring-constructs.MonitoringFacade</code> | Main entry point for monitoring. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.QueueAlarmsOptions.property.warningAlarmProps">warningAlarmProps</a></code> | <code>truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps</code> | Alarm threshold for warning alarms. |
+
+---
+
+##### `alarmNamePrefix`<sup>Optional</sup> <a name="alarmNamePrefix" id="truemark-cdk-lib.aws_sqs.QueueAlarmsOptions.property.alarmNamePrefix"></a>
+
+```typescript
+public readonly alarmNamePrefix: string;
+```
+
+- *Type:* string
+- *Default:* Stack.of(this).stackName;
+
+Prefix used for generated alarms.
+
+---
+
+##### `criticalAlarmProps`<sup>Optional</sup> <a name="criticalAlarmProps" id="truemark-cdk-lib.aws_sqs.QueueAlarmsOptions.property.criticalAlarmProps"></a>
+
+```typescript
+public readonly criticalAlarmProps: QueueAlarmsCategoryProps;
+```
+
+- *Type:* truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps
+
+Alarm thresholds for critical alarms.
+
+If no properties are provided, a set of default alarms are created.
+
+---
+
+##### `dashboardFactory`<sup>Optional</sup> <a name="dashboardFactory" id="truemark-cdk-lib.aws_sqs.QueueAlarmsOptions.property.dashboardFactory"></a>
+
+```typescript
+public readonly dashboardFactory: IDashboardFactory;
+```
+
+- *Type:* cdk-monitoring-constructs.IDashboardFactory
+
+The DashboardFactory to use when generating CloudWatch dashboards.
+
+If not defined, dashboards are not generated.
+
+---
+
+##### `monitoringFacade`<sup>Optional</sup> <a name="monitoringFacade" id="truemark-cdk-lib.aws_sqs.QueueAlarmsOptions.property.monitoringFacade"></a>
+
+```typescript
+public readonly monitoringFacade: MonitoringFacade;
+```
+
+- *Type:* cdk-monitoring-constructs.MonitoringFacade
+
+Main entry point for monitoring.
+
+If no value is provided, a default facade will be created.
+
+---
+
+##### `warningAlarmProps`<sup>Optional</sup> <a name="warningAlarmProps" id="truemark-cdk-lib.aws_sqs.QueueAlarmsOptions.property.warningAlarmProps"></a>
+
+```typescript
+public readonly warningAlarmProps: QueueAlarmsCategoryProps;
+```
+
+- *Type:* truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps
+
+Alarm threshold for warning alarms.
+
+If no properties are provided, a set of default alarms are created.
+
+---
+
+### QueueAlarmsProps <a name="QueueAlarmsProps" id="truemark-cdk-lib.aws_sqs.QueueAlarmsProps"></a>
+
+Properties for QueueAlarms.
+
+#### Initializer <a name="Initializer" id="truemark-cdk-lib.aws_sqs.QueueAlarmsProps.Initializer"></a>
+
+```typescript
+import { aws_sqs } from 'truemark-cdk-lib'
+
+const queueAlarmsProps: aws_sqs.QueueAlarmsProps = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_sqs.QueueAlarmsProps.property.alarmNamePrefix">alarmNamePrefix</a></code> | <code>string</code> | Prefix used for generated alarms. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.QueueAlarmsProps.property.criticalAlarmProps">criticalAlarmProps</a></code> | <code>truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps</code> | Alarm thresholds for critical alarms. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.QueueAlarmsProps.property.dashboardFactory">dashboardFactory</a></code> | <code>cdk-monitoring-constructs.IDashboardFactory</code> | The DashboardFactory to use when generating CloudWatch dashboards. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.QueueAlarmsProps.property.monitoringFacade">monitoringFacade</a></code> | <code>cdk-monitoring-constructs.MonitoringFacade</code> | Main entry point for monitoring. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.QueueAlarmsProps.property.warningAlarmProps">warningAlarmProps</a></code> | <code>truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps</code> | Alarm threshold for warning alarms. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.QueueAlarmsProps.property.queue">queue</a></code> | <code>aws-cdk-lib.aws_sqs.Queue</code> | The queue to observe. |
+
+---
+
+##### `alarmNamePrefix`<sup>Optional</sup> <a name="alarmNamePrefix" id="truemark-cdk-lib.aws_sqs.QueueAlarmsProps.property.alarmNamePrefix"></a>
+
+```typescript
+public readonly alarmNamePrefix: string;
+```
+
+- *Type:* string
+- *Default:* Stack.of(this).stackName;
+
+Prefix used for generated alarms.
+
+---
+
+##### `criticalAlarmProps`<sup>Optional</sup> <a name="criticalAlarmProps" id="truemark-cdk-lib.aws_sqs.QueueAlarmsProps.property.criticalAlarmProps"></a>
+
+```typescript
+public readonly criticalAlarmProps: QueueAlarmsCategoryProps;
+```
+
+- *Type:* truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps
+
+Alarm thresholds for critical alarms.
+
+If no properties are provided, a set of default alarms are created.
+
+---
+
+##### `dashboardFactory`<sup>Optional</sup> <a name="dashboardFactory" id="truemark-cdk-lib.aws_sqs.QueueAlarmsProps.property.dashboardFactory"></a>
+
+```typescript
+public readonly dashboardFactory: IDashboardFactory;
+```
+
+- *Type:* cdk-monitoring-constructs.IDashboardFactory
+
+The DashboardFactory to use when generating CloudWatch dashboards.
+
+If not defined, dashboards are not generated.
+
+---
+
+##### `monitoringFacade`<sup>Optional</sup> <a name="monitoringFacade" id="truemark-cdk-lib.aws_sqs.QueueAlarmsProps.property.monitoringFacade"></a>
+
+```typescript
+public readonly monitoringFacade: MonitoringFacade;
+```
+
+- *Type:* cdk-monitoring-constructs.MonitoringFacade
+
+Main entry point for monitoring.
+
+If no value is provided, a default facade will be created.
+
+---
+
+##### `warningAlarmProps`<sup>Optional</sup> <a name="warningAlarmProps" id="truemark-cdk-lib.aws_sqs.QueueAlarmsProps.property.warningAlarmProps"></a>
+
+```typescript
+public readonly warningAlarmProps: QueueAlarmsCategoryProps;
+```
+
+- *Type:* truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps
+
+Alarm threshold for warning alarms.
+
+If no properties are provided, a set of default alarms are created.
+
+---
+
+##### `queue`<sup>Required</sup> <a name="queue" id="truemark-cdk-lib.aws_sqs.QueueAlarmsProps.property.queue"></a>
+
+```typescript
+public readonly queue: Queue;
+```
+
+- *Type:* aws-cdk-lib.aws_sqs.Queue
+
+The queue to observe.
+
+---
+
 ### StandardAlarmActionsStrategyProps <a name="StandardAlarmActionsStrategyProps" id="truemark-cdk-lib.aws_monitoring.StandardAlarmActionsStrategyProps"></a>
 
 Properties for StandardAlarmActionsStrategy.
@@ -8303,6 +24476,286 @@ public readonly actions: IAlarmAction[];
 ```
 
 - *Type:* aws-cdk-lib.aws_cloudwatch.IAlarmAction[]
+
+---
+
+### StandardBucketProps <a name="StandardBucketProps" id="truemark-cdk-lib.aws_s3.StandardBucketProps"></a>
+
+#### Initializer <a name="Initializer" id="truemark-cdk-lib.aws_s3.StandardBucketProps.Initializer"></a>
+
+```typescript
+import { aws_s3 } from 'truemark-cdk-lib'
+
+const standardBucketProps: aws_s3.StandardBucketProps = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucketProps.property.blockPublicAccess">blockPublicAccess</a></code> | <code>aws-cdk-lib.aws_s3.BlockPublicAccess</code> | The block public access configuration of this bucket. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucketProps.property.bucketName">bucketName</a></code> | <code>string</code> | Physical name of this bucket. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucketProps.property.encryptionKey">encryptionKey</a></code> | <code>aws-cdk-lib.aws_kms.IKey</code> | Key to be used for encryption. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucketProps.property.publicReadAccess">publicReadAccess</a></code> | <code>boolean</code> | Grants public read access to all objects in the bucket. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucketProps.property.removalPolicy">removalPolicy</a></code> | <code>aws-cdk-lib.RemovalPolicy</code> | Removal policy for this bucket. |
+| <code><a href="#truemark-cdk-lib.aws_s3.StandardBucketProps.property.versioned">versioned</a></code> | <code>boolean</code> | Whether this bucket should have versioning turned on or not. |
+
+---
+
+##### `blockPublicAccess`<sup>Optional</sup> <a name="blockPublicAccess" id="truemark-cdk-lib.aws_s3.StandardBucketProps.property.blockPublicAccess"></a>
+
+```typescript
+public readonly blockPublicAccess: BlockPublicAccess;
+```
+
+- *Type:* aws-cdk-lib.aws_s3.BlockPublicAccess
+- *Default:* BlockPublicAccess.BLOCK_ALL
+
+The block public access configuration of this bucket.
+
+---
+
+##### `bucketName`<sup>Optional</sup> <a name="bucketName" id="truemark-cdk-lib.aws_s3.StandardBucketProps.property.bucketName"></a>
+
+```typescript
+public readonly bucketName: string;
+```
+
+- *Type:* string
+- *Default:* Assigned by CloudFormation (recommended).
+
+Physical name of this bucket.
+
+---
+
+##### `encryptionKey`<sup>Optional</sup> <a name="encryptionKey" id="truemark-cdk-lib.aws_s3.StandardBucketProps.property.encryptionKey"></a>
+
+```typescript
+public readonly encryptionKey: IKey;
+```
+
+- *Type:* aws-cdk-lib.aws_kms.IKey
+
+Key to be used for encryption.
+
+If left empty, encryption will be S3_MANAGED.
+
+---
+
+##### `publicReadAccess`<sup>Optional</sup> <a name="publicReadAccess" id="truemark-cdk-lib.aws_s3.StandardBucketProps.property.publicReadAccess"></a>
+
+```typescript
+public readonly publicReadAccess: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false
+
+Grants public read access to all objects in the bucket.
+
+Similar to calling bucket.grantPublicAccess()
+
+---
+
+##### `removalPolicy`<sup>Optional</sup> <a name="removalPolicy" id="truemark-cdk-lib.aws_s3.StandardBucketProps.property.removalPolicy"></a>
+
+```typescript
+public readonly removalPolicy: RemovalPolicy;
+```
+
+- *Type:* aws-cdk-lib.RemovalPolicy
+- *Default:* RemovalPolicy.DESTROY
+
+Removal policy for this bucket.
+
+---
+
+##### `versioned`<sup>Optional</sup> <a name="versioned" id="truemark-cdk-lib.aws_s3.StandardBucketProps.property.versioned"></a>
+
+```typescript
+public readonly versioned: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false
+
+Whether this bucket should have versioning turned on or not.
+
+---
+
+### StandardQueueProps <a name="StandardQueueProps" id="truemark-cdk-lib.aws_sqs.StandardQueueProps"></a>
+
+Properties for a StandardQueue.
+
+#### Initializer <a name="Initializer" id="truemark-cdk-lib.aws_sqs.StandardQueueProps.Initializer"></a>
+
+```typescript
+import { aws_sqs } from 'truemark-cdk-lib'
+
+const standardQueueProps: aws_sqs.StandardQueueProps = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueueProps.property.alarmNamePrefix">alarmNamePrefix</a></code> | <code>string</code> | Prefix used for generated alarms. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueueProps.property.criticalAlarmProps">criticalAlarmProps</a></code> | <code>truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps</code> | Alarm thresholds for critical alarms. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueueProps.property.dashboardFactory">dashboardFactory</a></code> | <code>cdk-monitoring-constructs.IDashboardFactory</code> | The DashboardFactory to use when generating CloudWatch dashboards. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueueProps.property.monitoringFacade">monitoringFacade</a></code> | <code>cdk-monitoring-constructs.MonitoringFacade</code> | Main entry point for monitoring. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueueProps.property.warningAlarmProps">warningAlarmProps</a></code> | <code>truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps</code> | Alarm threshold for warning alarms. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueueProps.property.dataKeyReuse">dataKeyReuse</a></code> | <code>aws-cdk-lib.Duration</code> | The length of time that Amazon SQS reuses a data key before calling KMS again. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueueProps.property.encryptionMasterKey">encryptionMasterKey</a></code> | <code>aws-cdk-lib.aws_kms.IKey</code> | The KMS key to use for encryption. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueueProps.property.maxReceiveCount">maxReceiveCount</a></code> | <code>number</code> | The maximum number of times a message can be unsuccessful before being moved to the dead-letter queue. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueueProps.property.retentionPeriod">retentionPeriod</a></code> | <code>aws-cdk-lib.Duration</code> | The number of seconds Amazon SQS retains a message. |
+| <code><a href="#truemark-cdk-lib.aws_sqs.StandardQueueProps.property.visibilityTimeout">visibilityTimeout</a></code> | <code>aws-cdk-lib.Duration</code> | The number of seconds a consumer has to handle the message and delete it from the queue before it becomes visible again for another consumer. |
+
+---
+
+##### `alarmNamePrefix`<sup>Optional</sup> <a name="alarmNamePrefix" id="truemark-cdk-lib.aws_sqs.StandardQueueProps.property.alarmNamePrefix"></a>
+
+```typescript
+public readonly alarmNamePrefix: string;
+```
+
+- *Type:* string
+- *Default:* Stack.of(this).stackName;
+
+Prefix used for generated alarms.
+
+---
+
+##### `criticalAlarmProps`<sup>Optional</sup> <a name="criticalAlarmProps" id="truemark-cdk-lib.aws_sqs.StandardQueueProps.property.criticalAlarmProps"></a>
+
+```typescript
+public readonly criticalAlarmProps: QueueAlarmsCategoryProps;
+```
+
+- *Type:* truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps
+
+Alarm thresholds for critical alarms.
+
+If no properties are provided, a set of default alarms are created.
+
+---
+
+##### `dashboardFactory`<sup>Optional</sup> <a name="dashboardFactory" id="truemark-cdk-lib.aws_sqs.StandardQueueProps.property.dashboardFactory"></a>
+
+```typescript
+public readonly dashboardFactory: IDashboardFactory;
+```
+
+- *Type:* cdk-monitoring-constructs.IDashboardFactory
+
+The DashboardFactory to use when generating CloudWatch dashboards.
+
+If not defined, dashboards are not generated.
+
+---
+
+##### `monitoringFacade`<sup>Optional</sup> <a name="monitoringFacade" id="truemark-cdk-lib.aws_sqs.StandardQueueProps.property.monitoringFacade"></a>
+
+```typescript
+public readonly monitoringFacade: MonitoringFacade;
+```
+
+- *Type:* cdk-monitoring-constructs.MonitoringFacade
+
+Main entry point for monitoring.
+
+If no value is provided, a default facade will be created.
+
+---
+
+##### `warningAlarmProps`<sup>Optional</sup> <a name="warningAlarmProps" id="truemark-cdk-lib.aws_sqs.StandardQueueProps.property.warningAlarmProps"></a>
+
+```typescript
+public readonly warningAlarmProps: QueueAlarmsCategoryProps;
+```
+
+- *Type:* truemark-cdk-lib.aws_sqs.QueueAlarmsCategoryProps
+
+Alarm threshold for warning alarms.
+
+If no properties are provided, a set of default alarms are created.
+
+---
+
+##### `dataKeyReuse`<sup>Optional</sup> <a name="dataKeyReuse" id="truemark-cdk-lib.aws_sqs.StandardQueueProps.property.dataKeyReuse"></a>
+
+```typescript
+public readonly dataKeyReuse: Duration;
+```
+
+- *Type:* aws-cdk-lib.Duration
+- *Default:* Duration.minutes(15)
+
+The length of time that Amazon SQS reuses a data key before calling KMS again.
+
+This value affects pricing as you are charged for KMS usage. Value must be
+between 60 and 86,400 seconds (24 hours).
+
+---
+
+##### `encryptionMasterKey`<sup>Optional</sup> <a name="encryptionMasterKey" id="truemark-cdk-lib.aws_sqs.StandardQueueProps.property.encryptionMasterKey"></a>
+
+```typescript
+public readonly encryptionMasterKey: IKey;
+```
+
+- *Type:* aws-cdk-lib.aws_kms.IKey
+
+The KMS key to use for encryption.
+
+If not set, the AWS master key for SQS
+will be used.
+
+---
+
+##### `maxReceiveCount`<sup>Optional</sup> <a name="maxReceiveCount" id="truemark-cdk-lib.aws_sqs.StandardQueueProps.property.maxReceiveCount"></a>
+
+```typescript
+public readonly maxReceiveCount: number;
+```
+
+- *Type:* number
+- *Default:* 3
+
+The maximum number of times a message can be unsuccessful before being moved to the dead-letter queue.
+
+Set this value to -1 to disable the dead-letter queue.
+
+---
+
+##### `retentionPeriod`<sup>Optional</sup> <a name="retentionPeriod" id="truemark-cdk-lib.aws_sqs.StandardQueueProps.property.retentionPeriod"></a>
+
+```typescript
+public readonly retentionPeriod: Duration;
+```
+
+- *Type:* aws-cdk-lib.Duration
+- *Default:* Duration.seconds(1209600)
+
+The number of seconds Amazon SQS retains a message.
+
+Value must be between
+60 and 1209600 seconds (14 days).
+
+---
+
+##### `visibilityTimeout`<sup>Optional</sup> <a name="visibilityTimeout" id="truemark-cdk-lib.aws_sqs.StandardQueueProps.property.visibilityTimeout"></a>
+
+```typescript
+public readonly visibilityTimeout: Duration;
+```
+
+- *Type:* aws-cdk-lib.Duration
+- *Default:* Duration.seconds(30)
+
+The number of seconds a consumer has to handle the message and delete it from the queue before it becomes visible again for another consumer.
+
+Value
+must be between 0 and 43200 seconds (12 hours).
 
 ---
 
@@ -8785,6 +25238,197 @@ public readonly table: ITable;
 - *Type:* aws-cdk-lib.aws_dynamodb.ITable
 
 The table to create alarms for.
+
+---
+
+### WebsiteProps <a name="WebsiteProps" id="truemark-cdk-lib.aws_website.WebsiteProps"></a>
+
+#### Initializer <a name="Initializer" id="truemark-cdk-lib.aws_website.WebsiteProps.Initializer"></a>
+
+```typescript
+import { aws_website } from 'truemark-cdk-lib'
+
+const websiteProps: aws_website.WebsiteProps = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_website.WebsiteProps.property.sourceDirectory">sourceDirectory</a></code> | <code>string</code> | The directory where the website sources are located. |
+| <code><a href="#truemark-cdk-lib.aws_website.WebsiteProps.property.bucket">bucket</a></code> | <code>aws-cdk-lib.aws_s3.IBucket</code> | Bucket to use to store website content. |
+| <code><a href="#truemark-cdk-lib.aws_website.WebsiteProps.property.certificateArn">certificateArn</a></code> | <code>string</code> | The ARN to the ACM Certificate to use on the CloudFront distribution. |
+| <code><a href="#truemark-cdk-lib.aws_website.WebsiteProps.property.domainNames">domainNames</a></code> | <code>truemark-cdk-lib.aws_website.DomainName[]</code> | The domain names to be serviced. |
+| <code><a href="#truemark-cdk-lib.aws_website.WebsiteProps.property.fallbackBucket">fallbackBucket</a></code> | <code>aws-cdk-lib.aws_s3.IBucket</code> | Bucket to use if the primary bucket fails. |
+| <code><a href="#truemark-cdk-lib.aws_website.WebsiteProps.property.httpVersion">httpVersion</a></code> | <code>aws-cdk-lib.aws_cloudfront.HttpVersion</code> | Minimum HTTP version to allow. |
+| <code><a href="#truemark-cdk-lib.aws_website.WebsiteProps.property.maxAge">maxAge</a></code> | <code>aws-cdk-lib.Duration</code> | Cache-control max age. |
+| <code><a href="#truemark-cdk-lib.aws_website.WebsiteProps.property.minimumProtocolVersion">minimumProtocolVersion</a></code> | <code>aws-cdk-lib.aws_cloudfront.SecurityPolicyProtocol</code> | Minimum protocol version to allow. |
+| <code><a href="#truemark-cdk-lib.aws_website.WebsiteProps.property.priceClass">priceClass</a></code> | <code>aws-cdk-lib.aws_cloudfront.PriceClass</code> | Price class for the CloudFront distribution. |
+| <code><a href="#truemark-cdk-lib.aws_website.WebsiteProps.property.redirectToApexDomain">redirectToApexDomain</a></code> | <code>boolean</code> | Redirect traffic to the first domain in the list of domainNames. |
+| <code><a href="#truemark-cdk-lib.aws_website.WebsiteProps.property.sourceBundlingOptions">sourceBundlingOptions</a></code> | <code>aws-cdk-lib.BundlingOptions</code> | Custom bundling options to use to bundle website sources. |
+| <code><a href="#truemark-cdk-lib.aws_website.WebsiteProps.property.sourceType">sourceType</a></code> | <code>truemark-cdk-lib.aws_website.SourceType</code> | The source type of the website. |
+
+---
+
+##### `sourceDirectory`<sup>Required</sup> <a name="sourceDirectory" id="truemark-cdk-lib.aws_website.WebsiteProps.property.sourceDirectory"></a>
+
+```typescript
+public readonly sourceDirectory: string;
+```
+
+- *Type:* string
+
+The directory where the website sources are located.
+
+---
+
+##### `bucket`<sup>Optional</sup> <a name="bucket" id="truemark-cdk-lib.aws_website.WebsiteProps.property.bucket"></a>
+
+```typescript
+public readonly bucket: IBucket;
+```
+
+- *Type:* aws-cdk-lib.aws_s3.IBucket
+
+Bucket to use to store website content.
+
+If one is not provided, one will be generated.
+
+---
+
+##### `certificateArn`<sup>Optional</sup> <a name="certificateArn" id="truemark-cdk-lib.aws_website.WebsiteProps.property.certificateArn"></a>
+
+```typescript
+public readonly certificateArn: string;
+```
+
+- *Type:* string
+
+The ARN to the ACM Certificate to use on the CloudFront distribution.
+
+If one is not
+provided and domainNames is populated, one will be generated.
+
+---
+
+##### `domainNames`<sup>Optional</sup> <a name="domainNames" id="truemark-cdk-lib.aws_website.WebsiteProps.property.domainNames"></a>
+
+```typescript
+public readonly domainNames: DomainName[];
+```
+
+- *Type:* truemark-cdk-lib.aws_website.DomainName[]
+
+The domain names to be serviced.
+
+The first domain name in the list is treated as the apex domain.
+
+---
+
+##### `fallbackBucket`<sup>Optional</sup> <a name="fallbackBucket" id="truemark-cdk-lib.aws_website.WebsiteProps.property.fallbackBucket"></a>
+
+```typescript
+public readonly fallbackBucket: IBucket;
+```
+
+- *Type:* aws-cdk-lib.aws_s3.IBucket
+
+Bucket to use if the primary bucket fails.
+
+If one is not provided a fallback is not setup.
+
+---
+
+##### `httpVersion`<sup>Optional</sup> <a name="httpVersion" id="truemark-cdk-lib.aws_website.WebsiteProps.property.httpVersion"></a>
+
+```typescript
+public readonly httpVersion: HttpVersion;
+```
+
+- *Type:* aws-cdk-lib.aws_cloudfront.HttpVersion
+- *Default:* HttpVersion.HTTP1_1
+
+Minimum HTTP version to allow.
+
+---
+
+##### `maxAge`<sup>Optional</sup> <a name="maxAge" id="truemark-cdk-lib.aws_website.WebsiteProps.property.maxAge"></a>
+
+```typescript
+public readonly maxAge: Duration;
+```
+
+- *Type:* aws-cdk-lib.Duration
+- *Default:* Duration.minutes(60)
+
+Cache-control max age.
+
+---
+
+##### `minimumProtocolVersion`<sup>Optional</sup> <a name="minimumProtocolVersion" id="truemark-cdk-lib.aws_website.WebsiteProps.property.minimumProtocolVersion"></a>
+
+```typescript
+public readonly minimumProtocolVersion: SecurityPolicyProtocol;
+```
+
+- *Type:* aws-cdk-lib.aws_cloudfront.SecurityPolicyProtocol
+- *Default:* SecurityPolicyProtocol.TLS_V1_2_2021,
+
+Minimum protocol version to allow.
+
+---
+
+##### `priceClass`<sup>Optional</sup> <a name="priceClass" id="truemark-cdk-lib.aws_website.WebsiteProps.property.priceClass"></a>
+
+```typescript
+public readonly priceClass: PriceClass;
+```
+
+- *Type:* aws-cdk-lib.aws_cloudfront.PriceClass
+- *Default:* PriceClass.PRICE_CLASS_100
+
+Price class for the CloudFront distribution.
+
+---
+
+##### `redirectToApexDomain`<sup>Optional</sup> <a name="redirectToApexDomain" id="truemark-cdk-lib.aws_website.WebsiteProps.property.redirectToApexDomain"></a>
+
+```typescript
+public readonly redirectToApexDomain: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Redirect traffic to the first domain in the list of domainNames.
+
+---
+
+##### `sourceBundlingOptions`<sup>Optional</sup> <a name="sourceBundlingOptions" id="truemark-cdk-lib.aws_website.WebsiteProps.property.sourceBundlingOptions"></a>
+
+```typescript
+public readonly sourceBundlingOptions: BundlingOptions;
+```
+
+- *Type:* aws-cdk-lib.BundlingOptions
+
+Custom bundling options to use to bundle website sources.
+
+The sourceType
+must be set to SourceType.Custom.
+
+---
+
+##### `sourceType`<sup>Optional</sup> <a name="sourceType" id="truemark-cdk-lib.aws_website.WebsiteProps.property.sourceType"></a>
+
+```typescript
+public readonly sourceType: SourceType;
+```
+
+- *Type:* truemark-cdk-lib.aws_website.SourceType
+- *Default:* SourceType.Static
+
+The source type of the website.
 
 ---
 
@@ -9440,6 +26084,105 @@ optional default value for the warning threshold.
 
 
 
+### DomainName <a name="DomainName" id="truemark-cdk-lib.aws_website.DomainName"></a>
+
+#### Initializers <a name="Initializers" id="truemark-cdk-lib.aws_website.DomainName.Initializer"></a>
+
+```typescript
+import { aws_website } from 'truemark-cdk-lib'
+
+new aws_website.DomainName(prefix: string, zone: string | IHostedZone, createRecord?: boolean)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_website.DomainName.Initializer.parameter.prefix">prefix</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_website.DomainName.Initializer.parameter.zone">zone</a></code> | <code>string \| aws-cdk-lib.aws_route53.IHostedZone</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_website.DomainName.Initializer.parameter.createRecord">createRecord</a></code> | <code>boolean</code> | *No description.* |
+
+---
+
+##### `prefix`<sup>Required</sup> <a name="prefix" id="truemark-cdk-lib.aws_website.DomainName.Initializer.parameter.prefix"></a>
+
+- *Type:* string
+
+---
+
+##### `zone`<sup>Required</sup> <a name="zone" id="truemark-cdk-lib.aws_website.DomainName.Initializer.parameter.zone"></a>
+
+- *Type:* string | aws-cdk-lib.aws_route53.IHostedZone
+
+---
+
+##### `createRecord`<sup>Optional</sup> <a name="createRecord" id="truemark-cdk-lib.aws_website.DomainName.Initializer.parameter.createRecord"></a>
+
+- *Type:* boolean
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_website.DomainName.toIdentifier">toIdentifier</a></code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_website.DomainName.toString">toString</a></code> | *No description.* |
+
+---
+
+##### `toIdentifier` <a name="toIdentifier" id="truemark-cdk-lib.aws_website.DomainName.toIdentifier"></a>
+
+```typescript
+public toIdentifier(): string
+```
+
+##### `toString` <a name="toString" id="truemark-cdk-lib.aws_website.DomainName.toString"></a>
+
+```typescript
+public toString(): string
+```
+
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_website.DomainName.property.prefix">prefix</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_website.DomainName.property.zone">zone</a></code> | <code>string \| aws-cdk-lib.aws_route53.IHostedZone</code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_website.DomainName.property.createRecord">createRecord</a></code> | <code>boolean</code> | *No description.* |
+
+---
+
+##### `prefix`<sup>Required</sup> <a name="prefix" id="truemark-cdk-lib.aws_website.DomainName.property.prefix"></a>
+
+```typescript
+public readonly prefix: string;
+```
+
+- *Type:* string
+
+---
+
+##### `zone`<sup>Required</sup> <a name="zone" id="truemark-cdk-lib.aws_website.DomainName.property.zone"></a>
+
+```typescript
+public readonly zone: string | IHostedZone;
+```
+
+- *Type:* string | aws-cdk-lib.aws_route53.IHostedZone
+
+---
+
+##### `createRecord`<sup>Optional</sup> <a name="createRecord" id="truemark-cdk-lib.aws_website.DomainName.property.createRecord"></a>
+
+```typescript
+public readonly createRecord: boolean;
+```
+
+- *Type:* boolean
+
+---
+
+
 ### MetricHelper <a name="MetricHelper" id="truemark-cdk-lib.aws_cloudwatch.MetricHelper"></a>
 
 #### Initializers <a name="Initializers" id="truemark-cdk-lib.aws_cloudwatch.MetricHelper.Initializer"></a>
@@ -9681,6 +26424,62 @@ public addAlarmActions(props: AlarmActionStrategyProps): void
 
 
 ##### `WARNING` <a name="WARNING" id="truemark-cdk-lib.aws_monitoring.AlarmCategory.WARNING"></a>
+
+---
+
+
+### QueueAlarmCategory <a name="QueueAlarmCategory" id="truemark-cdk-lib.aws_sqs.QueueAlarmCategory"></a>
+
+Used to disambiguate warning and critical alarms.
+
+#### Members <a name="Members" id="Members"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_sqs.QueueAlarmCategory.CRITICAL">CRITICAL</a></code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_sqs.QueueAlarmCategory.WARNING">WARNING</a></code> | *No description.* |
+
+---
+
+##### `CRITICAL` <a name="CRITICAL" id="truemark-cdk-lib.aws_sqs.QueueAlarmCategory.CRITICAL"></a>
+
+---
+
+
+##### `WARNING` <a name="WARNING" id="truemark-cdk-lib.aws_sqs.QueueAlarmCategory.WARNING"></a>
+
+---
+
+
+### SourceType <a name="SourceType" id="truemark-cdk-lib.aws_website.SourceType"></a>
+
+#### Members <a name="Members" id="Members"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#truemark-cdk-lib.aws_website.SourceType.CUSTOM">CUSTOM</a></code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_website.SourceType.HUGO">HUGO</a></code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_website.SourceType.NPMDIST">NPMDIST</a></code> | *No description.* |
+| <code><a href="#truemark-cdk-lib.aws_website.SourceType.STATIC">STATIC</a></code> | *No description.* |
+
+---
+
+##### `CUSTOM` <a name="CUSTOM" id="truemark-cdk-lib.aws_website.SourceType.CUSTOM"></a>
+
+---
+
+
+##### `HUGO` <a name="HUGO" id="truemark-cdk-lib.aws_website.SourceType.HUGO"></a>
+
+---
+
+
+##### `NPMDIST` <a name="NPMDIST" id="truemark-cdk-lib.aws_website.SourceType.NPMDIST"></a>
+
+---
+
+
+##### `STATIC` <a name="STATIC" id="truemark-cdk-lib.aws_website.SourceType.STATIC"></a>
 
 ---
 
