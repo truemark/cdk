@@ -1,7 +1,7 @@
-import {FunctionAlarms, FunctionAlarmsOptions} from "./function-alarms";
-import * as lambda from "aws-cdk-lib/aws-lambda";
-import {Construct} from "constructs";
-import {FunctionDeployment, FunctionDeploymentOptions} from "./function-deployment";
+import * as lambda from 'aws-cdk-lib/aws-lambda';
+import { Construct } from 'constructs';
+import { FunctionAlarms, FunctionAlarmsOptions } from './function-alarms';
+import { FunctionDeployment, FunctionDeploymentOptions } from './function-deployment';
 
 export interface DeployedFunctionDeploymentOptions extends FunctionDeploymentOptions {
   /**
@@ -38,7 +38,7 @@ export interface DeployedFunctionOptions {
 /**
  * Properties for Function
  */
-export interface FunctionProps extends lambda.FunctionProps,  FunctionAlarmsOptions,DeployedFunctionOptions {
+export interface FunctionProps extends lambda.FunctionProps, FunctionAlarmsOptions, DeployedFunctionOptions {
 
 }
 
@@ -53,28 +53,28 @@ export class Function extends lambda.Function {
   constructor(scope: Construct, id: string, props: FunctionProps) {
     super(scope, id, props);
 
-    this.alarms = new FunctionAlarms(this, "Alarms", {
+    this.alarms = new FunctionAlarms(this, 'Alarms', {
       function: this,
       logGroup: this.logGroup,
-      ...props
+      ...props,
     });
 
     if (props.deploymentOptions?.createDeployment??true) {
-      this.deployment = new FunctionDeployment(this, "Deployment", {
+      this.deployment = new FunctionDeployment(this, 'Deployment', {
         ...props.deploymentOptions,
-        function: this
+        function: this,
       });
       if (props.deploymentOptions?.includeCriticalAlarms??true) {
-        this.deployment.addAlarms(...this.alarms.getCriticalAlarms());
+        this.deployment.addAlarms(...this.alarms.criticalAlarms());
       }
       if (props.deploymentOptions?.includeWarningAlarms??false) {
-        this.deployment.addAlarms(...this.alarms.getWarningAlarms());
+        this.deployment.addAlarms(...this.alarms.warningAlarms());
       }
     } else {
       // TODO: Our default. ERIK - is this what we want?
-      this.deployment = new FunctionDeployment(this, "Deployment", {
+      this.deployment = new FunctionDeployment(this, 'Deployment', {
         ...props.deploymentOptions,
-        function: this
+        function: this,
       });
     }
   }

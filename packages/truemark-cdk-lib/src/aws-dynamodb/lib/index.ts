@@ -1,2 +1,2 @@
-export * from "./observed-table"
-export * from "./table-alarms"
+export * from './observed-table';
+export * from './table-alarms';

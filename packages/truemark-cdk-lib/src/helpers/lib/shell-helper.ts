@@ -1,10 +1,10 @@
-import {spawnSync} from "child_process";
-import * as process from "process";
-import * as fs from "fs";
+import { spawnSync } from 'child_process';
+import * as fs from 'fs';
+import * as process from 'process';
 
 export interface BashExecutionProps {
-  readonly script: string,
-  readonly workingDirectory?: string,
+  readonly script: string;
+  readonly workingDirectory?: string;
   readonly environment?: {
     [key: string]: string;
   };
@@ -15,32 +15,32 @@ export interface BashExecutionProps {
  */
 export class ShellHelper {
 
-  static version(command: string, args: string[]): string | null {
+  static version(command: string, args: string[]): string | undefined {
     const res = spawnSync(command, args);
     if (res.status !== 0) {
-      return null;
+      return undefined;
     }
     const match = String(res.stdout).match(/[\d\\.]+/);
-    return match ? match.toString() : null;
+    return match ? match.toString() : undefined;
   }
 
-  static bashVersion(): string | null {
-    return ShellHelper.version('bash', ['--version'])
+  static bashVersion(): string | undefined {
+    return ShellHelper.version('bash', ['--version']);
   }
 
-  static pythonVersion(): string | null {
+  static pythonVersion(): string | undefined {
     return ShellHelper.version('python', ['-V']);
   }
 
-  static nodeVersion(): string | null {
+  static nodeVersion(): string | undefined {
     return ShellHelper.version('node', ['--version']);
   }
 
-  static goVersion(): string | null {
+  static goVersion(): string | undefined {
     return ShellHelper.version('go', ['version']);
   }
 
-  static dotnetVersion(): string | null {
+  static dotnetVersion(): string | undefined {
     return ShellHelper.version('dotnet', ['--version']);
   }
 
@@ -61,8 +61,8 @@ export class ShellHelper {
       stdio: ['pipe', process.stdout, process.stderr],
       env: {
         ...process.env,
-        ...props.environment
-      }
+        ...props.environment,
+      },
     });
     if (res.error) {
       throw res.error;
@@ -77,8 +77,8 @@ export class ShellHelper {
       stdio: 'inherit',
       env: {
         ...process.env,
-        ...props.environment
-      }
+        ...props.environment,
+      },
     });
     if (res.error) {
       throw res.error;

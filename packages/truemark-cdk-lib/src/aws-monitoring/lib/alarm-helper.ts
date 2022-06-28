@@ -1,10 +1,10 @@
-import {IAlarmAction} from "aws-cdk-lib/aws-cloudwatch";
-import {ITopic} from "aws-cdk-lib/aws-sns";
-import {SnsAction} from "aws-cdk-lib/aws-cloudwatch-actions";
-import {CustomAlarmThreshold} from "cdk-monitoring-constructs";
-import {Duration} from "aws-cdk-lib";
-import {AlarmFacadeSet, CustomAlarmThresholdKey} from "./alarm-facade";
-import {AlarmsCategoryKey, AlarmsCategoryOptions, AlarmsOptions} from "./alarms-base";
+import { Duration } from 'aws-cdk-lib';
+import { IAlarmAction } from 'aws-cdk-lib/aws-cloudwatch';
+import { SnsAction } from 'aws-cdk-lib/aws-cloudwatch-actions';
+import { ITopic } from 'aws-cdk-lib/aws-sns';
+import { CustomAlarmThreshold } from 'cdk-monitoring-constructs';
+import { AlarmFacadeSet } from './alarm-facade';
+import { AlarmsCategoryOptions, AlarmsOptions } from './alarms-base';
 
 export class AlarmHelper {
 
@@ -15,7 +15,7 @@ export class AlarmHelper {
    * @param topics the topics
    */
   static combineActions(actions?: IAlarmAction[], topics?: ITopic[]): IAlarmAction[] {
-    const combined: IAlarmAction[] = []
+    const combined: IAlarmAction[] = [];
     actions?.forEach((action) => combined.push(action));
     topics?.forEach((topic) => combined.push(new SnsAction(topic)));
     return combined;
@@ -32,10 +32,10 @@ export class AlarmHelper {
    */
   static toRecord<O extends AlarmsCategoryOptions, T extends CustomAlarmThreshold>(
     options: AlarmsOptions<O>,
-    oprop: AlarmsCategoryKey,
-    tprop: CustomAlarmThresholdKey,
+    oprop: string,
+    tprop: string,
     defaultCriticalThreshold?: number | Duration,
-    defaultWarningThreshold?: number | Duration
+    defaultWarningThreshold?: number | Duration,
   ): Record<string, T> | undefined {
     return new AlarmFacadeSet<O, T>(options)
       .addAlarms(oprop, tprop, defaultCriticalThreshold, defaultWarningThreshold)

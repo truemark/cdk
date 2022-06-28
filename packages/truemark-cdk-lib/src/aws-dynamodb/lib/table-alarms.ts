@@ -1,16 +1,16 @@
-import {Construct} from "constructs";
-import {Duration} from "aws-cdk-lib";
-import {ITable} from "aws-cdk-lib/aws-dynamodb";
+import { Duration } from 'aws-cdk-lib';
+import { ITable } from 'aws-cdk-lib/aws-dynamodb';
+// import {
+//   ConsumedCapacityThreshold,
+//   ErrorCountThreshold, LatencyThreshold,
+//   ThrottledEventsThreshold,
+// } from 'cdk-monitoring-constructs/lib/common';
+import { Construct } from 'constructs';
 import {
   AlarmsBase,
   AlarmsCategoryOptions,
-  AlarmsOptions
-} from "../../aws-monitoring";
-import {
-  ConsumedCapacityThreshold,
-  ErrorCountThreshold, LatencyThreshold,
-  ThrottledEventsThreshold
-} from "cdk-monitoring-constructs/lib/common";
+  AlarmsOptions,
+} from '../../aws-monitoring';
 
 /**
  * Category options for CloudWatch alarms for DynamoDB Tables.
@@ -60,20 +60,20 @@ export class TableAlarms extends AlarmsBase<TableAlarmsCategoryOptions, TableAla
       addToSummaryDashboard: props.addToSummaryDashboard??true,
       addToDetailDashboard: props.addToDetailDashboard??true,
       addToAlarmDashboard: props.addToAlarmDashboard??true,
-      addConsumedReadCapacityAlarm: this.toRecord<ConsumedCapacityThreshold>("maxConsumedReadCapacity", "maxConsumedCapacityUnits"),
-      addConsumedWriteCapacityAlarm: this.toRecord<ConsumedCapacityThreshold>("maxConsumedWriteCapacity", "maxConsumedCapacityUnits"),
-      addReadThrottledEventsCountAlarm: this.toRecord<ThrottledEventsThreshold>("maxReadThrottledEventsCount", "maxThrottledEventsThreshold", 0),
-      addWriteThrottledEventsCountAlarm: this.toRecord<ThrottledEventsThreshold>("maxWriteThrottledEventsCount", "maxThrottledEventsThreshold", 0),
-      addSystemErrorCountAlarm: this.toRecord<ErrorCountThreshold>("maxSystemErrorCount", "maxErrorCount", 0),
-      addAverageSuccessfulGetRecordsLatencyAlarm: this.toRecord<LatencyThreshold>("averageSuccessfulGetRecordsLatency", "maxLatency"),
-      addAverageSuccessfulQueryLatencyAlarm: this.toRecord<LatencyThreshold>("averageSuccessfulQueryLatency", "maxLatency"),
-      addAverageSuccessfulScanLatencyAlarm: this.toRecord<LatencyThreshold>("averageSuccessfulScanLatency", "maxLatency"),
-      addAverageSuccessfulPutItemLatencyAlarm: this.toRecord<LatencyThreshold>("averageSuccessfulPutItemLatency", "maxLatency"),
-      addAverageSuccessfulGetItemLatencyAlarm: this.toRecord<LatencyThreshold>("averageSuccessfulGetItemLatency", "maxLatency"),
-      addAverageSuccessfulUpdateItemLatencyAlarm: this.toRecord<LatencyThreshold>("averageSuccessfulUpdateItemLatency", "maxLatency"),
-      addAverageSuccessfulDeleteItemLatencyAlarm: this.toRecord<LatencyThreshold>("averageSuccessfulDeleteItemLatency", "maxLatency"),
-      addAverageSuccessfulBatchGetItemLatencyAlarm: this.toRecord<LatencyThreshold>("averageSuccessfulBatchGetItemLatency", "maxLatency"),
-      addAverageSuccessfulBatchWriteItemLatencyAlarm: this.toRecord<LatencyThreshold>("averageSuccessfulBatchWriteItemLatency", "maxLatency"),
+      // addConsumedReadCapacityAlarm: this.toRecord<ConsumedCapacityThreshold>('maxConsumedReadCapacity', 'maxConsumedCapacityUnits'),
+      // addConsumedWriteCapacityAlarm: this.toRecord<ConsumedCapacityThreshold>('maxConsumedWriteCapacity', 'maxConsumedCapacityUnits'),
+      // addReadThrottledEventsCountAlarm: this.toRecord<ThrottledEventsThreshold>('maxReadThrottledEventsCount', 'maxThrottledEventsThreshold', 0),
+      // addWriteThrottledEventsCountAlarm: this.toRecord<ThrottledEventsThreshold>('maxWriteThrottledEventsCount', 'maxThrottledEventsThreshold', 0),
+      // addSystemErrorCountAlarm: this.toRecord<ErrorCountThreshold>('maxSystemErrorCount', 'maxErrorCount', 0),
+      // addAverageSuccessfulGetRecordsLatencyAlarm: this.toRecord<LatencyThreshold>('averageSuccessfulGetRecordsLatency', 'maxLatency'),
+      // addAverageSuccessfulQueryLatencyAlarm: this.toRecord<LatencyThreshold>('averageSuccessfulQueryLatency', 'maxLatency'),
+      // addAverageSuccessfulScanLatencyAlarm: this.toRecord<LatencyThreshold>('averageSuccessfulScanLatency', 'maxLatency'),
+      // addAverageSuccessfulPutItemLatencyAlarm: this.toRecord<LatencyThreshold>('averageSuccessfulPutItemLatency', 'maxLatency'),
+      // addAverageSuccessfulGetItemLatencyAlarm: this.toRecord<LatencyThreshold>('averageSuccessfulGetItemLatency', 'maxLatency'),
+      // addAverageSuccessfulUpdateItemLatencyAlarm: this.toRecord<LatencyThreshold>('averageSuccessfulUpdateItemLatency', 'maxLatency'),
+      // addAverageSuccessfulDeleteItemLatencyAlarm: this.toRecord<LatencyThreshold>('averageSuccessfulDeleteItemLatency', 'maxLatency'),
+      // addAverageSuccessfulBatchGetItemLatencyAlarm: this.toRecord<LatencyThreshold>('averageSuccessfulBatchGetItemLatency', 'maxLatency'),
+      // addAverageSuccessfulBatchWriteItemLatencyAlarm: this.toRecord<LatencyThreshold>('averageSuccessfulBatchWriteItemLatency', ""),
     });
   }
 
@@ -83,7 +83,7 @@ export class TableAlarms extends AlarmsBase<TableAlarmsCategoryOptions, TableAla
       globalSecondaryIndexName: indexName,
       addToSummaryDashboard: this.props.addToSummaryDashboard,
       addToDetailDashboard: this.props.addToDetailDashboard,
-      addToAlarmDashboard: this.props.addToAlarmDashboard
+      addToAlarmDashboard: this.props.addToAlarmDashboard,
     });
   }
 }

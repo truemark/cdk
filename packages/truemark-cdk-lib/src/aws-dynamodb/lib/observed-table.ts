@@ -1,6 +1,6 @@
-import {TableAlarms, TableAlarmsOptions} from "./table-alarms";
-import {GlobalSecondaryIndexProps, Table, TableProps} from "aws-cdk-lib/aws-dynamodb";
-import {Construct} from "constructs";
+import { GlobalSecondaryIndexProps, Table, TableProps } from 'aws-cdk-lib/aws-dynamodb';
+import { Construct } from 'constructs';
+import { TableAlarms, TableAlarmsOptions } from './table-alarms';
 
 /**
  * Properties for ObservedTable.
@@ -17,9 +17,9 @@ export class ObservedTable extends Table {
   constructor(scope: Construct, id: string, props: ObservedTableProps) {
     super(scope, id, props);
 
-    this.tableAlarms = new TableAlarms(this, "Alarms", {
+    this.tableAlarms = new TableAlarms(this, 'Alarms', {
       table: this,
-      ...props
+      ...props,
     });
   }
 

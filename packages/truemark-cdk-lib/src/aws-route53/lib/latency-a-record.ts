@@ -1,6 +1,6 @@
-import {ARecord, ARecordProps, CfnRecordSet} from "aws-cdk-lib/aws-route53";
-import {Construct} from "constructs";
-import {Stack} from "aws-cdk-lib";
+import { Stack } from 'aws-cdk-lib';
+import { ARecord, ARecordProps, CfnRecordSet } from 'aws-cdk-lib/aws-route53';
+import { Construct } from 'constructs';
 
 /**
  * Properties for LatencyARecord.
@@ -12,14 +12,14 @@ export interface LatencyARecordProps extends ARecordProps {
    *
    * @default Stack.of(this).region
    */
-  readonly region?: string
+  readonly region?: string;
 
   /**
    * The identifier to use for the record.
    *
    * @default Stack.of(this).region
    */
-  readonly setIdentifier?: string
+  readonly setIdentifier?: string;
 
 }
 

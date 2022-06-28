@@ -1,8 +1,8 @@
-import * as python from "@aws-cdk/aws-lambda-python-alpha";
-import {FunctionAlarms, FunctionAlarmsOptions} from "./function-alarms";
-import {DeployedFunctionOptions} from "./function";
-import {FunctionDeployment} from "./function-deployment";
-import {Construct} from "constructs";
+import * as python from '@aws-cdk/aws-lambda-python-alpha';
+import { Construct } from 'constructs';
+import { DeployedFunctionOptions } from './function';
+import { FunctionAlarms, FunctionAlarmsOptions } from './function-alarms';
+import { FunctionDeployment } from './function-deployment';
 
 /**
  * Properties for PythonFunctionAlpha
@@ -22,22 +22,22 @@ export class PythonFunctionAlpha extends python.PythonFunction {
   constructor(scope: Construct, id: string, props: PythonFunctionAlphaProps) {
     super(scope, id, props);
 
-    this.alarms = new FunctionAlarms(this, "Alarms", {
+    this.alarms = new FunctionAlarms(this, 'Alarms', {
       function: this,
       logGroup: this.logGroup,
-      ...props
+      ...props,
     });
 
     if (props.deploymentOptions?.createDeployment??true) {
-      this.deployment = new FunctionDeployment(this, "Deployment", {
+      this.deployment = new FunctionDeployment(this, 'Deployment', {
         ...props.deploymentOptions,
-        function: this
+        function: this,
       });
       if (props.deploymentOptions?.includeCriticalAlarms??true) {
-        this.deployment.addAlarms(...this.alarms.getCriticalAlarms());
+        this.deployment.addAlarms(...this.alarms.criticalAlarms());
       }
       if (props.deploymentOptions?.includeWarningAlarms??false) {
-        this.deployment.addAlarms(...this.alarms.getWarningAlarms());
+        this.deployment.addAlarms(...this.alarms.warningAlarms());
       }
     }
   }

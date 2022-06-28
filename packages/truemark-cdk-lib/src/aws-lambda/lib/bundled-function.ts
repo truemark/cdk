@@ -1,10 +1,10 @@
-import {Construct} from "constructs";
-import {DockerImage, ILocalBundling} from "aws-cdk-lib/core/lib/bundling";
-import {BundlingOptions, BundlingOutput} from "aws-cdk-lib";
-import {ShellHelper} from "../../helpers";
-import {Code, FunctionOptions, Runtime} from "aws-cdk-lib/aws-lambda";
-import {FunctionAlarmsOptions} from "./function-alarms";
-import {DeployedFunctionOptions, Function} from "./function";
+import { BundlingOptions, BundlingOutput } from 'aws-cdk-lib';
+import { Code, FunctionOptions, Runtime } from 'aws-cdk-lib/aws-lambda';
+import { DockerImage, ILocalBundling } from 'aws-cdk-lib/core/lib/bundling';
+import { Construct } from 'constructs';
+import { ShellHelper } from '../../helpers';
+import { DeployedFunctionOptions, Function } from './function';
+import { FunctionAlarmsOptions } from './function-alarms';
 
 /**
  * Options for BundledFunction.
@@ -16,19 +16,19 @@ export interface BundledFunctionOptions {
    *
    * @default false
    */
-  readonly disableLocalBundling?: boolean
+  readonly disableLocalBundling?: boolean;
 
   /**
    * Turns off docker bundling.
    *
    * @default false
    */
-  readonly disableDockerBundling?: boolean
+  readonly disableDockerBundling?: boolean;
 
   /**
    * Overrides the default bundling script.
    */
-  readonly bundlingScript?: string
+  readonly bundlingScript?: string;
 
   /**
    * Additional environment variable to be passed to the bundling script.
@@ -63,7 +63,7 @@ export interface BundledFunctionProps extends FunctionOptions, FunctionAlarmsOpt
    */
   // isLocalBundlingSupported() : boolean;
   readonly isLocalBundlingSupported: boolean;
-  
+
   /**
    * The default bundling script to use.
    */
@@ -92,7 +92,7 @@ export class BundledFunction extends Function {
     const local: ILocalBundling | undefined = props.disableLocalBundling ? undefined : {
       tryBundle(outputDir: string, options: BundlingOptions): boolean {
         try {
-          if (!props.isLocalBundlingSupported){
+          if (!props.isLocalBundlingSupported) {
             return false;
           }
         } catch {
@@ -104,10 +104,10 @@ export class BundledFunction extends Function {
           environment: {
             ...options.environment,
             CDK_BUNDLING_OUTPUT_DIR: outputDir,
-          }
+          },
         });
-      }
-    }
+      },
+    };
 
     const command = props.disableDockerBundling ? undefined : ['bash', '-c', props.bundlingScript??props.defaultBundlingScript];
 
@@ -120,12 +120,12 @@ export class BundledFunction extends Function {
           command,
           environment: {
             CDK_BUNDLING_OUTPUT_DIR: '/asset-output/',
-            ...props.bundlingEnvironment
+            ...props.bundlingEnvironment,
           },
           outputType: BundlingOutput.NOT_ARCHIVED,
           ...props.bundling,
-        }
-      })
+        },
+      }),
     });
   }
 }

@@ -1,6 +1,6 @@
-import {ARecord, ARecordProps, CfnRecordSet} from "aws-cdk-lib/aws-route53";
-import {Construct} from "constructs";
-import {Stack} from "aws-cdk-lib";
+import { Stack } from 'aws-cdk-lib';
+import { ARecord, ARecordProps, CfnRecordSet } from 'aws-cdk-lib/aws-route53';
+import { Construct } from 'constructs';
 
 /**
  * Properties for WeightedARecord.
@@ -12,14 +12,14 @@ export interface WeightedARecordProps extends ARecordProps {
    *
    * @default 0
    */
-  weight?: number
+  readonly weight?: number;
 
   /**
    * The identifier to use for the record.
    *
    * @default Stack.of(this).region
    */
-  readonly setIdentifier?: string
+  readonly setIdentifier?: string;
 }
 
 /**

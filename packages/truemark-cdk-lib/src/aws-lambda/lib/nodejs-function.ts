@@ -1,8 +1,8 @@
-import * as nodejs from "aws-cdk-lib/aws-lambda-nodejs"
-import {Construct} from "constructs";
-import {FunctionAlarms, FunctionAlarmsOptions} from "./function-alarms";
-import {FunctionDeployment} from "./function-deployment";
-import {DeployedFunctionOptions} from "./function";
+import * as nodejs from 'aws-cdk-lib/aws-lambda-nodejs';
+import { Construct } from 'constructs';
+import { DeployedFunctionOptions } from './function';
+import { FunctionAlarms, FunctionAlarmsOptions } from './function-alarms';
+import { FunctionDeployment } from './function-deployment';
 
 /**
  * Properties for NodejsFunction
@@ -22,22 +22,22 @@ export class NodejsFunction extends nodejs.NodejsFunction {
   constructor(scope: Construct, id: string, props: NodejsFunctionProps) {
     super(scope, id, props);
 
-    this.alarms = new FunctionAlarms(this, "Alarms", {
+    this.alarms = new FunctionAlarms(this, 'Alarms', {
       function: this,
       logGroup: this.logGroup,
-      ...props
+      ...props,
     });
 
     if (props.deploymentOptions?.createDeployment??true) {
-      this.deployment = new FunctionDeployment(this, "Deployment", {
+      this.deployment = new FunctionDeployment(this, 'Deployment', {
         ...props.deploymentOptions,
-        function: this
+        function: this,
       });
       if (props.deploymentOptions?.includeCriticalAlarms??true) {
-        this.deployment.addAlarms(...this.alarms.getCriticalAlarms());
+        this.deployment.addAlarms(...this.alarms.criticalAlarms());
       }
       if (props.deploymentOptions?.includeWarningAlarms??false) {
-        this.deployment.addAlarms(...this.alarms.getWarningAlarms());
+        this.deployment.addAlarms(...this.alarms.warningAlarms());
       }
     }
   }

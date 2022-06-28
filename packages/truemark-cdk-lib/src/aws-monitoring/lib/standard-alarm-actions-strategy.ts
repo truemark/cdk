@@ -1,5 +1,5 @@
-import {AlarmActionStrategyProps, IAlarmActionStrategy} from "cdk-monitoring-constructs";
-import {IAlarmAction} from "aws-cdk-lib/aws-cloudwatch";
+import { IAlarmAction } from 'aws-cdk-lib/aws-cloudwatch';
+import { AlarmActionStrategyProps, IAlarmActionStrategy } from 'cdk-monitoring-constructs';
 
 /**
  * Properties for StandardAlarmActionsStrategy.
@@ -16,12 +16,12 @@ export class StandardAlarmActionsStrategy implements IAlarmActionStrategy {
   protected readonly actions: IAlarmAction[];
 
   constructor(props: StandardAlarmActionsStrategyProps) {
-    this.actions = props.actions??[]
+    this.actions = props.actions??[];
   }
 
   addAlarmActions(props: AlarmActionStrategyProps): void {
     this.actions?.forEach((action) => {
-      props.alarm.addAlarmAction(action)
+      props.alarm.addAlarmAction(action);
     });
   }
 }

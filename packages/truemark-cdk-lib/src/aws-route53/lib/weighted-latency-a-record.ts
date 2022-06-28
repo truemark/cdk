@@ -1,10 +1,10 @@
-import {WeightedARecord, WeightedARecordProps} from "./weighted-a-record";
-import {Construct} from "constructs";
-import {LatencyARecord, LatencyARecordProps} from "./latency-a-record";
-import {RecordTarget} from "aws-cdk-lib/aws-route53";
-import {Route53RecordTarget} from "aws-cdk-lib/aws-route53-targets";
-import {IRecordSet} from "aws-cdk-lib/aws-route53/lib/record-set";
-import {RemovalPolicy, ResourceEnvironment, Stack} from "aws-cdk-lib";
+import { RemovalPolicy, ResourceEnvironment, Stack } from 'aws-cdk-lib';
+import { RecordTarget } from 'aws-cdk-lib/aws-route53';
+import { Route53RecordTarget } from 'aws-cdk-lib/aws-route53-targets';
+import { IRecordSet } from 'aws-cdk-lib/aws-route53/lib/record-set';
+import { Construct } from 'constructs';
+import { LatencyARecord, LatencyARecordProps } from './latency-a-record';
+import { WeightedARecord, WeightedARecordProps } from './weighted-a-record';
 
 /**
  * Properties for WeightedLatencyARecord.
@@ -38,12 +38,12 @@ export class WeightedLatencyARecord extends Construct implements IRecordSet {
 
     this.latencyRecord = new LatencyARecord(this, 'Latency', {
       ...props,
-      recordName: props.latencyRecordPrefix??'lbr' + props.recordName
+      recordName: props.latencyRecordPrefix??'lbr' + props.recordName,
     });
 
     this.weightedRecord = new WeightedARecord(this, 'Weighted', {
       ...props,
-      target: RecordTarget.fromAlias(new Route53RecordTarget(this.latencyRecord))
+      target: RecordTarget.fromAlias(new Route53RecordTarget(this.latencyRecord)),
     });
 
     this.domainName = this.weightedRecord.domainName;

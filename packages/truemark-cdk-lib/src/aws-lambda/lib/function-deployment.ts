@@ -1,17 +1,17 @@
+import { IAlarm } from 'aws-cdk-lib/aws-cloudwatch';
+import * as cloudwatch from 'aws-cdk-lib/aws-cloudwatch';
 import {
   AutoRollbackConfig,
   ILambdaApplication,
   ILambdaDeploymentConfig,
   LambdaDeploymentConfig,
   LambdaDeploymentGroup,
-} from "aws-cdk-lib/aws-codedeploy";
-import {Construct} from "constructs";
-import {Alias, IFunction, Function} from "aws-cdk-lib/aws-lambda";
-import {IAlarm} from "aws-cdk-lib/aws-cloudwatch";
-import {IRole} from "aws-cdk-lib/aws-iam";
-import * as cloudwatch from "aws-cdk-lib/aws-cloudwatch";
-import * as lambda from "aws-cdk-lib/aws-lambda";
-import * as iam from "aws-cdk-lib/aws-iam";
+} from 'aws-cdk-lib/aws-codedeploy';
+import { IRole } from 'aws-cdk-lib/aws-iam';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
+import { Alias, IFunction, Function } from 'aws-cdk-lib/aws-lambda';
+import { Construct } from 'constructs';
 
 export interface FunctionDeploymentOptions {
 
@@ -116,13 +116,13 @@ export class FunctionDeployment extends Construct {
 
     this.alias = new Alias(this, 'Alias', {
       aliasName: props.aliasName ?? 'deploy',
-      version: props.function.currentVersion
+      version: props.function.currentVersion,
     });
 
     this.deploymentGroup = new LambdaDeploymentGroup(this, 'Group', {
       ...props,
       alias: this.alias,
-      deploymentConfig: props.deploymentConfig ?? LambdaDeploymentConfig.CANARY_10PERCENT_5MINUTES
+      deploymentConfig: props.deploymentConfig ?? LambdaDeploymentConfig.CANARY_10PERCENT_5MINUTES,
     });
   }
 

@@ -1,15 +1,17 @@
-import {Construct} from "constructs";
-import {Alarm, IAlarmAction} from "aws-cdk-lib/aws-cloudwatch";
-import {CustomAlarmThreshold, IDashboardFactory, MonitoringFacade} from "cdk-monitoring-constructs";
-import {ITopic} from "aws-cdk-lib/aws-sns";
-import {Duration, Stack} from "aws-cdk-lib";
-import {AlarmHelper} from "./alarm-helper";
-import { CustomAlarmThresholdKey } from "./alarm-facade";
+import { Duration, Stack } from 'aws-cdk-lib';
+import { Alarm, IAlarmAction } from 'aws-cdk-lib/aws-cloudwatch';
+import { ITopic } from 'aws-cdk-lib/aws-sns';
+import { CustomAlarmThreshold, IDashboardFactory, MonitoringFacade } from 'cdk-monitoring-constructs';
+import { Construct } from 'constructs';
+import { AlarmHelper } from './alarm-helper';
 
 export enum AlarmCategory {
-  Critical = "Critical",
-  Warning = "Warning"
+  CRITICAL = 'CRITICAL',
+  WARNING = 'WARNING'
 }
+
+export type CustomAlarmThresholdKey = keyof CustomAlarmThreshold;
+
 
 export interface AlarmsCategoryOptions {
   /**
@@ -21,9 +23,8 @@ export interface AlarmsCategoryOptions {
    * Actions to send alarm notifications
    */
   readonly notifyActions?: IAlarmAction[];
-};
-export type AlarmsCategoryKey = keyof AlarmsCategoryOptions;
-
+}
+export type AlarmsCategoryOptionsKey = keyof AlarmsCategoryOptions;
 
 export interface AlarmsOptions<T extends AlarmsCategoryOptions> {
 
@@ -83,6 +84,8 @@ export interface AlarmsOptions<T extends AlarmsCategoryOptions> {
    */
   readonly alarmNamePrefix?: string;
 }
+export type AlarmOptionsKey<T extends AlarmsCategoryOptions> = keyof AlarmsOptions<T>;
+
 
 /**
  * Base class for all Alarms constructs.
@@ -101,6 +104,19 @@ export abstract class AlarmsBase<C extends AlarmsCategoryOptions, P extends Alar
    */
   protected readonly props: P;
 
+  protected constructor(scope: Construct, id: string, props: P) {
+    super(scope, id);
+    this.props = props;
+    this.monitoringFacade = props.monitoringFacade??new MonitoringFacade(this, 'MonitoringFacade', {
+      metricFactoryDefaults: {},
+      alarmFactoryDefaults: {
+        actionsEnabled: true,
+        alarmNamePrefix: props.alarmNamePrefix??Stack.of(this).stackName,
+      },
+      dashboardFactory: props.dashboardFactory,
+    });
+  }
+
   /**
    * Helper method to generate alarm records.
    *
@@ -111,7 +127,7 @@ export abstract class AlarmsBase<C extends AlarmsCategoryOptions, P extends Alar
    * @protected
    */
   protected toRecord<T extends CustomAlarmThreshold>(
-    oprop: AlarmsCategoryKey,
+    oprop: string,
     tprop: CustomAlarmThresholdKey,
     defaultCriticalThreshold?: number | Duration,
     defaultWarningThreshold?: number | Duration) {
@@ -120,28 +136,16 @@ export abstract class AlarmsBase<C extends AlarmsCategoryOptions, P extends Alar
       this.props, oprop, tprop, defaultCriticalThreshold, defaultWarningThreshold);
   }
 
-  protected constructor(scope: Construct, id: string, props: P) {
-    super(scope, id);
-    this.props = props;
-    this.monitoringFacade = props.monitoringFacade??new MonitoringFacade(this, 'MonitoringFacade', {
-      metricFactoryDefaults: {},
-      alarmFactoryDefaults: {
-        actionsEnabled: true,
-        alarmNamePrefix: props.alarmNamePrefix??Stack.of(this).stackName
-      },
-      dashboardFactory: props.dashboardFactory
-    });
-  }
 
-  getAlarms(category: AlarmCategory): Alarm[] {
+  alarms(category: AlarmCategory): Alarm[] {
     return [...this.monitoringFacade.createdAlarmsWithDisambiguator(category).map((awa) => awa.alarm).values()];
   }
 
-  getCriticalAlarms(): Alarm[] {
-    return this.getAlarms(AlarmCategory.Critical);
+  criticalAlarms(): Alarm[] {
+    return this.alarms(AlarmCategory.CRITICAL);
   }
 
-  getWarningAlarms(): Alarm[] {
-    return this.getAlarms(AlarmCategory.Warning);
+  warningAlarms(): Alarm[] {
+    return this.alarms(AlarmCategory.WARNING);
   }
 }

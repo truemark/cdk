@@ -1,13 +1,13 @@
-import {Architecture, FunctionOptions, Runtime, RuntimeFamily, Tracing} from 'aws-cdk-lib/aws-lambda';
-import {Construct} from "constructs";
-import {Duration} from "aws-cdk-lib";
-import {RetentionDays} from "aws-cdk-lib/aws-logs";
-import {ShellHelper} from "../../helpers";
-import {BundledFunction, BundledFunctionOptions} from "./bundled-function";
-import {DeployedFunctionOptions} from "./function";
-import {FunctionAlarmsOptions} from "./function-alarms";
-import * as path from 'path';
 import * as fs from 'fs';
+import * as path from 'path';
+import { Duration } from 'aws-cdk-lib';
+import { Architecture, FunctionOptions, Runtime, RuntimeFamily, Tracing } from 'aws-cdk-lib/aws-lambda';
+import { RetentionDays } from 'aws-cdk-lib/aws-logs';
+import { Construct } from 'constructs';
+import { ShellHelper } from '../../helpers';
+import { BundledFunction, BundledFunctionOptions } from './bundled-function';
+import { DeployedFunctionOptions } from './function';
+import { FunctionAlarmsOptions } from './function-alarms';
 
 /**
  * Properties for PythonFunction.
@@ -51,7 +51,7 @@ export class PythonFunction extends BundledFunction {
    */
   constructor(scope: Construct, id: string, props: PythonFunctionProps) {
 
-    const runtime = props.runtime??Runtime.PYTHON_3_9
+    const runtime = props.runtime??Runtime.PYTHON_3_9;
     if (runtime.family !== RuntimeFamily.PYTHON) {
       throw new Error('Runtime must be a Python runtime');
     }
@@ -70,13 +70,13 @@ export class PythonFunction extends BundledFunction {
       bundlingEnvironment: {
         PIP_PROGRESS_BAR: 'off',
         PIP_DISABLE_PIP_VERSION_CHECK: '1',
-        ...props.bundlingEnvironment
+        ...props.bundlingEnvironment,
       },
       runtime,
       handler,
       defaultBundlingScript,
       defaultBundlingImage: runtime.bundlingImage,
-      isLocalBundlingSupported: PythonFunction.isLocalBundlingSupported()
+      isLocalBundlingSupported: PythonFunction.isLocalBundlingSupported(),
     });
   }
 }

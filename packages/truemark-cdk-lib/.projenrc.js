@@ -6,14 +6,14 @@ const project = new awscdk.AwsCdkConstructLibrary({
   defaultReleaseBranch: 'main',
   name: 'truemark-cdk-lib',
   repositoryUrl: 'https://github.com/truemark/cdk',
-  description: "TrueMark CDK Library",
-  packageName: "truemark-cdk-lib",
-  typescriptVersion: "~4.7.4",
+  description: 'TrueMark CDK Library',
+  packageName: 'truemark-cdk-lib',
+  typescriptVersion: '~4.7.4',
 
   /* We need to exclude JEST for now as sinclair/typebox was causing JSII compilation errors */
   jest: false,
   jestOptions: null,
-  
+
   /* Runtime dependencies of this module. */
   deps: [
     'cdk-monitoring-constructs@1.13.0',
@@ -27,8 +27,8 @@ const project = new awscdk.AwsCdkConstructLibrary({
   ],
   devDeps: [
     // '@types/jest@^28.1.3',
-    "cdk-monitoring-constructs@1.13.0"
-  ],             
+    'cdk-monitoring-constructs@1.13.0',
+  ],
   peerDeps: [
     'cdk-monitoring-constructs@1.13.0',
   ],
@@ -57,8 +57,8 @@ const project = new awscdk.AwsCdkConstructLibrary({
   dotnet: {
     dotNetNamespace: 'TrueMark.CDK',
     packageId: 'TrueMark.CDK',
-  }
-  
+  },
+
 });
-project.gitignore.exclude("node_modules", "dist", "lib")
+project.gitignore.exclude('node_modules', 'dist', 'lib');
 project.synth();
