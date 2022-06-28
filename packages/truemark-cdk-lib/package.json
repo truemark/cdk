@@ -1,27 +1,65 @@
 {
   "name": "truemark-cdk-lib",
-  "version": "0.0.29",
-  "description": "TBD:JSII",
+  "description": "TrueMark CDK Library",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/truemark/cdk"
+  },
+  "scripts": {
+    "build": "npx projen build",
+    "bump": "npx projen bump",
+    "clobber": "npx projen clobber",
+    "compat": "npx projen compat",
+    "compile": "npx projen compile",
+    "default": "npx projen default",
+    "docgen": "npx projen docgen",
+    "eject": "npx projen eject",
+    "eslint": "npx projen eslint",
+    "package": "npx projen package",
+    "package-all": "npx projen package-all",
+    "package:dotnet": "npx projen package:dotnet",
+    "package:js": "npx projen package:js",
+    "post-compile": "npx projen post-compile",
+    "post-upgrade": "npx projen post-upgrade",
+    "pre-compile": "npx projen pre-compile",
+    "release": "npx projen release",
+    "test": "npx projen test",
+    "unbump": "npx projen unbump",
+    "upgrade": "npx projen upgrade",
+    "watch": "npx projen watch",
+    "projen": "npx projen"
+  },
   "author": {
     "name": "Erik Jensen",
-    "email": "ejensen@truemark.io"
+    "email": "ejensen@truemark.io",
+    "organization": false
   },
-  "repository": {
-    "url": "https://github.com/truemark/cdk",
-    "type": "git"
+  "devDependencies": {
+    "@types/node": "^14",
+    "@typescript-eslint/eslint-plugin": "^5",
+    "@typescript-eslint/parser": "^5",
+    "aws-cdk-lib": "2.29.1",
+    "cdk-monitoring-constructs": "1.13.0",
+    "constructs": "10.0.5",
+    "eslint": "^8",
+    "eslint-import-resolver-node": "^0.3.6",
+    "eslint-import-resolver-typescript": "^3.1.1",
+    "eslint-plugin-import": "^2.26.0",
+    "jsii": "^1.61.0",
+    "jsii-diff": "^1.61.0",
+    "jsii-docgen": "^7.0.42",
+    "jsii-pacmak": "^1.61.0",
+    "json-schema": "^0.4.0",
+    "npm-check-updates": "^12",
+    "projen": "^0.58.17",
+    "standard-version": "^9",
+    "typescript": "~4.7.4"
   },
-  "keywords": [],
-  "license": "Apache-2.0",
-  "scripts": {
-    "build": "jsii",
-    "build:watch": "jsii --watch",
-    "package": "jsii-pacmak",
-    "tsc.build": "tsc",
-    "tsc.watch": "tsc -w",
-    "tsc.test": "jest"
+  "peerDependencies": {
+    "aws-cdk-lib": "^2.29.1",
+    "cdk-monitoring-constructs": "1.13.0",
+    "constructs": "^10.0.5"
   },
-  "main": "index.js",
-  "types": "index.d.ts",
   "dependencies": {
     "@aws-cdk/aws-apigatewayv2-alpha": "^2.18.0-alpha.0",
     "@aws-cdk/aws-apigatewayv2-integrations-alpha": "^2.18.0-alpha.0",
@@ -30,70 +68,40 @@
     "@aws-cdk/aws-lambda-python-alpha": "^2.18.0-alpha.0",
     "@aws-cdk/aws-redshift-alpha": "^2.18.0-alpha.0",
     "@aws-cdk/aws-synthetics-alpha": "^2.18.0-alpha.0",
-    "cdk-monitoring-constructs": "^1.10.0"
+    "cdk-monitoring-constructs": "1.13.0"
   },
-  "devDependencies": {
-    "@types/jest": "^27.4.1",
-    "@types/node": "^17.0.31",
-    "aws-cdk-lib": "2.28.0",
-    "constructs": "10.1.41",
-    "jest": "^27.5.1",
-    "jsii": "^1.61.0",
-    "jsii-pacmak": "^1.61.0",
-    "lerna": "^4.0.0",
-    "ts-jest": "^27.1.4",
-    "typescript": "^4.6.4"
-  },
-  "peerDependencies": {
-    "aws-cdk-lib": "^2.28.0",
-    "constructs": "^10.1.41",
-    "@aws-cdk/aws-lambda-go-alpha": "^2.18.0-alpha.0",
-    "@aws-cdk/aws-lambda-python-alpha": "^2.18.0-alpha.0"
-
-  },
-  "exports": {
-    ".": "./index.js",
-    "./package.json": "./package.json",
-    "./aws-cloudwatch": "./aws-cloudwatch/index.js",
-    "./aws-codepipeline": "./aws-codepipeline/index.js",
-    "./aws-dynamodb": "./aws-dynamodb/index.js",
-    "./aws-lambda": "./aws-lambda/index.js",
-    "./aws-monitoring": "./aws-monitoring/index.js",
-    "./aws-route53": "./aws-route53/index.js",
-    "./aws-s3": "./aws-s3/index.js",
-    "./aws-sqs": "./aws-sqs/index.js",
-    "./aws-ssm": "./aws-ssm/index.js",
-    "./aws-website": "./aws-website/index.js",
-    "./helpers": "./helpers/index.js"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "gitHead": "ea53dec0c34947554b292a2abdc2b92278c41bb7",
+  "bundledDependencies": [
+    "@aws-cdk/aws-apigatewayv2-alpha",
+    "@aws-cdk/aws-apigatewayv2-integrations-alpha",
+    "@aws-cdk/aws-appsync-alpha",
+    "@aws-cdk/aws-lambda-go-alpha",
+    "@aws-cdk/aws-lambda-python-alpha",
+    "@aws-cdk/aws-redshift-alpha",
+    "@aws-cdk/aws-synthetics-alpha"
+  ],
+  "keywords": [
+    "cdk"
+  ],
+  "main": "lib/index.js",
+  "license": "Apache-2.0",
+  "version": "0.0.0",
+  "types": "lib/index.d.ts",
   "stability": "stable",
   "jsii": {
-    "outdir": "jsii-dist",
-    "versionFormat": "short",
+    "outdir": "dist",
     "targets": {
-      "java": {
-        "package": "io.truemark.cdk",
-        "maven": {
-          "groupId": "io.truemark.cdk",
-          "artifactId": "cdklib"
-        }
-      },
-      "python": {
-        "distName": "truemark-cdk-lib",
-        "module": "truemark.cdk"
-      },
       "dotnet": {
         "namespace": "TrueMark.CDK",
         "packageId": "TrueMark.CDK"
       }
     },
     "tsc": {
-      "keyofStringsOnly": true,
-      "alwaysStrict": false
+      "outDir": "lib",
+      "rootDir": "src"
     }
-  }
+  },
+  "resolutions": {
+    "@types/prettier": "2.6.0"
+  },
+  "//": "~~ Generated by projen. To modify, edit .projenrc.js and run \"npx projen\"."
 }
