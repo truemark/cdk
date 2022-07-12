@@ -1,8 +1,7 @@
-import {AlarmFacade, AlarmFacadeSet} from "../../aws-monitoring";
+import {AlarmFacade} from "../../aws-monitoring";
 import * as sns from "aws-cdk-lib/aws-sns";
 import * as actions from "aws-cdk-lib/aws-cloudwatch-actions";
 import {TestHelper} from "../test-helper";
-import {Alarm} from "aws-cdk-lib/aws-cloudwatch";
 import {Duration} from "aws-cdk-lib";
 
 test("Create AlarmFacade", () => {
@@ -23,7 +22,8 @@ test("Create AlarmFacade", () => {
 });
 
 test("Create AlarmFacade Default Number Threshold", () => {
-  const stack = TestHelper.stack();
+  // TODO (JSII): Determine if stack is needed or not for the unit-test. 
+  // const stack = TestHelper.stack();
   const facade = new AlarmFacade({
     prop: "TestProp",
     threshold: undefined,
@@ -35,7 +35,8 @@ test("Create AlarmFacade Default Number Threshold", () => {
 });
 
 test("Create AlarmFacade Default Duration Threshold", () => {
-  const stack = TestHelper.stack();
+  // TODO (JSII): Determine if stack is needed or not for the unit-test. 
+  // const stack = TestHelper.stack();
   const facade = new AlarmFacade({
     prop: "TestProp",
     threshold: undefined,
@@ -47,7 +48,8 @@ test("Create AlarmFacade Default Duration Threshold", () => {
 });
 
 test("Create AlarmFacade Disable Number Threshold", () => {
-  const stack = TestHelper.stack();
+  // TODO (JSII): Determine if stack is needed or not for the unit-test.
+  // const stack = TestHelper.stack();
   const facade = new AlarmFacade({
     prop: "TestProp",
     threshold: -1,
@@ -58,7 +60,8 @@ test("Create AlarmFacade Disable Number Threshold", () => {
 });
 
 test("Create AlarmFacade Disable Duration Threshold", () => {
-  const stack = TestHelper.stack();
+  // TODO (JSII): Determine if stack is needed or not for the unit-test. 
+  // const stack = TestHelper.stack();
   const facade = new AlarmFacade({
     prop: "TestProp",
     threshold: Duration.hours(0),
@@ -69,7 +72,8 @@ test("Create AlarmFacade Disable Duration Threshold", () => {
 });
 
 test("Create Undefined AlarmFacade", () => {
-  const stack = TestHelper.stack();
+  // TODO (JSII): Determine if stack is needed or not for the unit-test. 
+  // const stack = TestHelper.stack();
   const facade = new AlarmFacade({
     prop: "TestProp",
     threshold: undefined,

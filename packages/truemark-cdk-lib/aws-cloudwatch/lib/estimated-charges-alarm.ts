@@ -16,17 +16,21 @@ export interface EstimatedChargesAlarmProps extends MetricAlarmBaseProps {
  */
 export class EstimatedChargesAlarm extends MetricAlarmBase<EstimatedChargesAlarmProps> {
 
-  protected createMetric(props: EstimatedChargesAlarmProps): Metric {
+  protected createMetric(props: MetricAlarmBaseProps): Metric {
+    let eprops = props as EstimatedChargesAlarmProps;
+    console.log("printing props for todo-null param error: ", eprops)
     return MetricHelper.billingEstimatedCharges();
   }
 
-  protected createAlarm(metric: Metric, props: EstimatedChargesAlarmProps): ExtendedAlarm {
+  protected createAlarm(metric: Metric, props: MetricAlarmBaseProps): ExtendedAlarm {
+    let eprops = props as EstimatedChargesAlarmProps;
+    
     return new ExtendedAlarm(this, "Alarm", {
       ...props,
       comparisonOperator: ComparisonOperator.GREATER_THAN_THRESHOLD,
       evaluationPeriods: 1,
       metric,
-      threshold: props.maxMonthly
+      threshold: eprops.maxMonthly
     });
   }
 }

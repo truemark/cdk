@@ -12,7 +12,7 @@ export interface WeightedARecordProps extends ARecordProps {
    *
    * @default 0
    */
-  weight?: number
+  readonly weight?: number
 
   /**
    * The identifier to use for the record.

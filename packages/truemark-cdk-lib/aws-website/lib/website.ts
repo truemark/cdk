@@ -17,10 +17,10 @@ import {DockerImage} from "aws-cdk-lib";
 import {StandardBucket} from "../../aws-s3";
 
 export enum SourceType {
-  Custom = "Custom",
-  Hugo = "Hugo",
-  NpmDist = "NpmDist",
-  Static = "Static"
+  CUSTOM = "Custom",
+  HUGO = "Hugo",
+  NPMDIST = "NpmDist",
+  STATIC = "Static"
 }
 
 export class DomainName {
@@ -258,25 +258,25 @@ function handler(event) {
 
     let bundlingOptions: BundlingOptions | undefined = undefined
 
-    if (props.sourceType === SourceType.Custom) {
+    if (props.sourceType === SourceType.CUSTOM) {
       if (!props.sourceBundlingOptions) {
         throw new Error("sourceBundlingOptions is required if source type is Custom");
       }
       bundlingOptions = props.sourceBundlingOptions
     }
 
-    if (props.sourceType === SourceType.Static) {
+    if (props.sourceType === SourceType.STATIC) {
       if (props.sourceBundlingOptions) {
         throw new Error("Cannot use sourceBundlingOptions with source type Static");
       }
     }
 
-    if (props.sourceType === SourceType.Hugo) {
+    if (props.sourceType === SourceType.HUGO) {
       bundlingOptions = Website.HUGO_BUNDLING_OPTIONS
       if (props.sourceBundlingOptions) {
         throw new Error("Cannot use sourceBundlingOptions with source type Hugo");
       }
-    } else if (props.sourceType === SourceType.NpmDist) {
+    } else if (props.sourceType === SourceType.NPMDIST) {
       bundlingOptions = Website.NPM_DIST_BUNDLING_OPTIONS
       if (props.sourceBundlingOptions) {
         throw new Error("Cannot use sourceBundlingOptions with source type NpmDist");

@@ -1,12 +1,25 @@
 {
   "name": "truemark-cdk-lib",
+  "description": "TrueMark CDK Library",
   "version": "0.0.33",
   "main": "index.js",
   "types": "index.d.ts",
+  "keywords": [
+    "cdk"
+  ],
+  "author": {
+    "name": "Erik Jensen",
+    "email": "ejensen@truemark.io"
+  },
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/truemark/cdk"
+  },
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc -w",
-    "test": "jest"
+    "build": "jsii",
+    "build:watch": "jsii --watch",
+    "package": "jsii-pacmak"
   },
   "devDependencies": {
     "@types/jest": "^27.4.1",
@@ -14,6 +27,8 @@
     "aws-cdk-lib": "2.28.0",
     "constructs": "10.1.41",
     "jest": "^27.5.1",
+    "jsii": "^1.61.0",
+    "jsii-pacmak": "^1.61.0",
     "ts-jest": "^27.1.4",
     "typescript": "~3.9.7"
   },
@@ -21,6 +36,9 @@
     "aws-cdk-lib": "^2.28.0",
     "constructs": "^10.1.41"
   },
+  "bundledDependencies": [
+    "aws-lambda"
+  ],
   "exports": {
     ".": "./index.js",
     "./package.json": "./package.json",
@@ -47,7 +65,48 @@
     "@aws-cdk/aws-lambda-python-alpha": "^2.18.0-alpha.0",
     "@aws-cdk/aws-redshift-alpha": "^2.18.0-alpha.0",
     "@aws-cdk/aws-synthetics-alpha": "^2.18.0-alpha.0",
+    "aws-lambda": "^1.0.7",
     "cdk-monitoring-constructs": "^1.10.0"
   },
-  "gitHead": "ea53dec0c34947554b292a2abdc2b92278c41bb7"
+  "gitHead": "ea53dec0c34947554b292a2abdc2b92278c41bb7",
+  "stability": "stable",
+  "jsii": {
+    "outdir": "dist",
+    "versionFormat": "full",
+    "targets": {
+      "java": {
+        "package": "io.truemark.cdk",
+        "maven": {
+          "groupId": "io.truemark.cdk",
+          "artifactId": "cdklib"
+        }
+      },
+      "python": {
+        "distName": "truemark-cdk-lib.cdklib",
+        "module": "truemark-cdk-lib.cdklib"
+      },
+      "dotnet": {
+        "namespace": "TrueMark.CDK",
+        "packageId": "TrueMark.CDK"
+      }
+    },
+    "tsc": {
+      "baseUrl": ".",
+      "compilerOptions": {
+        "lib": [
+          "es2018",
+          "es2020",
+          "dom"
+        ]
+      },
+      "exclude": [
+        "test/aws-website/**/*"
+      ],
+      "lib": [
+        "es2018",
+        "es2020",
+        "dom"
+      ]
+    }
+  }
 }

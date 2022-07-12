@@ -229,10 +229,10 @@ export class FunctionAlarms extends AlarmsBase<FunctionAlarmsCategoryOptions, Fu
   private warningLogAlarm: LogMetricAlarm | undefined;
 
   private addLogAlarm(category: AlarmCategory, defaultThreshold?: number) {
-    const fprops = category === AlarmCategory.Critical ? this.props.criticalAlarmOptions : this.props.warningAlarmOptions;
+    const fprops = category === AlarmCategory.CRITICAL ? this.props.criticalAlarmOptions : this.props.warningAlarmOptions;
     const threshold = fprops?.maxLogCount??defaultThreshold
     const pattern = fprops?.metricLogPattern??
-    category === AlarmCategory.Critical
+    category === AlarmCategory.CRITICAL
       ? FunctionAlarms.DEFAULT_CRITICAL_LOG_METRIC_PATTERN
       : FunctionAlarms.DEFAULT_WARNING_LOG_METRIC_PATTERN;
     const evaluationPeriods = fprops?.logEvaluationPeriods??2
@@ -246,7 +246,7 @@ export class FunctionAlarms extends AlarmsBase<FunctionAlarmsCategoryOptions, Fu
         datapointsToAlarm,
         metricName: category + 'LogCount',
       });
-      if (category === AlarmCategory.Critical) {
+      if (category === AlarmCategory.CRITICAL) {
         this.criticalLogAlarm = logAlarm;
       } else {
         this.warningLogAlarm = logAlarm;
@@ -273,13 +273,13 @@ export class FunctionAlarms extends AlarmsBase<FunctionAlarmsCategoryOptions, Fu
     super(scope, id, props);
     this.addFunctionMonitoring();
     this.addLogMonitoringToDashboard();
-    this.addLogAlarm(AlarmCategory.Critical, 1);
-    this.addLogAlarm(AlarmCategory.Warning);
+    this.addLogAlarm(AlarmCategory.CRITICAL, 1);
+    this.addLogAlarm(AlarmCategory.WARNING);
   }
 
   getAlarms(category: AlarmCategory): Alarm[] {
-    const alarms = super.getAlarms(category);
-    const logAlarm = category === AlarmCategory.Critical ? this.criticalLogAlarm?.alarm : this.warningLogAlarm?.alarm;
+    const alarms = super.alarms(category);
+    const logAlarm = category === AlarmCategory.CRITICAL ? this.criticalLogAlarm?.alarm : this.warningLogAlarm?.alarm;
     if (logAlarm !== undefined) {
       alarms.push(logAlarm);
     }

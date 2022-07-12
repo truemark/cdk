@@ -32,8 +32,8 @@ export class AlarmHelper {
    */
   static toRecord<O extends AlarmsCategoryOptions, T extends CustomAlarmThreshold>(
     options: AlarmsOptions<O>,
-    oprop: keyof O,
-    tprop: keyof T,
+    oprop: string,
+    tprop: string,
     defaultCriticalThreshold?: number | Duration,
     defaultWarningThreshold?: number | Duration
   ): Record<string, T> | undefined {

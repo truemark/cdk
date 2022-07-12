@@ -7,7 +7,7 @@ test("Hugo Website Test", () => {
   const app = new cdk.App();
   const stack = new cdk.Stack(app, "TestStack");
   new Website(stack, 'TestWebsite', {
-    sourceType: SourceType.Hugo,
+    sourceType: SourceType.HUGO,
     sourceDirectory: path.join(__dirname, "hugo-website")
   });
   const template = Template.fromStack(stack);

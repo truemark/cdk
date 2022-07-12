@@ -112,7 +112,7 @@ export interface CdkPipelineProps {
 export class CdkPipeline extends Construct {
 
   readonly pipeline: CodePipeline;
-  readonly pipelineNotificationRule: PipelineNotificationRule;
+  readonly pipelineNotificationRule!: PipelineNotificationRule;
 
   constructor(scope: Construct, id: string, props: CdkPipelineProps) {
     super(scope, id);
