@@ -142,8 +142,8 @@ function combineActions(actions?: IAlarmAction[], topics?: ITopic[]): IAlarmActi
  * Used to disambiguate warning and critical alarms.
  */
 export enum QueueAlarmCategory {
-  Critical = 'Critical',
-  Warning = 'Warning'
+  CRITICAL = 'Critical',
+  WARNING = 'Warning'
 }
 
 /**
@@ -240,13 +240,13 @@ export class QueueAlarms extends Construct {
 
   private toRecord(sprop: keyof QueueAlarmsCategoryProps, tprop: string, defaultThreshold?: number|Duration): Record<string, CustomAlarmThreshold> | undefined {
     const record: Record<string, CustomAlarmThreshold> = {};
-    this.addRecordValue(record, QueueAlarmCategory.Critical, sprop, tprop, defaultThreshold);
-    this.addRecordValue(record, QueueAlarmCategory.Warning, sprop, tprop, defaultThreshold);
+    this.addRecordValue(record, QueueAlarmCategory.CRITICAL, sprop, tprop, defaultThreshold);
+    this.addRecordValue(record, QueueAlarmCategory.WARNING, sprop, tprop, defaultThreshold);
     return Object.keys(record).length > 0 ? record : undefined;
   }
 
   private addAlarm(category: QueueAlarmCategory, ...alarm: Alarm[]) {
-    const arr = category === QueueAlarmCategory.Critical ? this.criticalAlarms : this.warningAlarms;
+    const arr = category === QueueAlarmCategory.CRITICAL ? this.criticalAlarms : this.warningAlarms;
     arr.push(...alarm);
   }
 
@@ -291,8 +291,8 @@ export class QueueAlarms extends Construct {
         addDeadLetterQueueToSummaryDashboard: true
       });
 
-      this.addAlarm(QueueAlarmCategory.Critical, ...this.monitoringFacade.createdAlarmsWithDisambiguator(QueueAlarmCategory.Critical).map((awa) => awa.alarm));
-      this.addAlarm(QueueAlarmCategory.Warning, ...this.monitoringFacade.createdAlarmsWithDisambiguator(QueueAlarmCategory.Warning).map((awa) => awa.alarm));
+      this.addAlarm(QueueAlarmCategory.CRITICAL, ...this.monitoringFacade.createdAlarmsWithDisambiguator(QueueAlarmCategory.CRITICAL).map((awa) => awa.alarm));
+      this.addAlarm(QueueAlarmCategory.WARNING, ...this.monitoringFacade.createdAlarmsWithDisambiguator(QueueAlarmCategory.WARNING).map((awa) => awa.alarm));
     }
   }
 }

@@ -17,7 +17,7 @@ export interface PythonFunctionAlphaProps extends python.PythonFunctionProps, Fu
 export class PythonFunctionAlpha extends python.PythonFunction {
 
   readonly alarms: FunctionAlarms;
-  readonly deployment: FunctionDeployment;
+  readonly deployment!: FunctionDeployment;
 
   constructor(scope: Construct, id: string, props: PythonFunctionAlphaProps) {
     super(scope, id, props);
@@ -34,10 +34,10 @@ export class PythonFunctionAlpha extends python.PythonFunction {
         function: this
       });
       if (props.deploymentOptions?.includeCriticalAlarms??true) {
-        this.deployment.addAlarms(...this.alarms.getCriticalAlarms());
+        this.deployment.addAlarms(...this.alarms.criticalAlarms());
       }
       if (props.deploymentOptions?.includeWarningAlarms??false) {
-        this.deployment.addAlarms(...this.alarms.getWarningAlarms());
+        this.deployment.addAlarms(...this.alarms.warningAlarms());
       }
     }
   }

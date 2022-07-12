@@ -48,7 +48,7 @@ export interface FunctionProps extends lambda.FunctionProps,  FunctionAlarmsOpti
 export class Function extends lambda.Function {
 
   readonly alarms: FunctionAlarms;
-  readonly deployment: FunctionDeployment;
+  readonly deployment!: FunctionDeployment;
 
   constructor(scope: Construct, id: string, props: FunctionProps) {
     super(scope, id, props);
@@ -65,10 +65,10 @@ export class Function extends lambda.Function {
         function: this
       });
       if (props.deploymentOptions?.includeCriticalAlarms??true) {
-        this.deployment.addAlarms(...this.alarms.getCriticalAlarms());
+        this.deployment!.addAlarms(...this.alarms.criticalAlarms());
       }
       if (props.deploymentOptions?.includeWarningAlarms??false) {
-        this.deployment.addAlarms(...this.alarms.getWarningAlarms());
+        this.deployment!.addAlarms(...this.alarms.warningAlarms());
       }
     }
   }

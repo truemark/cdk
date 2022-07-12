@@ -9,8 +9,8 @@ import {AlarmCategory, AlarmsCategoryOptions, AlarmsOptions} from "./alarms-base
 /**
  * Properties for AlarmFacade
  */
-export interface AlarmFacadeProps {
-  prop: string;
+export class AlarmFacadeProps {
+  prop!: string;
   threshold?: number | Duration;
   defaultThreshold?: number | Duration;
   topics?: ITopic[];
@@ -40,7 +40,7 @@ export class AlarmFacade {
       if ((typeof threshold === "number" && threshold > -1)
         || (typeof threshold === "object" && (threshold as Duration).toSeconds() > 0)) {
         return {
-          [this.props.prop]: this.props.threshold ?? this.props.defaultThreshold,
+          [this.props.prop!]: this.props.threshold ?? this.props.defaultThreshold,
           actionsEnabled: true,
           actionOverride: new StandardAlarmActionsStrategy({actions: this.actions}),
         }
@@ -73,12 +73,17 @@ export class AlarmFacadeSet<O extends AlarmsCategoryOptions, T extends CustomAla
    * @param tprop property from the CustomAlarmThreshold instance
    * @param defaultThreshold optional default value for the threshold
    */
-  addAlarm(category: AlarmCategory, oprop: keyof O, tprop: keyof T, defaultThreshold?: number | Duration): AlarmFacadeSet<O, T> {
+  addAlarm(category: AlarmCategory, oprop: string, tprop: string, defaultThreshold?: number | Duration): AlarmFacadeSet<O, T> {
 
-    const options = category === AlarmCategory.Critical ? this.criticalOptions : this.warningOptions;
+    const options = category === AlarmCategory.CRITICAL ? this.criticalOptions : this.warningOptions;
+    
+    // TODO (CDK-JSII): We need to see if this actually works
+    type OK = keyof typeof options;
+    const thresh = options?.[oprop as OK] as number | Duration | undefined;
+
     const customAlarmThreshold = new AlarmFacade({
       prop: tprop as string,
-      threshold: options?.[oprop] as number | Duration | undefined,
+      threshold: thresh,
       defaultThreshold,
       topics: options?.notifyTopics,
       actions: options?.notifyActions
@@ -96,8 +101,8 @@ export class AlarmFacadeSet<O extends AlarmsCategoryOptions, T extends CustomAla
    * @param tprop property from the CustomAlarmThreshold instance
    * @param defaultThreshold optional default value for the threshold
    */
-  addCriticalAlarm(oprop: keyof O, tprop: keyof T, defaultThreshold?: number | Duration): AlarmFacadeSet<O, T> {
-    return this.addAlarm(AlarmCategory.Critical, oprop, tprop, defaultThreshold);
+  addCriticalAlarm(oprop: string, tprop: string, defaultThreshold?: number | Duration): AlarmFacadeSet<O, T> {
+    return this.addAlarm(AlarmCategory.CRITICAL, oprop, tprop, defaultThreshold);
   }
 
   /**
@@ -107,8 +112,8 @@ export class AlarmFacadeSet<O extends AlarmsCategoryOptions, T extends CustomAla
    * @param tprop property from the CustomAlarmThreshold instance
    * @param defaultThreshold optional default value for the threshold
    */
-  addWarningAlarm(oprop: keyof O, tprop: keyof T, defaultThreshold?: number | Duration): AlarmFacadeSet<O, T> {
-    return this.addAlarm(AlarmCategory.Warning, oprop, tprop, defaultThreshold);
+  addWarningAlarm(oprop: string, tprop: string, defaultThreshold?: number | Duration): AlarmFacadeSet<O, T> {
+    return this.addAlarm(AlarmCategory.WARNING, oprop, tprop, defaultThreshold);
   }
 
   /**
@@ -119,7 +124,7 @@ export class AlarmFacadeSet<O extends AlarmsCategoryOptions, T extends CustomAla
    * @param defaultCriticalThreshold optional default value for the critical threshold
    * @param defaultWarningThreshold optional default value for the warning threshold
    */
-  addAlarms(oprop: keyof O, tprop: keyof T,
+  addAlarms(oprop: string, tprop: string,
            defaultCriticalThreshold?: number | Duration,
            defaultWarningThreshold?: number | Duration): AlarmFacadeSet<O, T> {
     this.addCriticalAlarm(oprop, tprop, defaultCriticalThreshold);

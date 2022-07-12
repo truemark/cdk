@@ -2,6 +2,7 @@
   "name": "typescript-lamba",
   "version": "0.0.1",
   "devDependencies": {
+    "@types/aws-lambda": "^8.10.101",
     "aws-lambda": "*"
   }
 }

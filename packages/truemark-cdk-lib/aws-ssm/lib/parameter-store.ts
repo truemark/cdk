@@ -65,7 +65,7 @@ export class ParameterStore extends Construct {
     return new ParameterReader(this, this.identifierPrefix + name + this.identifierSuffix, {
       parameterName: this.prefix + name + this.suffix,
       region: this.region
-    }).getStringValue();
+    }).stringValue();
   }
 
   /**

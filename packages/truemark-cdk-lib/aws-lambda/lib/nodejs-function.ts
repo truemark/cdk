@@ -20,7 +20,7 @@ export interface NodejsFunctionProps extends nodejs.NodejsFunctionProps, Functio
 export class NodejsFunction extends nodejs.NodejsFunction {
 
   readonly alarms: FunctionAlarms;
-  readonly deployment: FunctionDeployment;
+  readonly deployment!: FunctionDeployment;
 
   private static findDepsLockFile(entry: string | undefined): string | undefined {
     if (entry !== undefined) {
@@ -44,15 +44,15 @@ export class NodejsFunction extends nodejs.NodejsFunction {
       ...props,
       bundling: {
         commandHooks: {
-          beforeBundling(inputDir: string, outputDir: string): string[] {
+          beforeBundling(inputDir: string, _outputDir: string): string[] {
             return [
               `if [ -f ${inputDir}/package-lock.json ]; then cd ${inputDir} && npm ci --prefer-offline --no-fund; fi`
             ]
           },
-          beforeInstall(inputDir: string, outputDir: string): string[] {
+          beforeInstall(_inputDir: string, _outputDir: string): string[] {
             return [];
           },
-          afterBundling(inputDir: string, outputDir: string): string[] {
+          afterBundling(_inputDir: string, _outputDir: string): string[] {
             return [];
           }
         },
@@ -72,10 +72,10 @@ export class NodejsFunction extends nodejs.NodejsFunction {
         function: this
       });
       if (props.deploymentOptions?.includeCriticalAlarms??true) {
-        this.deployment.addAlarms(...this.alarms.getCriticalAlarms());
+        this.deployment.addAlarms(...this.alarms.criticalAlarms());
       }
       if (props.deploymentOptions?.includeWarningAlarms??false) {
-        this.deployment.addAlarms(...this.alarms.getWarningAlarms());
+        this.deployment.addAlarms(...this.alarms.warningAlarms());
       }
     }
   }

@@ -76,7 +76,7 @@ export class PythonFunction extends BundledFunction {
       handler,
       defaultBundlingScript,
       defaultBundlingImage: runtime.bundlingImage,
-      isLocalBundlingSupported: PythonFunction.isLocalBundlingSupported
+      isLocalBundlingSupported: PythonFunction.isLocalBundlingSupported()
     });
   }
 }

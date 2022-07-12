@@ -6,8 +6,8 @@ import {Duration, Stack} from "aws-cdk-lib";
 import {AlarmHelper} from "./alarm-helper";
 
 export enum AlarmCategory {
-  Critical = "Critical",
-  Warning = "Warning"
+  CRITICAL = "Critical",
+  WARNING = "Warning"
 }
 
 export interface AlarmsCategoryOptions {
@@ -108,8 +108,8 @@ export abstract class AlarmsBase<C extends AlarmsCategoryOptions, P extends Alar
    * @protected
    */
   protected toRecord<T extends CustomAlarmThreshold>(
-    oprop: keyof C,
-    tprop: keyof T,
+    oprop: string,
+    tprop: string,
     defaultCriticalThreshold?: number | Duration,
     defaultWarningThreshold?: number | Duration) {
     return AlarmHelper.toRecord<C, T>(
@@ -129,15 +129,15 @@ export abstract class AlarmsBase<C extends AlarmsCategoryOptions, P extends Alar
     });
   }
 
-  getAlarms(category: AlarmCategory): Alarm[] {
-    return [...this.monitoringFacade.createdAlarmsWithDisambiguator(category).map((awa) => awa.alarm).values()];
+  alarms(category: AlarmCategory): Alarm[] {
+    return [...this.monitoringFacade.createdAlarmsWithDisambiguator(category).map((awa: { alarm: any; }) => awa.alarm).values()];
   }
 
-  getCriticalAlarms(): Alarm[] {
-    return this.getAlarms(AlarmCategory.Critical);
+  criticalAlarms(): Alarm[] {
+    return this.alarms(AlarmCategory.CRITICAL);
   }
 
-  getWarningAlarms(): Alarm[] {
-    return this.getAlarms(AlarmCategory.Warning);
+  warningAlarms(): Alarm[] {
+    return this.alarms(AlarmCategory.WARNING);
   }
 }
