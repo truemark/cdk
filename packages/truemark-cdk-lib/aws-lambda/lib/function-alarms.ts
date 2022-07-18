@@ -185,17 +185,20 @@ export class FunctionAlarms extends AlarmsBase<FunctionAlarmsCategoryOptions, Fu
   /**
    * Default pattern used for the critical log metric.
    */
-  static readonly DEFAULT_CRITICAL_LOG_METRIC_PATTERN = '"[ERROR]"';
+  static readonly DEFAULT_CRITICAL_LOG_METRIC_PATTERN = "ERROR";
+  static readonly BRACKET_ERROR_LOG_METRIC_PATTERN = '"[ERROR]"';
 
   /**
    * Default pattern used for the warning log metric.
    */
-  static readonly DEFAULT_WARNING_LOG_METRIC_PATTERN = '"[WARNING]"';
+  static readonly DEFAULT_WARNING_LOG_METRIC_PATTERN = "WARNING";
+  static readonly BRACKET_WARNING_LOG_METRIC_PATTERN = '"[WARNING]"';
 
   /**
    * Default pattern used to show logs on the CloudWatch dashboard.
    */
-  static readonly DEFAULT_LOG_INSIGHTS_PATTERN = '\\\[ERROR\\\]|\\\[WARNING\\\]';
+  static readonly DEFAULT_LOG_INSIGHTS_PATTERN = 'ERROR|WARNING';
+  static readonly BRACKET_LOG_INSIGHTS_PATTERN = '\\\[ERROR\\\]|\\\[WARNING\\\]';
 
   private addFunctionMonitoring() {
     this.monitoringFacade.monitorLambdaFunction({

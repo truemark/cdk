@@ -1,20 +1,23 @@
 import {Construct} from "constructs";
 import {IBucket} from "aws-cdk-lib/aws-s3";
 import {
-  FunctionCode,
-  OriginAccessIdentity,
-  Function,
   Distribution,
-  ViewerProtocolPolicy, FunctionEventType, HttpVersion, SecurityPolicyProtocol, PriceClass
+  Function,
+  FunctionCode,
+  FunctionEventType,
+  HttpVersion,
+  OriginAccessIdentity,
+  PriceClass,
+  SecurityPolicyProtocol,
+  ViewerProtocolPolicy
 } from "aws-cdk-lib/aws-cloudfront";
 import {OriginGroup, S3Origin} from "aws-cdk-lib/aws-cloudfront-origins";
 import {Certificate} from "aws-cdk-lib/aws-certificatemanager";
 import {ARecord, HostedZone, IHostedZone, RecordTarget} from "aws-cdk-lib/aws-route53";
 import {CloudFrontTarget} from "aws-cdk-lib/aws-route53-targets";
 import {BucketDeployment, CacheControl, Source} from "aws-cdk-lib/aws-s3-deployment";
-import {BundlingOptions, Duration} from "aws-cdk-lib";
-import {DockerImage} from "aws-cdk-lib";
-import {StandardBucket} from "../../aws-s3";
+import {BundlingOptions, DockerImage, Duration, RemovalPolicy} from "aws-cdk-lib";
+import {Bucket} from "../../aws-s3";
 
 export enum SourceType {
   Custom = "Custom",
@@ -35,11 +38,11 @@ export class DomainName {
   }
 
   toString() {
-    return (this.prefix == '' ? '' : this.prefix + '.') + this.zone;
+    return (this.prefix == "" ? "" : this.prefix + ".") + this.zone;
   }
 
   toIdentifier() {
-    return this.toString().replace('.', '-');
+    return this.toString().replace(".", "-");
   }
 }
 
@@ -128,23 +131,23 @@ export class Website extends Construct {
   static readonly HUGO_BUNDLING_OPTIONS: BundlingOptions = {
     image: DockerImage.fromRegistry("klakegg/hugo:latest-ext"),
     command: [
-      '-d', '/asset-output'
+      "-d", "/asset-output"
     ]
   }
 
   /**
-   * The default bundling options for SourceType.NpmDist. It's expected that "npm run dist" command
+   * The default bundling options for SourceType.NpmDist. It"s expected that "npm run dist" command
    * will place files in ${CDK_BUNDLING_OUTPUT_DIR}. Example: "ng build --output-path=/asset-output"
    */
   static readonly NPM_DIST_BUNDLING_OPTIONS: BundlingOptions = {
     image: DockerImage.fromRegistry("node:16-alpine"),
     command: [
       // TODO Figure out how to cache .npmcache
-      'sh', '-c', [
-        'mkdir -p .npmcache',
-        'npm ci --cache .npmcache --prefer-offline',
-        'npm run dist'
-      ].join(' && ')
+      "sh", "-c", [
+        "mkdir -p .npmcache",
+        "npm ci --cache .npmcache --prefer-offline",
+        "npm run dist"
+      ].join(" && ")
     ]
   }
 
@@ -162,39 +165,42 @@ export class Website extends Construct {
   constructor(scope: Construct, id: string, props: WebsiteProps) {
     super(scope, id);
 
-    this.bucket = props.bucket??new StandardBucket(this, 'Bucket');
+    this.bucket = props.bucket ?? new Bucket(this, "Bucket", {
+      removalPolicy: RemovalPolicy.DESTROY,
+      autoDeleteObjects: true
+    });
     this.fallbackBucket = props.fallbackBucket;
 
-    this.originAccessIdentity = new OriginAccessIdentity(this, 'Access');
+    this.originAccessIdentity = new OriginAccessIdentity(this, "Access");
     this.bucket.grantRead(this.originAccessIdentity);
     if (this.fallbackBucket) {
       this.fallbackBucket.grantRead(this.originAccessIdentity);
     }
 
-    this.apexDomain = props?.domainNames?.[0].toString() || '';
+    this.apexDomain = props?.domainNames?.[0].toString() || "";
 
-    this.viewerRequestFunction = new Function(this, 'ViewerRequestFunction', {
+    this.viewerRequestFunction = new Function(this, "ViewerRequestFunction", {
       code: FunctionCode.fromInline(`
 function handler(event) {
   var host = event.request.headers.host.value;
   var uri = event.request.uri;
   var matchApex = MATCH_APEX;
-  if (matchApex && host !== 'APEX_DOMAIN') {
+  if (matchApex && host !== "APEX_DOMAIN") {
     return {
       statusCode: 301,
-      statusDescription: 'Permanently moved',
+      statusDescription: "Permanently moved",
       headers: {
         "location": { "value": "https://APEX_DOMAIN" + uri }
       }
     }
   }
-  if (uri.endsWith('/')) {
-    event.request.uri = uri + 'index.html';
+  if (uri.endsWith("/")) {
+    event.request.uri = uri + "index.html";
   }
   return event.request;
 }`
         .replace(/APEX_DOMAIN/g, this.apexDomain)
-        .replace(/MATCH_APEX/g, this.apexDomain !== '' && (props.redirectToApexDomain??true) ? 'true' : 'false'))
+        .replace(/MATCH_APEX/g, this.apexDomain !== "" && (props.redirectToApexDomain??true) ? "true" : "false"))
     });
 
     const bucketOrigin = new S3Origin(this.bucket, {
@@ -210,7 +216,7 @@ function handler(event) {
       fallbackOrigin: fallbackBucketOrigin
     });
 
-    this.distribution = new Distribution(this, 'Distribution', {
+    this.distribution = new Distribution(this, "Distribution", {
       defaultBehavior: {
         origin: defaultOrigin,
         viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
@@ -225,26 +231,26 @@ function handler(event) {
         {
           httpStatus: 404,
           responseHttpStatus: 404,
-          responsePagePath: '/404.html'
+          responsePagePath: "/404.html"
         }
       ],
       httpVersion: props.httpVersion??HttpVersion.HTTP1_1,
       minimumProtocolVersion: props.minimumProtocolVersion??SecurityPolicyProtocol.TLS_V1_2_2021,
       defaultRootObject: "index.html",
-      certificate: props?.certificateArn == undefined ? undefined : Certificate.fromCertificateArn(this, 'Certificate', props.certificateArn),
+      certificate: props?.certificateArn == undefined ? undefined : Certificate.fromCertificateArn(this, "Certificate", props.certificateArn),
       domainNames: props?.domainNames?.map((domainName) => domainName.toString()),
       enableIpv6: true,
       priceClass: props.priceClass??PriceClass.PRICE_CLASS_100
     });
 
-    this.distributionUrl = `https://${(this.apexDomain != '' ? this.apexDomain : this.distribution.distributionDomainName)}`
+    this.distributionUrl = `https://${(this.apexDomain != "" ? this.apexDomain : this.distribution.distributionDomainName)}`
 
     this.aRecords = [];
 
     if (props?.domainNames != undefined && props.domainNames.length > 0) {
       for (let domainName of props.domainNames) {
         if (domainName.createRecord??true) {
-          let zone = typeof domainName.zone !== "string" ? domainName.zone : HostedZone.fromLookup(this, 'zone-' + domainName.toIdentifier(), {
+          let zone = typeof domainName.zone !== "string" ? domainName.zone : HostedZone.fromLookup(this, "zone-" + domainName.toIdentifier(), {
             domainName: domainName.zone
           });
           this.aRecords.push(new ARecord(this, domainName.toIdentifier(), {

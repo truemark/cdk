@@ -9,23 +9,10 @@ import {Duration} from "aws-cdk-lib";
 import * as fs from "fs";
 import * as path from "path";
 
-export enum PreBundlingCommand {
-  "None" = "DoNothing",
-  "NpmInstall" = "NpmInstall",
-  "NpmCleanInstall" = "NpmCleanInstall"
-}
-
 /**
  * Properties for NodejsFunction
  */
 export interface NodejsFunctionProps extends nodejs.NodejsFunctionProps, FunctionAlarmsOptions, DeployedFunctionOptions {
-
-  /**
-   * Command to run before bundling.
-   *
-   * @default BeforeBundlingCommand.NpmCleanInstall
-   */
-  readonly preBundlingCommand?: PreBundlingCommand | string;
 
 }
 
@@ -56,28 +43,7 @@ export class NodejsFunction extends nodejs.NodejsFunction {
       timeout: Duration.seconds(30), // change default from 3
       runtime: Runtime.NODEJS_16_X, // change default from NODEJS_14_X
       depsLockFilePath: NodejsFunction.findDepsLockFile(props.entry),
-      ...props,
-      bundling: {
-        commandHooks: {
-          beforeBundling(inputDir: string, outputDir: string): string[] {
-            if (props.preBundlingCommand === PreBundlingCommand.None) {
-              return [];
-            }
-            else if (props.preBundlingCommand === undefined || props.preBundlingCommand === PreBundlingCommand.NpmCleanInstall) {
-              return [`if [ -f ${inputDir}/package-lock.json ]; then cd ${inputDir} && npm ci --prefer-offline --no-fund; fi`];
-            } else {
-              return [`if [ -f ${inputDir}/package-lock.json ]; then cd ${inputDir} && npm install --no-fund; fi`];
-            }
-          },
-          beforeInstall(inputDir: string, outputDir: string): string[] {
-            return [];
-          },
-          afterBundling(inputDir: string, outputDir: string): string[] {
-            return [];
-          }
-        },
-        ...props.bundling
-      },
+      ...props
     });
 
     this.alarms = new FunctionAlarms(this, "Alarms", {

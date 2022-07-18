@@ -1,1 +1,1 @@
-export * from "./standard-bucket";
+export * from "./bucket";
