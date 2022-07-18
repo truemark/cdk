@@ -197,7 +197,7 @@ export class FunctionAlarms extends AlarmsBase<FunctionAlarmsCategoryOptions, Fu
   /**
    * Default pattern used to show logs on the CloudWatch dashboard.
    */
-  static readonly DEFAULT_LOG_INSIGHTS_PATTERN = 'ERROR|WARNING';
+  static readonly DEFAULT_LOG_INSIGHTS_PATTERN = "ERROR|WARNING";
   static readonly BRACKET_LOG_INSIGHTS_PATTERN = '\\\[ERROR\\\]|\\\[WARNING\\\]';
 
   private addFunctionMonitoring() {
@@ -241,13 +241,13 @@ export class FunctionAlarms extends AlarmsBase<FunctionAlarmsCategoryOptions, Fu
     const evaluationPeriods = fprops?.logEvaluationPeriods??2
     const datapointsToAlarm = fprops?.logDataPointsToAlarm??1
     if (threshold !== undefined && threshold > 0) {
-      const logAlarm = new LogMetricAlarm(this, category + 'LogCount', {
+      const logAlarm = new LogMetricAlarm(this, category + "LogCount", {
         logGroup: this.props.logGroup,
         pattern,
         threshold,
         evaluationPeriods,
         datapointsToAlarm,
-        metricName: category + 'LogCount',
+        metricName: category + "LogCount",
       });
       if (category === AlarmCategory.Critical) {
         this.criticalLogAlarm = logAlarm;
@@ -258,13 +258,17 @@ export class FunctionAlarms extends AlarmsBase<FunctionAlarmsCategoryOptions, Fu
   }
 
   private addLogMonitoringToDashboard() {
-    let pattern = this.props.criticalAlarmOptions?.dashboardLogPattern === undefined
-    && this.props.warningAlarmOptions?.dashboardLogPattern === undefined
-      ? FunctionAlarms.DEFAULT_LOG_INSIGHTS_PATTERN
-      : ''
-    pattern += this.props.criticalAlarmOptions?.dashboardLogPattern??'';
-    pattern += (pattern !== ''? '|' : '') + this.props.warningAlarmOptions?.dashboardLogPattern??'';
-    if (pattern !== '') {
+    let pattern = FunctionAlarms.DEFAULT_LOG_INSIGHTS_PATTERN;
+    if (this.props.criticalAlarmOptions?.dashboardLogPattern !== undefined || this.props.warningAlarmOptions?.dashboardLogPattern !== undefined) {
+      pattern = ""
+      if (this.props.criticalAlarmOptions?.dashboardLogPattern !== undefined) {
+        pattern = this.props.criticalAlarmOptions.dashboardLogPattern
+      }
+      if (this.props.warningAlarmOptions?.dashboardLogPattern !== undefined) {
+        pattern = pattern + (pattern !== "" ? "|" : "") + this.props.warningAlarmOptions.dashboardLogPattern;
+      }
+    }
+    if (pattern !== "") {
       this.monitoringFacade.monitorLog({
         logGroupName: this.props.logGroup.logGroupName,
         pattern,
