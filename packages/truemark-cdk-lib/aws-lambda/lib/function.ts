@@ -38,7 +38,7 @@ export interface DeployedFunctionOptions {
 /**
  * Properties for Function
  */
-export interface FunctionProps extends lambda.FunctionProps,  FunctionAlarmsOptions,DeployedFunctionOptions {
+export interface FunctionProps extends lambda.FunctionProps,  FunctionAlarmsOptions, DeployedFunctionOptions {
 
 }
 
