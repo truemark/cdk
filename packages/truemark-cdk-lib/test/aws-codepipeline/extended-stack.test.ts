@@ -1,11 +1,12 @@
 import {ResourceType, TestHelper} from "../test-helper";
-import {ExportedStack} from "../../aws-codepipeline";
 import {Template} from "aws-cdk-lib/assertions";
+import {ExtendedStack} from "../../aws-codepipeline";
 
 test("Test ExportedStack", () => {
   const stage = TestHelper.stage();
-  const stack = new ExportedStack(stage, "TestStack");
-  stack.exportParameter("TestParameter", "TestValue", true);
+  const stack = new ExtendedStack(stage, "TestStack");
+  stack.exportParameter("TestParameter", "TestValue");
+  stack.outputParameter("TestParameter", "TestValue");
   const template = Template.fromStack(stack);
   template.hasResourceProperties(ResourceType.SSM_PARAMETER, {
     Type: "String",

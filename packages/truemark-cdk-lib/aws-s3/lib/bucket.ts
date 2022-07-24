@@ -2,15 +2,15 @@ import * as s3 from 'aws-cdk-lib/aws-s3';
 import {Construct} from "constructs";
 import {BlockPublicAccess, BucketEncryption} from "aws-cdk-lib/aws-s3";
 import {RemovalPolicy} from "aws-cdk-lib";
-import {BucketAlarms} from "./bucket-alarms";
+import {BucketAlarms, BucketAlarmsOptions} from "./bucket-alarms";
 
 /**
  * Properties of Bucket.
  */
-export interface BucketProps extends s3.BucketProps {}
+export interface BucketProps extends s3.BucketProps, BucketAlarmsOptions {}
 
 /**
- * Extended version of Bucket that changes defaults.
+ * Extended version of Bucket that changes the following defaults.
  */
 export class Bucket extends s3.Bucket {
 

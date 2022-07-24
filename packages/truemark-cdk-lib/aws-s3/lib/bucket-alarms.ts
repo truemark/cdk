@@ -2,13 +2,9 @@ import {AlarmsBase, AlarmsCategoryOptions, AlarmsOptions} from "../../aws-monito
 import {Construct} from "constructs";
 import {IBucket} from "aws-cdk-lib/aws-s3";
 
-export interface BucketAlarmsCategoryOptions extends AlarmsCategoryOptions {
+export interface BucketAlarmsCategoryOptions extends AlarmsCategoryOptions {}
 
-}
-
-export interface BucketAlarmsOptions extends AlarmsOptions<BucketAlarmsCategoryOptions> {
-
-}
+export interface BucketAlarmsOptions extends AlarmsOptions<BucketAlarmsCategoryOptions> {}
 
 export interface BucketAlarmProps extends BucketAlarmsOptions {
 

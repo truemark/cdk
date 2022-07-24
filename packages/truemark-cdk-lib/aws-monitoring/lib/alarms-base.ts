@@ -40,8 +40,6 @@ export interface AlarmsOptions<T extends AlarmsCategoryOptions> {
 
   /**
    * Main entry point for monitoring.
-   *
-   * If no value is provided, a default facade will be created.
    */
   readonly monitoringFacade?: MonitoringFacade;
 
@@ -119,6 +117,7 @@ export abstract class AlarmsBase<C extends AlarmsCategoryOptions, P extends Alar
   protected constructor(scope: Construct, id: string, props: P) {
     super(scope, id);
     this.props = props;
+    // TODO Lookup
     this.monitoringFacade = props.monitoringFacade??new MonitoringFacade(this, 'MonitoringFacade', {
       metricFactoryDefaults: {},
       alarmFactoryDefaults: {

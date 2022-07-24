@@ -11,7 +11,7 @@ import {
   Wave,
   WaveOptions
 } from "aws-cdk-lib/pipelines";
-import {BuildSpec, ComputeType, IBuildImage, LinuxBuildImage} from "aws-cdk-lib/aws-codebuild";
+import {BuildSpec, ComputeType, IBuildImage, LinuxArmBuildImage, LinuxBuildImage} from "aws-cdk-lib/aws-codebuild";
 import {PipelineNotificationRule} from "./pipeline-notification-rule";
 import {Stack, Stage} from "aws-cdk-lib";
 import {IFileSetProducer} from "aws-cdk-lib/pipelines";

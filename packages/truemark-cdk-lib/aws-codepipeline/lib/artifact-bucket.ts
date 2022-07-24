@@ -8,6 +8,7 @@ import {AccountPrincipal, Effect, PolicyStatement} from "aws-cdk-lib/aws-iam";
  * Properties for ArtifactBucket.
  */
 export interface ArtifactBucketProps {
+
   /**
    * By default, CDK will create KMS keys for cross account deployments. This
    * can be costly if you have a large number of pipelines. This property
@@ -49,6 +50,5 @@ export class ArtifactBucket extends Bucket {
         ]
       }));
     }
-
   }
 }

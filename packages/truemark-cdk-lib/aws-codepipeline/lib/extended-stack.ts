@@ -1,29 +1,28 @@
+/**
+ * Options for ExtendedStackProps.
+ */
 import {CfnOutput, Stack, StackProps, Stage} from "aws-cdk-lib";
-import {Construct} from "constructs";
 import {ParameterStore, ParameterStoreOptions} from "../../aws-ssm";
+import {Construct} from "constructs";
 import {StringParameter} from "aws-cdk-lib/aws-ssm";
 
-/**
- * Options for ExportedStackProps.
- */
-export interface ExportedStackOptions {
-  parameterExportsPrefix?: string;
+export interface ExtendedStackOptions {
+
+  readonly parameterExportsPrefix?: string;
+
 }
 
-/**
- * Properties for ExportedStack.
- */
-export interface ExportedStackProps extends ExportedStackOptions, StackProps {}
+export interface ExtendedStackProps extends ExtendedStackOptions, StackProps {}
 
 /**
- * Provides functionality to export parameters to support cross region pipelines.
+ * Extended version of Stack providing functionality for parameter exports and
  */
-export class ExportedStack extends Stack {
+export class ExtendedStack extends Stack {
 
   protected readonly parameterExports: ParameterStore;
   readonly parameterExportOptions: ParameterStoreOptions;
 
-  constructor(scope: Construct, id: string, props?: ExportedStackProps) {
+  constructor(scope: Construct, id: string, props?: ExtendedStackProps) {
     super(scope, id, props);
     const stageName = Stage.of(this)?.stageName
     this.parameterExportOptions = {
@@ -38,12 +37,8 @@ export class ExportedStack extends Stack {
    *
    * @param name the parameter name
    * @param value the parameter value
-   * @param includeOutput true to include as a CfnOutput instance
    */
-  exportParameter(name: string, value: string, includeOutput?: boolean): StringParameter {
-    if (includeOutput) {
-      this.outputParameter(name, value);
-    }
+  exportParameter(name: string, value: string): StringParameter {
     return this.parameterExports.write(name, value);
   }
 
@@ -58,4 +53,5 @@ export class ExportedStack extends Stack {
       value
     });
   }
+
 }
