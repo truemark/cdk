@@ -1,4 +1,5 @@
 import * as cdk from "aws-cdk-lib";
+import * as path from "path";
 import {Template} from "aws-cdk-lib/assertions";
 import {ExtendedStack} from "../aws-codepipeline";
 
@@ -18,6 +19,11 @@ export class TestHelper {
 
   static stack(scope?: cdk.App | cdk.Stage, id?: string): cdk.Stack {
     return new ExtendedStack(scope ?? new cdk.App(), id ?? "TestStack");
+  }
+
+  static resolveTestFiles(childPath?: string): string {
+    const dir = path.join(__dirname, "..", "..", "..", "test-files");
+    return path.resolve(childPath == undefined ? dir : path.join(dir, childPath));
   }
 
   static logResources(template: Template, type: string | ResourceType, props?: any) {

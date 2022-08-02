@@ -6,7 +6,7 @@ import {Template} from "aws-cdk-lib/assertions";
 test("Test GoFunctionAlpha", () => {
   const stack = TestHelper.stack();
   new ExtendedGoFunction(stack, "TestFunction", {
-    entry: path.join(__dirname, "go-lambda")
+    entry: path.join(TestHelper.resolveTestFiles("go-lambda"))
   })
   const template = Template.fromStack(stack);
   template.hasResourceProperties(ResourceType.LAMBDA_FUNCTION, {

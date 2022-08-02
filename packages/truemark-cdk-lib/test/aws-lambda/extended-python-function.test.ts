@@ -7,7 +7,7 @@ import {Template} from "aws-cdk-lib/assertions";
 test("Test PythonFunctionAlpha", () => {
   const stack = TestHelper.stack();
   new ExtendedPythonFunction(stack, "TestFunction", {
-    entry: path.join(__dirname, "python-lambda"),
+    entry: path.join(__dirname, "..", "..", "..", "..", "test-files", "python-lambda"),
     runtime: Runtime.PYTHON_3_9
   });
   const template = Template.fromStack(stack);

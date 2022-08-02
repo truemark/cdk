@@ -1,4 +1,3 @@
-import * as path from "path";
 import {Template} from "aws-cdk-lib/assertions";
 import {BundledPythonFunction} from "../../aws-lambda";
 import {ResourceType, TestHelper} from "../test-helper";
@@ -6,7 +5,7 @@ import {ResourceType, TestHelper} from "../test-helper";
 test("Test PythonFunction", () => {
   const stack = TestHelper.stack();
   new BundledPythonFunction(stack, "TestFunction", {
-    entry: path.join(__dirname, "python-lambda")
+    entry: TestHelper.resolveTestFiles("python-lambda")
   });
   const template = Template.fromStack(stack);
   template.hasResourceProperties(ResourceType.LAMBDA_FUNCTION, {

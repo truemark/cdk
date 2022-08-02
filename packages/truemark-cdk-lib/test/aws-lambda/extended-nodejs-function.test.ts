@@ -7,7 +7,7 @@ import {Runtime} from "aws-cdk-lib/aws-lambda";
 test("Test NodejsFunction", () => {
   const stack = TestHelper.stack();
   new ExtendedNodejsFunction(stack, "TestFunction", {
-    entry: path.join(__dirname, "typescript-lambda", "index.ts"),
+    entry: TestHelper.resolveTestFiles(path.join("typescript-lambda", "index.ts")),
     runtime: Runtime.NODEJS_16_X,
     // bundling: {
     //   forceDockerBundling: true
