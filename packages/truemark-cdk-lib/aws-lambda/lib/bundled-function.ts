@@ -4,7 +4,7 @@ import {BundlingOptions, BundlingOutput} from "aws-cdk-lib";
 import {ShellHelper} from "../../helpers";
 import {Code, FunctionOptions, Runtime} from "aws-cdk-lib/aws-lambda";
 import {FunctionAlarmsOptions} from "./function-alarms";
-import {DeployedFunctionOptions, Function} from "./function";
+import {DeployedFunctionOptions, ExtendedFunction} from "./extended-function";
 
 /**
  * Options for BundledFunction.
@@ -84,7 +84,7 @@ export interface BundledFunctionProps extends FunctionOptions, FunctionAlarmsOpt
   readonly handler: string;
 }
 
-export class BundledFunction extends Function {
+export class BundledFunction extends ExtendedFunction {
 
   constructor(scope: Construct, id: string, props: BundledFunctionProps) {
 

@@ -1,16 +1,17 @@
 import {TableAlarms, TableAlarmsOptions} from "./table-alarms";
-import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
+import {Table, TableProps} from "aws-cdk-lib/aws-dynamodb";
 import {Construct} from "constructs";
+import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
 
 /**
  * Properties for ObservedTable.
  */
-export interface TableProps extends dynamodb.TableProps, TableAlarmsOptions {}
+export interface ExtendedTableProps extends TableProps, TableAlarmsOptions {}
 
 /**
  * DynamoDB Table with CloudWatch Alarms.
  */
-export class Table extends dynamodb.Table {
+export class ExtendedTable extends Table {
 
   readonly tableAlarms: TableAlarms;
 
@@ -33,4 +34,3 @@ export class Table extends dynamodb.Table {
     this.tableAlarms.addGlobalSecondaryIndexMonitoring(props.indexName);
   }
 }
-

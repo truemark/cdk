@@ -1,25 +1,19 @@
-import * as nodejs from "aws-cdk-lib/aws-lambda-nodejs"
 import {Construct} from "constructs";
 import {FunctionAlarms, FunctionAlarmsOptions} from "./function-alarms";
 import {FunctionDeployment} from "./function-deployment";
-import {DeployedFunctionOptions} from "./function";
+import {DeployedFunctionOptions} from "./extended-function";
 import {RetentionDays} from "aws-cdk-lib/aws-logs";
 import {Architecture, Runtime} from "aws-cdk-lib/aws-lambda";
 import {Duration} from "aws-cdk-lib";
 import * as fs from "fs";
 import * as path from "path";
+import {NodejsFunction, NodejsFunctionProps} from "aws-cdk-lib/aws-lambda-nodejs";
 
-/**
- * Properties for NodejsFunction
- */
-export interface NodejsFunctionProps extends nodejs.NodejsFunctionProps, FunctionAlarmsOptions, DeployedFunctionOptions {
+export interface ExtendedNodejsFunctionProps extends NodejsFunctionProps, FunctionAlarmsOptions, DeployedFunctionOptions {
 
 }
 
-/**
- * Extended version of the NodejsFunction that supports alarms and deployments and modified defaults.
- */
-export class NodejsFunction extends nodejs.NodejsFunction {
+export class ExtendedNodejsFunction extends NodejsFunction {
 
   readonly alarms: FunctionAlarms;
   readonly deployment: FunctionDeployment;
@@ -34,7 +28,7 @@ export class NodejsFunction extends nodejs.NodejsFunction {
     return undefined
   }
 
-  constructor(scope: Construct, id: string, props: NodejsFunctionProps) {
+  constructor(scope: Construct, id: string, props: ExtendedNodejsFunctionProps) {
 
     super(scope, id, {
       logRetention: RetentionDays.THREE_DAYS, // change default from INFINITE
@@ -42,7 +36,7 @@ export class NodejsFunction extends nodejs.NodejsFunction {
       memorySize: 768, // change default from 128
       timeout: Duration.seconds(30), // change default from 3
       runtime: Runtime.NODEJS_16_X, // change default from NODEJS_14_X
-      depsLockFilePath: NodejsFunction.findDepsLockFile(props.entry),
+      depsLockFilePath: ExtendedNodejsFunction.findDepsLockFile(props.entry),
       ...props
     });
 

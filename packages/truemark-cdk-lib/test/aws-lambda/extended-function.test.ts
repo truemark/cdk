@@ -1,12 +1,12 @@
 import * as path from "path";
 import {ResourceType, TestHelper} from "../test-helper";
 import {Template} from "aws-cdk-lib/assertions";
-import {Function} from "../../aws-lambda";
+import {ExtendedFunction} from "../../aws-lambda";
 import {Code, Runtime} from "aws-cdk-lib/aws-lambda";
 
 test("Test Function", () => {
   const stack = TestHelper.stack();
-  new Function(stack, "TestFunction", {
+  new ExtendedFunction(stack, "TestFunction", {
     runtime: Runtime.PYTHON_3_9,
     code: Code.fromAsset(path.join(__dirname, "python-lambda")),
     handler: "handler"

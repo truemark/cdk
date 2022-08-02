@@ -1,7 +1,7 @@
 import {FunctionAlarms, FunctionAlarmsOptions} from "./function-alarms";
-import * as lambda from "aws-cdk-lib/aws-lambda";
 import {Construct} from "constructs";
 import {FunctionDeployment, FunctionDeploymentOptions} from "./function-deployment";
+import {Function, FunctionProps} from "aws-cdk-lib/aws-lambda";
 
 export interface DeployedFunctionDeploymentOptions extends FunctionDeploymentOptions {
   /**
@@ -38,19 +38,19 @@ export interface DeployedFunctionOptions {
 /**
  * Properties for Function
  */
-export interface FunctionProps extends lambda.FunctionProps,  FunctionAlarmsOptions, DeployedFunctionOptions {
+export interface ExtendedFunctionProps extends FunctionProps,  FunctionAlarmsOptions, DeployedFunctionOptions {
 
 }
 
 /**
  * Extended version of Function that supports alarms and deployments.
  */
-export class Function extends lambda.Function {
+export class ExtendedFunction extends Function {
 
   readonly alarms: FunctionAlarms;
   readonly deployment: FunctionDeployment;
 
-  constructor(scope: Construct, id: string, props: FunctionProps) {
+  constructor(scope: Construct, id: string, props: ExtendedFunctionProps) {
     super(scope, id, props);
 
     this.alarms = new FunctionAlarms(this, "Alarms", {

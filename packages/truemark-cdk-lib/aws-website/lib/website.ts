@@ -1,5 +1,5 @@
 import {Construct} from "constructs";
-import {IBucket} from "aws-cdk-lib/aws-s3";
+import {Bucket, IBucket} from "aws-cdk-lib/aws-s3";
 import {
   Distribution,
   Function,
@@ -17,7 +17,7 @@ import {ARecord, HostedZone, IHostedZone, RecordTarget} from "aws-cdk-lib/aws-ro
 import {CloudFrontTarget} from "aws-cdk-lib/aws-route53-targets";
 import {BucketDeployment, CacheControl, Source} from "aws-cdk-lib/aws-s3-deployment";
 import {BundlingOptions, DockerImage, Duration, RemovalPolicy} from "aws-cdk-lib";
-import {Bucket} from "../../aws-s3";
+import {ExtendedBucket} from "../../aws-s3";
 
 export enum SourceType {
   Custom = "Custom",
@@ -165,7 +165,7 @@ export class Website extends Construct {
   constructor(scope: Construct, id: string, props: WebsiteProps) {
     super(scope, id);
 
-    this.bucket = props.bucket ?? new Bucket(this, "Bucket", {
+    this.bucket = props.bucket ?? new ExtendedBucket(this, "Bucket", {
       removalPolicy: RemovalPolicy.DESTROY,
       autoDeleteObjects: true
     });

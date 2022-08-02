@@ -1,12 +1,19 @@
-# Welcome to your CDK TypeScript Construct Library project
+# TrueMark CDK Library
 
-You should explore the contents of this project. It demonstrates a CDK Construct Library that includes a construct (`TruemarkCdkLib`)
-which contains an Amazon SQS queue that is subscribed to an Amazon SNS topic.
+This library provides common constructs and functionality to ease CDK development.
 
-The construct defines an interface (`TruemarkCdkLibProps`) to configure the visibility timeout of the queue.
+The main objectives of this project is to
 
-## Useful commands
+ - Provide extended constructs that add additional functionality to existing CDK constructs
+ - Provide standard constructs that are simple to use and adhere to best practices
+ - Provide constructs for common use patterns
+ - Reduce the amount of boilerplate coding required to work with CDK
 
-* `npm run build`   compile typescript to js
-* `npm run watch`   watch for changes and compile
-* `npm run test`    perform the jest unit tests
+## Versioning
+
+This project follows a [semantic versioning](https://semver.org/) pattern.
+
+```
+<major>.<minor>.<patch>
+```
+

@@ -4,15 +4,15 @@ import {Duration} from "aws-cdk-lib";
 import {RetentionDays} from "aws-cdk-lib/aws-logs";
 import {ShellHelper} from "../../helpers";
 import {BundledFunction, BundledFunctionOptions} from "./bundled-function";
-import {DeployedFunctionOptions} from "./function";
+import {DeployedFunctionOptions} from "./extended-function";
 import {FunctionAlarmsOptions} from "./function-alarms";
 import * as path from 'path';
 import * as fs from 'fs';
 
 /**
- * Properties for PythonFunction.
+ * Properties for BundledPythonFunction.
  */
-export interface PythonFunctionProps extends FunctionOptions, FunctionAlarmsOptions, DeployedFunctionOptions, BundledFunctionOptions {
+export interface BundledPythonFunctionProps extends FunctionOptions, FunctionAlarmsOptions, DeployedFunctionOptions, BundledFunctionOptions {
 
   /**
    * The path (relative to entry) to the index file containing the exported handler.
@@ -34,13 +34,12 @@ export interface PythonFunctionProps extends FunctionOptions, FunctionAlarmsOpti
    * @default Runtime.PYTHON_3_9
    */
   readonly runtime?: Runtime;
-
 }
 
 /**
  * Python based Lambda Function
  */
-export class PythonFunction extends BundledFunction {
+export class BundledPythonFunction extends BundledFunction {
 
   static isLocalBundlingSupported(): boolean {
     return ShellHelper.pythonVersion() !== null;
@@ -49,7 +48,7 @@ export class PythonFunction extends BundledFunction {
   /**
    * Creates a new Lambda Function
    */
-  constructor(scope: Construct, id: string, props: PythonFunctionProps) {
+  constructor(scope: Construct, id: string, props: BundledPythonFunctionProps) {
 
     const runtime = props.runtime??Runtime.PYTHON_3_9
     if (runtime.family !== RuntimeFamily.PYTHON) {
@@ -76,7 +75,7 @@ export class PythonFunction extends BundledFunction {
       handler,
       defaultBundlingScript,
       defaultBundlingImage: runtime.bundlingImage,
-      isLocalBundlingSupported: PythonFunction.isLocalBundlingSupported
+      isLocalBundlingSupported: BundledPythonFunction.isLocalBundlingSupported
     });
   }
 }

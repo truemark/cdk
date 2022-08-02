@@ -1,9 +1,10 @@
 import {Construct} from "constructs";
 import {Alarm, IAlarmAction} from "aws-cdk-lib/aws-cloudwatch";
-import {CustomAlarmThreshold, IDashboardFactory, MonitoringFacade} from "cdk-monitoring-constructs";
+import {CustomAlarmThreshold, MonitoringFacade} from "cdk-monitoring-constructs";
 import {ITopic} from "aws-cdk-lib/aws-sns";
 import {Duration, Stack} from "aws-cdk-lib";
 import {AlarmHelper} from "./alarm-helper";
+import {ExtendedStack} from "../../aws-codepipeline";
 
 export enum AlarmCategory {
   Critical = "Critical",
@@ -11,6 +12,7 @@ export enum AlarmCategory {
 }
 
 export interface AlarmsCategoryOptions {
+
   /**
    * Topics to send alarm notifications
    */
@@ -42,13 +44,6 @@ export interface AlarmsOptions<T extends AlarmsCategoryOptions> {
    * Main entry point for monitoring.
    */
   readonly monitoringFacade?: MonitoringFacade;
-
-  /**
-   * The DashboardFactory to use when generating CloudWatch dashboards.
-   *
-   * If not defined, dashboards are not generated.
-   */
-  readonly dashboardFactory?: IDashboardFactory;
 
   /**
    * Add widgets to alarm dashboard.
@@ -117,15 +112,21 @@ export abstract class AlarmsBase<C extends AlarmsCategoryOptions, P extends Alar
   protected constructor(scope: Construct, id: string, props: P) {
     super(scope, id);
     this.props = props;
-    // TODO Lookup
-    this.monitoringFacade = props.monitoringFacade??new MonitoringFacade(this, 'MonitoringFacade', {
-      metricFactoryDefaults: {},
-      alarmFactoryDefaults: {
-        actionsEnabled: true,
-        alarmNamePrefix: props.alarmNamePrefix??Stack.of(this).stackName
-      },
-      dashboardFactory: props.dashboardFactory
-    });
+
+    if (props.monitoringFacade !== undefined) {
+      this.monitoringFacade = props.monitoringFacade
+    } else {
+      const stack = Stack.of(this);
+      if ("monitoringFacade" in stack) {
+        const mf = (stack as ExtendedStack).monitoringFacade;
+        if (mf !== undefined) {
+          this.monitoringFacade = mf;
+        }
+      }
+    }
+    if (this.monitoringFacade === undefined) {
+      throw new Error("MonitoringFacade must be provided as a constructor property or as monitoringFacade property on parent Stack");
+    }
   }
 
   getAlarms(category: AlarmCategory): Alarm[] {

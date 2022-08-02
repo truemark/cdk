@@ -2,10 +2,10 @@ import * as cdk from "aws-cdk-lib";
 import {SourceType, Website} from "../../aws-website";
 import * as path from "path";
 import {Template} from "aws-cdk-lib/assertions";
+import {TestHelper} from "../test-helper";
 
 test("Hugo Website Test", () => {
-  const app = new cdk.App();
-  const stack = new cdk.Stack(app, "TestStack");
+  const stack = TestHelper.stack();
   new Website(stack, 'TestWebsite', {
     sourceType: SourceType.Hugo,
     sourceDirectory: path.join(__dirname, "hugo-website")

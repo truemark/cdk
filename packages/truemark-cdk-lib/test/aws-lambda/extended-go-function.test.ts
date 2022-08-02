@@ -1,18 +1,16 @@
 import * as path from "path";
 import {ResourceType, TestHelper} from "../test-helper";
-import {PythonFunctionAlpha} from "../../aws-lambda";
-import {Runtime} from "aws-cdk-lib/aws-lambda";
+import {ExtendedGoFunction} from "../../aws-lambda";
 import {Template} from "aws-cdk-lib/assertions";
 
-test("Test PythonFunctionAlpha", () => {
+test("Test GoFunctionAlpha", () => {
   const stack = TestHelper.stack();
-  new PythonFunctionAlpha(stack, "TestFunction", {
-    entry: path.join(__dirname, "python-lambda"),
-    runtime: Runtime.PYTHON_3_9
-  });
+  new ExtendedGoFunction(stack, "TestFunction", {
+    entry: path.join(__dirname, "go-lambda")
+  })
   const template = Template.fromStack(stack);
   template.hasResourceProperties(ResourceType.LAMBDA_FUNCTION, {
-    Runtime: "python3.9"
+    Runtime: "provided.al2"
   });
   template.resourceCountIs(ResourceType.CLOUDWATCH_ALARM, 3);
 });

@@ -8,10 +8,7 @@ import {
 import {Construct} from "constructs";
 import {Alias, IFunction, Function} from "aws-cdk-lib/aws-lambda";
 import {IAlarm} from "aws-cdk-lib/aws-cloudwatch";
-import {IRole} from "aws-cdk-lib/aws-iam";
-import * as cloudwatch from "aws-cdk-lib/aws-cloudwatch";
-import * as lambda from "aws-cdk-lib/aws-lambda";
-import * as iam from "aws-cdk-lib/aws-iam";
+import {Grant, IGrantable, IRole} from "aws-cdk-lib/aws-iam";
 
 export interface FunctionDeploymentOptions {
 
@@ -131,7 +128,7 @@ export class FunctionDeployment extends Construct {
    *
    * @param alarm the alarm to associate
    */
-  addAlarm(alarm: cloudwatch.IAlarm): void {
+  addAlarm(alarm: IAlarm): void {
     this.deploymentGroup.addAlarm(alarm);
   }
 
@@ -140,7 +137,7 @@ export class FunctionDeployment extends Construct {
    *
    * @param alarms the alarms to associate
    */
-  addAlarms(...alarms: cloudwatch.IAlarm[]): void {
+  addAlarms(...alarms: IAlarm[]): void {
     alarms.forEach((alarm) => this.deploymentGroup.addAlarm(alarm));
   }
 
@@ -149,7 +146,7 @@ export class FunctionDeployment extends Construct {
    *
    * @param preHook the function to associate
    */
-  addPreHook(preHook: lambda.IFunction): void {
+  addPreHook(preHook: IFunction): void {
     this.deploymentGroup.addPreHook(preHook);
   }
 
@@ -158,7 +155,7 @@ export class FunctionDeployment extends Construct {
    *
    * @param postHook the function to associate
    */
-  addPostHook(postHook: lambda.IFunction): void {
+  addPostHook(postHook: IFunction): void {
     this.deploymentGroup.addPostHook(postHook);
   }
 
@@ -167,7 +164,7 @@ export class FunctionDeployment extends Construct {
    *
    * @param grantee resource to grant permission to
    */
-  grantPutLifecycleEventHookExecutionStatus(grantee: iam.IGrantable): iam.Grant {
+  grantPutLifecycleEventHookExecutionStatus(grantee: IGrantable): Grant {
     return this.deploymentGroup.grantPutLifecycleEventHookExecutionStatus(grantee);
   }
 

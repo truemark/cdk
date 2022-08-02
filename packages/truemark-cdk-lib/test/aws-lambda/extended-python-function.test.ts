@@ -1,12 +1,14 @@
 import * as path from "path";
-import {Template} from "aws-cdk-lib/assertions";
-import {PythonFunction} from "../../aws-lambda";
 import {ResourceType, TestHelper} from "../test-helper";
+import {ExtendedPythonFunction} from "../../aws-lambda";
+import {Runtime} from "aws-cdk-lib/aws-lambda";
+import {Template} from "aws-cdk-lib/assertions";
 
-test("Test PythonFunction", () => {
+test("Test PythonFunctionAlpha", () => {
   const stack = TestHelper.stack();
-  new PythonFunction(stack, "TestFunction", {
-    entry: path.join(__dirname, "python-lambda")
+  new ExtendedPythonFunction(stack, "TestFunction", {
+    entry: path.join(__dirname, "python-lambda"),
+    runtime: Runtime.PYTHON_3_9
   });
   const template = Template.fromStack(stack);
   template.hasResourceProperties(ResourceType.LAMBDA_FUNCTION, {

@@ -1,2 +1,2 @@
-export * from "./table"
+export * from "./extended-table"
 export * from "./table-alarms"
