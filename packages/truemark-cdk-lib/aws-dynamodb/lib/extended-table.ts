@@ -15,7 +15,7 @@ export class ExtendedTable extends Table {
 
   readonly tableAlarms: TableAlarms;
 
-  constructor(scope: Construct, id: string, props: TableProps) {
+  constructor(scope: Construct, id: string, props: ExtendedTableProps) {
     super(scope, id, props);
 
     this.tableAlarms = new TableAlarms(this, "Alarms", {
