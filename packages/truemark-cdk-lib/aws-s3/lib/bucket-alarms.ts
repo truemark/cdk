@@ -4,7 +4,16 @@ import {IBucket} from "aws-cdk-lib/aws-s3";
 
 export interface BucketAlarmsCategoryOptions extends AlarmsCategoryOptions {}
 
-export interface BucketAlarmsOptions extends AlarmsOptions<BucketAlarmsCategoryOptions> {}
+export interface BucketAlarmsOptions extends AlarmsOptions<BucketAlarmsCategoryOptions> {
+
+  /**
+   * Flag to create alarms.
+   *
+   * @default true
+   */
+  readonly createAlarms?: boolean;
+
+}
 
 export interface BucketAlarmProps extends BucketAlarmsOptions {
 
@@ -25,6 +34,8 @@ export class BucketAlarms extends AlarmsBase<BucketAlarmsCategoryOptions, Bucket
 
   constructor(scope: Construct, id: string, props: BucketAlarmProps) {
     super(scope, id, props);
-    this.addBucketMonitoring();
+    if (props.createAlarms ?? true) {
+      this.addBucketMonitoring();
+    }
   }
 }

@@ -154,6 +154,13 @@ export interface FunctionAlarmsCategoryOptions extends AlarmsCategoryOptions {
 export interface FunctionAlarmsOptions extends AlarmsOptions<FunctionAlarmsCategoryOptions> {
 
   /**
+   * Flag to create alarms.
+   *
+   * @default true
+   */
+  readonly createAlarms?: boolean;
+
+  /**
    * Generate dashboard charts for Lambda insights metrics.
    *
    * @default true
@@ -278,10 +285,12 @@ export class FunctionAlarms extends AlarmsBase<FunctionAlarmsCategoryOptions, Fu
 
   constructor(scope: Construct, id: string, props: FunctionAlarmsProps) {
     super(scope, id, props);
-    this.addFunctionMonitoring();
-    this.addLogMonitoringToDashboard();
-    this.addLogAlarm(AlarmCategory.Critical, 1);
-    this.addLogAlarm(AlarmCategory.Warning);
+    if (props.createAlarms ?? true) {
+      this.addFunctionMonitoring();
+      this.addLogMonitoringToDashboard();
+      this.addLogAlarm(AlarmCategory.Critical, 1);
+      this.addLogAlarm(AlarmCategory.Warning);
+    }
   }
 
   getAlarms(category: AlarmCategory): Alarm[] {
