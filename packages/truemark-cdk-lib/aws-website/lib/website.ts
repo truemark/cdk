@@ -1,5 +1,5 @@
 import {Construct} from "constructs";
-import {Bucket, IBucket} from "aws-cdk-lib/aws-s3";
+import {IBucket} from "aws-cdk-lib/aws-s3";
 import {
   Distribution,
   Function,
@@ -12,12 +12,13 @@ import {
   ViewerProtocolPolicy
 } from "aws-cdk-lib/aws-cloudfront";
 import {OriginGroup, S3Origin} from "aws-cdk-lib/aws-cloudfront-origins";
-import {Certificate} from "aws-cdk-lib/aws-certificatemanager";
+import {Certificate, CertificateValidation, ICertificate} from "aws-cdk-lib/aws-certificatemanager";
 import {ARecord, HostedZone, IHostedZone, RecordTarget} from "aws-cdk-lib/aws-route53";
 import {CloudFrontTarget} from "aws-cdk-lib/aws-route53-targets";
 import {BucketDeployment, CacheControl, Source} from "aws-cdk-lib/aws-s3-deployment";
 import {BundlingOptions, DockerImage, Duration, RemovalPolicy} from "aws-cdk-lib";
 import {ExtendedBucket} from "../../aws-s3";
+import {DomainName} from "../../aws-route53";
 
 export enum SourceType {
   Custom = "Custom",
@@ -26,23 +27,17 @@ export enum SourceType {
   Static = "Static"
 }
 
-export class DomainName {
-  readonly prefix: string;
-  readonly zone: string | IHostedZone;
+export class WebsiteDomainName extends DomainName {
+
   readonly createRecord?: boolean;
 
   constructor(prefix: string, zone: string | IHostedZone, createRecord?: boolean) {
-    this.prefix = prefix;
-    this.zone = zone;
-    this.createRecord = createRecord
+    super(prefix, zone);
+    this.createRecord = createRecord ?? true;
   }
 
-  toString() {
-    return (this.prefix == "" ? "" : this.prefix + ".") + this.zone;
-  }
-
-  toIdentifier() {
-    return this.toString().replace(".", "-");
+  static fromDomainName(domainName: DomainName, createRecord?: boolean): WebsiteDomainName {
+    return new WebsiteDomainName(domainName.prefix, domainName.zone, createRecord);
   }
 }
 
@@ -62,12 +57,12 @@ export interface WebsiteProps {
    * The ARN to the ACM Certificate to use on the CloudFront distribution. If one is not
    * provided and domainNames is populated, one will be generated.
    */
-  readonly certificateArn?: string
+  readonly certificateArn?: string;
 
   /**
    * The domain names to be serviced. The first domain name in the list is treated as the apex domain.
    */
-  readonly domainNames?: DomainName[]
+  readonly domainNames?: WebsiteDomainName[]
 
   /**
    * Redirect traffic to the first domain in the list of domainNames.
@@ -165,6 +160,17 @@ export class Website extends Construct {
   constructor(scope: Construct, id: string, props: WebsiteProps) {
     super(scope, id);
 
+    let certificate: ICertificate | undefined = undefined;
+    if (props.certificateArn !== undefined) {
+      certificate = Certificate.fromCertificateArn(this, "Certificate", props.certificateArn)
+    } else if (props.domainNames !== undefined && props.domainNames.length > 0) {
+      certificate = new Certificate(this, "Certificate", {
+        domainName: props.domainNames[0].toString(),
+        subjectAlternativeNames: DomainName.toStrings(props.domainNames).slice(1),
+        validation: CertificateValidation.fromDnsMultiZone(DomainName.toZoneMap(this, props.domainNames))
+      });
+    }
+
     this.bucket = props.bucket ?? new ExtendedBucket(this, "Bucket", {
       removalPolicy: RemovalPolicy.DESTROY,
       autoDeleteObjects: true
@@ -237,7 +243,7 @@ function handler(event) {
       httpVersion: props.httpVersion??HttpVersion.HTTP1_1,
       minimumProtocolVersion: props.minimumProtocolVersion??SecurityPolicyProtocol.TLS_V1_2_2021,
       defaultRootObject: "index.html",
-      certificate: props?.certificateArn == undefined ? undefined : Certificate.fromCertificateArn(this, "Certificate", props.certificateArn),
+      certificate,
       domainNames: props?.domainNames?.map((domainName) => domainName.toString()),
       enableIpv6: true,
       priceClass: props.priceClass??PriceClass.PRICE_CLASS_100
