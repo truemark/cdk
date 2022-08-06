@@ -13,12 +13,12 @@ import {
 } from "aws-cdk-lib/aws-cloudfront";
 import {OriginGroup, S3Origin} from "aws-cdk-lib/aws-cloudfront-origins";
 import {Certificate, CertificateValidation, ICertificate} from "aws-cdk-lib/aws-certificatemanager";
-import {ARecord, HostedZone, IHostedZone, RecordTarget} from "aws-cdk-lib/aws-route53";
+import {ARecord, RecordTarget} from "aws-cdk-lib/aws-route53";
 import {CloudFrontTarget} from "aws-cdk-lib/aws-route53-targets";
 import {BucketDeployment, CacheControl, Source} from "aws-cdk-lib/aws-s3-deployment";
 import {BundlingOptions, DockerImage, Duration, RemovalPolicy} from "aws-cdk-lib";
 import {ExtendedBucket} from "../../aws-s3";
-import {DomainName} from "../../aws-route53";
+import {DomainName, DomainNameProps} from "../../aws-route53";
 
 export enum SourceType {
   Custom = "Custom",
@@ -27,18 +27,13 @@ export enum SourceType {
   Static = "Static"
 }
 
-export class WebsiteDomainName extends DomainName {
+/**
+ * Properties for WebsiteDomainName.
+ */
+export interface WebsiteDomainNameProps extends DomainNameProps {
 
   readonly createRecord?: boolean;
 
-  constructor(prefix: string, zone: string | IHostedZone, createRecord?: boolean) {
-    super(prefix, zone);
-    this.createRecord = createRecord ?? true;
-  }
-
-  static fromDomainName(domainName: DomainName, createRecord?: boolean): WebsiteDomainName {
-    return new WebsiteDomainName(domainName.prefix, domainName.zone, createRecord);
-  }
 }
 
 export interface WebsiteProps {
@@ -62,7 +57,7 @@ export interface WebsiteProps {
   /**
    * The domain names to be serviced. The first domain name in the list is treated as the apex domain.
    */
-  readonly domainNames?: WebsiteDomainName[]
+  readonly domainNames?: WebsiteDomainNameProps[]
 
   /**
    * Redirect traffic to the first domain in the list of domainNames.
@@ -160,14 +155,16 @@ export class Website extends Construct {
   constructor(scope: Construct, id: string, props: WebsiteProps) {
     super(scope, id);
 
+    const domainNames = DomainName.fromProps(props.domainNames);
+
     let certificate: ICertificate | undefined = undefined;
     if (props.certificateArn !== undefined) {
       certificate = Certificate.fromCertificateArn(this, "Certificate", props.certificateArn)
-    } else if (props.domainNames !== undefined && props.domainNames.length > 0) {
+    } else if (domainNames.length > 0) {
       certificate = new Certificate(this, "Certificate", {
-        domainName: props.domainNames[0].toString(),
-        subjectAlternativeNames: DomainName.toStrings(props.domainNames).slice(1),
-        validation: CertificateValidation.fromDnsMultiZone(DomainName.toZoneMap(this, props.domainNames))
+        domainName: domainNames[0].toString(),
+        subjectAlternativeNames: DomainName.toStrings(domainNames).slice(1),
+        validation: CertificateValidation.fromDnsMultiZone(DomainName.toZoneMap(this, domainNames))
       });
     }
 
@@ -183,7 +180,7 @@ export class Website extends Construct {
       this.fallbackBucket.grantRead(this.originAccessIdentity);
     }
 
-    this.apexDomain = props?.domainNames?.[0].toString() || "";
+    this.apexDomain = domainNames.length > 0 ? domainNames[0].toString() : "";
 
     this.viewerRequestFunction = new Function(this, "ViewerRequestFunction", {
       code: FunctionCode.fromInline(`
@@ -244,7 +241,7 @@ function handler(event) {
       minimumProtocolVersion: props.minimumProtocolVersion??SecurityPolicyProtocol.TLS_V1_2_2021,
       defaultRootObject: "index.html",
       certificate,
-      domainNames: props?.domainNames?.map((domainName) => domainName.toString()),
+      domainNames: DomainName.toStrings(domainNames),
       enableIpv6: true,
       priceClass: props.priceClass??PriceClass.PRICE_CLASS_100
     });
@@ -253,17 +250,12 @@ function handler(event) {
 
     this.aRecords = [];
 
-    if (props?.domainNames != undefined && props.domainNames.length > 0) {
-      for (let domainName of props.domainNames) {
-        if (domainName.createRecord??true) {
-          let zone = typeof domainName.zone !== "string" ? domainName.zone : HostedZone.fromLookup(this, "zone-" + domainName.toIdentifier(), {
-            domainName: domainName.zone
-          });
-          this.aRecords.push(new ARecord(this, domainName.toIdentifier(), {
-            zone: zone,
-            recordName: domainName.toString(),
-            target: RecordTarget.fromAlias(new CloudFrontTarget(this.distribution))
-          }));
+    for (let domainNameProps of props.domainNames ?? []) {
+      if (domainNameProps.createRecord ?? true) {
+        let domainName = DomainName.findDomainName(domainNameProps, domainNames);
+        if (domainName !== undefined) {
+          this.aRecords.push(domainName.createARecord(this,
+            RecordTarget.fromAlias(new CloudFrontTarget(this.distribution))));
         }
       }
     }
