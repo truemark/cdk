@@ -144,8 +144,9 @@ export class CdkPipeline extends Construct {
         input,
         commands: props.commands??[
           'mkdir /tmp/npm-cache',
+          'npm config set fund false',
           'npm config set cache /tmp/npm-cache --location=global',
-          'npm ci --prefer-offline --no-fund',
+          'npm ci --prefer-offline',
           'npm run build',
           'npm run test',
           `npx cdk synth ${stackName}`
