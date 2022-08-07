@@ -2,6 +2,7 @@ import {SourceType, Website} from "../../aws-website";
 import {Template} from "aws-cdk-lib/assertions";
 import {TestHelper} from "../test-helper";
 import {DomainName} from "../../aws-route53";
+import {HostedZone} from "aws-cdk-lib/aws-route53";
 
 test("Hugo Website Test", () => {
   const stack = TestHelper.stack();
@@ -11,6 +12,26 @@ test("Hugo Website Test", () => {
   });
   const template = Template.fromStack(stack);
   template.hasResourceProperties("AWS::CloudFront::Distribution", {});
+});
+
+test("ARecord Created for Website", () => {
+  const stack = TestHelper.stack();
+  new Website(stack, 'TestWebsite', {
+    sourceType: SourceType.Hugo,
+    sourceDirectory: TestHelper.resolveTestFiles("hugo-website"),
+    certificateArn: "arn:aws:acm:us-east-1:123456789012:certificate/XXXX",
+    domainNames: [
+      {
+        prefix: "www",
+        // TODO In the fugure need to figure out how to mock lookups
+        zone: new HostedZone(stack, "example-com", {zoneName: "example.com"})
+      }
+    ]
+  });
+  const template = Template.fromStack(stack);
+  console.log(template.toJSON());
+  TestHelper.logResources(template, "AWS::Route53::RecordSet");
+  template.hasResourceProperties("AWS::Route53::RecordSet", {});
 });
 
 // TODO We need to speed this up

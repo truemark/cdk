@@ -70,7 +70,7 @@ export class DomainName {
     let propZoneStr = typeof props.zone === "string" ? props.zone : props.zone.zoneName;
     return this.prefix === props.prefix
       && this.zone === propZoneStr
-      && this.privateZone === props.privateZone
+      && this.privateZone === (props.privateZone ?? false)
       && this.vpcId === props.vpcId
   }
 
@@ -90,6 +90,13 @@ export class DomainName {
 
   /**
    * Returns the zone associated with this domain name.
+   */
+  getZone(): string {
+    return this.zone;
+  }
+
+  /**
+   * Returns the route53 hosted zone associated with this domain name.
    *
    * @param scope the scope to use if a lookup is required
    * @param id an optional ID if a lookup is required; one is generated if not provided
