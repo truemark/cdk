@@ -6,19 +6,19 @@ import {Route53RecordTarget} from "aws-cdk-lib/aws-route53-targets";
 import {IRecordSet} from "aws-cdk-lib/aws-route53/lib/record-set";
 import {RemovalPolicy, ResourceEnvironment, Stack} from "aws-cdk-lib";
 
-/**
- * Properties for WeightedLatencyARecord.
- */
-export interface WeightedLatencyARecordProps extends WeightedARecordProps, LatencyARecordProps {
-
+export interface WeightedLatencyARecordOptions {
   /**
    * Value to use as a prefix on the latency route53 record.
    *
    * @default lbr
    */
   readonly latencyRecordPrefix?: string;
-
 }
+
+/**
+ * Properties for WeightedLatencyARecord.
+ */
+export interface WeightedLatencyARecordProps extends WeightedARecordProps, LatencyARecordProps, WeightedLatencyARecordOptions {}
 
 /**
  * An WeightedARecord that uses as LatencyARecord internally to do both weight and latency based routing.

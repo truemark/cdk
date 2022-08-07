@@ -3,9 +3,9 @@ import {Construct} from "constructs";
 import {Stack} from "aws-cdk-lib";
 
 /**
- * Properties for LatencyARecord.
+ * Options for LatencyARecord.
  */
-export interface LatencyARecordProps extends ARecordProps {
+export interface LatencyARecordOptions {
 
   /**
    * The region to use for the record.
@@ -22,6 +22,11 @@ export interface LatencyARecordProps extends ARecordProps {
   readonly setIdentifier?: string
 
 }
+
+/**
+ * Properties for LatencyARecord.
+ */
+export interface LatencyARecordProps extends ARecordProps, LatencyARecordOptions {}
 
 /**
  * An extended ARecord that performs latency based routing.

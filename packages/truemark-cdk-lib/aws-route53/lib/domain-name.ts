@@ -1,5 +1,8 @@
 import {ARecord, HostedZone, IHostedZone, RecordTarget} from "aws-cdk-lib/aws-route53";
 import {Construct} from "constructs";
+import {WeightedARecord} from "./weighted-a-record";
+import {LatencyARecord} from "./latency-a-record";
+import {WeightedLatencyARecord} from "./weighted-latency-a-record";
 
 /**
  * Properties for DomainName
@@ -123,6 +126,52 @@ export class DomainName {
       zone: this.getHostedZone(scope),
       recordName: this.toString(),
       target
+    });
+  }
+
+  /**
+   * Creates a weighted Route53 record for this domain name.
+   *
+   * @param scope the scope to create the record in
+   * @param target the target of the record
+   * @param weight the initial weight; defaults to 0
+   */
+  createWeightedARecord(scope: Construct, target: RecordTarget, weight?: number): WeightedARecord {
+    return new WeightedARecord(scope, `${this.toIdentifier()}-arecord`, {
+      zone: this.getHostedZone(scope),
+      recordName: this.toString(),
+      target,
+      weight
+    });
+  }
+
+  /**
+   * Creates a latency Route53 record for this domain name.
+   *
+   * @param scope the scope to create the record in
+   * @param target the target of the record
+   */
+  createLatencyARecord(scope: Construct, target: RecordTarget): LatencyARecord {
+    return new LatencyARecord(scope, `${this.toIdentifier()}-arecord`, {
+      zone: this.getHostedZone(scope),
+      recordName: this.toString(),
+      target
+    });
+  }
+
+  /**
+   * Created a weighted latency Route53 record for this domain name.
+   *
+   * @param scope the scope to create the record in
+   * @param target the target of the record
+   * @param weight the initial weight; defaults to 0
+   */
+  createWeightedLatencyARecord(scope: Construct, target: RecordTarget, weight?: number): WeightedLatencyARecord {
+    return new WeightedLatencyARecord(scope, `${this.toIdentifier()}-arecord`, {
+      zone: this.getHostedZone(scope),
+      recordName: this.toString(),
+      target,
+      weight
     });
   }
 

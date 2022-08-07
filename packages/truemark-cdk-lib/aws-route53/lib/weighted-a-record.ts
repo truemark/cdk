@@ -3,16 +3,15 @@ import {Construct} from "constructs";
 import {Stack} from "aws-cdk-lib";
 
 /**
- * Properties for WeightedARecord.
+ * Options for WeightedARecord
  */
-export interface WeightedARecordProps extends ARecordProps {
-
+export interface WeightedARecordOptions {
   /**
    * Weight for the record
    *
    * @default 0
    */
-  weight?: number
+  readonly weight?: number
 
   /**
    * The identifier to use for the record.
@@ -21,6 +20,11 @@ export interface WeightedARecordProps extends ARecordProps {
    */
   readonly setIdentifier?: string
 }
+
+/**
+ * Properties for WeightedARecord.
+ */
+export interface WeightedARecordProps extends ARecordProps, WeightedARecordOptions {}
 
 /**
  * An extended ARecord that performs weight based routing.

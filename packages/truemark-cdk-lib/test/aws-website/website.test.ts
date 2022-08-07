@@ -1,7 +1,6 @@
 import {SourceType, Website} from "../../aws-website";
 import {Template} from "aws-cdk-lib/assertions";
 import {TestHelper} from "../test-helper";
-import {DomainName} from "../../aws-route53";
 import {HostedZone} from "aws-cdk-lib/aws-route53";
 
 test("Hugo Website Test", () => {
