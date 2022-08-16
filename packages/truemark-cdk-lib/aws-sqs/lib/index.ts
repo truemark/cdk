@@ -1,3 +1,3 @@
 export * from './queue-alarms';
-export * from './observed-queue';
+export * from './extended-queue';
 export * from './standard-queue';

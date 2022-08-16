@@ -161,6 +161,11 @@ export interface FunctionAlarmsOptions extends AlarmsOptions<FunctionAlarmsCateg
   readonly createAlarms?: boolean;
 
   /**
+   * Name to use for alarm, default is construct ID.
+   */
+  readonly alarmFriendlyName?: string;
+
+  /**
    * Generate dashboard charts for Lambda insights metrics.
    *
    * @default true
@@ -209,6 +214,7 @@ export class FunctionAlarms extends AlarmsBase<FunctionAlarmsCategoryOptions, Fu
 
   private addFunctionMonitoring() {
     this.monitoringFacade.monitorLambdaFunction({
+      alarmFriendlyName: this.props.alarmNamePrefix,
       lambdaFunction: this.props.function,
       addToAlarmDashboard: this.props.addToAlarmDashboard??true,
       addToDetailDashboard: this.props.addToDetailDashboard??true,

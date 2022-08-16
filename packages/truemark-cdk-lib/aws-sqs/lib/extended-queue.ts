@@ -5,19 +5,19 @@ import {QueueAlarms, QueueAlarmsOptions} from "./queue-alarms";
 /**
  * Properties for ObservedQueue.
  */
-export interface ObservedQueueProps extends QueueProps, QueueAlarmsOptions {}
+export interface ExtendedQueueProps extends QueueProps, QueueAlarmsOptions {}
 
 /**
  * Queue with CloudWatch alarms.
  */
-export class ObservedQueue extends Queue {
+export class ExtendedQueue extends Queue {
 
   readonly queueAlarms: QueueAlarms;
 
-  constructor(scope: Construct, id: string, props: ObservedQueueProps) {
+  constructor(scope: Construct, id: string, props: ExtendedQueueProps) {
     super(scope, id, props);
 
-    this.queueAlarms = new QueueAlarms(this, 'Monitoring', {
+    this.queueAlarms = new QueueAlarms(this, "Alarms", {
       queue: this,
       ...props
     });

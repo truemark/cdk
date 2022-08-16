@@ -9,7 +9,7 @@ import {DeployedFunctionOptions, ExtendedFunction} from "./extended-function";
 /**
  * Options for BundledFunction.
  */
-export interface BundledFunctionOptions {
+export interface StandardFunctionOptions {
 
   /**
    * Turns off local bundling.
@@ -56,7 +56,7 @@ export interface BundledFunctionOptions {
 /**
  * Properties for BundledFunction
  */
-export interface BundledFunctionProps extends FunctionOptions, FunctionAlarmsOptions, DeployedFunctionOptions, BundledFunctionOptions {
+export interface BundledFunctionProps extends FunctionOptions, FunctionAlarmsOptions, DeployedFunctionOptions, StandardFunctionOptions {
 
   /**
    * Callback function to check if local bundling is supported.
@@ -84,7 +84,7 @@ export interface BundledFunctionProps extends FunctionOptions, FunctionAlarmsOpt
   readonly handler: string;
 }
 
-export class BundledFunction extends ExtendedFunction {
+export class StandardFunction extends ExtendedFunction {
 
   constructor(scope: Construct, id: string, props: BundledFunctionProps) {
 

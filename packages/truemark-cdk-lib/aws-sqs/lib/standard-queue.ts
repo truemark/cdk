@@ -3,7 +3,7 @@ import {Duration, RemovalPolicy, ResourceEnvironment, Stack} from "aws-cdk-lib";
 import {DeadLetterQueue, IQueue, Queue, QueueEncryption} from "aws-cdk-lib/aws-sqs";
 import * as kms from 'aws-cdk-lib/aws-kms';
 import {QueueAlarmsOptions} from "./queue-alarms";
-import {ObservedQueue} from "./observed-queue";
+import {ExtendedQueue} from "./extended-queue";
 import {MetricOptions, Metric} from "aws-cdk-lib/aws-cloudwatch";
 import {PolicyStatement, AddToResourcePolicyResult, IGrantable, Grant} from "aws-cdk-lib/aws-iam";
 
@@ -59,7 +59,7 @@ export class StandardQueue extends Construct implements IQueue {
   static readonly DEFAULT_MAX_RECEIVE_COUNT = 3;
   static readonly DEFAULT_RETENTION_PERIOD = Duration.seconds(1209600);
 
-  readonly queue: ObservedQueue;
+  readonly queue: ExtendedQueue;
 
   // From IQueue
   readonly queueArn: string;
@@ -70,13 +70,13 @@ export class StandardQueue extends Construct implements IQueue {
   readonly stack: Stack;
   readonly env: ResourceEnvironment;
 
-  constructor(scope: Construct, id: string, props: StandardQueueProps) {
+  constructor(scope: Construct, id: string, props?: StandardQueueProps) {
     super(scope, id);
 
-    const maxReceiveCount = props.maxReceiveCount ?? StandardQueue.DEFAULT_MAX_RECEIVE_COUNT;
-    const encryption = props.encryptionMasterKey === undefined ? QueueEncryption.KMS_MANAGED : QueueEncryption.KMS;
-    const encryptionMasterKey = props.encryptionMasterKey;
-    const dataKeyReuse = props.dataKeyReuse ?? Duration.minutes(15);
+    const maxReceiveCount = props?.maxReceiveCount ?? StandardQueue.DEFAULT_MAX_RECEIVE_COUNT;
+    const encryption = props?.encryptionMasterKey === undefined ? QueueEncryption.KMS_MANAGED : QueueEncryption.KMS;
+    const encryptionMasterKey = props?.encryptionMasterKey;
+    const dataKeyReuse = props?.dataKeyReuse ?? Duration.minutes(15);
 
     const deadLetterQueue: DeadLetterQueue | undefined = maxReceiveCount <= 0 ? undefined : {
       queue: new Queue(this, 'DeadLetterQueue', {
@@ -88,15 +88,16 @@ export class StandardQueue extends Construct implements IQueue {
       maxReceiveCount
     };
 
-    this.queue = new ObservedQueue(this, 'Queue', {
+    this.queue = new ExtendedQueue(this, 'Queue', {
       ...props,
       deadLetterQueue,
       encryption,
       encryptionMasterKey,
       dataKeyReuse,
-      retentionPeriod: props.retentionPeriod ?? StandardQueue.DEFAULT_RETENTION_PERIOD,
-      visibilityTimeout: props.visibilityTimeout ?? Duration.seconds(30),
-      alarmNamePrefix: props.alarmNamePrefix??Stack.of(this).stackName + "-" + id
+      alarmFriendlyName: props?.alarmFriendlyName ?? id,
+      retentionPeriod: props?.retentionPeriod ?? StandardQueue.DEFAULT_RETENTION_PERIOD,
+      visibilityTimeout: props?.visibilityTimeout ?? Duration.seconds(30),
+      alarmNamePrefix: props?.alarmNamePrefix??Stack.of(this).stackName + "-" + id
     });
 
     this.queueArn = this.queue.queueArn;

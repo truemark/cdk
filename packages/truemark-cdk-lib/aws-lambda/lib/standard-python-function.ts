@@ -3,7 +3,7 @@ import {Construct} from "constructs";
 import {Duration} from "aws-cdk-lib";
 import {RetentionDays} from "aws-cdk-lib/aws-logs";
 import {ShellHelper} from "../../helpers";
-import {BundledFunction, BundledFunctionOptions} from "./bundled-function";
+import {StandardFunction, StandardFunctionOptions} from "./standard-function";
 import {DeployedFunctionOptions} from "./extended-function";
 import {FunctionAlarmsOptions} from "./function-alarms";
 import * as path from 'path';
@@ -12,7 +12,7 @@ import * as fs from 'fs';
 /**
  * Properties for BundledPythonFunction.
  */
-export interface BundledPythonFunctionProps extends FunctionOptions, FunctionAlarmsOptions, DeployedFunctionOptions, BundledFunctionOptions {
+export interface BundledPythonFunctionProps extends FunctionOptions, FunctionAlarmsOptions, DeployedFunctionOptions, StandardFunctionOptions {
 
   /**
    * The path (relative to entry) to the index file containing the exported handler.
@@ -39,7 +39,7 @@ export interface BundledPythonFunctionProps extends FunctionOptions, FunctionAla
 /**
  * Python based Lambda Function
  */
-export class BundledPythonFunction extends BundledFunction {
+export class StandardPythonFunction extends StandardFunction {
 
   static isLocalBundlingSupported(): boolean {
     return ShellHelper.pythonVersion() !== null;
@@ -75,7 +75,7 @@ export class BundledPythonFunction extends BundledFunction {
       handler,
       defaultBundlingScript,
       defaultBundlingImage: runtime.bundlingImage,
-      isLocalBundlingSupported: BundledPythonFunction.isLocalBundlingSupported
+      isLocalBundlingSupported: StandardPythonFunction.isLocalBundlingSupported
     });
   }
 }
