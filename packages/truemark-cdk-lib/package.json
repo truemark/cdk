@@ -24,6 +24,7 @@
   "exports": {
     ".": "./index.js",
     "./package.json": "./package.json",
+    "./aws-centergauge": "./aws-centergauge.js",
     "./aws-cloudwatch": "./aws-cloudwatch/index.js",
     "./aws-codepipeline": "./aws-codepipeline/index.js",
     "./aws-dynamodb": "./aws-dynamodb/index.js",
