@@ -1,16 +1,18 @@
 import {Construct} from "constructs";
-import {Topic} from "aws-cdk-lib/aws-sns";
+import {CfnSubscription, Topic} from "aws-cdk-lib/aws-sns";
 import {Alias, IKey} from "aws-cdk-lib/aws-kms";
-import {UrlSubscription} from "aws-cdk-lib/aws-sns-subscriptions";
+import {Queue} from "aws-cdk-lib/aws-sqs";
+import {Duration} from "aws-cdk-lib";
 
 /**
  * Properties for AlertsTopic
  */
 export interface AlertsTopicProps {
+
   /**
    * Overrides default topic display name.
    *
-   * @default "CentergaugeAlerts"
+   * @default "CenterGaugeAlerts"
    */
   readonly displayName?: string;
 
@@ -34,21 +36,43 @@ export interface AlertsTopicProps {
  */
 export class AlertsTopic extends Construct {
 
-  readonly key: IKey;
-  readonly topic: Topic;
-  readonly subscription: UrlSubscription;
-
   constructor(scope: Construct, id: string, props: AlertsTopicProps) {
     super(scope, id);
 
-    this.key = props.masterKey ?? Alias.fromAliasName(this, "AwsSnsKey", "aws/sns");
+    const masterKey = props.masterKey ?? Alias.fromAliasName(this, "AwsSnsKey", "aws/sns");
 
-    this.topic = new Topic(this, "Default", {
+    // TODO Change to standard Queue
+    const dlq = new Queue(this, "DeadLetterQueue", {
+      retentionPeriod: Duration.seconds(1209600)
+    });
+
+    const topic = new Topic(this, "Default", {
       displayName: props.displayName ?? "CenterGaugeAlerts",
       fifo: false,
-      masterKey: this.key
+      masterKey
     });
-    this.subscription = new UrlSubscription(props.url ?? "https://alerts.centergauge.com/");
-    this.topic.addSubscription(this.subscription);
+
+    // TODO Add Grant
+
+    const subscription = new CfnSubscription(this, "Subscription", {
+      topicArn: topic.topicArn,
+      protocol: "https",
+      endpoint: props.url ?? "https://alerts.centergauge.com/",
+      rawMessageDelivery: false,
+      deliveryPolicy: JSON.stringify({
+        "healthyRetryPolicy": {
+          "numRetries": 10,
+          "numNoDelayRetries": 0,
+          "minDelayTarget": 30,
+          "maxDelayTarget": 120,
+          "numMinDelayRetries": 3,
+          "numMaxDelayRetries": 0,
+          "backoffFunction": "linear"
+        }
+      }),
+      redrivePolicy: JSON.stringify({
+        "deadLetterTargetArn": dlq.queueArn
+      })
+    });
   }
 }
