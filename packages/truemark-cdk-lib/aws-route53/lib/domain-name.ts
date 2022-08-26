@@ -3,6 +3,11 @@ import {Construct} from "constructs";
 import {WeightedARecord} from "./weighted-a-record";
 import {LatencyARecord} from "./latency-a-record";
 import {WeightedLatencyARecord} from "./weighted-latency-a-record";
+import {Certificate, CertificateValidation} from "aws-cdk-lib/aws-certificatemanager";
+import * as apigatewayv2 from "@aws-cdk/aws-apigatewayv2-alpha"
+import * as apigateway from "aws-cdk-lib/aws-apigateway"
+import {EndpointType, MTLSConfig, SecurityPolicy} from "@aws-cdk/aws-apigatewayv2-alpha/lib/common/domain-name";
+import {IRestApi} from "aws-cdk-lib/aws-apigateway/lib/restapi";
 
 /**
  * Properties for DomainName
@@ -12,6 +17,114 @@ export interface DomainNameProps {
   readonly zone: string | IHostedZone;
   readonly privateZone?: boolean;
   readonly vpcId?: string;
+}
+
+/**
+ * ACM certificate options
+ */
+export interface CertificateOptions {
+
+  /**
+   * The identifier to use.
+   *
+   * @default ${this.toIdentifier()}-cert
+   */
+  readonly id?: string;
+
+  /**
+   * Alternative domain names on the certificate.
+   */
+  readonly subjectAlternativeNames?: string[];
+}
+
+/**
+ * Options for a V2 API gateway domain name.
+ */
+export interface ApiGatewayV2DomainNameOptions {
+
+  /**
+   * The identifier to use.
+   *
+   * @default ${this.toIdentifier()}-apigwv2
+   */
+  readonly id?: string;
+
+  /**
+   * The type of endpoint for this DomainName.
+   *
+   * @default EndpointType.REGIONAL
+   */
+  readonly endpointType?: EndpointType;
+
+  /**
+   * The Transport Layer Security (TLS) version + cipher suite for this domain name.
+   *
+   * @default SecurityPolicy.TLS_1_2
+   */
+  readonly securityPolicy?: SecurityPolicy;
+
+  /**
+   * The mutual TLS authentication configuration for a custom domain name.
+   *
+   * @default - mTLS is not configured.
+   */
+  readonly mtls?: MTLSConfig;
+}
+
+/**
+ * Options for an API gateway domain name
+ */
+export interface ApiGatewayDomainNameOptions {
+
+  /**
+   * The identifier to use.
+   *
+   * @default ${this.toIdentifier()}-apigw
+   */
+  readonly id?: string;
+
+  /**
+   * If specified, all requests to this domain will be mapped to the production
+   * deployment of this API. If you wish to map this domain to multiple APIs
+   * with different base paths, don't specify this option and use
+   * `addBasePathMapping`.
+   *
+   * @default - you will have to call `addBasePathMapping` to map this domain to
+   * API endpoints.
+   */
+  readonly mapping?: IRestApi;
+
+  /**
+   * The type of endpoint for this DomainName.
+   *
+   * @default REGIONAL
+   */
+  readonly endpointType?: EndpointType;
+
+  /**
+   * The Transport Layer Security (TLS) version + cipher suite for this domain name.
+   *
+   * @see https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-domainname.html
+   * @default SecurityPolicy.TLS_1_0
+   */
+  readonly securityPolicy?: SecurityPolicy;
+
+  /**
+   * The base path name that callers of the API must provide in the URL after
+   * the domain name (e.g. `example.com/base-path`). If you specify this
+   * property, it can't be an empty string.
+   *
+   * @default - map requests from the domain root (e.g. `example.com`). If this
+   * is undefined, no additional mappings will be allowed on this domain name.
+   */
+  readonly basePath?: string;
+
+  /**
+   * The mutual TLS authentication configuration for a custom domain name.
+   *
+   * @default - mTLS is not configured.
+   */
+  readonly mtls?: MTLSConfig;
 }
 
 /**
@@ -100,6 +213,7 @@ export class DomainName {
 
   /**
    * Returns the route53 hosted zone associated with this domain name.
+   * This method is safe to call repeatedly, the lookup will only be done once.
    *
    * @param scope the scope to use if a lookup is required
    * @param id an optional ID if a lookup is required; one is generated if not provided
@@ -160,7 +274,7 @@ export class DomainName {
   }
 
   /**
-   * Created a weighted latency Route53 record for this domain name.
+   * Creates a weighted latency Route53 record for this domain name.
    *
    * @param scope the scope to create the record in
    * @param target the target of the record
@@ -172,6 +286,50 @@ export class DomainName {
       recordName: this.toString(),
       target,
       weight
+    });
+  }
+
+  /**
+   * Creates an ACM certificate for the domain name.
+   *
+   * @param scope the scope to create the record in
+   * @param opts additional options
+   */
+  createCertificate(scope: Construct, opts?: CertificateOptions): Certificate {
+    return new Certificate(scope, opts?.id ?? `${this.toIdentifier()}-cert`, {
+      domainName: this.toString(),
+      validation: CertificateValidation.fromDns(this.getHostedZone(scope)),
+      subjectAlternativeNames: opts?.subjectAlternativeNames
+    });
+  }
+
+  /**
+   * Creates an API Gateway V2 domain name.
+   *
+   * @param scope the scope to create the domain name in
+   * @param certificate the certificate to use on the domain name
+   * @param opts additional options
+   */
+  createApiGatewayV2DomainName(scope: Construct, certificate: Certificate, opts?: ApiGatewayV2DomainNameOptions): apigatewayv2.DomainName {
+    return new apigatewayv2.DomainName(scope, opts?.id ?? `${this.toIdentifier()}-apigwv2`, {
+      domainName: this.toString(),
+      certificate,
+      ...opts
+    });
+  }
+
+  /**
+   * Creates an API Gateway domain name.
+   *
+   * @param scope the scope to create the domain name in
+   * @param certificate the certificate to use on the domain name
+   * @param opts additional options
+   */
+  createApiGatewayDomainName(scope: Construct, certificate: Certificate, opts?: ApiGatewayDomainNameOptions): apigateway.DomainName {
+    return new apigateway.DomainName(scope, opts?.id ?? `${this.toIdentifier()}-apigw`, {
+      domainName: this.toString(),
+      certificate,
+      ...opts
     });
   }
 
@@ -224,7 +382,7 @@ export class DomainName {
   }
 
   /**
-   * Converts an arry of DomainNameProps objects to a map where the key is the domain name string and the
+   * Converts an array of DomainNameProps objects to a map where the key is the domain name string and the
    * value is an IHostedZone. This method will return an empty map if domainNameProps is undefined. This
    * function is useful when used in conjunction with functions like CertificateValidation.fromDnsMultiZone.
    *
