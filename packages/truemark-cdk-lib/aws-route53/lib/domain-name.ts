@@ -13,7 +13,7 @@ import {IRestApi} from "aws-cdk-lib/aws-apigateway/lib/restapi";
  * Properties for DomainName
  */
 export interface DomainNameProps {
-  readonly prefix: string;
+  readonly prefix?: string;
   readonly zone: string | IHostedZone;
   readonly privateZone?: boolean;
   readonly vpcId?: string;
@@ -145,7 +145,7 @@ export class DomainName {
    * @param props the properties of the domain name
    */
   constructor(props: DomainNameProps) {
-    this.prefix = props.prefix;
+    this.prefix = props.prefix ?? "";
     if (typeof props.zone === "string") {
       this.zone = props.zone;
     } else {
@@ -184,7 +184,7 @@ export class DomainName {
    */
   propsMatch(props: DomainNameProps): boolean {
     let propZoneStr = typeof props.zone === "string" ? props.zone : props.zone.zoneName;
-    return this.prefix === props.prefix
+    return this.prefix === (props.prefix ?? "")
       && this.zone === propZoneStr
       && this.privateZone === (props.privateZone ?? false)
       && this.vpcId === props.vpcId
