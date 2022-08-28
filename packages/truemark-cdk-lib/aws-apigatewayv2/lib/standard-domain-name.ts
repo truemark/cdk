@@ -78,4 +78,11 @@ export class StandardDomainName extends Construct {
   createWeightedLatencyARecord(weight?: number): WeightedLatencyARecord {
     return this.domainName.createWeightedLatencyARecord(this, this.recordTarget, weight);
   }
+
+  /**
+   * Returns the FQDN of this domain name.
+   */
+  toString(): string {
+    return this.domainName.toString();
+  }
 }
