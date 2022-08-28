@@ -2,8 +2,7 @@ import {Construct} from "constructs";
 import * as tmroute53 from "../../aws-route53";
 import * as targets from "aws-cdk-lib/aws-route53-targets";
 import {ICertificate} from "aws-cdk-lib/aws-certificatemanager";
-import {DomainName} from "@aws-cdk/aws-apigatewayv2-alpha";
-import {SecurityPolicy} from "@aws-cdk/aws-apigatewayv2-alpha/lib/common/domain-name";
+import {DomainName, SecurityPolicy} from "@aws-cdk/aws-apigatewayv2-alpha";
 import {ARecord, RecordTarget} from "aws-cdk-lib/aws-route53";
 import {WeightedLatencyARecord} from "../../aws-route53";
 
