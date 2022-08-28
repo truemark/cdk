@@ -2,6 +2,7 @@ import {TableAlarms, TableAlarmsOptions} from "./table-alarms";
 import {Table, TableProps} from "aws-cdk-lib/aws-dynamodb";
 import {Construct} from "constructs";
 import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
+import {CfnOutput} from "aws-cdk-lib";
 
 /**
  * Properties for ObservedTable.
