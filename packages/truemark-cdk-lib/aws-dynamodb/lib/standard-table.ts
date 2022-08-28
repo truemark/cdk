@@ -83,7 +83,7 @@ export interface StandardTableProps {
  */
 export class StandardTable extends ExtendedTable {
 
-  constructor(scope: Construct, id: string, props: StandardTableProps) {
+  constructor(scope: Construct, id: string, props?: StandardTableProps) {
     super(scope, id, {
       partitionKey: {
         name: "Pk", type: AttributeType.STRING
@@ -92,7 +92,7 @@ export class StandardTable extends ExtendedTable {
         name: "Sk", type: AttributeType.STRING
       },
       ...props,
-      pointInTimeRecovery: props.pointInTimeRecovery ?? true // change default to enabled
+      pointInTimeRecovery: props?.pointInTimeRecovery ?? true // change default to enabled
     });
     this.addGlobalSecondaryIndex({
       indexName: "Gs1",
