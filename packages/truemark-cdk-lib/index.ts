@@ -1,3 +1,4 @@
+export * as aws_apigatewayv2 from "./aws-apigatewayv2";
 export * as aws_centergauge from "./aws-centergauge";
 export * as aws_cloudwatch from "./aws-cloudwatch";
 export * as aws_codepipeline from "./aws-codepipeline";
