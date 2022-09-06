@@ -22,18 +22,26 @@ export class ParameterPaths {
     }
   }
 
-  grantRead(grantee: IGrantable): Grant {
-    return Grant.addToPrincipal({
-      grantee,
-      actions: [
-        "ssm:GetParameter",
-        "ssm:DescribeParameters",
-        "ssm:GetParameters",
-        "ssm:GetParametersByPath",
-        "ssm:GetParameterHistory",
-      ],
-      resourceArns: this.paths.map(path => `arn:aws:ssm:${this.stack.region}:${this.stack.account}:parameter${path}`)
-    });
+  grantRead(grantee: IGrantable): Grant[] {
+    return [
+      Grant.addToPrincipal({
+        grantee,
+        actions: [
+          "ssm:GetParameter",
+          "ssm:GetParameters",
+          "ssm:GetParametersByPath",
+          "ssm:GetParameterHistory",
+        ],
+        resourceArns: this.paths.map(path => `arn:aws:ssm:${this.stack.region}:${this.stack.account}:parameter${path}`)
+      }),
+      Grant.addToPrincipal({
+        grantee,
+        actions: [
+          "ssm:DescribeParameters"
+        ],
+        resourceArns: ["*"]
+      })
+    ]
   }
 
   grantWrite(grantee: IGrantable): Grant {
@@ -48,20 +56,28 @@ export class ParameterPaths {
     })
   }
 
-  grantReadWrite(grantee: IGrantable): Grant {
-    return Grant.addToPrincipal({
-      grantee,
-      actions: [
-        "ssm:GetParameter",
-        "ssm:DescribeParameters",
-        "ssm:GetParameters",
-        "ssm:GetParametersByPath",
-        "ssm:GetParameterHistory",
-        "ssm:PutParameter",
-        "ssm:DeleteParameter",
-        "ssm:DeleteParameters"
-      ],
-      resourceArns: this.paths.map(path => `arn:aws:ssm:${this.stack.region}:${this.stack.account}:parameter${path}`)
-    })
+  grantReadWrite(grantee: IGrantable): Grant[] {
+    return [
+      Grant.addToPrincipal({
+        grantee,
+        actions: [
+          "ssm:GetParameter",
+          "ssm:GetParameters",
+          "ssm:GetParametersByPath",
+          "ssm:GetParameterHistory",
+          "ssm:PutParameter",
+          "ssm:DeleteParameter",
+          "ssm:DeleteParameters"
+        ],
+        resourceArns: this.paths.map(path => `arn:aws:ssm:${this.stack.region}:${this.stack.account}:parameter${path}`)
+      }),
+      Grant.addToPrincipal({
+        grantee,
+        actions: [
+          "ssm:DescribeParameters"
+        ],
+        resourceArns: ["*"]
+      })
+    ]
   }
 }
