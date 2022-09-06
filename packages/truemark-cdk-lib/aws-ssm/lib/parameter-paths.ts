@@ -32,7 +32,7 @@ export class ParameterPaths {
         "ssm:GetParametersByPath",
         "ssm:GetParameterHistory",
       ],
-      resourceArns: this.paths.map(path => `"arn:aws:ssm:${this.stack.region}:${this.stack.account}:parameter${path}`)
+      resourceArns: this.paths.map(path => `arn:aws:ssm:${this.stack.region}:${this.stack.account}:parameter${path}`)
     });
   }
 
@@ -44,7 +44,7 @@ export class ParameterPaths {
         "ssm:DeleteParameter",
         "ssm:DeleteParameters",
       ],
-      resourceArns: this.paths.map(path => `"arn:aws:ssm:${this.stack.region}:${this.stack.account}:parameter${path}`)
+      resourceArns: this.paths.map(path => `arn:aws:ssm:${this.stack.region}:${this.stack.account}:parameter${path}`)
     })
   }
 
@@ -61,7 +61,7 @@ export class ParameterPaths {
         "ssm:DeleteParameter",
         "ssm:DeleteParameters"
       ],
-      resourceArns: this.paths.map(path => `"arn:aws:ssm:${this.stack.region}:${this.stack.account}:parameter${path}`)
+      resourceArns: this.paths.map(path => `arn:aws:ssm:${this.stack.region}:${this.stack.account}:parameter${path}`)
     })
   }
 }
