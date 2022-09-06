@@ -1,6 +1,6 @@
 {
   "name": "truemark-cdk-lib",
-  "version": "0.0.37",
+  "version": "0.0.38-alpha.13+8a11d7d",
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
@@ -52,5 +52,5 @@
     "@aws-cdk/aws-synthetics-alpha": "^2.18.0-alpha.0",
     "cdk-monitoring-constructs": "^1.10.0"
   },
-  "gitHead": "ea53dec0c34947554b292a2abdc2b92278c41bb7"
+  "gitHead": "8a11d7d23d6a59c58d6dce851e964da20bf5b32d"
 }
