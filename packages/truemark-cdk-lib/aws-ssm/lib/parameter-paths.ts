@@ -12,7 +12,14 @@ export class ParameterPaths {
 
   constructor(scope: Construct, ...paths: string[]) {
     this.stack = Stack.of(scope);
+    paths.forEach(path => this.validatePath(path));
     this.paths = paths;
+  }
+
+  protected validatePath(path: string) {
+    if (!path.startsWith("/")) {
+      throw new Error("path must start with a '/'");
+    }
   }
 
   grantRead(grantee: IGrantable): Grant {
@@ -25,7 +32,7 @@ export class ParameterPaths {
         "ssm:GetParametersByPath",
         "ssm:GetParameterHistory",
       ],
-      resourceArns: this.paths.map(path => `"arn:aws:ssm:${this.stack.region}:${this.stack.account}:parameter/${path}`)
+      resourceArns: this.paths.map(path => `"arn:aws:ssm:${this.stack.region}:${this.stack.account}:parameter${path}`)
     });
   }
 
@@ -37,7 +44,7 @@ export class ParameterPaths {
         "ssm:DeleteParameter",
         "ssm:DeleteParameters",
       ],
-      resourceArns: this.paths.map(path => `"arn:aws:ssm:${this.stack.region}:${this.stack.account}:parameter/${path}`)
+      resourceArns: this.paths.map(path => `"arn:aws:ssm:${this.stack.region}:${this.stack.account}:parameter${path}`)
     })
   }
 
@@ -54,7 +61,7 @@ export class ParameterPaths {
         "ssm:DeleteParameter",
         "ssm:DeleteParameters"
       ],
-      resourceArns: this.paths.map(path => `"arn:aws:ssm:${this.stack.region}:${this.stack.account}:parameter/${path}`)
+      resourceArns: this.paths.map(path => `"arn:aws:ssm:${this.stack.region}:${this.stack.account}:parameter${path}`)
     })
   }
 }
