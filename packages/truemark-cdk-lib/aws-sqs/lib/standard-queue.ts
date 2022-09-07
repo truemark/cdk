@@ -1,7 +1,7 @@
 import {Construct} from "constructs";
 import {Duration, RemovalPolicy, ResourceEnvironment, Stack} from "aws-cdk-lib";
 import {DeadLetterQueue, IQueue, Queue, QueueEncryption} from "aws-cdk-lib/aws-sqs";
-import * as kms from 'aws-cdk-lib/aws-kms';
+import * as kms from "aws-cdk-lib/aws-kms";
 import {QueueAlarmsOptions} from "./queue-alarms";
 import {ExtendedQueue} from "./extended-queue";
 import {MetricOptions, Metric} from "aws-cdk-lib/aws-cloudwatch";
@@ -52,6 +52,20 @@ export interface StandardQueueProps extends QueueAlarmsOptions {
    * @default 3
    */
   readonly maxReceiveCount?: number;
+
+  /**
+   * Overrides the internal identifier used for the SQS Queue.
+   *
+   * @default "Default"
+   */
+  readonly queueIdentifier?: string;
+
+  /**
+   * Overrides the internal identifier used for the dead letter SQS Queue.
+   *
+   * @default "Dlq"
+   */
+  readonly deadLetterQueueIdentifier?: string;
 }
 
 export class StandardQueue extends Construct implements IQueue {
@@ -79,7 +93,7 @@ export class StandardQueue extends Construct implements IQueue {
     const dataKeyReuse = props?.dataKeyReuse ?? Duration.minutes(15);
 
     const deadLetterQueue: DeadLetterQueue | undefined = maxReceiveCount <= 0 ? undefined : {
-      queue: new Queue(this, 'DeadLetterQueue', {
+      queue: new Queue(this, "Dlq", {
         encryption,
         encryptionMasterKey,
         dataKeyReuse,
@@ -88,7 +102,7 @@ export class StandardQueue extends Construct implements IQueue {
       maxReceiveCount
     };
 
-    this.queue = new ExtendedQueue(this, 'Queue', {
+    this.queue = new ExtendedQueue(this, "Default", {
       ...props,
       deadLetterQueue,
       encryption,
