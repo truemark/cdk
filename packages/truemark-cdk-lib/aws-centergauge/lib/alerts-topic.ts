@@ -1,8 +1,8 @@
 import {Construct} from "constructs";
 import {CfnSubscription, Topic} from "aws-cdk-lib/aws-sns";
 import {Alias, IKey} from "aws-cdk-lib/aws-kms";
-import {Queue} from "aws-cdk-lib/aws-sqs";
-import {Duration} from "aws-cdk-lib";
+import {StandardQueue} from "../../aws-sqs";
+import {AnyPrincipal, Effect, PolicyStatement} from "aws-cdk-lib/aws-iam";
 
 /**
  * Properties for AlertsTopic
@@ -41,9 +41,11 @@ export class AlertsTopic extends Construct {
 
     const masterKey = props.masterKey ?? Alias.fromAliasName(this, "AwsSnsKey", "aws/sns");
 
-    // TODO Change to standard Queue
-    const dlq = new Queue(this, "DeadLetterQueue", {
-      retentionPeriod: Duration.seconds(1209600)
+    const dlq = new StandardQueue(this, "Dlq", {
+      maxReceiveCount: -1,
+      criticalAlarmOptions: {
+        maxSize: 1
+      }
     });
 
     const topic = new Topic(this, "Default", {
@@ -52,9 +54,24 @@ export class AlertsTopic extends Construct {
       masterKey
     });
 
-    // TODO Add Grant
+    dlq.addToResourcePolicy(new PolicyStatement({
+      effect: Effect.ALLOW,
+      sid: "First",
+      principals: [new AnyPrincipal()],
+      actions: ["sqs:SendMessage"],
+      resources: [
+        dlq.queueArn
+      ],
+      conditions: [
+        {
+          "ArnEquals": {
+            "aws:SourceArn": topic.topicArn
+          }
+        }
+      ]
+    }));
 
-    const subscription = new CfnSubscription(this, "Subscription", {
+    new CfnSubscription(this, "Subscription", {
       topicArn: topic.topicArn,
       protocol: "https",
       endpoint: props.url ?? "https://alerts.centergauge.com/",
