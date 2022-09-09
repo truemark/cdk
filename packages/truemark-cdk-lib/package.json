@@ -1,6 +1,6 @@
 {
   "name": "truemark-cdk-lib",
-  "version": "0.0.38-alpha.13+8a11d7d",
+  "version": "0.0.38",
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
