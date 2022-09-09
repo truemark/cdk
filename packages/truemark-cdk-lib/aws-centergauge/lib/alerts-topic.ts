@@ -59,16 +59,11 @@ export class AlertsTopic extends Construct {
       sid: "First",
       principals: [new AnyPrincipal()],
       actions: ["sqs:SendMessage"],
-      resources: [
-        dlq.queueArn
-      ],
-      conditions: [
-        {
-          "ArnEquals": {
-            "aws:SourceArn": topic.topicArn
-          }
+      conditions: {
+        "ArnEquals": {
+          "aws:SourceArn": topic.topicArn
         }
-      ]
+      }
     }));
 
     new CfnSubscription(this, "Subscription", {
@@ -76,7 +71,7 @@ export class AlertsTopic extends Construct {
       protocol: "https",
       endpoint: props.url ?? "https://alerts.centergauge.com/",
       rawMessageDelivery: false,
-      deliveryPolicy: JSON.stringify({
+      deliveryPolicy: {
         "healthyRetryPolicy": {
           "numRetries": 10,
           "numNoDelayRetries": 0,
@@ -86,7 +81,7 @@ export class AlertsTopic extends Construct {
           "numMaxDelayRetries": 0,
           "backoffFunction": "linear"
         }
-      }),
+      },
       redrivePolicy: JSON.stringify({
         "deadLetterTargetArn": dlq.queueArn
       })
