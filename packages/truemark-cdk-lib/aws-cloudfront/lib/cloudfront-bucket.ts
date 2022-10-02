@@ -4,7 +4,7 @@ import {BlockPublicAccess, Bucket, BucketEncryption} from "aws-cdk-lib/aws-s3";
 import {RemovalPolicy} from "aws-cdk-lib/core";
 import {OriginAccessIdentity} from "aws-cdk-lib/aws-cloudfront";
 
-export interface CloudfrontBucketProps {
+export interface CloudFrontBucketProps {
 
   /**
    * Policy to apply when the bucket is removed from this stack.
@@ -21,12 +21,14 @@ export interface CloudfrontBucketProps {
   readonly autoDeleteObjects?: boolean;
 }
 
-export class CloudfrontBucket extends Construct {
+export class CloudFrontBucket extends Construct {
 
   readonly bucket: Bucket;
   readonly originAccessIdentity: OriginAccessIdentity;
+  readonly bucketName: string;
+  readonly originAccessIdentityId: string;
 
-  constructor(scope: Construct, id: string, props: CloudfrontBucketProps) {
+  constructor(scope: Construct, id: string, props: CloudFrontBucketProps) {
     super(scope, id);
 
     const removalPolicy = props.removalPolicy ?? RemovalPolicy.RETAIN;
@@ -38,7 +40,11 @@ export class CloudfrontBucket extends Construct {
       blockPublicAccess: BlockPublicAccess.BLOCK_ALL, // Recommended to avoid permissions issues
     });
 
+    this.bucketName = this.bucket.bucketName;
+
     this.originAccessIdentity = new OriginAccessIdentity(this, "Access");
     this.bucket.grantRead(this.originAccessIdentity);
+
+    this.originAccessIdentityId = this.originAccessIdentity.originAccessIdentityId;
   }
 }
