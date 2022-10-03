@@ -17,7 +17,12 @@ import {DomainName} from "../../aws-route53";
 
 export interface WebsiteRedirectFunctionOptions {
 
-  readonly id: string;
+  /**
+   * Identifier to use when creating the CloudFront Function.
+   *
+   * @default "RedirectFunction"
+   */
+  readonly id?: string;
 
   /**
    * Optional domain to redirect to if the host header does not match.
@@ -261,11 +266,12 @@ export class DistributionBuilder {
     return new DistributionBuilder(defaultBehaviorBuilder);
   }
 
-  static fromWebsiteOrigin(options: WebsiteOriginOptions): DistributionBuilder {
-    const builder = DistributionBuilder.fromOrigin(options.origin).defaults();
+  static fromWebsiteOrigin(origin: IOrigin, scope: Construct, options?: WebsiteRedirectFunctionOptions): DistributionBuilder {
+    const builder = DistributionBuilder.fromOrigin(origin).defaults();
     builder.defaultBehavior()
-      .websiteRedirectFunction(options.scope, options.redirectFunctionOptions.id, {
-        ...options.redirectFunctionOptions
+      .websiteRedirectFunction(scope, options?.id ?? "RedirectFunction", {
+        apexDomain: options?.apexDomain,
+        indexFile: options?.indexFile
       });
     return builder
       .errorResponse({
@@ -273,6 +279,6 @@ export class DistributionBuilder {
         responseHttpStatus: 404,
         responsePagePath: "/404.html"
       })
-      .defaultRootObject(options.redirectFunctionOptions.indexFile ?? "index.html");
+      .defaultRootObject(options?.indexFile ?? "index.html");
   }
 }
