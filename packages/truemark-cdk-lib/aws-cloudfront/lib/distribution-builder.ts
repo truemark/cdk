@@ -113,7 +113,7 @@ export class DistributionBuilder {
 
   domainName(domainName: string | DomainName): DistributionBuilder {
     const domainNames: string[] = this.props.domainNames ?? [];
-    domainNames.push(typeof domainName.toString());
+    domainNames.push(domainName.toString());
     this.props = {
       ...this.props,
       domainNames
