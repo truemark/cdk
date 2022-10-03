@@ -10,6 +10,7 @@ export interface InvalidationProps {
   readonly distributionId: string;
   readonly paths: string[];
   readonly callerReference?: string;
+  readonly timeout?: Duration;
 }
 
 /**
@@ -45,7 +46,7 @@ export class Invalidation extends AwsCustomResource {
           effect: Effect.ALLOW
         })]
       },
-      timeout: Duration.minutes(1)
+      timeout: props.timeout ?? Duration.minutes(1)
     });
   }
 }
