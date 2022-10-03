@@ -1,7 +1,8 @@
 import {
   AllowedMethods,
   BehaviorOptions,
-  CachedMethods, CachePolicy,
+  CachedMethods,
+  CachePolicy,
   EdgeLambda,
   FunctionAssociation,
   FunctionEventType,
@@ -10,12 +11,20 @@ import {
   IKeyGroup,
   IOrigin,
   IOriginRequestPolicy,
-  IResponseHeadersPolicy, OriginRequestPolicy,
+  IResponseHeadersPolicy,
+  OriginRequestPolicy,
   ViewerProtocolPolicy
 } from "aws-cdk-lib/aws-cloudfront";
 import {Construct} from "constructs";
 import {WebsiteRedirectFunction, WebsiteRedirectFunctionProps} from "./website-redirect-function";
 import {OriginGroup} from "aws-cdk-lib/aws-cloudfront-origins";
+
+export interface WebsiteDefaultsProps {
+  readonly scope: Construct;
+  readonly redirectFunctionId?: string;
+  readonly apexDomain?: string;
+  readonly indexFile?: string;
+}
 
 export class BehaviorBuilder {
 
@@ -167,6 +176,19 @@ export class BehaviorBuilder {
       .cachedMethods(CachedMethods.CACHE_GET_HEAD_OPTIONS)
       .cachePolicy(CachePolicy.CACHING_OPTIMIZED)
       .originRequestPolicy(OriginRequestPolicy.ALL_VIEWER);
+  }
+
+  websiteDefaults(props: WebsiteDefaultsProps): BehaviorBuilder {
+    return this
+      .viewerProtocolPolicy(ViewerProtocolPolicy.REDIRECT_TO_HTTPS)
+      .compress(true)
+      .allowedMethods(AllowedMethods.ALLOW_GET_HEAD_OPTIONS)
+      .cachedMethods(CachedMethods.CACHE_GET_HEAD_OPTIONS)
+      .cachePolicy(CachePolicy.CACHING_OPTIMIZED)
+      .originRequestPolicy(OriginRequestPolicy.CORS_S3_ORIGIN)
+      .websiteRedirectFunction(props.scope, props.redirectFunctionId ?? "RedirectFunction", {
+        ...props
+      });
   }
 
   build(): BehaviorOptions {

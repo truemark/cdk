@@ -1,11 +1,11 @@
 import {
-  AllowedMethods,
-  BehaviorOptions, Distribution,
+  BehaviorOptions,
+  Distribution,
   DistributionProps,
   ErrorResponse,
   GeoRestriction,
   HttpVersion,
-  IOrigin, OriginRequestPolicy,
+  IOrigin,
   PriceClass,
   SecurityPolicyProtocol,
   SSLMethod,
@@ -13,7 +13,7 @@ import {
 import {Certificate} from "aws-cdk-lib/aws-certificatemanager";
 import {IBucket} from "aws-cdk-lib/aws-s3";
 import {Construct} from "constructs";
-import {BehaviorBuilder} from "./behavior-builder";
+import {BehaviorBuilder, WebsiteDefaultsProps} from "./behavior-builder";
 import {DomainName} from "../../aws-route53";
 
 export interface WebsiteRedirectFunctionOptions {
@@ -37,16 +37,6 @@ export interface WebsiteRedirectFunctionOptions {
    */
   readonly indexFile?: string;
 }
-
-export interface WebsiteOriginOptions {
-
-  readonly scope: Construct;
-
-  readonly origin: IOrigin;
-
-  readonly redirectFunctionOptions: WebsiteRedirectFunctionOptions;
-}
-
 
 export class DistributionBuilder {
 
@@ -245,6 +235,20 @@ export class DistributionBuilder {
       .priceClass(PriceClass.PRICE_CLASS_100)
   }
 
+  websiteDefaults(props: WebsiteDefaultsProps) {
+    this.defaultBehavior().websiteDefaults(props)
+    return this
+      .httpVersion(HttpVersion.HTTP2_AND_3)
+      .minimumProtocolVersion(SecurityPolicyProtocol.TLS_V1_2_2021)
+      .enableIpv6(true)
+      .priceClass(PriceClass.PRICE_CLASS_100)
+      .errorResponse({
+        httpStatus: 404,
+        responseHttpStatus: 404,
+        responsePagePath: "/404.html"
+      });
+  }
+
   build(): DistributionProps {
 
     const additionalBehaviors: Record<string, BehaviorOptions> = {}
@@ -269,22 +273,5 @@ export class DistributionBuilder {
   static fromOrigin(origin: IOrigin): DistributionBuilder {
     const defaultBehaviorBuilder = BehaviorBuilder.fromOrigin(origin);
     return new DistributionBuilder(defaultBehaviorBuilder);
-  }
-
-  static fromWebsiteOrigin(origin: IOrigin, scope: Construct, options?: WebsiteRedirectFunctionOptions): DistributionBuilder {
-    const builder = DistributionBuilder.fromOrigin(origin).defaults();
-    builder.defaultBehavior()
-      .allowedMethods(AllowedMethods.ALLOW_GET_HEAD_OPTIONS)
-      .originRequestPolicy(undefined)
-      .websiteRedirectFunction(scope, options?.id ?? "RedirectFunction", {
-        apexDomain: options?.apexDomain,
-        indexFile: options?.indexFile
-      });
-    return builder
-      .errorResponse({
-        httpStatus: 404,
-        responseHttpStatus: 404,
-        responsePagePath: "/404.html"
-      });
   }
 }
