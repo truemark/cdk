@@ -13,12 +13,10 @@ import {Certificate} from "aws-cdk-lib/aws-certificatemanager";
 import {IBucket} from "aws-cdk-lib/aws-s3";
 import {Construct} from "constructs";
 import {BehaviorBuilder} from "./behavior-builder";
+import {DomainName} from "../../aws-route53";
 
-export interface WebsiteOriginOptions {
+export interface WebsiteRedirectFunctionOptions {
 
-  /**
-   * Identifier to use for the redirect function.
-   */
   readonly id: string;
 
   /**
@@ -32,6 +30,15 @@ export interface WebsiteOriginOptions {
    * @default "index.html"
    */
   readonly indexFile?: string;
+}
+
+export interface WebsiteOriginOptions {
+
+  readonly scope: Construct;
+
+  readonly origin: IOrigin;
+
+  readonly redirectFunctionOptions: WebsiteRedirectFunctionOptions;
 }
 
 
@@ -57,7 +64,7 @@ export class DistributionBuilder {
     this.props = {
       ...this.props,
       additionalBehaviors
-    }
+    };
     return this;
   }
 
@@ -71,7 +78,7 @@ export class DistributionBuilder {
     this.props = {
       ...this.props,
       certificate
-    }
+    };
     return this;
   }
 
@@ -79,7 +86,7 @@ export class DistributionBuilder {
     this.props = {
       ...this.props,
       comment
-    }
+    };
     return this;
   }
 
@@ -87,7 +94,7 @@ export class DistributionBuilder {
     this.props = {
       ...this.props,
       defaultRootObject
-    }
+    };
     return this;
   }
 
@@ -95,7 +102,17 @@ export class DistributionBuilder {
     this.props = {
       ...this.props,
       domainNames
-    }
+    };
+    return this;
+  }
+
+  domainName(domainName: string | DomainName): DistributionBuilder {
+    const domainNames: string[] = this.props.domainNames ?? [];
+    domainNames.push(typeof domainName.toString());
+    this.props = {
+      ...this.props,
+      domainNames
+    };
     return this;
   }
 
@@ -103,7 +120,7 @@ export class DistributionBuilder {
     this.props = {
       ...this.props,
       enabled
-    }
+    };
     return this;
   }
 
@@ -111,7 +128,7 @@ export class DistributionBuilder {
     this.props = {
       ...this.props,
       enableIpv6
-    }
+    };
     return this;
   }
 
@@ -119,7 +136,7 @@ export class DistributionBuilder {
     this.props = {
       ...this.props,
       enableLogging
-    }
+    };
     return this;
   }
 
@@ -127,7 +144,7 @@ export class DistributionBuilder {
     this.props = {
       ...this.props,
       geoRestriction
-    }
+    };
     return this;
   }
 
@@ -135,7 +152,7 @@ export class DistributionBuilder {
     this.props = {
       ...this.props,
       httpVersion
-    }
+    };
     return this;
   }
 
@@ -143,7 +160,7 @@ export class DistributionBuilder {
     this.props = {
       ...this.props,
       logBucket
-    }
+    };
     return this;
   }
 
@@ -151,7 +168,7 @@ export class DistributionBuilder {
     this.props = {
       ...this.props,
       logIncludesCookies
-    }
+    };
     return this;
   }
 
@@ -159,7 +176,7 @@ export class DistributionBuilder {
     this.props = {
       ...this.props,
       logFilePrefix
-    }
+    };
     return this;
   }
 
@@ -167,7 +184,7 @@ export class DistributionBuilder {
     this.props = {
       ...this.props,
       priceClass
-    }
+    };
     return this;
   }
 
@@ -175,7 +192,7 @@ export class DistributionBuilder {
     this.props = {
       ...this.props,
       webAclId
-    }
+    };
     return this;
   }
 
@@ -183,7 +200,7 @@ export class DistributionBuilder {
     this.props = {
       ...this.props,
       errorResponses
-    }
+    };
     return this;
   }
 
@@ -193,7 +210,7 @@ export class DistributionBuilder {
     this.props = {
       ...this.props,
       errorResponses
-    }
+    };
     return this;
   }
 
@@ -201,7 +218,7 @@ export class DistributionBuilder {
     this.props = {
       ...this.props,
       minimumProtocolVersion
-    }
+    };
     return this;
   }
 
@@ -209,7 +226,7 @@ export class DistributionBuilder {
     this.props = {
       ...this.props,
       sslSupportMethod
-    }
+    };
     return this;
   }
 
@@ -247,9 +264,8 @@ export class DistributionBuilder {
   static fromWebsiteOrigin(origin: IOrigin, scope: Construct, options: WebsiteOriginOptions): DistributionBuilder {
     const builder = DistributionBuilder.fromOrigin(origin).defaults();
     builder.defaultBehavior()
-      .websiteRedirectFunction(scope, options.id, {
-        apexDomain: options.apexDomain,
-        indexFile: options.indexFile
+      .websiteRedirectFunction(options.scope, options.redirectFunctionOptions.id, {
+        ...options.redirectFunctionOptions
       });
     return builder
       .errorResponse({
@@ -257,6 +273,6 @@ export class DistributionBuilder {
         responseHttpStatus: 404,
         responsePagePath: "/404.html"
       })
-      .defaultRootObject(options.indexFile ?? "index.html");
+      .defaultRootObject(options.redirectFunctionOptions.indexFile ?? "index.html");
   }
 }
