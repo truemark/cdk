@@ -29,4 +29,8 @@ export class TestHelper {
   static logResources(template: Template, type: string | ResourceType, props?: any) {
     console.log(template.findResources(type, props));
   }
+
+  static logTemplate(template: Template) {
+    console.log(JSON.stringify(template, null, "  "));
+  }
 }
