@@ -1,12 +1,13 @@
 import {Function, FunctionAssociation, FunctionCode, FunctionEventType} from "aws-cdk-lib/aws-cloudfront";
 import {Construct} from "constructs";
+import {DomainName} from "../../aws-route53";
 
 export interface WebsiteRedirectFunctionProps {
 
   /**
    * Optional domain to redirect to if the host header does not match.
    */
-  readonly apexDomain?: string;
+  readonly apexDomain?: string | DomainName;
 
   /**
    * The default file to request when the URI ends with a '/'. Set to en empty string to disable.
@@ -38,7 +39,7 @@ function handler(event) {
   }
   return event.request;
 }`
-        .replace(/APEX_DOMAIN/g, props.apexDomain ?? "")
+        .replace(/APEX_DOMAIN/g, props.apexDomain?.toString() ?? "")
         .replace(/INDEX_FILE/g, props.indexFile ?? "index.html"))
     });
   }
