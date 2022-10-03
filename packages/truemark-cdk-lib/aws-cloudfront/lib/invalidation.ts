@@ -1,24 +1,52 @@
-import {AwsCustomResource, AwsSdkCall} from "aws-cdk-lib/custom-resources";
+import {AwsCustomResource, AwsSdkCall, PhysicalResourceId} from "aws-cdk-lib/custom-resources";
 import {Construct} from "constructs";
 import {Effect, PolicyStatement} from "aws-cdk-lib/aws-iam";
-import {Duration} from "aws-cdk-lib";
+import {Duration, Stack} from "aws-cdk-lib";
+import {RetentionDays} from "aws-cdk-lib/aws-logs";
 
 /**
  * Properties for Invalidation.
  */
 export interface InvalidationProps {
+
+  /**
+   * Distribution to submit invalidation for.
+   */
   readonly distributionId: string;
+
+  /**
+   * The paths to invalidate.
+   */
   readonly paths: string[];
+
+  /**
+   * The caller reference. Default is current timestamp.
+   */
   readonly callerReference?: string;
+
+  /**
+   * The timeout for the Lambda function. Default is 2 minutes.
+   *
+   * @default Duration.minutes(2)
+   */
   readonly timeout?: Duration;
+
+  /**
+   * Log retention days. The default is 5.
+   */
+  readonly logRetention?: number;
 }
 
 /**
  * Creates a CloudFront invalidation.
  */
-export class Invalidation extends AwsCustomResource {
+export class Invalidation extends Construct {
+
+  readonly resource: AwsCustomResource;
 
   constructor(scope: Construct, id: string, props: InvalidationProps) {
+    super(scope, id);
+
     const now = Date.now().toString();
     // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CloudFront.html
     const call: AwsSdkCall = {
@@ -35,18 +63,25 @@ export class Invalidation extends AwsCustomResource {
         }
       },
       region: "us-east-1",
-      physicalResourceId: { id: now }
+      physicalResourceId: PhysicalResourceId.of(now)
     };
-    super(scope, id, {
+    this.resource = new AwsCustomResource(this, "Default", {
       onUpdate: call,
+      logRetention: props.logRetention ?? RetentionDays.FIVE_DAYS,
+      installLatestAwsSdk: true,
       policy: {
         statements: [new PolicyStatement({
-          resources: ["*"],
+          resources: [Stack.of(this).formatArn({
+            service: "cloudfront",
+            resource: "distribution",
+            resourceName: props.distributionId,
+            region: "us-east-1"
+          })],
           actions: ["cloudfront:CreateInvalidation"],
           effect: Effect.ALLOW
         })]
       },
-      timeout: props.timeout ?? Duration.minutes(1)
+      timeout: props.timeout ?? Duration.minutes(2)
     });
   }
 }

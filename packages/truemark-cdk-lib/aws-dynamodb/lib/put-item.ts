@@ -1,23 +1,47 @@
-import {AwsCustomResource, AwsSdkCall} from "aws-cdk-lib/custom-resources";
+import {AwsCustomResource, AwsSdkCall, PhysicalResourceId} from "aws-cdk-lib/custom-resources";
 import {Construct} from "constructs";
 import {Effect, PolicyStatement} from "aws-cdk-lib/aws-iam";
 import {Duration, Stack} from "aws-cdk-lib";
+import {RetentionDays} from "aws-cdk-lib/aws-logs";
 
+/**
+ * Properties for PutItem.
+ */
 export interface PutItemProps {
+
+  /**
+   * The name of the DynamoDB table to write to.
+   */
   readonly tableName: string;
-  readonly timeout?: Duration;
+
+  /**
+   * The item to store.
+   */
   readonly item: any;
-  readonly physicalResourceId?: string;
+
+  /**
+   * The timeout for the Lambda function. Default is 2 minutes.
+   *
+   * @default Duration.minutes(2)
+   */
+  readonly timeout?: Duration;
+
+  /**
+   * Log retention days. The default is 5.
+   */
+  readonly logRetention?: number;
 }
 
+/**
+ * Custom resource to insert data into a DynamoDB table. This class is intended to be used with
+ * the marshall command @aws-sdk/util-dynamodb as an alternative to using DynamoPutItem.
+ */
 export class PutItem extends Construct {
 
   readonly resource: AwsCustomResource;
 
   constructor(scope: Construct, id: string, props: PutItemProps) {
     super(scope, id);
-
-    const stack = Stack.of(this);
 
     const call: AwsSdkCall = {
       service: "DynamoDB",
@@ -26,19 +50,25 @@ export class PutItem extends Construct {
         TableName: props.tableName,
         Item: props.item
       },
-      physicalResourceId: { id: props.physicalResourceId ?? Date.now().toString() }
+      physicalResourceId: PhysicalResourceId.of(Date.now().toString())
     }
 
     this.resource = new AwsCustomResource(this, "Default", {
-      onCreate: call,
+      onUpdate: call,
+      logRetention: props.logRetention ?? RetentionDays.FIVE_DAYS,
+      installLatestAwsSdk: true,
       policy: {
         statements: [new PolicyStatement({
-          resources: [`arn:aws:dynamodb:${stack.region}:${stack.account}:table/${props.tableName}`],
+          resources: [Stack.of(this).formatArn({
+            service: "dynamodb",
+            resource: "table",
+            resourceName: props.tableName
+          })],
           actions: ["dynamodb:PutItem"],
           effect: Effect.ALLOW
         })]
       },
-      timeout: props.timeout ?? Duration.minutes(1)
+      timeout: props.timeout ?? Duration.minutes(2)
     });
   }
 }
