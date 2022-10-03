@@ -1,6 +1,7 @@
 import {AwsCustomResource, AwsSdkCall} from "aws-cdk-lib/custom-resources";
 import {Construct} from "constructs";
 import {Effect, PolicyStatement} from "aws-cdk-lib/aws-iam";
+import {Duration} from "aws-cdk-lib";
 
 /**
  * Properties for ParameterReader
@@ -8,6 +9,7 @@ import {Effect, PolicyStatement} from "aws-cdk-lib/aws-iam";
 export interface ParameterReaderProps {
   readonly parameterName: string;
   readonly region: string;
+  readonly timeout?: Duration;
 }
 
 /**
@@ -34,7 +36,8 @@ export class ParameterReader extends AwsCustomResource {
           actions: ["ssm:GetParameter"],
           effect: Effect.ALLOW
         })]
-      }
+      },
+      timeout: props.timeout ?? Duration.minutes(1)
     });
   }
 
