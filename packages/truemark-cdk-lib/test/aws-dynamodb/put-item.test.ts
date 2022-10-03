@@ -14,8 +14,8 @@ test("Test PutItem", () => {
       id: "secure",
       createdDate: Date.now(),
       contact: {
-        name: "Erik Jensen",
-        email: "ejensen@netradius.com"
+        name: "Bob Example",
+        email: "bob@example.com"
       }
     }
   });
