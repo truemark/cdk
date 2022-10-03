@@ -1,10 +1,9 @@
-import {RemovalPolicy} from "aws-cdk-lib/core";
 import {Construct} from "constructs";
 import {Bucket, BucketEncryption, RedirectTarget, RoutingRule} from "aws-cdk-lib/aws-s3";
 import {DomainName, LatencyARecord, WeightedARecord, WeightedLatencyARecord} from "../../aws-route53";
 import {ARecord, IHostedZone, RecordTarget} from "aws-cdk-lib/aws-route53";
 import {BucketWebsiteTarget} from "aws-cdk-lib/aws-route53-targets";
-import {Duration} from "aws-cdk-lib";
+import {RemovalPolicy, Duration} from "aws-cdk-lib";
 import {BucketDeployment, CacheControl, Source} from "aws-cdk-lib/aws-s3-deployment";
 
 

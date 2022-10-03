@@ -1,8 +1,8 @@
 import {ExtendedTable} from "./extended-table";
 import {Construct} from "constructs";
 import {AttributeType, TableEncryption} from "aws-cdk-lib/aws-dynamodb";
-import {RemovalPolicy} from "aws-cdk-lib/core";
-import {BillingMode} from "aws-cdk-lib/aws-dynamodb/lib/table";
+import {RemovalPolicy} from "aws-cdk-lib";
+import {BillingMode} from "aws-cdk-lib/aws-dynamodb";
 import * as kms from "aws-cdk-lib/aws-kms";
 
 /**

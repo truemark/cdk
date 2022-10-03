@@ -1,9 +1,8 @@
 import {Construct} from "constructs";
 import {BlockPublicAccess, Bucket, BucketEncryption} from "aws-cdk-lib/aws-s3";
 import {OriginAccessIdentity} from "aws-cdk-lib/aws-cloudfront";
-import {RemovalPolicy} from "aws-cdk-lib/core";
 import {BucketDeployment, CacheControl, Source} from "aws-cdk-lib/aws-s3-deployment";
-import {Duration} from "aws-cdk-lib";
+import {Duration, RemovalPolicy} from "aws-cdk-lib";
 
 /**
  * Properties for CloudFrontBucket.
