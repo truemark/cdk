@@ -1,5 +1,5 @@
 import {
-  BehaviorOptions,
+  BehaviorOptions, Distribution,
   DistributionProps,
   ErrorResponse,
   GeoRestriction,
@@ -259,6 +259,10 @@ export class DistributionBuilder {
         ...additionalBehaviors
       }
     }
+  }
+
+  toDistribution(scope: Construct, id: string): Distribution {
+    return new Distribution(scope, id, this.build());
   }
 
   static fromOrigin(origin: IOrigin): DistributionBuilder {
