@@ -37,7 +37,7 @@ export class ParameterReader extends AwsCustomResource {
           effect: Effect.ALLOW
         })]
       },
-      timeout: props.timeout ?? Duration.minutes(1)
+      timeout: props.timeout ?? Duration.minutes(2)
     });
   }
 
