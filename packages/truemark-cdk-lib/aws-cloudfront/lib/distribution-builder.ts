@@ -261,8 +261,8 @@ export class DistributionBuilder {
     return new DistributionBuilder(defaultBehaviorBuilder);
   }
 
-  static fromWebsiteOrigin(origin: IOrigin, scope: Construct, options: WebsiteOriginOptions): DistributionBuilder {
-    const builder = DistributionBuilder.fromOrigin(origin).defaults();
+  static fromWebsiteOrigin(options: WebsiteOriginOptions): DistributionBuilder {
+    const builder = DistributionBuilder.fromOrigin(options.origin).defaults();
     builder.defaultBehavior()
       .websiteRedirectFunction(options.scope, options.redirectFunctionOptions.id, {
         ...options.redirectFunctionOptions
