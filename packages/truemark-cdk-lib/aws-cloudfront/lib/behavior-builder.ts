@@ -19,11 +19,9 @@ import {Construct} from "constructs";
 import {WebsiteRedirectFunction, WebsiteRedirectFunctionProps} from "./website-redirect-function";
 import {OriginGroup} from "aws-cdk-lib/aws-cloudfront-origins";
 
-export interface WebsiteDefaultsProps {
+export interface WebsiteDefaultsProps extends WebsiteRedirectFunctionProps {
   readonly scope: Construct;
-  readonly redirectFunctionId?: string;
-  readonly apexDomain?: string;
-  readonly indexFile?: string;
+  readonly redirectFunctionId?: string
 }
 
 export class BehaviorBuilder {

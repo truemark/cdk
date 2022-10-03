@@ -16,28 +16,6 @@ import {Construct} from "constructs";
 import {BehaviorBuilder, WebsiteDefaultsProps} from "./behavior-builder";
 import {DomainName} from "../../aws-route53";
 
-export interface WebsiteRedirectFunctionOptions {
-
-  /**
-   * Identifier to use when creating the CloudFront Function.
-   *
-   * @default "RedirectFunction"
-   */
-  readonly id?: string;
-
-  /**
-   * Optional domain to redirect to if the host header does not match.
-   */
-  readonly apexDomain?: string;
-
-  /**
-   * The default file to request when the URI ends with a '/'. Set to en empty string to disable.
-   *
-   * @default "index.html"
-   */
-  readonly indexFile?: string;
-}
-
 export class DistributionBuilder {
 
   protected props: DistributionProps;
