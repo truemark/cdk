@@ -1,10 +1,11 @@
 import {
+  AllowedMethods,
   BehaviorOptions, Distribution,
   DistributionProps,
   ErrorResponse,
   GeoRestriction,
   HttpVersion,
-  IOrigin,
+  IOrigin, OriginRequestPolicy,
   PriceClass,
   SecurityPolicyProtocol,
   SSLMethod,
@@ -273,6 +274,8 @@ export class DistributionBuilder {
   static fromWebsiteOrigin(origin: IOrigin, scope: Construct, options?: WebsiteRedirectFunctionOptions): DistributionBuilder {
     const builder = DistributionBuilder.fromOrigin(origin).defaults();
     builder.defaultBehavior()
+      .allowedMethods(AllowedMethods.ALLOW_GET_HEAD_OPTIONS)
+      .originRequestPolicy(undefined)
       .websiteRedirectFunction(scope, options?.id ?? "RedirectFunction", {
         apexDomain: options?.apexDomain,
         indexFile: options?.indexFile
@@ -282,7 +285,6 @@ export class DistributionBuilder {
         httpStatus: 404,
         responseHttpStatus: 404,
         responsePagePath: "/404.html"
-      })
-      .defaultRootObject(options?.indexFile ?? "index.html");
+      });
   }
 }
