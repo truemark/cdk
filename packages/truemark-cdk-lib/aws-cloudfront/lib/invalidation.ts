@@ -70,11 +70,9 @@ export class Invalidation extends Construct {
       installLatestAwsSdk: true,
       policy: {
         statements: [new PolicyStatement({
-          resources: [Stack.of(this).formatArn({
-            service: "cloudfront",
-            resource: "distribution",
-            resourceName: props.distributionId,
-          })],
+          notResources: [
+            `arn:aws:cloudfront::${Stack.of(this).account}:distribution/${props.distributionId}`
+          ],
           actions: ["cloudfront:CreateInvalidation"],
           effect: Effect.ALLOW
         })]
