@@ -72,7 +72,7 @@ export class BatchWriteItem extends Construct {
               resourceName: name
             });
           }),
-          actions: ["dynamodb:PutItem", "dynamodb:DeleteItem"],
+          actions: ["dynamodb:BatchWriteItem"],
           effect: Effect.ALLOW
         })]
       },
