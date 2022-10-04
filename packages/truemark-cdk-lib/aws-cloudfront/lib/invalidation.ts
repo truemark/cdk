@@ -62,7 +62,6 @@ export class Invalidation extends Construct {
           }
         }
       },
-      region: "us-east-1",
       physicalResourceId: PhysicalResourceId.of(now)
     };
     this.resource = new AwsCustomResource(this, "Default", {
@@ -75,7 +74,6 @@ export class Invalidation extends Construct {
             service: "cloudfront",
             resource: "distribution",
             resourceName: props.distributionId,
-            region: "us-east-1"
           })],
           actions: ["cloudfront:CreateInvalidation"],
           effect: Effect.ALLOW
