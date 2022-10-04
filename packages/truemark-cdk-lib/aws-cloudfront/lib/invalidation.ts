@@ -71,7 +71,8 @@ export class Invalidation extends Construct {
       policy: {
         statements: [new PolicyStatement({
           notResources: [
-            `arn:aws:cloudfront::${Stack.of(this).account}:distribution/${props.distributionId}`
+            "*" // TODO Fix this in the future so permissions work
+            //`arn:aws:cloudfront::${Stack.of(this).account}:distribution/${props.distributionId}`
           ],
           actions: ["cloudfront:CreateInvalidation"],
           effect: Effect.ALLOW
