@@ -1,5 +1,5 @@
 import {Construct} from "constructs";
-import {BlockPublicAccess, Bucket, BucketEncryption} from "aws-cdk-lib/aws-s3";
+import {BlockPublicAccess, Bucket, BucketEncryption, IBucket} from "aws-cdk-lib/aws-s3";
 import {OriginAccessIdentity} from "aws-cdk-lib/aws-cloudfront";
 import {BucketDeployment, CacheControl, Source} from "aws-cdk-lib/aws-s3-deployment";
 import {Duration, RemovalPolicy} from "aws-cdk-lib";
@@ -31,6 +31,7 @@ export class CloudFrontBucket extends Construct {
 
   readonly bucket: Bucket;
   readonly bucketName: string;
+  readonly bucketArn: string;
   readonly originAccessIdentity: OriginAccessIdentity;
   readonly originAccessIdentityId: string;
 
@@ -46,7 +47,8 @@ export class CloudFrontBucket extends Construct {
       removalPolicy,
       autoDeleteObjects
     });
-    this.bucketName = this.bucket.bucketName
+    this.bucketName = this.bucket.bucketName;
+    this.bucketArn = this.bucket.bucketArn;
 
     this.originAccessIdentity = new OriginAccessIdentity(this, "Access");
     this.originAccessIdentityId = this.originAccessIdentity.originAccessIdentityId;

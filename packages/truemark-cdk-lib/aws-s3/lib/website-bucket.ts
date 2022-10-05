@@ -61,6 +61,7 @@ export class WebsiteBucket extends Construct {
 
   readonly bucket: Bucket;
   readonly bucketName: string;
+  readonly bucketArn: string;
   readonly bucketWebsiteUrl: string;
   readonly bucketWebsiteDomainName: string;
   readonly record: ARecord | WeightedARecord | LatencyARecord | WeightedLatencyARecord;
@@ -88,6 +89,7 @@ export class WebsiteBucket extends Construct {
       autoDeleteObjects,
     });
     this.bucketName = this.bucket.bucketName;
+    this.bucketArn = this.bucket.bucketArn;
     this.bucketWebsiteUrl = this.bucket.bucketWebsiteUrl;
     this.bucketWebsiteDomainName = this.bucket.bucketWebsiteDomainName;
 
