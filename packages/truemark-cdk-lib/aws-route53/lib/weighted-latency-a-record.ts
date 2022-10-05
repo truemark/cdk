@@ -8,11 +8,11 @@ import {RemovalPolicy, ResourceEnvironment, Stack} from "aws-cdk-lib";
 
 export interface WeightedLatencyARecordOptions {
   /**
-   * Value to use as a prefix on the latency route53 record.
+   * Value to use as a prefix on the subordinate route53 record.
    *
-   * @default lbr
+   * @default sub
    */
-  readonly latencyRecordPrefix?: string;
+  readonly recordPrefix?: string;
 }
 
 /**
@@ -36,14 +36,14 @@ export class WeightedLatencyARecord extends Construct implements IRecordSet {
   constructor(scope: Construct, id: string, props: WeightedLatencyARecordProps) {
     super(scope, id);
 
-    this.latencyRecord = new LatencyARecord(this, 'Latency', {
+    this.weightedRecord = new WeightedARecord(this, "Weighted", {
       ...props,
-      recordName: props.latencyRecordPrefix??'lbr' + props.recordName
+      recordName: props.recordPrefix ?? `wbr${props.recordName}`
     });
 
-    this.weightedRecord = new WeightedARecord(this, 'Weighted', {
+    this.latencyRecord = new LatencyARecord(this, 'Latency', {
       ...props,
-      target: RecordTarget.fromAlias(new Route53RecordTarget(this.latencyRecord))
+      target: RecordTarget.fromAlias(new Route53RecordTarget(this.weightedRecord))
     });
 
     this.domainName = this.weightedRecord.domainName;
