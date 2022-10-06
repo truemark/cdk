@@ -159,7 +159,7 @@ export class CdkPipeline extends Construct {
         additionalInputs: props.additionalInputs??{}
       }),
       synthCodeBuildDefaults: {
-        cache: Cache.local(),
+        // cache: Cache.local(), // TODO Not supported on ARM
         partialBuildSpec: BuildSpec.fromObject({
           // TODO Need to look into this further
           cache: {
