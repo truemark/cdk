@@ -29,10 +29,11 @@ export class ParameterReader extends AwsCustomResource {
     };
 
     super(scope, id, {
+      installLatestAwsSdk: true,
       onUpdate: call,
       policy: {
         statements: [new PolicyStatement({
-          resources: ["*"],
+          resources: ["*"], // TODO This needs to be made more exact
           actions: ["ssm:GetParameter"],
           effect: Effect.ALLOW
         })]
