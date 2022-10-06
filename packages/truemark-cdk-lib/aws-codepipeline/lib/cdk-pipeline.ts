@@ -11,10 +11,11 @@ import {
   Wave,
   WaveOptions
 } from "aws-cdk-lib/pipelines";
-import {BuildSpec, ComputeType, IBuildImage, LinuxArmBuildImage, LinuxBuildImage} from "aws-cdk-lib/aws-codebuild";
+import {BuildSpec, ComputeType, IBuildImage, LinuxBuildImage} from "aws-cdk-lib/aws-codebuild";
 import {PipelineNotificationRule} from "./pipeline-notification-rule";
 import {Stack, Stage} from "aws-cdk-lib";
 import {IFileSetProducer} from "aws-cdk-lib/pipelines";
+import {Cache} from "aws-cdk-lib/aws-codebuild";
 
 /**
  * Properties for CdkPipeline
@@ -77,9 +78,7 @@ export interface CdkPipelineProps {
   readonly computeType?: ComputeType;
 
   /**
-   * The image to use for builds.
-   *
-   * @default LinuxBuildImage.AMAZON_LINUX_2_3
+   * The image to use for builds. Default is LinuxBuildImage.AMAZON_LINUX_2_4
    */
   readonly buildImage?: IBuildImage;
 
@@ -104,6 +103,11 @@ export interface CdkPipelineProps {
    * Overrides default commands.
    */
   readonly commands?: string[];
+
+  /**
+   * Public assets in multiple CodeBuild projects. Default is false.
+   */
+  readonly publishAssetsInParallel?: boolean;
 }
 
 /**
@@ -136,9 +140,10 @@ export class CdkPipeline extends Construct {
 
     this.pipeline = new CodePipeline(this, 'CodePipeline', {
       codePipeline: underlyingPipeline,
-      selfMutation: props.selfMutation??true,
-      dockerEnabledForSynth: props.dockerEnabledForSynth??true,
-      dockerEnabledForSelfMutation: props.dockerEnabledForSelfMutation??true,
+      selfMutation: props.selfMutation ?? true,
+      dockerEnabledForSynth: props.dockerEnabledForSynth ?? true,
+      dockerEnabledForSelfMutation: props.dockerEnabledForSelfMutation ?? true,
+      publishAssetsInParallel: props.publishAssetsInParallel ?? false,
       synth: new ShellStep('Synth', {
         primaryOutputDirectory: 'cdk.out',
         input,
@@ -154,7 +159,9 @@ export class CdkPipeline extends Construct {
         additionalInputs: props.additionalInputs??{}
       }),
       synthCodeBuildDefaults: {
+        cache: Cache.local(),
         partialBuildSpec: BuildSpec.fromObject({
+          // TODO Need to look into this further
           cache: {
             paths: "/tmp/npm-cache"
           },
@@ -168,8 +175,23 @@ export class CdkPipeline extends Construct {
           }
         }),
         buildEnvironment: {
-          computeType: props.computeType??ComputeType.SMALL,
-          buildImage: props.buildImage??LinuxBuildImage.AMAZON_LINUX_2_3
+          computeType: props.computeType ?? ComputeType.SMALL,
+          buildImage: props.buildImage ?? LinuxBuildImage.AMAZON_LINUX_2_4
+        }
+      },
+      assetPublishingCodeBuildDefaults: {
+        buildEnvironment: {
+          buildImage: LinuxBuildImage.AMAZON_LINUX_2_4
+        }
+      },
+      selfMutationCodeBuildDefaults: {
+        buildEnvironment: {
+          buildImage: LinuxBuildImage.AMAZON_LINUX_2_4
+        }
+      },
+      codeBuildDefaults: {
+        buildEnvironment: {
+          buildImage: LinuxBuildImage.AMAZON_LINUX_2_4
         }
       }
     });
