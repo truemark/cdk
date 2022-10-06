@@ -1,5 +1,5 @@
 import {Construct} from "constructs";
-import {Alarm, IAlarmAction} from "aws-cdk-lib/aws-cloudwatch";
+import {Alarm, AlarmBase, IAlarmAction} from "aws-cdk-lib/aws-cloudwatch";
 import {CustomAlarmThreshold, MonitoringFacade} from "cdk-monitoring-constructs";
 import {ITopic} from "aws-cdk-lib/aws-sns";
 import {Duration, Stack} from "aws-cdk-lib";
@@ -129,15 +129,15 @@ export abstract class AlarmsBase<C extends AlarmsCategoryOptions, P extends Alar
     }
   }
 
-  getAlarms(category: AlarmCategory): Alarm[] {
+  getAlarms(category: AlarmCategory): AlarmBase[] {
     return [...this.monitoringFacade.createdAlarmsWithDisambiguator(category).map((awa) => awa.alarm).values()];
   }
 
-  getCriticalAlarms(): Alarm[] {
+  getCriticalAlarms(): AlarmBase[] {
     return this.getAlarms(AlarmCategory.Critical);
   }
 
-  getWarningAlarms(): Alarm[] {
+  getWarningAlarms(): AlarmBase[] {
     return this.getAlarms(AlarmCategory.Warning);
   }
 }

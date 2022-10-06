@@ -15,7 +15,7 @@ import {IFunction} from "aws-cdk-lib/aws-lambda";
 import {ILogGroup} from "aws-cdk-lib/aws-logs";
 import {Construct} from "constructs";
 import {LogMetricAlarm} from "../../aws-cloudwatch";
-import {Alarm} from "aws-cdk-lib/aws-cloudwatch";
+import {Alarm, AlarmBase} from "aws-cdk-lib/aws-cloudwatch";
 
 /**
  * Category options for CloudWatch alarms for Lambda Functions.
@@ -299,7 +299,7 @@ export class FunctionAlarms extends AlarmsBase<FunctionAlarmsCategoryOptions, Fu
     }
   }
 
-  getAlarms(category: AlarmCategory): Alarm[] {
+  getAlarms(category: AlarmCategory): AlarmBase[] {
     const alarms = super.getAlarms(category);
     const logAlarm = category === AlarmCategory.Critical ? this.criticalLogAlarm?.alarm : this.warningLogAlarm?.alarm;
     if (logAlarm !== undefined) {
