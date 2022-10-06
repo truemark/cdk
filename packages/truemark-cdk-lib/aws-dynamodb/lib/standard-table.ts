@@ -27,7 +27,7 @@ export interface StandardTableProps {
   /**
    * Whether point-in-time recovery is enabled.
    *
-   * @default - point-in-time recovery is enabled
+   * @default - point-in-time recovery is disabled
    */
   readonly pointInTimeRecovery?: boolean;
 
@@ -74,6 +74,11 @@ export interface StandardTableProps {
    * property is undefined, a new KMS key will be created and associated with this table.
    */
   readonly encryptionKey?: kms.IKey;
+
+  /**
+   * The name of the TTL attribute on the table.
+   */
+  readonly timeToLiveAttribute?: string;
 }
 
 /**
@@ -85,14 +90,14 @@ export class StandardTable extends ExtendedTable {
 
   constructor(scope: Construct, id: string, props?: StandardTableProps) {
     super(scope, id, {
+      timeToLiveAttribute: props?.timeToLiveAttribute,
       partitionKey: {
         name: "Pk", type: AttributeType.STRING
       },
       sortKey: {
         name: "Sk", type: AttributeType.STRING
       },
-      ...props,
-      pointInTimeRecovery: props?.pointInTimeRecovery ?? true // change default to enabled
+      ...props
     });
     this.addGlobalSecondaryIndex({
       indexName: "Gs1",
