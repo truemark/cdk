@@ -25,7 +25,7 @@ export class ExtendedQueue extends Queue {
   }
 
   /**
-   * Helper method to finds a queue by name. This method assumes the queue is in the same account and region as the stack.
+   * Helper method to find a queue by name. This method assumes the queue is in the same account and region as the stack.
    *
    * @param scope the scope
    * @param id the identifier to use
