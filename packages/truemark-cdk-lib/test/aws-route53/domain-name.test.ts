@@ -1,4 +1,3 @@
-import {TestHelper} from "../test-helper";
 import {DomainName} from "../../aws-route53";
 
 test("Test propsMatch", () => {
@@ -31,7 +30,6 @@ test("Test propsMatch", () => {
 });
 
 test("Test findDomainName", () => {
-  const stack = TestHelper.stack();
   const domainName1 = new DomainName({
     prefix: "test1",
     zone: "example.com"
@@ -51,4 +49,10 @@ test("Test findDomainName", () => {
   expect(foundDomainName).toBeDefined();
   expect(foundDomainName?.getPrefix()).toEqual("test2");
   expect(foundDomainName?.getZone()).toEqual("example.com");
+});
+
+test("Test fromFqdn", () => {
+  const domainName1 = DomainName.fromFqdn("www.example.com", "example.com");
+  expect(domainName1.getPrefix()).toEqual("www");
+  expect(domainName1.getZone()).toEqual("example.com");
 });

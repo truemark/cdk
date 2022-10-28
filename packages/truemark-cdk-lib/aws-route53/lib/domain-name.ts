@@ -243,6 +243,20 @@ export class DomainName {
   }
 
   /**
+   * Creates an instance of DomainName from a fully qualified domain name and a zone.
+   *
+   * @param fqdn the fully qualified domain name
+   * @param zone the zone
+   */
+  static fromFqdn(fqdn: string, zone: IHostedZone | string, privateZone?: boolean, vpcId?: string): DomainName {
+    const prefix = fqdn.replace(typeof zone === "string" ? zone : zone.zoneName, "")
+      .replace(/\.$/, "");
+    return new DomainName({
+      prefix, zone, privateZone, vpcId
+    });
+  }
+
+  /**
    * Converts an array of DomainName objects to an array of strings. This function will return an
    * empty array if domainNames is undefined.
    *
