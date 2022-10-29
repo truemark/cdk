@@ -117,6 +117,13 @@ export interface CdkPipelineProps {
    * @default NodePackageManager.PNPM
    */
   readonly packageManager?: NodePackageManager;
+
+  /**
+   * The directory the CDK project is located in the repo.
+   *
+   * @default - "."
+   */
+  readonly cdkDirectory?: string;
 }
 
 /**
@@ -158,6 +165,7 @@ export class CdkPipeline extends Construct {
     let commands: string[] | undefined = props.commands;
     if (commands === undefined && props.packageManager === NodePackageManager.PNPM) {
       commands = [
+        `cd ${props.cdkDirectory ?? "."}`,
         'npm -g install pnpm',
         'pnpm install --frozen-lockfile --prefer-offline',
         'pnpm run build',
@@ -166,6 +174,7 @@ export class CdkPipeline extends Construct {
       ]
     } else if (commands === undefined) {
       commands = [
+        `cd ${props.cdkDirectory ?? "."}`,
         'npm config set fund false',
         'npm ci --prefer-offline',
         'npm run build',
