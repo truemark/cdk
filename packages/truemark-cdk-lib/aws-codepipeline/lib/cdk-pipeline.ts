@@ -161,11 +161,12 @@ export class CdkPipeline extends Construct {
     }
 
     const stackName = Stack.of(this).stackName;
+    const cdkDirectory = props.cdkDirectory ?? ".";
 
     let commands: string[] | undefined = props.commands;
     if (commands === undefined && props.packageManager === NodePackageManager.PNPM) {
       commands = [
-        `cd ${props.cdkDirectory ?? "."}`,
+        `cd ${cdkDirectory ?? "."}`,
         'npm -g install pnpm',
         'pnpm install --frozen-lockfile --prefer-offline',
         'pnpm run build',
@@ -174,7 +175,7 @@ export class CdkPipeline extends Construct {
       ]
     } else if (commands === undefined) {
       commands = [
-        `cd ${props.cdkDirectory ?? "."}`,
+        `cd ${cdkDirectory ?? "."}`,
         'npm config set fund false',
         'npm ci --prefer-offline',
         'npm run build',
@@ -190,7 +191,7 @@ export class CdkPipeline extends Construct {
       dockerEnabledForSelfMutation: props.dockerEnabledForSelfMutation ?? true,
       publishAssetsInParallel: props.publishAssetsInParallel ?? false,
       synth: new ShellStep('Synth', {
-        primaryOutputDirectory: 'cdk.out',
+        primaryOutputDirectory: `${cdkDirectory}/cdk.out`,
         input,
         commands,
         additionalInputs: props.additionalInputs??{}
