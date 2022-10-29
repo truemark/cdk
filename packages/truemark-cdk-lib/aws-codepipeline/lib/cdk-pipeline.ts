@@ -6,6 +6,7 @@ import {
   AddStageOpts,
   CodePipeline,
   CodePipelineSource,
+  IFileSetProducer,
   ShellStep,
   StageDeployment,
   Wave,
@@ -14,8 +15,8 @@ import {
 import {BuildSpec, ComputeType, IBuildImage, LinuxBuildImage} from "aws-cdk-lib/aws-codebuild";
 import {PipelineNotificationRule} from "./pipeline-notification-rule";
 import {Stack, Stage} from "aws-cdk-lib";
-import {IFileSetProducer} from "aws-cdk-lib/pipelines";
-import {Cache} from "aws-cdk-lib/aws-codebuild";
+import {Repository} from "aws-cdk-lib/aws-codecommit";
+import {NodePackageManager} from "./enums";
 
 /**
  * Properties for CdkPipeline
@@ -35,14 +36,15 @@ export interface CdkPipelineProps {
   readonly accountIds?: string[];
 
   /**
-   * Arn of the CodeStar connection used to access the source code repository.
+   * Arn of the CodeStar connection used to access the source code repository. If not set, this
+   * construct assumes the repository is in AWS CodeCommit.
    */
-  readonly connectionArn: string;
+  readonly connectionArn?: string;
 
   /**
-   * Name of the source code repository.
+   * Source code repository.
    */
-  readonly repo: string;
+  readonly repository: string;
 
   /**
    * Branch to use inside the source code repository.
@@ -108,6 +110,13 @@ export interface CdkPipelineProps {
    * Public assets in multiple CodeBuild projects. Default is false.
    */
   readonly publishAssetsInParallel?: boolean;
+
+  /**
+   * Package manager to use when executing CDK.
+   *
+   * @default NodePackageManager.PNPM
+   */
+  readonly packageManager?: NodePackageManager;
 }
 
 /**
@@ -132,11 +141,38 @@ export class CdkPipeline extends Construct {
       artifactBucket
     });
 
-    const input = CodePipelineSource.connection(props.repo, props.branch, {
-      connectionArn: props.connectionArn
-    });
+    let input: CodePipelineSource;
+    if (props.connectionArn !== undefined) {
+      input = CodePipelineSource.connection(props.repository, props.branch, {
+        connectionArn: props.connectionArn
+      });
+    } else {
+      const repository = props.repository.startsWith("arn:")
+        ? Repository.fromRepositoryArn(this, "Repository", props.repository)
+        : Repository.fromRepositoryName(this, "Repository", props.repository)
+      input = CodePipelineSource.codeCommit(repository, props.branch);
+    }
 
     const stackName = Stack.of(this).stackName;
+
+    let commands: string[] | undefined = props.commands;
+    if (commands === undefined && props.packageManager === NodePackageManager.PNPM) {
+      commands = [
+        'npm -g install pnpm',
+        'pnpm install --frozen-lockfile --prefer-offline',
+        'pnpm run build',
+        'pnpm run test',
+        `pnpx cdk synth ${stackName}`
+      ]
+    } else if (commands === undefined) {
+      commands = [
+        'npm config set fund false',
+        'npm ci --prefer-offline',
+        'npm run build',
+        'npm run test',
+        `npx cdk synth ${stackName}`
+      ]
+    }
 
     this.pipeline = new CodePipeline(this, 'CodePipeline', {
       codePipeline: underlyingPipeline,
@@ -147,15 +183,7 @@ export class CdkPipeline extends Construct {
       synth: new ShellStep('Synth', {
         primaryOutputDirectory: 'cdk.out',
         input,
-        commands: props.commands??[
-          'mkdir /tmp/npm-cache',
-          'npm config set fund false',
-          'npm config set cache /tmp/npm-cache --location=global',
-          'npm ci --prefer-offline',
-          'npm run build',
-          'npm run test',
-          `npx cdk synth ${stackName}`
-        ],
+        commands,
         additionalInputs: props.additionalInputs??{}
       }),
       synthCodeBuildDefaults: {
