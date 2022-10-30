@@ -304,14 +304,14 @@ export class StandardFargateService extends Construct {
   protected resolvedCapacityProviderStrategies(props: StandardFargateServiceProps):
     CapacityProviderStrategy[] | undefined {
     let strategies: CapacityProviderStrategy[] = [];
-    if (props.capacityWeight === undefined || props.capacityBase === undefined) {
+    if (props.capacityWeight !== undefined || props.capacityBase !== undefined) {
       strategies.push({
         capacityProvider: "FARGATE",
         base: props.capacityBase,
         weight: props.capacityWeight
       });
     }
-    if (props.spotCapacityWeight === undefined || props.spotCapacityBase === undefined) {
+    if (props.spotCapacityWeight !== undefined || props.spotCapacityBase !== undefined) {
       strategies.push({
         capacityProvider: "FARGATE_SPOT",
         base: props.spotCapacityBase,
