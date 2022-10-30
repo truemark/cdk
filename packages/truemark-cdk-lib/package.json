@@ -43,6 +43,7 @@
     "./aws-cloudwatch": "./aws-cloudwatch/index.js",
     "./aws-codepipeline": "./aws-codepipeline/index.js",
     "./aws-dynamodb": "./aws-dynamodb/index.js",
+    "./aws-ecs": "./aws-ecs/index.js",
     "./aws-lambda": "./aws-lambda/index.js",
     "./aws-monitoring": "./aws-monitoring/index.js",
     "./aws-route53": "./aws-route53/index.js",
