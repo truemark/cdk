@@ -148,6 +148,9 @@ export interface StandardApplicationFargateServiceProps extends StandardFargateS
   readonly domainZone?: IHostedZone;
 }
 
+/**
+ * Creates an ECS Fargate service and maps it to an Application Load Balancer (ALB).
+ */
 export class StandardApplicationFargateService extends StandardFargateService {
 
   readonly loadBalancer: IApplicationLoadBalancer;
