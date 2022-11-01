@@ -147,11 +147,6 @@ export interface StandardApplicationFargateServiceProps extends StandardFargateS
    * Zone of the domain name. If set, a route53 record is created for the service.
    */
   readonly domainZone?: IHostedZone;
-
-  /**
-   * The VPC the services and load balancer are in.
-   */
-  readonly vpc: IVpc;
 }
 
 /**
@@ -184,7 +179,7 @@ export class StandardApplicationFargateService extends StandardFargateService {
 
     const targetGroup = new ApplicationTargetGroup(this, "TargetGroup", {
       targets: [this.service],
-      vpc: props.vpc,
+      vpc: props.cluster.vpc,
       port: this.port,
       protocol: props.applicationProtocol ?? ApplicationProtocol.HTTP,
       deregistrationDelay: props.deregistrationDelay ?? Duration.seconds(10),
