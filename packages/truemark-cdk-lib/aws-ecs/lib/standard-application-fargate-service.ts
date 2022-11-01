@@ -11,6 +11,7 @@ import {
 import {ARecord, IHostedZone, RecordTarget} from "aws-cdk-lib/aws-route53";
 import {DomainName} from "../../aws-route53";
 import {LoadBalancerTarget} from "aws-cdk-lib/aws-route53-targets";
+import {IVpc} from "aws-cdk-lib/aws-ec2";
 
 /**
  * Properties for StandardApplicationFargateService
@@ -146,6 +147,11 @@ export interface StandardApplicationFargateServiceProps extends StandardFargateS
    * Zone of the domain name. If set, a route53 record is created for the service.
    */
   readonly domainZone?: IHostedZone;
+
+  /**
+   * The VPC the services and load balancer are in.
+   */
+  readonly vpc: IVpc;
 }
 
 /**
@@ -178,7 +184,7 @@ export class StandardApplicationFargateService extends StandardFargateService {
 
     const targetGroup = new ApplicationTargetGroup(this, "TargetGroup", {
       targets: [this.service],
-      vpc: props.cluster.vpc,
+      vpc: props.vpc,
       port: this.port,
       protocol: props.applicationProtocol ?? ApplicationProtocol.HTTP,
       deregistrationDelay: props.deregistrationDelay ?? Duration.seconds(10),
