@@ -346,4 +346,19 @@ export class DomainName {
     }
     return undefined;
   }
+
+  /**
+   * Create a certificate from an array of DomainName objects.
+   *
+   * @param scope the scope to use
+   * @param id the identifier to use in the scope for the certificate
+   * @param domainNames the domain names to use in the certificate
+   */
+  static createCertificate(scope: Construct, id: string, domainNames: DomainName[]): Certificate {
+    return new Certificate(scope, id, {
+      domainName: domainNames[0].toString(),
+      subjectAlternativeNames: domainNames.slice(1).map(name => name.toString()),
+      validation: CertificateValidation.fromDnsMultiZone(DomainName.toZoneMap(scope, domainNames))
+    });
+  }
 }
