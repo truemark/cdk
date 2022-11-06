@@ -4,6 +4,7 @@ import {WeightedARecord} from "./weighted-a-record";
 import {LatencyARecord} from "./latency-a-record";
 import {WeightedLatencyARecord} from "./weighted-latency-a-record";
 import {Certificate, CertificateValidation} from "aws-cdk-lib/aws-certificatemanager";
+import {Duration} from "aws-cdk-lib";
 
 /**
  * Properties for DomainName
@@ -162,12 +163,14 @@ export class DomainName {
    *
    * @param scope the scope to create the record in
    * @param target the target of the record
+   * @param ttl optional ttl for the record
    * @param id the optional id for the record; if not provided, one is generated
    */
-  createARecord(scope: Construct, target: RecordTarget, id?: string): ARecord {
+  createARecord(scope: Construct, target: RecordTarget, ttl?: Duration, id?: string): ARecord {
     return new ARecord(scope, id ?? `${this.toIdentifier()}-arecord`, {
       zone: this.getHostedZone(scope),
       recordName: this.toString(),
+      ttl,
       target
     });
   }

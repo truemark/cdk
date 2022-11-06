@@ -20,7 +20,6 @@ export interface LatencyARecordOptions {
    * @default Stack.of(this).region
    */
   readonly setIdentifier?: string
-
 }
 
 /**
