@@ -10,7 +10,7 @@ import {
   SecurityPolicyProtocol,
   SSLMethod,
 } from "aws-cdk-lib/aws-cloudfront";
-import {Certificate} from "aws-cdk-lib/aws-certificatemanager";
+import {ICertificate} from "aws-cdk-lib/aws-certificatemanager";
 import {IBucket} from "aws-cdk-lib/aws-s3";
 import {Construct} from "constructs";
 import {BehaviorBuilder, WebsiteDefaultsProps} from "./behavior-builder";
@@ -48,7 +48,7 @@ export class DistributionBuilder {
     return behaviorBuilder
   }
 
-  certificate(certificate?: Certificate): DistributionBuilder {
+  certificate(certificate?: ICertificate): DistributionBuilder {
     this.props = {
       ...this.props,
       certificate
