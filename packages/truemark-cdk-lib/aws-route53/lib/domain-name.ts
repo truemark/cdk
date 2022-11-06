@@ -56,6 +56,29 @@ export interface CertificateOptions {
   readonly subjectAlternativeNames?: string[];
 }
 
+export interface ARecordOptions {
+
+  /**
+   * The identifier to use. One is generated if not provided.
+   */
+  readonly id?: string;
+
+  /**
+   * The resource record cache time to live (TTL).
+   */
+  readonly ttl?: Duration;
+
+  /**
+   * A comment to add on the record.
+   */
+  readonly comment?: string;
+
+  /**
+   * Whether to delete the same record set in the hosted zone if it already exists.
+   */
+  readonly deleteExisting?: boolean;
+}
+
 /**
  * Utility class for holding domain name information and
  * doing useful things with it.
@@ -163,14 +186,13 @@ export class DomainName {
    *
    * @param scope the scope to create the record in
    * @param target the target of the record
-   * @param ttl optional ttl for the record
-   * @param id the optional id for the record; if not provided, one is generated
+   * @param options additional options for creating the record
    */
-  createARecord(scope: Construct, target: RecordTarget, ttl?: Duration, id?: string): ARecord {
-    return new ARecord(scope, id ?? `${this.toIdentifier()}-arecord`, {
+  createARecord(scope: Construct, target: RecordTarget, options?: ARecordOptions): ARecord {
+    return new ARecord(scope, options?.id ?? `${this.toIdentifier()}-arecord`, {
       zone: this.getHostedZone(scope),
       recordName: this.toString(),
-      ttl,
+      ttl: options?.ttl,
       target
     });
   }
