@@ -19,7 +19,7 @@
     "typescript": "~3.9.7"
   },
   "dependencies": {
-    "aws-cdk-lib": "^2.44.0",
+    "aws-cdk-lib": "^2.49.0",
     "cdk-monitoring-constructs": "^1.23.2"
   },
   "peerDependencies": {
@@ -30,7 +30,7 @@
     "@aws-cdk/aws-lambda-python-alpha": "^2.18.0-alpha.0",
     "@aws-cdk/aws-redshift-alpha": "^2.18.0-alpha.0",
     "@aws-cdk/aws-synthetics-alpha": "^2.18.0-alpha.0",
-    "aws-cdk-lib": "^2.44.0",
+    "aws-cdk-lib": "^2.49.0",
     "cdk-monitoring-constructs": "^1.23.2",
     "constructs": "^10.1.123"
   },
@@ -52,7 +52,8 @@
     "./aws-sqs": "./aws-sqs/index.js",
     "./aws-ssm": "./aws-ssm/index.js",
     "./aws-website": "./aws-website/index.js",
-    "./helpers": "./helpers/index.js"
+    "./helpers": "./helpers/index.js",
+    "./wordpress": "./wordpress/index.js"
   },
   "publishConfig": {
     "access": "public"
