@@ -14,4 +14,4 @@ export * as aws_sqs from "./aws-sqs";
 export * as aws_ssm from "./aws-ssm";
 export * as aws_website from "./aws-website";
 export * as helpers from "./helpers";
-export * as wordpress from "./wordpress";
+export * as wordpress from "./aws-patterns-wordpress";

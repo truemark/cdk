@@ -46,14 +46,14 @@
     "./aws-ecs": "./aws-ecs/index.js",
     "./aws-lambda": "./aws-lambda/index.js",
     "./aws-monitoring": "./aws-monitoring/index.js",
+    "./aws-patterns-wordpress": "./aws-patterns-wordpress/index.js",
     "./aws-route53": "./aws-route53/index.js",
     "./aws-s3": "./aws-s3/index.js",
     "./aws-ses": "./aws-ses/index.js",
     "./aws-sqs": "./aws-sqs/index.js",
     "./aws-ssm": "./aws-ssm/index.js",
     "./aws-website": "./aws-website/index.js",
-    "./helpers": "./helpers/index.js",
-    "./wordpress": "./wordpress/index.js"
+    "./helpers": "./helpers/index.js"
   },
   "publishConfig": {
     "access": "public"

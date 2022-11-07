@@ -301,8 +301,8 @@ export class WordPressInstance extends Construct {
       requireImdsv2: true,
     });
 
-    Tags.of(asg).add("wordpress:data-volume", volume.volumeId);
-    Tags.of(asg).add("wordpress:sites", props.sites.join(" ").toLowerCase());
+    Tags.of(asg).add("aws-patterns-wordpress:data-volume", volume.volumeId);
+    Tags.of(asg).add("aws-patterns-wordpress:sites", props.sites.join(" ").toLowerCase());
 
     asg.role.addManagedPolicy(ManagedPolicy.fromAwsManagedPolicyName("AmazonSSMManagedInstanceCore"));
     asg.addToRolePolicy(new PolicyStatement({
@@ -312,7 +312,7 @@ export class WordPressInstance extends Construct {
     }));
 
     if (eip !== undefined) {
-      Tags.of(asg).add("wordpress:eip-allocation-id", eip.attrAllocationId);
+      Tags.of(asg).add("aws-patterns-wordpress:eip-allocation-id", eip.attrAllocationId);
       asg.addToRolePolicy(new PolicyStatement({
         effect: Effect.ALLOW,
         actions: ["ec2:DisassociateAddress", "ec2:AssociateAddress"],
