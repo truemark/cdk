@@ -75,7 +75,7 @@ export interface StandardNetworkFargateServiceProps extends StandardFargateServi
   /**
    * Protocol for target group, expects TCP, TLS, UDP, or TCP_UDP
    *
-   * @default
+   * @default Protocol.TCP
    */
   readonly networkProtocol?: Protocol;
 
