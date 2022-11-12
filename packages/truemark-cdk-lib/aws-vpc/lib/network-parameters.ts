@@ -1,6 +1,6 @@
 import {Construct} from "constructs";
 import {StringListParameter, StringParameter} from "aws-cdk-lib/aws-ssm";
-import {TrueMarkTags} from "../../aws-tags/index";
+import {TrueMarkTags} from "../../aws-tags";
 
 /**
  * Properties for NetworkParameters.
