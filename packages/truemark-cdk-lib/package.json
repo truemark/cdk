@@ -11,27 +11,28 @@
   "devDependencies": {
     "@aws-sdk/client-dynamodb": "^3.181.0",
     "@aws-sdk/util-dynamodb": "^3.181.0",
+    "@aws-cdk/aws-lambda-go-alpha": "^2.18.0-alpha.0",
+    "@aws-cdk/aws-lambda-python-alpha": "^2.18.0-alpha.0",
     "@types/jest": "^27.4.1",
-    "aws-cdk-lib": "2.44.0",
+    "aws-cdk-lib": "2.50.0",
     "constructs": "10.1.107",
     "jest": "^27.5.1",
     "ts-jest": "^27.1.4",
     "typescript": "~3.9.7"
   },
   "dependencies": {
-    "aws-cdk-lib": "^2.49.0",
-    "cdk-monitoring-constructs": "^1.23.2"
+    "aws-cdk-lib": "^2.50.0",
+    "cdk-monitoring-constructs": "^1.27.1"
   },
   "peerDependencies": {
-    "@aws-cdk/aws-apigatewayv2-alpha": "^2.42.0-alpha.0",
-    "@aws-cdk/aws-apigatewayv2-integrations-alpha": "^2.42.0-alpha.0",
-    "@aws-cdk/aws-appsync-alpha": "^2.42.0-alpha.0",
-    "@aws-cdk/aws-lambda-go-alpha": "^2.42.0-alpha.0",
-    "@aws-cdk/aws-lambda-python-alpha": "^2.42.0-alpha.0",
-    "@aws-cdk/aws-redshift-alpha": "^2.42.0-alpha.0",
-    "@aws-cdk/aws-synthetics-alpha": "^2.42.0-alpha.0",
-    "aws-cdk-lib": "^2.49.0",
-    "cdk-monitoring-constructs": "^1.23.2",
+    "@aws-cdk/aws-apigatewayv2-alpha": "^2.18.0-alpha.0",
+    "@aws-cdk/aws-appsync-alpha": "^2.18.0-alpha.0",
+    "@aws-cdk/aws-redshift-alpha": "^2.18.0-alpha.0",
+    "@aws-cdk/aws-synthetics-alpha": "^2.18.0-alpha.0",
+    "@aws-cdk/aws-lambda-go-alpha": "^2.18.0-alpha.0",
+    "@aws-cdk/aws-lambda-python-alpha": "^2.18.0-alpha.0",
+    "aws-cdk-lib": "^2.50.0",
+    "cdk-monitoring-constructs": "^1.27.1",
     "constructs": "^10.1.123"
   },
   "exports": {
