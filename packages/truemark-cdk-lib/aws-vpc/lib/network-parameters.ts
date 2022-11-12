@@ -90,6 +90,16 @@ export interface NetworkParametersProps {
   readonly privateAlbArns?: string[];
 
   /**
+   * Certificate ARNs on public ALBs to store. Indexes should match publicAlbArns.
+   */
+  readonly publicAlbCertificateArns?: string[];
+
+  /**
+   * Certificate ARNs on private ALBs to store. Indexes should match privateAlbArns.
+   */
+  readonly privateAlbCertificateArns?: string[];
+
+  /**
    * Lookup VPC value if not provided. Default is true.
    *
    * @default - true
@@ -165,6 +175,16 @@ export interface NetworkParametersProps {
    * @default - false
    */
   readonly lookupPrivateAlbs?: boolean;
+
+  /**
+   * Lookup ACM certificates on public ALBs if provided. Default is false.
+   */
+  readonly lookupPublicAlbCertificates?: boolean;
+
+  /**
+   * Lookup ACM certificates on private ALBs if provided. Default is false.
+   */
+  readonly lookupPrivateAlbCertificates?: boolean;
 }
 
 /**
@@ -226,7 +246,17 @@ export class NetworkParameters extends Construct {
   /**
    * Path to the private ALB ARNs.
    */
-  readonly privateAlbsParameterPaths: string;
+  readonly privateAlbsParameterPath: string;
+
+  /**
+   * Path to the certificate ARNs on the public ALBs.
+   */
+  readonly publicAlbCertificatesParameterPath: string;
+
+  /**
+   * Path to the certificate ARNs on the private ALBs.
+   */
+  readonly privateAlbCertificatesParameterPath: string;
 
   /**
    * The parameter created if vpcId was provided.
@@ -284,6 +314,16 @@ export class NetworkParameters extends Construct {
   readonly privateAlbsParameter?: StringListParameter;
 
   /**
+   * The parameter created if publicAlbCertificateArns were provided.
+   */
+  readonly publicAlbCertificatesParameter?: StringListParameter;
+
+  /**
+   * The parameter created if privateAlbCertificateArns were provided.
+   */
+  readonly privateAlbCertificatesParameter?: StringListParameter;
+
+  /**
    * The vpcId if provided or lookups are enabled.
    */
   readonly vpcId?: string;
@@ -339,6 +379,16 @@ export class NetworkParameters extends Construct {
   readonly privateAlbArns?: string[];
 
   /**
+   * The certificate ARNs on the public ALBs if provided or lookups are enabled.
+   */
+  readonly publicAlbCertificateArns?: string[];
+
+  /**
+   * The certificate ARNs on the private ALbs if provided or lookups are enabled.
+   */
+  readonly privateAlbCertificateArns?: string[];
+
+  /**
    * Creates a new NetworkParameters instance.
    *
    * @param scope the parent scope
@@ -361,7 +411,9 @@ export class NetworkParameters extends Construct {
     this.elasticacheSubnetsParameterPath = `${path}/elasticache_subnets`;
     this.outpostSubnetsParameterPath = `${path}/outpost_subnets`;
     this.publicAlbsParameterPath = `${path}/public_albs`;
-    this.privateAlbsParameterPaths = `${path}/private_albs`;
+    this.privateAlbsParameterPath = `${path}/private_albs`;
+    this.publicAlbCertificatesParameterPath = `${path}/public_alb_certificates`;
+    this.privateAlbCertificatesParameterPath = `${path}/private_alb_certificates`;
 
     if (create) {
       if (props.vpcId) {
@@ -436,10 +488,22 @@ export class NetworkParameters extends Construct {
       }
       if (props.privateAlbArns) {
         this.privateAlbsParameter = new StringListParameter(this, "PrivateAlbs", {
-          parameterName: this.privateAlbsParameterPaths,
+          parameterName: this.privateAlbsParameterPath,
           stringListValue: props.privateAlbArns
         });
         this.privateAlbArns = props.privateAlbArns;
+      }
+      if (props.publicAlbCertificateArns) {
+        this.publicAlbCertificatesParameter = new StringListParameter(this, "PublicAlbCertificates", {
+          parameterName: this.publicAlbCertificatesParameterPath,
+          stringListValue: props.publicAlbCertificateArns
+        });
+      }
+      if (props.privateAlbCertificateArns) {
+        this.privateAlbCertificatesParameter = new StringListParameter(this, "PrivateAlbCertificates", {
+          parameterName: this.privateAlbCertificatesParameterPath,
+          stringListValue: props.privateAlbCertificateArns
+        });
       }
     }
     if (props.lookupVpc ?? true) {
@@ -494,7 +558,17 @@ export class NetworkParameters extends Construct {
     }
     if (props.lookupPrivateAlbs ?? false) {
       if (!this.privateAlbArns) {
-        this.privateAlbArns = StringParameter.valueFromLookup(this, this.privateAlbsParameterPaths).split(",");
+        this.privateAlbArns = StringParameter.valueFromLookup(this, this.privateAlbsParameterPath).split(",");
+      }
+    }
+    if (props.lookupPublicAlbCertificates ?? false) {
+      if (!this.publicAlbCertificateArns) {
+        this.publicAlbCertificateArns = StringParameter.valueFromLookup(this, this.publicAlbCertificatesParameterPath).split(",");
+      }
+    }
+    if (props.lookupPrivateAlbCertificates ?? false) {
+      if (!this.privateAlbCertificateArns) {
+        this.privateAlbCertificateArns = StringParameter.valueFromLookup(this, this.privateAlbCertificatesParameterPath).split(",");
       }
     }
     new TrueMarkTags(this, {
