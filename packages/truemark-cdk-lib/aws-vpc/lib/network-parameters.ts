@@ -365,77 +365,77 @@ export class NetworkParameters extends Construct {
 
     if (create) {
       if (props.vpcId) {
-        this.vpcParameter = new StringParameter(this, "vpcId", {
+        this.vpcParameter = new StringParameter(this, "VpcId", {
           parameterName: this.vpcParameterPath,
           stringValue: props.vpcId
         });
         this.vpcId = props.vpcId;
       }
       if (props.azs) {
-        this.azsParameter = new StringListParameter(this, "azs", {
+        this.azsParameter = new StringListParameter(this, "AZs", {
           parameterName: this.azsParameterPath,
           stringListValue: props.azs
         });
         this.azs = props.azs;
       }
       if (props.publicSubnetIds) {
-        this.publicSubnetsParameter = new StringListParameter(this, "publicSubnets", {
+        this.publicSubnetsParameter = new StringListParameter(this, "PublicSubnets", {
           parameterName: this.publicSubnetsParameterPath,
           stringListValue: props.publicSubnetIds
         });
         this.publicSubnetIds = props.privateSubnetIds;
       }
       if (props.privateSubnetIds) {
-        this.privateSubnetsParameter = new StringListParameter(this, "privateSubnets", {
+        this.privateSubnetsParameter = new StringListParameter(this, "PrivateSubnets", {
           parameterName: this.privateSubnetsParameterPath,
           stringListValue: props.privateSubnetIds
         });
         this.privateSubnetIds = props.privateSubnetIds;
       }
       if (props.intraSubnetIds) {
-        this.intraSubnetsParameter = new StringListParameter(this, "intraSubnets", {
+        this.intraSubnetsParameter = new StringListParameter(this, "IntraSubnets", {
           parameterName: this.intraSubnetsParameterPath,
           stringListValue: props.intraSubnetIds
         });
         this.intraSubnetIds = props.intraSubnetIds;
       }
       if (props.redshiftSubnetIds) {
-        this.redshiftSubnetsParameter = new StringListParameter(this, "redshiftSubnets", {
+        this.redshiftSubnetsParameter = new StringListParameter(this, "RedshiftSubnets", {
           parameterName: this.redshiftSubnetsParameterPath,
           stringListValue: props.redshiftSubnetIds
         });
         this.redshiftSubnetIds = props.redshiftSubnetIds;
       }
       if (props.databaseSubnetIds) {
-        this.databaseSubnetsParameter = new StringListParameter(this, "databaseSubnets", {
+        this.databaseSubnetsParameter = new StringListParameter(this, "DatabaseSubnets", {
           parameterName: this.databaseSubnetsParameterPath,
           stringListValue: props.databaseSubnetIds
         });
         this.databaseSubnetIds = props.databaseSubnetIds;
       }
       if (props.elasticacheSubnetIds) {
-        this.elasticacheSubnetsParameter = new StringListParameter(this, "elasticacheSubnets", {
+        this.elasticacheSubnetsParameter = new StringListParameter(this, "ElasticacheSubnets", {
           parameterName: this.elasticacheSubnetsParameterPath,
           stringListValue: props.elasticacheSubnetIds
         });
         this.elasticacheSubnetIds = props.elasticacheSubnetIds;
       }
       if (props.outpostSubnetIds) {
-        this.outpostSubnetsPrameter = new StringListParameter(this, "outpostSubnets", {
+        this.outpostSubnetsPrameter = new StringListParameter(this, "OutpostSubnets", {
           parameterName: this.outpostSubnetsParameterPath,
           stringListValue: props.outpostSubnetIds
         });
         this.outpostSubnetIds = props.outpostSubnetIds
       }
       if (props.publicAlbArns) {
-        this.publicAlbsParameter = new StringListParameter(this, "publicAlbs", {
+        this.publicAlbsParameter = new StringListParameter(this, "PublicAlbs", {
           parameterName: this.publicAlbsParameterPath,
           stringListValue: props.publicAlbArns
         });
         this.publicAlbArns = props.publicAlbArns;
       }
       if (props.privateAlbArns) {
-        this.privateAlbsParameter = new StringListParameter(this, "privateAlbs", {
+        this.privateAlbsParameter = new StringListParameter(this, "PrivateAlbs", {
           parameterName: this.privateAlbsParameterPaths,
           stringListValue: props.privateAlbArns
         });
