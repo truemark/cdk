@@ -23,13 +23,13 @@
     "cdk-monitoring-constructs": "^1.23.2"
   },
   "peerDependencies": {
-    "@aws-cdk/aws-apigatewayv2-alpha": "^2.18.0-alpha.0",
-    "@aws-cdk/aws-apigatewayv2-integrations-alpha": "^2.18.0-alpha.0",
-    "@aws-cdk/aws-appsync-alpha": "^2.18.0-alpha.0",
-    "@aws-cdk/aws-lambda-go-alpha": "^2.18.0-alpha.0",
-    "@aws-cdk/aws-lambda-python-alpha": "^2.18.0-alpha.0",
-    "@aws-cdk/aws-redshift-alpha": "^2.18.0-alpha.0",
-    "@aws-cdk/aws-synthetics-alpha": "^2.18.0-alpha.0",
+    "@aws-cdk/aws-apigatewayv2-alpha": "^2.42.0-alpha.0",
+    "@aws-cdk/aws-apigatewayv2-integrations-alpha": "^2.42.0-alpha.0",
+    "@aws-cdk/aws-appsync-alpha": "^2.42.0-alpha.0",
+    "@aws-cdk/aws-lambda-go-alpha": "^2.42.0-alpha.0",
+    "@aws-cdk/aws-lambda-python-alpha": "^2.42.0-alpha.0",
+    "@aws-cdk/aws-redshift-alpha": "^2.42.0-alpha.0",
+    "@aws-cdk/aws-synthetics-alpha": "^2.42.0-alpha.0",
     "aws-cdk-lib": "^2.49.0",
     "cdk-monitoring-constructs": "^1.23.2",
     "constructs": "^10.1.123"
@@ -52,6 +52,7 @@
     "./aws-ses": "./aws-ses/index.js",
     "./aws-sqs": "./aws-sqs/index.js",
     "./aws-ssm": "./aws-ssm/index.js",
+    "./aws-tags": "./aws-tags/index.js",
     "./aws-website": "./aws-website/index.js",
     "./helpers": "./helpers/index.js"
   },

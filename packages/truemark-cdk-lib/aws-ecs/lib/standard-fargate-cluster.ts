@@ -10,6 +10,7 @@ import {IAutoScalingGroup} from "aws-cdk-lib/aws-autoscaling";
 
 export interface StandardFargateClusterProps {
 
+  // TODO I don't like what I did here
   /**
    * The VPC where your ECS instances will be running.
    * One of vpc, vpcId or vpcName is required.

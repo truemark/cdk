@@ -12,6 +12,7 @@ export * as aws_s3 from "./aws-s3";
 export * as aws_ses from "./aws-ses";
 export * as aws_sqs from "./aws-sqs";
 export * as aws_ssm from "./aws-ssm";
+export * as aws_tags from "./aws-tags";
 export * as aws_website from "./aws-website";
 export * as helpers from "./helpers";
 export * as wordpress from "./aws-patterns-wordpress";
