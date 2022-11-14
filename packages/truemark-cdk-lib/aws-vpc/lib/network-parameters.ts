@@ -100,6 +100,51 @@ export interface NetworkParametersProps {
   readonly privateAlbCertificateArns?: string[];
 
   /**
+   * Alternative public ALB ARNs to store.
+   */
+  readonly altPublicAlbArns?: string[];
+
+  /**
+   * Alternative private ALB ARNs to store.
+   */
+  readonly altPrivateAlbArns?: string[];
+
+  /**
+   * Alternative certificate ARNs on public ALBs to store. Indexes should match publicAlbArns.
+   */
+  readonly altPublicAlbCertificateArns?: string[];
+
+  /**
+   * Alternative certificate ARNs on private ALBs to store. Indexes should match privateAlbArns.
+   */
+  readonly altPrivateAlbCertificateArns?: string[];
+
+  /**
+   * Public certificate ARN to store for this network.
+   */
+  readonly publicCertificateArn?: string;
+
+  /**
+   * Private certificate ARN to store for this network.
+   */
+  readonly privateCertificateArn?: string;
+
+  /**
+   * CloudFront certificate ARN to store for this network.
+   */
+  readonly cloudFontCertificateArn?: string;
+
+  /**
+   * Public zone name to store for this network.
+   */
+  readonly publicZoneName?: string;
+
+  /**
+   * Private zone name to store for this network.
+   */
+  readonly privateZoneName?: string;
+
+  /**
    * Lookup VPC value if not provided. Default is true.
    *
    * @default - true
@@ -185,6 +230,69 @@ export interface NetworkParametersProps {
    * Lookup ACM certificates on private ALBs if provided. Default is false.
    */
   readonly lookupPrivateAlbCertificates?: boolean;
+
+  /**
+   * Lookup alternative public ALBs if not provided. Default is false.
+   *
+   * @default - false
+   */
+  readonly lookupAltPublicAlbs?: boolean;
+
+  /**
+   * Lookup alternative private ALBs if not provided. Default is false.
+   *
+   * @default - false
+   */
+  readonly lookupAltPrivateAlbs?: boolean;
+
+  /**
+   * Lookup alternative ACM certificates on public ALBs if provided. Default is false.
+   *
+   * @default - false
+   */
+  readonly lookupAltPublicAlbCertificates?: boolean;
+
+  /**
+   * Lookup alternative ACM certificates on private ALBs if provided. Default is false.
+   *
+   * @default - false
+   */
+  readonly lookupAltPrivateAlbCertificates?: boolean;
+
+  /**
+   * Lookup public certificate. Default is false.
+   *
+   * @default - false
+   */
+  readonly lookupPublicCertificate?: boolean;
+
+  /**
+   * Lookup private certificate. Default is false.
+   *
+   * @default - false
+   */
+  readonly lookupPrivateCertificate?: boolean;
+
+  /**
+   * Lookup CloudFront certificate. Default is false.
+   *
+   * @default - false
+   */
+  readonly lookupCloudFrontCertificate?: boolean;
+
+  /**
+   * Lookup public zone. Default is false.
+   *
+   * @default - false
+   */
+  readonly lookupPublicZone?: boolean;
+
+  /**
+   * Lookup private zone. Default is false.
+   *
+   * @default - false
+   */
+  readonly lookupPrivateZone?: boolean;
 }
 
 /**
@@ -259,6 +367,51 @@ export class NetworkParameters extends Construct {
   readonly privateAlbCertificatesParameterPath: string;
 
   /**
+   * Path to the alternative public ALB ARNs.
+   */
+  readonly altPublicAlbsParameterPath: string;
+
+  /**
+   * Path to the alternative private ALB ARNs.
+   */
+  readonly altPrivateAlbsParameterPath: string;
+
+  /**
+   * Path to the alternative certificate ARNs on the public ALBs.
+   */
+  readonly altPublicAlbCertificatesParameterPath: string;
+
+  /**
+   * Path to the alternative certificate ARNs on the private ALBs.
+   */
+  readonly altPrivateAlbCertificatesParameterPath: string;
+
+  /**
+   * Path to the public certificate ARN.
+   */
+  readonly publicCertificateParameterPath: string;
+
+  /**
+   * Path to the private certificate ARN.
+   */
+  readonly privateCertificateParameterPath: string;
+
+  /**
+   * Path to the CloudFront certiticate ARN.
+   */
+  readonly cloudFrontCertificateParameterPath: string;
+
+  /**
+   * Path to the public zone.
+   */
+  readonly publicZoneParameterPath: string;
+
+  /**
+   * Path to the private zone.
+   */
+  readonly privateZoneParameterPath: string;
+
+  /**
    * The parameter created if vpcId was provided.
    */
   readonly vpcParameter?: StringParameter;
@@ -322,6 +475,51 @@ export class NetworkParameters extends Construct {
    * The parameter created if privateAlbCertificateArns were provided.
    */
   readonly privateAlbCertificatesParameter?: StringListParameter;
+
+  /**
+   * The parameter created if altPublicAlbArns were provided.
+   */
+  readonly altPublicAlbsParameter?: StringListParameter;
+
+  /**
+   * The parameter created if altPrivateAlbArns were provided.
+   */
+  readonly altPrivateAlbsParameter?: StringListParameter;
+
+  /**
+   * The parameter created if altPublicAlbCertificateArns were provided.
+   */
+  readonly altPublicAlbCertificatesParameter?: StringListParameter;
+
+  /**
+   * The parameter created if altPrivateAlbCertificateArns were provided.
+   */
+  readonly altPrivateAlbCertificatesParameter?: StringListParameter;
+
+  /**
+   * The parameter created if publicCertificateArn was provided.
+   */
+  readonly publicCertificateParameter?: StringParameter;
+
+  /**
+   * The parameter created if privateCertificateArn was provided.
+   */
+  readonly privateCertificateParameter?: StringParameter;
+
+  /**
+   * The parameter created if cloudFrontCertificateArn was provided.
+   */
+  readonly cloudFrontCertificateParameter?: StringParameter;
+
+  /**
+   * The parameter created if publicZoneName was provided.
+   */
+  readonly publicZoneParameter?: StringParameter;
+
+  /**
+   * The parameter created if privateZoneName was provided.
+   */
+  readonly privateZoneParameter?: StringParameter;
 
   /**
    * The vpcId if provided or lookups are enabled.
@@ -389,6 +587,51 @@ export class NetworkParameters extends Construct {
   readonly privateAlbCertificateArns?: string[];
 
   /**
+   * The alternative public ALB ARNs if provided or lookups are enabled.
+   */
+  readonly altPublicAlbArns?: string[];
+
+  /**
+   * The alternative private ALB ARNs if provided or lookups are enabled.
+   */
+  readonly altPrivateAlbArns?: string[];
+
+  /**
+   * The certificate ARNs on the alternative public ALBs if provided or lookups are enabled.
+   */
+  readonly altPublicAlbCertificateArns?: string[];
+
+  /**
+   * The certificate ARNs on the alternative private ALbs if provided or lookups are enabled.
+   */
+  readonly altPrivateAlbCertificateArns?: string[];
+
+  /**
+   * The public certificate ARN if provided or lookups are enabled.
+   */
+  readonly publicCertificateArn?: string;
+
+  /**
+   * The private certificate ARN if provided or lookups are enabled.
+   */
+  readonly privateCertificateArn?: string;
+
+  /**
+   * The CloudFront certificate ARN if provided or lookups are enabled.
+   */
+  readonly cloudFrontCertificateArn?: string;
+
+  /**
+   * The public zone name if provided or lookups are enabled.
+   */
+  readonly publicZoneName?: string;
+
+  /**
+   * The private zone name if provided or lookups are enabled.
+   */
+  readonly privateZoneName?: string;
+
+  /**
    * Creates a new NetworkParameters instance.
    *
    * @param scope the parent scope
@@ -414,6 +657,15 @@ export class NetworkParameters extends Construct {
     this.privateAlbsParameterPath = `${path}/private_albs`;
     this.publicAlbCertificatesParameterPath = `${path}/public_alb_certificates`;
     this.privateAlbCertificatesParameterPath = `${path}/private_alb_certificates`;
+    this.altPublicAlbsParameterPath = `${path}/alt_public_albs`;
+    this.altPrivateAlbsParameterPath = `${path}/alt_private_albs`;
+    this.altPublicAlbCertificatesParameterPath = `${path}/alt_public_alb_certificates`;
+    this.altPrivateAlbCertificatesParameterPath = `${path}/alt_private_alb_certificates`;
+    this.publicCertificateParameterPath = `${path}/public_certificate`;
+    this.privateCertificateParameterPath = `${path}/private_certificate`;
+    this.cloudFrontCertificateParameterPath = `${path}/cloudfront_certificate`;
+    this.publicZoneParameterPath = `${path}/public_zone`;
+    this.privateZoneParameterPath = `${path}/private_zone`;
 
     if (create) {
       if (props.vpcId) {
@@ -505,6 +757,60 @@ export class NetworkParameters extends Construct {
           stringListValue: props.privateAlbCertificateArns
         });
       }
+      if (props.altPublicAlbArns) {
+        this.altPublicAlbsParameter = new StringListParameter(this, "AltPublicAlbs", {
+          parameterName: this.altPublicAlbsParameterPath,
+          stringListValue: props.altPublicAlbArns
+        });
+      }
+      if (props.altPrivateAlbArns) {
+        this.altPrivateAlbsParameter = new StringListParameter(this, "AltPrivateAlbs", {
+          parameterName: this.altPrivateAlbsParameterPath,
+          stringListValue: props.altPrivateAlbArns
+        });
+      }
+      if (props.altPublicAlbCertificateArns) {
+        this.altPublicAlbCertificatesParameter = new StringListParameter(this, "AltPublicAlbCertificates", {
+          parameterName: this.altPublicAlbCertificatesParameterPath,
+          stringListValue: props.altPublicAlbCertificateArns
+        });
+      }
+      if (props.altPrivateAlbCertificateArns) {
+        this.altPrivateAlbCertificatesParameter = new StringListParameter(this, "AltPrivateAlbCertificates", {
+          parameterName: this.altPrivateAlbCertificatesParameterPath,
+          stringListValue: props.altPrivateAlbCertificateArns
+        });
+      }
+      if (props.publicCertificateArn) {
+        this.publicCertificateParameter = new StringParameter(this, "PublicCertificate", {
+          parameterName: this.publicCertificateParameterPath,
+          stringValue: props.publicCertificateArn
+        });
+      }
+      if (props.privateCertificateArn) {
+        this.privateCertificateParameter = new StringParameter(this, "PrivateCertificate", {
+          parameterName: this.privateCertificateParameterPath,
+          stringValue: props.privateCertificateArn
+        });
+      }
+      if (props.cloudFontCertificateArn) {
+        this.cloudFrontCertificateParameter = new StringParameter(this, "CloudFrontCertificate", {
+          parameterName: this.cloudFrontCertificateParameterPath,
+          stringValue: props.cloudFontCertificateArn
+        });
+      }
+      if (props.publicZoneName) {
+        this.publicZoneParameter = new StringParameter(this, "PublicZone", {
+          parameterName: this.publicZoneParameterPath,
+          stringValue: props.publicZoneName
+        });
+      }
+      if (props.privateZoneName) {
+        this.privateZoneParameter = new StringParameter(this, "PrivateZone", {
+          parameterName: this.privateZoneParameterPath,
+          stringValue: props.privateZoneName
+        });
+      }
     }
     if (props.lookupVpc ?? true) {
       if (!this.vpcId) {
@@ -569,6 +875,51 @@ export class NetworkParameters extends Construct {
     if (props.lookupPrivateAlbCertificates ?? false) {
       if (!this.privateAlbCertificateArns) {
         this.privateAlbCertificateArns = StringParameter.valueFromLookup(this, this.privateAlbCertificatesParameterPath).split(",");
+      }
+    }
+    if (props.lookupAltPublicAlbs ?? false) {
+      if (!this.altPublicAlbArns) {
+        this.altPublicAlbArns = StringParameter.valueFromLookup(this, this.altPublicAlbsParameterPath).split(",");
+      }
+    }
+    if (props.lookupAltPrivateAlbs ?? false) {
+      if (!this.altPrivateAlbArns) {
+        this.altPrivateAlbArns = StringParameter.valueFromLookup(this, this.altPrivateAlbsParameterPath).split(",");
+      }
+    }
+    if (props.lookupAltPublicAlbCertificates ?? false) {
+      if (!this.altPublicAlbCertificateArns) {
+        this.altPublicAlbCertificateArns = StringParameter.valueFromLookup(this, this.altPublicAlbCertificatesParameterPath).split(",");
+      }
+    }
+    if (props.lookupAltPrivateAlbCertificates ?? false) {
+      if (!this.altPrivateAlbCertificateArns) {
+        this.altPrivateAlbCertificateArns = StringParameter.valueFromLookup(this, this.altPrivateAlbCertificatesParameterPath).split(",");
+      }
+    }
+    if (props.lookupPublicCertificate ?? false) {
+      if (!this.publicCertificateArn) {
+        this.publicCertificateArn = StringParameter.valueFromLookup(this, this.publicCertificateParameterPath);
+      }
+    }
+    if (props.lookupPrivateCertificate ?? false) {
+      if (!this.privateCertificateArn) {
+        this.privateCertificateArn = StringParameter.valueFromLookup(this, this.privateCertificateParameterPath);
+      }
+    }
+    if (props.lookupCloudFrontCertificate ?? false) {
+      if (!this.cloudFrontCertificateArn) {
+        this.cloudFrontCertificateArn = StringParameter.valueFromLookup(this, this.cloudFrontCertificateParameterPath);
+      }
+    }
+    if (props.lookupPublicZone ?? false) {
+      if (!this.publicZoneName) {
+        this.publicZoneName = StringParameter.valueFromLookup(this, this.publicZoneParameterPath);
+      }
+    }
+    if (props.lookupPrivateZone ?? false) {
+      if (!this.privateZoneName) {
+        this.privateZoneName = StringParameter.valueFromLookup(this, this.privateZoneParameterPath);
       }
     }
     new TrueMarkTags(this, {
