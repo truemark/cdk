@@ -69,7 +69,7 @@ export class TrueMarkTags {
    * @param props optional properties
    */
   addAutomationComponentTags(props?: AutomationComponentTagsProps): TrueMarkTags {
-    if(!this.suppressed) {
+    if (!this.suppressed) {
       this.tags.add("truemark:automation:component-id", props?.id ?? this.scope.constructor.name);
       this.tags.add("truemark:automation:component-url", props?.url ?? "https://github.com/truemark/cdk");
       this.tags.add("truemark:automation:component-vendor", props?.vendor ?? "TrueMark");
