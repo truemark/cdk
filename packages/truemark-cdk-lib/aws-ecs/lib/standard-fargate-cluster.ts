@@ -7,6 +7,8 @@ import {LogGroup, RetentionDays} from "aws-cdk-lib/aws-logs";
 import {RemovalPolicy, ResourceEnvironment, Stack} from "aws-cdk-lib";
 import {INamespace} from "aws-cdk-lib/aws-servicediscovery";
 import {IAutoScalingGroup} from "aws-cdk-lib/aws-autoscaling";
+import {StandardTags} from "../../aws-tags";
+import {CDK_NPMJS_URL, CDK_VENDOR} from "../../helpers";
 
 export interface StandardFargateClusterProps {
 
@@ -80,6 +82,14 @@ export interface StandardFargateClusterProps {
    * this construct.
    */
   readonly executeCommandConfigurationOverride?: ExecuteCommandConfiguration;
+
+  /**
+   * Setting this to true will suppress the creation of default tags on resources
+   * created by this construct. Default is false.
+   *
+   * @default - false
+   */
+  readonly suppressTagging?: boolean;
 }
 
 /**
@@ -170,6 +180,13 @@ export class StandardFargateCluster extends Construct implements ICluster {
     this.executeCommandConfiguration = this.cluster.executeCommandConfiguration;
     this.stack = this.cluster.stack;
     this.env = this.cluster.env;
+
+    new StandardTags(this, {
+      suppress: props?.suppressTagging
+    }).addAutomationComponentTags({
+      url: CDK_NPMJS_URL,
+      vendor: CDK_VENDOR
+    });
   }
 
   applyRemovalPolicy(policy: RemovalPolicy) {

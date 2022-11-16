@@ -21,6 +21,8 @@ import {PolicyStatement} from "aws-cdk-lib/aws-iam";
 import {BasicStepScalingPolicyProps} from "aws-cdk-lib/aws-autoscaling";
 import {IMetric} from "aws-cdk-lib/aws-cloudwatch";
 import {ScalingSchedule} from "aws-cdk-lib/aws-applicationautoscaling";
+import {StandardTags} from "../../aws-tags";
+import {CDK_NPMJS_URL, CDK_VENDOR} from "../../helpers";
 
 /**
  * Properties for StandardFargateService.
@@ -253,6 +255,14 @@ export interface StandardFargateServiceProps {
    * The minimum number of tasks to run on the FARGATE_SPOT capacity provider. Default is to not use capacity providers.
    */
   readonly spotCapacityBase?: number;
+
+  /**
+   * Setting this to true will suppress the creation of default tags on resources
+   * created by this construct. Default is false.
+   *
+   * @default - false
+   */
+  readonly suppressTagging?: boolean;
 }
 
 /**
@@ -420,6 +430,13 @@ export class StandardFargateService extends Construct {
     this.scaling = scaling;
     this.scaleInCooldown = scaleInCooldown;
     this.scaleOutCooldown = scaleOutCooldown;
+
+    new StandardTags(this, {
+      suppress: props?.suppressTagging
+    }).addAutomationComponentTags({
+      url: CDK_NPMJS_URL,
+      vendor: CDK_VENDOR
+    });
   }
 
   /**
