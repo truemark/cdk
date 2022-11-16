@@ -1,1 +1,1 @@
-export * from "./truemark-tags";
+export * from "./standard-tags";

@@ -1,6 +1,7 @@
 import {Construct} from "constructs";
 import {StringListParameter, StringParameter} from "aws-cdk-lib/aws-ssm";
-import {TrueMarkTags} from "../../aws-tags";
+import {StandardTags} from "../../aws-tags";
+import {CDK_NPMJS_URL, CDK_VENDOR} from "../../helpers";
 
 /**
  * Properties for NetworkParameters.
@@ -922,8 +923,11 @@ export class NetworkParameters extends Construct {
         this.privateZoneName = StringParameter.valueFromLookup(this, this.privateZoneParameterPath);
       }
     }
-    new TrueMarkTags(this, {
+    new StandardTags(this, {
       suppress: props.suppressTagging
-    }).addAutomationComponentTags();
+    }).addAutomationComponentTags({
+      url: CDK_NPMJS_URL,
+      vendor: CDK_VENDOR
+    });
   }
 }
