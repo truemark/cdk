@@ -4,6 +4,8 @@ import {AttributeType, TableEncryption} from "aws-cdk-lib/aws-dynamodb";
 import {RemovalPolicy} from "aws-cdk-lib";
 import {BillingMode} from "aws-cdk-lib/aws-dynamodb";
 import * as kms from "aws-cdk-lib/aws-kms";
+import {StandardTags} from "../../aws-tags";
+import {CDK_NPMJS_URL, CDK_VENDOR} from "../../helpers";
 
 /**
  * Properties for StandardTable.
@@ -79,6 +81,14 @@ export interface StandardTableProps {
    * The name of the TTL attribute on the table.
    */
   readonly timeToLiveAttribute?: string;
+
+  /**
+   * Setting this to true will suppress the creation of default tags on resources
+   * created by this construct. Default is false.
+   *
+   * @default - false
+   */
+  readonly suppressTagging?: boolean;
 }
 
 /**
@@ -107,6 +117,13 @@ export class StandardTable extends ExtendedTable {
       sortKey: {
         name: "Gs1Sk", type: AttributeType.STRING
       }
+    });
+
+    new StandardTags(this, {
+      suppress: props?.suppressTagging
+    }).addAutomationComponentTags({
+      url: CDK_NPMJS_URL,
+      vendor: CDK_VENDOR
     });
   }
 }
