@@ -11,7 +11,6 @@ import {
 import {ARecord, IHostedZone, RecordTarget} from "aws-cdk-lib/aws-route53";
 import {DomainName} from "../../aws-route53";
 import {LoadBalancerTarget} from "aws-cdk-lib/aws-route53-targets";
-import {IVpc} from "aws-cdk-lib/aws-ec2";
 
 /**
  * Properties for StandardApplicationFargateService
