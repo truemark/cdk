@@ -15,7 +15,7 @@
     "@aws-sdk/util-dynamodb": "^3.181.0",
     "@types/jest": "^27.4.1",
     "aws-cdk-lib": "2.50.0",
-    "constructs": "10.1.107",
+    "constructs": "^10.1.123",
     "jest": "^27.5.1",
     "ts-jest": "^27.1.4",
     "typescript": "~3.9.7"
