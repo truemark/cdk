@@ -6,6 +6,8 @@ import {QueueAlarmsOptions} from "./queue-alarms";
 import {ExtendedQueue} from "./extended-queue";
 import {MetricOptions, Metric} from "aws-cdk-lib/aws-cloudwatch";
 import {PolicyStatement, AddToResourcePolicyResult, IGrantable, Grant} from "aws-cdk-lib/aws-iam";
+import {StandardTags} from "../../aws-tags";
+import {CDK_NPMJS_URL, CDK_VENDOR} from "../../helpers";
 
 /**
  * Properties for a StandardQueue
@@ -66,6 +68,14 @@ export interface StandardQueueProps extends QueueAlarmsOptions {
    * @default "Dlq"
    */
   readonly deadLetterQueueIdentifier?: string;
+
+  /**
+   * Setting this to true will suppress the creation of default tags on resources
+   * created by this construct. Default is false.
+   *
+   * @default - false
+   */
+  readonly suppressTagging?: boolean;
 }
 
 export class StandardQueue extends Construct implements IQueue {
@@ -121,6 +131,13 @@ export class StandardQueue extends Construct implements IQueue {
     this.fifo = this.queue.fifo;
     this.stack = this.queue.stack;
     this.env = this.queue.env;
+
+    new StandardTags(this, {
+      suppress: props?.suppressTagging
+    }).addAutomationComponentTags({
+      url: CDK_NPMJS_URL,
+      vendor: CDK_VENDOR
+    });
   }
 
   // From IQueue
