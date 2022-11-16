@@ -114,6 +114,7 @@ export class StandardQueue extends Construct implements IQueue {
         encryption,
         encryptionMasterKey,
         dataKeyReuse,
+        fifo: props?.fifo,
         retentionPeriod: StandardQueue.DEFAULT_RETENTION_PERIOD
       }),
       maxReceiveCount
