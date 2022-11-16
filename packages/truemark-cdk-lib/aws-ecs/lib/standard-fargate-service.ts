@@ -32,7 +32,7 @@ export interface StandardFargateServiceProps {
   /**
    * The CPU allocated to the task.
    *
-   * @default - 200
+   * @default - 2048
    */
   readonly cpu?: number;
 
