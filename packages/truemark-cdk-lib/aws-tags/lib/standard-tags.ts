@@ -160,7 +160,7 @@ export interface SecurityTagsProps extends TagProps {
   /**
    * Data sensitivity. See the TrueMark AWS tagging strategy documentation.
    */
-  readonly dataSensitivity: DataSensitivity;
+  readonly dataSensitivity?: DataSensitivity;
 }
 
 /**
@@ -326,7 +326,9 @@ export class StandardTags {
   addSecurityTags(props: SecurityTagsProps): StandardTags {
     if (!this.suppressed) {
       this.tags.add("security:data-classification", props.dataClassification, props);
-      this.tags.add("security:data-sensitivity", props.dataSensitivity, props);
+      if (props.dataSensitivity) {
+        this.tags.add("security:data-sensitivity", props.dataSensitivity, props);
+      }
     }
     return this;
   }
