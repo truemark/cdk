@@ -76,6 +76,13 @@ export interface StandardQueueProps extends QueueAlarmsOptions {
    * @default - false
    */
   readonly suppressTagging?: boolean;
+
+  /**
+   * Sets the queue as a fifo queue. Default is false.
+   *
+   * @default - false
+   */
+  readonly fifo?: boolean;
 }
 
 export class StandardQueue extends Construct implements IQueue {
@@ -118,6 +125,7 @@ export class StandardQueue extends Construct implements IQueue {
       encryption,
       encryptionMasterKey,
       dataKeyReuse,
+      fifo: props?.fifo,
       alarmFriendlyName: props?.alarmFriendlyName ?? id,
       retentionPeriod: props?.retentionPeriod ?? StandardQueue.DEFAULT_RETENTION_PERIOD,
       visibilityTimeout: props?.visibilityTimeout ?? Duration.seconds(30),

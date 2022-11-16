@@ -9,7 +9,6 @@ import {
 } from "cdk-monitoring-constructs";
 import {StandardTags} from "../../aws-tags";
 import {CDK_NPMJS_URL, CDK_VENDOR} from "../../helpers";
-import {version} from "punycode";
 
 /**
  * Options for ExtStack.
