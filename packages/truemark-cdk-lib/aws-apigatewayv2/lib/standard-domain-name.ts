@@ -5,6 +5,8 @@ import {ICertificate} from "aws-cdk-lib/aws-certificatemanager";
 import {DomainName, SecurityPolicy} from "@aws-cdk/aws-apigatewayv2-alpha";
 import {ARecord, RecordTarget} from "aws-cdk-lib/aws-route53";
 import {WeightedLatencyARecord} from "../../aws-route53";
+import {StandardTags} from "../../aws-tags";
+import {CDK_NPMJS_URL, CDK_VENDOR} from "../../helpers";
 
 export interface StandardDomainNameProps extends tmroute53.DomainNameProps {
 
@@ -21,6 +23,14 @@ export interface StandardDomainNameProps extends tmroute53.DomainNameProps {
    * @default SecurityPolicy.TLS_1_2
    */
   readonly securityPolicy?: SecurityPolicy;
+
+  /**
+   * Setting this to true will suppress the creation of default tags on resources
+   * created by this construct. Default is false.
+   *
+   * @default - false
+   */
+  readonly suppressTagging?: boolean;
 }
 
 /**
@@ -44,6 +54,13 @@ export class StandardDomainName extends Construct {
     });
     this.recordTarget = RecordTarget.fromAlias(new targets.ApiGatewayv2DomainProperties(
       this.gatewayDomainName.regionalDomainName, this.gatewayDomainName.regionalHostedZoneId));
+
+    new StandardTags(this, {
+      suppress: props?.suppressTagging
+    }).addAutomationComponentTags({
+      url: CDK_NPMJS_URL,
+      vendor: CDK_VENDOR
+    });
   }
 
   /**
