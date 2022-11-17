@@ -22,7 +22,10 @@ export class ExtendedFargateCluster extends StandardFargateCluster {
       dashboardName: 'Fargate Cluster',
     });
 
-    fargateMonitoring.handler.addMediumHeader("Cluster Monitoring")
+    fargateMonitoring.handler.monitorFargateService({
+      fargateService: this.service,
+      humanReadableName: 'Fargate Monitor'
+    })
   }
 
 }
