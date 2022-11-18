@@ -44,4 +44,5 @@ test("Test StringHelper.toPascalCase", () => {
   expect(StringHelper.toPascalCase("this_is_a_Test")).toBe("ThisIsATest");
   expect(StringHelper.toPascalCase("ThisIsATest")).toBe("ThisIsATest");
   expect(StringHelper.toPascalCase("this is a test")).toBe("ThisIsATest");
+  expect(StringHelper.toPascalCase("dev")).toBe("Dev");
 });
