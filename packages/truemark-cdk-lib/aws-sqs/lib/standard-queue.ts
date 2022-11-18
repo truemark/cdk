@@ -83,6 +83,18 @@ export interface StandardQueueProps extends QueueAlarmsOptions {
    * @default - false
    */
   readonly fifo?: boolean;
+
+  /**
+   * Default wait time for ReceiveMessage calls.
+   *
+   * Does not wait if set to 0, otherwise waits this amount of seconds
+   * by default for messages to arrive.
+   *
+   * For more information, see Amazon SQS Long Poll.
+   *
+   *  @default Duration.seconds(20)
+   */
+  readonly receiveMessageWaitTime?: Duration;
 }
 
 export class StandardQueue extends Construct implements IQueue {
@@ -115,6 +127,7 @@ export class StandardQueue extends Construct implements IQueue {
         encryptionMasterKey,
         dataKeyReuse,
         fifo: props?.fifo,
+        receiveMessageWaitTime: props?.receiveMessageWaitTime ?? Duration.seconds(20),
         retentionPeriod: StandardQueue.DEFAULT_RETENTION_PERIOD
       }),
       maxReceiveCount
@@ -127,6 +140,7 @@ export class StandardQueue extends Construct implements IQueue {
       encryptionMasterKey,
       dataKeyReuse,
       fifo: props?.fifo,
+      receiveMessageWaitTime: props?.receiveMessageWaitTime ?? Duration.seconds(20),
       alarmFriendlyName: props?.alarmFriendlyName ?? id,
       retentionPeriod: props?.retentionPeriod ?? StandardQueue.DEFAULT_RETENTION_PERIOD,
       visibilityTimeout: props?.visibilityTimeout ?? Duration.seconds(30),
