@@ -28,8 +28,8 @@ test("ARecord Created for Website", () => {
     ]
   });
   const template = Template.fromStack(stack);
-  console.log(template.toJSON());
-  TestHelper.logResources(template, "AWS::Route53::RecordSet");
+  // console.log(template.toJSON());
+  // TestHelper.logResources(template, "AWS::Route53::RecordSet");
   template.hasResourceProperties("AWS::Route53::RecordSet", {});
 });
 
