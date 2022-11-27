@@ -6,8 +6,8 @@ import {QueueAlarmsOptions} from "./queue-alarms";
 import {ExtendedQueue} from "./extended-queue";
 import {MetricOptions, Metric} from "aws-cdk-lib/aws-cloudwatch";
 import {PolicyStatement, AddToResourcePolicyResult, IGrantable, Grant} from "aws-cdk-lib/aws-iam";
-import {StandardTags} from "../../aws-tags";
 import {CDK_NPMJS_URL, CDK_VENDOR} from "../../helpers";
+import {StandardTags} from "../../aws-cdk";
 
 /**
  * Properties for a StandardQueue

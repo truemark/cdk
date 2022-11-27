@@ -46,3 +46,18 @@ test("Test StringHelper.toPascalCase", () => {
   expect(StringHelper.toPascalCase("this is a test")).toBe("ThisIsATest");
   expect(StringHelper.toPascalCase("dev")).toBe("Dev");
 });
+
+test("Test StringHelper.isLowerAlphanumeric", () => {
+  expect(StringHelper.isLowerAlphanumeric(undefined)).toBe(false);
+  expect(StringHelper.isLowerAlphanumeric(null)).toBe(false);
+  expect(StringHelper.isLowerAlphanumeric("test1234")).toBe(true);
+  expect(StringHelper.isLowerAlphanumeric("Test1234")).toBe(false);
+});
+
+test("Test StringHelper.isUpperAlphaNumeric", () => {
+  expect(StringHelper.isUpperAlphanumeric(undefined)).toBe(false);
+  expect(StringHelper.isUpperAlphanumeric(null)).toBe(false);
+  expect(StringHelper.isUpperAlphanumeric("test1234")).toBe(false);
+  expect(StringHelper.isUpperAlphanumeric("Test1234")).toBe(false);
+  expect(StringHelper.isUpperAlphanumeric("TEST1234")).toBe(true);
+});

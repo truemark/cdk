@@ -5,8 +5,8 @@ import {ICertificate} from "aws-cdk-lib/aws-certificatemanager";
 import {DomainName, SecurityPolicy} from "@aws-cdk/aws-apigatewayv2-alpha";
 import {ARecord, RecordTarget} from "aws-cdk-lib/aws-route53";
 import {WeightedLatencyARecord} from "../../aws-route53";
-import {StandardTags} from "../../aws-tags";
 import {CDK_NPMJS_URL, CDK_VENDOR} from "../../helpers";
+import {StandardTags} from "../../aws-cdk";
 
 export interface StandardDomainNameProps extends tmroute53.DomainNameProps {
 

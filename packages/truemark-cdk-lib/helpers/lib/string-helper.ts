@@ -4,6 +4,30 @@
 export class StringHelper {
 
   /**
+   * Tests if a string is lower case alphanumeric
+   *
+   * @param str the string to check
+   */
+  static isLowerAlphanumeric(str?: string | null): boolean {
+    if (str) {
+      return /^[a-z0-9]+$/.test(str);
+    }
+    return false;
+  }
+
+  /**
+   * Tests if a string is upper case alphanumeric.
+   *
+   * @param str the string to check
+   */
+  static isUpperAlphanumeric(str?: string | null): boolean {
+    if (str) {
+      return /^[A-Z0-9]+$/.test(str);
+    }
+    return false;
+  }
+
+  /**
    * Tests if a string is PascalCase.
    *
    * @param str the string to test
@@ -65,5 +89,4 @@ export class StringHelper {
   static toPascalCase(str: string): string {
     return (str.match(/[a-zA-Z0-9]+/g) || []).map(x => `${x.charAt(0).toUpperCase()}${x.slice(1)}`).join("");
   }
-
 }

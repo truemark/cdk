@@ -255,8 +255,8 @@ export class StandardTags {
    *
    * @param props optional properties for the tags
    */
-  addAutomationComponentTags(props: AutomationComponentTagsProps): StandardTags {
-    if (!this.suppressed) {
+  addAutomationComponentTags(props?: AutomationComponentTagsProps): StandardTags {
+    if (props && !this.suppressed) {
       this.tags.add("automation:component-id", props.id ?? this.scope.constructor.name, props);
       if (props.url) {
         this.tags.add("automation:component-url", props.url, props);
@@ -273,14 +273,14 @@ export class StandardTags {
    *
    * @param props properties for the tags
    */
-  addAutomationTags(props: AutomationTagsProps): StandardTags {
+  addAutomationTags(props?: AutomationTagsProps): StandardTags {
     if (!this.suppressed) {
-      let id: string | undefined = props.id
+      let id: string | undefined = props?.id
       if (!id) {
         id = Stack.of(this.scope).stackName
       }
       this.tags.add("automation:id", id, props);
-      if (props.url) {
+      if (props?.url) {
         this.tags.add("automation:url", props.url, props);
       }
     }
@@ -292,8 +292,8 @@ export class StandardTags {
    *
    * @param props properties for the tags
    */
-  addCostCenterTags(props: CostCenterTagsProps): StandardTags {
-    if (!this.suppressed) {
+  addCostCenterTags(props?: CostCenterTagsProps): StandardTags {
+    if (props && !this.suppressed) {
       this.tags.add("cost-center:business-unit-name", props.businessUnitName, props);
       if (props.businessUnitId) {
         this.tags.add("cost-center:business-unit-id", props.businessUnitId, props);
@@ -323,8 +323,8 @@ export class StandardTags {
    *
    * @param props properties for security tags
    */
-  addSecurityTags(props: SecurityTagsProps): StandardTags {
-    if (!this.suppressed) {
+  addSecurityTags(props?: SecurityTagsProps): StandardTags {
+    if (props && !this.suppressed) {
       this.tags.add("security:data-classification", props.dataClassification, props);
       if (props.dataSensitivity) {
         this.tags.add("security:data-sensitivity", props.dataSensitivity, props);
@@ -338,8 +338,8 @@ export class StandardTags {
    *
    * @param props properties for team tags
    */
-  addTeamTags(props: TeamTagsProps): StandardTags {
-    if (!this.suppressed) {
+  addTeamTags(props?: TeamTagsProps): StandardTags {
+    if (props && !this.suppressed) {
       this.tags.add("team:name", props.name, props);
       if (props.id) {
         this.tags.add("team:id", props.id, props);
@@ -362,4 +362,38 @@ export class StandardTags {
     }
     return this;
   }
+}
+
+/**
+ * Contains standard tagging options.
+ */
+export interface StandardTagsOptions {
+
+  /**
+   * Automation tags to apply to created resources.
+   */
+  readonly automationTags?: AutomationTagsProps;
+
+  /**
+   * Cost center tags to apply to created resources.
+   */
+  readonly costCenterTags?: CostCenterTagsProps;
+
+  /**
+   * Security tags to apply to created resources.
+   */
+  readonly securityTags?: SecurityTagsProps;
+
+  /**
+   * Team tags to apply to created resources.
+   */
+  readonly teamTags?: TeamTagsProps;
+
+  /**
+   * Setting this to true will suppress the creation of tags this resource creates.
+   * Default value is false.
+   *
+   * @default - false
+   */
+  readonly suppressTags?: boolean;
 }

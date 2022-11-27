@@ -3,8 +3,8 @@ import {CfnSubscription, Topic} from "aws-cdk-lib/aws-sns";
 import {Alias, IKey} from "aws-cdk-lib/aws-kms";
 import {StandardQueue} from "../../aws-sqs";
 import {AnyPrincipal, Effect, PolicyStatement} from "aws-cdk-lib/aws-iam";
-import {StandardTags} from "../../aws-tags";
 import {CDK_NPMJS_URL, CDK_VENDOR} from "../../helpers";
+import {StandardTags} from "../../aws-cdk";
 
 /**
  * Properties for AlertsTopic

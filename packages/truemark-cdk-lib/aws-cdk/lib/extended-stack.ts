@@ -1,5 +1,5 @@
 import {CfnOutput, Duration, Stack, StackProps, Stage} from "aws-cdk-lib";
-import {ParameterStore, ParameterStoreOptions} from "../../aws-ssm";
+import {ParameterStore, ParameterStoreOptions} from "../../aws-ssm/index";
 import {Construct} from "constructs";
 import {StringParameter} from "aws-cdk-lib/aws-ssm";
 import {
@@ -7,8 +7,8 @@ import {
   DefaultDashboardFactory,
   MonitoringFacade
 } from "cdk-monitoring-constructs";
-import {StandardTags} from "../../aws-tags";
-import {CDK_NPMJS_URL, CDK_VENDOR} from "../../helpers";
+import {CDK_NPMJS_URL, CDK_VENDOR} from "../../helpers/index";
+import {StandardTags} from "./standard-tags";
 
 /**
  * Options for ExtStack.

@@ -39,6 +39,7 @@
     ".": "./index.js",
     "./package.json": "./package.json",
     "./aws-apigatewayv2": "./aws-apigatewayv2/index.js",
+    "./aws-cdk": "./aws-cdk/index.js",
     "./aws-centergauge": "./aws-centergauge/index.js",
     "./aws-cloudfront": "./aws-cloudfront/index.js",
     "./aws-cloudwatch": "./aws-cloudwatch/index.js",

@@ -1,7 +1,7 @@
 import {Construct} from "constructs";
 import {StringListParameter, StringParameter} from "aws-cdk-lib/aws-ssm";
-import {StandardTags} from "../../aws-tags";
 import {CDK_NPMJS_URL, CDK_VENDOR} from "../../helpers";
+import {StandardTags} from "../../aws-cdk";
 
 /**
  * Properties for NetworkParameters.

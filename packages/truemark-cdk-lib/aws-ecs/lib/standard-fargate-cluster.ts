@@ -7,8 +7,8 @@ import {LogGroup, RetentionDays} from "aws-cdk-lib/aws-logs";
 import {RemovalPolicy, ResourceEnvironment, Stack} from "aws-cdk-lib";
 import {INamespace} from "aws-cdk-lib/aws-servicediscovery";
 import {IAutoScalingGroup} from "aws-cdk-lib/aws-autoscaling";
-import {StandardTags} from "../../aws-tags";
 import {CDK_NPMJS_URL, CDK_VENDOR} from "../../helpers";
+import {StandardTags} from "../../aws-cdk";
 
 export interface StandardFargateClusterProps {
 

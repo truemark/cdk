@@ -21,8 +21,8 @@ import {PolicyStatement} from "aws-cdk-lib/aws-iam";
 import {BasicStepScalingPolicyProps} from "aws-cdk-lib/aws-autoscaling";
 import {IMetric} from "aws-cdk-lib/aws-cloudwatch";
 import {ScalingSchedule} from "aws-cdk-lib/aws-applicationautoscaling";
-import {StandardTags} from "../../aws-tags";
 import {CDK_NPMJS_URL, CDK_VENDOR} from "../../helpers";
+import {StandardTags} from "../../aws-cdk";
 
 /**
  * Properties for StandardFargateService.

@@ -1,4 +1,5 @@
 export * as aws_apigatewayv2 from "./aws-apigatewayv2";
+export * as aws_cdk from "./aws-cdk";
 export * as aws_centergauge from "./aws-centergauge";
 export * as aws_cloudfront from "./aws-cloudfront";
 export * as aws_cloudwatch from "./aws-cloudwatch";
@@ -12,7 +13,6 @@ export * as aws_s3 from "./aws-s3";
 export * as aws_ses from "./aws-ses";
 export * as aws_sqs from "./aws-sqs";
 export * as aws_ssm from "./aws-ssm";
-export * as aws_tags from "./aws-tags";
 export * as aws_vpc from "./aws-vpc";
 export * as aws_website from "./aws-website";
 export * as helpers from "./helpers";
