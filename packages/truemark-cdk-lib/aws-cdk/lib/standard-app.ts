@@ -26,7 +26,7 @@ export class StandardApp extends App {
   readonly teamTags?: TeamTagsProps;
   readonly suppressTags?: boolean;
 
-  constructor(props: StandardAppProps) {
+  constructor(props?: StandardAppProps) {
     super();
     this.environmentName = this.node.tryGetContext("env");
     if (!this.environmentName) {
@@ -35,10 +35,10 @@ export class StandardApp extends App {
     if (!StringHelper.isLowerAlphanumeric(this.environmentName)) {
       throw new Error("Environment name must be lower case");
     }
-    this.automationTags = props.automationTags;
-    this.costCenterTags = props.costCenterTags;
-    this.securityTags = props.securityTags;
-    this.teamTags = props.teamTags;
-    this.suppressTags = props.suppressTags;
+    this.automationTags = props?.automationTags;
+    this.costCenterTags = props?.costCenterTags;
+    this.securityTags = props?.securityTags;
+    this.teamTags = props?.teamTags;
+    this.suppressTags = props?.suppressTags;
   }
 }
