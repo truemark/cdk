@@ -1,4 +1,4 @@
-import {App, Environment} from "aws-cdk-lib";
+import {App, AppProps, Environment} from "aws-cdk-lib";
 import {
   AutomationTagsProps,
   CostCenterTagsProps,
@@ -10,7 +10,7 @@ import {StringHelper} from "../../helpers";
 /**
  * Properties for StandardApp
  */
-export interface StandardAppProps extends StandardTagsOptions {
+export interface StandardAppProps extends AppProps, StandardTagsOptions {
 
 }
 
@@ -27,7 +27,7 @@ export class StandardApp extends App {
   readonly suppressTags?: boolean;
 
   constructor(props?: StandardAppProps) {
-    super();
+    super(props);
     this.automationTags = props?.automationTags;
     this.costCenterTags = props?.costCenterTags;
     this.securityTags = props?.securityTags;

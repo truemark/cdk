@@ -23,7 +23,7 @@ export class SingleEnvApp extends StandardApp {
   readonly environmentName: string;
 
   constructor(props?: SingleEnvAppProps) {
-    super();
+    super(props);
     const environmentPropertyName = props?.environmentPropertyName ?? "env";
     this.environmentName = this.node.tryGetContext(environmentPropertyName);
     if (!this.environmentName) {
