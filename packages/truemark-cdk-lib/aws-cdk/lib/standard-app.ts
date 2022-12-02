@@ -28,13 +28,6 @@ export class StandardApp extends App {
 
   constructor(props?: StandardAppProps) {
     super();
-    this.environmentName = this.node.tryGetContext("env");
-    if (!this.environmentName) {
-      throw new Error("Environment is missing. Please add \"-c env=<name>\" to your CDK command");
-    }
-    if (!StringHelper.isLowerAlphanumeric(this.environmentName)) {
-      throw new Error("Environment name must be lower case");
-    }
     this.automationTags = props?.automationTags;
     this.costCenterTags = props?.costCenterTags;
     this.securityTags = props?.securityTags;

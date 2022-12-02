@@ -11,16 +11,13 @@ import {
   StandardTagsOptions,
   TeamTagsProps
 } from "./standard-tags";
+import {Construct} from "constructs";
 
 /**
  * Properties for StandardStack.
  */
 export interface StandardStackProps extends ExtendedStackProps, StandardTagsOptions {
 
-  /**
-   * Environment the stack will be deployed to.
-   */
-  readonly env: StandardEnvironment;
 }
 
 /**
@@ -34,17 +31,18 @@ export class StandardStack extends ExtendedStack {
   readonly teamTags?: TeamTagsProps;
   readonly suppressTags?: boolean;
 
-  constructor(scope: StandardApp | StandardStage, stackName: string, props: StandardStackProps) {
+  constructor(scope: Construct, id: string, props: StandardStackProps) {
+    super(scope, id, props);
 
-    if (!StringHelper.isPascalCase(stackName)) {
-      throw new Error("stackName must be PascalCase");
-    }
-    super(scope, `${stackName}${StringHelper.toPascalCase(props.env.name)}`, props);
-    this.automationTags = props.automationTags ?? scope.automationTags;
-    this.costCenterTags = props.costCenterTags ?? scope.costCenterTags;
-    this.securityTags = props.securityTags ?? scope.securityTags;
-    this.teamTags = props.teamTags ?? scope.teamTags;
-    this.suppressTags = props.suppressTags ?? scope.suppressTags;
+    const standardScope: StandardApp | StandardStage | StandardStack | undefined =
+      scope instanceof StandardApp || scope instanceof StandardStage || scope instanceof StandardStack
+        ? scope : undefined;
+
+    this.automationTags = props.automationTags ?? standardScope?.automationTags;
+    this.costCenterTags = props.costCenterTags ?? standardScope?.costCenterTags;
+    this.securityTags = props.securityTags ?? standardScope?.securityTags;
+    this.teamTags = props.teamTags ?? standardScope?.teamTags;
+    this.suppressTags = props.suppressTags ?? standardScope?.suppressTags;
 
     new StandardTags(this, {suppress: props.suppressTags})
       .addAutomationComponentTags({

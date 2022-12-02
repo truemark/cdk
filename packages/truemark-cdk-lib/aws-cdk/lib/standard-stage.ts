@@ -1,5 +1,4 @@
 import {Stage, StageProps} from "aws-cdk-lib";
-import {StandardApp} from "./standard-app";
 import {
   AutomationTagsProps,
   CostCenterTagsProps,
@@ -7,6 +6,9 @@ import {
   StandardTagsOptions,
   TeamTagsProps
 } from "./standard-tags";
+import {Construct} from "constructs";
+import {StandardApp} from "./standard-app";
+import {StandardStack} from "./standard-stack";
 
 /**
  * Properties for StandardStage.
@@ -16,24 +18,27 @@ export interface StandardStageProps extends StageProps, StandardTagsOptions {
 }
 
 /**
- * Adds support for tags.
+ * Extends Stage adding support for things like standard tagging.
  */
 export class StandardStage extends Stage {
 
-  private readonly app: StandardApp;
   readonly automationTags?: AutomationTagsProps;
   readonly costCenterTags?: CostCenterTagsProps;
   readonly securityTags?: SecurityTagsProps;
   readonly teamTags?: TeamTagsProps;
   readonly suppressTags?: boolean;
 
-  constructor(scope: StandardApp, id: string, props: StandardStageProps) {
+  constructor(scope: Construct, id: string, props?: StandardStageProps) {
     super(scope, id, props);
-    this.app = scope;
-    this.automationTags = props.automationTags ?? scope.automationTags;
-    this.costCenterTags = props.costCenterTags ?? scope.costCenterTags;
-    this.securityTags = props.securityTags ?? scope.securityTags;
-    this.teamTags = props.teamTags ?? scope.teamTags;
-    this.suppressTags = props.suppressTags ?? scope.suppressTags;
+
+    const standardScope: StandardApp | StandardStage | StandardStack | undefined =
+      scope instanceof StandardApp || scope instanceof StandardStage || scope instanceof StandardStack
+        ? scope : undefined;
+
+    this.automationTags = props?.automationTags ?? standardScope?.automationTags;
+    this.costCenterTags = props?.costCenterTags ?? standardScope?.costCenterTags;
+    this.securityTags = props?.securityTags ?? standardScope?.securityTags;
+    this.teamTags = props?.teamTags ?? standardScope?.teamTags;
+    this.suppressTags = props?.suppressTags ?? standardScope?.suppressTags;
   }
 }
