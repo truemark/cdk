@@ -24,6 +24,11 @@ import {NodePackageManager} from "./enums";
 export interface CdkPipelineProps {
 
   /**
+   * By default, CDK will name the pipeline. Set this to override the name.
+   */
+  readonly pipelineName?: string;
+
+  /**
    * By default, CDK will create KMS keys for cross account deployments. This
    * can be costly if you have a large number of pipelines. This property
    * allows a common key to be shared across pipelines.
@@ -145,7 +150,8 @@ export class CdkPipeline extends Construct {
     });
 
     const underlyingPipeline = new Pipeline(this, 'Pipeline', {
-      artifactBucket
+      artifactBucket,
+      pipelineName: props.pipelineName
     });
 
     let input: CodePipelineSource;
