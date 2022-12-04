@@ -1,7 +1,7 @@
 import {Construct} from "constructs";
 import {BlockPublicAccess, Bucket, BucketEncryption, IBucket} from "aws-cdk-lib/aws-s3";
 import {OriginAccessIdentity} from "aws-cdk-lib/aws-cloudfront";
-import {BucketDeployment, CacheControl, Source} from "aws-cdk-lib/aws-s3-deployment";
+import {BucketDeployment, CacheControl, ISource, Source} from "aws-cdk-lib/aws-s3-deployment";
 import {Duration, RemovalPolicy} from "aws-cdk-lib";
 
 /**
@@ -63,9 +63,9 @@ export class CloudFrontBucket extends Construct {
    * @param path the path to the local assets
    * @param maxAge the length of time to browsers will cache files; default is Duration.minutes(15)
    * @param sMaxAge the length of time CloudFront will cache files; default is Duration.days(7)
-   * @param prune
+   * @param prune true to prune old files; default is false
    */
-  deploy(path: string, maxAge?: Duration, sMaxAge?: Duration, prune?: boolean): BucketDeployment {
+  deployPath(path: string, maxAge?: Duration, sMaxAge?: Duration, prune?: boolean): BucketDeployment {
     return new BucketDeployment(this, "Deploy", {
       sources: [Source.asset(path)],
       destinationBucket: this.bucket,
@@ -76,5 +76,28 @@ export class CloudFrontBucket extends Construct {
         CacheControl.sMaxAge(sMaxAge ?? Duration.days(7))
       ]
     });
+  }
+
+  /**
+   * Helper method to assets to the created bucket. This function assumes CloudFront invalidation
+   * requests will be sent for mutable files to serve new content.
+   * For more complicated deployments, use BucketDeployment directly.
+   *
+   * @param source the source to deploy
+   * @param maxAge the length of time to browsers will cache files; default is Duration.minutes(15)
+   * @param sMaxAge the length of time CloudFront will cache files; default is Duration.days(7)
+   * @param prune true to prune old files; default is false
+   */
+  deploySource(source: ISource, maxAge?: Duration, sMaxAge?: Duration, prune?: boolean): BucketDeployment {
+    return new BucketDeployment(this, "Deploy", {
+      sources: [source],
+      destinationBucket: this.bucket,
+      prune: prune ?? false,
+      cacheControl: [
+        CacheControl.setPublic(),
+        CacheControl.maxAge(maxAge ?? Duration.minutes(15)),
+        CacheControl.sMaxAge(sMaxAge ?? Duration.days(7))
+      ]
+    })
   }
 }
