@@ -19,6 +19,11 @@ export interface WeightedARecordOptions {
    * @default Stack.of(this).region
    */
   readonly setIdentifier?: string
+
+  /**
+   * ID of the health check to apply to this record.
+   */
+  readonly healthCheckId?: string
 }
 
 /**
@@ -37,7 +42,8 @@ export class WeightedARecord extends ARecord {
   constructor(scope: Construct, id: string, props: WeightedARecordProps) {
     super(scope, id, props);
     const rs = this.node.defaultChild as CfnRecordSet;
-    rs.weight = props.weight??0;
-    rs.setIdentifier = props.setIdentifier??Stack.of(this).region;
+    rs.weight = props.weight ?? 0;
+    rs.setIdentifier = props.setIdentifier ?? Stack.of(this).region;
+    rs.healthCheckId = props.healthCheckId;
   }
 }

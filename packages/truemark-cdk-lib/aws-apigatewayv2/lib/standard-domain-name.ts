@@ -4,23 +4,23 @@ import * as targets from "aws-cdk-lib/aws-route53-targets";
 import {ICertificate} from "aws-cdk-lib/aws-certificatemanager";
 import {DomainName, SecurityPolicy} from "@aws-cdk/aws-apigatewayv2-alpha";
 import {ARecord, RecordTarget} from "aws-cdk-lib/aws-route53";
-import {WeightedLatencyARecord} from "../../aws-route53";
 import {CDK_NPMJS_URL, CDK_VENDOR} from "../../helpers";
 import {StandardTags} from "../../aws-cdk";
+import {ExtendedRecordTarget} from "../../aws-route53";
 
 export interface StandardDomainNameProps extends tmroute53.DomainNameProps {
 
   /**
    * The optional ACM certificate for this domain name.
    *
-   * @default one is generated
+   * @default - one is generated
    */
   readonly certificate?: ICertificate;
 
   /**
    * The Transport Layer Security (TLS) version + cipher suite for this domain name.
    *
-   * @default SecurityPolicy.TLS_1_2
+   * @default - SecurityPolicy.TLS_1_2
    */
   readonly securityPolicy?: SecurityPolicy;
 
@@ -40,7 +40,6 @@ export class StandardDomainName extends Construct {
 
   readonly domainName: tmroute53.DomainName;
   readonly certificate: ICertificate;
-  readonly recordTarget: RecordTarget;
   readonly gatewayDomainName: DomainName;
 
   constructor(scope: Construct, id: string, props: StandardDomainNameProps) {
@@ -52,8 +51,6 @@ export class StandardDomainName extends Construct {
       certificate: this.certificate,
       securityPolicy: props.securityPolicy
     });
-    this.recordTarget = RecordTarget.fromAlias(new targets.ApiGatewayv2DomainProperties(
-      this.gatewayDomainName.regionalDomainName, this.gatewayDomainName.regionalHostedZoneId));
 
     new StandardTags(this, {
       suppress: props?.suppressTagging
@@ -63,36 +60,38 @@ export class StandardDomainName extends Construct {
     });
   }
 
+  toRecordTarget(evaluateTargetHealth?: boolean): RecordTarget {
+    const domainProperties = new targets.ApiGatewayv2DomainProperties(
+      this.gatewayDomainName.regionalDomainName, this.gatewayDomainName.regionalHostedZoneId);
+    return evaluateTargetHealth
+      ? ExtendedRecordTarget.fromAlias(domainProperties, evaluateTargetHealth)
+      : RecordTarget.fromAlias(domainProperties);
+  }
+
   /**
    * Creates a route53 ARecord pointing to this domain name.
    */
-  createARecord(): ARecord {
-    return this.domainName.createARecord(this, this.recordTarget);
+  createARecord(evaluateTargetHealth?: boolean): ARecord {
+    return this.domainName.createARecord(this, this.toRecordTarget(evaluateTargetHealth ?? true));
   }
 
   /**
    * Creates a route53 weighted record pointing to this domain name.
    *
    * @param weight the initial weight; defaults to 0
+   * @param evaluateTargetHealth Determines if route53 evaluates the target's health. Defaults to true.
    */
-  createWeightedARecord(weight?: number): ARecord {
-    return this.domainName.createWeightedARecord(this, this.recordTarget, weight);
+  createWeightedARecord(weight?: number, evaluateTargetHealth?: boolean): ARecord {
+    return this.domainName.createWeightedARecord(this, this.toRecordTarget(evaluateTargetHealth ?? true), weight);
   }
 
   /**
    * Creates a route53 latency record pointing to this domain name.
-   */
-  createLatencyARecord(): ARecord {
-    return this.domainName.createLatencyARecord(this, this.recordTarget);
-  }
-
-  /**
-   * Creates a route53 weighted latency record pointing to this domain name.
    *
-   * @param weight the initial weight; defaults to 0
+   * @param evaluateTargetHealth Determines if route53 evaluates the target's health. Defaults to true.
    */
-  createWeightedLatencyARecord(weight?: number): WeightedLatencyARecord {
-    return this.domainName.createWeightedLatencyARecord(this, this.recordTarget, weight);
+  createLatencyARecord(evaluateTargetHealth?: boolean): ARecord {
+    return this.domainName.createLatencyARecord(this, this.toRecordTarget(evaluateTargetHealth ?? true));
   }
 
   /**

@@ -1,6 +1,7 @@
-import {ARecord, ARecordProps, CfnRecordSet} from "aws-cdk-lib/aws-route53";
+import {ARecord, ARecordProps, CfnRecordSet, RecordTarget} from "aws-cdk-lib/aws-route53";
 import {Construct} from "constructs";
 import {Stack} from "aws-cdk-lib";
+import {Route53RecordTarget} from "aws-cdk-lib/aws-route53-targets";
 
 /**
  * Options for LatencyARecord.
@@ -20,6 +21,11 @@ export interface LatencyARecordOptions {
    * @default Stack.of(this).region
    */
   readonly setIdentifier?: string
+
+  /**
+   * ID of the health check to apply to this record.
+   */
+  readonly healthCheckId?: string
 }
 
 /**
@@ -38,7 +44,8 @@ export class LatencyARecord extends ARecord {
   constructor(scope: Construct, id: string, props: LatencyARecordProps) {
     super(scope, id, props);
     const rs = this.node.defaultChild as CfnRecordSet;
-    rs.region = props.region??Stack.of(this).region;
-    rs.setIdentifier = props.setIdentifier??Stack.of(this).region;
+    rs.region = props.region ?? Stack.of(this).region;
+    rs.setIdentifier = props.setIdentifier ?? Stack.of(this).region;
+    rs.healthCheckId = props.healthCheckId;
   }
 }

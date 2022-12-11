@@ -1,6 +1,6 @@
 import {Construct} from "constructs";
 import {Bucket, BucketEncryption, RedirectTarget, RoutingRule} from "aws-cdk-lib/aws-s3";
-import {DomainName, LatencyARecord, WeightedARecord, WeightedLatencyARecord} from "../../aws-route53";
+import {DomainName, LatencyARecord, WeightedARecord} from "../../aws-route53";
 import {ARecord, IHostedZone, RecordTarget} from "aws-cdk-lib/aws-route53";
 import {BucketWebsiteTarget} from "aws-cdk-lib/aws-route53-targets";
 import {RemovalPolicy, Duration} from "aws-cdk-lib";
@@ -64,7 +64,7 @@ export class WebsiteBucket extends Construct {
   readonly bucketArn: string;
   readonly bucketWebsiteUrl: string;
   readonly bucketWebsiteDomainName: string;
-  readonly record: ARecord | WeightedARecord | LatencyARecord | WeightedLatencyARecord;
+  readonly record: ARecord | WeightedARecord | LatencyARecord;
 
   constructor(scope: Construct, id: string, props: WebsiteBucketProps) {
     super(scope, id);
@@ -95,9 +95,8 @@ export class WebsiteBucket extends Construct {
 
     if (domainName !== undefined && (props.domainName?.create ?? true)) {
       const target = RecordTarget.fromAlias(new BucketWebsiteTarget(this.bucket));
-      if (props.domainName?.latency !== undefined && props.domainName.weight !== undefined) {
-        this.record = domainName.createWeightedLatencyARecord(this, target, props.domainName.weight)
-      } else if (props.domainName?.latency !== undefined) {
+      // TODO Evaluate
+      if (props.domainName?.latency !== undefined) {
         this.record = domainName.createLatencyARecord(this, target);
       } else if (props.domainName?.weight !== undefined) {
         this.record = domainName.createWeightedARecord(this, target, props.domainName.weight);

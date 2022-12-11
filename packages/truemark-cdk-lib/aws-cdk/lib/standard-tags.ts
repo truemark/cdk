@@ -397,3 +397,14 @@ export interface StandardTagsOptions {
    */
   readonly suppressTags?: boolean;
 }
+
+export interface AutomationComponentOptions {
+
+  /**
+   * Setting this to true will suppress the creation of tags this resource creates.
+   * Default value is false.
+   *
+   * @default - false
+   */
+  readonly suppressTagging?: boolean;
+}

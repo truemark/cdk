@@ -1,10 +1,11 @@
 import {Construct} from "constructs";
-import {DomainName, WeightedLatencyARecord} from "../../aws-route53";
+import {DomainName, LatencyARecord, WeightedARecord} from "../../aws-route53";
 import {StandardDomainName} from "./standard-domain-name";
 import {HttpApi, SecurityPolicy} from "@aws-cdk/aws-apigatewayv2-alpha";
 import {Stack, Stage} from "aws-cdk-lib";
 import {StandardTags} from "../../aws-cdk";
 import {CDK_NPMJS_URL, CDK_VENDOR} from "../../helpers";
+import {ARecord} from "aws-cdk-lib/aws-route53";
 
 export interface StandardApiGatewayProps {
 
@@ -31,6 +32,30 @@ export interface StandardApiGatewayProps {
   readonly apiName?: string;
 
   /**
+   * Determines if a route53 record is created for the API gateway. Defaults to true.
+   *
+   * @default - true
+   */
+  readonly createRecord?: boolean;
+
+  /**
+   * Creates a weighted route53 record. May not be used with recordLatency.
+   */
+  readonly recordWeight?: number;
+
+  /**
+   * Creates a latency route53 record. May not be used with recordWeight.
+   */
+  readonly recordLatency?: boolean;
+
+  /**
+   * Evaluates target health on the created route53 record if it's a latency or weighted record. Defaults to true.
+   *
+   * @default - true
+   */
+  readonly evaluateTargetHealth?: boolean;
+
+  /**
    * Setting this to true will suppress the creation of default tags on resources
    * created by this construct. Default is false.
    *
@@ -46,7 +71,7 @@ export interface StandardApiGatewayProps {
 export class StandardApiGateway extends Construct {
 
   readonly domainName: StandardDomainName;
-  readonly record: WeightedLatencyARecord;
+  readonly record: ARecord | LatencyARecord | WeightedARecord | undefined;
   readonly gateway: HttpApi;
 
   constructor(scope: Construct, id: string, props: StandardApiGatewayProps) {
@@ -57,7 +82,18 @@ export class StandardApiGateway extends Construct {
       zone: props.domainZone,
       securityPolicy: SecurityPolicy.TLS_1_2
     });
-    const record = domainName.createWeightedLatencyARecord(props.enabled ?? true ? 1 : 0);
+
+    if (props.createRecord ?? true) {
+      if (props.recordWeight) {
+        domainName.createWeightedARecord(props.recordWeight, props.evaluateTargetHealth ?? true)
+      } else if (props.recordLatency) {
+        domainName.createLatencyARecord(true)
+      } else {
+        domainName.createARecord()
+      }
+    } else {
+      this.record = undefined;
+    }
 
     const stage = Stage.of(this);
     const stack = Stack.of(this);
@@ -70,7 +106,6 @@ export class StandardApiGateway extends Construct {
     });
 
     this.domainName = domainName;
-    this.record = record;
     this.gateway = gateway;
 
     new StandardTags(this, {
