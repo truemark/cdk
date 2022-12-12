@@ -20,13 +20,6 @@ export interface StandardApiGatewayProps {
   readonly domainZone: string;
 
   /**
-   * Setting this to false will change the weight of the DNS record created to 0. Default is true.
-   *
-   * @default - true
-   */
-  readonly enabled?: boolean;
-
-  /**
    * Name of the API Gateway. One will be generated if not provided.
    */
   readonly apiName?: string;
