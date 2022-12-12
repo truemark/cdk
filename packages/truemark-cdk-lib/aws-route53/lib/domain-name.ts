@@ -4,6 +4,7 @@ import {WeightedARecord} from "./weighted-a-record";
 import {LatencyARecord} from "./latency-a-record";
 import {Certificate, CertificateValidation} from "aws-cdk-lib/aws-certificatemanager";
 import {Duration} from "aws-cdk-lib";
+import {StringHelper} from "../../helpers";
 
 /**
  * Properties for DomainName
@@ -149,10 +150,12 @@ export class DomainName {
   }
 
   /**
-   * Returns a friendly identifier for this domain name.
+   * Returns a friendly identifier for this domain name. This function replaces wildcards with _ and periods with -
    */
   toIdentifier(): string {
-    return this.toString().replace(/\./, "-").replace(/\*/, "wildcard");
+    return StringHelper.toPascalCase(this.toString().toLowerCase()
+      .replace(/\*/g, "wildcard")
+      .replace(/\./g, "-"));
   }
 
   /**
