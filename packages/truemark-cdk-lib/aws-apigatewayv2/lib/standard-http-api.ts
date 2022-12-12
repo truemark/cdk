@@ -7,7 +7,10 @@ import {StandardTags} from "../../aws-cdk";
 import {CDK_NPMJS_URL, CDK_VENDOR} from "../../helpers";
 import {ARecord} from "aws-cdk-lib/aws-route53";
 
-export interface StandardApiGatewayProps {
+/**
+ * Properties for StandardHttpApi.
+ */
+export interface StandardHttpApiProps {
 
   /**
    * The prefix of the domain to create the certificate and DNS record for.
@@ -58,24 +61,24 @@ export interface StandardApiGatewayProps {
 }
 
 /**
- * Abstraction that creates an API Gateway with a custom domain name, certificate and latency based routing
- * record in Route53.
+ * Abstraction that creates an HttpApi with support infrastructure.
  */
-export class StandardApiGateway extends Construct {
+export class StandardHttpApi extends Construct {
 
   readonly domainName: StandardDomainName;
   readonly record: ARecord | LatencyARecord | WeightedARecord | undefined;
   readonly gateway: HttpApi;
 
-  constructor(scope: Construct, id: string, props: StandardApiGatewayProps) {
+  constructor(scope: Construct, id: string, props: StandardHttpApiProps) {
     super(scope, id);
 
     const domainName = new StandardDomainName(this, "DomainName", {
       prefix: props.domainPrefix,
       zone: props.domainZone,
-      securityPolicy: SecurityPolicy.TLS_1_2
+      securityPolicy: SecurityPolicy.TLS_1_2 // TODO Should be an option
     });
 
+    // TODO Need to add RecordOptions
     if (props.createRecord ?? true) {
       if (props.recordWeight) {
         domainName.createWeightedARecord(props.recordWeight, props.evaluateTargetHealth ?? true)
