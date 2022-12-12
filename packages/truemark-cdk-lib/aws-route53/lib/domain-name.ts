@@ -152,7 +152,7 @@ export class DomainName {
    * Returns a friendly identifier for this domain name.
    */
   toIdentifier(): string {
-    return this.toString().replace(".", "-");
+    return this.toString().replace(/\./, "-").replace(/\*/, "wildcard");
   }
 
   /**
