@@ -67,7 +67,7 @@ export class StandardHttpApi extends Construct {
 
   readonly domainName: StandardDomainName;
   readonly record: ARecord | LatencyARecord | WeightedARecord | undefined;
-  readonly gateway: HttpApi;
+  readonly httpApi: HttpApi;
 
   constructor(scope: Construct, id: string, props: StandardHttpApiProps) {
     super(scope, id);
@@ -94,7 +94,7 @@ export class StandardHttpApi extends Construct {
     const stage = Stage.of(this);
     const stack = Stack.of(this);
 
-    const gateway = new HttpApi(this, "Default", {
+    const httpApi = new HttpApi(this, "Default", {
       apiName: props.apiName ?? `${stage?.stageName}${stack?.stackName}Gateway`,
       defaultDomainMapping: {
         domainName: domainName.gatewayDomainName
@@ -102,7 +102,7 @@ export class StandardHttpApi extends Construct {
     });
 
     this.domainName = domainName;
-    this.gateway = gateway;
+    this.httpApi = httpApi;
 
     new StandardTags(this, {
       suppress: props?.suppressTagging
