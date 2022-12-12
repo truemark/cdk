@@ -191,8 +191,10 @@ export class DomainName {
     return new ARecord(scope, options?.id ?? `${this.toIdentifier()}-arecord`, {
       zone: this.getHostedZone(scope),
       recordName: this.toString(),
+      target,
       ttl: options?.ttl,
-      target
+      comment: options?.comment,
+      deleteExisting: options?.deleteExisting
     });
   }
 
@@ -201,14 +203,18 @@ export class DomainName {
    *
    * @param scope the scope to create the record in
    * @param target the target of the record
-   * @param weight the initial weight; defaults to 0
+   * @param weight the initial weight
+   * @param options additional options for creating the record
    */
-  createWeightedARecord(scope: Construct, target: RecordTarget, weight?: number): WeightedARecord {
-    return new WeightedARecord(scope, `${this.toIdentifier()}-arecord`, {
+  createWeightedARecord(scope: Construct, target: RecordTarget, weight: number, options?: ARecordOptions): WeightedARecord {
+    return new WeightedARecord(scope, options?.id ?? `${this.toIdentifier()}-arecord`, {
       zone: this.getHostedZone(scope),
       recordName: this.toString(),
       target,
-      weight
+      weight,
+      ttl: options?.ttl,
+      comment: options?.comment,
+      deleteExisting: options?.deleteExisting
     });
   }
 
@@ -217,12 +223,16 @@ export class DomainName {
    *
    * @param scope the scope to create the record in
    * @param target the target of the record
+   * @param options additional options for creating the record
    */
-  createLatencyARecord(scope: Construct, target: RecordTarget): LatencyARecord {
-    return new LatencyARecord(scope, `${this.toIdentifier()}-arecord`, {
+  createLatencyARecord(scope: Construct, target: RecordTarget, options?: ARecordOptions): LatencyARecord {
+    return new LatencyARecord(scope, options?.id ?? `${this.toIdentifier()}-arecord`, {
       zone: this.getHostedZone(scope),
       recordName: this.toString(),
-      target
+      target,
+      ttl: options?.ttl,
+      comment: options?.comment,
+      deleteExisting: options?.deleteExisting
     });
   }
 

@@ -6,7 +6,7 @@ import {DomainName, SecurityPolicy} from "@aws-cdk/aws-apigatewayv2-alpha";
 import {ARecord, RecordTarget} from "aws-cdk-lib/aws-route53";
 import {CDK_NPMJS_URL, CDK_VENDOR} from "../../helpers";
 import {StandardTags} from "../../aws-cdk";
-import {ExtendedRecordTarget} from "../../aws-route53";
+import {ARecordOptions, ExtendedRecordTarget} from "../../aws-route53";
 
 export interface StandardDomainNameProps extends tmroute53.DomainNameProps {
 
@@ -70,9 +70,12 @@ export class StandardDomainName extends Construct {
 
   /**
    * Creates a route53 ARecord pointing to this domain name.
+   *
+   * @param evaluateTargetHealth Determines if route53 evaluates the target's health. Defaults to true.
+   * @param options additional options for creating the record
    */
-  createARecord(evaluateTargetHealth?: boolean): ARecord {
-    return this.domainName.createARecord(this, this.toRecordTarget(evaluateTargetHealth ?? true));
+  createARecord(evaluateTargetHealth?: boolean, options?: ARecordOptions): ARecord {
+    return this.domainName.createARecord(this, this.toRecordTarget(evaluateTargetHealth ?? true), options);
   }
 
   /**
@@ -80,18 +83,20 @@ export class StandardDomainName extends Construct {
    *
    * @param weight the initial weight; defaults to 0
    * @param evaluateTargetHealth Determines if route53 evaluates the target's health. Defaults to true.
+   * @param options additional options for creating the record
    */
-  createWeightedARecord(weight?: number, evaluateTargetHealth?: boolean): ARecord {
-    return this.domainName.createWeightedARecord(this, this.toRecordTarget(evaluateTargetHealth ?? true), weight);
+  createWeightedARecord(weight: number, evaluateTargetHealth?: boolean, options?: ARecordOptions): ARecord {
+    return this.domainName.createWeightedARecord(this, this.toRecordTarget(evaluateTargetHealth ?? true), weight, options);
   }
 
   /**
    * Creates a route53 latency record pointing to this domain name.
    *
    * @param evaluateTargetHealth Determines if route53 evaluates the target's health. Defaults to true.
+   * @param options additional options for creating the record
    */
-  createLatencyARecord(evaluateTargetHealth?: boolean): ARecord {
-    return this.domainName.createLatencyARecord(this, this.toRecordTarget(evaluateTargetHealth ?? true));
+  createLatencyARecord(evaluateTargetHealth?: boolean, options?: ARecordOptions): ARecord {
+    return this.domainName.createLatencyARecord(this, this.toRecordTarget(evaluateTargetHealth ?? true), options);
   }
 
   /**
