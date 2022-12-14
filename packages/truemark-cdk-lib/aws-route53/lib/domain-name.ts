@@ -46,7 +46,7 @@ export interface CertificateOptions {
   /**
    * The identifier to use.
    *
-   * @default ${this.toIdentifier()}-cert
+   * @default ${this.toIdentifier()}Certificate
    */
   readonly id?: string;
 
@@ -191,7 +191,7 @@ export class DomainName {
    * @param options additional options for creating the record
    */
   createARecord(scope: Construct, target: RecordTarget, options?: ARecordOptions): ARecord {
-    return new ARecord(scope, options?.id ?? `${this.toIdentifier()}-arecord`, {
+    return new ARecord(scope, options?.id ?? `${this.toIdentifier()}ARecord`, {
       zone: this.getHostedZone(scope),
       recordName: this.toString(),
       target,
@@ -210,7 +210,7 @@ export class DomainName {
    * @param options additional options for creating the record
    */
   createWeightedARecord(scope: Construct, target: RecordTarget, weight: number, options?: ARecordOptions): WeightedARecord {
-    return new WeightedARecord(scope, options?.id ?? `${this.toIdentifier()}-arecord`, {
+    return new WeightedARecord(scope, options?.id ?? `${this.toIdentifier()}ARecord`, {
       zone: this.getHostedZone(scope),
       recordName: this.toString(),
       target,
@@ -229,7 +229,7 @@ export class DomainName {
    * @param options additional options for creating the record
    */
   createLatencyARecord(scope: Construct, target: RecordTarget, options?: ARecordOptions): LatencyARecord {
-    return new LatencyARecord(scope, options?.id ?? `${this.toIdentifier()}-arecord`, {
+    return new LatencyARecord(scope, options?.id ?? `${this.toIdentifier()}ARecord`, {
       zone: this.getHostedZone(scope),
       recordName: this.toString(),
       target,
@@ -246,7 +246,7 @@ export class DomainName {
    * @param opts additional options
    */
   createCertificate(scope: Construct, opts?: CertificateOptions): Certificate {
-    return new Certificate(scope, opts?.id ?? `${this.toIdentifier()}-cert`, {
+    return new Certificate(scope, opts?.id ?? `${this.toIdentifier()}Certificate`, {
       domainName: this.toString(),
       validation: CertificateValidation.fromDns(this.getHostedZone(scope)),
       subjectAlternativeNames: opts?.subjectAlternativeNames
