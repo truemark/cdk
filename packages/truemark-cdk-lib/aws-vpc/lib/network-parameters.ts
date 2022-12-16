@@ -1,7 +1,6 @@
 import {Construct} from "constructs";
 import {StringListParameter, StringParameter} from "aws-cdk-lib/aws-ssm";
-import {CDK_NPMJS_URL, CDK_VENDOR} from "../../helpers";
-import {StandardTags} from "../../aws-cdk";
+import {IAutomationComponent, InternalAutomationComponentTags} from "../../aws-cdk";
 
 /**
  * Properties for NetworkParameters.
@@ -300,7 +299,9 @@ export interface NetworkParametersProps {
  * Stores and retrieves network infrastructure identifiers using
  * AWS Systems Manager Parameter Store.
  */
-export class NetworkParameters extends Construct {
+export class NetworkParameters extends Construct implements IAutomationComponent {
+
+  readonly automationComponentTags = InternalAutomationComponentTags;
 
   /**
    * Path to the VPC ID
@@ -923,11 +924,5 @@ export class NetworkParameters extends Construct {
         this.privateZoneName = StringParameter.valueFromLookup(this, this.privateZoneParameterPath);
       }
     }
-    new StandardTags(this, {
-      suppress: props.suppressTagging
-    }).addAutomationComponentTags({
-      url: CDK_NPMJS_URL,
-      vendor: CDK_VENDOR
-    });
   }
 }

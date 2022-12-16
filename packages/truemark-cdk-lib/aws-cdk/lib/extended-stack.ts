@@ -1,5 +1,5 @@
-import {CfnOutput, Duration, Stack, StackProps, Stage} from "aws-cdk-lib";
-import {ParameterStore, ParameterStoreOptions} from "../../aws-ssm/index";
+import {Aspects, CfnOutput, Duration, Stack, StackProps, Stage} from "aws-cdk-lib";
+import {ParameterStore, ParameterStoreOptions} from "../../aws-ssm";
 import {Construct} from "constructs";
 import {StringParameter} from "aws-cdk-lib/aws-ssm";
 import {
@@ -7,8 +7,12 @@ import {
   DefaultDashboardFactory,
   MonitoringFacade
 } from "cdk-monitoring-constructs";
-import {CDK_NPMJS_URL, CDK_VENDOR} from "../../helpers/index";
-import {StandardTags} from "./standard-tags";
+import {
+  AutomationComponentAspect,
+  InternalAutomationComponentTags,
+  StandardTags,
+  StandardTagsProps
+} from "./standard-tags";
 
 /**
  * Options for ExtStack.
@@ -91,12 +95,9 @@ export interface ExtendedStackOptions {
   readonly alarmActionsEnabled?: boolean;
 
   /**
-   * Setting this to true will suppress the creation of default tags on resources
-   * created by this construct. Default is false.
-   *
-   * @default - false
+   * Sets standard tags for this Stack.
    */
-  readonly suppressTagging?: boolean;
+  readonly standardTags?: StandardTagsProps;
 }
 
 /**
@@ -115,9 +116,11 @@ export class ExtendedStack extends Stack {
 
   constructor(scope: Construct, id: string, props?: ExtendedStackProps) {
     super(scope, id, props);
+
     const stageName = Stage.of(this)?.stageName;
+
     this.parameterExportOptions = {
-      prefix: props?.parameterExportsPrefix??(stageName === undefined ? "" : `/${stageName}`) + `/${id}/Exports/`,
+      prefix: props?.parameterExportsPrefix ?? (stageName === undefined ? "" : `/${stageName}`) + `/${id}/Exports/`,
       region: this.region
     };
     this.parameterExports = new ParameterStore(this, "ParameterExports", this.parameterExportOptions);
@@ -144,14 +147,20 @@ export class ExtendedStack extends Stack {
       });
     }
 
-    new StandardTags(this, {
-      suppress: props?.suppressTagging
-    }).addAutomationComponentTags({
-      url: CDK_NPMJS_URL,
-      vendor: CDK_VENDOR,
+    // Setup standard tags
+    const standardTagsProps = StandardTags.merge(this.node.tryGetContext("standardTags"), props?.standardTags);
+    const standardTags = new StandardTags(this, standardTagsProps);
+
+    // Add automation component tags to this stack
+    standardTags.addAutomationTags({
+      ...InternalAutomationComponentTags,
       includeResourceTypes: ["AWS::CloudFormation::Stack"]
     });
+
+    // Add automation component tags to AutomationComponent children
+    Aspects.of(this).add(new AutomationComponentAspect(standardTagsProps.suppressTagging));
   }
+
 
   /**
    * Helper method to exports a parameter as an SSM Parameter.

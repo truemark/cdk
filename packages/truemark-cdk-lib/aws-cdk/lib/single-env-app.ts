@@ -1,10 +1,11 @@
-import {StandardApp, StandardAppProps} from "./standard-app";
 import {StringHelper} from "../../helpers";
+import {ExtendedApp, ExtendedAppProps} from "./extended-app";
+import {StandardTags} from "./standard-tags";
 
 /**
  * Properties for SingleEnvApp
  */
-export interface SingleEnvAppProps extends StandardAppProps {
+export interface SingleEnvAppProps extends ExtendedAppProps {
 
   /**
    * The name of the property in the context where the environment name is stored.
@@ -16,9 +17,9 @@ export interface SingleEnvAppProps extends StandardAppProps {
 }
 
 /**
- * Extension of StandardApp that supports a standard way to declare environment names.
+ * Extension of ExtendedApp that supports a standard way to declare environment names.
  */
-export class SingleEnvApp extends StandardApp {
+export class SingleEnvApp extends ExtendedApp {
 
   readonly environmentName: string;
 
@@ -31,6 +32,13 @@ export class SingleEnvApp extends StandardApp {
     }
     if (!StringHelper.isLowerAlphanumeric(this.environmentName)) {
       throw new Error("Environment name must be lower case alpha numeric");
+    }
+    // Add environment to cost center tags
+    if (props?.standardTags?.costCenterTags) {
+      new StandardTags(this).addCostCenterTags({
+        ...props.standardTags.costCenterTags,
+        environment: this.environmentName
+      });
     }
   }
 

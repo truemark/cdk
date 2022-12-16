@@ -7,8 +7,7 @@ import {LogGroup, RetentionDays} from "aws-cdk-lib/aws-logs";
 import {RemovalPolicy, ResourceEnvironment, Stack} from "aws-cdk-lib";
 import {INamespace} from "aws-cdk-lib/aws-servicediscovery";
 import {IAutoScalingGroup} from "aws-cdk-lib/aws-autoscaling";
-import {CDK_NPMJS_URL, CDK_VENDOR} from "../../helpers";
-import {StandardTags} from "../../aws-cdk";
+import {IAutomationComponent, InternalAutomationComponentTags} from "../../aws-cdk";
 
 export interface StandardFargateClusterProps {
 
@@ -95,7 +94,9 @@ export interface StandardFargateClusterProps {
 /**
  * Standard ECS Cluster that sets up Fargate providers and execute command logging.
  */
-export class StandardFargateCluster extends Construct implements ICluster {
+export class StandardFargateCluster extends Construct implements ICluster, IAutomationComponent {
+
+  readonly automationComponentTags = InternalAutomationComponentTags;
 
   readonly vpc: IVpc;
   readonly cluster: Cluster;
@@ -180,13 +181,6 @@ export class StandardFargateCluster extends Construct implements ICluster {
     this.executeCommandConfiguration = this.cluster.executeCommandConfiguration;
     this.stack = this.cluster.stack;
     this.env = this.cluster.env;
-
-    new StandardTags(this, {
-      suppress: props?.suppressTagging
-    }).addAutomationComponentTags({
-      url: CDK_NPMJS_URL,
-      vendor: CDK_VENDOR
-    });
   }
 
   applyRemovalPolicy(policy: RemovalPolicy) {

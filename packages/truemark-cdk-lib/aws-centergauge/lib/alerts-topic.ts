@@ -3,8 +3,7 @@ import {CfnSubscription, Topic} from "aws-cdk-lib/aws-sns";
 import {Alias, IKey} from "aws-cdk-lib/aws-kms";
 import {StandardQueue} from "../../aws-sqs";
 import {AnyPrincipal, Effect, PolicyStatement} from "aws-cdk-lib/aws-iam";
-import {CDK_NPMJS_URL, CDK_VENDOR} from "../../helpers";
-import {StandardTags} from "../../aws-cdk";
+import {IAutomationComponent, InternalAutomationComponentTags} from "../../aws-cdk";
 
 /**
  * Properties for AlertsTopic
@@ -44,7 +43,9 @@ export interface AlertsTopicProps {
 /**
  * Sets up an SNS Topic that will send notifications to CenterGauge.
  */
-export class AlertsTopic extends Construct {
+export class AlertsTopic extends Construct implements IAutomationComponent {
+
+  readonly automationComponentTags = InternalAutomationComponentTags;
 
   constructor(scope: Construct, id: string, props: AlertsTopicProps) {
     super(scope, id);
@@ -95,13 +96,6 @@ export class AlertsTopic extends Construct {
       redrivePolicy: JSON.stringify({
         "deadLetterTargetArn": dlq.queueArn
       })
-    });
-
-    new StandardTags(this, {
-      suppress: props?.suppressTagging
-    }).addAutomationComponentTags({
-      url: CDK_NPMJS_URL,
-      vendor: CDK_VENDOR
     });
   }
 }

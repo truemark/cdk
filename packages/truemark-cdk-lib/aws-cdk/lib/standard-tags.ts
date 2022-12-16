@@ -1,5 +1,5 @@
-import {Construct} from "constructs";
-import {Stack, TagProps, Tags} from "aws-cdk-lib";
+import {Construct, IConstruct} from "constructs";
+import {IAspect, Stack, TagProps, Tags} from "aws-cdk-lib";
 
 /**
  * Properties for automation component tags.
@@ -11,7 +11,7 @@ export interface AutomationComponentTagsProps extends TagProps {
    *
    * @default scope.constructor.name
    */
-  readonly id?: string;
+  readonly id: string;
 
   /**
    * The URL of the component.
@@ -205,9 +205,34 @@ export interface TeamTagsProps extends TagProps {
 }
 
 /**
- * Properties for StandardTags.
+ * Contains standard tagging properties.
  */
 export interface StandardTagsProps {
+
+  /**
+   * Automation component tags.
+   */
+  readonly automationComponentTags?: AutomationComponentTagsProps;
+
+  /**
+   * Automation tags to apply to created resources.
+   */
+  readonly automationTags?: AutomationTagsProps;
+
+  /**
+   * Cost center tags to apply to created resources.
+   */
+  readonly costCenterTags?: CostCenterTagsProps;
+
+  /**
+   * Security tags to apply to created resources.
+   */
+  readonly securityTags?: SecurityTagsProps;
+
+  /**
+   * Team tags to apply to created resources.
+   */
+  readonly teamTags?: TeamTagsProps;
 
   /**
    * Setting this to true will suppress the creation of tags this resource creates.
@@ -215,7 +240,7 @@ export interface StandardTagsProps {
    *
    * @default - false
    */
-  readonly suppress?: boolean;
+  readonly suppressTagging?: boolean;
 }
 
 /**
@@ -247,22 +272,37 @@ export class StandardTags {
   constructor(scope: Construct, props?: StandardTagsProps) {
     this.scope = scope;
     this.tags = Tags.of(scope);
-    this.suppressed = props?.suppress ?? false;
+    this.suppressed = props?.suppressTagging ?? false;
+
+    this.addAutomationComponentTags(props?.automationComponentTags);
+    this.addAutomationTags(props?.automationTags);
+    this.addCostCenterTags(props?.costCenterTags);
+    this.addSecurityTags(props?.securityTags);
+    this.addTeamTags(props?.teamTags);
   }
 
   /**
-   * Adds automation component tags.
+   * Adds automation component tags. These are meant to be used in individual constructs to identify
+   * what resources were stood up by specific constructs.
    *
    * @param props optional properties for the tags
    */
   addAutomationComponentTags(props?: AutomationComponentTagsProps): StandardTags {
     if (props && !this.suppressed) {
-      this.tags.add("automation:component-id", props.id ?? this.scope.constructor.name, props);
-      if (props.url) {
-        this.tags.add("automation:component-url", props.url, props);
-      }
-      if (props.vendor) {
-        this.tags.add("automation:component-vendor", props.vendor, props);
+      if (props.id === "{{TMCDK}}") {
+        this.tags.add("automation:component-id", this.scope.constructor.name, props);
+        this.tags.add("automation:component-url", "https://github.com/truemark/cdk", props);
+        this.tags.add("automation:component-vendor", "TrueMark", props);
+      } else {
+        if (props.id) {
+          this.tags.add("automation:component-id", props.id, props);
+        }
+        if (props.url) {
+          this.tags.add("automation:component-url", props.url, props);
+        }
+        if (props.vendor) {
+          this.tags.add("automation:component-vendor", props.vendor, props);
+        }
       }
     }
     return this;
@@ -362,49 +402,85 @@ export class StandardTags {
     }
     return this;
   }
+
+  static merge(from?: StandardTagsProps, to?: StandardTagsProps): StandardTagsProps {
+    let automationComponentTags: AutomationComponentTagsProps | undefined = undefined;
+    if (from?.automationComponentTags || to?.automationComponentTags) {
+      automationComponentTags = {
+        id: to?.automationComponentTags?.id ?? from?.automationComponentTags?.id ?? "",
+        ...from?.automationComponentTags,
+        ...to?.automationComponentTags
+      }
+    }
+
+    let automationTags: AutomationTagsProps | undefined = undefined;
+    if (from?.automationTags || to?.automationTags) {
+      automationTags = {
+        id: to?.automationTags?.id ?? from?.automationTags?.id ?? "",
+        ...from?.automationTags,
+        ...to?.automationTags
+      }
+    }
+    let costCenterTags: CostCenterTagsProps | undefined = undefined;
+    if (from?.costCenterTags || to?.costCenterTags) {
+      costCenterTags = {
+        businessUnitName: to?.costCenterTags?.businessUnitName ?? from?.costCenterTags?.businessUnitName ?? "",
+        projectName: to?.costCenterTags?.projectName ?? from?.costCenterTags?.projectName ?? "",
+        ...from?.costCenterTags,
+        ...to?.costCenterTags
+      }
+    }
+    let securityTags: SecurityTagsProps | undefined = undefined;
+    if (from?.securityTags || to?.securityTags) {
+      securityTags = {
+        dataClassification: to?.securityTags?.dataClassification ?? from?.securityTags?.dataClassification ?? DataClassification.Controlled,
+        ...from?.securityTags,
+        ...to?.securityTags
+      }
+    }
+    let teamTags: TeamTagsProps | undefined = undefined;
+    if (from?.teamTags || to?.teamTags) {
+      teamTags = {
+        name: to?.teamTags?.name ?? from?.teamTags?.name ?? "",
+        ...from?.teamTags,
+        ...to?.teamTags
+      }
+    }
+    return {
+      automationComponentTags,
+      automationTags,
+      costCenterTags,
+      securityTags,
+      teamTags
+    }
+  }
 }
 
-/**
- * Contains standard tagging options.
- */
-export interface StandardTagsOptions {
+export interface IAutomationComponent {
 
-  /**
-   * Automation tags to apply to created resources.
-   */
-  readonly automationTags?: AutomationTagsProps;
+  readonly automationComponentTags?: AutomationComponentTagsProps;
 
-  /**
-   * Cost center tags to apply to created resources.
-   */
-  readonly costCenterTags?: CostCenterTagsProps;
-
-  /**
-   * Security tags to apply to created resources.
-   */
-  readonly securityTags?: SecurityTagsProps;
-
-  /**
-   * Team tags to apply to created resources.
-   */
-  readonly teamTags?: TeamTagsProps;
-
-  /**
-   * Setting this to true will suppress the creation of tags this resource creates.
-   * Default value is false.
-   *
-   * @default - false
-   */
-  readonly suppressTags?: boolean;
 }
 
-export interface AutomationComponentOptions {
+export const InternalAutomationComponentTags: AutomationComponentTagsProps = {
+  id: "{{TMCDK}}"
+}
 
-  /**
-   * Setting this to true will suppress the creation of tags this resource creates.
-   * Default value is false.
-   *
-   * @default - false
-   */
-  readonly suppressTagging?: boolean;
+export function isAutomationComponent(o: any): o is IAutomationComponent {
+  return "automationComponentTags" in o;
+}
+
+export class AutomationComponentAspect implements IAspect {
+
+  readonly suppressed: boolean;
+
+  constructor(suppressTagging?: boolean) {
+    this.suppressed = suppressTagging ?? false;
+  }
+
+  visit(node: IConstruct): void {
+    if (isAutomationComponent(node) && !this.suppressed) {
+      new StandardTags(node, { automationComponentTags: node.automationComponentTags })
+    }
+  }
 }

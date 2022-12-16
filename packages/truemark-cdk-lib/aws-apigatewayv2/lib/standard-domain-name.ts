@@ -4,8 +4,7 @@ import * as targets from "aws-cdk-lib/aws-route53-targets";
 import {ICertificate} from "aws-cdk-lib/aws-certificatemanager";
 import {DomainName, SecurityPolicy} from "@aws-cdk/aws-apigatewayv2-alpha";
 import {ARecord, RecordTarget} from "aws-cdk-lib/aws-route53";
-import {CDK_NPMJS_URL, CDK_VENDOR} from "../../helpers";
-import {StandardTags} from "../../aws-cdk";
+import {IAutomationComponent, InternalAutomationComponentTags} from "../../aws-cdk";
 import {ARecordOptions, ExtendedRecordTarget} from "../../aws-route53";
 
 export interface StandardDomainNameProps extends tmroute53.DomainNameProps {
@@ -36,7 +35,9 @@ export interface StandardDomainNameProps extends tmroute53.DomainNameProps {
 /**
  * Standard construct used to create an API Gateway V2 Domain Name.
  */
-export class StandardDomainName extends Construct {
+export class StandardDomainName extends Construct implements IAutomationComponent {
+
+  readonly automationComponentTags = InternalAutomationComponentTags;
 
   readonly domainName: tmroute53.DomainName;
   readonly certificate: ICertificate;
@@ -50,13 +51,6 @@ export class StandardDomainName extends Construct {
       domainName: this.domainName.toString(),
       certificate: this.certificate,
       securityPolicy: props.securityPolicy
-    });
-
-    new StandardTags(this, {
-      suppress: props?.suppressTagging
-    }).addAutomationComponentTags({
-      url: CDK_NPMJS_URL,
-      vendor: CDK_VENDOR
     });
   }
 

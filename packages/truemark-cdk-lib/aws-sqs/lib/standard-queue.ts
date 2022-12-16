@@ -6,8 +6,7 @@ import {QueueAlarmsOptions} from "./queue-alarms";
 import {ExtendedQueue} from "./extended-queue";
 import {MetricOptions, Metric} from "aws-cdk-lib/aws-cloudwatch";
 import {PolicyStatement, AddToResourcePolicyResult, IGrantable, Grant} from "aws-cdk-lib/aws-iam";
-import {CDK_NPMJS_URL, CDK_VENDOR} from "../../helpers";
-import {StandardTags} from "../../aws-cdk";
+import {IAutomationComponent, InternalAutomationComponentTags} from "../../aws-cdk";
 
 /**
  * Properties for a StandardQueue
@@ -97,11 +96,12 @@ export interface StandardQueueProps extends QueueAlarmsOptions {
   readonly receiveMessageWaitTime?: Duration;
 }
 
-export class StandardQueue extends Construct implements IQueue {
+export class StandardQueue extends Construct implements IQueue, IAutomationComponent {
 
   static readonly DEFAULT_MAX_RECEIVE_COUNT = 3;
   static readonly DEFAULT_RETENTION_PERIOD = Duration.seconds(1209600);
 
+  readonly automationComponentTags = InternalAutomationComponentTags;
   readonly queue: ExtendedQueue;
 
   // From IQueue
@@ -154,13 +154,6 @@ export class StandardQueue extends Construct implements IQueue {
     this.fifo = this.queue.fifo;
     this.stack = this.queue.stack;
     this.env = this.queue.env;
-
-    new StandardTags(this, {
-      suppress: props?.suppressTagging
-    }).addAutomationComponentTags({
-      url: CDK_NPMJS_URL,
-      vendor: CDK_VENDOR
-    });
   }
 
   // From IQueue

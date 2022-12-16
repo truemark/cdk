@@ -21,8 +21,7 @@ import {PolicyStatement} from "aws-cdk-lib/aws-iam";
 import {BasicStepScalingPolicyProps} from "aws-cdk-lib/aws-autoscaling";
 import {IMetric} from "aws-cdk-lib/aws-cloudwatch";
 import {ScalingSchedule} from "aws-cdk-lib/aws-applicationautoscaling";
-import {CDK_NPMJS_URL, CDK_VENDOR} from "../../helpers";
-import {StandardTags} from "../../aws-cdk";
+import {IAutomationComponent, InternalAutomationComponentTags} from "../../aws-cdk";
 
 /**
  * Properties for StandardFargateService.
@@ -269,7 +268,9 @@ export interface StandardFargateServiceProps {
  * Standard class for creating a FargateService. It's recommended to use the StandardApplicationFargateService or
  * StandardNetworkFargateService instead of this class.
  */
-export class StandardFargateService extends Construct {
+export class StandardFargateService extends Construct implements IAutomationComponent {
+
+  readonly automationComponentTags = InternalAutomationComponentTags;
 
   readonly taskDefinition: FargateTaskDefinition;
   readonly logGroup?: LogGroup;
@@ -430,13 +431,6 @@ export class StandardFargateService extends Construct {
     this.scaling = scaling;
     this.scaleInCooldown = scaleInCooldown;
     this.scaleOutCooldown = scaleOutCooldown;
-
-    new StandardTags(this, {
-      suppress: props?.suppressTagging
-    }).addAutomationComponentTags({
-      url: CDK_NPMJS_URL,
-      vendor: CDK_VENDOR
-    });
   }
 
   /**

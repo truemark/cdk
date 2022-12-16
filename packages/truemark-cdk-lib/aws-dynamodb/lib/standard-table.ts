@@ -4,8 +4,10 @@ import {AttributeType, TableEncryption} from "aws-cdk-lib/aws-dynamodb";
 import {RemovalPolicy} from "aws-cdk-lib";
 import {BillingMode} from "aws-cdk-lib/aws-dynamodb";
 import * as kms from "aws-cdk-lib/aws-kms";
-import {CDK_NPMJS_URL, CDK_VENDOR} from "../../helpers";
-import {StandardTags} from "../../aws-cdk";
+import {
+  IAutomationComponent,
+  InternalAutomationComponentTags,
+} from "../../aws-cdk";
 
 /**
  * Properties for StandardTable.
@@ -96,7 +98,9 @@ export interface StandardTableProps {
  * class is intended to fit most development use cases. Where this class does not meet
  * your requirements, use ExtendedTable directly.
  */
-export class StandardTable extends ExtendedTable {
+export class StandardTable extends ExtendedTable implements IAutomationComponent {
+
+  readonly automationComponentTags = InternalAutomationComponentTags;
 
   constructor(scope: Construct, id: string, props?: StandardTableProps) {
     super(scope, id, {
@@ -117,13 +121,6 @@ export class StandardTable extends ExtendedTable {
       sortKey: {
         name: "Gs1Sk", type: AttributeType.STRING
       }
-    });
-
-    new StandardTags(this, {
-      suppress: props?.suppressTagging
-    }).addAutomationComponentTags({
-      url: CDK_NPMJS_URL,
-      vendor: CDK_VENDOR
     });
   }
 }

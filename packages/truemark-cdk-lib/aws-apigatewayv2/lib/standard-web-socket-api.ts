@@ -4,8 +4,7 @@ import {SecurityPolicy, WebSocketApi, WebSocketStage} from "@aws-cdk/aws-apigate
 import {ARecord} from "aws-cdk-lib/aws-route53";
 import {LatencyARecord, WeightedARecord} from "../../aws-route53";
 import {Stack, Stage} from "aws-cdk-lib";
-import {StandardTags} from "../../aws-cdk";
-import {CDK_NPMJS_URL, CDK_VENDOR} from "../../helpers";
+import {IAutomationComponent, InternalAutomationComponentTags} from "../../aws-cdk";
 
 /**
  * Properties for StandardWebSocketApi.
@@ -62,7 +61,9 @@ export interface StandardWebSocketApiProps {
 /**
  * Abstraction that creates an WebSocketApi with support infrastructure.
  */
-export class StandardWebSocketApi extends Construct {
+export class StandardWebSocketApi extends Construct implements IAutomationComponent {
+
+  readonly automationComponentTags = InternalAutomationComponentTags;
 
   readonly domainName: StandardDomainName;
   readonly record: ARecord | LatencyARecord | WeightedARecord | undefined;
@@ -109,12 +110,5 @@ export class StandardWebSocketApi extends Construct {
 
     this.webSocketApi = webSocketApi;
     this.webSocketStage = webSocketStage;
-
-    new StandardTags(this, {
-      suppress: props?.suppressTagging
-    }).addAutomationComponentTags({
-      url: CDK_NPMJS_URL,
-      vendor: CDK_VENDOR
-    });
   }
 }

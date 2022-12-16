@@ -3,9 +3,8 @@ import {DomainName, LatencyARecord, WeightedARecord} from "../../aws-route53";
 import {StandardDomainName} from "./standard-domain-name";
 import {HttpApi, SecurityPolicy} from "@aws-cdk/aws-apigatewayv2-alpha";
 import {Stack, Stage} from "aws-cdk-lib";
-import {StandardTags} from "../../aws-cdk";
-import {CDK_NPMJS_URL, CDK_VENDOR} from "../../helpers";
 import {ARecord} from "aws-cdk-lib/aws-route53";
+import {IAutomationComponent, InternalAutomationComponentTags} from "../../aws-cdk";
 
 /**
  * Properties for StandardHttpApi.
@@ -63,7 +62,9 @@ export interface StandardHttpApiProps {
 /**
  * Abstraction that creates an HttpApi with support infrastructure.
  */
-export class StandardHttpApi extends Construct {
+export class StandardHttpApi extends Construct implements IAutomationComponent {
+
+  readonly automationComponentTags = InternalAutomationComponentTags;
 
   readonly domainName: StandardDomainName;
   readonly record: ARecord | LatencyARecord | WeightedARecord | undefined;
@@ -103,12 +104,5 @@ export class StandardHttpApi extends Construct {
 
     this.domainName = domainName;
     this.httpApi = httpApi;
-
-    new StandardTags(this, {
-      suppress: props?.suppressTagging
-    }).addAutomationComponentTags({
-      url: CDK_NPMJS_URL,
-      vendor: CDK_VENDOR
-    });
   }
 }
