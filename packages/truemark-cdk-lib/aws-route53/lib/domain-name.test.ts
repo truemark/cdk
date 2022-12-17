@@ -1,4 +1,4 @@
-import {DomainName} from "../../aws-route53";
+import {DomainName} from "../index";
 
 test("Test propsMatch", () => {
   const domainName = new DomainName({

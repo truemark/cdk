@@ -1,11 +1,11 @@
-import {ExtendedRecordTarget, LatencyARecord, WeightedARecord} from "../../aws-route53";
+import {ExtendedRecordTarget, LatencyARecord, WeightedARecord} from "../index";
 import {
   AliasRecordTargetConfig, ARecord, CfnRecordSet, HostedZone,
   IAliasRecordTarget,
   IHostedZone,
   IRecordSet,
 } from "aws-cdk-lib/aws-route53";
-import {TestHelper} from "../test-helper";
+import {TestHelper} from "../../test-helper";
 
 class TestAliasRecordTarget implements IAliasRecordTarget {
 

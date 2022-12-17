@@ -1,5 +1,5 @@
-import {ResourceType, TestHelper} from "../test-helper";
-import {ParameterStore} from "../../aws-ssm";
+import {ResourceType, TestHelper} from "../../test-helper";
+import {ParameterStore} from "../index";
 import {Template} from "aws-cdk-lib/assertions";
 
 test("Test ParameterStore", () => {

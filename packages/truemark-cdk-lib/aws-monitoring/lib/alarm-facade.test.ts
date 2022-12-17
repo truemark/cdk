@@ -1,7 +1,7 @@
-import {AlarmFacade, AlarmFacadeSet} from "../../aws-monitoring";
+import {AlarmFacade, AlarmFacadeSet} from "../index";
 import * as sns from "aws-cdk-lib/aws-sns";
 import * as actions from "aws-cdk-lib/aws-cloudwatch-actions";
-import {TestHelper} from "../test-helper";
+import {TestHelper} from "../../test-helper";
 import {Alarm} from "aws-cdk-lib/aws-cloudwatch";
 import {Duration} from "aws-cdk-lib";
 

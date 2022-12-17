@@ -1,5 +1,5 @@
-import {ResourceType, TestHelper} from "../test-helper";
-import {EstimatedChargesAlarm} from "../../aws-cloudwatch";
+import {ResourceType, TestHelper} from "../../test-helper";
+import {EstimatedChargesAlarm} from "../index";
 import {Template} from "aws-cdk-lib/assertions";
 
 test("Create EstimatedChargesAlarm", () => {

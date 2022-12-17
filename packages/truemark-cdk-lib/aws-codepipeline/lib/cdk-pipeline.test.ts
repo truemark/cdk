@@ -1,5 +1,5 @@
-import {ResourceType, TestHelper} from "../test-helper";
-import {CdkPipeline} from "../../aws-codepipeline";
+import {ResourceType, TestHelper} from "../../test-helper";
+import {CdkPipeline} from "../index";
 import {Template} from "aws-cdk-lib/assertions";
 
 test("Test CdkPipeline", () => {

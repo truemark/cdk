@@ -1,7 +1,7 @@
-import {ExtendedTable} from "../../aws-dynamodb";
+import {ExtendedTable} from "../index";
 import {Template} from "aws-cdk-lib/assertions";
 import {AttributeType, BillingMode} from "aws-cdk-lib/aws-dynamodb";
-import {ResourceType, TestHelper} from "../test-helper";
+import {ResourceType, TestHelper} from "../../test-helper";
 
 test('Create Table', () => {
   const stack = TestHelper.stack();

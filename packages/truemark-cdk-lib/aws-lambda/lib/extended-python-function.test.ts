@@ -1,6 +1,6 @@
 import * as path from "path";
-import {ResourceType, TestHelper} from "../test-helper";
-import {ExtendedPythonFunction} from "../../aws-lambda";
+import {ResourceType, TestHelper} from "../../test-helper";
+import {ExtendedPythonFunction} from "../index";
 import {Runtime} from "aws-cdk-lib/aws-lambda";
 import {Template} from "aws-cdk-lib/assertions";
 

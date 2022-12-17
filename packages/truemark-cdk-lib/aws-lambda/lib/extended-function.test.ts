@@ -1,6 +1,6 @@
-import {ResourceType, TestHelper} from "../test-helper";
+import {ResourceType, TestHelper} from "../../test-helper";
 import {Template} from "aws-cdk-lib/assertions";
-import {ExtendedFunction} from "../../aws-lambda";
+import {ExtendedFunction} from "../index";
 import {Code, Runtime} from "aws-cdk-lib/aws-lambda";
 
 test("Test Function", () => {

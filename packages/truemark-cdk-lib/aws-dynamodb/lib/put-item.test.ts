@@ -1,7 +1,7 @@
-import {TestHelper} from "../test-helper";
+import {TestHelper} from "../../test-helper";
 
 import {marshall} from "@aws-sdk/util-dynamodb";
-import {PutItem} from "../../aws-dynamodb/lib/put-item";
+import {PutItem} from "./put-item";
 import {Template} from "aws-cdk-lib/assertions";
 
 test("Test PutItem", () => {

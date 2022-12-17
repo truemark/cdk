@@ -1,6 +1,6 @@
 import {Template} from "aws-cdk-lib/assertions";
-import {StandardPythonFunction} from "../../aws-lambda";
-import {ResourceType, TestHelper} from "../test-helper";
+import {StandardPythonFunction} from "../index";
+import {ResourceType, TestHelper} from "../../test-helper";
 
 test("Test PythonFunction", () => {
   const stack = TestHelper.stack();

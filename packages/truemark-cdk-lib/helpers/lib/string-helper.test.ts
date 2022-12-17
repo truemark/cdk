@@ -1,4 +1,4 @@
-import {StringHelper} from "../../helpers/lib/string-helper";
+import {StringHelper} from "./string-helper";
 
 test("Test StringHelper#isCamelCase", () => {
   expect(StringHelper.isCamelCase(undefined)).toBe(false);

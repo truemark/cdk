@@ -1,5 +1,5 @@
-import {ResourceType, TestHelper} from "../test-helper";
-import {ExtendedNodejsFunction} from "../../aws-lambda";
+import {ResourceType, TestHelper} from "../../test-helper";
+import {ExtendedNodejsFunction} from "../index";
 import * as path from "path";
 import {Template} from "aws-cdk-lib/assertions";
 import {Runtime} from "aws-cdk-lib/aws-lambda";

@@ -1,5 +1,5 @@
-import {TestHelper} from "../test-helper";
-import {BatchWriteItem} from "../../aws-dynamodb/lib/batch-write-item";
+import {TestHelper} from "../../test-helper";
+import {BatchWriteItem} from "./batch-write-item";
 import {marshall} from "@aws-sdk/util-dynamodb";
 import {Template} from "aws-cdk-lib/assertions";
 

@@ -1,6 +1,6 @@
-import {StandardQueue} from "../../aws-sqs";
+import {StandardQueue} from "../index";
 import {Template} from "aws-cdk-lib/assertions";
-import {TestHelper} from "../test-helper";
+import {TestHelper} from "../../test-helper";
 
 test("Standard Queue Test", () => {
   const stack = TestHelper.stack();

@@ -1,6 +1,6 @@
 import * as path from "path";
-import {ResourceType, TestHelper} from "../test-helper";
-import {ExtendedGoFunction} from "../../aws-lambda";
+import {ResourceType, TestHelper} from "../../test-helper";
+import {ExtendedGoFunction} from "../index";
 import {Template} from "aws-cdk-lib/assertions";
 
 test("Test GoFunctionAlpha", () => {
