@@ -154,7 +154,7 @@ export class ExtendedStack extends Stack {
     // Add automation component tags to this stack
     standardTags.addAutomationComponentTags({
       ...InternalAutomationComponentTags,
-      propagate: false
+      includeResourceTypes: ["AWS::CloudFormation::Stack"]
     });
 
     // Add automation component tags to AutomationComponent children, but don't add the aspect if it's already been added

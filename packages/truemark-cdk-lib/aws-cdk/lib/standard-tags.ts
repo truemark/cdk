@@ -20,13 +20,6 @@ export interface AutomationComponentTagsProps extends TagProps {
    * The vendor of the component.
    */
   readonly vendor?: string;
-
-  /**
-   * Determines if tags are propagated to children. Default is true.
-   *
-   * @default - true
-   */
-  readonly propagate?: boolean;
 }
 
 /**
@@ -292,36 +285,18 @@ export class StandardTags {
   addAutomationComponentTags(props?: AutomationComponentTagsProps): StandardTags {
     if (props && !this.suppressed) {
       if (props.id === "{{TMCDK}}") {
-        if (props.propagate ?? true) {
-          this.tags.add("automation:component-id", this.scope.constructor.name, props);
-          this.tags.add("automation:component-url", "https://github.com/truemark/cdk", props);
-          this.tags.add("automation:component-vendor", "TrueMark", props);
-        } else {
-          new Tag("automation:component-id", this.scope.constructor.name).visit(this.scope);
-          new Tag("automation:component-url", "https://github.com/truemark/cdk").visit(this.scope);
-          new Tag("automation:component-vendor", "TrueMark").visit(this.scope);
-        }
+        this.tags.add("automation:component-id", this.scope.constructor.name, props);
+        this.tags.add("automation:component-url", "https://github.com/truemark/cdk", props);
+        this.tags.add("automation:component-vendor", "TrueMark", props);
       } else {
         if (props.id) {
-          if (props.propagate ?? true) {
-            this.tags.add("automation:component-id", props.id, props);
-          } else {
-           new Tag("automation:component-id", props.id).visit(this.scope);
-          }
+          this.tags.add("automation:component-id", props.id, props);
         }
         if (props.url) {
-          if (props.propagate ?? true) {
-            this.tags.add("automation:component-url", props.url, props);
-          } else {
-            new Tag("automation:component-url", props.url).visit(this.scope);
-          }
+          this.tags.add("automation:component-url", props.url, props);
         }
         if (props.vendor) {
-          if (props.propagate ?? true) {
-            this.tags.add("automation:component-vendor", props.vendor, props);
-          } else {
-            new Tag("automation:component-vendor", props.vendor).visit(this.scope);
-          }
+          this.tags.add("automation:component-vendor", props.vendor, props);
         }
       }
     }
