@@ -1,8 +1,7 @@
-import * as cdk from "aws-cdk-lib";
 import * as path from "path";
 import {Template} from "aws-cdk-lib/assertions";
-import {ResourceEnvironment} from "aws-cdk-lib";
-import {ExtendedStack} from "../aws-cdk";
+import {App, ResourceEnvironment, Stack, Stage} from "aws-cdk-lib";
+import {ExtendedApp, ExtendedStack} from "../aws-cdk";
 
 export enum ResourceType {
   CODEPIPELINE = "AWS::CodePipeline::Pipeline",
@@ -17,12 +16,16 @@ export class TestHelper {
   static readonly DEFAULT_REGION = "us-east-2";
   static readonly DEFAULT_ACCOUNT = "100000000000";
 
-  static stage(app?: cdk.App, id?: string): cdk.Stage {
-    return new cdk.Stage(app??new cdk.App(), id??"TestStage");
+  static app() {
+    return new ExtendedApp({account: this.DEFAULT_ACCOUNT, region: this.DEFAULT_REGION});
   }
 
-  static stack(scope?: cdk.App | cdk.Stage, id?: string): cdk.Stack {
-    return new ExtendedStack(scope ?? new cdk.App(), id ?? "TestStack");
+  static stage(app?: App, id?: string): Stage {
+    return new Stage(app ?? this.app(), id??"TestStage");
+  }
+
+  static stack(scope?: App | Stage, id?: string): Stack {
+    return new ExtendedStack(scope ?? this.app(), id ?? "TestStack");
   }
 
   static resolveTestFiles(childPath?: string): string {

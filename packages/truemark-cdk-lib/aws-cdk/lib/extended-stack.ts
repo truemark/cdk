@@ -152,13 +152,15 @@ export class ExtendedStack extends Stack {
     const standardTags = new StandardTags(this, standardTagsProps);
 
     // Add automation component tags to this stack
-    standardTags.addAutomationTags({
+    standardTags.addAutomationComponentTags({
       ...InternalAutomationComponentTags,
-      includeResourceTypes: ["AWS::CloudFormation::Stack"]
+      propagate: false
     });
 
-    // Add automation component tags to AutomationComponent children
-    Aspects.of(this).add(new AutomationComponentAspect(standardTagsProps.suppressTagging));
+    // Add automation component tags to AutomationComponent children, but don't add the aspect if it's already been added
+    if (!Aspects.of(this).all.reduce((a, v) => a || v instanceof AutomationComponentAspect)) {
+      Aspects.of(this).add(new AutomationComponentAspect(standardTagsProps.suppressTagging));
+    }
   }
 
 

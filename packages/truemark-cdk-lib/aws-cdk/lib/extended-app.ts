@@ -1,12 +1,25 @@
-import {App, AppProps} from "aws-cdk-lib";
-import {StandardTagsProps} from "./standard-tags";
+import {App, AppProps, Aspects} from "aws-cdk-lib";
+import {AutomationComponentAspect, StandardTagsProps} from "./standard-tags";
 
 /**
  * Properties for ExtendedApp.
  */
 export interface ExtendedAppProps extends AppProps {
 
+  /**
+   * Standard tags to apply to all stacks.
+   */
   readonly standardTags?: StandardTagsProps;
+
+  /**
+   * Skips account lookup and uses this account.
+   */
+  readonly account?: string;
+
+  /**
+   * Skips region lookup and uses this region.
+   */
+  readonly region?: string;
 }
 
 /**
@@ -20,20 +33,31 @@ export class ExtendedApp extends App {
   readonly region: string;
 
   constructor(props?: ExtendedAppProps) {
-    super(props);
+    super({
+      ...props,
+      context: {
+        ...props?.context,
+        // Add standardTags to the context to be used by ExtendedStack
+        standardTags:  props?.standardTags
+      }
+    });
 
-    const account = process.env.CDK_DEFAULT_ACCOUNT || process.env.AWS_ACCOUNT_ID;
+    // Use the provided account or do a lookup
+    const account = props?.account || process.env.CDK_DEFAULT_ACCOUNT || process.env.AWS_ACCOUNT_ID;
     if (account === undefined) {
       throw new Error("Unable to identify default account");
     }
     this.account = account;
-    const region = process.env.CDK_DEFAULT_REGION || process.env.AWS_DEFAULT_REGION;
+
+    // Use the provided region or do a lookup
+    const region = props?.region || process.env.CDK_DEFAULT_REGION || process.env.AWS_DEFAULT_REGION;
     if (region === undefined) {
       throw new Error("Unable to identify default region");
     }
     this.region = region;
 
-    this.node.setContext("standardTags", props?.standardTags);
+    // Add automation component tags to AutomationComponent children
+    Aspects.of(this).add(new AutomationComponentAspect(props?.standardTags?.suppressTagging));
   }
 }
 
