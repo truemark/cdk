@@ -158,8 +158,9 @@ export class ExtendedStack extends Stack {
     });
 
     // Add automation component tags to AutomationComponent children, but don't add the aspect if it's already been added
-    if (!Aspects.of(this).all.reduce((a, v) => a || v instanceof AutomationComponentAspect)) {
-      Aspects.of(this).add(new AutomationComponentAspect(standardTagsProps.suppressTagging));
+    const aspects = Aspects.of(this);
+    if (!aspects.all.reduce((a, v) => a || v instanceof AutomationComponentAspect)) {
+      aspects.add(new AutomationComponentAspect(standardTagsProps.suppressTagging));
     }
   }
 

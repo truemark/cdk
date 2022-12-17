@@ -7,11 +7,9 @@ import {IAspect, Stack, Tag, TagProps, Tags} from "aws-cdk-lib";
 export interface AutomationComponentTagsProps extends TagProps {
 
   /**
-   * The ID of the component. Default is scope.constructor.name.
-   *
-   * @default scope.constructor.name
+   * The ID of the component.
    */
-  readonly id: string;
+  readonly id?: string;
 
   /**
    * The URL of the component.
@@ -41,7 +39,7 @@ export interface AutomationTagsProps extends TagProps {
    *
    * @default - Stack.of(this).stackName
    */
-  readonly id: string;
+  readonly id?: string;
 
   /**
    * The URL to where the automation is stored or published. This field is required
@@ -58,28 +56,25 @@ export interface CostCenterTagsProps extends TagProps {
   /**
    * Name of the business unit responsible for the costs associated with the tagged resources.
    */
-  readonly businessUnitName: string;
+  readonly businessUnitName?: string;
 
   /**
    * Identifier for the business unit responsible for the costs associated with the tagged resources.
-   * If not set, the tag is not created.
    */
   readonly businessUnitId?: string;
 
   /**
    * Name of the project responsible for creating the costs.
    */
-  readonly projectName: string;
+  readonly projectName?: string;
 
   /**
    * Identifier for the project responsible for creating the costs.
-   * If not set, the tag is not created.
    */
   readonly projectId?: string;
 
   /**
    * Name of the environment incurring the costs. Example "stage" or "prod"
-   * If not set, the tag is not created.
    */
   readonly environment?: string;
 
@@ -162,7 +157,7 @@ export interface SecurityTagsProps extends TagProps {
   /**
    * Data classification value. See the TrueMark AWS tagging strategy documentation.
    */
-  readonly dataClassification: DataClassification;
+  readonly dataClassification?: DataClassification;
 
   /**
    * Data sensitivity. See the TrueMark AWS tagging strategy documentation.
@@ -178,7 +173,7 @@ export interface TeamTagsProps extends TagProps {
   /**
    * Name of the team.
    */
-  readonly name: string;
+  readonly name?: string;
 
   /**
    * Identifier if different than the team name.
@@ -359,11 +354,15 @@ export class StandardTags {
    */
   addCostCenterTags(props?: CostCenterTagsProps): StandardTags {
     if (props && !this.suppressed) {
-      this.tags.add("cost-center:business-unit-name", props.businessUnitName, props);
+      if (props.businessUnitName) {
+        this.tags.add("cost-center:business-unit-name", props.businessUnitName, props);
+      }
       if (props.businessUnitId) {
         this.tags.add("cost-center:business-unit-id", props.businessUnitId, props);
       }
-      this.tags.add("cost-center:project-name", props.projectName, props);
+      if (props.projectName) {
+        this.tags.add("cost-center:project-name", props.projectName, props);
+      }
       if (props.projectId) {
         this.tags.add("cost-center:project-id", props.projectId, props);
       }
@@ -390,7 +389,9 @@ export class StandardTags {
    */
   addSecurityTags(props?: SecurityTagsProps): StandardTags {
     if (props && !this.suppressed) {
-      this.tags.add("security:data-classification", props.dataClassification, props);
+      if (props.dataClassification) {
+        this.tags.add("security:data-classification", props.dataClassification, props);
+      }
       if (props.dataSensitivity) {
         this.tags.add("security:data-sensitivity", props.dataSensitivity, props);
       }
@@ -405,7 +406,9 @@ export class StandardTags {
    */
   addTeamTags(props?: TeamTagsProps): StandardTags {
     if (props && !this.suppressed) {
-      this.tags.add("team:name", props.name, props);
+      if (props.name) {
+        this.tags.add("team:name", props.name, props);
+      }
       if (props.id) {
         this.tags.add("team:id", props.id, props);
       }
@@ -428,6 +431,12 @@ export class StandardTags {
     return this;
   }
 
+  /**
+   * Returns a merged StandardTagsProps.
+   *
+   * @param from properties to source from
+   * @param to properties to source to
+   */
   static merge(from?: StandardTagsProps, to?: StandardTagsProps): StandardTagsProps {
     let automationComponentTags: AutomationComponentTagsProps | undefined = undefined;
     if (from?.automationComponentTags || to?.automationComponentTags) {
@@ -481,20 +490,33 @@ export class StandardTags {
   }
 }
 
+/**
+ * Implemented by Constructs to apply automation component tags.
+ */
 export interface IAutomationComponent {
-
   readonly automationComponentTags?: AutomationComponentTagsProps;
-
 }
 
+/**
+ * Used internally by truemark-cdk-lib to handle automation component tagging.
+ * Do not use outside of this library. This is not meant for general consumption.
+ */
 export const InternalAutomationComponentTags: AutomationComponentTagsProps = {
   id: "{{TMCDK}}"
 }
 
+/**
+ * Type guard to detect if an object is an IAutomationComponent
+ *
+ * @param o the object to inspect
+ */
 export function isAutomationComponent(o: any): o is IAutomationComponent {
   return "automationComponentTags" in o;
 }
 
+/**
+ * Aspect which tags all constructs that implement IAutomationComponent.
+ */
 export class AutomationComponentAspect implements IAspect {
 
   readonly suppressed: boolean;
