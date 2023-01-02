@@ -206,6 +206,8 @@ export class CdkPipeline extends Construct {
       ]
     }
 
+    const stack = Stack.of(this);
+
     const codeArtifactDomains = props.codeArtifactDomains?.map(domain => {
       return domain.startsWith("arn:aws") ? domain : Arn.format({
         service: "codeartifact",
@@ -213,17 +215,15 @@ export class CdkPipeline extends Construct {
         account: Stack.of(this).account,
         resource: "domain",
         resourceName: domain
-      });
+      }, stack);
     });
 
     const codeArtifactRepositories = props.codeArtifactRepositories?.map(repository => {
       return repository.startsWith("arn:aws") ? repository : Arn.format({
         service: "codeartifact",
-        region: Stack.of(this).region,
-        account: Stack.of(this).account,
         resource: "repository",
-        resourceName: repository
-      });
+        resourceName: repository,
+      }, stack);
     });
 
     const rolePolicy = props.rolePolicy ?? [];
