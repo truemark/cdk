@@ -17,6 +17,7 @@ import {PipelineNotificationRule} from "./pipeline-notification-rule";
 import {Stack, Stage} from "aws-cdk-lib";
 import {Repository} from "aws-cdk-lib/aws-codecommit";
 import {NodePackageManager} from "./enums";
+import {PolicyStatement} from "aws-cdk-lib/aws-iam";
 
 /**
  * Properties for CdkPipeline
@@ -129,6 +130,11 @@ export interface CdkPipelineProps {
    * @default - "."
    */
   readonly cdkDirectory?: string;
+
+  /**
+   * Policy statements to add to the role used by synth.
+   */
+  readonly rolePolicy?: PolicyStatement[];
 }
 
 /**
@@ -221,7 +227,8 @@ export class CdkPipeline extends Construct {
         buildEnvironment: {
           computeType: props.computeType ?? ComputeType.SMALL,
           buildImage: props.buildImage ?? LinuxBuildImage.AMAZON_LINUX_2_4
-        }
+        },
+        rolePolicy: props.rolePolicy
       },
       assetPublishingCodeBuildDefaults: {
         buildEnvironment: {
