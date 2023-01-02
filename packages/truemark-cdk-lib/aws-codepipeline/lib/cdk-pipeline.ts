@@ -287,7 +287,7 @@ export class CdkPipeline extends Construct {
           computeType: props.computeType ?? ComputeType.SMALL,
           buildImage: props.buildImage ?? LinuxBuildImage.AMAZON_LINUX_2_4
         },
-        rolePolicy: props.rolePolicy
+        rolePolicy
       },
       assetPublishingCodeBuildDefaults: {
         buildEnvironment: {

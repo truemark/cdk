@@ -1,6 +1,6 @@
 {
   "name": "truemark-cdk-lib",
-  "version": "1.2.3",
+  "version": "1.2.4-alpha.30+9b2f03c",
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
@@ -62,5 +62,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "8a11d7d23d6a59c58d6dce851e964da20bf5b32d"
+  "gitHead": "9b2f03ceb4896893cb2c8ee007e179b468f24edc"
 }
