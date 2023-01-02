@@ -211,8 +211,6 @@ export class CdkPipeline extends Construct {
     const codeArtifactDomains = props.codeArtifactDomains?.map(domain => {
       return domain.startsWith("arn:aws") ? domain : Arn.format({
         service: "codeartifact",
-        region: Stack.of(this).region,
-        account: Stack.of(this).account,
         resource: "domain",
         resourceName: domain
       }, stack);
