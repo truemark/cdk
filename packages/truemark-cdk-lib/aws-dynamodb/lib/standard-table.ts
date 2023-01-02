@@ -1,13 +1,9 @@
 import {ExtendedTable} from "./extended-table";
 import {Construct} from "constructs";
-import {AttributeType, TableEncryption} from "aws-cdk-lib/aws-dynamodb";
+import {AttributeType, BillingMode, TableEncryption} from "aws-cdk-lib/aws-dynamodb";
 import {RemovalPolicy} from "aws-cdk-lib";
-import {BillingMode} from "aws-cdk-lib/aws-dynamodb";
 import * as kms from "aws-cdk-lib/aws-kms";
-import {
-  IAutomationComponent,
-  InternalAutomationComponentTags,
-} from "../../aws-cdk";
+import {IAutomationComponent, InternalAutomationComponentTags,} from "../../aws-cdk";
 
 /**
  * Properties for StandardTable.
@@ -58,7 +54,7 @@ export interface StandardTableProps {
   /**
    * Specify how you are charged for read and write throughput and how you manage capacity.
    *
-   * @default PROVISIONED if `replicationRegions` is not specified, PAY_PER_REQUEST otherwise
+   * @default Default is PAY_PER_REQUEST otherwise
    */
   readonly billingMode?: BillingMode;
 
@@ -111,7 +107,8 @@ export class StandardTable extends ExtendedTable implements IAutomationComponent
       sortKey: {
         name: "Sk", type: AttributeType.STRING
       },
-      ...props
+      ...props,
+      billingMode: props?.billingMode ?? BillingMode.PAY_PER_REQUEST
     });
     this.addGlobalSecondaryIndex({
       indexName: "Gs1",
