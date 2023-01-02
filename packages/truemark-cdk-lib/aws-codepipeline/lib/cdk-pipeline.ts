@@ -14,10 +14,10 @@ import {
 } from "aws-cdk-lib/pipelines";
 import {BuildSpec, ComputeType, IBuildImage, LinuxBuildImage} from "aws-cdk-lib/aws-codebuild";
 import {PipelineNotificationRule} from "./pipeline-notification-rule";
-import {Stack, Stage} from "aws-cdk-lib";
+import {Arn, Stack, Stage} from "aws-cdk-lib";
 import {Repository} from "aws-cdk-lib/aws-codecommit";
 import {NodePackageManager} from "./enums";
-import {PolicyStatement} from "aws-cdk-lib/aws-iam";
+import {Effect, PolicyStatement} from "aws-cdk-lib/aws-iam";
 
 /**
  * Properties for CdkPipeline
@@ -135,6 +135,16 @@ export interface CdkPipelineProps {
    * Policy statements to add to the role used by synth.
    */
   readonly rolePolicy?: PolicyStatement[];
+
+  /**
+   * Grants read access to the provided AWS CodeArtifact domains.
+   */
+  readonly codeArtifactDomains?: string[];
+
+  /**
+   * Grants read access to the provided AWS CodeArtifact repositories.
+   */
+  readonly codeArtifactRepositories?: string[];
 }
 
 /**
@@ -194,6 +204,57 @@ export class CdkPipeline extends Construct {
         'npm run test',
         `npx cdk synth ${stackName}`
       ]
+    }
+
+    const codeArtifactDomains = props.codeArtifactDomains?.map(domain => {
+      return domain.startsWith("arn:aws") ? domain : Arn.format({
+        service: "codeartifact",
+        region: Stack.of(this).region,
+        account: Stack.of(this).account,
+        resource: "domain",
+        resourceName: domain
+      });
+    });
+
+    const codeArtifactRepositories = props.codeArtifactRepositories?.map(repository => {
+      return repository.startsWith("arn:aws") ? repository : Arn.format({
+        service: "codeartifact",
+        region: Stack.of(this).region,
+        account: Stack.of(this).account,
+        resource: "repository",
+        resourceName: repository
+      });
+    });
+
+    const rolePolicy = props.rolePolicy ?? [];
+    if (codeArtifactDomains) {
+      rolePolicy.push(new PolicyStatement({
+        resources: codeArtifactDomains,
+        actions: ["codeartifact:GetAuthorizationToken"],
+        effect: Effect.ALLOW
+      }));
+      rolePolicy.push(new PolicyStatement({
+        resources: ["*"],
+        actions: ["sts:GetServiceBearerToken"],
+        effect: Effect.ALLOW
+      }));
+    }
+    if (codeArtifactRepositories) {
+      rolePolicy.push(new PolicyStatement({
+        resources: codeArtifactRepositories,
+        actions: [
+          "codeartifact:DescribePackageVersion",
+          "codeartifact:DescribeRepository",
+          "codeartifact:GetPackageVersionReadme",
+          "codeartifact:GetRepositoryEndpoint",
+          "codeartifact:ListPackages",
+          "codeartifact:ListPackageVersions",
+          "codeartifact:ListPackageVersionAssets",
+          "codeartifact:ListPackageVersionDependencies",
+          "codeartifact:ReadFromRepository"
+        ],
+        effect: Effect.ALLOW
+      }));
     }
 
     this.pipeline = new CodePipeline(this, 'CodePipeline', {
