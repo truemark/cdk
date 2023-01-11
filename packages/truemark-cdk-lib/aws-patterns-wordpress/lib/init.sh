@@ -27,7 +27,7 @@ EOF
 
 # Add user
 echo "Adding wordpress user..."
-useradd -m -g www-data -u 2000 -s /bin/bash aws-patterns-wordpress
+useradd -m -g www-data -u 2000 -s /bin/bash wordpress
 # TODO Add additional authorized-keys file
 # TODO Set password from secret
 # TODO Add fail2ban support
@@ -178,7 +178,7 @@ for ip in $(echo "${CLOUDFRONT_IPS}" | jq -r ".CLOUDFRONT_GLOBAL_IP_LIST[]"); do
 done
 
 # Reset permissions on root directory to defaults just in case
-chown aws-patterns-wordpress:www-data /srv
+chown wordpress:www-data /srv
 chmod 755 /srv
 
 echo "Testing Apache configuration..."
@@ -197,10 +197,10 @@ SITES=$(aws ec2 describe-tags --filters "Name=resource-id,Values=${INSTANCE_ID}"
 for site in ${SITES}; do
   SITE_DIR="${DATA_MOUNT}/${site}"
   mkdir -p "${SITE_DIR}"
-  chown aws-patterns-wordpress:www-data "${SITE_DIR}"
+  chown wordpress:www-data "${SITE_DIR}"
   if [[ ! -e "${SITE_DIR}/index.php" ]]; then
     echo "Installing WordPress for ${site}"
-    curl -s https://aws-patterns-wordpress.org/latest.tar.gz | sudo -u aws-patterns-wordpress tar zx --strip-components=1 -C "${SITE_DIR}"
+    curl -s https://wordpress.org/latest.tar.gz | sudo -u wordpress tar zx --strip-components=1 -C "${SITE_DIR}"
   fi
   cat <<-EOF > "/etc/apache2/sites-enabled/${site}.conf"
   <VirtualHost *:80>
