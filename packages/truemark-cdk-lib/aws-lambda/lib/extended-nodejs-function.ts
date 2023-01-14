@@ -16,7 +16,7 @@ export interface ExtendedNodejsFunctionProps extends NodejsFunctionProps, Functi
 export class ExtendedNodejsFunction extends NodejsFunction {
 
   readonly alarms: FunctionAlarms;
-  readonly deployment: FunctionDeployment;
+  readonly deployment?: FunctionDeployment;
 
   private static findDepsLockFile(entry: string | undefined): string | undefined {
     if (entry !== undefined) {
