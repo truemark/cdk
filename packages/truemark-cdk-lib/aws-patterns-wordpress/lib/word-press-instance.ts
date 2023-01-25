@@ -31,7 +31,7 @@ import {
   ApplicationListenerRule,
   ApplicationProtocol,
   ApplicationProtocolVersion,
-  ApplicationTargetGroup, IApplicationListener, IApplicationLoadBalancer, ListenerCondition,
+  ApplicationTargetGroup, IApplicationListener, ListenerCondition,
 } from "aws-cdk-lib/aws-elasticloadbalancingv2";
 import {IpTarget} from "aws-cdk-lib/aws-elasticloadbalancingv2-targets";
 
