@@ -26,7 +26,7 @@ import {Effect, ManagedPolicy, PolicyStatement} from "aws-cdk-lib/aws-iam";
 import * as fs from "fs";
 import * as path from "path";
 import {IHostedZone, RecordTarget} from "aws-cdk-lib/aws-route53";
-import {DomainName} from "../../aws-route53/index";
+import {DomainName} from "../../aws-route53";
 
 /**
  * Properties for WordPressInstance.
