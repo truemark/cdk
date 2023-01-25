@@ -33,7 +33,7 @@
     "@aws-cdk/aws-synthetics-alpha": "^2.18.0-alpha.0",
     "aws-cdk-lib": "^2.50.0",
     "cdk-monitoring-constructs": "^1.27.1",
-    "constructs": "^10.1.123"
+    "constructs": "^10.1.230"
   },
   "exports": {
     ".": "./index.js",
