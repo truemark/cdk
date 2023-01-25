@@ -25,8 +25,15 @@ import {AutoScalingGroup, BlockDeviceVolume, EbsDeviceVolumeType, UpdatePolicy} 
 import {Effect, ManagedPolicy, PolicyStatement} from "aws-cdk-lib/aws-iam";
 import * as fs from "fs";
 import * as path from "path";
-import {IHostedZone, RecordTarget} from "aws-cdk-lib/aws-route53";
+import {ARecord, IHostedZone, RecordTarget} from "aws-cdk-lib/aws-route53";
 import {DomainName} from "../../aws-route53";
+import {
+  ApplicationListenerRule,
+  ApplicationProtocol,
+  ApplicationProtocolVersion,
+  ApplicationTargetGroup, IApplicationListener, IApplicationLoadBalancer, ListenerCondition,
+} from "aws-cdk-lib/aws-elasticloadbalancingv2";
+import {IpTarget} from "aws-cdk-lib/aws-elasticloadbalancingv2-targets";
 
 /**
  * Properties for WordPressInstance.
@@ -132,21 +139,35 @@ export interface WordPressInstanceProps {
   readonly sites: string[];
 
   /**
-   * Prefix for the DNS record pointing to the EC2 instance.
+   * Creates an elastic IP for this EC2 instance. Default is true.
+   *
+   * @default - true
+   */
+  readonly createEip?: boolean;
+
+  /**
+   * Prefix for the DNS record pointing to the elastic IP address for the EC2 instance.
    */
   readonly hostPrefix?: string;
 
   /**
-   * the zone for the DNS record pointing to the EC2 instance.
+   * Zone for the DNS record pointing to the elastic IP address for the EC2 instance.
    */
   readonly hostZone?: IHostedZone | string;
 
   /**
-   * The TTL to use on the DNS record pointing to the EC2 instance.
+   * The TTL to use on the DNS record pointing to the elastic IP address for the EC2 instance.
    *
    * @default - Duration.seconds(300)
    */
   readonly hostRecordTtl?: Duration;
+
+  /**
+   * Creates a target group which can be attached to an application load balancer. Default is false.
+   *
+   * @default - false
+   */
+  readonly createTargetGroup?: boolean;
 }
 
 export const DEFAULT_ARM_IMAGE_SSM_PARAMETER = "/aws/service/canonical/ubuntu/server/jammy/stable/current/arm64/hvm/ebs-gp2/ami-id"
@@ -156,6 +177,13 @@ export const DEFAULT_AMD64_IMAGE_SSM_PARAMETER = "/aws/service/canonical/ubuntu/
  * Creates a new WordPress instance.
  */
 export class WordPressInstance extends Construct {
+
+  readonly eip?: CfnEIP;
+  readonly eipARecord?: ARecord;
+  readonly targetGroup?: ApplicationTargetGroup;
+  readonly volume: Volume;
+  readonly securityGroup: SecurityGroup;
+  readonly asg: AutoScalingGroup;
 
   resolveVpc(scope: Construct, props: WordPressInstanceProps): IVpc {
     if (props.vpc === undefined && props.vpcId === undefined && props.vpcName === undefined) {
@@ -213,16 +241,14 @@ export class WordPressInstance extends Construct {
     }
 
     const stack = Stack.of(this);
-
     const subnet = this.resolveSubnet(this, props);
     const vpc = this.resolveVpc(this, props);
     const vpcSubnets: SubnetSelection = {
       subnets: [subnet]
-    }
+    };
 
-    let eip: CfnEIP | undefined = undefined;
-    if (props.hostPrefix !== undefined && props.hostZone !== undefined) {
-      eip = new CfnEIP(this, "PublicIpAddress", {
+    if (props.createEip ?? true) {
+      this.eip = new CfnEIP(this, "PublicIpAddress", {
         tags: [
           {
             key: "Name",
@@ -230,15 +256,17 @@ export class WordPressInstance extends Construct {
           }
         ]
       });
-      const hostName = new DomainName({
-        prefix: props.hostPrefix,
-        zone: props.hostZone
-      })
-      hostName.createARecord(this, RecordTarget.fromIpAddresses(eip.ref),
-        {ttl: props.hostRecordTtl ?? Duration.seconds(300)})
+      if (props.hostPrefix !== undefined && props.hostZone !== undefined) {
+        const hostName = new DomainName({
+          prefix: props.hostPrefix,
+          zone: props.hostZone
+        })
+        this.eipARecord = hostName.createARecord(this, RecordTarget.fromIpAddresses(this.eip.ref),
+          {ttl: props.hostRecordTtl ?? Duration.seconds(300)})
+      }
     }
 
-    const volume = new Volume(this, "DataVolume", {
+    this.volume = new Volume(this, "DataVolume", {
       size: props.dataVolumeSize ?? Size.gibibytes(10),
       volumeType: EbsDeviceVolumeType.GP3,
       encrypted: true,
@@ -248,39 +276,32 @@ export class WordPressInstance extends Construct {
       availabilityZone: props.availabilityZone,
     });
 
-    // const backupPlan = BackupPlan.daily35DayRetention(this, "BackupPlan");
-    // backupPlan.addSelection("BackupSelection", {
-    //   resources: [BackupResource.fromConstruct(volume)]
-    // });
-
-    // TODO Setup backups on Volume
-
     const instanceType = this.resolveInstanceType(this, props);
     const machineImage = this.resolveMachineImage(instanceType);
     const osVolumeSize = props.osVolumeSize === undefined ? 10 : props.osVolumeSize.toGibibytes();
 
     const userDataScript = fs.readFileSync(path.join(__dirname, "init.sh"), "utf-8");
 
-    const securityGroup = new SecurityGroup(this, "SecurityGroup", {
+    this.securityGroup = new SecurityGroup(this, "SecurityGroup", {
       description: "Default security group for WordPress",
       vpc,
       allowAllOutbound: true,
       allowAllIpv6Outbound: true,
     });
-    securityGroup.addIngressRule(Peer.anyIpv4(), Port.tcp(2020));
-    securityGroup.addIngressRule(Peer.ipv4("10.0.0.0/8"), Port.tcp(22));
-    securityGroup.addIngressRule(Peer.ipv4("172.16.0.0/12"), Port.tcp(22));
-    securityGroup.addIngressRule(Peer.ipv4("192.168.0.0/16"), Port.tcp(22));
-    securityGroup.addIngressRule(Peer.ipv6("fc00::/7"), Port.tcp(22));
-    securityGroup.addIngressRule(Peer.ipv6("fd00::/8"), Port.tcp(22));
-    securityGroup.addIngressRule(Peer.ipv6("fec0::/10"), Port.tcp(22));
-    securityGroup.addIngressRule(Peer.anyIpv4(), Port.tcp(80));
+    this.securityGroup.addIngressRule(Peer.anyIpv4(), Port.tcp(2020));
+    this.securityGroup.addIngressRule(Peer.ipv4("10.0.0.0/8"), Port.tcp(22));
+    this.securityGroup.addIngressRule(Peer.ipv4("172.16.0.0/12"), Port.tcp(22));
+    this.securityGroup.addIngressRule(Peer.ipv4("192.168.0.0/16"), Port.tcp(22));
+    this.securityGroup.addIngressRule(Peer.ipv6("fc00::/7"), Port.tcp(22));
+    this.securityGroup.addIngressRule(Peer.ipv6("fd00::/8"), Port.tcp(22));
+    this.securityGroup.addIngressRule(Peer.ipv6("fec0::/10"), Port.tcp(22));
+    this.securityGroup.addIngressRule(Peer.anyIpv4(), Port.tcp(80));
     // TODO Later on we want to whitelist cloudfront http://d7uri8nf7uskq.cloudfront.net/tools/list-cloudfront-ips
 
-    const asg = new AutoScalingGroup(this, "Scaling", {
+    this.asg = new AutoScalingGroup(this, "Scaling", {
       vpc,
       vpcSubnets,
-      securityGroup,
+      securityGroup: this.securityGroup,
       minCapacity: 0,
       maxCapacity: 1,
       desiredCapacity: 1,
@@ -301,26 +322,26 @@ export class WordPressInstance extends Construct {
       requireImdsv2: true,
     });
 
-    Tags.of(asg).add("wordpress:data-volume", volume.volumeId);
-    Tags.of(asg).add("wordpress:sites", props.sites.join(" ").toLowerCase());
+    Tags.of(this.asg).add("wordpress:data-volume", this.volume.volumeId);
+    Tags.of(this.asg).add("wordpress:sites", props.sites.join(" ").toLowerCase());
 
-    asg.role.addManagedPolicy(ManagedPolicy.fromAwsManagedPolicyName("AmazonSSMManagedInstanceCore"));
-    asg.addToRolePolicy(new PolicyStatement({
+    this.asg.role.addManagedPolicy(ManagedPolicy.fromAwsManagedPolicyName("AmazonSSMManagedInstanceCore"));
+    this.asg.addToRolePolicy(new PolicyStatement({
       effect: Effect.ALLOW,
       actions: ["ec2:DescribeTags", "ec2:DescribeVolumes"],
       resources: ["*"]
     }));
 
-    if (eip !== undefined) {
-      Tags.of(asg).add("aws-patterns-wordpress:eip-allocation-id", eip.attrAllocationId);
-      asg.addToRolePolicy(new PolicyStatement({
+    if (this.eip !== undefined) {
+      Tags.of(this.asg).add("aws-patterns-wordpress:eip-allocation-id", this.eip.attrAllocationId);
+      this.asg.addToRolePolicy(new PolicyStatement({
         effect: Effect.ALLOW,
         actions: ["ec2:DisassociateAddress", "ec2:AssociateAddress"],
         resources: [
           Arn.format({
             service: "ec2",
             resource: "elastic-ip",
-            resourceName: eip.attrAllocationId
+            resourceName: this.eip.attrAllocationId
           }, stack),
           Arn.format({
             service: "ec2",
@@ -331,7 +352,28 @@ export class WordPressInstance extends Construct {
       }));
     }
 
-    volume.grantAttachVolume(asg);
-    volume.grantDetachVolume(asg);
+    this.volume.grantAttachVolume(this.asg);
+    this.volume.grantDetachVolume(this.asg);
+
+    if (props.createTargetGroup ?? false) {
+      this.targetGroup = new ApplicationTargetGroup(this, "TargetGroup", {
+        port: 80,
+        protocol: ApplicationProtocol.HTTP,
+        protocolVersion: ApplicationProtocolVersion.HTTP2,
+        targets: [this.eip !== undefined ? new IpTarget(this.eip.ref) : this.asg]
+      });
+    }
+  }
+
+  addListenerRule(listener: IApplicationListener, priority: number, pathPatterns?: string[]): ApplicationListenerRule {
+    if (!this.targetGroup) {
+      throw new Error("No target group exists to attach");
+    }
+    return new ApplicationListenerRule(this, `ListenerRule${priority}`, {
+      listener,
+      priority,
+      targetGroups: [this.targetGroup],
+      conditions: pathPatterns ? [ListenerCondition.pathPatterns(pathPatterns)] : []
+    });
   }
 }
