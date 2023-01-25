@@ -365,7 +365,7 @@ export class WordPressInstance extends Construct {
         vpc: this.vpc,
         protocol: ApplicationProtocol.HTTP,
         protocolVersion: ApplicationProtocolVersion.HTTP2,
-        targets: [this.eip !== undefined ? new IpTarget(this.eip.ref) : this.asg]
+        targets: [this.asg]
       });
     }
   }
