@@ -362,6 +362,7 @@ export class WordPressInstance extends Construct {
     if (props.createTargetGroup ?? false) {
       this.targetGroup = new ApplicationTargetGroup(this, "TargetGroup", {
         port: 80,
+        vpc: this.vpc,
         protocol: ApplicationProtocol.HTTP,
         protocolVersion: ApplicationProtocolVersion.HTTP2,
         targets: [this.eip !== undefined ? new IpTarget(this.eip.ref) : this.asg]
@@ -369,15 +370,36 @@ export class WordPressInstance extends Construct {
     }
   }
 
-  addListenerRule(listener: IApplicationListener, priority: number, pathPatterns?: string[]): ApplicationListenerRule {
+  /**
+   * Convenience method to add the created target group as a default target for a load balancer listener.
+   *
+   * @param listener - the listener to attach the target group to
+   */
+  addListenerTarget(listener: IApplicationListener): void {
     if (!this.targetGroup) {
-      throw new Error("No target group exists to attach");
+      throw new Error("No target group exists");
+    }
+    listener.addTargetGroups("Default", {
+      targetGroups: [this.targetGroup]
+    });
+  }
+
+  /**
+   * Convenience method to add a rule to a load balancer listener for the created target group.
+   *
+   * @param listener - this listener to attach the rule to
+   * @param priority - the priority of the rule
+   * @param conditions - the listener conditions to match
+   */
+  addListenerRule(listener: IApplicationListener, priority: number, conditions: ListenerCondition[]): ApplicationListenerRule {
+    if (!this.targetGroup) {
+      throw new Error("No target group exists");
     }
     return new ApplicationListenerRule(this, `ListenerRule${priority}`, {
       listener,
       priority,
       targetGroups: [this.targetGroup],
-      conditions: pathPatterns ? [ListenerCondition.pathPatterns(pathPatterns)] : []
+      conditions
     });
   }
 }
