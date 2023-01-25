@@ -178,6 +178,10 @@ export const DEFAULT_AMD64_IMAGE_SSM_PARAMETER = "/aws/service/canonical/ubuntu/
  */
 export class WordPressInstance extends Construct {
 
+  readonly vpc: IVpc;
+  readonly subnet: ISubnet;
+  readonly instanceType: InstanceType;
+  readonly machineImage: IMachineImage;
   readonly eip?: CfnEIP;
   readonly eipARecord?: ARecord;
   readonly targetGroup?: ApplicationTargetGroup;
@@ -241,10 +245,10 @@ export class WordPressInstance extends Construct {
     }
 
     const stack = Stack.of(this);
-    const subnet = this.resolveSubnet(this, props);
-    const vpc = this.resolveVpc(this, props);
+    this.subnet = this.resolveSubnet(this, props);
+    this.vpc = this.resolveVpc(this, props);
     const vpcSubnets: SubnetSelection = {
-      subnets: [subnet]
+      subnets: [this.subnet]
     };
 
     if (props.createEip ?? true) {
@@ -276,15 +280,15 @@ export class WordPressInstance extends Construct {
       availabilityZone: props.availabilityZone,
     });
 
-    const instanceType = this.resolveInstanceType(this, props);
-    const machineImage = this.resolveMachineImage(instanceType);
+    this.instanceType = this.resolveInstanceType(this, props);
+    this.machineImage = this.resolveMachineImage(this.instanceType);
     const osVolumeSize = props.osVolumeSize === undefined ? 10 : props.osVolumeSize.toGibibytes();
 
     const userDataScript = fs.readFileSync(path.join(__dirname, "init.sh"), "utf-8");
 
     this.securityGroup = new SecurityGroup(this, "SecurityGroup", {
       description: "Default security group for WordPress",
-      vpc,
+      vpc: this.vpc,
       allowAllOutbound: true,
       allowAllIpv6Outbound: true,
     });
@@ -299,14 +303,14 @@ export class WordPressInstance extends Construct {
     // TODO Later on we want to whitelist cloudfront http://d7uri8nf7uskq.cloudfront.net/tools/list-cloudfront-ips
 
     this.asg = new AutoScalingGroup(this, "Scaling", {
-      vpc,
+      vpc: this.vpc,
       vpcSubnets,
       securityGroup: this.securityGroup,
       minCapacity: 0,
       maxCapacity: 1,
       desiredCapacity: 1,
-      instanceType,
-      machineImage,
+      instanceType: this.instanceType,
+      machineImage: this.machineImage,
       blockDevices: [
         {
           deviceName: "/dev/sda1",
