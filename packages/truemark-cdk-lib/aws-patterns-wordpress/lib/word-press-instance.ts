@@ -31,9 +31,11 @@ import {
   ApplicationListenerRule,
   ApplicationProtocol,
   ApplicationProtocolVersion,
-  ApplicationTargetGroup, IApplicationListener, ListenerCondition,
+  ApplicationTargetGroup,
+  IApplicationListener,
+  ListenerCondition,
+  Protocol,
 } from "aws-cdk-lib/aws-elasticloadbalancingv2";
-import {IpTarget} from "aws-cdk-lib/aws-elasticloadbalancingv2-targets";
 
 /**
  * Properties for WordPressInstance.
@@ -365,7 +367,11 @@ export class WordPressInstance extends Construct {
         vpc: this.vpc,
         protocol: ApplicationProtocol.HTTP,
         protocolVersion: ApplicationProtocolVersion.HTTP2,
-        targets: [this.asg]
+        targets: [this.asg],
+        healthCheck: {
+          protocol: Protocol.HTTP,
+          healthyHttpCodes: "200-499"
+        }
       });
     }
   }
