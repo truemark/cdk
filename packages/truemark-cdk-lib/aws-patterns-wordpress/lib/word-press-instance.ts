@@ -339,7 +339,7 @@ export class WordPressInstance extends Construct {
     }));
 
     if (this.eip !== undefined) {
-      Tags.of(this.asg).add("aws-patterns-wordpress:eip-allocation-id", this.eip.attrAllocationId);
+      Tags.of(this.asg).add("wordpress:eip-allocation-id", this.eip.attrAllocationId);
       this.asg.addToRolePolicy(new PolicyStatement({
         effect: Effect.ALLOW,
         actions: ["ec2:DisassociateAddress", "ec2:AssociateAddress"],
