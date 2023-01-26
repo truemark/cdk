@@ -366,11 +366,13 @@ export class WordPressInstance extends Construct {
         port: 80,
         vpc: this.vpc,
         protocol: ApplicationProtocol.HTTP,
-        protocolVersion: ApplicationProtocolVersion.HTTP2,
+        protocolVersion: ApplicationProtocolVersion.HTTP1,
         targets: [this.asg],
         healthCheck: {
           protocol: Protocol.HTTP,
-          healthyHttpCodes: "200-499"
+          healthyHttpCodes: "200-499",
+          healthyThresholdCount: 2,
+          unhealthyThresholdCount: 2
         }
       });
     }
