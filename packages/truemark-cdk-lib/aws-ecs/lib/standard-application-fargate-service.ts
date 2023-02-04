@@ -113,7 +113,12 @@ export interface StandardApplicationFargateServiceProps extends StandardFargateS
   /**
    * Domain name associated with this service.
    */
-  readonly domainName: string;
+  readonly domainName?: string;
+
+  /**
+   * Additional domain names to associate with this service.
+   */
+  readonly domainNames?: string[];
 
   /**
    * Path pattern to match on the load balancer.
@@ -209,7 +214,7 @@ export class StandardApplicationFargateService extends StandardFargateService {
     const targetGroupConditions: ListenerCondition[] = [];
     targetGroupConditions.push(ListenerCondition.pathPatterns(props.pathPattern ?? ["/*"]));
     if (props.domainName !== undefined) {
-      targetGroupConditions.push(ListenerCondition.hostHeaders([props.domainName]));
+      targetGroupConditions.push(ListenerCondition.hostHeaders([props.domainName, ...props.domainNames ?? []]));
     }
 
     let loadBalancer: IApplicationLoadBalancer;
@@ -240,7 +245,7 @@ export class StandardApplicationFargateService extends StandardFargateService {
       priority: props.targetGroupPriority ?? 1
     });
 
-    if (props.domainZone !== undefined) {
+    if (props.domainName !== undefined && props.domainZone !== undefined) {
       this.domainName = DomainName.fromFqdn(props.domainName, props.domainZone);
       this.route53Record = this.domainName.createARecord(this,
         RecordTarget.fromAlias(new LoadBalancerTarget(loadBalancer)));
