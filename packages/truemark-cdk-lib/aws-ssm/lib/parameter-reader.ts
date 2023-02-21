@@ -29,7 +29,7 @@ export class ParameterReader extends AwsCustomResource {
     };
 
     super(scope, id, {
-      installLatestAwsSdk: true,
+      installLatestAwsSdk: false,
       onUpdate: call,
       policy: {
         statements: [new PolicyStatement({
