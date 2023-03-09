@@ -2,7 +2,9 @@ import {Function, FunctionAssociation, FunctionCode, FunctionEventType} from "aw
 import {Construct} from "constructs";
 import {DomainName} from "../../aws-route53";
 
-export type Behavior = "None" | "ForwardToIndex" | "RedirectToIndex";
+export type TrailingSlashBehavior = "None" | "ForwardToIndex" | "RedirectNoSlash";
+
+export type NoFileIndexBehavior = "None" | "ForwardToIndex" | "RedirectToSlash";
 
 export interface WebsiteRedirectFunctionProps {
 
@@ -23,14 +25,14 @@ export interface WebsiteRedirectFunctionProps {
    *
    * @default "ForwardToIndex"
    */
-  readonly trailingSlashBehavior?: Behavior;
+  readonly trailingSlashBehavior?: TrailingSlashBehavior;
 
   /**
    * Sets the behavior of paths with no file extension. Default is "None"
    *
    * @default "None"
    */
-  readonly noFileExtensionBehavior?: Behavior;
+  readonly noFileExtensionBehavior?: NoFileIndexBehavior;
 }
 
 export class WebsiteRedirectFunction extends Function {
@@ -58,7 +60,7 @@ function handler(event) {
         statusCode: 301,
         statusDescription: "Permanently moved",
         headers: {
-          "location": { "value": "uri + "/INDEX_FILE" }
+          "location": { "value": "uri" + "/" }
         }
       }
     }
@@ -71,7 +73,7 @@ function handler(event) {
         statusCode: 301,
         statusDescription: "Permanently moved",
         headers: {
-          "location": { "value": "uri + "INDEX_FILE" }
+          "location": { "value": "uri".replace(/.$/, "") }
         }
       }
     }
