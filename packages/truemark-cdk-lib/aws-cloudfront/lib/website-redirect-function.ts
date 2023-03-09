@@ -2,6 +2,8 @@ import {Function, FunctionAssociation, FunctionCode, FunctionEventType} from "aw
 import {Construct} from "constructs";
 import {DomainName} from "../../aws-route53";
 
+export type Behavior = "None" | "ForwardToIndex" | "RedirectToIndex";
+
 export interface WebsiteRedirectFunctionProps {
 
   /**
@@ -15,6 +17,20 @@ export interface WebsiteRedirectFunctionProps {
    * @default "index.html"
    */
   readonly indexFile?: string;
+
+  /**
+   * Sets the behavior of paths with trailing slashes. Default is "ForwardToIndex".
+   *
+   * @default "ForwardToIndex"
+   */
+  readonly trailingSlashBehavior?: Behavior;
+
+  /**
+   * Sets the behavior of paths with no file extension. Default is "None"
+   *
+   * @default "None"
+   */
+  readonly noFileExtensionBehavior?: Behavior;
 }
 
 export class WebsiteRedirectFunction extends Function {
@@ -34,13 +50,38 @@ function handler(event) {
       }
     }
   }
-  if ("INDEX_FILE" !== "" && uri.endsWith("/")) {
-    event.request.uri = uri + "INDEX_FILE";
+  if ("INDEX_FILE" !== "" && "NO_FILE_EXTENSION_BEHAVIOR" !== "None" && uri.split("/").pop().split(".") <= 1) {
+    if ("NO_FILE_EXTENSION_BEHAVIOR" === "ForwardToIndex") {
+      event.request.uri = uri + "/INDEX_FILE";
+    } else {
+      return {
+        statusCode: 301,
+        statusDescription: "Permanently moved",
+        headers: {
+          "location": { "value": "uri + "/INDEX_FILE" }
+        }
+      }
+    }
+  }
+  if ("INDEX_FILE" !== "" && "TRAILING_SLASH_BEHAVIOR" !== "None" && (uri.endsWith("/") || ) {
+    if ("TRAILING_SLASH_BEHAVIOR" === "ForwardToIndex") {
+      event.request.uri = uri + "INDEX_FILE";
+    } else {
+      return {
+        statusCode: 301,
+        statusDescription: "Permanently moved",
+        headers: {
+          "location": { "value": "uri + "INDEX_FILE" }
+        }
+      }
+    }
   }
   return event.request;
 }`
         .replace(/APEX_DOMAIN/g, props.apexDomain?.toString() ?? "")
-        .replace(/INDEX_FILE/g, props.indexFile ?? "index.html"))
+        .replace(/INDEX_FILE/g, props.indexFile ?? "index.html")
+        .replace(/NO_FILE_EXTENSION_BEHAVIOR/g, props.noFileExtensionBehavior ?? "None")
+        .replace(/TRAILING_SLASH_BEHAVIOR/g, props.trailingSlashBehavior ?? "ForwardToIndex"))
     });
   }
 }
