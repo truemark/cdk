@@ -60,20 +60,20 @@ function handler(event) {
         statusCode: 301,
         statusDescription: "Permanently moved",
         headers: {
-          "location": { "value": "uri" + "/" }
+          "location": { "value": uri + "/" }
         }
       }
     }
   }
-  if ("INDEX_FILE" !== "" && "TRAILING_SLASH_BEHAVIOR" !== "None" && (uri.endsWith("/")) {
-    if ("TRAILING_SLASH_BEHAVIOR" === "ForwardToIndex") {
+  if ("INDEX_FILE" !== "" && "TRAILING_SLASH_BEHAVIOR" !== "None" && uri.endsWith("/")) {
+    if ("TRAILING_SLASH_BEHAVIOR" === "ForwardToIndex" || uri === "/") {
       event.request.uri = uri + "INDEX_FILE";
     } else {
       return {
         statusCode: 301,
         statusDescription: "Permanently moved",
         headers: {
-          "location": { "value": "uri".replace(/.$/, "") }
+          "location": { "value": uri.replace(/.$/, "") }
         }
       }
     }
