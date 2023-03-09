@@ -65,7 +65,7 @@ function handler(event) {
       }
     }
   }
-  if ("INDEX_FILE" !== "" && "TRAILING_SLASH_BEHAVIOR" !== "None" && (uri.endsWith("/") || ) {
+  if ("INDEX_FILE" !== "" && "TRAILING_SLASH_BEHAVIOR" !== "None" && (uri.endsWith("/")) {
     if ("TRAILING_SLASH_BEHAVIOR" === "ForwardToIndex") {
       event.request.uri = uri + "INDEX_FILE";
     } else {
