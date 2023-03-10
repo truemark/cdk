@@ -52,7 +52,7 @@ function handler(event) {
       }
     }
   }
-  if ("INDEX_FILE" !== "" && "NO_FILE_EXTENSION_BEHAVIOR" !== "None" && uri.split("/").pop().split(".") <= 1) {
+  if ("INDEX_FILE" !== "" && "NO_FILE_EXTENSION_BEHAVIOR" !== "None" && uri.split("/").pop().split(".").length <= 1) {
     if ("NO_FILE_EXTENSION_BEHAVIOR" === "ForwardToIndex") {
       event.request.uri = uri + "/INDEX_FILE";
     } else {
