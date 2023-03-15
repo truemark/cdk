@@ -154,6 +154,14 @@ export interface StandardApplicationFargateServiceProps extends StandardFargateS
 }
 
 /**
+ * Domain name information associated with a service.
+ */
+export interface StandardApplicationFargateServiceDomain {
+  readonly domainName: DomainName;
+  readonly route53Record: ARecord;
+}
+
+/**
  * Creates an ECS Fargate service and maps it to an Application Load Balancer (ALB).
  */
 export class StandardApplicationFargateService extends StandardFargateService {
@@ -162,6 +170,7 @@ export class StandardApplicationFargateService extends StandardFargateService {
   readonly listener: IApplicationListener;
   readonly domainName?: DomainName;
   readonly route53Record?: ARecord;
+  readonly domainRecords: Record<string, StandardApplicationFargateServiceDomain>;
 
   constructor(scope: Construct, id: string, props: StandardApplicationFargateServiceProps) {
     super(scope, id, props);
@@ -245,10 +254,27 @@ export class StandardApplicationFargateService extends StandardFargateService {
       priority: props.targetGroupPriority ?? 1
     });
 
+    this.domainRecords = {};
+
     if (props.domainName !== undefined && props.domainZone !== undefined) {
       this.domainName = DomainName.fromFqdn(props.domainName, props.domainZone);
       this.route53Record = this.domainName.createARecord(this,
         RecordTarget.fromAlias(new LoadBalancerTarget(loadBalancer)));
+
+      this.domainRecords[props.domainName] = {
+        domainName: this.domainName,
+        route53Record: this.route53Record
+      }
+    }
+
+    if (props.domainNames !== undefined && props.domainZone !== undefined) {
+      for (const name of props.domainNames) {
+        const dn = DomainName.fromFqdn(name, props.domainZone);
+        this.domainRecords[name] = {
+          domainName: dn,
+          route53Record: dn.createARecord(this, RecordTarget.fromAlias(new LoadBalancerTarget(loadBalancer)))
+        }
+      }
     }
 
     this.loadBalancer = loadBalancer;

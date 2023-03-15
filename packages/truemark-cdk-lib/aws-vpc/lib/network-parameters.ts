@@ -689,7 +689,7 @@ export class NetworkParameters extends Construct implements IAutomationComponent
           parameterName: this.publicSubnetsParameterPath,
           stringListValue: props.publicSubnetIds
         });
-        this.publicSubnetIds = props.privateSubnetIds;
+        this.publicSubnetIds = props.publicSubnetIds;
       }
       if (props.privateSubnetIds) {
         this.privateSubnetsParameter = new StringListParameter(this, "PrivateSubnets", {
