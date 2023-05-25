@@ -6,7 +6,7 @@ echo "--------------------------------------------------------------------------
 
 set -euo pipefail
 
-export PHP_VERSION="8.1"
+export PHP_VERSION="7.4"
 export DATA_MOUNT="/srv"
 
 # Add motd
@@ -219,6 +219,8 @@ for site in ${SITES}; do
   </VirtualHost>
 EOF
 done
+
+chown www-data:www-data "${SITE_DIR}"
 
 echo "Testing Apache configuration..."
 apache2ctl configtest
