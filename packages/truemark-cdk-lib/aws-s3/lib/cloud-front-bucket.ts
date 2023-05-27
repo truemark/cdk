@@ -17,11 +17,25 @@ export interface CloudFrontBucketProps {
 
   /**
    * Whether all objects should be automatically deleted when the bucket is removed from the stack or when the stack is deleted.
-   * Requires the removalPolicy to be set to RemovalPolicy.DESTROY.
+   * Requires the removalPolicy to be set to RemovalPolicy.DESTROY. Default is false.
    *
    * @default false
    */
   readonly autoDeleteObjects?: boolean;
+
+  /**
+   * Whether this bucket should have versioning turned on or not. Default is false.
+   *
+   * @default false
+   */
+  readonly versioned?: boolean;
+
+  /**
+   * Whether this bucket should have transfer acceleration turned on or not. Default is false.
+   *
+   * @default false
+   */
+  readonly transferAcceleration?: boolean;
 }
 
 /**
@@ -45,7 +59,9 @@ export class CloudFrontBucket extends Construct {
       encryption: BucketEncryption.S3_MANAGED, // CloudFront cannot use KMS with S3
       blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
       removalPolicy,
-      autoDeleteObjects
+      autoDeleteObjects,
+      versioned: props.versioned ?? false,
+      transferAcceleration: props.transferAcceleration ?? false
     });
     this.bucketName = this.bucket.bucketName;
     this.bucketArn = this.bucket.bucketArn;
