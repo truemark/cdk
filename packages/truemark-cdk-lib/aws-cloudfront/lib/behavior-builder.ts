@@ -34,14 +34,16 @@ export class BehaviorBuilder {
     }
   }
 
-  fallbackOrigin(fallbackOrigin: IOrigin): BehaviorBuilder {
-    const originGroup = new OriginGroup({
-      primaryOrigin: this.options.origin,
-      fallbackOrigin
-    });
-    this.options = {
-      ...this.options,
-      origin: originGroup
+  fallbackOrigin(fallbackOrigin?: IOrigin): BehaviorBuilder {
+    if (fallbackOrigin) {
+      const originGroup = new OriginGroup({
+        primaryOrigin: this.options.origin,
+        fallbackOrigin
+      });
+      this.options = {
+        ...this.options,
+        origin: originGroup
+      }
     }
     return this;
   }
