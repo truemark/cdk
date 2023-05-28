@@ -1,6 +1,17 @@
 import {Construct} from "constructs"
-import {PolicyStatement, Role, ServicePrincipal} from "aws-cdk-lib/aws-iam"
-import {Stack} from "aws-cdk-lib"
+import {
+  AddToPrincipalPolicyResult,
+  Grant,
+  IManagedPolicy,
+  IPrincipal,
+  IRole,
+  Policy,
+  PolicyStatement, PrincipalPolicyFragment,
+  Role,
+  ServicePrincipal
+} from "aws-cdk-lib/aws-iam"
+import {RemovalPolicy, Stack} from "aws-cdk-lib"
+import {ResourceEnvironment} from "aws-cdk-lib/core/lib/resource"
 
 export class DestinationBucketOptions {
   readonly bucketName: string;
@@ -12,16 +23,24 @@ export class ReplicationRoleProps {
   readonly destinationBuckets: DestinationBucketOptions[];
 }
 
-export class ReplicationRole extends Construct {
+export class ReplicationRole extends Construct implements IRole {
 
   readonly role: Role;
+  readonly roleArn: string;
+  readonly roleName: string;
+  readonly assumeRoleAction: string;
+  readonly policyFragment: PrincipalPolicyFragment;
+  readonly principalAccount?: string;
+  readonly grantPrincipal: IPrincipal;
+  readonly stack: Stack;
+  readonly env: ResourceEnvironment;
 
   constructor(scope: Construct, id: string, props: ReplicationRoleProps) {
     super(scope, id);
 
     const stack = Stack.of(this);
 
-    const replicationRole = new Role(this, "Main", {
+    const replicationRole = new Role(this, "Default", {
       assumedBy: new ServicePrincipal("s3.amazonaws.com"),
     });
 
@@ -59,5 +78,41 @@ export class ReplicationRole extends Construct {
     }));
 
     this.role = replicationRole;
+    this.roleArn = replicationRole.roleArn;
+    this.roleName = replicationRole.roleName;
+    this.assumeRoleAction = replicationRole.assumeRoleAction;
+    this.policyFragment = replicationRole.policyFragment;
+    this.principalAccount = replicationRole.principalAccount;
+    this.grantPrincipal = replicationRole.grantPrincipal;
+    this.stack = replicationRole.stack;
+    this.env = replicationRole.env;
+  }
+
+  grant(grantee: IPrincipal, ...actions: string[]): Grant {
+    return this.role.grant(grantee, ...actions);
+  }
+
+  grantPassRole(grantee: IPrincipal): Grant {
+    return this.role.grantPassRole(grantee);
+  }
+
+  grantAssumeRole(grantee: IPrincipal): Grant {
+    return this.role.grantAssumeRole(grantee);
+  }
+
+  addToPrincipalPolicy(statement: PolicyStatement): AddToPrincipalPolicyResult {
+    return this.role.addToPrincipalPolicy(statement);
+  }
+
+  attachInlinePolicy(policy: Policy) {
+    return this.role.attachInlinePolicy(policy);
+  }
+
+  addManagedPolicy(policy: IManagedPolicy) {
+    return this.role.addManagedPolicy(policy);
+  }
+
+  applyRemovalPolicy(policy: RemovalPolicy) {
+    return this.role.applyRemovalPolicy(policy);
   }
 }
