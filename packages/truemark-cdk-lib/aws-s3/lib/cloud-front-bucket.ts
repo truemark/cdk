@@ -65,8 +65,9 @@ export class CloudFrontBucket extends Construct {
     });
     this.bucketName = this.bucket.bucketName;
     this.bucketArn = this.bucket.bucketArn;
-
-    this.originAccessIdentity = new OriginAccessIdentity(this, "Access");
+    this.originAccessIdentity = new OriginAccessIdentity(this, "Access", {
+      comment: `S3 bucket ${this.bucket.bucketName}`
+    });
     this.originAccessIdentityId = this.originAccessIdentity.originAccessIdentityId;
     this.bucket.grantRead(this.originAccessIdentity);
   }
