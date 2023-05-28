@@ -1,14 +1,14 @@
 import {Construct} from "constructs"
 import {PolicyStatement, Role, ServicePrincipal} from "aws-cdk-lib/aws-iam"
-import {IBucket} from "aws-cdk-lib/aws-s3"
 import {Stack} from "aws-cdk-lib"
 
 export class DestinationBucketOptions {
-  readonly bucket: IBucket;
-  readonly region: string;
+  readonly bucketName: string;
+  readonly region?: string;
+  readonly account?: string;
 }
 export class ReplicationRoleProps {
-  readonly sourceBucket: IBucket;
+  readonly sourceBucketName: string;
   readonly destinationBuckets: DestinationBucketOptions[];
 }
 
@@ -33,22 +33,22 @@ export class ReplicationRole extends Construct {
         "s3:GetObjectLegalHold"
       ],
       resources: [
-          props.sourceBucket.bucketArn,
-          `${props.sourceBucket.bucketArn}/*`,
-          ...props.destinationBuckets.map(dest => dest.bucket.bucketArn),
-          ...props.destinationBuckets.map(dest => `${dest.bucket.bucketArn}/*`)
+          `arn:aws:s3:::${props.sourceBucketName}`,
+          `arn:aws:s3:::${props.sourceBucketName}/*`,
+          ...props.destinationBuckets.map(dest => `arn:aws:s3:::${dest.bucketName}`),
+          ...props.destinationBuckets.map(dest => `arn:aws:s3:::${dest.bucketName}/*`)
       ]
     }));
     replicationRole.addToPolicy(new PolicyStatement({
       actions: ["s3:Replicate*", "s3:ObjectOwnerOverrideToBucketOwner"],
       resources: [
-          `${props.sourceBucket.bucketArn}/*`,
-          ...props.destinationBuckets.map(dest => `${dest.bucket.bucketArn}/*`)
+          `arn:aws:s3:::${props.sourceBucketName}/*`,
+          ...props.destinationBuckets.map(dest => `arn:aws:s3:::${dest.bucketName}/*`),
       ]
     }));
     replicationRole.addToPolicy(new PolicyStatement({
       actions: ["kms:Encrypt"],
-      resources: props.destinationBuckets.map(dest => `arn:aws:kms:${dest.region}:${stack.account}:key/*`)
+      resources: props.destinationBuckets.map(dest => `arn:aws:kms:${dest.region ?? stack.region}:${dest.account ?? stack.account}:key/*`)
     }));
     replicationRole.addToPolicy(new PolicyStatement({
       actions: ["kms:Decrypt"],
