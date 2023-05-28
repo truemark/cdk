@@ -13,6 +13,9 @@ export class ReplicationRoleProps {
 }
 
 export class ReplicationRole extends Construct {
+
+  readonly role: Role;
+
   constructor(scope: Construct, id: string, props: ReplicationRoleProps) {
     super(scope, id);
 
@@ -54,5 +57,7 @@ export class ReplicationRole extends Construct {
       actions: ["kms:Decrypt"],
       resources: [`arn:aws:kms:${stack.region}:${stack.account}:key/*`]
     }));
+
+    this.role = replicationRole;
   }
 }
