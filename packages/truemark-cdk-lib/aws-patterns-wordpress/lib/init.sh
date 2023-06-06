@@ -6,8 +6,9 @@ echo "--------------------------------------------------------------------------
 
 set -euo pipefail
 
-export DATA_MOUNT="/srv"
 export PHP_VERSION="{{PHP_VERSION}}"
+export DATA_MOUNT="/srv"
+
 
 
 # Add motd
