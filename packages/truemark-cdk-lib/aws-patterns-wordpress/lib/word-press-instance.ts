@@ -26,7 +26,7 @@ import {Effect, ManagedPolicy, PolicyStatement} from "aws-cdk-lib/aws-iam";
 import * as fs from "fs";
 import * as path from "path";
 import {ARecord, IHostedZone, RecordTarget} from "aws-cdk-lib/aws-route53";
-// import {DomainName} from "../../aws-route53";
+import {DomainName} from "../../aws-route53";
 import {
   ApplicationListenerRule,
   ApplicationProtocol,
@@ -36,7 +36,6 @@ import {
   ListenerCondition,
   Protocol,
 } from "aws-cdk-lib/aws-elasticloadbalancingv2";
-import {DomainName} from "truemark-cdk-lib/aws-route53";
 
 /**
  * Properties for WordPressInstance.
