@@ -294,7 +294,6 @@ export class WordPressInstance extends Construct {
     this.machineImage = this.resolveMachineImage(this.instanceType);
     const osVolumeSize = props.osVolumeSize === undefined ? 10 : props.osVolumeSize.toGibibytes();
 
-
     const userDataScript = fs.readFileSync(path.join(__dirname, "init.sh"), "utf-8");
     const modifiedUserDataScript = userDataScript.replace("{{PHP_VERSION}}", props.phpVersion ?? "8.1");
 
