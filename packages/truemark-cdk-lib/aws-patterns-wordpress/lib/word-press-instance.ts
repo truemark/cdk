@@ -26,7 +26,7 @@ import {Effect, ManagedPolicy, PolicyStatement} from "aws-cdk-lib/aws-iam";
 import * as fs from "fs";
 import * as path from "path";
 import {ARecord, IHostedZone, RecordTarget} from "aws-cdk-lib/aws-route53";
-import {DomainName} from "../../aws-route53";
+// import {DomainName} from "../../aws-route53";
 import {
   ApplicationListenerRule,
   ApplicationProtocol,
@@ -36,6 +36,7 @@ import {
   ListenerCondition,
   Protocol,
 } from "aws-cdk-lib/aws-elasticloadbalancingv2";
+import {DomainName} from "truemark-cdk-lib/aws-route53";
 
 /**
  * Properties for WordPressInstance.
@@ -197,7 +198,7 @@ export class WordPressInstance extends Construct {
   readonly volume: Volume;
   readonly securityGroup: SecurityGroup;
   readonly asg: AutoScalingGroup;
-  phpVersion: string;
+  readonly phpVersion: string;
 
   resolveVpc(scope: Construct, props: WordPressInstanceProps): IVpc {
     if (props.vpc === undefined && props.vpcId === undefined && props.vpcName === undefined) {
@@ -214,7 +215,6 @@ export class WordPressInstance extends Construct {
         vpcName: props.vpcName
       });
     }
-    this.phpVersion = props.phpVersion ?? "8.1";
   }
 
   resolveInstanceType(scope: Construct, props: WordPressInstanceProps): InstanceType {
@@ -294,6 +294,7 @@ export class WordPressInstance extends Construct {
     this.instanceType = this.resolveInstanceType(this, props);
     this.machineImage = this.resolveMachineImage(this.instanceType);
     const osVolumeSize = props.osVolumeSize === undefined ? 10 : props.osVolumeSize.toGibibytes();
+
 
     const PHP_VERSION = props.phpVersion ?? "8.1";
     const userDataScript = fs.readFileSync(path.join(__dirname, "init.sh"), "utf-8");
