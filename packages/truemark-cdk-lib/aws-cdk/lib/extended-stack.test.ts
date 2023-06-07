@@ -1,6 +1,6 @@
 import {ResourceType, TestHelper} from "../../test-helper";
 import {Template} from "aws-cdk-lib/assertions";
-import {ExtendedStack} from "../index";
+import {ExtendedStack} from "./extended-stack"
 
 test("Test ExportedStack", () => {
   const stage = TestHelper.stage();
