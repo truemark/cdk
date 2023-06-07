@@ -57,7 +57,7 @@ export interface ExtendedStackOptions {
   readonly createSummaryDashboard?: boolean;
 
   /**
-   * Flag to determine if the alarm dashboard should be creted.
+   * Flag to determine if the alarm dashboard should be created.
    *
    * @default false
    */
@@ -163,7 +163,6 @@ export class ExtendedStack extends Stack {
       aspects.add(new AutomationComponentAspect(standardTagsProps.suppressTagging));
     }
   }
-
 
   /**
    * Helper method to exports a parameter as an SSM Parameter.
