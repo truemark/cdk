@@ -57,6 +57,13 @@ export interface StandardFargateServiceProps {
   readonly cpuArchitecture?: CpuArchitecture;
 
   /**
+   * The name of the service as it appears in the console or in the AWS CLI.
+   *
+   * @default - CloudFormation-generated name.
+   */
+  readonly serviceName?: string;
+
+  /**
    * Log configuration for this service.
    */
   readonly logConfiguration?: LogConfiguration;
@@ -383,6 +390,7 @@ export class StandardFargateService extends Construct implements IAutomationComp
     const service = new FargateService(this, "Default", {
       cluster: props.cluster,
       taskDefinition,
+      serviceName: props.serviceName,
       maxHealthyPercent: props.maxHealthyPercent ?? 200,
       minHealthyPercent: props.minHealthyPercent ?? 100,
       desiredCount,
