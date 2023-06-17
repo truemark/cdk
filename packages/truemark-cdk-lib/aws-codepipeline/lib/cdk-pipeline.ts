@@ -19,6 +19,11 @@ import {Repository} from "aws-cdk-lib/aws-codecommit";
 import {NodePackageManager} from "./enums";
 import {Effect, PolicyStatement} from "aws-cdk-lib/aws-iam";
 
+export enum NodeVersion {
+  NODE_16 = "16",
+  NODE_18 = "18"
+}
+
 /**
  * Properties for CdkPipeline
  */
@@ -145,6 +150,11 @@ export interface CdkPipelineProps {
    * Grants read access to the provided AWS CodeArtifact repositories.
    */
   readonly codeArtifactRepositories?: string[];
+
+  /**
+   * The version of Node to use in the pipeline. Default is NODE_18
+   */
+  readonly nodeVersion?: NodeVersion | string;
 }
 
 /**
@@ -277,7 +287,7 @@ export class CdkPipeline extends Construct {
           phases: {
             install: {
               commands: [
-                "n 16", // Install Node v16
+                `n ${props.nodeVersion ?? NodeVersion.NODE_18}`, // Install node
                 "npm i --location=global --no-fund esbuild" // Install esbuild locally
               ]
             }
