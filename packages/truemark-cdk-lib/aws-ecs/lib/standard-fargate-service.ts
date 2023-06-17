@@ -21,12 +21,13 @@ import {PolicyStatement} from "aws-cdk-lib/aws-iam";
 import {BasicStepScalingPolicyProps} from "aws-cdk-lib/aws-autoscaling";
 import {IMetric} from "aws-cdk-lib/aws-cloudwatch";
 import {ScalingSchedule} from "aws-cdk-lib/aws-applicationautoscaling";
-import {IAutomationComponent, InternalAutomationComponentTags} from "../../aws-cdk";
+import {ExtendedConstruct, ExtendedConstructProps, StandardTags} from "../../aws-cdk";
+import {LibStandardTags} from "../../truemark";
 
 /**
  * Properties for StandardFargateService.
  */
-export interface StandardFargateServiceProps {
+export interface StandardFargateServiceProps extends ExtendedConstructProps {
 
   /**
    * The CPU allocated to the task.
@@ -275,9 +276,7 @@ export interface StandardFargateServiceProps {
  * Standard class for creating a FargateService. It's recommended to use the StandardApplicationFargateService or
  * StandardNetworkFargateService instead of this class.
  */
-export class StandardFargateService extends Construct implements IAutomationComponent {
-
-  readonly automationComponentTags = InternalAutomationComponentTags;
+export class StandardFargateService extends ExtendedConstruct {
 
   readonly taskDefinition: FargateTaskDefinition;
   readonly logGroup?: LogGroup;
@@ -340,7 +339,7 @@ export class StandardFargateService extends Construct implements IAutomationComp
   }
 
   constructor(scope: Construct, id: string, props: StandardFargateServiceProps) {
-    super(scope, id);
+    super(scope, id, {standardTags: StandardTags.merge(props, LibStandardTags)});
 
     const taskDefinition = new FargateTaskDefinition(this, "Resource", {
       cpu: props.cpu ?? 2048,

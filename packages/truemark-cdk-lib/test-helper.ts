@@ -1,7 +1,7 @@
 import * as path from "path";
 import {Template} from "aws-cdk-lib/assertions";
 import {App, ResourceEnvironment, Stack, Stage} from "aws-cdk-lib";
-import {ExtendedApp, ExtendedStack} from "./aws-cdk/index";
+import {ExtendedApp, ExtendedStack, ExtendedStage} from "./aws-cdk/index";
 
 export enum ResourceType {
   CODEPIPELINE = "AWS::CodePipeline::Pipeline",
@@ -21,7 +21,7 @@ export class TestHelper {
   }
 
   static stage(app?: App, id?: string): Stage {
-    return new Stage(app ?? this.app(), id??"TestStage");
+    return new ExtendedStage(app ?? this.app(), id??"TestStage");
   }
 
   static stack(scope?: App | Stage, id?: string): Stack {

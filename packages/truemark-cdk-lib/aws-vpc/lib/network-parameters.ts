@@ -1,11 +1,16 @@
 import {Construct} from "constructs";
 import {StringListParameter, StringParameter} from "aws-cdk-lib/aws-ssm";
-import {IAutomationComponent, InternalAutomationComponentTags} from "../../aws-cdk";
+import {
+  ExtendedConstruct,
+  ExtendedConstructProps,
+  StandardTags
+} from "../../aws-cdk";
+import {LibStandardTags} from "../../truemark";
 
 /**
  * Properties for NetworkParameters.
  */
-export interface NetworkParametersProps {
+export interface NetworkParametersProps extends ExtendedConstructProps {
 
   /**
    * Name of the network. This is normally the name of your VPC.
@@ -299,9 +304,7 @@ export interface NetworkParametersProps {
  * Stores and retrieves network infrastructure identifiers using
  * AWS Systems Manager Parameter Store.
  */
-export class NetworkParameters extends Construct implements IAutomationComponent {
-
-  readonly automationComponentTags = InternalAutomationComponentTags;
+export class NetworkParameters extends ExtendedConstruct {
 
   /**
    * Path to the VPC ID
@@ -641,8 +644,7 @@ export class NetworkParameters extends Construct implements IAutomationComponent
    * @param props properties for the instance
    */
   constructor(scope: Construct, id: string, props: NetworkParametersProps) {
-    super(scope, id);
-
+    super(scope, id, {standardTags: StandardTags.merge(props, LibStandardTags)});
     const create = props.create ?? true;
     const prefix = props.prefix ?? "/network";
     const path = `${prefix}/${props.name}`;

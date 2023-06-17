@@ -4,12 +4,12 @@ import {SecurityPolicy, WebSocketApi, WebSocketStage} from "@aws-cdk/aws-apigate
 import {ARecord} from "aws-cdk-lib/aws-route53";
 import {LatencyARecord, WeightedARecord} from "../../aws-route53";
 import {Stack, Stage} from "aws-cdk-lib";
-import {IAutomationComponent, InternalAutomationComponentTags} from "../../aws-cdk";
+import {ExtendedConstruct, ExtendedConstructProps} from "../../aws-cdk";
 
 /**
  * Properties for StandardWebSocketApi.
  */
-export interface StandardWebSocketApiProps {
+export interface StandardWebSocketApiProps extends ExtendedConstructProps {
   /**
    * The prefix of the domain to create the certificate and DNS record for.
    */
@@ -61,9 +61,7 @@ export interface StandardWebSocketApiProps {
 /**
  * Abstraction that creates an WebSocketApi with support infrastructure.
  */
-export class StandardWebSocketApi extends Construct implements IAutomationComponent {
-
-  readonly automationComponentTags = InternalAutomationComponentTags;
+export class StandardWebSocketApi extends ExtendedConstruct {
 
   readonly domainName: StandardDomainName;
   readonly record: ARecord | LatencyARecord | WeightedARecord | undefined;

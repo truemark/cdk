@@ -6,12 +6,13 @@ import {QueueAlarmsOptions} from "./queue-alarms";
 import {ExtendedQueue} from "./extended-queue";
 import {MetricOptions, Metric} from "aws-cdk-lib/aws-cloudwatch";
 import {PolicyStatement, AddToResourcePolicyResult, IGrantable, Grant} from "aws-cdk-lib/aws-iam";
-import {IAutomationComponent, InternalAutomationComponentTags} from "../../aws-cdk";
+import {ExtendedConstruct, ExtendedConstructProps, StandardTags} from "../../aws-cdk";
+import {LibStandardTags} from "../../truemark";
 
 /**
  * Properties for a StandardQueue
  */
-export interface StandardQueueProps extends QueueAlarmsOptions {
+export interface StandardQueueProps extends QueueAlarmsOptions, ExtendedConstructProps {
 
   /**
    * The number of seconds Amazon SQS retains a message. Value must be between
@@ -96,12 +97,11 @@ export interface StandardQueueProps extends QueueAlarmsOptions {
   readonly receiveMessageWaitTime?: Duration;
 }
 
-export class StandardQueue extends Construct implements IQueue, IAutomationComponent {
+export class StandardQueue extends ExtendedConstruct implements IQueue {
 
   static readonly DEFAULT_MAX_RECEIVE_COUNT = 3;
   static readonly DEFAULT_RETENTION_PERIOD = Duration.seconds(1209600);
 
-  readonly automationComponentTags = InternalAutomationComponentTags;
   readonly queue: ExtendedQueue;
 
   // From IQueue
@@ -114,7 +114,7 @@ export class StandardQueue extends Construct implements IQueue, IAutomationCompo
   readonly env: ResourceEnvironment;
 
   constructor(scope: Construct, id: string, props?: StandardQueueProps) {
-    super(scope, id);
+    super(scope, id, {standardTags: StandardTags.merge(props, LibStandardTags)});
 
     const maxReceiveCount = props?.maxReceiveCount ?? StandardQueue.DEFAULT_MAX_RECEIVE_COUNT;
     const encryption = props?.encryptionMasterKey === undefined ? QueueEncryption.KMS_MANAGED : QueueEncryption.KMS;

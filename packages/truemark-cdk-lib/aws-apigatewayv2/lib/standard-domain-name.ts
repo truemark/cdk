@@ -4,10 +4,11 @@ import * as targets from "aws-cdk-lib/aws-route53-targets";
 import {ICertificate} from "aws-cdk-lib/aws-certificatemanager";
 import {DomainName, SecurityPolicy} from "@aws-cdk/aws-apigatewayv2-alpha";
 import {ARecord, RecordTarget} from "aws-cdk-lib/aws-route53";
-import {IAutomationComponent, InternalAutomationComponentTags} from "../../aws-cdk";
 import {ARecordOptions, ExtendedRecordTarget} from "../../aws-route53";
+import {ExtendedConstruct, ExtendedConstructProps, StandardTags} from "../../aws-cdk";
+import {LibStandardTags} from "../../truemark";
 
-export interface StandardDomainNameProps extends tmroute53.DomainNameProps {
+export interface StandardDomainNameProps extends tmroute53.DomainNameProps, ExtendedConstructProps {
 
   /**
    * The optional ACM certificate for this domain name.
@@ -35,16 +36,14 @@ export interface StandardDomainNameProps extends tmroute53.DomainNameProps {
 /**
  * Standard construct used to create an API Gateway V2 Domain Name.
  */
-export class StandardDomainName extends Construct implements IAutomationComponent {
-
-  readonly automationComponentTags = InternalAutomationComponentTags;
+export class StandardDomainName extends ExtendedConstruct {
 
   readonly domainName: tmroute53.DomainName;
   readonly certificate: ICertificate;
   readonly gatewayDomainName: DomainName;
 
   constructor(scope: Construct, id: string, props: StandardDomainNameProps) {
-    super(scope, id);
+    super(scope, id, {standardTags: StandardTags.merge(props, LibStandardTags)});
     this.domainName = new tmroute53.DomainName(props);
     this.certificate = props.certificate ?? this.domainName.createCertificate(scope);
     this.gatewayDomainName = new DomainName(this, "Default", {

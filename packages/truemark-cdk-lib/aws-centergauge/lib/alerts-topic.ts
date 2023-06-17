@@ -3,12 +3,13 @@ import {CfnSubscription, Topic} from "aws-cdk-lib/aws-sns";
 import {Alias, IKey} from "aws-cdk-lib/aws-kms";
 import {StandardQueue} from "../../aws-sqs";
 import {AnyPrincipal, Effect, PolicyStatement} from "aws-cdk-lib/aws-iam";
-import {IAutomationComponent, InternalAutomationComponentTags} from "../../aws-cdk";
+import {ExtendedConstruct, ExtendedConstructProps, StandardTags} from "../../aws-cdk";
+import {LibStandardTags} from "../../truemark";
 
 /**
  * Properties for AlertsTopic
  */
-export interface AlertsTopicProps {
+export interface AlertsTopicProps extends ExtendedConstructProps {
 
   /**
    * Overrides default topic display name.
@@ -43,12 +44,10 @@ export interface AlertsTopicProps {
 /**
  * Sets up an SNS Topic that will send notifications to CenterGauge.
  */
-export class AlertsTopic extends Construct implements IAutomationComponent {
-
-  readonly automationComponentTags = InternalAutomationComponentTags;
+export class AlertsTopic extends ExtendedConstruct {
 
   constructor(scope: Construct, id: string, props: AlertsTopicProps) {
-    super(scope, id);
+    super(scope, id, {standardTags: StandardTags.merge(props, LibStandardTags)});
 
     const masterKey = props.masterKey ?? Alias.fromAliasName(this, "AwsSnsKey", "aws/sns");
 

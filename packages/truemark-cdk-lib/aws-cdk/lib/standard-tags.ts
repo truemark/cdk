@@ -1,5 +1,5 @@
-import {Construct, IConstruct} from "constructs";
-import {IAspect, Stack, Tag, TagProps, Tags} from "aws-cdk-lib";
+import {Construct} from "constructs";
+import {Stack, Stage, TagProps, Tags} from "aws-cdk-lib";
 
 /**
  * Properties for automation component tags.
@@ -139,7 +139,12 @@ export enum DataSensitivity {
    * Used when resources handle or store personal health information and are
    * subject to HIPPA rules.
    */
-  PHI = "phi"
+  PHI = "phi",
+
+  /**
+   * Used when there is no data sensitivity.
+   */
+  NONE = "none"
 }
 
 /**
@@ -268,12 +273,12 @@ export class StandardTags {
     this.scope = scope;
     this.tags = Tags.of(scope);
     this.suppressed = props?.suppressTagging ?? false;
-
-    this.addAutomationComponentTags(props?.automationComponentTags);
-    this.addAutomationTags(props?.automationTags);
-    this.addCostCenterTags(props?.costCenterTags);
-    this.addSecurityTags(props?.securityTags);
-    this.addTeamTags(props?.teamTags);
+    const standardTagsProps = StandardTags.merge(scope.node.tryGetContext("standardTags"), props);
+    this.addAutomationComponentTags(standardTagsProps.automationComponentTags);
+    this.addAutomationTags(standardTagsProps.automationTags);
+    this.addCostCenterTags(standardTagsProps.costCenterTags);
+    this.addSecurityTags(standardTagsProps.securityTags);
+    this.addTeamTags(standardTagsProps.teamTags);
   }
 
   /**
@@ -311,10 +316,12 @@ export class StandardTags {
   addAutomationTags(props?: AutomationTagsProps): StandardTags {
     if (!this.suppressed) {
       let id: string | undefined = props?.id
-      if (!id) {
+      if (!Stage.isStage(this.scope) && !id) {
         id = Stack.of(this.scope).stackName
       }
-      this.tags.add("automation:id", id, props);
+      if (id) {
+        this.tags.add("automation:id", id, props);
+      }
       if (props?.url) {
         this.tags.add("automation:url", props.url, props);
       }
@@ -421,7 +428,6 @@ export class StandardTags {
         ...to?.automationComponentTags
       }
     }
-
     let automationTags: AutomationTagsProps | undefined = undefined;
     if (from?.automationTags || to?.automationTags) {
       automationTags = {
@@ -461,48 +467,6 @@ export class StandardTags {
       costCenterTags,
       securityTags,
       teamTags
-    }
-  }
-}
-
-/**
- * Implemented by Constructs to apply automation component tags.
- */
-export interface IAutomationComponent {
-  readonly automationComponentTags?: AutomationComponentTagsProps;
-}
-
-/**
- * Used internally by truemark-cdk-lib to handle automation component tagging.
- * Do not use outside of this library. This is not meant for general consumption.
- */
-export const InternalAutomationComponentTags: AutomationComponentTagsProps = {
-  id: "{{TMCDK}}"
-}
-
-/**
- * Type guard to detect if an object is an IAutomationComponent
- *
- * @param o the object to inspect
- */
-export function isAutomationComponent(o: any): o is IAutomationComponent {
-  return "automationComponentTags" in o;
-}
-
-/**
- * Aspect which tags all constructs that implement IAutomationComponent.
- */
-export class AutomationComponentAspect implements IAspect {
-
-  readonly suppressed: boolean;
-
-  constructor(suppressTagging?: boolean) {
-    this.suppressed = suppressTagging ?? false;
-  }
-
-  visit(node: IConstruct): void {
-    if (isAutomationComponent(node) && !this.suppressed) {
-      new StandardTags(node, { automationComponentTags: node.automationComponentTags })
     }
   }
 }

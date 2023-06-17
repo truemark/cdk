@@ -3,7 +3,6 @@ import {Construct} from "constructs";
 import {AttributeType, BillingMode, TableEncryption} from "aws-cdk-lib/aws-dynamodb";
 import {RemovalPolicy} from "aws-cdk-lib";
 import * as kms from "aws-cdk-lib/aws-kms";
-import {IAutomationComponent, InternalAutomationComponentTags,} from "../../aws-cdk";
 
 /**
  * Properties for StandardTable.
@@ -94,9 +93,7 @@ export interface StandardTableProps {
  * class is intended to fit most development use cases. Where this class does not meet
  * your requirements, use ExtendedTable directly.
  */
-export class StandardTable extends ExtendedTable implements IAutomationComponent {
-
-  readonly automationComponentTags = InternalAutomationComponentTags;
+export class StandardTable extends ExtendedTable {
 
   constructor(scope: Construct, id: string, props?: StandardTableProps) {
     super(scope, id, {

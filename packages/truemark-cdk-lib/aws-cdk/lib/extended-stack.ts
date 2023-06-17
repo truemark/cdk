@@ -1,4 +1,4 @@
-import {Aspects, CfnOutput, Duration, Stack, StackProps, Stage} from "aws-cdk-lib";
+import {CfnOutput, Duration, Stack, StackProps, Stage} from "aws-cdk-lib";
 import {ParameterStore, ParameterStoreOptions} from "../../aws-ssm";
 import {Construct} from "constructs";
 import {StringParameter} from "aws-cdk-lib/aws-ssm";
@@ -8,8 +8,6 @@ import {
   MonitoringFacade
 } from "cdk-monitoring-constructs";
 import {
-  AutomationComponentAspect,
-  InternalAutomationComponentTags,
   StandardTags,
   StandardTagsProps
 } from "./standard-tags";
@@ -148,20 +146,7 @@ export class ExtendedStack extends Stack {
     }
 
     // Setup standard tags
-    const standardTagsProps = StandardTags.merge(this.node.tryGetContext("standardTags"), props?.standardTags);
-    const standardTags = new StandardTags(this, standardTagsProps);
-
-    // Add automation component tags to this stack
-    standardTags.addAutomationComponentTags({
-      ...InternalAutomationComponentTags,
-      includeResourceTypes: ["AWS::CloudFormation::Stack"]
-    });
-
-    // Add automation component tags to AutomationComponent children, but don't add the aspect if it's already been added
-    const aspects = Aspects.of(this);
-    if (!aspects.all.reduce((a, v) => a || v instanceof AutomationComponentAspect)) {
-      aspects.add(new AutomationComponentAspect(standardTagsProps.suppressTagging));
-    }
+    new StandardTags(this, props?.standardTags);
   }
 
   /**

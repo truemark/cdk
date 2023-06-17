@@ -1,5 +1,5 @@
-import {App, AppProps, Aspects} from "aws-cdk-lib";
-import {AutomationComponentAspect, StandardTagsProps} from "./standard-tags";
+import {App, AppProps} from "aws-cdk-lib";
+import {StandardTagsProps} from "./standard-tags";
 
 /**
  * Properties for ExtendedApp.
@@ -57,7 +57,7 @@ export class ExtendedApp extends App {
     this.region = region;
 
     // Add automation component tags to AutomationComponent children
-    Aspects.of(this).add(new AutomationComponentAspect(props?.standardTags?.suppressTagging));
+    // Aspects.of(this).add(new AutomationComponentAspect(props?.standardTags?.suppressTagging));
   }
 }
 

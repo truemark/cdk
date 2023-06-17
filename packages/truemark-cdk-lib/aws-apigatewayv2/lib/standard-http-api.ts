@@ -4,12 +4,13 @@ import {StandardDomainName} from "./standard-domain-name";
 import {HttpApi, SecurityPolicy} from "@aws-cdk/aws-apigatewayv2-alpha";
 import {Stack, Stage} from "aws-cdk-lib";
 import {ARecord} from "aws-cdk-lib/aws-route53";
-import {IAutomationComponent, InternalAutomationComponentTags} from "../../aws-cdk";
+import {ExtendedConstruct, ExtendedConstructProps, StandardTags} from "../../aws-cdk";
+import {LibStandardTags} from "../../truemark";
 
 /**
  * Properties for StandardHttpApi.
  */
-export interface StandardHttpApiProps {
+export interface StandardHttpApiProps extends ExtendedConstructProps {
 
   /**
    * The prefix of the domain to create the certificate and DNS record for.
@@ -62,16 +63,14 @@ export interface StandardHttpApiProps {
 /**
  * Abstraction that creates an HttpApi with support infrastructure.
  */
-export class StandardHttpApi extends Construct implements IAutomationComponent {
-
-  readonly automationComponentTags = InternalAutomationComponentTags;
+export class StandardHttpApi extends ExtendedConstruct {
 
   readonly domainName: StandardDomainName;
   readonly record: ARecord | LatencyARecord | WeightedARecord | undefined;
   readonly httpApi: HttpApi;
 
   constructor(scope: Construct, id: string, props: StandardHttpApiProps) {
-    super(scope, id);
+    super(scope, id, {standardTags: StandardTags.merge(props, LibStandardTags)});
 
     const domainName = new StandardDomainName(this, "DomainName", {
       prefix: props.domainPrefix,

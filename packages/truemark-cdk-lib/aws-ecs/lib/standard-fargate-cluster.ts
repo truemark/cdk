@@ -7,9 +7,10 @@ import {LogGroup, RetentionDays} from "aws-cdk-lib/aws-logs";
 import {RemovalPolicy, ResourceEnvironment, Stack} from "aws-cdk-lib";
 import {INamespace} from "aws-cdk-lib/aws-servicediscovery";
 import {IAutoScalingGroup} from "aws-cdk-lib/aws-autoscaling";
-import {IAutomationComponent, InternalAutomationComponentTags} from "../../aws-cdk";
+import {ExtendedConstruct, ExtendedConstructProps, StandardTags} from "../../aws-cdk";
+import {LibStandardTags} from "../../truemark";
 
-export interface StandardFargateClusterProps {
+export interface StandardFargateClusterProps extends ExtendedConstructProps {
 
   // TODO I don't like what I did here
   /**
@@ -94,9 +95,7 @@ export interface StandardFargateClusterProps {
 /**
  * Standard ECS Cluster that sets up Fargate providers and execute command logging.
  */
-export class StandardFargateCluster extends Construct implements ICluster, IAutomationComponent {
-
-  readonly automationComponentTags = InternalAutomationComponentTags;
+export class StandardFargateCluster extends ExtendedConstruct implements ICluster {
 
   readonly vpc: IVpc;
   readonly cluster: Cluster;
@@ -157,7 +156,7 @@ export class StandardFargateCluster extends Construct implements ICluster, IAuto
   }
 
   constructor(scope: Construct, id: string, props: StandardFargateClusterProps) {
-    super(scope, id);
+    super(scope, id, {standardTags: StandardTags.merge(props, LibStandardTags)});
     const vpc = this.resolveVpc(this, props);
     const logGroup = this.resolveLogGroup(this, props);
     const executeCommandConfiguration = this.resolveExecuteCommandConfiguration(this, logGroup, props);
