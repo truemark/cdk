@@ -111,6 +111,7 @@ export class ExtendedStack extends Stack {
   protected readonly parameterExports: ParameterStore;
   readonly parameterExportOptions: ParameterStoreOptions;
   readonly monitoringFacade?: MonitoringFacade;
+  readonly standardTags: StandardTags;
 
   constructor(scope: Construct, id: string, props?: ExtendedStackProps) {
     super(scope, id, props);
@@ -146,7 +147,7 @@ export class ExtendedStack extends Stack {
     }
 
     // Setup standard tags
-    new StandardTags(this, props?.standardTags);
+    this.standardTags = new StandardTags(this, props?.standardTags);
   }
 
   /**

@@ -12,10 +12,12 @@ export interface ExtendedConstructProps {
 }
 
 export class ExtendedConstruct extends Construct {
+
+  readonly standardTags: StandardTags;
   constructor(scope: Construct, id: string, props?: ExtendedConstructProps) {
     super(scope, id);
 
     // Setup standard tags
-    new StandardTags(this, props?.standardTags);
+    this.standardTags = new StandardTags(this, props?.standardTags);
   }
 }
