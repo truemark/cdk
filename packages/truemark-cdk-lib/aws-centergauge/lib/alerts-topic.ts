@@ -47,7 +47,7 @@ export interface AlertsTopicProps extends ExtendedConstructProps {
 export class AlertsTopic extends ExtendedConstruct {
 
   constructor(scope: Construct, id: string, props: AlertsTopicProps) {
-    super(scope, id, {standardTags: StandardTags.merge(props, LibStandardTags)});
+    super(scope, id, {standardTags: StandardTags.merge(props.standardTags, LibStandardTags)});
 
     const masterKey = props.masterKey ?? Alias.fromAliasName(this, "AwsSnsKey", "aws/sns");
 

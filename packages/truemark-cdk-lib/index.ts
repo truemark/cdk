@@ -17,3 +17,4 @@ export * as aws_vpc from "./aws-vpc";
 export * as aws_website from "./aws-website";
 export * as helpers from "./helpers";
 export * as wordpress from "./aws-patterns-wordpress";
+export * as domain_redirect from "./aws-patterns-domain-redirect";

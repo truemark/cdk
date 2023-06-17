@@ -70,7 +70,7 @@ export class StandardHttpApi extends ExtendedConstruct {
   readonly httpApi: HttpApi;
 
   constructor(scope: Construct, id: string, props: StandardHttpApiProps) {
-    super(scope, id, {standardTags: StandardTags.merge(props, LibStandardTags)});
+    super(scope, id, {standardTags: StandardTags.merge(props.standardTags, LibStandardTags)});
 
     const domainName = new StandardDomainName(this, "DomainName", {
       prefix: props.domainPrefix,

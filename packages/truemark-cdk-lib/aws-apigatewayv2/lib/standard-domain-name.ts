@@ -43,7 +43,7 @@ export class StandardDomainName extends ExtendedConstruct {
   readonly gatewayDomainName: DomainName;
 
   constructor(scope: Construct, id: string, props: StandardDomainNameProps) {
-    super(scope, id, {standardTags: StandardTags.merge(props, LibStandardTags)});
+    super(scope, id, {standardTags: StandardTags.merge(props.standardTags, LibStandardTags)});
     this.domainName = new tmroute53.DomainName(props);
     this.certificate = props.certificate ?? this.domainName.createCertificate(scope);
     this.gatewayDomainName = new DomainName(this, "Default", {

@@ -114,7 +114,7 @@ export class StandardQueue extends ExtendedConstruct implements IQueue {
   readonly env: ResourceEnvironment;
 
   constructor(scope: Construct, id: string, props?: StandardQueueProps) {
-    super(scope, id, {standardTags: StandardTags.merge(props, LibStandardTags)});
+    super(scope, id, {standardTags: StandardTags.merge(props?.standardTags, LibStandardTags)});
 
     const maxReceiveCount = props?.maxReceiveCount ?? StandardQueue.DEFAULT_MAX_RECEIVE_COUNT;
     const encryption = props?.encryptionMasterKey === undefined ? QueueEncryption.KMS_MANAGED : QueueEncryption.KMS;

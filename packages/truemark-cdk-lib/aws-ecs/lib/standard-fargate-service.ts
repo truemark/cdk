@@ -339,7 +339,7 @@ export class StandardFargateService extends ExtendedConstruct {
   }
 
   constructor(scope: Construct, id: string, props: StandardFargateServiceProps) {
-    super(scope, id, {standardTags: StandardTags.merge(props, LibStandardTags)});
+    super(scope, id, {standardTags: StandardTags.merge(props.standardTags, LibStandardTags)});
 
     const taskDefinition = new FargateTaskDefinition(this, "Resource", {
       cpu: props.cpu ?? 2048,

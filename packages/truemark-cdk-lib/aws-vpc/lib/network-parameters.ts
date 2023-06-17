@@ -644,7 +644,7 @@ export class NetworkParameters extends ExtendedConstruct {
    * @param props properties for the instance
    */
   constructor(scope: Construct, id: string, props: NetworkParametersProps) {
-    super(scope, id, {standardTags: StandardTags.merge(props, LibStandardTags)});
+    super(scope, id, {standardTags: StandardTags.merge(props.standardTags, LibStandardTags)});
     const create = props.create ?? true;
     const prefix = props.prefix ?? "/network";
     const path = `${prefix}/${props.name}`;

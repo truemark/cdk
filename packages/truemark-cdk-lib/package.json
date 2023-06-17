@@ -56,6 +56,7 @@
     "./aws-lambda": "./aws-lambda/index.js",
     "./aws-monitoring": "./aws-monitoring/index.js",
     "./aws-patterns-wordpress": "./aws-patterns-wordpress/index.js",
+    "./aws-patterns-domain-redirect": "./aws-patterns-domain-redirect/index.js",
     "./aws-route53": "./aws-route53/index.js",
     "./aws-s3": "./aws-s3/index.js",
     "./aws-ses": "./aws-ses/index.js",

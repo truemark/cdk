@@ -156,7 +156,7 @@ export class StandardFargateCluster extends ExtendedConstruct implements ICluste
   }
 
   constructor(scope: Construct, id: string, props: StandardFargateClusterProps) {
-    super(scope, id, {standardTags: StandardTags.merge(props, LibStandardTags)});
+    super(scope, id, {standardTags: StandardTags.merge(props.standardTags, LibStandardTags)});
     const vpc = this.resolveVpc(this, props);
     const logGroup = this.resolveLogGroup(this, props);
     const executeCommandConfiguration = this.resolveExecuteCommandConfiguration(this, logGroup, props);
