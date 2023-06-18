@@ -1,7 +1,7 @@
-import {SourceType, Website} from "../index";
 import {Template} from "aws-cdk-lib/assertions";
 import {TestHelper} from "../../test-helper";
 import {HostedZone} from "aws-cdk-lib/aws-route53";
+import {SourceType, Website} from "./website";
 
 test("Hugo Website Test", () => {
   const stack = TestHelper.stack();

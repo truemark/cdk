@@ -3,11 +3,13 @@ import {BlockPublicAccess, Bucket, BucketEncryption, IBucket} from "aws-cdk-lib/
 import {OriginAccessIdentity} from "aws-cdk-lib/aws-cloudfront";
 import {BucketDeployment, CacheControl, ISource, Source} from "aws-cdk-lib/aws-s3-deployment";
 import {Duration, RemovalPolicy} from "aws-cdk-lib";
+import {ExtendedConstruct, ExtendedConstructProps, StandardTags} from "../../aws-cdk";
+import {LibStandardTags} from "../../truemark";
 
 /**
  * Properties for CloudFrontBucket.
  */
-export interface CloudFrontBucketProps {
+export interface CloudFrontBucketProps extends ExtendedConstructProps {
 
   /**
    * Policy to apply when the bucket is removed from this stack.
@@ -41,7 +43,7 @@ export interface CloudFrontBucketProps {
 /**
  * Simple Construct for creating buckets that will be accessed directly by CloudFront as an Origin.
  */
-export class CloudFrontBucket extends Construct {
+export class CloudFrontBucket extends ExtendedConstruct {
 
   readonly bucket: Bucket;
   readonly bucketName: string;
@@ -50,7 +52,7 @@ export class CloudFrontBucket extends Construct {
   readonly originAccessIdentityId: string;
 
   constructor(scope: Construct, id: string, props: CloudFrontBucketProps) {
-    super(scope, id);
+    super(scope, id, {standardTags: StandardTags.merge(props.standardTags, LibStandardTags)});
 
     const removalPolicy = props.removalPolicy ?? RemovalPolicy.RETAIN;
     const autoDeleteObjects = (props.autoDeleteObjects ?? false) && removalPolicy === RemovalPolicy.DESTROY;

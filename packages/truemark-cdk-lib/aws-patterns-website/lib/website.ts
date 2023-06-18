@@ -18,6 +18,8 @@ import {CloudFrontTarget} from "aws-cdk-lib/aws-route53-targets";
 import {BucketDeployment, CacheControl, Source} from "aws-cdk-lib/aws-s3-deployment";
 import {BundlingOptions, DockerImage, Duration, RemovalPolicy} from "aws-cdk-lib";
 import {DomainName, DomainNameProps} from "../../aws-route53";
+import {ExtendedConstruct, ExtendedConstructProps, StandardTags} from "../../aws-cdk";
+import {LibStandardTags} from "../../truemark";
 
 export enum SourceType {
   Custom = "Custom",
@@ -31,11 +33,16 @@ export enum SourceType {
  */
 export interface WebsiteDomainNameProps extends DomainNameProps {
 
+  /**
+   * Whether to create a Route53 record for this domain name. Default is true.
+   *
+   * @default - true
+   */
   readonly createRecord?: boolean;
 
 }
 
-export interface WebsiteProps {
+export interface WebsiteProps extends ExtendedConstructProps {
 
   /**
    * Bucket to use to store website content. If one is not provided, one will be generated.
@@ -59,16 +66,16 @@ export interface WebsiteProps {
   readonly domainNames?: WebsiteDomainNameProps[]
 
   /**
-   * Redirect traffic to the first domain in the list of domainNames.
+   * Redirect traffic to the first domain in the list of domainNames. Defaults to true.
    *
-   * @default true
+   * @default - true
    */
   readonly redirectToApexDomain?: boolean;
 
   /**
    * Price class for the CloudFront distribution.
    *
-   * @default PriceClass.PRICE_CLASS_100
+   * @default - PriceClass.PRICE_CLASS_100
    */
   readonly priceClass?: PriceClass
 
@@ -112,7 +119,7 @@ export interface WebsiteProps {
   readonly sourceBundlingOptions?: BundlingOptions
 }
 
-export class Website extends Construct {
+export class Website extends ExtendedConstruct {
 
   /**
    * The default bundling options for SourceType.Hugo.
@@ -152,7 +159,7 @@ export class Website extends Construct {
   readonly fallbackDeployment?: BucketDeployment;
 
   constructor(scope: Construct, id: string, props: WebsiteProps) {
-    super(scope, id);
+    super(scope, id, {standardTags: StandardTags.merge(props.standardTags, LibStandardTags)});
 
     const domainNames = DomainName.fromProps(props.domainNames);
 
