@@ -40,6 +40,11 @@ export interface DomainRedirectProps extends ExtendedConstructProps {
    * The target to redirect to. Ex. https://www.example.com
    */
   readonly target: string;
+
+  /**
+   * Comment to leave on the CloudFront distribution.
+   */
+  readonly comment?: string;
 }
 
 /**
@@ -81,6 +86,7 @@ function handler(event) {
 
     const origin = new HttpOrigin("example.com");
     const builder = DistributionBuilder.fromOrigin(origin)
+      .comment(props.comment)
       .domainNames(props.domainNames.map(d => d.toString()))
       .certificate(certificate);
     builder.defaultBehavior()
