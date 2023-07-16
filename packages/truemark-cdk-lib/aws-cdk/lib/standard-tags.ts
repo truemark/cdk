@@ -214,32 +214,32 @@ export interface TeamTagsProps extends TagProps {
   readonly contactPhone?: string;
 
   /**
-   * Name of the business unit responsible for the costs associated with the tagged resources.
+   * Name of the business unit responsible for the team associated with the tagged resources.
    */
   readonly businessUnitName?: string;
 
   /**
-   * Identifier for the business unit responsible for the costs associated with the tagged resources.
+   * Identifier for the business unit responsible for the team associated with the tagged resources.
    */
   readonly businessUnitId?: string;
 
   /**
-   * Name of the business division responsible for the costs associated with the tagged resources.
+   * Name of the business division responsible for the team associated with the tagged resources.
    */
   readonly divisionName?: string;
 
   /**
-   * Identifier for the business division responsible for the costs associated with the tagged resources.
+   * Identifier for the business division responsible for the team associated with the tagged resources.
    */
   readonly divisionId?: string;
 
   /**
-   * Name of the department responsible for the costs associated with the tagged resources.
+   * Name of the department responsible for the team associated with the tagged resources.
    */
   readonly departmentName?: string;
 
   /**
-   * Identifier for the department responsible for the costs associated with the tagged resources.
+   * Identifier for the department responsible for the team associated with the tagged resources.
    */
   readonly departmentId?: string;
 }
