@@ -47,16 +47,6 @@ export interface AutomationTagsProps extends TagProps {
 export interface CostCenterTagsProps extends TagProps {
 
   /**
-   * Name of the business unit responsible for the costs associated with the tagged resources.
-   */
-  readonly businessUnitName?: string;
-
-  /**
-   * Identifier for the business unit responsible for the costs associated with the tagged resources.
-   */
-  readonly businessUnitId?: string;
-
-  /**
    * Name of the project responsible for creating the costs.
    */
   readonly projectName?: string;
@@ -88,6 +78,36 @@ export interface CostCenterTagsProps extends TagProps {
    * If not set, the tag is not created.
    */
   readonly contactPhone?: string;
+
+  /**
+   * Name of the business unit responsible for the costs associated with the tagged resources.
+   */
+  readonly businessUnitName?: string;
+
+  /**
+   * Identifier for the business unit responsible for the costs associated with the tagged resources.
+   */
+  readonly businessUnitId?: string;
+
+  /**
+   * Name of the business division responsible for the costs associated with the tagged resources.
+   */
+  readonly divisionName?: string;
+
+  /**
+   * Identifier for the business division responsible for the costs associated with the tagged resources.
+   */
+  readonly divisionId?: string;
+
+  /**
+   * Name of the department responsible for the costs associated with the tagged resources.
+   */
+  readonly departmentName?: string;
+
+  /**
+   * Identifier for the department responsible for the costs associated with the tagged resources.
+   */
+  readonly departmentId?: string;
 }
 
 /**
@@ -194,16 +214,40 @@ export interface TeamTagsProps extends TagProps {
   readonly contactPhone?: string;
 
   /**
-   * Business unit the team belongs to.
+   * Name of the business unit responsible for the costs associated with the tagged resources.
    */
-  readonly businessUnit?: string;
+  readonly businessUnitName?: string;
 
   /**
-   * Department the team belongs to.
+   * Identifier for the business unit responsible for the costs associated with the tagged resources.
    */
-  readonly department?: string;
+  readonly businessUnitId?: string;
+
+  /**
+   * Name of the business division responsible for the costs associated with the tagged resources.
+   */
+  readonly divisionName?: string;
+
+  /**
+   * Identifier for the business division responsible for the costs associated with the tagged resources.
+   */
+  readonly divisionId?: string;
+
+  /**
+   * Name of the department responsible for the costs associated with the tagged resources.
+   */
+  readonly departmentName?: string;
+
+  /**
+   * Identifier for the department responsible for the costs associated with the tagged resources.
+   */
+  readonly departmentId?: string;
 }
 
+// TODO Need to support business unit, division and department
+// TODO Need to make tags consistent between elements
+// TODO Need to add title for people
+// TODO I hate how we have to override the environment tag
 /**
  * Contains standard tagging properties.
  */
@@ -336,12 +380,6 @@ export class StandardTags {
    */
   addCostCenterTags(props?: CostCenterTagsProps): StandardTags {
     if (props && !this.suppressed) {
-      if (props.businessUnitName) {
-        this.tags.add("cost-center:business-unit-name", props.businessUnitName, props);
-      }
-      if (props.businessUnitId) {
-        this.tags.add("cost-center:business-unit-id", props.businessUnitId, props);
-      }
       if (props.projectName) {
         this.tags.add("cost-center:project-name", props.projectName, props);
       }
@@ -359,6 +397,24 @@ export class StandardTags {
       }
       if (props.contactPhone) {
         this.tags.add("cost-center:contact-phone", props.contactPhone, props);
+      }
+      if (props.businessUnitName) {
+        this.tags.add("cost-center:business-unit-name", props.businessUnitName, props);
+      }
+      if (props.businessUnitId) {
+        this.tags.add("cost-center:business-unit-id", props.businessUnitId, props);
+      }
+      if (props.divisionName) {
+        this.tags.add("cost-center:division-name", props.divisionName, props);
+      }
+      if (props.divisionId) {
+        this.tags.add("cost-center:division-id", props.divisionId, props);
+      }
+      if (props.departmentName) {
+        this.tags.add("cost-center:department-name", props.departmentName, props)
+      }
+      if (props.departmentId) {
+        this.tags.add("cost-center:department-id", props.departmentId, props)
       }
     }
     return this;
@@ -403,11 +459,23 @@ export class StandardTags {
       if (props.contactPhone) {
         this.tags.add("team:contact-hone", props.contactPhone, props);
       }
-      if (props.businessUnit) {
-        this.tags.add("team:business-unit", props.businessUnit, props);
+      if (props.businessUnitName) {
+        this.tags.add("team:business-unit-name", props.businessUnitName, props);
       }
-      if (props.department) {
-        this.tags.add("team:department", props.department, props);
+      if (props.businessUnitId) {
+        this.tags.add("team:business-unit-id", props.businessUnitId, props);
+      }
+      if (props.divisionName) {
+        this.tags.add("team:division-name", props.divisionName, props);
+      }
+      if (props.divisionId) {
+        this.tags.add("team:division-id", props.divisionId, props);
+      }
+      if (props.departmentName) {
+        this.tags.add("team:department-name", props.departmentName, props)
+      }
+      if (props.departmentId) {
+        this.tags.add("team:department-id", props.departmentId, props)
       }
     }
     return this;

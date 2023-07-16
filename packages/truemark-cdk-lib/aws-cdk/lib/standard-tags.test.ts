@@ -85,13 +85,18 @@ class TestApp extends ExtendedApp {
           url: "https://testapp.com"
         },
         costCenterTags: {
-          businessUnitName: "Test Unit",
-          businessUnitId: "test-unit",
           projectName: "TestApp",
           projectId: "test-app",
+          environment: "test",
           contactName: "John Doe",
           contactEmail: "jdoe@example.com",
           contactPhone: "+1 555-555-5555",
+          businessUnitName: "Test Unit",
+          businessUnitId: "test-unit",
+          divisionName: "Test Division",
+          divisionId: "test-division",
+          departmentName: "Test Department",
+          departmentId: "test-department"
         },
         securityTags: {
           dataClassification: DataClassification.Restricted,
@@ -103,8 +108,12 @@ class TestApp extends ExtendedApp {
           contactName: "John Doe",
           contactEmail: "jdoe@example.com",
           contactPhone: "+1 555-555-5555",
-          businessUnit: "Test Unit",
-          department: "Test Department",
+          businessUnitName: "Test Unit",
+          businessUnitId: "test-unit",
+          divisionName: "Test Division",
+          divisionId: "test-division",
+          departmentName: "Test Department",
+          departmentId: "test-department"
         }
       }
     });
