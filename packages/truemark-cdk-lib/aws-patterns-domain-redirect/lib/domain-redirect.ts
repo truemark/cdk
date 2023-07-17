@@ -83,7 +83,7 @@ function handler(event) {
     statusCode: ${redirectType},
     statusDescription: "${redirectType === RedirectType.Permanent ? "Permanently Moved" : "Temporarily Moved"}",
     headers: {
-        "location": { "value": ${props.appendUri ? '"' + props.target + '" + event.request.uri' : '"' + props.target + '"'} }
+        "location": { "value": ${props.appendUri ? '"' + props.target + '" + event.request.uri' : '"' + props.target + '"'}}
     }
   }
 }`)
