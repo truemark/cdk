@@ -183,6 +183,10 @@ export class DomainName {
     return this.hostedZone;
   }
 
+  private scrubIdentifier(identifier: string): string {
+    return /^\d/.test(identifier) ? "x" + identifier : identifier;
+  }
+
   /**
    * Creates a Route53 ARecord for this domain name.
    *
@@ -191,7 +195,7 @@ export class DomainName {
    * @param options additional options for creating the record
    */
   createARecord(scope: Construct, target: RecordTarget, options?: ARecordOptions): ARecord {
-    return new ARecord(scope, options?.id ?? `${this.toIdentifier()}ARecord`, {
+    return new ARecord(scope, options?.id ?? `${this.scrubIdentifier(this.toIdentifier())}ARecord`, {
       zone: this.getHostedZone(scope),
       recordName: this.toString(),
       target,
@@ -210,7 +214,7 @@ export class DomainName {
    * @param options additional options for creating the record
    */
   createWeightedARecord(scope: Construct, target: RecordTarget, weight: number, options?: ARecordOptions): WeightedARecord {
-    return new WeightedARecord(scope, options?.id ?? `${this.toIdentifier()}ARecord`, {
+    return new WeightedARecord(scope, options?.id ?? `${this.scrubIdentifier(this.toIdentifier())}ARecord`, {
       zone: this.getHostedZone(scope),
       recordName: this.toString(),
       target,
@@ -229,7 +233,7 @@ export class DomainName {
    * @param options additional options for creating the record
    */
   createLatencyARecord(scope: Construct, target: RecordTarget, options?: ARecordOptions): LatencyARecord {
-    return new LatencyARecord(scope, options?.id ?? `${this.toIdentifier()}ARecord`, {
+    return new LatencyARecord(scope, options?.id ?? `${this.scrubIdentifier(this.toIdentifier())}ARecord`, {
       zone: this.getHostedZone(scope),
       recordName: this.toString(),
       target,
