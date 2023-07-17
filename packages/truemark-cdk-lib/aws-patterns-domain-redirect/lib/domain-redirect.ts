@@ -45,6 +45,11 @@ export interface DomainRedirectProps extends ExtendedConstructProps {
    * Comment to leave on the CloudFront distribution.
    */
   readonly comment?: string;
+
+  /**
+   * Appends the request URI to the target. Default is false.
+   */
+  readonly appendUri?: boolean;
 }
 
 /**
@@ -78,7 +83,7 @@ function handler(event) {
     statusCode: ${redirectType},
     statusDescription: "${redirectType === RedirectType.Permanent ? "Permanently Moved" : "Temporarily Moved"}",
     headers: {
-        "location": { "value": "${props.target}"}
+        "location": { "value": ${props.appendUri ? '"' + props.target + '" + event.request.uri' : '"' + props.target + '"'} }
     }
   }
 }`)
