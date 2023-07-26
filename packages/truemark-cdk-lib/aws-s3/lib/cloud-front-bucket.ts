@@ -38,6 +38,11 @@ export interface CloudFrontBucketProps extends ExtendedConstructProps {
    * @default false
    */
   readonly transferAcceleration?: boolean;
+
+  /**
+   * Optional bucket name. If not provided, a name will be generated.
+   */
+  readonly bucketName?: string;
 }
 
 /**
@@ -63,7 +68,8 @@ export class CloudFrontBucket extends ExtendedConstruct {
       removalPolicy,
       autoDeleteObjects,
       versioned: props.versioned ?? false,
-      transferAcceleration: props.transferAcceleration ?? false
+      transferAcceleration: props.transferAcceleration ?? false,
+      bucketName: props.bucketName
     });
     this.bucketName = this.bucket.bucketName;
     this.bucketArn = this.bucket.bucketArn;
