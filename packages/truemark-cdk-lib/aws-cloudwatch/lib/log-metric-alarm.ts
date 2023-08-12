@@ -119,7 +119,7 @@ export class LogMetricAlarm extends Construct implements IAlarm {
       threshold: props.threshold??1,
       evaluationPeriods: props.evaluationPeriods??2,
       datapointsToAlarm:props.datapointsToAlarm??1,
-      treatMissingData: TreatMissingData.IGNORE
+      treatMissingData: TreatMissingData.IGNORE,
       metric: this.metric
     });
 
