@@ -1,9 +1,7 @@
-import {Alarm, Metric} from "aws-cdk-lib/aws-cloudwatch";
+import {Alarm, ComparisonOperator, IAlarm, IAlarmAction, Metric, TreatMissingData} from "aws-cdk-lib/aws-cloudwatch";
 import {Construct} from "constructs";
 import {LogMetricFilter, LogMetricFilterProps} from "./log-metric-filter";
 import {Duration, RemovalPolicy, ResourceEnvironment, Stack} from "aws-cdk-lib";
-import {ComparisonOperator, TreatMissingData, IAlarmAction} from "aws-cdk-lib/aws-cloudwatch";
-import {IAlarm} from "aws-cdk-lib/aws-cloudwatch";
 import {ITopic} from "aws-cdk-lib/aws-sns";
 import {SnsAction} from "aws-cdk-lib/aws-cloudwatch-actions";
 
@@ -121,6 +119,7 @@ export class LogMetricAlarm extends Construct implements IAlarm {
       threshold: props.threshold??1,
       evaluationPeriods: props.evaluationPeriods??2,
       datapointsToAlarm:props.datapointsToAlarm??1,
+      treatMissingData: TreatMissingData.IGNORE
       metric: this.metric
     });
 
