@@ -1,7 +1,7 @@
 import {Construct} from "constructs";
 import {DomainName, LatencyARecord, WeightedARecord} from "../../aws-route53";
 import {StandardDomainName} from "./standard-domain-name";
-import {HttpApi, SecurityPolicy} from "@aws-cdk/aws-apigatewayv2-alpha";
+import {CorsPreflightOptions, HttpApi, SecurityPolicy} from "@aws-cdk/aws-apigatewayv2-alpha";
 import {Stack, Stage} from "aws-cdk-lib";
 import {ARecord} from "aws-cdk-lib/aws-route53";
 import {ExtendedConstruct, ExtendedConstructProps, StandardTags} from "../../aws-cdk";
@@ -58,6 +58,11 @@ export interface StandardHttpApiProps extends ExtendedConstructProps {
    * @default - false
    */
   readonly suppressTagging?: boolean;
+
+  /**
+   * The CORS configuration to apply to this API.
+   */
+  readonly corsPreflight?: CorsPreflightOptions;
 }
 
 /**
@@ -98,7 +103,8 @@ export class StandardHttpApi extends ExtendedConstruct {
       apiName: props.apiName ?? `${stage?.stageName}${stack?.stackName}Gateway`,
       defaultDomainMapping: {
         domainName: domainName.gatewayDomainName
-      }
+      },
+      corsPreflight: props.corsPreflight
     });
 
     this.domainName = domainName;
