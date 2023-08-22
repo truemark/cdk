@@ -691,7 +691,7 @@ export class NetworkParameters extends ExtendedConstruct {
           parameterName: this.publicSubnetsParameterPath,
           stringListValue: props.publicSubnetIds
         });
-        this.publicSubnetIds = props.privateSubnetIds;
+        this.publicSubnetIds = props.publicSubnetIds;
       }
       if (props.privateSubnetIds) {
         this.privateSubnetsParameter = new StringListParameter(this, "PrivateSubnets", {
