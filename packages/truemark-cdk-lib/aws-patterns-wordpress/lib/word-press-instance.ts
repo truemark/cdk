@@ -170,6 +170,13 @@ export interface WordPressInstanceProps {
    * @default - false
    */
   readonly createTargetGroup?: boolean;
+
+  /**
+   * Set the version of PHP to use.
+   *
+   * @default - "8.1"
+   */
+  readonly phpVersion?: string;
 }
 
 export const DEFAULT_ARM_IMAGE_SSM_PARAMETER = "/aws/service/canonical/ubuntu/server/jammy/stable/current/arm64/hvm/ebs-gp2/ami-id"
@@ -190,6 +197,7 @@ export class WordPressInstance extends Construct {
   readonly volume: Volume;
   readonly securityGroup: SecurityGroup;
   readonly asg: AutoScalingGroup;
+  readonly phpVersion: string;
 
   resolveVpc(scope: Construct, props: WordPressInstanceProps): IVpc {
     if (props.vpc === undefined && props.vpcId === undefined && props.vpcName === undefined) {
@@ -287,6 +295,7 @@ export class WordPressInstance extends Construct {
     const osVolumeSize = props.osVolumeSize === undefined ? 10 : props.osVolumeSize.toGibibytes();
 
     const userDataScript = fs.readFileSync(path.join(__dirname, "init.sh"), "utf-8");
+    const modifiedUserDataScript = userDataScript.replace("{{PHP_VERSION}}", props.phpVersion ?? "8.1");
 
     this.securityGroup = new SecurityGroup(this, "SecurityGroup", {
       description: "Default security group for WordPress",
@@ -323,7 +332,7 @@ export class WordPressInstance extends Construct {
           })
         }
       ],
-      userData: UserData.custom(userDataScript),
+      userData: UserData.custom(modifiedUserDataScript),
       updatePolicy: UpdatePolicy.rollingUpdate(),
       requireImdsv2: true,
     });
