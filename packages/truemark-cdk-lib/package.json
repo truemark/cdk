@@ -37,7 +37,7 @@
     "@aws-cdk/aws-apigatewayv2-integrations-alpha": "^2.65.0-alpha.0",
     "@aws-cdk/aws-appsync-alpha": "^2.59.0-alpha.0",
     "@aws-cdk/aws-lambda-go-alpha": "^2.65.0-alpha.0",
-    "@aws-cdk/aws-lambda-python-alpha": "^^2.65.0-alpha.0",
+    "@aws-cdk/aws-lambda-python-alpha": "^2.65.0-alpha.0",
     "@aws-cdk/aws-redshift-alpha": "^2.65.0-alpha.0",
     "@aws-cdk/aws-synthetics-alpha": "^2.65.0-alpha.0",
     "aws-cdk-lib": "^2.94.0",
