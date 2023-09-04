@@ -15,7 +15,7 @@ import {IFunction} from "aws-cdk-lib/aws-lambda";
 import {ILogGroup} from "aws-cdk-lib/aws-logs";
 import {Construct} from "constructs";
 import {LogMetricAlarm} from "../../aws-cloudwatch";
-import {Alarm, AlarmBase} from "aws-cdk-lib/aws-cloudwatch";
+import {AlarmBase} from "aws-cdk-lib/aws-cloudwatch";
 
 /**
  * Category options for CloudWatch alarms for Lambda Functions.
@@ -283,6 +283,7 @@ export class FunctionAlarms extends AlarmsBase<FunctionAlarmsCategoryOptions, Fu
     }
     if (pattern !== "") {
       this.monitoringFacade.monitorLog({
+        alarmFriendlyName: "Monitor{this.props.logGroup.logGroupName}",
         logGroupName: this.props.logGroup.logGroupName,
         pattern,
       });
