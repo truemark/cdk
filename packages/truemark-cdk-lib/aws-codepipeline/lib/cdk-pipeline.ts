@@ -91,7 +91,7 @@ export interface CdkPipelineProps {
   readonly computeType?: ComputeType;
 
   /**
-   * The image to use for builds. Default is LinuxBuildImage.STANDARD_7_0.
+   * The image to use for builds. Default is LinuxBuildImage.AMAZON_LINUX_2_5.
    */
   readonly buildImage?: IBuildImage;
 
@@ -295,23 +295,23 @@ export class CdkPipeline extends Construct {
         }),
         buildEnvironment: {
           computeType: props.computeType ?? ComputeType.SMALL,
-          buildImage: props.buildImage ?? LinuxBuildImage.STANDARD_7_0
+          buildImage: props.buildImage ?? LinuxBuildImage.AMAZON_LINUX_2_5
         },
         rolePolicy
       },
       assetPublishingCodeBuildDefaults: {
         buildEnvironment: {
-          buildImage: LinuxBuildImage.STANDARD_7_0
+          buildImage: LinuxBuildImage.AMAZON_LINUX_2_5
         }
       },
       selfMutationCodeBuildDefaults: {
         buildEnvironment: {
-          buildImage: LinuxBuildImage.STANDARD_7_0
+          buildImage: LinuxBuildImage.AMAZON_LINUX_2_5
         }
       },
       codeBuildDefaults: {
         buildEnvironment: {
-          buildImage: LinuxBuildImage.STANDARD_7_0
+          buildImage: LinuxBuildImage.AMAZON_LINUX_2_5
         }
       }
     });
