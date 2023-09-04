@@ -29,7 +29,7 @@
     "@aws-cdk/aws-synthetics-alpha": "^2.18.0-alpha.0",
     "aws-cdk-lib": "^2.94.0",
     "cdk-monitoring-constructs": "^1.27.1",
-    "constructs": "^10.1.230"
+    "constructs": "^10.2.70"
   },
   "peerDependencies": {
     "@aws-cdk/aws-apigatewayv2-alpha": "^2.18.0-alpha.0",
@@ -40,7 +40,7 @@
     "@aws-cdk/aws-synthetics-alpha": "^2.18.0-alpha.0",
     "aws-cdk-lib": "^2.94.0",
     "cdk-monitoring-constructs": "^1.27.1",
-    "constructs": "^10.1.230"
+    "constructs": "^10.2.70"
   },
   "exports": {
     ".": "./index.js",
