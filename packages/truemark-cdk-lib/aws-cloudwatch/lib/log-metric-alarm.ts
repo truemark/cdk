@@ -66,7 +66,7 @@ export interface LogMetricAlarmProps extends LogMetricFilterProps {
   /**
    * Sets how this alarm is to handle missing data points.
    *
-   * @default TreatMissingData.Missing
+   * @default TreatMissingData.IGNORE
    */
   readonly treatMissingData?: TreatMissingData;
 
@@ -118,8 +118,8 @@ export class LogMetricAlarm extends Construct implements IAlarm {
       ...props,
       threshold: props.threshold??1,
       evaluationPeriods: props.evaluationPeriods??2,
-      datapointsToAlarm:props.datapointsToAlarm??1,
-      treatMissingData: TreatMissingData.IGNORE,
+      datapointsToAlarm: props.datapointsToAlarm??1,
+      treatMissingData: props.treatMissingData ?? TreatMissingData.IGNORE,
       metric: this.metric
     });
 
