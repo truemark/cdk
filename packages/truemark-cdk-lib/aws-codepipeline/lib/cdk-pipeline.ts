@@ -18,7 +18,7 @@ import {Arn, Stack, Stage} from "aws-cdk-lib";
 import {Repository} from "aws-cdk-lib/aws-codecommit";
 import {NodePackageManager} from "./enums";
 import {Effect, PolicyStatement} from "aws-cdk-lib/aws-iam";
-import {ISlackChannelConfiguration, SlackChannelConfiguration} from "aws-cdk-lib/aws-chatbot";
+import {ISlackChannelConfiguration} from "aws-cdk-lib/aws-chatbot";
 import {ITopic} from "aws-cdk-lib/aws-sns";
 
 export enum NodeVersion {

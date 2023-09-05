@@ -87,13 +87,13 @@ export class PipelineNotificationRule extends Construct {
     this.notificationRule.addTarget(slackChannel);
   }
 
-  addTopic(topic: ITopic) {
-    this.targets.push(topic);
+  addTopicArn(id: string, topicArn: string) {
+    const topic = Topic.fromTopicArn(this, id, topicArn);
     this.notificationRule.addTarget(topic);
   }
 
-  addTopicArn(id: string, topicArn: string) {
-    const topic = Topic.fromTopicArn(this, id, topicArn);
+  addTopic(topic: ITopic) {
+    this.targets.push(topic);
     this.notificationRule.addTarget(topic);
   }
 }
