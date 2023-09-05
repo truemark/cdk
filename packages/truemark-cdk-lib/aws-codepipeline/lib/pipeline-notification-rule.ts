@@ -67,7 +67,7 @@ export class PipelineNotificationRule extends Construct {
 
   readonly slackChannel: ISlackChannelConfiguration;
   readonly notificationRule: NotificationRule;
-  readonly targets: INotificationRuleTarget[];
+  readonly targets: INotificationRuleTarget[] = [];
 
   constructor(scope: Construct, id: string, props: PipelineNotificationRuleProps) {
     super(scope, id);
