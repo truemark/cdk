@@ -18,6 +18,8 @@ import {Arn, Stack, Stage} from "aws-cdk-lib";
 import {Repository} from "aws-cdk-lib/aws-codecommit";
 import {NodePackageManager} from "./enums";
 import {Effect, PolicyStatement} from "aws-cdk-lib/aws-iam";
+import {ISlackChannelConfiguration, SlackChannelConfiguration} from "aws-cdk-lib/aws-chatbot";
+import {ITopic} from "aws-cdk-lib/aws-sns";
 
 export enum NodeVersion {
   NODE_16 = "16",
@@ -96,13 +98,28 @@ export interface CdkPipelineProps {
   readonly buildImage?: IBuildImage;
 
   /**
-   * The Slack channel configuration to use for notifications.
+   * The ARN of the Slack channel configuration to use for notifications. Mutually exclusive with slackChannelConfiguration.
    */
   readonly slackChannelConfigurationArn?: string;
 
   /**
-   * The list of notification events to receive. By default, this is all notifications.
-   *
+   * The Slack channel configuration to use for notifications. Mutually exclusive with slackChannelConfigurationArn.
+   */
+  readonly slackChannelConfiguration?: ISlackChannelConfiguration;
+
+  /**
+   * The SNS topic to use for notifications. Mutually exclusive with notificationTopic.
+   */
+  readonly notificationTopicArn?: string;
+
+  /**
+   * The SNS topic to use for notifications. Mutually exclusive with notificationTopicArn.
+   */
+  readonly notificationTopic?: ITopic;
+
+  /**
+   * The list of notification events to receive. Default is PipelineNotificationRule.PIPELINE_EXECUTION_EVENTS.
+   * @default PipelineNotificationRule.PIPELINE_EXECUTION_EVENTS
    * @see https://docs.aws.amazon.com/dtconsole/latest/userguide/concepts.html#events-ref-pipeline
    */
   readonly notificationEvents?: string[];
@@ -315,11 +332,30 @@ export class CdkPipeline extends Construct {
         }
       }
     });
-    if (props.slackChannelConfigurationArn) {
+
+    // Handle pipeline notifications
+    if (props.slackChannelConfiguration && props.slackChannelConfigurationArn) {
+      throw new Error("Only one of slackChannelConfiguration and slackChannelConfigurationArn can be specified");
+    }
+    if (props.notificationTopic && props.notificationTopicArn) {
+      throw new Error("Only one of notificationTopic and notificationTopicArn can be specified");
+    }
+    if (props.slackChannelConfiguration || props.slackChannelConfiguration
+        || props.notificationTopicArn || props.notificationTopic) {
       this.pipelineNotificationRule = new PipelineNotificationRule(this, 'Notification', {
+        events: props.notificationEvents,
         source: underlyingPipeline,
-        slackChannelConfigurationArn: props.slackChannelConfigurationArn
       });
+      if (props.slackChannelConfiguration) {
+        this.pipelineNotificationRule.addSlackChannel(props.slackChannelConfiguration);
+      } else if (props.slackChannelConfigurationArn) {
+        this.pipelineNotificationRule.addSlackChannelArn('SlackChannel', props.slackChannelConfigurationArn);
+      }
+      if (props.notificationTopic) {
+        this.pipelineNotificationRule.addTopic(props.notificationTopic);
+      } else if (props.notificationTopicArn) {
+        this.pipelineNotificationRule.addTopicArn('NotificationTopic', props.notificationTopicArn)
+      }
     }
   }
 

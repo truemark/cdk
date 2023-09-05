@@ -1,8 +1,9 @@
-import {NotificationRule} from "aws-cdk-lib/aws-codestarnotifications";
+import {INotificationRuleTarget, NotificationRule} from "aws-cdk-lib/aws-codestarnotifications";
 import {Construct} from "constructs";
 import {IPipeline} from "aws-cdk-lib/aws-codepipeline";
 import {SlackChannelConfiguration} from "aws-cdk-lib/aws-chatbot";
 import {ISlackChannelConfiguration} from "aws-cdk-lib/aws-chatbot";
+import {ITopic, Topic} from "aws-cdk-lib/aws-sns";
 
 /**
  * Properties for PipelineNotificationRule.
@@ -20,11 +21,6 @@ export interface PipelineNotificationRuleProps {
    * Pipeline source for the events.
    */
   readonly source: IPipeline;
-
-  /**
-   * Arn of the Slack channel to notify.
-   */
-  readonly slackChannelConfigurationArn: string;
 }
 
 /**
@@ -71,14 +67,33 @@ export class PipelineNotificationRule extends Construct {
 
   readonly slackChannel: ISlackChannelConfiguration;
   readonly notificationRule: NotificationRule;
+  readonly targets: INotificationRuleTarget[];
 
   constructor(scope: Construct, id: string, props: PipelineNotificationRuleProps) {
     super(scope, id);
-    this.slackChannel = SlackChannelConfiguration.fromSlackChannelConfigurationArn(this, 'SlackChannel', props.slackChannelConfigurationArn);
     this.notificationRule = new NotificationRule(this, 'Rule', {
       source: props.source,
-      events: props.events??PipelineNotificationRule.PIPELINE_EXECUTION_EVENTS,
-      targets: [this.slackChannel]
+      events: props.events??PipelineNotificationRule.PIPELINE_EXECUTION_EVENTS
     });
+  }
+
+  addSlackChannelArn(id: string, slackChannelArn: string) {
+    const slackChannel = SlackChannelConfiguration.fromSlackChannelConfigurationArn(this, id, slackChannelArn);
+    this.notificationRule.addTarget(slackChannel);
+  }
+
+  addSlackChannel(slackChannel: ISlackChannelConfiguration) {
+    this.targets.push(slackChannel);
+    this.notificationRule.addTarget(slackChannel);
+  }
+
+  addTopic(topic: ITopic) {
+    this.targets.push(topic);
+    this.notificationRule.addTarget(topic);
+  }
+
+  addTopicArn(id: string, topicArn: string) {
+    const topic = Topic.fromTopicArn(this, id, topicArn);
+    this.notificationRule.addTarget(topic);
   }
 }
