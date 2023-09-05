@@ -65,7 +65,6 @@ export class PipelineNotificationRule extends Construct {
     ...PipelineNotificationRule.MANUAL_APPROVAL_EVENTS
   ];
 
-  readonly slackChannel: ISlackChannelConfiguration;
   readonly notificationRule: NotificationRule;
   readonly targets: INotificationRuleTarget[] = [];
 
@@ -77,9 +76,10 @@ export class PipelineNotificationRule extends Construct {
     });
   }
 
-  addSlackChannelArn(id: string, slackChannelArn: string) {
+  addSlackChannelArn(id: string, slackChannelArn: string): ISlackChannelConfiguration {
     const slackChannel = SlackChannelConfiguration.fromSlackChannelConfigurationArn(this, id, slackChannelArn);
     this.notificationRule.addTarget(slackChannel);
+    return slackChannel;
   }
 
   addSlackChannel(slackChannel: ISlackChannelConfiguration) {
@@ -87,9 +87,10 @@ export class PipelineNotificationRule extends Construct {
     this.notificationRule.addTarget(slackChannel);
   }
 
-  addTopicArn(id: string, topicArn: string) {
+  addTopicArn(id: string, topicArn: string): ITopic {
     const topic = Topic.fromTopicArn(this, id, topicArn);
     this.notificationRule.addTarget(topic);
+    return topic;
   }
 
   addTopic(topic: ITopic) {

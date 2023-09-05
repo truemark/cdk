@@ -353,8 +353,10 @@ export class CdkPipeline extends Construct {
       }
       if (props.notificationTopic) {
         this.pipelineNotificationRule.addTopic(props.notificationTopic);
+        props.notificationTopic.grantPublish(underlyingPipeline.role);
       } else if (props.notificationTopicArn) {
-        this.pipelineNotificationRule.addTopicArn('NotificationTopic', props.notificationTopicArn)
+        const topic = this.pipelineNotificationRule.addTopicArn('NotificationTopic', props.notificationTopicArn)
+        topic.grantPublish(underlyingPipeline.role);
       }
     }
   }
