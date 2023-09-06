@@ -457,7 +457,7 @@ export class StandardTags {
         this.tags.add("team:contact-email", props.contactEmail, props);
       }
       if (props.contactPhone) {
-        this.tags.add("team:contact-hone", props.contactPhone, props);
+        this.tags.add("team:contact-phone", props.contactPhone, props);
       }
       if (props.businessUnitName) {
         this.tags.add("team:business-unit-name", props.businessUnitName, props);
