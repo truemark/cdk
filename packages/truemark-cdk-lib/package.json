@@ -1,6 +1,6 @@
 {
   "name": "truemark-cdk-lib",
-  "version": "1.4.7",
+  "version": "1.5.0",
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
@@ -29,8 +29,8 @@
     "@aws-cdk/aws-redshift-alpha": "^2.65.0-alpha.0",
     "@aws-cdk/aws-synthetics-alpha": "^2.65.0-alpha.0",
     "aws-cdk-lib": "2.94.0",
-    "constructs": "10.2.70",
-    "cdk-monitoring-constructs": "^5.9.2"
+    "cdk-monitoring-constructs": "^5.9.2",
+    "constructs": "10.2.70"
   },
   "peerDependencies": {
     "@aws-cdk/aws-apigatewayv2-alpha": "^2.65.0-alpha.0",
@@ -42,8 +42,8 @@
     "@aws-cdk/aws-redshift-alpha": "^2.65.0-alpha.0",
     "@aws-cdk/aws-synthetics-alpha": "^2.65.0-alpha.0",
     "aws-cdk-lib": "^2.94.0",
-    "constructs": "^10.2.70",
-    "cdk-monitoring-constructs": "^5.9.2"
+    "cdk-monitoring-constructs": "^5.9.2",
+    "constructs": "^10.2.70"
   },
   "exports": {
     ".": "./index.js",
