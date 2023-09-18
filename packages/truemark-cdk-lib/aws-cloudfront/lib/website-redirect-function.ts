@@ -91,14 +91,14 @@ function handler(event) {
         statusCode: 200,
         statusDescription: "OK",
         contentType: "text/plain",
-        body: "User-agent: *\nAllow: /"
+        body: "User-agent: *\\nAllow: /"
       }
     } else { // Disallow
       return {
         statusCode: 200,
         statusDescription: "OK",
         contentType: "text/plain",
-        body: "User-agent: *\nDisallow: /"
+        body: "User-agent: *\\nDisallow: /"
       }
     }
   }
