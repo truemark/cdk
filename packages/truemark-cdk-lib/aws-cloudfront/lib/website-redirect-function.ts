@@ -6,6 +6,8 @@ export type TrailingSlashBehavior = "None" | "ForwardToIndex" | "RedirectNoSlash
 
 export type NoFileIndexBehavior = "None" | "ForwardToIndex" | "RedirectToSlash";
 
+export type RobotsBehavior = "None" | "Allow" | "Disallow";
+
 export interface WebsiteRedirectFunctionProps {
 
   /**
@@ -33,6 +35,11 @@ export interface WebsiteRedirectFunctionProps {
    * @default "None"
    */
   readonly noFileExtensionBehavior?: NoFileIndexBehavior;
+
+  /**
+   * Sets the behavior for /robots.txt requests. Default is "Allow".
+   */
+  readonly robotsBehavior?: RobotsBehavior;
 }
 
 export class WebsiteRedirectFunction extends Function {
@@ -78,12 +85,29 @@ function handler(event) {
       }
     }
   }
+  if (event.request.uri === "/robots.txt" && "ROBOTS_BEHAVIOR" !== "None") {
+    if ("ROBOTS_BEHAVIOR" === "Allow") {
+      return {
+        statusCode: 200,
+        statusDescription: "OK",
+        contentType: "text/plain",
+        body: "User-agent: *\nAllow: /"
+      }
+    } else { // Disallow
+      return {
+        statusCode: 200,
+        statusDescription: "OK",
+        contentType: "text/plain",
+        body: "User-agent: *\nDisallow: /"
+    }
+  }
   return event.request;
 }`
         .replace(/APEX_DOMAIN/g, props.apexDomain?.toString() ?? "")
         .replace(/INDEX_FILE/g, props.indexFile ?? "index.html")
         .replace(/NO_FILE_EXTENSION_BEHAVIOR/g, props.noFileExtensionBehavior ?? "None")
-        .replace(/TRAILING_SLASH_BEHAVIOR/g, props.trailingSlashBehavior ?? "ForwardToIndex"))
+        .replace(/TRAILING_SLASH_BEHAVIOR/g, props.trailingSlashBehavior ?? "ForwardToIndex")
+        .replace("/ROBOTS_BEHAVIOR/g", props.robotsBehavior ?? "Allow"))
     });
   }
 }
