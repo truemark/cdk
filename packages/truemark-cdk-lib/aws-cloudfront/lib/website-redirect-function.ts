@@ -99,6 +99,7 @@ function handler(event) {
         statusDescription: "OK",
         contentType: "text/plain",
         body: "User-agent: *\nDisallow: /"
+      }
     }
   }
   return event.request;
