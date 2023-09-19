@@ -91,7 +91,7 @@ function handler(event) {
         statusCode: 200,
         statusDescription: "OK",
         headers: {
-         "content-type": "text/plain"
+         "content-type": { "value": "text/plain" }
         },
         body: "User-agent: *\\nAllow: /"
       }
@@ -100,7 +100,7 @@ function handler(event) {
         statusCode: 200,
         statusDescription: "OK",
         headers: {
-         "content-type": "text/plain"
+         "content-type": { "value": "text/plain" }
         },
         body: "User-agent: *\\nDisallow: /"
       }
