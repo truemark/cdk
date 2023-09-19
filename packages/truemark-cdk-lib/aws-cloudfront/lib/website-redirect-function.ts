@@ -90,14 +90,18 @@ function handler(event) {
       return {
         statusCode: 200,
         statusDescription: "OK",
-        contentType: "text/plain",
+        headers: {
+         "content-type": "text/plain"
+        },
         body: "User-agent: *\\nAllow: /"
       }
     } else { // Disallow
       return {
         statusCode: 200,
         statusDescription: "OK",
-        contentType: "text/plain",
+        headers: {
+         "content-type": "text/plain"
+        },
         body: "User-agent: *\\nDisallow: /"
       }
     }
