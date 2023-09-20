@@ -125,7 +125,7 @@ export class Website extends ExtendedConstruct {
    * The default bundling options for SourceType.Hugo.
    */
   static readonly HUGO_BUNDLING_OPTIONS: BundlingOptions = {
-    image: DockerImage.fromRegistry("klakegg/hugo:latest-ext"),
+    image: DockerImage.fromRegistry("public.ecr.aws/truemark/hugo:latest"),
     command: [
       "-d", "/asset-output"
     ]
