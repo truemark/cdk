@@ -112,7 +112,7 @@ function handler(event) {
         .replace(/INDEX_FILE/g, props.indexFile ?? "index.html")
         .replace(/NO_FILE_EXTENSION_BEHAVIOR/g, props.noFileExtensionBehavior ?? "None")
         .replace(/TRAILING_SLASH_BEHAVIOR/g, props.trailingSlashBehavior ?? "ForwardToIndex")
-        .replace("/ROBOTS_BEHAVIOR/g", props.robotsBehavior ?? "Allow"))
+        .replace(/ROBOTS_BEHAVIOR/g, props.robotsBehavior ?? "Allow"))
     });
   }
 }
