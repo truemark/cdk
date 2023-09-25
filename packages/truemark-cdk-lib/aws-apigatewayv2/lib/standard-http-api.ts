@@ -1,11 +1,14 @@
 import {Construct} from "constructs";
-import {DomainName, LatencyARecord, WeightedARecord} from "../../aws-route53";
+import {LatencyARecord, WeightedARecord} from "../../aws-route53";
 import {StandardDomainName} from "./standard-domain-name";
 import {CorsPreflightOptions, HttpApi, SecurityPolicy} from "@aws-cdk/aws-apigatewayv2-alpha";
 import {Stack, Stage} from "aws-cdk-lib";
 import {ARecord} from "aws-cdk-lib/aws-route53";
 import {ExtendedConstruct, ExtendedConstructProps, StandardTags} from "../../aws-cdk";
 import {LibStandardTags} from "../../truemark";
+import {
+  IHttpRouteAuthorizer
+} from "@aws-cdk/aws-apigatewayv2-alpha/lib/http/authorizer";
 
 /**
  * Properties for StandardHttpApi.
@@ -63,6 +66,16 @@ export interface StandardHttpApiProps extends ExtendedConstructProps {
    * The CORS configuration to apply to this API.
    */
   readonly corsPreflight?: CorsPreflightOptions;
+
+  /**
+   * Default Authorizer to applied to all routes in the gateway.
+   */
+  readonly defaultAuthorizer?: IHttpRouteAuthorizer;
+
+  /**
+   * Default OIDC scopes attached to all routes in the gateway, unless explicitly configured on the route.
+   */
+  readonly defaultAuthorizationScopes?: string[];
 }
 
 /**
@@ -104,7 +117,9 @@ export class StandardHttpApi extends ExtendedConstruct {
       defaultDomainMapping: {
         domainName: domainName.gatewayDomainName
       },
-      corsPreflight: props.corsPreflight
+      corsPreflight: props.corsPreflight,
+      defaultAuthorizer: props.defaultAuthorizer,
+      defaultAuthorizationScopes: props.defaultAuthorizationScopes,
     });
 
     this.domainName = domainName;
