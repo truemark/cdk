@@ -91,8 +91,22 @@ export class CloudFrontBucket extends ExtendedConstruct {
    * @param prune true to prune old files; default is false
    */
   deployPath(path: string, maxAge?: Duration, sMaxAge?: Duration, prune?: boolean): BucketDeployment {
+    this.deployPaths([path], maxAge, sMaxAge, prune);
+  }
+
+  /**
+   * Helper method to deploy local assets to the created bucket. Ths function assumes
+   * CloudFront invalidation requests will be sent for mutable files to serve new content.
+   * For more complicated deployments, use BucketDeployment directly.
+   *
+   * @param paths the paths to the local assets
+   * @param maxAge the length of time to browsers will cache files; default is Duration.minutes(15)
+   * @param sMaxAge the length of time CloudFront will cache files; default is Duration.days(7)
+   * @param prune true to prune old files; default is false
+   */
+  deployPaths(paths: string[], maxAge?: Duration, sMaxAge?: Duration, prune?: boolean): BucketDeployment {
     return new BucketDeployment(this, "Deploy", {
-      sources: [Source.asset(path)],
+      sources: paths.map(path => Source.asset(path)),
       destinationBucket: this.bucket,
       prune: prune ?? false,
       cacheControl: [
