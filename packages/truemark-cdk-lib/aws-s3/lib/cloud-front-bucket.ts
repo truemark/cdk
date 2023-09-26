@@ -91,7 +91,7 @@ export class CloudFrontBucket extends ExtendedConstruct {
    * @param prune true to prune old files; default is false
    */
   deployPath(path: string, maxAge?: Duration, sMaxAge?: Duration, prune?: boolean): BucketDeployment {
-    this.deployPaths([path], maxAge, sMaxAge, prune);
+    return this.deployPaths([path], maxAge, sMaxAge, prune);
   }
 
   /**
