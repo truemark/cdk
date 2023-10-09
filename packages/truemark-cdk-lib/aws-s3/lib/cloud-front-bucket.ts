@@ -6,6 +6,12 @@ import {Duration, RemovalPolicy} from "aws-cdk-lib";
 import {ExtendedConstruct, ExtendedConstructProps, StandardTags} from "../../aws-cdk";
 import {LibStandardTags} from "../../truemark";
 
+export interface CloudFrontBucketDeployProps {
+  readonly maxAge?: Duration;
+  readonly sMaxAge?: Duration;
+  readonly prune?: boolean;
+}
+
 /**
  * Properties for CloudFrontBucket.
  */
@@ -85,13 +91,14 @@ export class CloudFrontBucket extends ExtendedConstruct {
    * CloudFront invalidation requests will be sent for mutable files to serve new content.
    * For more complicated deployments, use BucketDeployment directly.
    *
+   * @param id the id of the deployment
    * @param path the path to the local assets
    * @param maxAge the length of time to browsers will cache files; default is Duration.minutes(15)
    * @param sMaxAge the length of time CloudFront will cache files; default is Duration.days(7)
    * @param prune true to prune old files; default is false
    */
-  deployPath(path: string, maxAge?: Duration, sMaxAge?: Duration, prune?: boolean): BucketDeployment {
-    return this.deployPaths([path], maxAge, sMaxAge, prune);
+  deployPath(id: string, path: string, maxAge?: Duration, sMaxAge?: Duration, prune?: boolean): BucketDeployment {
+    return this.deployPaths(id, [path], maxAge, sMaxAge, prune);
   }
 
   /**
@@ -99,13 +106,14 @@ export class CloudFrontBucket extends ExtendedConstruct {
    * CloudFront invalidation requests will be sent for mutable files to serve new content.
    * For more complicated deployments, use BucketDeployment directly.
    *
+   * @param id the id of the deployment
    * @param paths the paths to the local assets
    * @param maxAge the length of time to browsers will cache files; default is Duration.minutes(15)
    * @param sMaxAge the length of time CloudFront will cache files; default is Duration.days(7)
    * @param prune true to prune old files; default is false
    */
-  deployPaths(paths: string[], maxAge?: Duration, sMaxAge?: Duration, prune?: boolean): BucketDeployment {
-    return new BucketDeployment(this, "Deploy", {
+  deployPaths(id: string, paths: string[], maxAge?: Duration, sMaxAge?: Duration, prune?: boolean): BucketDeployment {
+    return new BucketDeployment(this, id, {
       sources: paths.map(path => Source.asset(path)),
       destinationBucket: this.bucket,
       prune: prune ?? false,
@@ -122,13 +130,14 @@ export class CloudFrontBucket extends ExtendedConstruct {
    * requests will be sent for mutable files to serve new content.
    * For more complicated deployments, use BucketDeployment directly.
    *
+   * @param id the id of the deployment
    * @param source the source to deploy
    * @param maxAge the length of time to browsers will cache files; default is Duration.minutes(15)
    * @param sMaxAge the length of time CloudFront will cache files; default is Duration.days(7)
    * @param prune true to prune old files; default is false
    */
-  deploySource(source: ISource, maxAge?: Duration, sMaxAge?: Duration, prune?: boolean): BucketDeployment {
-    return new BucketDeployment(this, "Deploy", {
+  deploySource(id: string, source: ISource, maxAge?: Duration, sMaxAge?: Duration, prune?: boolean): BucketDeployment {
+    return new BucketDeployment(this, id, {
       sources: [source],
       destinationBucket: this.bucket,
       prune: prune ?? false,
