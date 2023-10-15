@@ -56,9 +56,7 @@ export class ParameterStore extends Construct {
   }
 
   protected readLocal(name: string): string {
-    return StringParameter.fromStringParameterAttributes(this, this.identifierPrefix + name + this.identifierSuffix, {
-      parameterName: this.prefix + name + this.suffix
-    }).stringValue;
+    return StringParameter.valueFromLookup(this, this.prefix + name + this.suffix);
   }
 
   protected readRemote(name: string): string {
