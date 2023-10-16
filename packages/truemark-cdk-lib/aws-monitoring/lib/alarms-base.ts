@@ -1,10 +1,10 @@
 import {Construct} from "constructs";
-import {Alarm, AlarmBase, IAlarmAction} from "aws-cdk-lib/aws-cloudwatch";
+import {AlarmBase, IAlarmAction} from "aws-cdk-lib/aws-cloudwatch";
 import {CustomAlarmThreshold, MonitoringFacade} from "cdk-monitoring-constructs";
 import {ITopic} from "aws-cdk-lib/aws-sns";
 import {Duration, Stack} from "aws-cdk-lib";
 import {AlarmHelper} from "./alarm-helper";
-import {ExtendedStack} from "../../aws-codepipeline";
+import {ExtendedStack} from "../../aws-cdk";
 
 export enum AlarmCategory {
   Critical = "Critical",
