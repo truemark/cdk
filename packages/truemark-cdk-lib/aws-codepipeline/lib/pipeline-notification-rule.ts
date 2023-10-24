@@ -69,8 +69,8 @@ export class PipelineNotificationRule extends Construct {
   ];
 
   static readonly DEFAULT_EVENTS = [
-    ...this.PIPELINE_EXECUTION_EVENTS,
-    ...this.MANUAL_APPROVAL_EVENTS,
+    ...PipelineNotificationRule.PIPELINE_EXECUTION_EVENTS,
+    ...PipelineNotificationRule.MANUAL_APPROVAL_EVENTS,
     PipelineNotificationEvents.STAGE_EXECUTION_SUCCEEDED,
   ]
 
