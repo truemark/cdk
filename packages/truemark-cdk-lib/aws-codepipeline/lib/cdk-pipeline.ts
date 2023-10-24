@@ -340,7 +340,7 @@ export class CdkPipeline extends Construct {
     if (props.notificationTopic && props.notificationTopicArn) {
       throw new Error("Only one of notificationTopic and notificationTopicArn can be specified");
     }
-    if (props.slackChannelConfiguration || props.slackChannelConfiguration
+    if (props.slackChannelConfiguration || props.slackChannelConfigurationArn
         || props.notificationTopicArn || props.notificationTopic) {
       this.pipelineNotificationRule = new PipelineNotificationRule(this, 'Notification', {
         events: props.notificationEvents,
