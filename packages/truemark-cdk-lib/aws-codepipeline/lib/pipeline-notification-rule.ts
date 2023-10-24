@@ -1,6 +1,9 @@
 import {INotificationRuleTarget, NotificationRule} from "aws-cdk-lib/aws-codestarnotifications";
 import {Construct} from "constructs";
-import {IPipeline} from "aws-cdk-lib/aws-codepipeline";
+import {
+  IPipeline,
+  PipelineNotificationEvents
+} from "aws-cdk-lib/aws-codepipeline";
 import {SlackChannelConfiguration} from "aws-cdk-lib/aws-chatbot";
 import {ISlackChannelConfiguration} from "aws-cdk-lib/aws-chatbot";
 import {ITopic, Topic} from "aws-cdk-lib/aws-sns";
@@ -29,33 +32,33 @@ export interface PipelineNotificationRuleProps {
 export class PipelineNotificationRule extends Construct {
 
   static readonly ACTION_EXECUTION_EVENTS = [
-    'codepipeline-pipeline-action-execution-succeeded',
-    'codepipeline-pipeline-action-execution-failed',
-    'codepipeline-pipeline-action-execution-canceled',
-    'codepipeline-pipeline-action-execution-started'
+    PipelineNotificationEvents.ACTION_EXECUTION_SUCCEEDED,
+    PipelineNotificationEvents.ACTION_EXECUTION_FAILED,
+    PipelineNotificationEvents.ACTION_EXECUTION_CANCELED,
+    PipelineNotificationEvents.ACTION_EXECUTION_STARTED
   ];
 
   static readonly STAGE_EXECUTION_EVENTS = [
-    'codepipeline-pipeline-stage-execution-started',
-    'codepipeline-pipeline-stage-execution-succeeded',
-    'codepipeline-pipeline-stage-execution-resumed',
-    'codepipeline-pipeline-stage-execution-canceled',
-    'codepipeline-pipeline-stage-execution-failed'
+    PipelineNotificationEvents.STAGE_EXECUTION_STARTED,
+    PipelineNotificationEvents.STAGE_EXECUTION_SUCCEEDED,
+    PipelineNotificationEvents.STAGE_EXECUTION_RESUMED,
+    PipelineNotificationEvents.STAGE_EXECUTION_CANCELED,
+    PipelineNotificationEvents.STAGE_EXECUTION_FAILED
   ];
 
   static readonly PIPELINE_EXECUTION_EVENTS = [
-    'codepipeline-pipeline-pipeline-execution-failed',
-    'codepipeline-pipeline-pipeline-execution-canceled',
-    'codepipeline-pipeline-pipeline-execution-started',
-    'codepipeline-pipeline-pipeline-execution-resumed',
-    'codepipeline-pipeline-pipeline-execution-succeeded',
-    'codepipeline-pipeline-pipeline-execution-superseded'
+    PipelineNotificationEvents.PIPELINE_EXECUTION_FAILED,
+    PipelineNotificationEvents.PIPELINE_EXECUTION_CANCELED,
+    PipelineNotificationEvents.PIPELINE_EXECUTION_STARTED,
+    PipelineNotificationEvents.PIPELINE_EXECUTION_RESUMED,
+    PipelineNotificationEvents.PIPELINE_EXECUTION_SUCCEEDED,
+    PipelineNotificationEvents.PIPELINE_EXECUTION_SUPERSEDED
   ];
 
   static readonly MANUAL_APPROVAL_EVENTS = [
-    'codepipeline-pipeline-manual-approval-failed',
-    'codepipeline-pipeline-manual-approval-needed',
-    'codepipeline-pipeline-manual-approval-succeeded'
+    PipelineNotificationEvents.MANUAL_APPROVAL_NEEDED,
+    PipelineNotificationEvents.MANUAL_APPROVAL_FAILED,
+    PipelineNotificationEvents.MANUAL_APPROVAL_SUCCEEDED
   ]
 
   static readonly ALL_NOTIFICATION_EVENTS = [
@@ -65,6 +68,12 @@ export class PipelineNotificationRule extends Construct {
     ...PipelineNotificationRule.MANUAL_APPROVAL_EVENTS
   ];
 
+  static readonly DEFAULT_EVENTS = [
+    ...this.PIPELINE_EXECUTION_EVENTS,
+    ...this.MANUAL_APPROVAL_EVENTS,
+    PipelineNotificationEvents.STAGE_EXECUTION_SUCCEEDED,
+  ]
+
   readonly notificationRule: NotificationRule;
   readonly targets: INotificationRuleTarget[] = [];
 
@@ -72,7 +81,7 @@ export class PipelineNotificationRule extends Construct {
     super(scope, id);
     this.notificationRule = new NotificationRule(this, 'Rule', {
       source: props.source,
-      events: props.events??PipelineNotificationRule.PIPELINE_EXECUTION_EVENTS
+      events: props.events ?? PipelineNotificationRule.DEFAULT_EVENTS
     });
   }
 
