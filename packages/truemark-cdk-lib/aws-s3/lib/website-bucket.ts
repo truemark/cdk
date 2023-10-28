@@ -121,6 +121,7 @@ export class WebsiteBucket extends Construct {
       sources: [Source.asset(path)],
       destinationBucket: this.bucket,
       prune: prune ?? false,
+      memoryLimit: 512,
       cacheControl: [
         CacheControl.setPublic(),
         CacheControl.maxAge(maxAge ?? Duration.minutes(15)),
