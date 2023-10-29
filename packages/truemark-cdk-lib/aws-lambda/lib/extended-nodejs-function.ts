@@ -10,7 +10,6 @@ import * as path from "path";
 import {NodejsFunction, NodejsFunctionProps} from "aws-cdk-lib/aws-lambda-nodejs";
 
 export interface ExtendedNodejsFunctionProps extends NodejsFunctionProps, FunctionAlarmsOptions, DeployedFunctionOptions {
-
 }
 
 export class ExtendedNodejsFunction extends NodejsFunction {
@@ -37,7 +36,11 @@ export class ExtendedNodejsFunction extends NodejsFunction {
       timeout: Duration.seconds(30), // change default from 3
       runtime: Runtime.NODEJS_16_X, // change default from NODEJS_14_X
       depsLockFilePath: ExtendedNodejsFunction.findDepsLockFile(props.entry),
-      ...props
+      ...props,
+      bundling: {
+        sourceMap: props.bundling?.sourceMap ?? true,
+        ...props.bundling
+      }
     });
 
     this.alarms = new FunctionAlarms(this, "Alarms", {
