@@ -66,13 +66,13 @@ export class WebsiteBucket extends Construct {
   readonly bucketWebsiteDomainName: string;
   readonly record: ARecord | WeightedARecord | LatencyARecord;
 
-  constructor(scope: Construct, id: string, props: WebsiteBucketProps) {
+  constructor(scope: Construct, id: string, props?: WebsiteBucketProps) {
     super(scope, id);
 
-    const removalPolicy = props.removalPolicy ?? RemovalPolicy.RETAIN;
-    const autoDeleteObjects = (props.autoDeleteObjects ?? false) && removalPolicy === RemovalPolicy.DESTROY;
+    const removalPolicy = props?.removalPolicy ?? RemovalPolicy.RETAIN;
+    const autoDeleteObjects = (props?.autoDeleteObjects ?? false) && removalPolicy === RemovalPolicy.DESTROY;
 
-    const domainName = props.domainName === undefined ? undefined : new DomainName({
+    const domainName = props?.domainName === undefined ? undefined : new DomainName({
       prefix: props.domainName.prefix,
       zone: props.domainName.zone
     });
@@ -81,10 +81,10 @@ export class WebsiteBucket extends Construct {
       bucketName: domainName?.toString(),
       encryption: BucketEncryption.S3_MANAGED,
       publicReadAccess: true,
-      websiteIndexDocument: props.websiteIndexDocument ?? "index.html",
-      websiteErrorDocument: props.websiteErrorDocument ?? "error.html",
-      websiteRedirect: props.websiteRedirect,
-      websiteRoutingRules: props.websiteRoutingRules,
+      websiteIndexDocument: props?.websiteIndexDocument ?? "index.html",
+      websiteErrorDocument: props?.websiteErrorDocument ?? "error.html",
+      websiteRedirect: props?.websiteRedirect,
+      websiteRoutingRules: props?.websiteRoutingRules,
       removalPolicy,
       autoDeleteObjects,
     });
@@ -93,12 +93,12 @@ export class WebsiteBucket extends Construct {
     this.bucketWebsiteUrl = this.bucket.bucketWebsiteUrl;
     this.bucketWebsiteDomainName = this.bucket.bucketWebsiteDomainName;
 
-    if (domainName !== undefined && (props.domainName?.create ?? true)) {
+    if (domainName !== undefined && (props?.domainName?.create ?? true)) {
       const target = RecordTarget.fromAlias(new BucketWebsiteTarget(this.bucket));
       // TODO Evaluate
-      if (props.domainName?.latency !== undefined) {
+      if (props?.domainName?.latency !== undefined) {
         this.record = domainName.createLatencyARecord(this, target);
-      } else if (props.domainName?.weight !== undefined) {
+      } else if (props?.domainName?.weight !== undefined) {
         this.record = domainName.createWeightedARecord(this, target, props.domainName.weight);
       } else {
         this.record = domainName.createARecord(this, target);
