@@ -121,6 +121,13 @@ export interface StandardApplicationFargateServiceProps extends StandardFargateS
   readonly domainNames?: string[];
 
   /**
+   * Set this to true to skip the creation of route53 records. By default records will be created in domainName and domainZone is provided.
+   *
+   * @default - false
+   */
+  readonly skipCreateRoute53Records?: boolean;
+
+  /**
    * Path pattern to match on the load balancer.
    *
    * @default - ["/*"]
@@ -149,6 +156,7 @@ export interface StandardApplicationFargateServiceProps extends StandardFargateS
 
   /**
    * Zone of the domain name. If set, a route53 record is created for the service.
+   *
    */
   readonly domainZone?: IHostedZone;
 }
@@ -245,7 +253,7 @@ export class StandardApplicationFargateService extends StandardFargateService {
       priority: props.targetGroupPriority ?? 1
     });
 
-    if (props.domainName !== undefined && props.domainZone !== undefined) {
+    if (props.domainName !== undefined && props.domainZone !== undefined && !props.skipCreateRoute53Records) {
       this.domainName = DomainName.fromFqdn(props.domainName, props.domainZone);
       this.route53Record = this.domainName.createARecord(this,
         RecordTarget.fromAlias(new LoadBalancerTarget(loadBalancer)));

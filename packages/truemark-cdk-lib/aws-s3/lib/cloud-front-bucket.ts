@@ -5,6 +5,7 @@ import {BucketDeployment, CacheControl, ISource, Source} from "aws-cdk-lib/aws-s
 import {Duration, RemovalPolicy} from "aws-cdk-lib";
 import {ExtendedConstruct, ExtendedConstructProps, StandardTags} from "../../aws-cdk";
 import {LibStandardTags} from "../../truemark";
+import {S3Origin} from "aws-cdk-lib/aws-cloudfront-origins";
 
 /**
  * Properties for CloudFrontBucket.
@@ -159,5 +160,14 @@ export class CloudFrontBucket extends ExtendedConstruct {
    */
   deploySource(source: ISource, maxAge?: Duration, sMaxAge?: Duration, prune?: boolean): BucketDeployment {
     return this.deploySources([source], maxAge, sMaxAge, prune);
+  }
+
+  /**
+   * Helper method to return a CloudFront Origin for this bucket.
+   */
+  toOrigin(): S3Origin {
+    return new S3Origin(this.bucket, {
+      originAccessIdentity: this.originAccessIdentity
+    });
   }
 }
