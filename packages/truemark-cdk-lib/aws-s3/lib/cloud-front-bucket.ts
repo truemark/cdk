@@ -268,4 +268,28 @@ export class CloudFrontBucket extends ExtendedConstruct {
     return this.bucket.grantReadWrite(identity, objectsKeyPattern);
   }
 
+  /**
+   * Adds a statement to the resource policy for a principal (i.e.
+   * account/role/service) to perform actions on this bucket and/or its
+   * contents. Use `bucketArn` and `arnForObjects(keys)` to obtain ARNs for
+   * this bucket or objects.
+   *
+   * Note that the policy statement may or may not be added to the policy.
+   * For example, when an `IBucket` is created from an existing bucket,
+   * it's not possible to tell whether the bucket already has a policy
+   * attached, let alone to re-use that policy to add more statements to it.
+   * So it's safest to do nothing in these cases.
+   *
+   * @param permission the policy statement to be added to the bucket's
+   * policy.
+   * @returns metadata about the execution of this method. If the policy
+   * was not added, the value of `statementAdded` will be `false`. You
+   * should always check this value to make sure that the operation was
+   * actually carried out. Otherwise, synthesis and deploy will terminate
+   * silently, which may be confusing.
+   */
+  addToResourcePolicy(permission: iam.PolicyStatement): iam.AddToResourcePolicyResult {
+    return this.bucket.addToResourcePolicy(permission);
+  }
+
 }

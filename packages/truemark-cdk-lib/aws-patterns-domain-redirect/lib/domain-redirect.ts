@@ -90,11 +90,11 @@ function handler(event) {
     });
 
     const origin = new HttpOrigin("example.com");
-    const builder = DistributionBuilder.fromOrigin(origin)
+    const distribution = new DistributionBuilder(this, "Distribution")
       .comment(props.comment)
       .domainNames(props.domainNames.map(d => d.toString()))
-      .certificate(certificate);
-    builder.defaultBehavior()
+      .certificate(certificate)
+      .behavior(origin)
       .allowedMethods(AllowedMethods.ALLOW_GET_HEAD)
       .cachedMethods(CachedMethods.CACHE_GET_HEAD)
       .compress(true)
@@ -106,9 +106,8 @@ function handler(event) {
           eventType: FunctionEventType.VIEWER_REQUEST,
           function: redirectFunction
         }
-      ]);
+      ]).toDistribution();
 
-    const distribution = builder.toDistribution(this, "Distribution");
     const target = new CloudFrontTarget(distribution);
     const records = props.domainNames.map(domainName =>
       domainName.createARecord(this, RecordTarget.fromAlias(target)));

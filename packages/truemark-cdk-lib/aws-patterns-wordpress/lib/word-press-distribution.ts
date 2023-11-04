@@ -17,8 +17,8 @@ import {Duration} from "aws-cdk-lib";
 import {Certificate, ICertificate} from "aws-cdk-lib/aws-certificatemanager";
 import {ARecord, IHostedZone, RecordTarget} from "aws-cdk-lib/aws-route53";
 import {CloudFrontTarget} from "aws-cdk-lib/aws-route53-targets";
-import {DomainName} from "../../aws-route53/index";
-import {DistributionBuilder} from "../../aws-cloudfront/index";
+import {DomainName} from "../../aws-route53";
+import {DistributionBuilder} from "../../aws-cloudfront";
 
 /**
  * Domain name properties.
@@ -143,50 +143,51 @@ export class WordPressDistribution extends Construct {
       queryStringBehavior: OriginRequestQueryStringBehavior.all()
     });
 
-    const builder = DistributionBuilder.fromOrigin(props.origin)
+    const builder = new DistributionBuilder(this, "Default")
       .httpVersion(props.httpVersion ?? HttpVersion.HTTP2_AND_3)
       .minimumProtocolVersion(props.minimumProtocolVersion ?? SecurityPolicyProtocol.TLS_V1_2_2021)
       .enableIpv6(props.enableIpv6 ?? true)
       .priceClass(props.priceClass ?? PriceClass.PRICE_CLASS_ALL)
       .domainNames(props.domainNames.map(domainName => domainName.domainName))
-      .certificate(certificate);
+      .certificate(certificate)
 
-    builder.defaultBehavior()
+      .behavior(props.origin)
       .viewerProtocolPolicy(ViewerProtocolPolicy.REDIRECT_TO_HTTPS)
       .compress(true)
       .allowedMethods(AllowedMethods.ALLOW_ALL)
       .originRequestPolicy(originRequestPolicy)
-      .cachePolicy(CachePolicy.CACHING_DISABLED);
+      .cachePolicy(CachePolicy.CACHING_DISABLED)
 
-    builder.additionalBehavior("/wp-includes/*", props.origin)
+      .behavior(props.origin, "/wp-includes/*")
       .viewerProtocolPolicy(ViewerProtocolPolicy.REDIRECT_TO_HTTPS)
       .compress(true)
       .allowedMethods(AllowedMethods.ALLOW_GET_HEAD_OPTIONS)
       .originRequestPolicy(originRequestPolicy)
-      .cachePolicy(CachePolicy.CACHING_DISABLED);
+      .cachePolicy(CachePolicy.CACHING_DISABLED)
 
-    builder.additionalBehavior("/wp-content/*", props.origin)
+      .behavior(props.origin, "/wp-content/*")
       .viewerProtocolPolicy(ViewerProtocolPolicy.REDIRECT_TO_HTTPS)
       .compress(true)
       .allowedMethods(AllowedMethods.ALLOW_GET_HEAD_OPTIONS)
       .originRequestPolicy(originRequestPolicy)
-      .cachePolicy(CachePolicy.CACHING_DISABLED);
+      .cachePolicy(CachePolicy.CACHING_DISABLED)
 
-    builder.additionalBehavior("/wp-login.php", props.origin)
+      .behavior(props.origin, "/wp-login.php")
+      .viewerProtocolPolicy(ViewerProtocolPolicy.REDIRECT_TO_HTTPS)
+      .compress(true)
+      .allowedMethods(AllowedMethods.ALLOW_ALL)
+      .originRequestPolicy(originRequestPolicy)
+      .cachePolicy(CachePolicy.CACHING_DISABLED)
+
+      .behavior(props.origin, "/wp-admin/*")
       .viewerProtocolPolicy(ViewerProtocolPolicy.REDIRECT_TO_HTTPS)
       .compress(true)
       .allowedMethods(AllowedMethods.ALLOW_ALL)
       .originRequestPolicy(originRequestPolicy)
       .cachePolicy(CachePolicy.CACHING_DISABLED);
 
-    builder.additionalBehavior("/wp-admin/*", props.origin)
-      .viewerProtocolPolicy(ViewerProtocolPolicy.REDIRECT_TO_HTTPS)
-      .compress(true)
-      .allowedMethods(AllowedMethods.ALLOW_ALL)
-      .originRequestPolicy(originRequestPolicy)
-      .cachePolicy(CachePolicy.CACHING_DISABLED);
 
-    const distribution = builder.toDistribution(this, "Default");
+    const distribution = new Distribution(this, "Default", builder.build());
 
     const dnsRecords: ARecord[] = [];
     if (props.createDnsRecords ?? true) {

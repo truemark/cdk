@@ -5,7 +5,7 @@ import {
   ErrorResponse,
   GeoRestriction,
   HttpVersion,
-  IOrigin,
+  IOrigin, OriginAccessIdentity,
   PriceClass,
   SecurityPolicyProtocol,
   SSLMethod,
@@ -13,39 +13,40 @@ import {
 import {ICertificate} from "aws-cdk-lib/aws-certificatemanager";
 import {IBucket} from "aws-cdk-lib/aws-s3";
 import {Construct} from "constructs";
-import {BehaviorBuilder, WebsiteDefaultsProps} from "./behavior-builder";
+import {BehaviorBuilder} from "./behavior-builder";
 import {DomainName} from "../../aws-route53";
+import {CloudFrontBucket} from "../../aws-s3";
+import {ExtendedConstruct} from "../../aws-cdk";
+import {S3Origin} from "aws-cdk-lib/aws-cloudfront-origins";
 
-export class DistributionBuilder {
+export class DistributionBuilder extends ExtendedConstruct {
 
-  protected props: DistributionProps;
-  protected defaultBehaviorBuilder: BehaviorBuilder;
-  protected additionalBehaviorBuilders: Record<string, BehaviorBuilder>;
+  protected props: any = {};
+  protected behaviors: Record<string, BehaviorBuilder> = {};
 
-  constructor(defaultBehaviorBuilder: BehaviorBuilder) {
-    this.props = {
-      defaultBehavior: defaultBehaviorBuilder.build()
-    }
-    this.defaultBehaviorBuilder = defaultBehaviorBuilder;
-    this.additionalBehaviorBuilders = {}
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
   }
 
-  defaultBehavior(): BehaviorBuilder {
-    return this.defaultBehaviorBuilder;
+  behavior(origin: IOrigin, path?: string): BehaviorBuilder {
+    return new BehaviorBuilder(this, origin, path);
   }
 
-  additionalBehaviors(additionalBehaviors?: Record<string, BehaviorOptions>): DistributionBuilder {
-    this.props = {
-      ...this.props,
-      additionalBehaviors
-    };
+  behaviorFromBucket(bucket: IBucket, path?: string): BehaviorBuilder {
+    return new BehaviorBuilder(this, new S3Origin(bucket, {
+      originAccessIdentity: new OriginAccessIdentity(this, `Access${bucket.node.id}`, {
+        comment: `S3 bucket ${bucket.bucketName}`
+      })
+    }), path);
+  }
+
+  behaviorFromCloudFromBucket(bucket: CloudFrontBucket, path?: string): BehaviorBuilder {
+    return new BehaviorBuilder(this, bucket.toOrigin(), path);
+  }
+
+  addBehavior(builder: BehaviorBuilder, path: string | undefined): DistributionBuilder {
+    this.behaviors[path ?? ""] = builder;
     return this;
-  }
-
-  additionalBehavior(pattern: string, origin: IOrigin): BehaviorBuilder {
-    const behaviorBuilder = BehaviorBuilder.fromOrigin(origin);
-    this.additionalBehaviorBuilders[pattern] = behaviorBuilder;
-    return behaviorBuilder
   }
 
   certificate(certificate?: ICertificate): DistributionBuilder {
@@ -204,52 +205,43 @@ export class DistributionBuilder {
     return this;
   }
 
-  defaults(): DistributionBuilder {
-    this.defaultBehavior().defaults()
-    return this
-      .httpVersion(HttpVersion.HTTP2_AND_3)
-      .minimumProtocolVersion(SecurityPolicyProtocol.TLS_V1_2_2021)
-      .enableIpv6(true)
-      .priceClass(PriceClass.PRICE_CLASS_100)
-  }
-
-  websiteDefaults(props: WebsiteDefaultsProps) {
-    this.defaultBehavior().websiteDefaults(props)
-    return this
-      .httpVersion(HttpVersion.HTTP2_AND_3)
-      .minimumProtocolVersion(SecurityPolicyProtocol.TLS_V1_2_2021)
-      .enableIpv6(true)
-      .priceClass(PriceClass.PRICE_CLASS_100)
-      .errorResponse({
-        httpStatus: 404,
-        responseHttpStatus: 404,
-        responsePagePath: "/404.html"
-      });
-  }
-
   build(): DistributionProps {
-
-    const additionalBehaviors: Record<string, BehaviorOptions> = {}
-    for (const [pattern, behaviorBuilder] of Object.entries(this.additionalBehaviorBuilders)) {
-      additionalBehaviors[pattern] = behaviorBuilder.build();
+    if (this.behaviors[""] === undefined) {
+      throw new Error("Default behavior with no path is required");
     }
+
+    if (this.props.enableIpv6 === undefined) {
+      this.enableIpv6(true);
+    }
+
+    if (this.props.httpVersion === undefined) {
+      this.httpVersion(HttpVersion.HTTP2_AND_3);
+    }
+
+    if (this.props.priceClass === undefined) {
+      this.priceClass(PriceClass.PRICE_CLASS_100);
+    }
+
+    if (this.props.minimumProtocolVersion === undefined) {
+      this.minimumProtocolVersion(SecurityPolicyProtocol.TLS_V1_2_2021);
+    }
+
+    const defaultBehavior = this.behaviors[""].buildBehavior();
+    const additionalBehaviors: Record<string, BehaviorOptions> = Object.values(this.behaviors)
+      .filter((behavior) => behavior.path !== undefined)
+      .reduce((behaviors, behavior) => {
+        behaviors[behavior.path ?? ""] = behavior.buildBehavior();
+        return behaviors;
+      }, {} as Record<string, BehaviorOptions>);
 
     return {
       ...this.props,
-      defaultBehavior: this.defaultBehaviorBuilder.build(),
-      additionalBehaviors: {
-        ...this.props.additionalBehaviors,
-        ...additionalBehaviors
-      }
+      defaultBehavior,
+      additionalBehaviors
     }
   }
 
-  toDistribution(scope: Construct, id: string): Distribution {
-    return new Distribution(scope, id, this.build());
-  }
-
-  static fromOrigin(origin: IOrigin): DistributionBuilder {
-    const defaultBehaviorBuilder = BehaviorBuilder.fromOrigin(origin);
-    return new DistributionBuilder(defaultBehaviorBuilder);
+  toDistribution(): Distribution {
+    return new Distribution(this, "Default", this.build());
   }
 }

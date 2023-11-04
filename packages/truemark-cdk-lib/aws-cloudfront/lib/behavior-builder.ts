@@ -2,7 +2,7 @@ import {
   AllowedMethods,
   BehaviorOptions,
   CachedMethods,
-  CachePolicy,
+  CachePolicy, Distribution, DistributionProps,
   EdgeLambda,
   FunctionAssociation,
   FunctionEventType,
@@ -18,6 +18,9 @@ import {
 import {Construct} from "constructs";
 import {WebsiteRedirectFunction, WebsiteRedirectFunctionProps} from "./website-redirect-function";
 import {OriginGroup} from "aws-cdk-lib/aws-cloudfront-origins";
+import {DistributionBuilder} from "./distribution-builder";
+import {IBucket} from "aws-cdk-lib/aws-s3";
+import {CloudFrontBucket} from "../../aws-s3";
 
 export interface WebsiteDefaultsProps extends WebsiteRedirectFunctionProps {
   readonly scope: Construct;
@@ -26,9 +29,14 @@ export interface WebsiteDefaultsProps extends WebsiteRedirectFunctionProps {
 
 export class BehaviorBuilder {
 
+  readonly path: string | undefined;
   protected options: BehaviorOptions;
+  protected parent: DistributionBuilder;
 
-  protected constructor(origin: IOrigin) {
+  constructor(parent: DistributionBuilder, origin: IOrigin, path: string | undefined) {
+    this.path = path;
+    parent.addBehavior(this, path);
+    this.parent = parent;
     this.options = {
       origin
     }
@@ -191,11 +199,37 @@ export class BehaviorBuilder {
       });
   }
 
-  build(): BehaviorOptions {
+  staticDefaults(): BehaviorBuilder {
+    return this
+      .viewerProtocolPolicy(ViewerProtocolPolicy.REDIRECT_TO_HTTPS)
+      .compress(true)
+      .allowedMethods(AllowedMethods.ALLOW_GET_HEAD_OPTIONS)
+      .cachedMethods(CachedMethods.CACHE_GET_HEAD_OPTIONS)
+      .cachePolicy(CachePolicy.CACHING_OPTIMIZED)
+      .originRequestPolicy(OriginRequestPolicy.CORS_S3_ORIGIN);
+  }
+
+  buildBehavior(): BehaviorOptions {
     return this.options;
   }
 
-  static fromOrigin(origin: IOrigin) {
-    return new BehaviorBuilder(origin);
+  build(): DistributionProps {
+    return this.parent.build();
+  }
+
+  behavior(origin: IOrigin, path: string): BehaviorBuilder {
+    return this.parent.behavior(origin, path);
+  }
+
+  behaviorFromBucket(bucket: IBucket, path: string): BehaviorBuilder {
+    return this.parent.behaviorFromBucket(bucket, path);
+  }
+
+  behaviorFromCloudFromBucket(bucket: CloudFrontBucket, path: string): BehaviorBuilder {
+    return this.parent.behaviorFromCloudFromBucket(bucket, path);
+  }
+
+  toDistribution(): Distribution {
+    return this.parent.toDistribution();
   }
 }
