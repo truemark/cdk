@@ -1,5 +1,5 @@
 import {Construct} from "constructs";
-import {BlockPublicAccess, Bucket, BucketEncryption, IBucket} from "aws-cdk-lib/aws-s3";
+import {BlockPublicAccess, Bucket, BucketEncryption} from "aws-cdk-lib/aws-s3";
 import {OriginAccessIdentity} from "aws-cdk-lib/aws-cloudfront";
 import {BucketDeployment, CacheControl, ISource, Source} from "aws-cdk-lib/aws-s3-deployment";
 import {Duration, RemovalPolicy} from "aws-cdk-lib";
@@ -63,20 +63,20 @@ export class CloudFrontBucket extends ExtendedConstruct {
     return current === 0 ? '' : `${current}`;
   }
 
-  constructor(scope: Construct, id: string, props: CloudFrontBucketProps) {
-    super(scope, id, {standardTags: StandardTags.merge(props.standardTags, LibStandardTags)});
+  constructor(scope: Construct, id: string, props?: CloudFrontBucketProps) {
+    super(scope, id, {standardTags: StandardTags.merge(props?.standardTags, LibStandardTags)});
 
-    const removalPolicy = props.removalPolicy ?? RemovalPolicy.RETAIN;
-    const autoDeleteObjects = (props.autoDeleteObjects ?? false) && removalPolicy === RemovalPolicy.DESTROY;
+    const removalPolicy = props?.removalPolicy ?? RemovalPolicy.RETAIN;
+    const autoDeleteObjects = (props?.autoDeleteObjects ?? false) && removalPolicy === RemovalPolicy.DESTROY;
 
     this.bucket = new Bucket(this, "Default", {
       encryption: BucketEncryption.S3_MANAGED, // CloudFront cannot use KMS with S3
       blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
       removalPolicy,
       autoDeleteObjects,
-      versioned: props.versioned ?? false,
-      transferAcceleration: props.transferAcceleration ?? false,
-      bucketName: props.bucketName
+      versioned: props?.versioned ?? false,
+      transferAcceleration: props?.transferAcceleration ?? false,
+      bucketName: props?.bucketName
     });
     this.bucketName = this.bucket.bucketName;
     this.bucketArn = this.bucket.bucketArn;
