@@ -6,6 +6,8 @@ import {Duration, RemovalPolicy} from "aws-cdk-lib";
 import {ExtendedConstruct, ExtendedConstructProps, StandardTags} from "../../aws-cdk";
 import {LibStandardTags} from "../../truemark";
 import {S3Origin} from "aws-cdk-lib/aws-cloudfront-origins";
+import {Grant, IGrantable} from "aws-cdk-lib/aws-iam";
+import * as iam from "aws-cdk-lib/aws-iam";
 
 /**
  * Properties for CloudFrontBucket.
@@ -170,4 +172,100 @@ export class CloudFrontBucket extends ExtendedConstruct {
       originAccessIdentity: this.originAccessIdentity
     });
   }
+
+  /**
+   * Grant read permissions for this bucket and it's contents to an IAM
+   * principal (Role/Group/User).
+   *
+   * If encryption is used, permission to use the key to decrypt the contents
+   * of the bucket will also be granted to the same principal.
+   *
+   * @param identity The principal
+   * @param objectsKeyPattern Restrict the permission to a certain key pattern (default '*')
+   */
+  grantRead(identity: IGrantable, objectsKeyPattern?: any): Grant {
+    return this.bucket.grantRead(identity, objectsKeyPattern);
+  }
+
+  /**
+   * Grant write permissions to this bucket to an IAM principal.
+   *
+   * If encryption is used, permission to use the key to encrypt the contents
+   * of written files will also be granted to the same principal.
+   *
+   * Before CDK version 1.85.0, this method granted the `s3:PutObject*` permission that included `s3:PutObjectAcl`,
+   * which could be used to grant read/write object access to IAM principals in other accounts.
+   * If you want to get rid of that behavior, update your CDK version to 1.85.0 or later,
+   * and make sure the `@aws-cdk/aws-s3:grantWriteWithoutAcl` feature flag is set to `true`
+   * in the `context` key of your cdk.json file.
+   * If you've already updated, but still need the principal to have permissions to modify the ACLs,
+   * use the `grantPutAcl` method.
+   *
+   * @param identity The principal
+   * @param objectsKeyPattern Restrict the permission to a certain key pattern (default '*')
+   * @param allowedActionPatterns Restrict the permissions to certain list of action patterns
+   */
+  grantWrite(identity: IGrantable, objectsKeyPattern?: any, allowedActionPatterns?: string[]): Grant {
+    return this.bucket.grantWrite(identity, objectsKeyPattern, allowedActionPatterns);
+  }
+
+  /**
+   * Grants s3:PutObject* and s3:Abort* permissions for this bucket to an IAM principal.
+   *
+   * If encryption is used, permission to use the key to encrypt the contents
+   * of written files will also be granted to the same principal.
+   * @param identity The principal
+   * @param objectsKeyPattern Restrict the permission to a certain key pattern (default '*')
+   */
+  grantPut(identity: IGrantable, objectsKeyPattern?: any): Grant {
+    return this.bucket.grantPut(identity, objectsKeyPattern);
+  }
+
+  /**
+   * Grant the given IAM identity permissions to modify the ACLs of objects in the given Bucket.
+   *
+   * If your application has the '@aws-cdk/aws-s3:grantWriteWithoutAcl' feature flag set,
+   * calling `grantWrite` or `grantReadWrite` no longer grants permissions to modify the ACLs of the objects;
+   * in this case, if you need to modify object ACLs, call this method explicitly.
+   *
+   * @param identity The principal
+   * @param objectsKeyPattern Restrict the permission to a certain key pattern (default '*')
+   */
+  grantPutAcl(identity: IGrantable, objectsKeyPattern?: string): Grant {
+    return this.bucket.grantPutAcl(identity, objectsKeyPattern);
+  }
+
+  /**
+   * Grants s3:DeleteObject* permission to an IAM principal for objects
+   * in this bucket.
+   *
+   * @param identity The principal
+   * @param objectsKeyPattern Restrict the permission to a certain key pattern (default '*')
+   */
+  grantDelete(identity: IGrantable, objectsKeyPattern?: any): Grant {
+    return this.bucket.grantDelete(identity, objectsKeyPattern);
+  }
+
+  /**
+   * Grants read/write permissions for this bucket and it's contents to an IAM
+   * principal (Role/Group/User).
+   *
+   * If an encryption key is used, permission to use the key for
+   * encrypt/decrypt will also be granted.
+   *
+   * Before CDK version 1.85.0, this method granted the `s3:PutObject*` permission that included `s3:PutObjectAcl`,
+   * which could be used to grant read/write object access to IAM principals in other accounts.
+   * If you want to get rid of that behavior, update your CDK version to 1.85.0 or later,
+   * and make sure the `@aws-cdk/aws-s3:grantWriteWithoutAcl` feature flag is set to `true`
+   * in the `context` key of your cdk.json file.
+   * If you've already updated, but still need the principal to have permissions to modify the ACLs,
+   * use the `grantPutAcl` method.
+   *
+   * @param identity The principal
+   * @param objectsKeyPattern Restrict the permission to a certain key pattern (default '*')
+   */
+  grantReadWrite(identity: IGrantable, objectsKeyPattern?: any): Grant {
+    return this.bucket.grantReadWrite(identity, objectsKeyPattern);
+  }
+
 }
