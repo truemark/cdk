@@ -33,6 +33,9 @@ function pathToIdentifier(path: string): string {
     .replace(/\//g, "-"));
 }
 
+export const ALL_FALLBACK_STATUS_CODES = [400, 403, 404, 405, 500, 502, 503, 504];
+export const DEFAULT_FALLBACK_STATUS_CODES = [500, 502, 503, 504];
+
 export class BehaviorBuilder extends ExtendedConstruct {
 
   readonly path: string | undefined;
@@ -49,11 +52,12 @@ export class BehaviorBuilder extends ExtendedConstruct {
     }
   }
 
-  fallbackOrigin(fallbackOrigin?: IOrigin): BehaviorBuilder {
+  fallbackOrigin(fallbackOrigin?: IOrigin, fallbackStatusCodes?: number[]): BehaviorBuilder {
     if (fallbackOrigin) {
       const originGroup = new OriginGroup({
         primaryOrigin: this.options.origin,
-        fallbackOrigin
+        fallbackOrigin,
+        fallbackStatusCodes: fallbackStatusCodes ?? DEFAULT_FALLBACK_STATUS_CODES
       });
       this.options = {
         ...this.options,
