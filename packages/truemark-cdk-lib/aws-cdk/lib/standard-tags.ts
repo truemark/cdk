@@ -279,6 +279,11 @@ export interface StandardTagsProps {
   readonly teamTags?: TeamTagsProps;
 
   /**
+   * The map migrated tag value.
+   */
+  readonly mapMigrated?: string;
+
+  /**
    * Setting this to true will suppress the creation of tags this resource creates.
    * Default value is false.
    *
@@ -323,6 +328,9 @@ export class StandardTags {
     this.addCostCenterTags(standardTagsProps.costCenterTags);
     this.addSecurityTags(standardTagsProps.securityTags);
     this.addTeamTags(standardTagsProps.teamTags);
+    if (props?.mapMigrated) {
+      this.tags.add("map-migrated", props.mapMigrated)
+    }
   }
 
   /**
@@ -530,6 +538,7 @@ export class StandardTags {
       }
     }
     return {
+      mapMigrated: to?.mapMigrated ?? from?.mapMigrated,
       automationComponentTags,
       automationTags,
       costCenterTags,

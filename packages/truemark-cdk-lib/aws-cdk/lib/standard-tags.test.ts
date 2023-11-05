@@ -80,6 +80,7 @@ class TestApp extends ExtendedApp {
       account: TestHelper.DEFAULT_ACCOUNT,
       region: TestHelper.DEFAULT_REGION,
       standardTags: {
+        mapMigrated: "mig12345",
         automationTags: {
           id: "TestApp",
           url: "https://testapp.com"
