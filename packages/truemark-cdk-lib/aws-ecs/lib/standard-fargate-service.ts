@@ -14,7 +14,7 @@ import {
   Secret
 } from "aws-cdk-lib/aws-ecs";
 import {LogConfiguration} from "./log-configuration";
-import {SubnetSelection, SubnetType} from "aws-cdk-lib/aws-ec2";
+import {SecurityGroup, SubnetSelection, SubnetType} from "aws-cdk-lib/aws-ec2";
 import {LogGroup, RetentionDays} from "aws-cdk-lib/aws-logs";
 import {Duration, RemovalPolicy} from "aws-cdk-lib";
 import {PolicyStatement} from "aws-cdk-lib/aws-iam";
@@ -270,6 +270,13 @@ export interface StandardFargateServiceProps extends ExtendedConstructProps {
    * @default - false
    */
   readonly suppressTagging?: boolean;
+
+  /**
+   * Setting this to true will enable outbound IPv6 for the service. Default is false.
+   *
+   * @default - false
+   */
+  readonly allowAllIpv6Outbound?: boolean;
 }
 
 /**
@@ -386,6 +393,11 @@ export class StandardFargateService extends ExtendedConstruct {
     const desiredCount = props.desiredCount ?? props.minCapacity ?? 1;
     const capacityProviderStrategies = this.resolvedCapacityProviderStrategies(props);
 
+    const securityGroup = new SecurityGroup(this, "SecurityGroup", {
+      vpc: props.cluster.vpc,
+      allowAllIpv6Outbound: props.allowAllIpv6Outbound ?? false
+    });
+
     const service = new FargateService(this, "Default", {
       cluster: props.cluster,
       taskDefinition,
@@ -405,7 +417,8 @@ export class StandardFargateService extends ExtendedConstruct {
       assignPublicIp: props.assignPublicIp ?? false,
       enableECSManagedTags: props.enableECSManagedTags ?? true,
       healthCheckGracePeriod: props.healthCheckGracePeriod ?? Duration.seconds(30),
-      capacityProviderStrategies
+      capacityProviderStrategies,
+      securityGroups: [securityGroup]
     });
 
     const scaling = service.autoScaleTaskCount({
