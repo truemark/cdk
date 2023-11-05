@@ -77,13 +77,6 @@ export interface StandardFargateServiceProps extends ExtendedConstructProps {
   readonly disableXray?: boolean
 
   /**
-   * Disables SSM access. Default is false.
-   *
-   * @default - false
-   */
-  readonly disableSsmAccess?: boolean
-
-  /**
    * Enables the ability to push custom metrics to CloudWatch from the service.
    *
    * @default - true
@@ -373,20 +366,6 @@ export class StandardFargateService extends ExtendedConstruct {
           actions: ['cloudwatch:PutMetricData'],
         })
       );
-    }
-
-    if (!props.disableSsmAccess) {
-      taskDefinition.addToExecutionRolePolicy(
-        new PolicyStatement({
-          resources: ["*"],
-          actions: [
-            "ssmmessages:CreateControlChannel",
-            "ssmmessages:CreateDataChannel",
-            "ssmmessages:OpenControlChannel",
-            "ssmmessages:OpenDataChannel"
-          ]
-        })
-      )
     }
 
     const logGroup = this.resolveLogGroup(this, props);
