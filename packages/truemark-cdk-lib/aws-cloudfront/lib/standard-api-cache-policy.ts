@@ -25,7 +25,9 @@ export class StandardApiCachePolicy extends CachePolicy {
       headerBehavior: CacheHeaderBehavior.allowList(
         ...DEFAULT_API_CACHE_HEADERS,
         ...(additionalHeaders ?? [])),
-      queryStringBehavior: CacheQueryStringBehavior.all()
+      queryStringBehavior: CacheQueryStringBehavior.all(),
+      enableAcceptEncodingBrotli: true,
+      enableAcceptEncodingGzip: true
     });
   }
 
