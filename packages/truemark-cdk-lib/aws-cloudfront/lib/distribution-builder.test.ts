@@ -7,5 +7,8 @@ test("Test DistributionBuilder", () => {
   const bucket = new Bucket(stack, "TestBucket");
   new DistributionBuilder(stack, "TestDistribution")
     .behaviorFromBucket(bucket)
+    .s3Defaults()
+    .behaviorFromDomainName("test.example.com", "/api/*")
+    .apiDefaults()
     .toDistribution();
 });
