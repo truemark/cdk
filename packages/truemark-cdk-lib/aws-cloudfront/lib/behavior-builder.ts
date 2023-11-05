@@ -15,28 +15,34 @@ import {
   OriginRequestPolicy,
   ViewerProtocolPolicy
 } from "aws-cdk-lib/aws-cloudfront";
-import {Construct} from "constructs";
-import {WebsiteRedirectFunction, WebsiteRedirectFunctionProps} from "./website-redirect-function";
+import {RedirectFunction, RedirectFunctionProps} from "./redirect-function";
 import {OriginGroup} from "aws-cdk-lib/aws-cloudfront-origins";
 import {DistributionBuilder} from "./distribution-builder";
 import {IBucket} from "aws-cdk-lib/aws-s3";
 import {CloudFrontBucket} from "../../aws-s3";
-
-export interface WebsiteDefaultsProps extends WebsiteRedirectFunctionProps {
-  readonly scope: Construct;
-  readonly redirectFunctionId?: string
+import {StandardApiCachePolicy} from "./standard-api-cache-policy";
+import {
+  StandardApiOriginRequestPolicy
+} from "./standard-api-origin-request-policy";
+import {ExtendedConstruct} from "../../aws-cdk";
+import {StringHelper} from "../../helpers";
+function pathToIdentifier(path: string): string {
+  return StringHelper.toPascalCase(path
+    .replace(/\*/g, "wildcard")
+    .replace(/\//g, "-"));
 }
 
-export class BehaviorBuilder {
+export class BehaviorBuilder extends ExtendedConstruct {
 
   readonly path: string | undefined;
   protected options: BehaviorOptions;
-  protected parent: DistributionBuilder;
+  protected scope: DistributionBuilder;
 
-  constructor(parent: DistributionBuilder, origin: IOrigin, path: string | undefined) {
+  constructor(scope: DistributionBuilder, origin: IOrigin, path: string | undefined) {
+    super(scope, (path === undefined || path === "" ? "Default" : pathToIdentifier(path)) + "Behavior");
     this.path = path;
-    parent.addBehavior(this, path);
-    this.parent = parent;
+    scope.addBehavior(this, path);
+    this.scope = scope;
     this.options = {
       origin
     }
@@ -141,9 +147,9 @@ export class BehaviorBuilder {
     return this;
   }
 
-  websiteRedirectFunction(scope: Construct, id: string, props: WebsiteRedirectFunctionProps): BehaviorBuilder {
-    const websiteRedirectFunction = new WebsiteRedirectFunction(scope, id, props);
-    this.viewerRequestFunction(websiteRedirectFunction);
+  redirectFunction(props: RedirectFunctionProps): BehaviorBuilder {
+    const redirectFunction = new RedirectFunction(this, "RedirectFunction", props);
+    this.viewerRequestFunction(redirectFunction);
     return this;
   }
 
@@ -176,60 +182,67 @@ export class BehaviorBuilder {
     return this;
   }
 
-  defaults(): BehaviorBuilder {
+  s3Defaults(): BehaviorBuilder {
+    return this.originRequestPolicy(OriginRequestPolicy.CORS_S3_ORIGIN);
+  }
+
+  apiDefaults(additionalHeaders?: string[]): BehaviorBuilder {
+    const cachePolicy =
+      new StandardApiCachePolicy(this, "ApiCachePolicy", additionalHeaders);
+    const originRequestPolicy =
+      new StandardApiOriginRequestPolicy(this, "ApiOriginRequestPolicy", additionalHeaders);
     return this
-      .viewerProtocolPolicy(ViewerProtocolPolicy.REDIRECT_TO_HTTPS)
-      .compress(true)
       .allowedMethods(AllowedMethods.ALLOW_ALL)
-      .cachedMethods(CachedMethods.CACHE_GET_HEAD_OPTIONS)
-      .cachePolicy(CachePolicy.CACHING_OPTIMIZED)
-      .originRequestPolicy(OriginRequestPolicy.ALL_VIEWER);
-  }
-
-  websiteDefaults(props: WebsiteDefaultsProps): BehaviorBuilder {
-    return this
-      .viewerProtocolPolicy(ViewerProtocolPolicy.REDIRECT_TO_HTTPS)
-      .compress(true)
-      .allowedMethods(AllowedMethods.ALLOW_GET_HEAD_OPTIONS)
-      .cachedMethods(CachedMethods.CACHE_GET_HEAD_OPTIONS)
-      .cachePolicy(CachePolicy.CACHING_OPTIMIZED)
-      .originRequestPolicy(OriginRequestPolicy.CORS_S3_ORIGIN)
-      .websiteRedirectFunction(props.scope, props.redirectFunctionId ?? "RedirectFunction", {
-        ...props
-      });
-  }
-
-  staticDefaults(): BehaviorBuilder {
-    return this
-      .viewerProtocolPolicy(ViewerProtocolPolicy.REDIRECT_TO_HTTPS)
-      .compress(true)
-      .allowedMethods(AllowedMethods.ALLOW_GET_HEAD_OPTIONS)
-      .cachedMethods(CachedMethods.CACHE_GET_HEAD_OPTIONS)
-      .cachePolicy(CachePolicy.CACHING_OPTIMIZED)
-      .originRequestPolicy(OriginRequestPolicy.CORS_S3_ORIGIN);
+      .cachePolicy(cachePolicy)
+      .originRequestPolicy(originRequestPolicy);
   }
 
   buildBehavior(): BehaviorOptions {
+
+    if (this.options.viewerProtocolPolicy === undefined) {
+      this.viewerProtocolPolicy(ViewerProtocolPolicy.REDIRECT_TO_HTTPS);
+    }
+
+    if (this.options.allowedMethods === undefined) {
+      this.allowedMethods(AllowedMethods.ALLOW_GET_HEAD_OPTIONS);
+    }
+
+    if (this.options.cachedMethods === undefined) {
+      this.cachedMethods(CachedMethods.CACHE_GET_HEAD_OPTIONS);
+    }
+
+    if (this.options.cachePolicy === undefined) {
+      this.cachePolicy(CachePolicy.CACHING_OPTIMIZED);
+    }
+
+    if (this.options.originRequestPolicy === undefined) {
+      this.originRequestPolicy(OriginRequestPolicy.ALL_VIEWER);
+    }
+
+    if (this.options.compress === undefined) {
+      this.compress(true);
+    }
+
     return this.options;
   }
 
   build(): DistributionProps {
-    return this.parent.build();
+    return this.scope.build();
   }
 
   behavior(origin: IOrigin, path: string): BehaviorBuilder {
-    return this.parent.behavior(origin, path);
+    return this.scope.behavior(origin, path);
   }
 
   behaviorFromBucket(bucket: IBucket, path: string): BehaviorBuilder {
-    return this.parent.behaviorFromBucket(bucket, path);
+    return this.scope.behaviorFromBucket(bucket, path);
   }
 
   behaviorFromCloudFromBucket(bucket: CloudFrontBucket, path: string): BehaviorBuilder {
-    return this.parent.behaviorFromCloudFromBucket(bucket, path);
+    return this.scope.behaviorFromCloudFromBucket(bucket, path);
   }
 
   toDistribution(): Distribution {
-    return this.parent.toDistribution();
+    return this.scope.toDistribution();
   }
 }

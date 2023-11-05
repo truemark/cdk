@@ -8,7 +8,7 @@ export type NoFileIndexBehavior = "None" | "ForwardToIndex" | "RedirectToSlash";
 
 export type RobotsBehavior = "None" | "Allow" | "Disallow";
 
-export interface WebsiteRedirectFunctionProps {
+export interface RedirectFunctionProps {
 
   /**
    * Optional domain to redirect to if the host header does not match.
@@ -42,9 +42,9 @@ export interface WebsiteRedirectFunctionProps {
   readonly robotsBehavior?: RobotsBehavior;
 }
 
-export class WebsiteRedirectFunction extends Function {
+export class RedirectFunction extends Function {
 
-  constructor(scope: Construct, id: string, props: WebsiteRedirectFunctionProps) {
+  constructor(scope: Construct, id: string, props: RedirectFunctionProps) {
     super(scope, id, {
       code: FunctionCode.fromInline(`
 function handler(event) {

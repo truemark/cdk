@@ -28,6 +28,10 @@ export class DistributionBuilder extends ExtendedConstruct {
     super(scope, id);
   }
 
+  getBehavior(path: string): BehaviorBuilder | undefined {
+    return this.behaviors[path];
+  }
+
   behavior(origin: IOrigin, path?: string): BehaviorBuilder {
     return new BehaviorBuilder(this, origin, path);
   }
