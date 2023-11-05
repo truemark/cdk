@@ -292,6 +292,7 @@ export class StandardFargateService extends ExtendedConstruct {
   readonly scaling: ScalableTaskCount;
   readonly scaleInCooldown: Duration;
   readonly scaleOutCooldown: Duration;
+  readonly securityGroup: SecurityGroup;
 
   protected resolveLogGroup(scope: Construct, props: StandardFargateServiceProps): LogGroup | undefined {
     if (props.logConfiguration?.enabled ?? true) {
@@ -395,7 +396,8 @@ export class StandardFargateService extends ExtendedConstruct {
 
     const securityGroup = new SecurityGroup(this, "SecurityGroup", {
       vpc: props.cluster.vpc,
-      allowAllIpv6Outbound: props.allowAllIpv6Outbound ?? false
+      allowAllIpv6Outbound: props.allowAllIpv6Outbound ?? false,
+      allowAllOutbound: true
     });
 
     const service = new FargateService(this, "Default", {
@@ -451,6 +453,7 @@ export class StandardFargateService extends ExtendedConstruct {
     this.scaling = scaling;
     this.scaleInCooldown = scaleInCooldown;
     this.scaleOutCooldown = scaleOutCooldown;
+    this.securityGroup = securityGroup;
   }
 
   /**
