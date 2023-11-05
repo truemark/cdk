@@ -11,7 +11,6 @@ export const DEFAULT_API_ORIGIN_HEADERS = [
   "Accept-Language",
   "Access-Control-Request-Headers",
   "Access-Control-Request-Method",
-  "Authorization",
   "Content-Type",
   "Origin",
   "Referer"];
