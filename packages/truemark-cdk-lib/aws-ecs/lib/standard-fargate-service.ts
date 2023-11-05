@@ -70,11 +70,18 @@ export interface StandardFargateServiceProps extends ExtendedConstructProps {
   readonly logConfiguration?: LogConfiguration;
 
   /**
-   * Enables X-Ray for this service.
+   * Disables X-Ray for this service. Default is false.
    *
-   * @default - true
+   * @default - false
    */
-  readonly enableXray?: boolean
+  readonly disableXray?: boolean
+
+  /**
+   * Disables SSM access. Default is false.
+   *
+   * @default - false
+   */
+  readonly disableSsmAccess?: boolean
 
   /**
    * Enables the ability to push custom metrics to CloudWatch from the service.
@@ -359,13 +366,27 @@ export class StandardFargateService extends ExtendedConstruct {
       }
     });
 
-    if (props.enableXray ?? true) {
+    if (!props.disableXray) {
       taskDefinition.addToTaskRolePolicy(
         new PolicyStatement({
           resources: ['*'],
           actions: ['cloudwatch:PutMetricData'],
         })
       );
+    }
+
+    if (!props.disableSsmAccess) {
+      taskDefinition.addToExecutionRolePolicy(
+        new PolicyStatement({
+          resources: ["*"],
+          actions: [
+            "ssmmessages:CreateControlChannel",
+            "ssmmessages:CreateDataChannel",
+            "ssmmessages:OpenControlChannel",
+            "ssmmessages:OpenDataChannel"
+          ]
+        })
+      )
     }
 
     const logGroup = this.resolveLogGroup(this, props);
