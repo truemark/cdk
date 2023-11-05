@@ -17,7 +17,7 @@ import {BehaviorBuilder} from "./behavior-builder";
 import {DomainName} from "../../aws-route53";
 import {CloudFrontBucket} from "../../aws-s3";
 import {ExtendedConstruct} from "../../aws-cdk";
-import {S3Origin} from "aws-cdk-lib/aws-cloudfront-origins";
+import {HttpOrigin, S3Origin} from "aws-cdk-lib/aws-cloudfront-origins";
 
 export class DistributionBuilder extends ExtendedConstruct {
 
@@ -46,6 +46,10 @@ export class DistributionBuilder extends ExtendedConstruct {
 
   behaviorFromCloudFromBucket(bucket: CloudFrontBucket, path?: string): BehaviorBuilder {
     return new BehaviorBuilder(this, bucket.toOrigin(), path);
+  }
+
+  behaviorFromDomainName(domainName: string | DomainName, path?: string): BehaviorBuilder {
+    return new BehaviorBuilder(this, new HttpOrigin(domainName.toString()), path);
   }
 
   addBehavior(builder: BehaviorBuilder, path: string | undefined): DistributionBuilder {

@@ -26,6 +26,7 @@ import {
 } from "./standard-api-origin-request-policy";
 import {ExtendedConstruct} from "../../aws-cdk";
 import {StringHelper} from "../../helpers";
+import {DomainName} from "../../aws-route53";
 function pathToIdentifier(path: string): string {
   return StringHelper.toPascalCase(path
     .replace(/\*/g, "wildcard")
@@ -240,6 +241,10 @@ export class BehaviorBuilder extends ExtendedConstruct {
 
   behaviorFromCloudFromBucket(bucket: CloudFrontBucket, path: string): BehaviorBuilder {
     return this.scope.behaviorFromCloudFromBucket(bucket, path);
+  }
+
+  behaviorFromDomainName(domainName: string | DomainName, path: string): BehaviorBuilder {
+    return this.scope.behaviorFromDomainName(domainName, path);
   }
 
   toDistribution(): Distribution {
