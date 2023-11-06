@@ -10,7 +10,6 @@ import {
 import {Construct} from "constructs";
 import {Match, Template} from "aws-cdk-lib/assertions";
 import {Bucket} from "aws-cdk-lib/aws-s3";
-import {Key} from "aws-cdk-lib/aws-kms";
 
 class TestSubConstruct extends ExtendedConstruct {
 
