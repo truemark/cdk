@@ -8,7 +8,8 @@ export enum ResourceType {
   CLOUDWATCH_ALARM = "AWS::CloudWatch::Alarm",
   LAMBDA_FUNCTION = "AWS::Lambda::Function",
   DYNAMODB_TABLE = "AWS::DynamoDB::Table",
-  SSM_PARAMETER = "AWS::SSM::Parameter"
+  SSM_PARAMETER = "AWS::SSM::Parameter",
+  S3_BUCKET = "AWS::S3::Bucket"
 }
 
 export class TestHelper {

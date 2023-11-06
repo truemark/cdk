@@ -1,4 +1,4 @@
-import {TestHelper} from "../../test-helper";
+import {ResourceType, TestHelper} from "../../test-helper";
 import {
   DataClassification,
   DataSensitivity,
@@ -8,8 +8,9 @@ import {
   ExtendedStage,
 } from "../index";
 import {Construct} from "constructs";
-import {Template} from "aws-cdk-lib/assertions";
+import {Match, Template} from "aws-cdk-lib/assertions";
 import {Bucket} from "aws-cdk-lib/aws-s3";
+import {Key} from "aws-cdk-lib/aws-kms";
 
 class TestSubConstruct extends ExtendedConstruct {
 
@@ -128,14 +129,18 @@ test("Test StandardTags", () => {
   });
   const prodStage = new TestStage(app, "ProdStage", {
     environment: "prod"
-  })
+  });
   const testTemplate = Template.fromStack(testStage.stack);
   const prodTemplate = Template.fromStack(prodStage.stack);
   // TestHelper.logTemplate(testTemplate);
   // TestHelper.logTemplate(prodTemplate);
-  // const stack = TestHelper.stack();
-  // const testConstruct = new TestConstruct(stack, "TestConstruct");
-  // const template = Template.fromStack(stack);
-  // TestHelper.logTemplate(template);
-  // const standardTags = new StandardTags(stack);
+  testTemplate.resourceCountIs(ResourceType.S3_BUCKET, 2);
+  testTemplate.hasResourceProperties(ResourceType.S3_BUCKET, {
+    Tags: Match.arrayWith([
+      {
+        Key: "map-migrated",
+        Value: "mig12345"
+      }
+    ])
+  });
 });

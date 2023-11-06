@@ -328,8 +328,8 @@ export class StandardTags {
     this.addCostCenterTags(standardTagsProps.costCenterTags);
     this.addSecurityTags(standardTagsProps.securityTags);
     this.addTeamTags(standardTagsProps.teamTags);
-    if (props?.mapMigrated) {
-      this.tags.add("map-migrated", props.mapMigrated)
+    if (standardTagsProps?.mapMigrated) {
+      this.tags.add("map-migrated", standardTagsProps.mapMigrated)
     }
   }
 
