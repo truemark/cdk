@@ -56,7 +56,7 @@ export class PutItem extends Construct {
     this.resource = new AwsCustomResource(this, "Default", {
       onUpdate: call,
       logRetention: props.logRetention ?? RetentionDays.FIVE_DAYS,
-      installLatestAwsSdk: true,
+      installLatestAwsSdk: false,
       policy: {
         statements: [new PolicyStatement({
           resources: [Stack.of(this).formatArn({

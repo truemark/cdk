@@ -62,7 +62,7 @@ export class BatchWriteItem extends Construct {
     this.resource = new AwsCustomResource(this, "Default", {
       onUpdate: call,
       logRetention: props.logRetention ?? RetentionDays.FIVE_DAYS,
-      installLatestAwsSdk: true,
+      installLatestAwsSdk: false,
       policy: {
         statements: [new PolicyStatement({
           resources: tableNames.map(name => {
