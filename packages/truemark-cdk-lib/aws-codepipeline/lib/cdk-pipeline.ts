@@ -303,34 +303,35 @@ export class CdkPipeline extends Construct {
           },
           phases: {
             install: {
-              commands: [
-                `n ${props.nodeVersion ?? NodeVersion.NODE_18}`, // Install node
+              commands: [,
+                // `n ${props.nodeVersion ?? NodeVersion.NODE_18}`, // Install node
+                "echo \"Running with node version $(node --version)\"",
                 "npm i --location=global --no-fund esbuild" // Install esbuild locally
               ]
             }
           }
         }),
-        buildEnvironment: {
-          computeType: props.computeType ?? ComputeType.SMALL,
-          buildImage: props.buildImage ?? LinuxBuildImage.AMAZON_LINUX_2_5
-        },
+        // buildEnvironment: {
+        //   computeType: props.computeType ?? ComputeType.SMALL,
+        //   buildImage: props.buildImage ?? LinuxBuildImage.AMAZON_LINUX_2_5
+        // },
         rolePolicy
       },
-      assetPublishingCodeBuildDefaults: {
-        buildEnvironment: {
-          buildImage: LinuxBuildImage.AMAZON_LINUX_2_5
-        }
-      },
-      selfMutationCodeBuildDefaults: {
-        buildEnvironment: {
-          buildImage: LinuxBuildImage.AMAZON_LINUX_2_5
-        }
-      },
-      codeBuildDefaults: {
-        buildEnvironment: {
-          buildImage: LinuxBuildImage.AMAZON_LINUX_2_5
-        }
-      }
+      // assetPublishingCodeBuildDefaults: {
+      //   buildEnvironment: {
+      //     buildImage: LinuxBuildImage.AMAZON_LINUX_2_5
+      //   }
+      // },
+      // selfMutationCodeBuildDefaults: {
+      //   buildEnvironment: {
+      //     buildImage: LinuxBuildImage.AMAZON_LINUX_2_5
+      //   }
+      // },
+      // codeBuildDefaults: {
+        // buildEnvironment: {
+        //   buildImage: LinuxBuildImage.AMAZON_LINUX_2_5
+        // }
+      // }
     });
 
     // Handle pipeline notifications
