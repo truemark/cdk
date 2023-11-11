@@ -378,7 +378,7 @@ export class CdkPipeline extends Construct {
                 "npm config set fund false",
                 "npm -g i esbuild",
               ].concat(props.additionalInstallCommands ?? [])
-                .push("echo \"Running with node version $(node --version)\"")
+                .concat(["node --version"])
             }
           }
         }),
