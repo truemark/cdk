@@ -216,8 +216,8 @@ export class CdkPipeline extends Construct {
     if (commands === undefined && props.packageManager === NodePackageManager.PNPM) {
       commands = [
         `cd ${cdkDirectory ?? "."}`,
-        'npm -g install pnpm',
-        'pnpm install --frozen-lockfile --prefer-offline',
+        'npm -g i pnpm',
+        'pnpm i --frozen-lockfile --prefer-offline',
         'pnpm run build',
         'pnpm run test',
         `pnpx cdk synth ${stackName}`
@@ -225,7 +225,6 @@ export class CdkPipeline extends Construct {
     } else if (commands === undefined) {
       commands = [
         `cd ${cdkDirectory ?? "."}`,
-        'npm config set fund false',
         'npm ci --prefer-offline',
         'npm run build',
         'npm run test',
@@ -306,7 +305,8 @@ export class CdkPipeline extends Construct {
               commands: [,
                 // `n ${props.nodeVersion ?? NodeVersion.NODE_18}`, // Install node
                 "echo \"Running with node version $(node --version)\"",
-                "npm i --location=global --no-fund esbuild" // Install esbuild locally
+                "npm config set fund false",
+                "npm -g i esbuild" // Install esbuild locally
               ]
             }
           }
