@@ -12,7 +12,12 @@ import {
   Wave,
   WaveOptions
 } from "aws-cdk-lib/pipelines";
-import {BuildSpec, ComputeType, IBuildImage, LinuxBuildImage} from "aws-cdk-lib/aws-codebuild";
+import {
+  BuildSpec,
+  ComputeType,
+  IBuildImage,
+  LinuxBuildImage
+} from "aws-cdk-lib/aws-codebuild";
 import {PipelineNotificationRule} from "./pipeline-notification-rule";
 import {Arn, Stack, Stage} from "aws-cdk-lib";
 import {Repository} from "aws-cdk-lib/aws-codecommit";
@@ -21,9 +26,51 @@ import {Effect, PolicyStatement} from "aws-cdk-lib/aws-iam";
 import {ISlackChannelConfiguration} from "aws-cdk-lib/aws-chatbot";
 import {ITopic} from "aws-cdk-lib/aws-sns";
 
+/**
+ * Node runtimes supported by CodebBuild
+ * See https://docs.aws.amazon.com/codebuild/latest/userguide/available-runtimes.html
+ */
 export enum NodeVersion {
   NODE_16 = "16",
-  NODE_18 = "18"
+  NODE_18 = "18",
+  NODE_20 = "20"
+}
+
+/**
+ * Go runtimes supported by CodeBuild
+ * See https://docs.aws.amazon.com/codebuild/latest/userguide/available-runtimes.html
+ */
+export enum GoVersion {
+  GO_1_12 = "1.12",
+  GO_1_13 = "1.13",
+  GO_1_14 = "1.14",
+  GO_1_15 = "1.15",
+  GO_1_16 = "1.16",
+  GO_1_17 = "1.17",
+  GO_1_18 = "1.18",
+  GO_1_20 = "1.20",
+  GO_1_21 = "1.21"
+}
+
+/**
+ * Java runtimes supported by CodeBuild
+ * See https://docs.aws.amazon.com/codebuild/latest/userguide/available-runtimes.html
+ */
+export enum JavaVersion {
+  JAVA_8 = "corretto8",
+  JAVA_11 = "corretto11",
+  JAVA_16 = "corretto17",
+  JAVA_21 = "corretto21"
+}
+
+/**
+ * Dotnet runtimes supported by CodeBuild
+ * See https://docs.aws.amazon.com/codebuild/latest/userguide/available-runtimes.htmldotnet
+ */
+export enum DotnetVersion {
+  DOTNET_3_1 = "3.1",
+  DOTNET_5_0 = "5.0",
+  DOTNET_6_0 = "6.0"
 }
 
 /**
@@ -86,14 +133,12 @@ export interface CdkPipelineProps {
   readonly dockerEnabledForSelfMutation?: boolean;
 
   /**
-   * Type of compute to use for this build.
-   *
-   * @default ComputeType.SMALL
+   * Type of compute to use for this build. If not set, the default defined in AWS CDK is used.
    */
   readonly computeType?: ComputeType;
 
   /**
-   * The image to use for builds. Default is LinuxBuildImage.AMAZON_LINUX_2_5.
+   * The image to use for builds. If none is selected the default defined in AWS CDK is used.
    */
   readonly buildImage?: IBuildImage;
 
@@ -169,9 +214,29 @@ export interface CdkPipelineProps {
   readonly codeArtifactRepositories?: string[];
 
   /**
-   * The version of Node to use in the pipeline. Default is NODE_18
+   * Version of Node to use in the pipeline. Default is NODE_18
    */
   readonly nodeVersion?: NodeVersion | string;
+
+  /**
+   * Version of Go to install. Default is none.
+   */
+  readonly goVersion?: GoVersion | string;
+
+  /**
+   * Version of Java to install. Default is none.
+   */
+  readonly javaVersion?: JavaVersion | string;
+
+  /**
+   * Version of Dotnet to install. Default is none.
+   */
+  readonly dotnetVersion?: DotnetVersion | string;
+
+  /**
+   * Additional commands to run during the install phase.
+   */
+  readonly additionalInstallCommands?: string[];
 }
 
 /**
@@ -294,44 +359,36 @@ export class CdkPipeline extends Construct {
         additionalInputs: props.additionalInputs??{}
       }),
       synthCodeBuildDefaults: {
-        // cache: Cache.local(), // TODO Not supported on ARM
         partialBuildSpec: BuildSpec.fromObject({
-          // TODO Need to look into this further
           cache: {
-            paths: "/tmp/npm-cache"
+            paths: [
+              "/root/.npm/**/*",
+              "/root/.pnpm-store/**/*"
+            ]
           },
           phases: {
             install: {
+              "runtime-versions": {
+                nodejs: props.nodeVersion ?? NodeVersion.NODE_18,
+                go: props.goVersion,
+                java: props.javaVersion,
+                dotnet: props.dotnetVersion
+              },
               commands: [
-                // `n ${props.nodeVersion ?? NodeVersion.NODE_18}`, // Install node
-                "echo \"Running with node version $(node --version)\"",
                 "npm config set fund false",
-                "npm -g i esbuild" // Install esbuild locally
-              ]
+                "npm -g i esbuild",
+              ].concat(props.additionalInstallCommands ?? [])
+                .push("echo \"Running with node version $(node --version)\"")
             }
           }
         }),
-        // buildEnvironment: {
-        //   computeType: props.computeType ?? ComputeType.SMALL,
-        //   buildImage: props.buildImage ?? LinuxBuildImage.AMAZON_LINUX_2_5
-        // },
+        buildEnvironment: {
+          privileged: true,
+          computeType: props.computeType ?? ComputeType.SMALL,
+          buildImage: props.buildImage ?? LinuxBuildImage.AMAZON_LINUX_2_5
+        },
         rolePolicy
-      },
-      // assetPublishingCodeBuildDefaults: {
-      //   buildEnvironment: {
-      //     buildImage: LinuxBuildImage.AMAZON_LINUX_2_5
-      //   }
-      // },
-      // selfMutationCodeBuildDefaults: {
-      //   buildEnvironment: {
-      //     buildImage: LinuxBuildImage.AMAZON_LINUX_2_5
-      //   }
-      // },
-      // codeBuildDefaults: {
-        // buildEnvironment: {
-        //   buildImage: LinuxBuildImage.AMAZON_LINUX_2_5
-        // }
-      // }
+      }
     });
 
     // Handle pipeline notifications
