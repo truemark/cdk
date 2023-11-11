@@ -302,7 +302,7 @@ export class CdkPipeline extends Construct {
           },
           phases: {
             install: {
-              commands: [,
+              commands: [
                 // `n ${props.nodeVersion ?? NodeVersion.NODE_18}`, // Install node
                 "echo \"Running with node version $(node --version)\"",
                 "npm config set fund false",
