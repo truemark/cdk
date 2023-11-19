@@ -13,6 +13,12 @@
     "type": "git",
     "url": "https://github.com/truemark/cdk.git"
   },
+  "files": [
+    "/lib/**/*.d.ts",
+    "/lib/**/*.js",
+    "/lib/**/*.js.map",
+    "!/lib/**/*.test.*"
+  ],
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
@@ -25,7 +31,8 @@
     "pretest": "npm run compile",
     "posttest": "npm run lint",
     "check": "prettier --check .",
-    "makepretty": "prettier --write ."
+    "makepretty": "prettier --write .",
+    "dryrun": "pnpm publish --dry-run --no-git-checks"
   },
   "devDependencies": {
     "@aws-cdk/aws-lambda-go-alpha": "^2.65.0-alpha.0",
@@ -36,7 +43,7 @@
     "@types/jest": "^28.1.8",
     "aws-cdk-lib": "^2.94.0",
     "jest": "^29.7.0",
-    "ts-jest": "^27.1.4",
+    "ts-jest": "^29.1.1",
     "typescript": "~5.1.6",
     "gts": "^5.2.0",
     "@types/node": "20.8.2"

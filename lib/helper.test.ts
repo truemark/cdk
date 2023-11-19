@@ -33,7 +33,7 @@ export class HelperTest {
   }
 
   static resolveTestFiles(childPath?: string): string {
-    const dir = path.join(__dirname, '..', '..', 'test-files');
+    const dir = path.join(__dirname, '..', 'test-files');
     return path.resolve(
       childPath == undefined ? dir : path.join(dir, childPath)
     );
