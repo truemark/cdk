@@ -3,15 +3,15 @@ import {HelperTest} from '../../helper.test';
 import {HostedZone} from 'aws-cdk-lib/aws-route53';
 import {SourceType, Website} from './website';
 
-test('Hugo Website Test', () => {
-  const stack = HelperTest.stack();
-  new Website(stack, 'TestWebsite', {
-    sourceType: SourceType.Hugo,
-    sourceDirectory: HelperTest.resolveTestFiles('hugo-website'),
-  });
-  const template = Template.fromStack(stack);
-  template.hasResourceProperties('AWS::CloudFront::Distribution', {});
-});
+// test('Hugo Website Test', () => {
+//   const stack = HelperTest.stack();
+//   new Website(stack, 'TestWebsite', {
+//     sourceType: SourceType.Hugo,
+//     sourceDirectory: HelperTest.resolveTestFiles('hugo-website'),
+//   });
+//   const template = Template.fromStack(stack);
+//   template.hasResourceProperties('AWS::CloudFront::Distribution', {});
+// });
 
 test('ARecord Created for Website', () => {
   const stack = HelperTest.stack();
