@@ -76,13 +76,6 @@ jobs:
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker buildx
         uses: docker/setup-buildx-action@v3
-      - name: Cache Docker buildx
-        uses: actions/cache@v2
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-${{ matrix.node-version }}-buildx-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ matrix.node-version }}-buildx-
       - run: pnpm test
       - name: Setup git config
         if: matrix.node-version == inputs.publish-node-version
