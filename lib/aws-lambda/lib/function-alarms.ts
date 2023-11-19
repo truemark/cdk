@@ -1,4 +1,4 @@
-import {Duration} from "aws-cdk-lib";
+import {Duration} from 'aws-cdk-lib';
 import {
   DurationThreshold,
   ErrorCountThreshold,
@@ -8,20 +8,24 @@ import {
   LowTpsThreshold,
   MaxAgeThreshold,
   RunningTaskCountThreshold,
-  UsageThreshold
-} from "cdk-monitoring-constructs";
-import {AlarmCategory, AlarmsBase, AlarmsCategoryOptions, AlarmsOptions} from "../../aws-monitoring";
-import {IFunction} from "aws-cdk-lib/aws-lambda";
-import {ILogGroup} from "aws-cdk-lib/aws-logs";
-import {Construct} from "constructs";
-import {LogMetricAlarm} from "../../aws-cloudwatch";
-import {AlarmBase} from "aws-cdk-lib/aws-cloudwatch";
+  UsageThreshold,
+} from 'cdk-monitoring-constructs';
+import {
+  AlarmCategory,
+  AlarmsBase,
+  AlarmsCategoryOptions,
+  AlarmsOptions,
+} from '../../aws-monitoring';
+import {IFunction} from 'aws-cdk-lib/aws-lambda';
+import {ILogGroup} from 'aws-cdk-lib/aws-logs';
+import {Construct} from 'constructs';
+import {LogMetricAlarm} from '../../aws-cloudwatch';
+import {AlarmBase} from 'aws-cdk-lib/aws-cloudwatch';
 
 /**
  * Category options for CloudWatch alarms for Lambda Functions.
  */
 export interface FunctionAlarmsCategoryOptions extends AlarmsCategoryOptions {
-
   /**
    * Maximum 50th percentile latency
    */
@@ -117,42 +121,42 @@ export interface FunctionAlarmsCategoryOptions extends AlarmsCategoryOptions {
    *
    * @default '\\\[ERROR\\\]'
    */
-  readonly metricLogPattern?: string
+  readonly metricLogPattern?: string;
 
   /**
    * Maximum number of log events matching the metricLogPattern.
    *
    * @default 0 for Critical Alarm
    */
-  readonly maxLogCount?: number
+  readonly maxLogCount?: number;
 
   /**
    * Number of evaluation periods over which data is compared for log events.
    *
    * @default 2
    */
-  readonly logEvaluationPeriods?: number
+  readonly logEvaluationPeriods?: number;
 
   /**
    * Number of data points that must be breaching to trigger the alarm for log events.
    *
    * @default 1
    */
-  readonly logDataPointsToAlarm?: number
+  readonly logDataPointsToAlarm?: number;
 
   /**
    * Log pattern to match for the dashboard
    *
    * @default '"[ERROR]"'
    */
-  readonly dashboardLogPattern?: string
+  readonly dashboardLogPattern?: string;
 }
 
 /**
  * Options for CloudWatch alarms for Lambda Functions
  */
-export interface FunctionAlarmsOptions extends AlarmsOptions<FunctionAlarmsCategoryOptions> {
-
+export interface FunctionAlarmsOptions
+  extends AlarmsOptions<FunctionAlarmsCategoryOptions> {
   /**
    * Flag to create alarms.
    *
@@ -177,65 +181,102 @@ export interface FunctionAlarmsOptions extends AlarmsOptions<FunctionAlarmsCateg
  * Properties for FunctionAlarms
  */
 export interface FunctionAlarmsProps extends FunctionAlarmsOptions {
-
   /**
    * The function to observe.
    */
-  readonly function: IFunction
+  readonly function: IFunction;
 
   /**
    * The log group attached to the function to be observed.
    */
-  readonly logGroup: ILogGroup
+  readonly logGroup: ILogGroup;
 }
 
 /**
  * Creates CloudWatch alarms for a Lambda Function.
  */
-export class FunctionAlarms extends AlarmsBase<FunctionAlarmsCategoryOptions, FunctionAlarmsProps> {
-
+export class FunctionAlarms extends AlarmsBase<
+  FunctionAlarmsCategoryOptions,
+  FunctionAlarmsProps
+> {
   /**
    * Default pattern used for the critical log metric.
    */
-  static readonly DEFAULT_CRITICAL_LOG_METRIC_PATTERN = "ERROR";
+  static readonly DEFAULT_CRITICAL_LOG_METRIC_PATTERN = 'ERROR';
   static readonly BRACKET_ERROR_LOG_METRIC_PATTERN = '"[ERROR]"';
 
   /**
    * Default pattern used for the warning log metric.
    */
-  static readonly DEFAULT_WARNING_LOG_METRIC_PATTERN = "WARNING";
+  static readonly DEFAULT_WARNING_LOG_METRIC_PATTERN = 'WARNING';
   static readonly BRACKET_WARNING_LOG_METRIC_PATTERN = '"[WARNING]"';
 
   /**
    * Default pattern used to show logs on the CloudWatch dashboard.
    */
-  static readonly DEFAULT_LOG_INSIGHTS_PATTERN = "ERROR|WARNING";
-  static readonly BRACKET_LOG_INSIGHTS_PATTERN = '\\\[ERROR\\\]|\\\[WARNING\\\]';
+  static readonly DEFAULT_LOG_INSIGHTS_PATTERN = 'ERROR|WARNING';
+  static readonly BRACKET_LOG_INSIGHTS_PATTERN = '\\[ERROR\\]|\\[WARNING\\]';
 
   private addFunctionMonitoring() {
     this.monitoringFacade.monitorLambdaFunction({
       alarmFriendlyName: this.props.alarmNamePrefix,
       lambdaFunction: this.props.function,
-      addToAlarmDashboard: this.props.addToAlarmDashboard??true,
-      addToDetailDashboard: this.props.addToDetailDashboard??true,
-      addToSummaryDashboard: this.props.addToSummaryDashboard??true,
-      addLatencyP50Alarm: this.toRecord<LatencyThreshold>("p50Latency", "maxLatency"),
-      addLatencyP90Alarm: this.toRecord<LatencyThreshold>("p90Latency", "maxLatency"),
-      addLatencyP99Alarm: this.toRecord<LatencyThreshold>("p99Latency", "maxLatency"),
-      addFaultCountAlarm: this.toRecord<ErrorCountThreshold>("maxFaults", "maxErrorCount", 0),
-      addFaultRateAlarm: this.toRecord<ErrorRateThreshold>("avgFaults", "maxErrorRate"),
-      addLowTpsAlarm: this.toRecord<LowTpsThreshold>("minTps", "minTps"),
-      addHighTpsAlarm: this.toRecord<HighTpsThreshold>("maxTps", "maxTps"),
-      addThrottlesCountAlarm: this.toRecord<ErrorCountThreshold>("maxThrottles", "maxErrorCount", 0),
-      addThrottlesRateAlarm: this.toRecord<ErrorRateThreshold>("avgThrottles", "maxErrorRate"),
-      addConcurrentExecutionsCountAlarm: this.toRecord<RunningTaskCountThreshold>("maxConcurrentExecutions", "maxRunningTasks"),
-      addMaxIteratorAgeAlarm: this.toRecord<MaxAgeThreshold>("maxIteratorAge", "maxAgeInMillis"),
-      addEnhancedMonitoringMaxCpuTotalTimeAlarm: this.toRecord<DurationThreshold>("maxCpuTime", "maxDuration"),
-      addEnhancedMonitoringP90CpuTotalTimeAlarm: this.toRecord<DurationThreshold>("p90CpuTime", "maxDuration"),
-      addEnhancedMonitoringAvgCpuTotalTimeAlarm: this.toRecord<DurationThreshold>("avgCpuTime", "maxDuration"),
-      addEnhancedMonitoringMaxMemoryUtilizationAlarm: this.toRecord<UsageThreshold>("maxMemory", "maxUsagePercent"),
-      addEnhancedMonitoringP90MemoryUtilizationAlarm: this.toRecord<UsageThreshold>("p90Memory", "maxUsagePercent"),
-      addEnhancedMonitoringAvgMemoryUtilizationAlarm: this.toRecord<UsageThreshold>("avgMemory", "maxUsagePercent")
+      addToAlarmDashboard: this.props.addToAlarmDashboard ?? true,
+      addToDetailDashboard: this.props.addToDetailDashboard ?? true,
+      addToSummaryDashboard: this.props.addToSummaryDashboard ?? true,
+      addLatencyP50Alarm: this.toRecord<LatencyThreshold>(
+        'p50Latency',
+        'maxLatency'
+      ),
+      addLatencyP90Alarm: this.toRecord<LatencyThreshold>(
+        'p90Latency',
+        'maxLatency'
+      ),
+      addLatencyP99Alarm: this.toRecord<LatencyThreshold>(
+        'p99Latency',
+        'maxLatency'
+      ),
+      addFaultCountAlarm: this.toRecord<ErrorCountThreshold>(
+        'maxFaults',
+        'maxErrorCount',
+        0
+      ),
+      addFaultRateAlarm: this.toRecord<ErrorRateThreshold>(
+        'avgFaults',
+        'maxErrorRate'
+      ),
+      addLowTpsAlarm: this.toRecord<LowTpsThreshold>('minTps', 'minTps'),
+      addHighTpsAlarm: this.toRecord<HighTpsThreshold>('maxTps', 'maxTps'),
+      addThrottlesCountAlarm: this.toRecord<ErrorCountThreshold>(
+        'maxThrottles',
+        'maxErrorCount',
+        0
+      ),
+      addThrottlesRateAlarm: this.toRecord<ErrorRateThreshold>(
+        'avgThrottles',
+        'maxErrorRate'
+      ),
+      addConcurrentExecutionsCountAlarm:
+        this.toRecord<RunningTaskCountThreshold>(
+          'maxConcurrentExecutions',
+          'maxRunningTasks'
+        ),
+      addMaxIteratorAgeAlarm: this.toRecord<MaxAgeThreshold>(
+        'maxIteratorAge',
+        'maxAgeInMillis'
+      ),
+      addEnhancedMonitoringMaxCpuTotalTimeAlarm:
+        this.toRecord<DurationThreshold>('maxCpuTime', 'maxDuration'),
+      addEnhancedMonitoringP90CpuTotalTimeAlarm:
+        this.toRecord<DurationThreshold>('p90CpuTime', 'maxDuration'),
+      addEnhancedMonitoringAvgCpuTotalTimeAlarm:
+        this.toRecord<DurationThreshold>('avgCpuTime', 'maxDuration'),
+      addEnhancedMonitoringMaxMemoryUtilizationAlarm:
+        this.toRecord<UsageThreshold>('maxMemory', 'maxUsagePercent'),
+      addEnhancedMonitoringP90MemoryUtilizationAlarm:
+        this.toRecord<UsageThreshold>('p90Memory', 'maxUsagePercent'),
+      addEnhancedMonitoringAvgMemoryUtilizationAlarm:
+        this.toRecord<UsageThreshold>('avgMemory', 'maxUsagePercent'),
     });
   }
 
@@ -245,22 +286,25 @@ export class FunctionAlarms extends AlarmsBase<FunctionAlarmsCategoryOptions, Fu
   private warningLogAlarm: LogMetricAlarm | undefined;
 
   private addLogAlarm(category: AlarmCategory, defaultThreshold?: number) {
-    const fprops = category === AlarmCategory.Critical ? this.props.criticalAlarmOptions : this.props.warningAlarmOptions;
-    const threshold = fprops?.maxLogCount??defaultThreshold
-    const pattern = fprops?.metricLogPattern??
-    category === AlarmCategory.Critical
-      ? FunctionAlarms.DEFAULT_CRITICAL_LOG_METRIC_PATTERN
-      : FunctionAlarms.DEFAULT_WARNING_LOG_METRIC_PATTERN;
-    const evaluationPeriods = fprops?.logEvaluationPeriods??2
-    const datapointsToAlarm = fprops?.logDataPointsToAlarm??1
+    const fprops =
+      category === AlarmCategory.Critical
+        ? this.props.criticalAlarmOptions
+        : this.props.warningAlarmOptions;
+    const threshold = fprops?.maxLogCount ?? defaultThreshold;
+    const pattern =
+      fprops?.metricLogPattern ?? category === AlarmCategory.Critical
+        ? FunctionAlarms.DEFAULT_CRITICAL_LOG_METRIC_PATTERN
+        : FunctionAlarms.DEFAULT_WARNING_LOG_METRIC_PATTERN;
+    const evaluationPeriods = fprops?.logEvaluationPeriods ?? 2;
+    const datapointsToAlarm = fprops?.logDataPointsToAlarm ?? 1;
     if (threshold !== undefined && threshold > 0) {
-      const logAlarm = new LogMetricAlarm(this, category + "LogCount", {
+      const logAlarm = new LogMetricAlarm(this, category + 'LogCount', {
         logGroup: this.props.logGroup,
         pattern,
         threshold,
         evaluationPeriods,
         datapointsToAlarm,
-        metricName: category + "LogCount",
+        metricName: category + 'LogCount',
       });
       if (category === AlarmCategory.Critical) {
         this.criticalLogAlarm = logAlarm;
@@ -272,18 +316,24 @@ export class FunctionAlarms extends AlarmsBase<FunctionAlarmsCategoryOptions, Fu
 
   private addLogMonitoringToDashboard() {
     let pattern = FunctionAlarms.DEFAULT_LOG_INSIGHTS_PATTERN;
-    if (this.props.criticalAlarmOptions?.dashboardLogPattern !== undefined || this.props.warningAlarmOptions?.dashboardLogPattern !== undefined) {
-      pattern = ""
+    if (
+      this.props.criticalAlarmOptions?.dashboardLogPattern !== undefined ||
+      this.props.warningAlarmOptions?.dashboardLogPattern !== undefined
+    ) {
+      pattern = '';
       if (this.props.criticalAlarmOptions?.dashboardLogPattern !== undefined) {
-        pattern = this.props.criticalAlarmOptions.dashboardLogPattern
+        pattern = this.props.criticalAlarmOptions.dashboardLogPattern;
       }
       if (this.props.warningAlarmOptions?.dashboardLogPattern !== undefined) {
-        pattern = pattern + (pattern !== "" ? "|" : "") + this.props.warningAlarmOptions.dashboardLogPattern;
+        pattern =
+          pattern +
+          (pattern !== '' ? '|' : '') +
+          this.props.warningAlarmOptions.dashboardLogPattern;
       }
     }
-    if (pattern !== "") {
+    if (pattern !== '') {
       this.monitoringFacade.monitorLog({
-        alarmFriendlyName: "Monitor{this.props.logGroup.logGroupName}",
+        alarmFriendlyName: 'Monitor{this.props.logGroup.logGroupName}',
         logGroupName: this.props.logGroup.logGroupName,
         pattern,
       });
@@ -302,7 +352,10 @@ export class FunctionAlarms extends AlarmsBase<FunctionAlarmsCategoryOptions, Fu
 
   getAlarms(category: AlarmCategory): AlarmBase[] {
     const alarms = super.getAlarms(category);
-    const logAlarm = category === AlarmCategory.Critical ? this.criticalLogAlarm?.alarm : this.warningLogAlarm?.alarm;
+    const logAlarm =
+      category === AlarmCategory.Critical
+        ? this.criticalLogAlarm?.alarm
+        : this.warningLogAlarm?.alarm;
     if (logAlarm !== undefined) {
       alarms.push(logAlarm);
     }

@@ -1,4 +1,4 @@
-import {ResourceType, HelperTest} from "../../helper.test";
+import {ResourceType, HelperTest} from '../../helper.test';
 import {
   DataClassification,
   DataSensitivity,
@@ -6,23 +6,22 @@ import {
   ExtendedConstruct,
   ExtendedStack,
   ExtendedStage,
-} from "../index";
-import {Construct} from "constructs";
-import {Match, Template} from "aws-cdk-lib/assertions";
-import {Bucket} from "aws-cdk-lib/aws-s3";
+} from '../index';
+import {Construct} from 'constructs';
+import {Match, Template} from 'aws-cdk-lib/assertions';
+import {Bucket} from 'aws-cdk-lib/aws-s3';
 
 class TestSubConstruct extends ExtendedConstruct {
-
   constructor(scope: Construct, id: string) {
     super(scope, id, {
       standardTags: {
         automationComponentTags: {
-          id: "TestSubConstruct",
-          url: "https://testsubconstruct.com"
-        }
-      }
+          id: 'TestSubConstruct',
+          url: 'https://testsubconstruct.com',
+        },
+      },
     });
-    new Bucket(this, "TestSubBucket");
+    new Bucket(this, 'TestSubBucket');
   }
 }
 
@@ -31,13 +30,13 @@ class TestConstruct extends ExtendedConstruct {
     super(scope, id, {
       standardTags: {
         automationComponentTags: {
-          id: "TestConstruct",
-          url: "https://testconstruct.com"
-        }
-      }
+          id: 'TestConstruct',
+          url: 'https://testconstruct.com',
+        },
+      },
     });
-    new Bucket(this, "TestBucket");
-    new TestSubConstruct(this, "TestSubConstruct");
+    new Bucket(this, 'TestBucket');
+    new TestSubConstruct(this, 'TestSubConstruct');
     // Tags.of(this).add("bark", "meow");
   }
 }
@@ -47,12 +46,12 @@ class TestStack extends ExtendedStack {
     super(scope, id, {
       standardTags: {
         automationComponentTags: {
-          id: "TestStack",
-          url: "https://teststack.com"
-        }
-      }
+          id: 'TestStack',
+          url: 'https://teststack.com',
+        },
+      },
     });
-    new TestConstruct(this, "TestConstruct");
+    new TestConstruct(this, 'TestConstruct');
   }
 }
 
@@ -66,11 +65,11 @@ class TestStage extends ExtendedStage {
     super(scope, id, {
       standardTags: {
         costCenterTags: {
-          environment: props.environment
-        }
-      }
+          environment: props.environment,
+        },
+      },
     });
-    this.stack = new TestStack(this, "TestStack");
+    this.stack = new TestStack(this, 'TestStack');
   }
 }
 
@@ -80,54 +79,54 @@ class TestApp extends ExtendedApp {
       account: HelperTest.DEFAULT_ACCOUNT,
       region: HelperTest.DEFAULT_REGION,
       standardTags: {
-        mapMigrated: "mig12345",
+        mapMigrated: 'mig12345',
         automationTags: {
-          id: "TestApp",
-          url: "https://testapp.com"
+          id: 'TestApp',
+          url: 'https://testapp.com',
         },
         costCenterTags: {
-          projectName: "TestApp",
-          projectId: "test-app",
-          environment: "test",
-          contactName: "John Doe",
-          contactEmail: "jdoe@example.com",
-          contactPhone: "+1 555-555-5555",
-          businessUnitName: "Test Unit",
-          businessUnitId: "test-unit",
-          divisionName: "Test Division",
-          divisionId: "test-division",
-          departmentName: "Test Department",
-          departmentId: "test-department"
+          projectName: 'TestApp',
+          projectId: 'test-app',
+          environment: 'test',
+          contactName: 'John Doe',
+          contactEmail: 'jdoe@example.com',
+          contactPhone: '+1 555-555-5555',
+          businessUnitName: 'Test Unit',
+          businessUnitId: 'test-unit',
+          divisionName: 'Test Division',
+          divisionId: 'test-division',
+          departmentName: 'Test Department',
+          departmentId: 'test-department',
         },
         securityTags: {
           dataClassification: DataClassification.Restricted,
-          dataSensitivity: DataSensitivity.PII
+          dataSensitivity: DataSensitivity.PII,
         },
         teamTags: {
-          name: "Test Team",
-          id: "test-team",
-          contactName: "John Doe",
-          contactEmail: "jdoe@example.com",
-          contactPhone: "+1 555-555-5555",
-          businessUnitName: "Test Unit",
-          businessUnitId: "test-unit",
-          divisionName: "Test Division",
-          divisionId: "test-division",
-          departmentName: "Test Department",
-          departmentId: "test-department"
-        }
-      }
+          name: 'Test Team',
+          id: 'test-team',
+          contactName: 'John Doe',
+          contactEmail: 'jdoe@example.com',
+          contactPhone: '+1 555-555-5555',
+          businessUnitName: 'Test Unit',
+          businessUnitId: 'test-unit',
+          divisionName: 'Test Division',
+          divisionId: 'test-division',
+          departmentName: 'Test Department',
+          departmentId: 'test-department',
+        },
+      },
     });
   }
 }
 
-test("Test StandardTags", () => {
+test('Test StandardTags', () => {
   const app = new TestApp();
-  const testStage = new TestStage(app, "TestStage", {
-    environment: "test"
+  const testStage = new TestStage(app, 'TestStage', {
+    environment: 'test',
   });
-  const prodStage = new TestStage(app, "ProdStage", {
-    environment: "prod"
+  const prodStage = new TestStage(app, 'ProdStage', {
+    environment: 'prod',
   });
   const testTemplate = Template.fromStack(testStage.stack);
   const prodTemplate = Template.fromStack(prodStage.stack);
@@ -137,9 +136,9 @@ test("Test StandardTags", () => {
   testTemplate.hasResourceProperties(ResourceType.S3_BUCKET, {
     Tags: Match.arrayWith([
       {
-        Key: "map-migrated",
-        Value: "mig12345"
-      }
-    ])
+        Key: 'map-migrated',
+        Value: 'mig12345',
+      },
+    ]),
   });
 });

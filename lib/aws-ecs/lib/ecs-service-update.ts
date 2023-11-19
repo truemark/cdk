@@ -1,8 +1,8 @@
-import {AwsCustomResource} from "aws-cdk-lib/custom-resources";
-import {ExtendedConstruct} from "../../aws-cdk";
-import {Construct} from "constructs";
-import {Effect, PolicyStatement} from "aws-cdk-lib/aws-iam";
-import {Duration, Stack} from "aws-cdk-lib";
+import {AwsCustomResource} from 'aws-cdk-lib/custom-resources';
+import {ExtendedConstruct} from '../../aws-cdk';
+import {Construct} from 'constructs';
+import {Effect, PolicyStatement} from 'aws-cdk-lib/aws-iam';
+import {Duration, Stack} from 'aws-cdk-lib';
 
 export interface EcsServiceUpdateProps {
   readonly cluster: string;
@@ -17,30 +17,34 @@ export class EcsServiceUpdate extends ExtendedConstruct {
     super(scope, id);
     if (props.desiredCount) {
       const stack = Stack.of(this);
-      new AwsCustomResource(this, "", {
+      new AwsCustomResource(this, '', {
         installLatestAwsSdk: false,
         onUpdate: {
-          service: "ECS",
-          action: "updateService",
-          ignoreErrorCodesMatching: props.ignoreServiceNotFound ? ".*ServiceNotFound.*" : undefined,
+          service: 'ECS',
+          action: 'updateService',
+          ignoreErrorCodesMatching: props.ignoreServiceNotFound
+            ? '.*ServiceNotFound.*'
+            : undefined,
           parameters: {
             cluster: props.cluster,
             service: props.service,
-            desiredCount: props.desiredCount
+            desiredCount: props.desiredCount,
           },
-          physicalResourceId: { id: Date.now().toString() },
-          outputPaths: [
-            "service.desiredCount"
-          ]
+          physicalResourceId: {id: Date.now().toString()},
+          outputPaths: ['service.desiredCount'],
         },
         policy: {
-          statements: [new PolicyStatement({
-            resources: [`arn:aws:ecs:${stack.region}:${stack.account}:service/${props.cluster}/${props.service}`],
-            actions: ["ecs:UpdateService"],
-            effect: Effect.ALLOW
-          })]
+          statements: [
+            new PolicyStatement({
+              resources: [
+                `arn:aws:ecs:${stack.region}:${stack.account}:service/${props.cluster}/${props.service}`,
+              ],
+              actions: ['ecs:UpdateService'],
+              effect: Effect.ALLOW,
+            }),
+          ],
         },
-        timeout: props.timeout ?? Duration.minutes(2)
+        timeout: props.timeout ?? Duration.minutes(2),
       });
     }
   }

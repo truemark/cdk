@@ -1,19 +1,27 @@
-import {Construct} from "constructs";
-import {BlockPublicAccess, Bucket, BucketEncryption} from "aws-cdk-lib/aws-s3";
-import {OriginAccessIdentity} from "aws-cdk-lib/aws-cloudfront";
-import {BucketDeployment, CacheControl, ISource, Source} from "aws-cdk-lib/aws-s3-deployment";
-import {Duration, RemovalPolicy} from "aws-cdk-lib";
-import {ExtendedConstruct, ExtendedConstructProps, StandardTags} from "../../aws-cdk";
-import {LibStandardTags} from "../../truemark";
-import {S3Origin} from "aws-cdk-lib/aws-cloudfront-origins";
-import {Grant, IGrantable} from "aws-cdk-lib/aws-iam";
-import * as iam from "aws-cdk-lib/aws-iam";
+import {Construct} from 'constructs';
+import {BlockPublicAccess, Bucket, BucketEncryption} from 'aws-cdk-lib/aws-s3';
+import {OriginAccessIdentity} from 'aws-cdk-lib/aws-cloudfront';
+import {
+  BucketDeployment,
+  CacheControl,
+  ISource,
+  Source,
+} from 'aws-cdk-lib/aws-s3-deployment';
+import {Duration, RemovalPolicy} from 'aws-cdk-lib';
+import {
+  ExtendedConstruct,
+  ExtendedConstructProps,
+  StandardTags,
+} from '../../aws-cdk';
+import {LibStandardTags} from '../../truemark';
+import {S3Origin} from 'aws-cdk-lib/aws-cloudfront-origins';
+import {Grant, IGrantable} from 'aws-cdk-lib/aws-iam';
+import * as iam from 'aws-cdk-lib/aws-iam';
 
 /**
  * Properties for CloudFrontBucket.
  */
 export interface CloudFrontBucketProps extends ExtendedConstructProps {
-
   /**
    * Policy to apply when the bucket is removed from this stack.
    * @default RemovalPolicy.RETAIN
@@ -52,7 +60,6 @@ export interface CloudFrontBucketProps extends ExtendedConstructProps {
  * Simple Construct for creating buckets that will be accessed directly by CloudFront as an Origin.
  */
 export class CloudFrontBucket extends ExtendedConstruct {
-
   private deployCount: number = 0;
 
   readonly bucket: Bucket;
@@ -67,26 +74,31 @@ export class CloudFrontBucket extends ExtendedConstruct {
   }
 
   constructor(scope: Construct, id: string, props?: CloudFrontBucketProps) {
-    super(scope, id, {standardTags: StandardTags.merge(props?.standardTags, LibStandardTags)});
+    super(scope, id, {
+      standardTags: StandardTags.merge(props?.standardTags, LibStandardTags),
+    });
 
     const removalPolicy = props?.removalPolicy ?? RemovalPolicy.RETAIN;
-    const autoDeleteObjects = (props?.autoDeleteObjects ?? false) && removalPolicy === RemovalPolicy.DESTROY;
+    const autoDeleteObjects =
+      (props?.autoDeleteObjects ?? false) &&
+      removalPolicy === RemovalPolicy.DESTROY;
 
-    this.bucket = new Bucket(this, "Default", {
+    this.bucket = new Bucket(this, 'Default', {
       encryption: BucketEncryption.S3_MANAGED, // CloudFront cannot use KMS with S3
       blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
       removalPolicy,
       autoDeleteObjects,
       versioned: props?.versioned ?? false,
       transferAcceleration: props?.transferAcceleration ?? false,
-      bucketName: props?.bucketName
+      bucketName: props?.bucketName,
     });
     this.bucketName = this.bucket.bucketName;
     this.bucketArn = this.bucket.bucketArn;
-    this.originAccessIdentity = new OriginAccessIdentity(this, "Access", {
-      comment: `S3 bucket ${this.bucket.bucketName}`
+    this.originAccessIdentity = new OriginAccessIdentity(this, 'Access', {
+      comment: `S3 bucket ${this.bucket.bucketName}`,
     });
-    this.originAccessIdentityId = this.originAccessIdentity.originAccessIdentityId;
+    this.originAccessIdentityId =
+      this.originAccessIdentity.originAccessIdentityId;
     this.bucket.grantRead(this.originAccessIdentity);
   }
 
@@ -100,7 +112,12 @@ export class CloudFrontBucket extends ExtendedConstruct {
    * @param sMaxAge the length of time CloudFront will cache files; default is Duration.days(7)
    * @param prune true to prune old files; default is false
    */
-  deployPaths(paths: string[], maxAge?: Duration, sMaxAge?: Duration, prune?: boolean): BucketDeployment {
+  deployPaths(
+    paths: string[],
+    maxAge?: Duration,
+    sMaxAge?: Duration,
+    prune?: boolean
+  ): BucketDeployment {
     return new BucketDeployment(this, `Deploy${this.nextDeployCount()}`, {
       sources: paths.map(path => Source.asset(path)),
       destinationBucket: this.bucket,
@@ -108,8 +125,8 @@ export class CloudFrontBucket extends ExtendedConstruct {
       cacheControl: [
         CacheControl.setPublic(),
         CacheControl.maxAge(maxAge ?? Duration.minutes(15)),
-        CacheControl.sMaxAge(sMaxAge ?? Duration.days(7))
-      ]
+        CacheControl.sMaxAge(sMaxAge ?? Duration.days(7)),
+      ],
     });
   }
 
@@ -123,7 +140,12 @@ export class CloudFrontBucket extends ExtendedConstruct {
    * @param sMaxAge the length of time CloudFront will cache files; default is Duration.days(7)
    * @param prune true to prune old files; default is false
    */
-  deployPath(path: string, maxAge?: Duration, sMaxAge?: Duration, prune?: boolean): BucketDeployment {
+  deployPath(
+    path: string,
+    maxAge?: Duration,
+    sMaxAge?: Duration,
+    prune?: boolean
+  ): BucketDeployment {
     return this.deployPaths([path], maxAge, sMaxAge, prune);
   }
 
@@ -137,7 +159,12 @@ export class CloudFrontBucket extends ExtendedConstruct {
    * @param sMaxAge the length of time CloudFront will cache files; default is Duration.days(7)
    * @param prune true to prune old files; default is false
    */
-  deploySources(sources: ISource[], maxAge?: Duration, sMaxAge?: Duration, prune?: boolean): BucketDeployment {
+  deploySources(
+    sources: ISource[],
+    maxAge?: Duration,
+    sMaxAge?: Duration,
+    prune?: boolean
+  ): BucketDeployment {
     return new BucketDeployment(this, `Deploy${this.nextDeployCount()}`, {
       sources: sources,
       destinationBucket: this.bucket,
@@ -145,8 +172,8 @@ export class CloudFrontBucket extends ExtendedConstruct {
       cacheControl: [
         CacheControl.setPublic(),
         CacheControl.maxAge(maxAge ?? Duration.minutes(15)),
-        CacheControl.sMaxAge(sMaxAge ?? Duration.days(7))
-      ]
+        CacheControl.sMaxAge(sMaxAge ?? Duration.days(7)),
+      ],
     });
   }
 
@@ -160,7 +187,12 @@ export class CloudFrontBucket extends ExtendedConstruct {
    * @param sMaxAge the length of time CloudFront will cache files; default is Duration.days(7)
    * @param prune true to prune old files; default is false
    */
-  deploySource(source: ISource, maxAge?: Duration, sMaxAge?: Duration, prune?: boolean): BucketDeployment {
+  deploySource(
+    source: ISource,
+    maxAge?: Duration,
+    sMaxAge?: Duration,
+    prune?: boolean
+  ): BucketDeployment {
     return this.deploySources([source], maxAge, sMaxAge, prune);
   }
 
@@ -169,7 +201,7 @@ export class CloudFrontBucket extends ExtendedConstruct {
    */
   toOrigin(): S3Origin {
     return new S3Origin(this.bucket, {
-      originAccessIdentity: this.originAccessIdentity
+      originAccessIdentity: this.originAccessIdentity,
     });
   }
 
@@ -205,8 +237,16 @@ export class CloudFrontBucket extends ExtendedConstruct {
    * @param objectsKeyPattern Restrict the permission to a certain key pattern (default '*')
    * @param allowedActionPatterns Restrict the permissions to certain list of action patterns
    */
-  grantWrite(identity: IGrantable, objectsKeyPattern?: any, allowedActionPatterns?: string[]): Grant {
-    return this.bucket.grantWrite(identity, objectsKeyPattern, allowedActionPatterns);
+  grantWrite(
+    identity: IGrantable,
+    objectsKeyPattern?: any,
+    allowedActionPatterns?: string[]
+  ): Grant {
+    return this.bucket.grantWrite(
+      identity,
+      objectsKeyPattern,
+      allowedActionPatterns
+    );
   }
 
   /**
@@ -288,8 +328,9 @@ export class CloudFrontBucket extends ExtendedConstruct {
    * actually carried out. Otherwise, synthesis and deploy will terminate
    * silently, which may be confusing.
    */
-  addToResourcePolicy(permission: iam.PolicyStatement): iam.AddToResourcePolicyResult {
+  addToResourcePolicy(
+    permission: iam.PolicyStatement
+  ): iam.AddToResourcePolicyResult {
     return this.bucket.addToResourcePolicy(permission);
   }
-
 }

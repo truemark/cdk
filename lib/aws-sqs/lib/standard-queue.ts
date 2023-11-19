@@ -1,19 +1,34 @@
-import {Construct} from "constructs";
-import {Duration, RemovalPolicy, ResourceEnvironment, Stack} from "aws-cdk-lib";
-import {DeadLetterQueue, IQueue, Queue, QueueEncryption} from "aws-cdk-lib/aws-sqs";
-import * as kms from "aws-cdk-lib/aws-kms";
-import {QueueAlarmsOptions} from "./queue-alarms";
-import {ExtendedQueue} from "./extended-queue";
-import {MetricOptions, Metric} from "aws-cdk-lib/aws-cloudwatch";
-import {PolicyStatement, AddToResourcePolicyResult, IGrantable, Grant} from "aws-cdk-lib/aws-iam";
-import {ExtendedConstruct, ExtendedConstructProps, StandardTags} from "../../aws-cdk";
-import {LibStandardTags} from "../../truemark";
+import {Construct} from 'constructs';
+import {Duration, RemovalPolicy, ResourceEnvironment, Stack} from 'aws-cdk-lib';
+import {
+  DeadLetterQueue,
+  IQueue,
+  Queue,
+  QueueEncryption,
+} from 'aws-cdk-lib/aws-sqs';
+import * as kms from 'aws-cdk-lib/aws-kms';
+import {QueueAlarmsOptions} from './queue-alarms';
+import {ExtendedQueue} from './extended-queue';
+import {MetricOptions, Metric} from 'aws-cdk-lib/aws-cloudwatch';
+import {
+  PolicyStatement,
+  AddToResourcePolicyResult,
+  IGrantable,
+  Grant,
+} from 'aws-cdk-lib/aws-iam';
+import {
+  ExtendedConstruct,
+  ExtendedConstructProps,
+  StandardTags,
+} from '../../aws-cdk';
+import {LibStandardTags} from '../../truemark';
 
 /**
  * Properties for a StandardQueue
  */
-export interface StandardQueueProps extends QueueAlarmsOptions, ExtendedConstructProps {
-
+export interface StandardQueueProps
+  extends QueueAlarmsOptions,
+    ExtendedConstructProps {
   /**
    * The number of seconds Amazon SQS retains a message. Value must be between
    * 60 and 1209600 seconds (14 days).
@@ -98,7 +113,6 @@ export interface StandardQueueProps extends QueueAlarmsOptions, ExtendedConstruc
 }
 
 export class StandardQueue extends ExtendedConstruct implements IQueue {
-
   static readonly DEFAULT_MAX_RECEIVE_COUNT = 3;
   static readonly DEFAULT_RETENTION_PERIOD = Duration.seconds(1209600);
 
@@ -114,37 +128,50 @@ export class StandardQueue extends ExtendedConstruct implements IQueue {
   readonly env: ResourceEnvironment;
 
   constructor(scope: Construct, id: string, props?: StandardQueueProps) {
-    super(scope, id, {standardTags: StandardTags.merge(props?.standardTags, LibStandardTags)});
+    super(scope, id, {
+      standardTags: StandardTags.merge(props?.standardTags, LibStandardTags),
+    });
 
-    const maxReceiveCount = props?.maxReceiveCount ?? StandardQueue.DEFAULT_MAX_RECEIVE_COUNT;
-    const encryption = props?.encryptionMasterKey === undefined ? QueueEncryption.KMS_MANAGED : QueueEncryption.KMS;
+    const maxReceiveCount =
+      props?.maxReceiveCount ?? StandardQueue.DEFAULT_MAX_RECEIVE_COUNT;
+    const encryption =
+      props?.encryptionMasterKey === undefined
+        ? QueueEncryption.KMS_MANAGED
+        : QueueEncryption.KMS;
     const encryptionMasterKey = props?.encryptionMasterKey;
     const dataKeyReuse = props?.dataKeyReuse ?? Duration.minutes(15);
 
-    const deadLetterQueue: DeadLetterQueue | undefined = maxReceiveCount <= 0 ? undefined : {
-      queue: new Queue(this, "Dlq", {
-        encryption,
-        encryptionMasterKey,
-        dataKeyReuse,
-        fifo: props?.fifo,
-        receiveMessageWaitTime: props?.receiveMessageWaitTime ?? Duration.seconds(20),
-        retentionPeriod: StandardQueue.DEFAULT_RETENTION_PERIOD
-      }),
-      maxReceiveCount
-    };
+    const deadLetterQueue: DeadLetterQueue | undefined =
+      maxReceiveCount <= 0
+        ? undefined
+        : {
+            queue: new Queue(this, 'Dlq', {
+              encryption,
+              encryptionMasterKey,
+              dataKeyReuse,
+              fifo: props?.fifo,
+              receiveMessageWaitTime:
+                props?.receiveMessageWaitTime ?? Duration.seconds(20),
+              retentionPeriod: StandardQueue.DEFAULT_RETENTION_PERIOD,
+            }),
+            maxReceiveCount,
+          };
 
-    this.queue = new ExtendedQueue(this, "Default", {
+    this.queue = new ExtendedQueue(this, 'Default', {
       ...props,
       deadLetterQueue,
       encryption,
       encryptionMasterKey,
       dataKeyReuse,
       fifo: props?.fifo,
-      receiveMessageWaitTime: props?.receiveMessageWaitTime ?? Duration.seconds(20),
+      receiveMessageWaitTime:
+        props?.receiveMessageWaitTime ?? Duration.seconds(20),
       alarmFriendlyName: props?.alarmFriendlyName ?? id,
-      retentionPeriod: props?.retentionPeriod ?? StandardQueue.DEFAULT_RETENTION_PERIOD,
+      retentionPeriod:
+        props?.retentionPeriod ?? StandardQueue.DEFAULT_RETENTION_PERIOD,
       visibilityTimeout: props?.visibilityTimeout ?? Duration.seconds(30),
-      alarmNamePrefix: props?.alarmNamePrefix??Stack.of(this).stackName + "-" + id
+      alarmNamePrefix:
+        props?.alarmNamePrefix ?? Stack.of(this).stackName + '-' + id,
     });
 
     this.queueArn = this.queue.queueArn;

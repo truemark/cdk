@@ -1,4 +1,4 @@
-import {Construct} from "constructs";
+import {Construct} from 'constructs';
 import {
   AllowedMethods,
   CachePolicy,
@@ -11,20 +11,19 @@ import {
   OriginRequestQueryStringBehavior,
   PriceClass,
   SecurityPolicyProtocol,
-  ViewerProtocolPolicy
-} from "aws-cdk-lib/aws-cloudfront";
-import {Duration} from "aws-cdk-lib";
-import {Certificate, ICertificate} from "aws-cdk-lib/aws-certificatemanager";
-import {ARecord, IHostedZone, RecordTarget} from "aws-cdk-lib/aws-route53";
-import {CloudFrontTarget} from "aws-cdk-lib/aws-route53-targets";
-import {DomainName} from "../../aws-route53";
-import {DistributionBuilder} from "../../aws-cloudfront";
+  ViewerProtocolPolicy,
+} from 'aws-cdk-lib/aws-cloudfront';
+import {Duration} from 'aws-cdk-lib';
+import {Certificate, ICertificate} from 'aws-cdk-lib/aws-certificatemanager';
+import {ARecord, IHostedZone, RecordTarget} from 'aws-cdk-lib/aws-route53';
+import {CloudFrontTarget} from 'aws-cdk-lib/aws-route53-targets';
+import {DomainName} from '../../aws-route53';
+import {DistributionBuilder} from '../../aws-cloudfront';
 
 /**
  * Domain name properties.
  */
 export interface WordPressDomainNameProps {
-
   /**
    * Domain name
    */
@@ -40,7 +39,6 @@ export interface WordPressDomainNameProps {
  * Properties for WordPressDistribution.
  */
 export interface WordPressDistributionProps {
-
   /**
    * Origin to send requests to.
    */
@@ -55,7 +53,7 @@ export interface WordPressDistributionProps {
    * The certificate to use on the distribution.
    * If one is not provided, one is created using the domainNames provided.
    */
-  readonly certificate?: ICertificate
+  readonly certificate?: ICertificate;
 
   /**
    * Create DNS records for the distribution.
@@ -104,7 +102,7 @@ export interface WordPressDistributionProps {
    *
    * @default - Duration.days(1)
    */
-  readonly staticMaxTtl?: Duration
+  readonly staticMaxTtl?: Duration;
 
   /**
    * Max TTL to apply to the dynamic behaviors.
@@ -118,7 +116,6 @@ export interface WordPressDistributionProps {
  * Creates a new CloudFront distribution for WordPress.
  */
 export class WordPressDistribution extends Construct {
-
   readonly distribution: Distribution;
   readonly dnsRecords: ARecord[];
 
@@ -128,24 +125,34 @@ export class WordPressDistribution extends Construct {
     const hostedDomainNames: DomainName[] = [];
     props.domainNames.forEach(name => {
       if (name.hostedZone !== undefined) {
-        hostedDomainNames.push(DomainName.fromFqdn(name.domainName, name.hostedZone));
+        hostedDomainNames.push(
+          DomainName.fromFqdn(name.domainName, name.hostedZone)
+        );
       }
     });
 
     let certificate: ICertificate | Certificate | undefined = props.certificate;
     if (certificate === undefined) {
-      certificate = DomainName.createCertificate(this, "Certificate", hostedDomainNames);
+      certificate = DomainName.createCertificate(
+        this,
+        'Certificate',
+        hostedDomainNames
+      );
     }
 
-    const originRequestPolicy = new OriginRequestPolicy(this, "AllViewerPlus", {
+    const originRequestPolicy = new OriginRequestPolicy(this, 'AllViewerPlus', {
       cookieBehavior: OriginRequestCookieBehavior.all(),
-      headerBehavior: OriginRequestHeaderBehavior.all("CloudFront-Forwarded-Proto"),
-      queryStringBehavior: OriginRequestQueryStringBehavior.all()
+      headerBehavior: OriginRequestHeaderBehavior.all(
+        'CloudFront-Forwarded-Proto'
+      ),
+      queryStringBehavior: OriginRequestQueryStringBehavior.all(),
     });
 
-    const builder = new DistributionBuilder(this, "Default")
+    const builder = new DistributionBuilder(this, 'Default')
       .httpVersion(props.httpVersion ?? HttpVersion.HTTP2_AND_3)
-      .minimumProtocolVersion(props.minimumProtocolVersion ?? SecurityPolicyProtocol.TLS_V1_2_2021)
+      .minimumProtocolVersion(
+        props.minimumProtocolVersion ?? SecurityPolicyProtocol.TLS_V1_2_2021
+      )
       .enableIpv6(props.enableIpv6 ?? true)
       .priceClass(props.priceClass ?? PriceClass.PRICE_CLASS_ALL)
       .domainNames(props.domainNames.map(domainName => domainName.domainName))
@@ -158,40 +165,41 @@ export class WordPressDistribution extends Construct {
       .originRequestPolicy(originRequestPolicy)
       .cachePolicy(CachePolicy.CACHING_DISABLED)
 
-      .behavior(props.origin, "/wp-includes/*")
+      .behavior(props.origin, '/wp-includes/*')
       .viewerProtocolPolicy(ViewerProtocolPolicy.REDIRECT_TO_HTTPS)
       .compress(true)
       .allowedMethods(AllowedMethods.ALLOW_GET_HEAD_OPTIONS)
       .originRequestPolicy(originRequestPolicy)
       .cachePolicy(CachePolicy.CACHING_DISABLED)
 
-      .behavior(props.origin, "/wp-content/*")
+      .behavior(props.origin, '/wp-content/*')
       .viewerProtocolPolicy(ViewerProtocolPolicy.REDIRECT_TO_HTTPS)
       .compress(true)
       .allowedMethods(AllowedMethods.ALLOW_GET_HEAD_OPTIONS)
       .originRequestPolicy(originRequestPolicy)
       .cachePolicy(CachePolicy.CACHING_DISABLED)
 
-      .behavior(props.origin, "/wp-login.php")
+      .behavior(props.origin, '/wp-login.php')
       .viewerProtocolPolicy(ViewerProtocolPolicy.REDIRECT_TO_HTTPS)
       .compress(true)
       .allowedMethods(AllowedMethods.ALLOW_ALL)
       .originRequestPolicy(originRequestPolicy)
       .cachePolicy(CachePolicy.CACHING_DISABLED)
 
-      .behavior(props.origin, "/wp-admin/*")
+      .behavior(props.origin, '/wp-admin/*')
       .viewerProtocolPolicy(ViewerProtocolPolicy.REDIRECT_TO_HTTPS)
       .compress(true)
       .allowedMethods(AllowedMethods.ALLOW_ALL)
       .originRequestPolicy(originRequestPolicy)
       .cachePolicy(CachePolicy.CACHING_DISABLED);
 
-
-    const distribution = new Distribution(this, "Default", builder.build());
+    const distribution = new Distribution(this, 'Default', builder.build());
 
     const dnsRecords: ARecord[] = [];
     if (props.createDnsRecords ?? true) {
-      const recordTarget = RecordTarget.fromAlias(new CloudFrontTarget(distribution));
+      const recordTarget = RecordTarget.fromAlias(
+        new CloudFrontTarget(distribution)
+      );
       hostedDomainNames.forEach(name => {
         dnsRecords.push(name.createARecord(this, recordTarget));
       });

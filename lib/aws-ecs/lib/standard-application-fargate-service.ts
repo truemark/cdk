@@ -1,22 +1,28 @@
-import {StandardFargateService, StandardFargateServiceProps} from "./standard-fargate-service";
-import {Construct} from "constructs";
-import {Duration} from "aws-cdk-lib";
+import {
+  StandardFargateService,
+  StandardFargateServiceProps,
+} from './standard-fargate-service';
+import {Construct} from 'constructs';
+import {Duration} from 'aws-cdk-lib';
 import {
   ApplicationListener,
   ApplicationLoadBalancer,
   ApplicationProtocol,
-  ApplicationTargetGroup, IApplicationListener, IApplicationLoadBalancer, ListenerCondition,
-  TargetGroupLoadBalancingAlgorithmType
-} from "aws-cdk-lib/aws-elasticloadbalancingv2";
-import {ARecord, IHostedZone, RecordTarget} from "aws-cdk-lib/aws-route53";
-import {DomainName} from "../../aws-route53";
-import {LoadBalancerTarget} from "aws-cdk-lib/aws-route53-targets";
+  ApplicationTargetGroup,
+  IApplicationListener,
+  IApplicationLoadBalancer,
+  ListenerCondition,
+  TargetGroupLoadBalancingAlgorithmType,
+} from 'aws-cdk-lib/aws-elasticloadbalancingv2';
+import {ARecord, IHostedZone, RecordTarget} from 'aws-cdk-lib/aws-route53';
+import {DomainName} from '../../aws-route53';
+import {LoadBalancerTarget} from 'aws-cdk-lib/aws-route53-targets';
 
 /**
  * Properties for StandardApplicationFargateService
  */
-export interface StandardApplicationFargateServiceProps extends StandardFargateServiceProps {
-
+export interface StandardApplicationFargateServiceProps
+  extends StandardFargateServiceProps {
   /**
    * The name of an application-based stickiness cookie.
    *
@@ -59,7 +65,7 @@ export interface StandardApplicationFargateServiceProps extends StandardFargateS
    *
    * @default - Duration.seconds(10)
    */
-  readonly healthCheckInterval?: Duration
+  readonly healthCheckInterval?: Duration;
 
   /**
    * The ping path destination where Elastic Load Balancing sends health check requests.
@@ -165,31 +171,36 @@ export interface StandardApplicationFargateServiceProps extends StandardFargateS
  * Creates an ECS Fargate service and maps it to an Application Load Balancer (ALB).
  */
 export class StandardApplicationFargateService extends StandardFargateService {
-
   readonly loadBalancer: IApplicationLoadBalancer;
   readonly listener: IApplicationListener;
   readonly domainName?: DomainName;
   readonly route53Record?: ARecord;
 
-  constructor(scope: Construct, id: string, props: StandardApplicationFargateServiceProps) {
+  constructor(
+    scope: Construct,
+    id: string,
+    props: StandardApplicationFargateServiceProps
+  ) {
     super(scope, id, props);
 
-    let stickinessCookieDuration: Duration | undefined = props.stickinessCookieDuration ?? Duration.days(1);
+    let stickinessCookieDuration: Duration | undefined =
+      props.stickinessCookieDuration ?? Duration.days(1);
     if (stickinessCookieDuration.toSeconds() === 0) {
       stickinessCookieDuration = undefined;
     }
 
     let stickinessCookieName: string | undefined;
     if (stickinessCookieDuration !== undefined) {
-      stickinessCookieName = props.stickinessCookieName ?? "lb_affinity"
+      stickinessCookieName = props.stickinessCookieName ?? 'lb_affinity';
     }
 
-    let slowStart: Duration | undefined = props.slowStart ?? Duration.seconds(30);
+    let slowStart: Duration | undefined =
+      props.slowStart ?? Duration.seconds(30);
     if (slowStart.toSeconds() === 0) {
       slowStart = undefined;
     }
 
-    const targetGroup = new ApplicationTargetGroup(this, "TargetGroup", {
+    const targetGroup = new ApplicationTargetGroup(this, 'TargetGroup', {
       targets: [this.service],
       vpc: props.cluster.vpc,
       port: this.port,
@@ -199,19 +210,21 @@ export class StandardApplicationFargateService extends StandardFargateService {
       healthCheck: {
         enabled: true,
         interval: props.healthCheckInterval ?? Duration.seconds(10),
-        path: props.healthCheckPath ?? "/health",
+        path: props.healthCheckPath ?? '/health',
         timeout: props.healthCheckTimeout ?? Duration.seconds(3),
         healthyThresholdCount: props.healthyThresholdCount ?? 2,
         unhealthyThresholdCount: props.unhealthyThresholdCount ?? 2,
-        healthyHttpCodes: props.healthyHttpCodes ?? "200-299"
+        healthyHttpCodes: props.healthyHttpCodes ?? '200-299',
       },
       stickinessCookieName,
       stickinessCookieDuration,
-      loadBalancingAlgorithmType: props.loadBalancingAlgorithmType ?? TargetGroupLoadBalancingAlgorithmType.ROUND_ROBIN
+      loadBalancingAlgorithmType:
+        props.loadBalancingAlgorithmType ??
+        TargetGroupLoadBalancingAlgorithmType.ROUND_ROBIN,
     });
 
     if (props.scaleRequestPerTarget !== undefined) {
-      this.scaling.scaleOnRequestCount("RequestCountScaling", {
+      this.scaling.scaleOnRequestCount('RequestCountScaling', {
         scaleInCooldown: this.scaleInCooldown,
         scaleOutCooldown: this.scaleOutCooldown,
         targetGroup,
@@ -220,43 +233,64 @@ export class StandardApplicationFargateService extends StandardFargateService {
     }
 
     const targetGroupConditions: ListenerCondition[] = [];
-    targetGroupConditions.push(ListenerCondition.pathPatterns(props.pathPattern ?? ["/*"]));
+    targetGroupConditions.push(
+      ListenerCondition.pathPatterns(props.pathPattern ?? ['/*'])
+    );
     if (props.domainName !== undefined) {
-      targetGroupConditions.push(ListenerCondition.hostHeaders([props.domainName, ...props.domainNames ?? []]));
+      targetGroupConditions.push(
+        ListenerCondition.hostHeaders([
+          props.domainName,
+          ...(props.domainNames ?? []),
+        ])
+      );
     }
 
     let loadBalancer: IApplicationLoadBalancer;
-    if (typeof props.loadBalancer === "string") {
-      if (props.loadBalancer.startsWith("arn:")) {
-        loadBalancer = ApplicationLoadBalancer.fromLookup(this, "LoadBalancer", {
-          loadBalancerArn: props.loadBalancer
-        });
-      } else {
-        loadBalancer = ApplicationLoadBalancer.fromLookup(this, "LoadBalancer", {
-          loadBalancerTags: {
-            Name: props.loadBalancer
+    if (typeof props.loadBalancer === 'string') {
+      if (props.loadBalancer.startsWith('arn:')) {
+        loadBalancer = ApplicationLoadBalancer.fromLookup(
+          this,
+          'LoadBalancer',
+          {
+            loadBalancerArn: props.loadBalancer,
           }
-        });
+        );
+      } else {
+        loadBalancer = ApplicationLoadBalancer.fromLookup(
+          this,
+          'LoadBalancer',
+          {
+            loadBalancerTags: {
+              Name: props.loadBalancer,
+            },
+          }
+        );
       }
     } else {
       loadBalancer = props.loadBalancer;
     }
 
-    const listener = ApplicationListener.fromLookup(this, "Listener", {
+    const listener = ApplicationListener.fromLookup(this, 'Listener', {
       loadBalancerArn: loadBalancer.loadBalancerArn,
-      listenerProtocol: props.listenerProtocol ?? ApplicationProtocol.HTTPS
+      listenerProtocol: props.listenerProtocol ?? ApplicationProtocol.HTTPS,
     });
 
     listener.addTargetGroups(`${id}TargetGroups`, {
       targetGroups: [targetGroup],
       conditions: targetGroupConditions,
-      priority: props.targetGroupPriority ?? 1
+      priority: props.targetGroupPriority ?? 1,
     });
 
-    if (props.domainName !== undefined && props.domainZone !== undefined && !props.skipCreateRoute53Records) {
+    if (
+      props.domainName !== undefined &&
+      props.domainZone !== undefined &&
+      !props.skipCreateRoute53Records
+    ) {
       this.domainName = DomainName.fromFqdn(props.domainName, props.domainZone);
-      this.route53Record = this.domainName.createARecord(this,
-        RecordTarget.fromAlias(new LoadBalancerTarget(loadBalancer)));
+      this.route53Record = this.domainName.createARecord(
+        this,
+        RecordTarget.fromAlias(new LoadBalancerTarget(loadBalancer))
+      );
     }
 
     this.loadBalancer = loadBalancer;

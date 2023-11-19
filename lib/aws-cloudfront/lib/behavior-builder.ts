@@ -2,7 +2,9 @@ import {
   AllowedMethods,
   BehaviorOptions,
   CachedMethods,
-  CachePolicy, Distribution, DistributionProps,
+  CachePolicy,
+  Distribution,
+  DistributionProps,
   EdgeLambda,
   FunctionAssociation,
   FunctionEventType,
@@ -13,56 +15,67 @@ import {
   IOriginRequestPolicy,
   IResponseHeadersPolicy,
   OriginRequestPolicy,
-  ViewerProtocolPolicy
-} from "aws-cdk-lib/aws-cloudfront";
-import {RedirectFunction, RedirectFunctionProps} from "./redirect-function";
-import {OriginGroup} from "aws-cdk-lib/aws-cloudfront-origins";
-import {DistributionBuilder} from "./distribution-builder";
-import {IBucket} from "aws-cdk-lib/aws-s3";
-import {CloudFrontBucket} from "../../aws-s3";
-import {StandardApiCachePolicy} from "./standard-api-cache-policy";
-import {
-  StandardApiOriginRequestPolicy
-} from "./standard-api-origin-request-policy";
-import {ExtendedConstruct} from "../../aws-cdk";
-import {StringHelper} from "../../helpers";
-import {DomainName} from "../../aws-route53";
+  ViewerProtocolPolicy,
+} from 'aws-cdk-lib/aws-cloudfront';
+import {RedirectFunction, RedirectFunctionProps} from './redirect-function';
+import {OriginGroup} from 'aws-cdk-lib/aws-cloudfront-origins';
+import {DistributionBuilder} from './distribution-builder';
+import {IBucket} from 'aws-cdk-lib/aws-s3';
+import {CloudFrontBucket} from '../../aws-s3';
+import {StandardApiCachePolicy} from './standard-api-cache-policy';
+import {StandardApiOriginRequestPolicy} from './standard-api-origin-request-policy';
+import {ExtendedConstruct} from '../../aws-cdk';
+import {StringHelper} from '../../helpers';
+import {DomainName} from '../../aws-route53';
 function pathToIdentifier(path: string): string {
-  return StringHelper.toPascalCase(path
-    .replace(/\*/g, "wildcard")
-    .replace(/\//g, "-"));
+  return StringHelper.toPascalCase(
+    path.replace(/\*/g, 'wildcard').replace(/\//g, '-')
+  );
 }
 
-export const ALL_FALLBACK_STATUS_CODES = [400, 403, 404, 405, 500, 502, 503, 504];
+export const ALL_FALLBACK_STATUS_CODES = [
+  400, 403, 404, 405, 500, 502, 503, 504,
+];
 export const DEFAULT_FALLBACK_STATUS_CODES = [500, 502, 503, 504];
 
 export class BehaviorBuilder extends ExtendedConstruct {
-
   readonly path: string | undefined;
   protected options: BehaviorOptions;
   protected scope: DistributionBuilder;
 
-  constructor(scope: DistributionBuilder, origin: IOrigin, path: string | undefined) {
-    super(scope, (path === undefined || path === "" ? "Default" : pathToIdentifier(path)) + "Behavior");
+  constructor(
+    scope: DistributionBuilder,
+    origin: IOrigin,
+    path: string | undefined
+  ) {
+    super(
+      scope,
+      (path === undefined || path === '' ? 'Default' : pathToIdentifier(path)) +
+        'Behavior'
+    );
     this.path = path;
     scope.addBehavior(this, path);
     this.scope = scope;
     this.options = {
-      origin
-    }
+      origin,
+    };
   }
 
-  fallbackOrigin(fallbackOrigin?: IOrigin, fallbackStatusCodes?: number[]): BehaviorBuilder {
+  fallbackOrigin(
+    fallbackOrigin?: IOrigin,
+    fallbackStatusCodes?: number[]
+  ): BehaviorBuilder {
     if (fallbackOrigin) {
       const originGroup = new OriginGroup({
         primaryOrigin: this.options.origin,
         fallbackOrigin,
-        fallbackStatusCodes: fallbackStatusCodes ?? DEFAULT_FALLBACK_STATUS_CODES
+        fallbackStatusCodes:
+          fallbackStatusCodes ?? DEFAULT_FALLBACK_STATUS_CODES,
       });
       this.options = {
         ...this.options,
-        origin: originGroup
-      }
+        origin: originGroup,
+      };
     }
     return this;
   }
@@ -70,120 +83,134 @@ export class BehaviorBuilder extends ExtendedConstruct {
   allowedMethods(allowedMethods?: AllowedMethods): BehaviorBuilder {
     this.options = {
       ...this.options,
-      allowedMethods
-    }
+      allowedMethods,
+    };
     return this;
   }
 
   cachedMethods(cachedMethods?: CachedMethods): BehaviorBuilder {
     this.options = {
       ...this.options,
-      cachedMethods
-    }
+      cachedMethods,
+    };
     return this;
   }
 
   cachePolicy(cachePolicy: ICachePolicy): BehaviorBuilder {
     this.options = {
       ...this.options,
-      cachePolicy
-    }
+      cachePolicy,
+    };
     return this;
   }
 
   compress(compress?: boolean): BehaviorBuilder {
     this.options = {
       ...this.options,
-      compress
-    }
+      compress,
+    };
     return this;
   }
 
-  originRequestPolicy(originRequestPolicy?: IOriginRequestPolicy): BehaviorBuilder {
+  originRequestPolicy(
+    originRequestPolicy?: IOriginRequestPolicy
+  ): BehaviorBuilder {
     this.options = {
       ...this.options,
-      originRequestPolicy
-    }
+      originRequestPolicy,
+    };
     return this;
   }
 
-  responseHeadersPolicy(responseHeadersPolicy?: IResponseHeadersPolicy): BehaviorBuilder {
+  responseHeadersPolicy(
+    responseHeadersPolicy?: IResponseHeadersPolicy
+  ): BehaviorBuilder {
     this.options = {
       ...this.options,
-      responseHeadersPolicy
-    }
+      responseHeadersPolicy,
+    };
     return this;
   }
 
   smoothStreaming(smoothStreaming?: boolean): BehaviorBuilder {
     this.options = {
       ...this.options,
-      smoothStreaming
-    }
+      smoothStreaming,
+    };
     return this;
   }
 
-  viewerProtocolPolicy(viewerProtocolPolicy?: ViewerProtocolPolicy): BehaviorBuilder {
+  viewerProtocolPolicy(
+    viewerProtocolPolicy?: ViewerProtocolPolicy
+  ): BehaviorBuilder {
     this.options = {
       ...this.options,
-      viewerProtocolPolicy
-    }
+      viewerProtocolPolicy,
+    };
     return this;
   }
 
-  functionAssociations(functionAssociations?: FunctionAssociation[]): BehaviorBuilder {
+  functionAssociations(
+    functionAssociations?: FunctionAssociation[]
+  ): BehaviorBuilder {
     this.options = {
       ...this.options,
-      functionAssociations
-    }
+      functionAssociations,
+    };
     return this;
   }
 
   viewerRequestFunction(viewerRequestFunction: IFunction): BehaviorBuilder {
-    const functionAssociations: FunctionAssociation[] = this.options.functionAssociations ?? [];
+    const functionAssociations: FunctionAssociation[] =
+      this.options.functionAssociations ?? [];
     functionAssociations.push({
       function: viewerRequestFunction,
-      eventType: FunctionEventType.VIEWER_REQUEST
+      eventType: FunctionEventType.VIEWER_REQUEST,
     });
     this.options = {
       ...this.options,
-      functionAssociations
-    }
+      functionAssociations,
+    };
     return this;
   }
 
   redirectFunction(props: RedirectFunctionProps): BehaviorBuilder {
-    const redirectFunction = new RedirectFunction(this, "RedirectFunction", props);
+    const redirectFunction = new RedirectFunction(
+      this,
+      'RedirectFunction',
+      props
+    );
     this.viewerRequestFunction(redirectFunction);
     return this;
   }
 
   viewerResponseFunction(viewerResponseFunction: IFunction): BehaviorBuilder {
-    const functionAssociations: FunctionAssociation[] = this.options.functionAssociations ?? [];
+    const functionAssociations: FunctionAssociation[] =
+      this.options.functionAssociations ?? [];
     functionAssociations.push({
       function: viewerResponseFunction,
-      eventType: FunctionEventType.VIEWER_RESPONSE
+      eventType: FunctionEventType.VIEWER_RESPONSE,
     });
     this.options = {
       ...this.options,
-      functionAssociations
-    }
+      functionAssociations,
+    };
     return this;
   }
 
   edgeLambdas(edgeLambdas?: EdgeLambda[]): BehaviorBuilder {
     this.options = {
       ...this.options,
-      edgeLambdas
-    }
+      edgeLambdas,
+    };
     return this;
   }
 
   trustedKeyGroups(trustedKeyGroups?: IKeyGroup[]): BehaviorBuilder {
     this.options = {
       ...this.options,
-      trustedKeyGroups
-    }
+      trustedKeyGroups,
+    };
     return this;
   }
 
@@ -192,18 +219,22 @@ export class BehaviorBuilder extends ExtendedConstruct {
   }
 
   apiDefaults(additionalHeaders?: string[]): BehaviorBuilder {
-    const cachePolicy =
-      new StandardApiCachePolicy(this, "ApiCachePolicy", additionalHeaders);
-    const originRequestPolicy =
-      new StandardApiOriginRequestPolicy(this, "ApiOriginRequestPolicy", additionalHeaders);
-    return this
-      .allowedMethods(AllowedMethods.ALLOW_ALL)
+    const cachePolicy = new StandardApiCachePolicy(
+      this,
+      'ApiCachePolicy',
+      additionalHeaders
+    );
+    const originRequestPolicy = new StandardApiOriginRequestPolicy(
+      this,
+      'ApiOriginRequestPolicy',
+      additionalHeaders
+    );
+    return this.allowedMethods(AllowedMethods.ALLOW_ALL)
       .cachePolicy(cachePolicy)
       .originRequestPolicy(originRequestPolicy);
   }
 
   buildBehavior(): BehaviorOptions {
-
     if (this.options.viewerProtocolPolicy === undefined) {
       this.viewerProtocolPolicy(ViewerProtocolPolicy.REDIRECT_TO_HTTPS);
     }
@@ -243,11 +274,17 @@ export class BehaviorBuilder extends ExtendedConstruct {
     return this.scope.behaviorFromBucket(bucket, path);
   }
 
-  behaviorFromCloudFromBucket(bucket: CloudFrontBucket, path: string): BehaviorBuilder {
+  behaviorFromCloudFromBucket(
+    bucket: CloudFrontBucket,
+    path: string
+  ): BehaviorBuilder {
     return this.scope.behaviorFromCloudFromBucket(bucket, path);
   }
 
-  behaviorFromDomainName(domainName: string | DomainName, path: string): BehaviorBuilder {
+  behaviorFromDomainName(
+    domainName: string | DomainName,
+    path: string
+  ): BehaviorBuilder {
     return this.scope.behaviorFromDomainName(domainName, path);
   }
 

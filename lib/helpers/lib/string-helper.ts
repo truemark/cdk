@@ -2,7 +2,6 @@
  * Helper methods for use on Strings.
  */
 export class StringHelper {
-
   /**
    * Tests if a string is lower case alphanumeric
    *
@@ -46,7 +45,9 @@ export class StringHelper {
    */
   static isCamelCase(str?: string | null) {
     if (str) {
-      return /^[a-z][a-z0-9]*(([A-Z][a-z0-9]+)*[A-Z]?|([a-z0-9]+[A-Z])*|[A-Z])$/.test(str);
+      return /^[a-z][a-z0-9]*(([A-Z][a-z0-9]+)*[A-Z]?|([a-z0-9]+[A-Z])*|[A-Z])$/.test(
+        str
+      );
     }
     return false;
   }
@@ -57,8 +58,13 @@ export class StringHelper {
    * @param str the string to convert
    */
   static toSnakeCase(str: string): string {
-    return (str.match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g) || [])
-      .map(x => x.toLowerCase()).join("_");
+    return (
+      str.match(
+        /[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g
+      ) || []
+    )
+      .map(x => x.toLowerCase())
+      .join('_');
   }
 
   /**
@@ -67,8 +73,13 @@ export class StringHelper {
    * @param str the string to convert
    */
   static toKebabCase(str: string): string {
-    return (str.match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g) || [])
-      .map(x => x.toLowerCase()).join("-");
+    return (
+      str.match(
+        /[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g
+      ) || []
+    )
+      .map(x => x.toLowerCase())
+      .join('-');
   }
 
   /**
@@ -87,6 +98,8 @@ export class StringHelper {
    * @param str the string to convert
    */
   static toPascalCase(str: string): string {
-    return (str.match(/[a-zA-Z0-9]+/g) || []).map(x => `${x.charAt(0).toUpperCase()}${x.slice(1)}`).join("");
+    return (str.match(/[a-zA-Z0-9]+/g) || [])
+      .map(x => `${x.charAt(0).toUpperCase()}${x.slice(1)}`)
+      .join('');
   }
 }

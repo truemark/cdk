@@ -1,16 +1,16 @@
-import * as path from "path";
-import {ResourceType, HelperTest} from "../../helper.test";
-import {ExtendedGoFunction} from "../index";
-import {Template} from "aws-cdk-lib/assertions";
+import * as path from 'path';
+import {ResourceType, HelperTest} from '../../helper.test';
+import {ExtendedGoFunction} from '../index';
+import {Template} from 'aws-cdk-lib/assertions';
 
-test("Test GoFunctionAlpha", () => {
+test('Test GoFunctionAlpha', () => {
   const stack = HelperTest.stack();
-  new ExtendedGoFunction(stack, "TestFunction", {
-    entry: path.join(HelperTest.resolveTestFiles("go-lambda"))
-  })
+  new ExtendedGoFunction(stack, 'TestFunction', {
+    entry: path.join(HelperTest.resolveTestFiles('go-lambda')),
+  });
   const template = Template.fromStack(stack);
   template.hasResourceProperties(ResourceType.LAMBDA_FUNCTION, {
-    Runtime: "provided.al2"
+    Runtime: 'provided.al2',
   });
   template.resourceCountIs(ResourceType.CLOUDWATCH_ALARM, 3);
 });

@@ -1,17 +1,16 @@
-import {Construct} from "constructs";
-import {StringListParameter, StringParameter} from "aws-cdk-lib/aws-ssm";
+import {Construct} from 'constructs';
+import {StringListParameter, StringParameter} from 'aws-cdk-lib/aws-ssm';
 import {
   ExtendedConstruct,
   ExtendedConstructProps,
-  StandardTags
-} from "../../aws-cdk";
-import {LibStandardTags} from "../../truemark";
+  StandardTags,
+} from '../../aws-cdk';
+import {LibStandardTags} from '../../truemark';
 
 /**
  * Properties for NetworkParameters.
  */
 export interface NetworkParametersProps extends ExtendedConstructProps {
-
   /**
    * Name of the network. This is normally the name of your VPC.
    */
@@ -305,7 +304,6 @@ export interface NetworkParametersProps extends ExtendedConstructProps {
  * AWS Systems Manager Parameter Store.
  */
 export class NetworkParameters extends ExtendedConstruct {
-
   /**
    * Path to the VPC ID
    */
@@ -644,9 +642,11 @@ export class NetworkParameters extends ExtendedConstruct {
    * @param props properties for the instance
    */
   constructor(scope: Construct, id: string, props: NetworkParametersProps) {
-    super(scope, id, {standardTags: StandardTags.merge(props.standardTags, LibStandardTags)});
+    super(scope, id, {
+      standardTags: StandardTags.merge(props.standardTags, LibStandardTags),
+    });
     const create = props.create ?? true;
-    const prefix = props.prefix ?? "/network";
+    const prefix = props.prefix ?? '/network';
     const path = `${prefix}/${props.name}`;
     this.vpcParameterPath = `${path}/vpc`;
     this.azsParameterPath = `${path}/azs`;
@@ -673,257 +673,391 @@ export class NetworkParameters extends ExtendedConstruct {
 
     if (create) {
       if (props.vpcId) {
-        this.vpcParameter = new StringParameter(this, "VpcId", {
+        this.vpcParameter = new StringParameter(this, 'VpcId', {
           parameterName: this.vpcParameterPath,
-          stringValue: props.vpcId
+          stringValue: props.vpcId,
         });
         this.vpcId = props.vpcId;
       }
       if (props.azs) {
-        this.azsParameter = new StringListParameter(this, "AZs", {
+        this.azsParameter = new StringListParameter(this, 'AZs', {
           parameterName: this.azsParameterPath,
-          stringListValue: props.azs
+          stringListValue: props.azs,
         });
         this.azs = props.azs;
       }
       if (props.publicSubnetIds) {
-        this.publicSubnetsParameter = new StringListParameter(this, "PublicSubnets", {
-          parameterName: this.publicSubnetsParameterPath,
-          stringListValue: props.publicSubnetIds
-        });
+        this.publicSubnetsParameter = new StringListParameter(
+          this,
+          'PublicSubnets',
+          {
+            parameterName: this.publicSubnetsParameterPath,
+            stringListValue: props.publicSubnetIds,
+          }
+        );
         this.publicSubnetIds = props.privateSubnetIds;
       }
       if (props.privateSubnetIds) {
-        this.privateSubnetsParameter = new StringListParameter(this, "PrivateSubnets", {
-          parameterName: this.privateSubnetsParameterPath,
-          stringListValue: props.privateSubnetIds
-        });
+        this.privateSubnetsParameter = new StringListParameter(
+          this,
+          'PrivateSubnets',
+          {
+            parameterName: this.privateSubnetsParameterPath,
+            stringListValue: props.privateSubnetIds,
+          }
+        );
         this.privateSubnetIds = props.privateSubnetIds;
       }
       if (props.intraSubnetIds) {
-        this.intraSubnetsParameter = new StringListParameter(this, "IntraSubnets", {
-          parameterName: this.intraSubnetsParameterPath,
-          stringListValue: props.intraSubnetIds
-        });
+        this.intraSubnetsParameter = new StringListParameter(
+          this,
+          'IntraSubnets',
+          {
+            parameterName: this.intraSubnetsParameterPath,
+            stringListValue: props.intraSubnetIds,
+          }
+        );
         this.intraSubnetIds = props.intraSubnetIds;
       }
       if (props.redshiftSubnetIds) {
-        this.redshiftSubnetsParameter = new StringListParameter(this, "RedshiftSubnets", {
-          parameterName: this.redshiftSubnetsParameterPath,
-          stringListValue: props.redshiftSubnetIds
-        });
+        this.redshiftSubnetsParameter = new StringListParameter(
+          this,
+          'RedshiftSubnets',
+          {
+            parameterName: this.redshiftSubnetsParameterPath,
+            stringListValue: props.redshiftSubnetIds,
+          }
+        );
         this.redshiftSubnetIds = props.redshiftSubnetIds;
       }
       if (props.databaseSubnetIds) {
-        this.databaseSubnetsParameter = new StringListParameter(this, "DatabaseSubnets", {
-          parameterName: this.databaseSubnetsParameterPath,
-          stringListValue: props.databaseSubnetIds
-        });
+        this.databaseSubnetsParameter = new StringListParameter(
+          this,
+          'DatabaseSubnets',
+          {
+            parameterName: this.databaseSubnetsParameterPath,
+            stringListValue: props.databaseSubnetIds,
+          }
+        );
         this.databaseSubnetIds = props.databaseSubnetIds;
       }
       if (props.elasticacheSubnetIds) {
-        this.elasticacheSubnetsParameter = new StringListParameter(this, "ElasticacheSubnets", {
-          parameterName: this.elasticacheSubnetsParameterPath,
-          stringListValue: props.elasticacheSubnetIds
-        });
+        this.elasticacheSubnetsParameter = new StringListParameter(
+          this,
+          'ElasticacheSubnets',
+          {
+            parameterName: this.elasticacheSubnetsParameterPath,
+            stringListValue: props.elasticacheSubnetIds,
+          }
+        );
         this.elasticacheSubnetIds = props.elasticacheSubnetIds;
       }
       if (props.outpostSubnetIds) {
-        this.outpostSubnetsPrameter = new StringListParameter(this, "OutpostSubnets", {
-          parameterName: this.outpostSubnetsParameterPath,
-          stringListValue: props.outpostSubnetIds
-        });
-        this.outpostSubnetIds = props.outpostSubnetIds
+        this.outpostSubnetsPrameter = new StringListParameter(
+          this,
+          'OutpostSubnets',
+          {
+            parameterName: this.outpostSubnetsParameterPath,
+            stringListValue: props.outpostSubnetIds,
+          }
+        );
+        this.outpostSubnetIds = props.outpostSubnetIds;
       }
       if (props.publicAlbArns) {
-        this.publicAlbsParameter = new StringListParameter(this, "PublicAlbs", {
+        this.publicAlbsParameter = new StringListParameter(this, 'PublicAlbs', {
           parameterName: this.publicAlbsParameterPath,
-          stringListValue: props.publicAlbArns
+          stringListValue: props.publicAlbArns,
         });
         this.publicAlbArns = props.publicAlbArns;
       }
       if (props.privateAlbArns) {
-        this.privateAlbsParameter = new StringListParameter(this, "PrivateAlbs", {
-          parameterName: this.privateAlbsParameterPath,
-          stringListValue: props.privateAlbArns
-        });
+        this.privateAlbsParameter = new StringListParameter(
+          this,
+          'PrivateAlbs',
+          {
+            parameterName: this.privateAlbsParameterPath,
+            stringListValue: props.privateAlbArns,
+          }
+        );
         this.privateAlbArns = props.privateAlbArns;
       }
       if (props.publicAlbCertificateArns) {
-        this.publicAlbCertificatesParameter = new StringListParameter(this, "PublicAlbCertificates", {
-          parameterName: this.publicAlbCertificatesParameterPath,
-          stringListValue: props.publicAlbCertificateArns
-        });
+        this.publicAlbCertificatesParameter = new StringListParameter(
+          this,
+          'PublicAlbCertificates',
+          {
+            parameterName: this.publicAlbCertificatesParameterPath,
+            stringListValue: props.publicAlbCertificateArns,
+          }
+        );
       }
       if (props.privateAlbCertificateArns) {
-        this.privateAlbCertificatesParameter = new StringListParameter(this, "PrivateAlbCertificates", {
-          parameterName: this.privateAlbCertificatesParameterPath,
-          stringListValue: props.privateAlbCertificateArns
-        });
+        this.privateAlbCertificatesParameter = new StringListParameter(
+          this,
+          'PrivateAlbCertificates',
+          {
+            parameterName: this.privateAlbCertificatesParameterPath,
+            stringListValue: props.privateAlbCertificateArns,
+          }
+        );
       }
       if (props.altPublicAlbArns) {
-        this.altPublicAlbsParameter = new StringListParameter(this, "AltPublicAlbs", {
-          parameterName: this.altPublicAlbsParameterPath,
-          stringListValue: props.altPublicAlbArns
-        });
+        this.altPublicAlbsParameter = new StringListParameter(
+          this,
+          'AltPublicAlbs',
+          {
+            parameterName: this.altPublicAlbsParameterPath,
+            stringListValue: props.altPublicAlbArns,
+          }
+        );
       }
       if (props.altPrivateAlbArns) {
-        this.altPrivateAlbsParameter = new StringListParameter(this, "AltPrivateAlbs", {
-          parameterName: this.altPrivateAlbsParameterPath,
-          stringListValue: props.altPrivateAlbArns
-        });
+        this.altPrivateAlbsParameter = new StringListParameter(
+          this,
+          'AltPrivateAlbs',
+          {
+            parameterName: this.altPrivateAlbsParameterPath,
+            stringListValue: props.altPrivateAlbArns,
+          }
+        );
       }
       if (props.altPublicAlbCertificateArns) {
-        this.altPublicAlbCertificatesParameter = new StringListParameter(this, "AltPublicAlbCertificates", {
-          parameterName: this.altPublicAlbCertificatesParameterPath,
-          stringListValue: props.altPublicAlbCertificateArns
-        });
+        this.altPublicAlbCertificatesParameter = new StringListParameter(
+          this,
+          'AltPublicAlbCertificates',
+          {
+            parameterName: this.altPublicAlbCertificatesParameterPath,
+            stringListValue: props.altPublicAlbCertificateArns,
+          }
+        );
       }
       if (props.altPrivateAlbCertificateArns) {
-        this.altPrivateAlbCertificatesParameter = new StringListParameter(this, "AltPrivateAlbCertificates", {
-          parameterName: this.altPrivateAlbCertificatesParameterPath,
-          stringListValue: props.altPrivateAlbCertificateArns
-        });
+        this.altPrivateAlbCertificatesParameter = new StringListParameter(
+          this,
+          'AltPrivateAlbCertificates',
+          {
+            parameterName: this.altPrivateAlbCertificatesParameterPath,
+            stringListValue: props.altPrivateAlbCertificateArns,
+          }
+        );
       }
       if (props.publicCertificateArn) {
-        this.publicCertificateParameter = new StringParameter(this, "PublicCertificate", {
-          parameterName: this.publicCertificateParameterPath,
-          stringValue: props.publicCertificateArn
-        });
+        this.publicCertificateParameter = new StringParameter(
+          this,
+          'PublicCertificate',
+          {
+            parameterName: this.publicCertificateParameterPath,
+            stringValue: props.publicCertificateArn,
+          }
+        );
       }
       if (props.privateCertificateArn) {
-        this.privateCertificateParameter = new StringParameter(this, "PrivateCertificate", {
-          parameterName: this.privateCertificateParameterPath,
-          stringValue: props.privateCertificateArn
-        });
+        this.privateCertificateParameter = new StringParameter(
+          this,
+          'PrivateCertificate',
+          {
+            parameterName: this.privateCertificateParameterPath,
+            stringValue: props.privateCertificateArn,
+          }
+        );
       }
       if (props.cloudFontCertificateArn) {
-        this.cloudFrontCertificateParameter = new StringParameter(this, "CloudFrontCertificate", {
-          parameterName: this.cloudFrontCertificateParameterPath,
-          stringValue: props.cloudFontCertificateArn
-        });
+        this.cloudFrontCertificateParameter = new StringParameter(
+          this,
+          'CloudFrontCertificate',
+          {
+            parameterName: this.cloudFrontCertificateParameterPath,
+            stringValue: props.cloudFontCertificateArn,
+          }
+        );
       }
       if (props.publicZoneName) {
-        this.publicZoneParameter = new StringParameter(this, "PublicZone", {
+        this.publicZoneParameter = new StringParameter(this, 'PublicZone', {
           parameterName: this.publicZoneParameterPath,
-          stringValue: props.publicZoneName
+          stringValue: props.publicZoneName,
         });
       }
       if (props.privateZoneName) {
-        this.privateZoneParameter = new StringParameter(this, "PrivateZone", {
+        this.privateZoneParameter = new StringParameter(this, 'PrivateZone', {
           parameterName: this.privateZoneParameterPath,
-          stringValue: props.privateZoneName
+          stringValue: props.privateZoneName,
         });
       }
     }
     if (props.lookupVpc ?? true) {
       if (!this.vpcId) {
-        this.vpcId = StringParameter.valueFromLookup(this, this.vpcParameterPath);
+        this.vpcId = StringParameter.valueFromLookup(
+          this,
+          this.vpcParameterPath
+        );
       }
     }
     if (props.lookupAzs ?? true) {
       if (!this.azs) {
-        this.azs = StringParameter.valueFromLookup(this, this.azsParameterPath).split(",");
+        this.azs = StringParameter.valueFromLookup(
+          this,
+          this.azsParameterPath
+        ).split(',');
       }
     }
     if (props.lookupPublicSubnets ?? true) {
       if (!this.publicSubnetIds) {
-        this.publicSubnetIds = StringParameter.valueFromLookup(this, this.publicSubnetsParameterPath).split(",");
+        this.publicSubnetIds = StringParameter.valueFromLookup(
+          this,
+          this.publicSubnetsParameterPath
+        ).split(',');
       }
     }
     if (props.lookupPrivateSubnets ?? true) {
       if (!this.privateSubnetIds) {
-        this.privateSubnetIds = StringParameter.valueFromLookup(this, this.privateSubnetsParameterPath).split(",");
+        this.privateSubnetIds = StringParameter.valueFromLookup(
+          this,
+          this.privateSubnetsParameterPath
+        ).split(',');
       }
     }
     if (props.lookupIntraSubnets ?? false) {
       if (!this.intraSubnetIds) {
-        this.intraSubnetIds = StringParameter.valueFromLookup(this, this.intraSubnetsParameterPath).split(",");
+        this.intraSubnetIds = StringParameter.valueFromLookup(
+          this,
+          this.intraSubnetsParameterPath
+        ).split(',');
       }
     }
     if (props.lookupRedshiftSubnets ?? false) {
       if (!this.redshiftSubnetIds) {
-        this.redshiftSubnetIds = StringParameter.valueFromLookup(this, this.redshiftSubnetsParameterPath).split(",");
+        this.redshiftSubnetIds = StringParameter.valueFromLookup(
+          this,
+          this.redshiftSubnetsParameterPath
+        ).split(',');
       }
     }
     if (props.lookupDatabaseSubnets ?? false) {
       if (!this.databaseSubnetIds) {
-        this.databaseSubnetIds = StringParameter.valueFromLookup(this, this.databaseSubnetsParameterPath).split(",");
+        this.databaseSubnetIds = StringParameter.valueFromLookup(
+          this,
+          this.databaseSubnetsParameterPath
+        ).split(',');
       }
     }
     if (props.lookupElasticacheSubnets ?? false) {
       if (!this.elasticacheSubnetIds) {
-        this.elasticacheSubnetIds = StringParameter.valueFromLookup(this, this.elasticacheSubnetsParameterPath).split(",");
+        this.elasticacheSubnetIds = StringParameter.valueFromLookup(
+          this,
+          this.elasticacheSubnetsParameterPath
+        ).split(',');
       }
     }
     if (props.lookupOutpostSubnets ?? false) {
       if (!this.outpostSubnetIds) {
-        this.outpostSubnetIds = StringParameter.valueFromLookup(this, this.outpostSubnetsParameterPath).split(",");
+        this.outpostSubnetIds = StringParameter.valueFromLookup(
+          this,
+          this.outpostSubnetsParameterPath
+        ).split(',');
       }
     }
     if (props.lookupPublicAlbs ?? false) {
       if (!this.publicAlbArns) {
-        this.publicAlbArns = StringParameter.valueFromLookup(this, this.publicAlbsParameterPath).split(",");
+        this.publicAlbArns = StringParameter.valueFromLookup(
+          this,
+          this.publicAlbsParameterPath
+        ).split(',');
       }
     }
     if (props.lookupPrivateAlbs ?? false) {
       if (!this.privateAlbArns) {
-        this.privateAlbArns = StringParameter.valueFromLookup(this, this.privateAlbsParameterPath).split(",");
+        this.privateAlbArns = StringParameter.valueFromLookup(
+          this,
+          this.privateAlbsParameterPath
+        ).split(',');
       }
     }
     if (props.lookupPublicAlbCertificates ?? false) {
       if (!this.publicAlbCertificateArns) {
-        this.publicAlbCertificateArns = StringParameter.valueFromLookup(this, this.publicAlbCertificatesParameterPath).split(",");
+        this.publicAlbCertificateArns = StringParameter.valueFromLookup(
+          this,
+          this.publicAlbCertificatesParameterPath
+        ).split(',');
       }
     }
     if (props.lookupPrivateAlbCertificates ?? false) {
       if (!this.privateAlbCertificateArns) {
-        this.privateAlbCertificateArns = StringParameter.valueFromLookup(this, this.privateAlbCertificatesParameterPath).split(",");
+        this.privateAlbCertificateArns = StringParameter.valueFromLookup(
+          this,
+          this.privateAlbCertificatesParameterPath
+        ).split(',');
       }
     }
     if (props.lookupAltPublicAlbs ?? false) {
       if (!this.altPublicAlbArns) {
-        this.altPublicAlbArns = StringParameter.valueFromLookup(this, this.altPublicAlbsParameterPath).split(",");
+        this.altPublicAlbArns = StringParameter.valueFromLookup(
+          this,
+          this.altPublicAlbsParameterPath
+        ).split(',');
       }
     }
     if (props.lookupAltPrivateAlbs ?? false) {
       if (!this.altPrivateAlbArns) {
-        this.altPrivateAlbArns = StringParameter.valueFromLookup(this, this.altPrivateAlbsParameterPath).split(",");
+        this.altPrivateAlbArns = StringParameter.valueFromLookup(
+          this,
+          this.altPrivateAlbsParameterPath
+        ).split(',');
       }
     }
     if (props.lookupAltPublicAlbCertificates ?? false) {
       if (!this.altPublicAlbCertificateArns) {
-        this.altPublicAlbCertificateArns = StringParameter.valueFromLookup(this, this.altPublicAlbCertificatesParameterPath).split(",");
+        this.altPublicAlbCertificateArns = StringParameter.valueFromLookup(
+          this,
+          this.altPublicAlbCertificatesParameterPath
+        ).split(',');
       }
     }
     if (props.lookupAltPrivateAlbCertificates ?? false) {
       if (!this.altPrivateAlbCertificateArns) {
-        this.altPrivateAlbCertificateArns = StringParameter.valueFromLookup(this, this.altPrivateAlbCertificatesParameterPath).split(",");
+        this.altPrivateAlbCertificateArns = StringParameter.valueFromLookup(
+          this,
+          this.altPrivateAlbCertificatesParameterPath
+        ).split(',');
       }
     }
     if (props.lookupPublicCertificate ?? false) {
       if (!this.publicCertificateArn) {
-        this.publicCertificateArn = StringParameter.valueFromLookup(this, this.publicCertificateParameterPath);
+        this.publicCertificateArn = StringParameter.valueFromLookup(
+          this,
+          this.publicCertificateParameterPath
+        );
       }
     }
     if (props.lookupPrivateCertificate ?? false) {
       if (!this.privateCertificateArn) {
-        this.privateCertificateArn = StringParameter.valueFromLookup(this, this.privateCertificateParameterPath);
+        this.privateCertificateArn = StringParameter.valueFromLookup(
+          this,
+          this.privateCertificateParameterPath
+        );
       }
     }
     if (props.lookupCloudFrontCertificate ?? false) {
       if (!this.cloudFrontCertificateArn) {
-        this.cloudFrontCertificateArn = StringParameter.valueFromLookup(this, this.cloudFrontCertificateParameterPath);
+        this.cloudFrontCertificateArn = StringParameter.valueFromLookup(
+          this,
+          this.cloudFrontCertificateParameterPath
+        );
       }
     }
     if (props.lookupPublicZone ?? false) {
       if (!this.publicZoneName) {
-        this.publicZoneName = StringParameter.valueFromLookup(this, this.publicZoneParameterPath);
+        this.publicZoneName = StringParameter.valueFromLookup(
+          this,
+          this.publicZoneParameterPath
+        );
       }
     }
     if (props.lookupPrivateZone ?? false) {
       if (!this.privateZoneName) {
-        this.privateZoneName = StringParameter.valueFromLookup(this, this.privateZoneParameterPath);
+        this.privateZoneName = StringParameter.valueFromLookup(
+          this,
+          this.privateZoneParameterPath
+        );
       }
     }
   }

@@ -1,10 +1,10 @@
-import {spawnSync} from "child_process";
-import * as process from "process";
-import * as fs from "fs";
+import {spawnSync} from 'child_process';
+import * as process from 'process';
+import * as fs from 'fs';
 
 export interface BashExecutionProps {
-  readonly script: string,
-  readonly workingDirectory?: string,
+  readonly script: string;
+  readonly workingDirectory?: string;
   readonly environment?: {
     [key: string]: string;
   };
@@ -14,7 +14,6 @@ export interface BashExecutionProps {
  * Simple helper class for executing shell scripts and commands
  */
 export class ShellHelper {
-
   static version(command: string, args: string[]): string | null {
     const res = spawnSync(command, args);
     if (res.status !== 0) {
@@ -25,7 +24,7 @@ export class ShellHelper {
   }
 
   static bashVersion(): string | null {
-    return ShellHelper.version('bash', ['--version'])
+    return ShellHelper.version('bash', ['--version']);
   }
 
   static pythonVersion(): string | null {
@@ -61,8 +60,8 @@ export class ShellHelper {
       stdio: ['pipe', process.stdout, process.stderr],
       env: {
         ...process.env,
-        ...props.environment
-      }
+        ...props.environment,
+      },
     });
     if (res.error) {
       throw res.error;
@@ -77,8 +76,8 @@ export class ShellHelper {
       stdio: 'inherit',
       env: {
         ...process.env,
-        ...props.environment
-      }
+        ...props.environment,
+      },
     });
     if (res.error) {
       throw res.error;

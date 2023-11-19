@@ -1,14 +1,17 @@
-import {AwsCustomResource, AwsSdkCall, PhysicalResourceId} from "aws-cdk-lib/custom-resources";
-import {Construct} from "constructs";
-import {Effect, PolicyStatement} from "aws-cdk-lib/aws-iam";
-import {Duration, Stack} from "aws-cdk-lib";
-import {RetentionDays} from "aws-cdk-lib/aws-logs";
+import {
+  AwsCustomResource,
+  AwsSdkCall,
+  PhysicalResourceId,
+} from 'aws-cdk-lib/custom-resources';
+import {Construct} from 'constructs';
+import {Effect, PolicyStatement} from 'aws-cdk-lib/aws-iam';
+import {Duration, Stack} from 'aws-cdk-lib';
+import {RetentionDays} from 'aws-cdk-lib/aws-logs';
 
 /**
  * Properties for PutItem.
  */
 export interface PutItemProps {
-
   /**
    * The name of the DynamoDB table to write to.
    */
@@ -37,38 +40,41 @@ export interface PutItemProps {
  * the marshall command @aws-sdk/util-dynamodb as an alternative to using DynamoPutItem.
  */
 export class PutItem extends Construct {
-
   readonly resource: AwsCustomResource;
 
   constructor(scope: Construct, id: string, props: PutItemProps) {
     super(scope, id);
 
     const call: AwsSdkCall = {
-      service: "DynamoDB",
-      action: "putItem",
+      service: 'DynamoDB',
+      action: 'putItem',
       parameters: {
         TableName: props.tableName,
-        Item: props.item
+        Item: props.item,
       },
-      physicalResourceId: PhysicalResourceId.of(Date.now().toString())
-    }
+      physicalResourceId: PhysicalResourceId.of(Date.now().toString()),
+    };
 
-    this.resource = new AwsCustomResource(this, "Default", {
+    this.resource = new AwsCustomResource(this, 'Default', {
       onUpdate: call,
       logRetention: props.logRetention ?? RetentionDays.FIVE_DAYS,
       installLatestAwsSdk: false,
       policy: {
-        statements: [new PolicyStatement({
-          resources: [Stack.of(this).formatArn({
-            service: "dynamodb",
-            resource: "table",
-            resourceName: props.tableName
-          })],
-          actions: ["dynamodb:PutItem"],
-          effect: Effect.ALLOW
-        })]
+        statements: [
+          new PolicyStatement({
+            resources: [
+              Stack.of(this).formatArn({
+                service: 'dynamodb',
+                resource: 'table',
+                resourceName: props.tableName,
+              }),
+            ],
+            actions: ['dynamodb:PutItem'],
+            effect: Effect.ALLOW,
+          }),
+        ],
       },
-      timeout: props.timeout ?? Duration.minutes(2)
+      timeout: props.timeout ?? Duration.minutes(2),
     });
   }
 }

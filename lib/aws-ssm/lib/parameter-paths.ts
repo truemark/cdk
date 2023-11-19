@@ -1,12 +1,11 @@
-import {Grant, IGrantable} from "aws-cdk-lib/aws-iam";
-import {Stack} from "aws-cdk-lib";
-import {Construct} from "constructs";
+import {Grant, IGrantable} from 'aws-cdk-lib/aws-iam';
+import {Stack} from 'aws-cdk-lib';
+import {Construct} from 'constructs';
 
 /**
  * Represents a group of SSM Parameter paths.
  */
 export class ParameterPaths {
-
   private readonly stack: Stack;
   readonly paths: string[];
 
@@ -17,7 +16,7 @@ export class ParameterPaths {
   }
 
   protected validatePath(path: string) {
-    if (!path.startsWith("/")) {
+    if (!path.startsWith('/')) {
       throw new Error("path must start with a '/'");
     }
   }
@@ -25,10 +24,8 @@ export class ParameterPaths {
   grantDescribe(grantee: IGrantable): Grant {
     return Grant.addToPrincipal({
       grantee,
-      actions: [
-        "ssm:DescribeParameters"
-      ],
-      resourceArns: ["*"]
+      actions: ['ssm:DescribeParameters'],
+      resourceArns: ['*'],
     });
   }
 
@@ -36,12 +33,15 @@ export class ParameterPaths {
     return Grant.addToPrincipal({
       grantee,
       actions: [
-        "ssm:GetParameter",
-        "ssm:GetParameters",
-        "ssm:GetParametersByPath",
-        "ssm:GetParameterHistory",
+        'ssm:GetParameter',
+        'ssm:GetParameters',
+        'ssm:GetParametersByPath',
+        'ssm:GetParameterHistory',
       ],
-      resourceArns: this.paths.map(path => `arn:aws:ssm:${this.stack.region}:${this.stack.account}:parameter${path}`)
+      resourceArns: this.paths.map(
+        path =>
+          `arn:aws:ssm:${this.stack.region}:${this.stack.account}:parameter${path}`
+      ),
     });
   }
 
@@ -49,11 +49,14 @@ export class ParameterPaths {
     return Grant.addToPrincipal({
       grantee,
       actions: [
-        "ssm:PutParameter",
-        "ssm:DeleteParameter",
-        "ssm:DeleteParameters"
+        'ssm:PutParameter',
+        'ssm:DeleteParameter',
+        'ssm:DeleteParameters',
       ],
-      resourceArns: this.paths.map(path => `arn:aws:ssm:${this.stack.region}:${this.stack.account}:parameter${path}`)
+      resourceArns: this.paths.map(
+        path =>
+          `arn:aws:ssm:${this.stack.region}:${this.stack.account}:parameter${path}`
+      ),
     });
   }
 
@@ -61,15 +64,18 @@ export class ParameterPaths {
     return Grant.addToPrincipal({
       grantee,
       actions: [
-        "ssm:GetParameter",
-        "ssm:GetParameters",
-        "ssm:GetParametersByPath",
-        "ssm:GetParameterHistory",
-        "ssm:PutParameter",
-        "ssm:DeleteParameter",
-        "ssm:DeleteParameters"
+        'ssm:GetParameter',
+        'ssm:GetParameters',
+        'ssm:GetParametersByPath',
+        'ssm:GetParameterHistory',
+        'ssm:PutParameter',
+        'ssm:DeleteParameter',
+        'ssm:DeleteParameters',
       ],
-      resourceArns: this.paths.map(path => `arn:aws:ssm:${this.stack.region}:${this.stack.account}:parameter${path}`)
+      resourceArns: this.paths.map(
+        path =>
+          `arn:aws:ssm:${this.stack.region}:${this.stack.account}:parameter${path}`
+      ),
     });
   }
 }

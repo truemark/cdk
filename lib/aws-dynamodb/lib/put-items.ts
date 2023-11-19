@@ -1,16 +1,15 @@
-import {Duration} from "aws-cdk-lib";
-import {Construct} from "constructs";
+import {Duration} from 'aws-cdk-lib';
+import {Construct} from 'constructs';
 import {
   BatchWriteItem,
   BatchWriteItemRequest,
-  BatchWriteItemRequestItems
-} from "./batch-write-item";
+  BatchWriteItemRequestItems,
+} from './batch-write-item';
 
 /**
  * Properties for PutItems.
  */
 export interface PutItemsProps {
-
   /**
    * The name of the DynamoDB table to write to.
    */
@@ -38,24 +37,22 @@ export interface PutItemsProps {
  * Custom resource to insert multiple items into a DynamoDB table.
  */
 export class PutItems extends BatchWriteItem {
-
   constructor(scope: Construct, id: string, props: PutItemsProps) {
-
     const items: BatchWriteItemRequest[] = props.items.map(item => {
       return {
         PutRequest: {
-          Item: item
-        }
-      }
+          Item: item,
+        },
+      };
     });
 
-    const requestItems: BatchWriteItemRequestItems = {RequestItems: {}}
+    const requestItems: BatchWriteItemRequestItems = {RequestItems: {}};
     requestItems.RequestItems[props.tableName] = items;
 
     super(scope, id, {
       items: requestItems,
       timeout: props.timeout,
-      logRetention: props.logRetention
+      logRetention: props.logRetention,
     });
   }
 }

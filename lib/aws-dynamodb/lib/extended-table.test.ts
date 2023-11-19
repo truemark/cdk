@@ -1,27 +1,30 @@
-import {ExtendedTable} from "../index";
-import {Template} from "aws-cdk-lib/assertions";
-import {AttributeType, BillingMode} from "aws-cdk-lib/aws-dynamodb";
-import {ResourceType, HelperTest} from "../../helper.test";
+import {ExtendedTable} from '../index';
+import {Template} from 'aws-cdk-lib/assertions';
+import {AttributeType, BillingMode} from 'aws-cdk-lib/aws-dynamodb';
+import {ResourceType, HelperTest} from '../../helper.test';
 
 test('Create Table', () => {
   const stack = HelperTest.stack();
-  const table = new ExtendedTable(stack, "TestTable", {
+  const table = new ExtendedTable(stack, 'TestTable', {
     partitionKey: {
-      name: "Pk", type: AttributeType.STRING
+      name: 'Pk',
+      type: AttributeType.STRING,
     },
     sortKey: {
-      name: "Sk", type: AttributeType.STRING
+      name: 'Sk',
+      type: AttributeType.STRING,
     },
-    billingMode: BillingMode.PAY_PER_REQUEST
+    billingMode: BillingMode.PAY_PER_REQUEST,
   });
   table.addGlobalSecondaryIndex({
-    indexName: "TestIndex",
+    indexName: 'TestIndex',
     partitionKey: {
-      name: "Pk",
-      type: AttributeType.STRING
+      name: 'Pk',
+      type: AttributeType.STRING,
     },
     sortKey: {
-      name: "Gsi", type: AttributeType.STRING
+      name: 'Gsi',
+      type: AttributeType.STRING,
     },
   });
   const template = Template.fromStack(stack);

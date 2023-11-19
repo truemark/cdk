@@ -1,13 +1,12 @@
-import {Construct} from "constructs";
-import {ILogGroup, MetricFilter} from "aws-cdk-lib/aws-logs";
-import {Duration} from "aws-cdk-lib";
-import {Metric} from "aws-cdk-lib/aws-cloudwatch";
+import {Construct} from 'constructs';
+import {ILogGroup, MetricFilter} from 'aws-cdk-lib/aws-logs';
+import {Duration} from 'aws-cdk-lib';
+import {Metric} from 'aws-cdk-lib/aws-cloudwatch';
 
 /**
  * Properties for LogMetricFilter.
  */
 export interface LogMetricFilterProps {
-
   /**
    * The namespace of the metric to emit.
    *
@@ -29,26 +28,24 @@ export interface LogMetricFilterProps {
    * The log group to create the filter on.
    */
   readonly logGroup: ILogGroup;
-
 }
 
 /**
  * MetricFilter that counts the number of records matching the provided pattern.
  */
 export class LogMetricFilter extends MetricFilter {
-
   /**
    * Creates a new LogMetricFilter
    */
   constructor(scope: Construct, id: string, props: LogMetricFilterProps) {
     super(scope, id, {
       ...props,
-      metricNamespace: props.metricNamespace??'TrueMark/Logs',
+      metricNamespace: props.metricNamespace ?? 'TrueMark/Logs',
       defaultValue: 0,
       metricValue: '1',
       filterPattern: {
-        logPatternString: props.pattern
-      }
+        logPatternString: props.pattern,
+      },
     });
   }
 
@@ -60,7 +57,7 @@ export class LogMetricFilter extends MetricFilter {
   sumMetric(period?: Duration): Metric {
     return this.metric({
       statistic: 'Sum',
-      period: period??Duration.minutes(5)
+      period: period ?? Duration.minutes(5),
     });
   }
 }

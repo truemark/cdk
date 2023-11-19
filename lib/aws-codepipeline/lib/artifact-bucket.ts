@@ -1,14 +1,13 @@
-import {BlockPublicAccess, Bucket} from "aws-cdk-lib/aws-s3";
-import {IKey} from "aws-cdk-lib/aws-kms";
-import {Construct} from "constructs";
-import {RemovalPolicy} from "aws-cdk-lib";
-import {AccountPrincipal, Effect, PolicyStatement} from "aws-cdk-lib/aws-iam";
+import {BlockPublicAccess, Bucket} from 'aws-cdk-lib/aws-s3';
+import {IKey} from 'aws-cdk-lib/aws-kms';
+import {Construct} from 'constructs';
+import {RemovalPolicy} from 'aws-cdk-lib';
+import {AccountPrincipal, Effect, PolicyStatement} from 'aws-cdk-lib/aws-iam';
 
 /**
  * Properties for ArtifactBucket.
  */
 export interface ArtifactBucketProps {
-
   /**
    * By default, CDK will create KMS keys for cross account deployments. This
    * can be costly if you have a large number of pipelines. This property
@@ -28,27 +27,22 @@ export interface ArtifactBucketProps {
  * containing it is destroyed. This is not presently the CDK default.
  */
 export class ArtifactBucket extends Bucket {
-
   constructor(scope: Construct, id: string, props: ArtifactBucketProps) {
     super(scope, id, {
       autoDeleteObjects: true,
       removalPolicy: RemovalPolicy.DESTROY,
       blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
-      encryptionKey: props.encryptionKey
+      encryptionKey: props.encryptionKey,
     });
     if (props.accountIds !== undefined) {
-      this.addToResourcePolicy(new PolicyStatement({
-        effect: Effect.ALLOW,
-        actions: [
-          "s3:Get*",
-          "s3:List*"
-        ],
-        principals: props.accountIds.map((id) => new AccountPrincipal(id)),
-        resources: [
-          this.arnForObjects('*'),
-          this.bucketArn
-        ]
-      }));
+      this.addToResourcePolicy(
+        new PolicyStatement({
+          effect: Effect.ALLOW,
+          actions: ['s3:Get*', 's3:List*'],
+          principals: props.accountIds.map(id => new AccountPrincipal(id)),
+          resources: [this.arnForObjects('*'), this.bucketArn],
+        })
+      );
     }
   }
 }

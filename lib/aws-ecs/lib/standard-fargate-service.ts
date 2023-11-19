@@ -1,4 +1,4 @@
-import {Construct} from "constructs";
+import {Construct} from 'constructs';
 import {
   CapacityProviderStrategy,
   ContainerImage,
@@ -10,25 +10,29 @@ import {
   ICluster,
   LogDriver,
   OperatingSystemFamily,
-  Protocol, ScalableTaskCount,
-  Secret
-} from "aws-cdk-lib/aws-ecs";
-import {LogConfiguration} from "./log-configuration";
-import {SecurityGroup, SubnetSelection, SubnetType} from "aws-cdk-lib/aws-ec2";
-import {LogGroup, RetentionDays} from "aws-cdk-lib/aws-logs";
-import {Duration, RemovalPolicy} from "aws-cdk-lib";
-import {PolicyStatement} from "aws-cdk-lib/aws-iam";
-import {BasicStepScalingPolicyProps} from "aws-cdk-lib/aws-autoscaling";
-import {IMetric} from "aws-cdk-lib/aws-cloudwatch";
-import {ScalingSchedule} from "aws-cdk-lib/aws-applicationautoscaling";
-import {ExtendedConstruct, ExtendedConstructProps, StandardTags} from "../../aws-cdk";
-import {LibStandardTags} from "../../truemark";
+  Protocol,
+  ScalableTaskCount,
+  Secret,
+} from 'aws-cdk-lib/aws-ecs';
+import {LogConfiguration} from './log-configuration';
+import {SecurityGroup, SubnetSelection, SubnetType} from 'aws-cdk-lib/aws-ec2';
+import {LogGroup, RetentionDays} from 'aws-cdk-lib/aws-logs';
+import {Duration, RemovalPolicy} from 'aws-cdk-lib';
+import {PolicyStatement} from 'aws-cdk-lib/aws-iam';
+import {BasicStepScalingPolicyProps} from 'aws-cdk-lib/aws-autoscaling';
+import {IMetric} from 'aws-cdk-lib/aws-cloudwatch';
+import {ScalingSchedule} from 'aws-cdk-lib/aws-applicationautoscaling';
+import {
+  ExtendedConstruct,
+  ExtendedConstructProps,
+  StandardTags,
+} from '../../aws-cdk';
+import {LibStandardTags} from '../../truemark';
 
 /**
  * Properties for StandardFargateService.
  */
 export interface StandardFargateServiceProps extends ExtendedConstructProps {
-
   /**
    * The CPU allocated to the task.
    *
@@ -74,14 +78,14 @@ export interface StandardFargateServiceProps extends ExtendedConstructProps {
    *
    * @default - false
    */
-  readonly disableXray?: boolean
+  readonly disableXray?: boolean;
 
   /**
    * Enables the ability to push custom metrics to CloudWatch from the service.
    *
    * @default - true
    */
-  readonly enablePublishMetrics?: boolean
+  readonly enablePublishMetrics?: boolean;
 
   /**
    * The cluster to place services in.
@@ -284,7 +288,6 @@ export interface StandardFargateServiceProps extends ExtendedConstructProps {
  * StandardNetworkFargateService instead of this class.
  */
 export class StandardFargateService extends ExtendedConstruct {
-
   readonly taskDefinition: FargateTaskDefinition;
   readonly logGroup?: LogGroup;
   readonly service: FargateService;
@@ -294,69 +297,92 @@ export class StandardFargateService extends ExtendedConstruct {
   readonly scaleOutCooldown: Duration;
   readonly securityGroup: SecurityGroup;
 
-  protected resolveLogGroup(scope: Construct, props: StandardFargateServiceProps): LogGroup | undefined {
+  protected resolveLogGroup(
+    scope: Construct,
+    props: StandardFargateServiceProps
+  ): LogGroup | undefined {
     if (props.logConfiguration?.enabled ?? true) {
-      return new LogGroup(scope, "LogGroup", {
+      return new LogGroup(scope, 'LogGroup', {
         retention: props.logConfiguration?.retention ?? RetentionDays.FIVE_DAYS,
         logGroupName: props.logConfiguration?.logGroupName,
         encryptionKey: props.logConfiguration?.encryptionKey,
-        removalPolicy: props.logConfiguration?.removalPolicy ?? RemovalPolicy.DESTROY
+        removalPolicy:
+          props.logConfiguration?.removalPolicy ?? RemovalPolicy.DESTROY,
       });
     }
     return undefined;
   }
 
-  protected resolveLogDriver(scope: Construct, props: StandardFargateServiceProps, logGroup: LogGroup | undefined):
-    LogDriver | undefined {
+  protected resolveLogDriver(
+    scope: Construct,
+    props: StandardFargateServiceProps,
+    logGroup: LogGroup | undefined
+  ): LogDriver | undefined {
     if (props.logConfiguration?.enabled ?? true) {
       return LogDriver.awsLogs({
         streamPrefix: scope.node.id,
-        logGroup
+        logGroup,
       });
     }
     return undefined;
   }
 
-  protected resolveVpcSubnets(scope: Construct, props: StandardFargateServiceProps): SubnetSelection {
+  protected resolveVpcSubnets(
+    scope: Construct,
+    props: StandardFargateServiceProps
+  ): SubnetSelection {
     if (props.vpcSubnets === undefined) {
       return {
-        subnetType: SubnetType.PRIVATE_WITH_EGRESS
-      }
+        subnetType: SubnetType.PRIVATE_WITH_EGRESS,
+      };
     }
-    return props.vpcSubnets
+    return props.vpcSubnets;
   }
 
-  protected resolvedCapacityProviderStrategies(props: StandardFargateServiceProps):
-    CapacityProviderStrategy[] | undefined {
+  protected resolvedCapacityProviderStrategies(
+    props: StandardFargateServiceProps
+  ): CapacityProviderStrategy[] | undefined {
     let strategies: CapacityProviderStrategy[] = [];
-    if (props.capacityWeight !== undefined || props.capacityBase !== undefined) {
+    if (
+      props.capacityWeight !== undefined ||
+      props.capacityBase !== undefined
+    ) {
       strategies.push({
-        capacityProvider: "FARGATE",
+        capacityProvider: 'FARGATE',
         base: props.capacityBase,
-        weight: props.capacityWeight
+        weight: props.capacityWeight,
       });
     }
-    if (props.spotCapacityWeight !== undefined || props.spotCapacityBase !== undefined) {
+    if (
+      props.spotCapacityWeight !== undefined ||
+      props.spotCapacityBase !== undefined
+    ) {
       strategies.push({
-        capacityProvider: "FARGATE_SPOT",
+        capacityProvider: 'FARGATE_SPOT',
         base: props.spotCapacityBase,
-        weight: props.spotCapacityWeight
+        weight: props.spotCapacityWeight,
       });
     }
     return strategies.length > 0 ? strategies : undefined;
   }
 
-  constructor(scope: Construct, id: string, props: StandardFargateServiceProps) {
-    super(scope, id, {standardTags: StandardTags.merge(props.standardTags, LibStandardTags)});
+  constructor(
+    scope: Construct,
+    id: string,
+    props: StandardFargateServiceProps
+  ) {
+    super(scope, id, {
+      standardTags: StandardTags.merge(props.standardTags, LibStandardTags),
+    });
 
-    const taskDefinition = new FargateTaskDefinition(this, "Resource", {
+    const taskDefinition = new FargateTaskDefinition(this, 'Resource', {
       cpu: props.cpu ?? 2048,
       memoryLimitMiB: props.memoryLimitMiB ?? 4096,
       ephemeralStorageGiB: props.ephemeralStorageGiB,
       runtimePlatform: {
         operatingSystemFamily: OperatingSystemFamily.LINUX,
-        cpuArchitecture: props.cpuArchitecture ?? CpuArchitecture.ARM64
-      }
+        cpuArchitecture: props.cpuArchitecture ?? CpuArchitecture.ARM64,
+      },
     });
 
     if (!props.disableXray) {
@@ -373,34 +399,35 @@ export class StandardFargateService extends ExtendedConstruct {
     const port = props.port ?? 8080;
     const protocol = props.protocol ?? Protocol.TCP;
 
-    taskDefinition.addContainer("Container", {
+    taskDefinition.addContainer('Container', {
       image: props.image,
       portMappings: [
         {
           containerPort: port,
           hostPort: port,
-          protocol
-        }
+          protocol,
+        },
       ],
       logging,
       environment: props.environment,
       dockerLabels: props.dockerLabels,
-      secrets: props.secrets
+      secrets: props.secrets,
     });
 
     // TODO Otel Collector
 
     const vpcSubnets = this.resolveVpcSubnets(this, props);
     const desiredCount = props.desiredCount ?? props.minCapacity ?? 1;
-    const capacityProviderStrategies = this.resolvedCapacityProviderStrategies(props);
+    const capacityProviderStrategies =
+      this.resolvedCapacityProviderStrategies(props);
 
-    const securityGroup = new SecurityGroup(this, "SecurityGroup", {
+    const securityGroup = new SecurityGroup(this, 'SecurityGroup', {
       vpc: props.cluster.vpc,
       allowAllIpv6Outbound: props.allowAllIpv6Outbound ?? false,
-      allowAllOutbound: true
+      allowAllOutbound: true,
     });
 
-    const service = new FargateService(this, "Default", {
+    const service = new FargateService(this, 'Default', {
       cluster: props.cluster,
       taskDefinition,
       serviceName: props.serviceName,
@@ -408,30 +435,31 @@ export class StandardFargateService extends ExtendedConstruct {
       minHealthyPercent: props.minHealthyPercent ?? 100,
       desiredCount,
       circuitBreaker: {
-        rollback: props.enableRollback ?? true
+        rollback: props.enableRollback ?? true,
       },
       deploymentController: {
-        type: props.deploymentControllerType ?? DeploymentControllerType.ECS
+        type: props.deploymentControllerType ?? DeploymentControllerType.ECS,
       },
       vpcSubnets,
       platformVersion: props.platformVersion ?? FargatePlatformVersion.LATEST,
       enableExecuteCommand: props.enableExecuteCommand ?? true,
       assignPublicIp: props.assignPublicIp ?? false,
       enableECSManagedTags: props.enableECSManagedTags ?? true,
-      healthCheckGracePeriod: props.healthCheckGracePeriod ?? Duration.seconds(30),
+      healthCheckGracePeriod:
+        props.healthCheckGracePeriod ?? Duration.seconds(30),
       capacityProviderStrategies,
-      securityGroups: [securityGroup]
+      securityGroups: [securityGroup],
     });
 
     const scaling = service.autoScaleTaskCount({
       minCapacity: props.minCapacity ?? 1,
-      maxCapacity: props.maxCapacity ?? 2
+      maxCapacity: props.maxCapacity ?? 2,
     });
     const scaleInCooldown = props.scaleInCooldown ?? Duration.seconds(10);
     const scaleOutCooldown = props.scaleOutCooldown ?? Duration.seconds(60);
 
     if (props.scaleCpuTargetUtilizationPercent !== 0) {
-      scaling.scaleOnCpuUtilization("CpuScaling", {
+      scaling.scaleOnCpuUtilization('CpuScaling', {
         scaleInCooldown,
         scaleOutCooldown,
         targetUtilizationPercent: props.scaleCpuTargetUtilizationPercent ?? 60,
@@ -439,10 +467,10 @@ export class StandardFargateService extends ExtendedConstruct {
     }
 
     if (props.scaleMemoryTargetUtilizationPercent !== undefined) {
-      scaling.scaleOnMemoryUtilization("MemoryScaling", {
+      scaling.scaleOnMemoryUtilization('MemoryScaling', {
         scaleInCooldown,
         scaleOutCooldown,
-        targetUtilizationPercent: props.scaleMemoryTargetUtilizationPercent
+        targetUtilizationPercent: props.scaleMemoryTargetUtilizationPercent,
       });
     }
 
@@ -463,12 +491,12 @@ export class StandardFargateService extends ExtendedConstruct {
    * @param metric the metric to track
    * @param targetValue the target value
    */
-  scaleToTrackCustomMetric(id: string, metric: IMetric,  targetValue: number) {
+  scaleToTrackCustomMetric(id: string, metric: IMetric, targetValue: number) {
     this.scaling.scaleToTrackCustomMetric(id, {
       scaleInCooldown: this.scaleInCooldown,
       scaleOutCooldown: this.scaleOutCooldown,
       metric,
-      targetValue
+      targetValue,
     });
   }
 

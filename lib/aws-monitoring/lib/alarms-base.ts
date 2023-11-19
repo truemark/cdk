@@ -1,18 +1,20 @@
-import {Construct} from "constructs";
-import {AlarmBase, IAlarmAction} from "aws-cdk-lib/aws-cloudwatch";
-import {CustomAlarmThreshold, MonitoringFacade} from "cdk-monitoring-constructs";
-import {ITopic} from "aws-cdk-lib/aws-sns";
-import {Duration, Stack} from "aws-cdk-lib";
-import {AlarmHelper} from "./alarm-helper";
-import {ExtendedStack} from "../../aws-cdk";
+import {Construct} from 'constructs';
+import {AlarmBase, IAlarmAction} from 'aws-cdk-lib/aws-cloudwatch';
+import {
+  CustomAlarmThreshold,
+  MonitoringFacade,
+} from 'cdk-monitoring-constructs';
+import {ITopic} from 'aws-cdk-lib/aws-sns';
+import {Duration, Stack} from 'aws-cdk-lib';
+import {AlarmHelper} from './alarm-helper';
+import {ExtendedStack} from '../../aws-cdk';
 
 export enum AlarmCategory {
-  Critical = "Critical",
-  Warning = "Warning"
+  Critical = 'Critical',
+  Warning = 'Warning',
 }
 
 export interface AlarmsCategoryOptions {
-
   /**
    * Topics to send alarm notifications
    */
@@ -25,7 +27,6 @@ export interface AlarmsCategoryOptions {
 }
 
 export interface AlarmsOptions<T extends AlarmsCategoryOptions> {
-
   /**
    * Alarm thresholds for critical alarms.
    *
@@ -77,8 +78,10 @@ export interface AlarmsOptions<T extends AlarmsCategoryOptions> {
 /**
  * Base class for all Alarms constructs.
  */
-export abstract class AlarmsBase<C extends AlarmsCategoryOptions, P extends AlarmsOptions<C>> extends Construct {
-
+export abstract class AlarmsBase<
+  C extends AlarmsCategoryOptions,
+  P extends AlarmsOptions<C>,
+> extends Construct {
   /**
    * The MonitoringFacade instance either passed in or generated.
    */
@@ -104,9 +107,15 @@ export abstract class AlarmsBase<C extends AlarmsCategoryOptions, P extends Alar
     oprop: keyof C,
     tprop: keyof T,
     defaultCriticalThreshold?: number | Duration,
-    defaultWarningThreshold?: number | Duration) {
+    defaultWarningThreshold?: number | Duration
+  ) {
     return AlarmHelper.toRecord<C, T>(
-      this.props, oprop, tprop, defaultCriticalThreshold, defaultWarningThreshold);
+      this.props,
+      oprop,
+      tprop,
+      defaultCriticalThreshold,
+      defaultWarningThreshold
+    );
   }
 
   protected constructor(scope: Construct, id: string, props: P) {
@@ -114,10 +123,10 @@ export abstract class AlarmsBase<C extends AlarmsCategoryOptions, P extends Alar
     this.props = props;
 
     if (props.monitoringFacade !== undefined) {
-      this.monitoringFacade = props.monitoringFacade
+      this.monitoringFacade = props.monitoringFacade;
     } else {
       const stack = Stack.of(this);
-      if ("monitoringFacade" in stack) {
+      if ('monitoringFacade' in stack) {
         const mf = (stack as ExtendedStack).monitoringFacade;
         if (mf !== undefined) {
           this.monitoringFacade = mf;
@@ -125,12 +134,19 @@ export abstract class AlarmsBase<C extends AlarmsCategoryOptions, P extends Alar
       }
     }
     if (this.monitoringFacade === undefined) {
-      throw new Error("MonitoringFacade must be provided as a constructor property or as monitoringFacade property on parent Stack");
+      throw new Error(
+        'MonitoringFacade must be provided as a constructor property or as monitoringFacade property on parent Stack'
+      );
     }
   }
 
   getAlarms(category: AlarmCategory): AlarmBase[] {
-    return [...this.monitoringFacade.createdAlarmsWithDisambiguator(category).map((awa) => awa.alarm).values()];
+    return [
+      ...this.monitoringFacade
+        .createdAlarmsWithDisambiguator(category)
+        .map(awa => awa.alarm)
+        .values(),
+    ];
   }
 
   getCriticalAlarms(): AlarmBase[] {

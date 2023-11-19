@@ -1,7 +1,7 @@
-import {AwsCustomResource, AwsSdkCall} from "aws-cdk-lib/custom-resources";
-import {Construct} from "constructs";
-import {Effect, PolicyStatement} from "aws-cdk-lib/aws-iam";
-import {Duration} from "aws-cdk-lib";
+import {AwsCustomResource, AwsSdkCall} from 'aws-cdk-lib/custom-resources';
+import {Construct} from 'constructs';
+import {Effect, PolicyStatement} from 'aws-cdk-lib/aws-iam';
+import {Duration} from 'aws-cdk-lib';
 
 /**
  * Properties for ParameterReader
@@ -16,33 +16,34 @@ export interface ParameterReaderProps {
  * Custom resource allowing SSM parameter strings to be read across regions.
  */
 export class ParameterReader extends AwsCustomResource {
-
   constructor(scope: Construct, id: string, props: ParameterReaderProps) {
     const call: AwsSdkCall = {
-      service: "SSM",
-      action: "getParameter",
+      service: 'SSM',
+      action: 'getParameter',
       parameters: {
-        Name: props.parameterName
+        Name: props.parameterName,
       },
       region: props.region,
-      physicalResourceId: { id: Date.now().toString() }
+      physicalResourceId: {id: Date.now().toString()},
     };
 
     super(scope, id, {
       installLatestAwsSdk: false,
       onUpdate: call,
       policy: {
-        statements: [new PolicyStatement({
-          resources: ["*"], // TODO This needs to be made more exact
-          actions: ["ssm:GetParameter"],
-          effect: Effect.ALLOW
-        })]
+        statements: [
+          new PolicyStatement({
+            resources: ['*'], // TODO This needs to be made more exact
+            actions: ['ssm:GetParameter'],
+            effect: Effect.ALLOW,
+          }),
+        ],
       },
-      timeout: props.timeout ?? Duration.minutes(2)
+      timeout: props.timeout ?? Duration.minutes(2),
     });
   }
 
   getStringValue(): string {
-    return this.getResponseField("Parameter.Value").toString();
+    return this.getResponseField('Parameter.Value').toString();
   }
 }

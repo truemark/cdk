@@ -1,5 +1,5 @@
-import {Construct} from "constructs";
-import {StandardTags, StandardTagsProps} from "./standard-tags";
+import {Construct} from 'constructs';
+import {StandardTags, StandardTagsProps} from './standard-tags';
 
 /**
  * Props for ExtendedConstruct.
@@ -12,7 +12,6 @@ export interface ExtendedConstructProps {
 }
 
 export class ExtendedConstruct extends Construct {
-
   readonly standardTags: StandardTags;
   constructor(scope: Construct, id: string, props?: ExtendedConstructProps) {
     super(scope, id);

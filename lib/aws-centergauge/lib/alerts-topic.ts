@@ -1,16 +1,19 @@
-import {Construct} from "constructs";
-import {CfnSubscription, Topic} from "aws-cdk-lib/aws-sns";
-import {Alias, IKey} from "aws-cdk-lib/aws-kms";
-import {StandardQueue} from "../../aws-sqs";
-import {AnyPrincipal, Effect, PolicyStatement} from "aws-cdk-lib/aws-iam";
-import {ExtendedConstruct, ExtendedConstructProps, StandardTags} from "../../aws-cdk";
-import {LibStandardTags} from "../../truemark";
+import {Construct} from 'constructs';
+import {CfnSubscription, Topic} from 'aws-cdk-lib/aws-sns';
+import {Alias, IKey} from 'aws-cdk-lib/aws-kms';
+import {StandardQueue} from '../../aws-sqs';
+import {AnyPrincipal, Effect, PolicyStatement} from 'aws-cdk-lib/aws-iam';
+import {
+  ExtendedConstruct,
+  ExtendedConstructProps,
+  StandardTags,
+} from '../../aws-cdk';
+import {LibStandardTags} from '../../truemark';
 
 /**
  * Properties for AlertsTopic
  */
 export interface AlertsTopicProps extends ExtendedConstructProps {
-
   /**
    * Overrides default topic display name.
    *
@@ -45,56 +48,60 @@ export interface AlertsTopicProps extends ExtendedConstructProps {
  * Sets up an SNS Topic that will send notifications to CenterGauge.
  */
 export class AlertsTopic extends ExtendedConstruct {
-
   constructor(scope: Construct, id: string, props: AlertsTopicProps) {
-    super(scope, id, {standardTags: StandardTags.merge(props.standardTags, LibStandardTags)});
+    super(scope, id, {
+      standardTags: StandardTags.merge(props.standardTags, LibStandardTags),
+    });
 
-    const masterKey = props.masterKey ?? Alias.fromAliasName(this, "AwsSnsKey", "aws/sns");
+    const masterKey =
+      props.masterKey ?? Alias.fromAliasName(this, 'AwsSnsKey', 'aws/sns');
 
-    const dlq = new StandardQueue(this, "Dlq", {
+    const dlq = new StandardQueue(this, 'Dlq', {
       maxReceiveCount: -1,
       criticalAlarmOptions: {
-        maxSize: 1
-      }
+        maxSize: 1,
+      },
     });
 
-    const topic = new Topic(this, "Default", {
-      displayName: props.displayName ?? "CenterGaugeAlerts",
+    const topic = new Topic(this, 'Default', {
+      displayName: props.displayName ?? 'CenterGaugeAlerts',
       fifo: false,
-      masterKey
+      masterKey,
     });
 
-    dlq.addToResourcePolicy(new PolicyStatement({
-      effect: Effect.ALLOW,
-      sid: "First",
-      principals: [new AnyPrincipal()],
-      actions: ["sqs:SendMessage"],
-      conditions: {
-        "ArnEquals": {
-          "aws:SourceArn": topic.topicArn
-        }
-      }
-    }));
+    dlq.addToResourcePolicy(
+      new PolicyStatement({
+        effect: Effect.ALLOW,
+        sid: 'First',
+        principals: [new AnyPrincipal()],
+        actions: ['sqs:SendMessage'],
+        conditions: {
+          ArnEquals: {
+            'aws:SourceArn': topic.topicArn,
+          },
+        },
+      })
+    );
 
-    new CfnSubscription(this, "Subscription", {
+    new CfnSubscription(this, 'Subscription', {
       topicArn: topic.topicArn,
-      protocol: "https",
-      endpoint: props.url ?? "https://alerts.centergauge.com/",
+      protocol: 'https',
+      endpoint: props.url ?? 'https://alerts.centergauge.com/',
       rawMessageDelivery: false,
       deliveryPolicy: {
-        "healthyRetryPolicy": {
-          "numRetries": 10,
-          "numNoDelayRetries": 0,
-          "minDelayTarget": 30,
-          "maxDelayTarget": 120,
-          "numMinDelayRetries": 3,
-          "numMaxDelayRetries": 0,
-          "backoffFunction": "linear"
-        }
+        healthyRetryPolicy: {
+          numRetries: 10,
+          numNoDelayRetries: 0,
+          minDelayTarget: 30,
+          maxDelayTarget: 120,
+          numMinDelayRetries: 3,
+          numMaxDelayRetries: 0,
+          backoffFunction: 'linear',
+        },
       },
       redrivePolicy: JSON.stringify({
-        "deadLetterTargetArn": dlq.queueArn
-      })
+        deadLetterTargetArn: dlq.queueArn,
+      }),
     });
   }
 }

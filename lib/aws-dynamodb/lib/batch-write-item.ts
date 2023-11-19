@@ -1,30 +1,33 @@
-import {Construct} from "constructs";
-import {Duration, Stack} from "aws-cdk-lib";
-import {AwsCustomResource, AwsSdkCall, PhysicalResourceId} from "aws-cdk-lib/custom-resources";
-import {RetentionDays} from "aws-cdk-lib/aws-logs";
-import {Effect, PolicyStatement} from "aws-cdk-lib/aws-iam";
+import {Construct} from 'constructs';
+import {Duration, Stack} from 'aws-cdk-lib';
+import {
+  AwsCustomResource,
+  AwsSdkCall,
+  PhysicalResourceId,
+} from 'aws-cdk-lib/custom-resources';
+import {RetentionDays} from 'aws-cdk-lib/aws-logs';
+import {Effect, PolicyStatement} from 'aws-cdk-lib/aws-iam';
 
 export type BatchWriteItemKey = {
   Key: Record<string, any>;
-}
+};
 
 export type BatchWriteItemItem = {
   Item: Record<string, any>;
-}
+};
 
 export type BatchWriteItemRequest =
-  | { DeleteRequest: BatchWriteItemKey }
-  | { PutRequest: BatchWriteItemItem }
+  | {DeleteRequest: BatchWriteItemKey}
+  | {PutRequest: BatchWriteItemItem};
 
 export type BatchWriteItemRequestItems = {
-  RequestItems: Record<string, BatchWriteItemRequest[]>
-}
+  RequestItems: Record<string, BatchWriteItemRequest[]>;
+};
 
 /**
  * Properties for BatchWriteItem
  */
 export interface BatchWriteItemProps {
-
   /**
    * The items to write.
    */
@@ -44,45 +47,43 @@ export interface BatchWriteItemProps {
 }
 
 export class BatchWriteItem extends Construct {
-
   readonly resource: AwsCustomResource;
 
   constructor(scope: Construct, id: string, props: BatchWriteItemProps) {
     super(scope, id);
 
     const call: AwsSdkCall = {
-      service: "DynamoDB",
-      action: "batchWriteItem",
+      service: 'DynamoDB',
+      action: 'batchWriteItem',
       parameters: props.items,
-      physicalResourceId: PhysicalResourceId.of(Date.now().toString())
-    }
+      physicalResourceId: PhysicalResourceId.of(Date.now().toString()),
+    };
 
     const tableNames = Object.keys(props.items.RequestItems);
 
-    this.resource = new AwsCustomResource(this, "Default", {
+    this.resource = new AwsCustomResource(this, 'Default', {
       onUpdate: call,
       logRetention: props.logRetention ?? RetentionDays.FIVE_DAYS,
       installLatestAwsSdk: false,
       policy: {
-        statements: [new PolicyStatement({
-          resources: tableNames.map(name => {
-            return Stack.of(this).formatArn({
-              service: "dynamodb",
-              resource: "table",
-              resourceName: name
-            });
+        statements: [
+          new PolicyStatement({
+            resources: tableNames.map(name => {
+              return Stack.of(this).formatArn({
+                service: 'dynamodb',
+                resource: 'table',
+                resourceName: name,
+              });
+            }),
+            actions: ['dynamodb:BatchWriteItem'],
+            effect: Effect.ALLOW,
           }),
-          actions: ["dynamodb:BatchWriteItem"],
-          effect: Effect.ALLOW
-        })]
+        ],
       },
-      timeout: props.timeout ?? Duration.minutes(2)
+      timeout: props.timeout ?? Duration.minutes(2),
     });
   }
-
 }
-
-
 
 // {
 //   "RequestItems": {

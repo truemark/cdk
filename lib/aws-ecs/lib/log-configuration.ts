@@ -1,12 +1,11 @@
-import {RetentionDays} from "aws-cdk-lib/aws-logs";
-import {RemovalPolicy} from "aws-cdk-lib";
-import {IKey} from "aws-cdk-lib/aws-kms";
+import {RetentionDays} from 'aws-cdk-lib/aws-logs';
+import {RemovalPolicy} from 'aws-cdk-lib';
+import {IKey} from 'aws-cdk-lib/aws-kms';
 
 /**
  * Standard log configuration for ECS services.
  */
 export interface LogConfiguration {
-
   /** Enables logging to CloudWatch.
    *
    * @default - true

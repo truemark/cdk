@@ -1,8 +1,8 @@
-import {Template} from "aws-cdk-lib/assertions";
-import {StandardPythonFunction} from "../index";
-import {ResourceType, HelperTest} from "../../helper.test";
+import {Template} from 'aws-cdk-lib/assertions';
+import {StandardPythonFunction} from '../index';
+import {ResourceType, HelperTest} from '../../helper.test';
 
-test("Test PythonFunction", () => {
+test('Test PythonFunction', () => {
   const stack = HelperTest.stack();
   // TODO Need to fix failure
   // new StandardPythonFunction(stack, "TestFunction", {

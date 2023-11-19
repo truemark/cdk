@@ -1,12 +1,11 @@
-import {Construct} from "constructs";
-import {IAlarm, IAlarmAction, Metric} from "aws-cdk-lib/aws-cloudwatch";
-import {RemovalPolicy, ResourceEnvironment, Stack} from "aws-cdk-lib";
-import {ExtendedAlarm, ExtendedCreateAlarmOptions} from "./extended-alarm";
-import {ITopic} from "aws-cdk-lib/aws-sns";
-import {SnsAction} from "aws-cdk-lib/aws-cloudwatch-actions";
+import {Construct} from 'constructs';
+import {IAlarm, IAlarmAction, Metric} from 'aws-cdk-lib/aws-cloudwatch';
+import {RemovalPolicy, ResourceEnvironment, Stack} from 'aws-cdk-lib';
+import {ExtendedAlarm, ExtendedCreateAlarmOptions} from './extended-alarm';
+import {ITopic} from 'aws-cdk-lib/aws-sns';
+import {SnsAction} from 'aws-cdk-lib/aws-cloudwatch-actions';
 
 export interface MetricAlarmBaseProps extends ExtendedCreateAlarmOptions {
-
   /**
    * Name of the alarm
    *
@@ -22,8 +21,10 @@ export interface MetricAlarmBaseProps extends ExtendedCreateAlarmOptions {
   readonly alarmDescription?: string;
 }
 
-export abstract class MetricAlarmBase<P extends MetricAlarmBaseProps> extends Construct implements IAlarm {
-
+export abstract class MetricAlarmBase<P extends MetricAlarmBaseProps>
+  extends Construct
+  implements IAlarm
+{
   readonly alarm: ExtendedAlarm;
   readonly metric: Metric;
 
@@ -53,7 +54,7 @@ export abstract class MetricAlarmBase<P extends MetricAlarmBaseProps> extends Co
    * @param topics the topics to notify
    */
   addAlarmTopic(...topics: ITopic[]): void {
-    this.alarm.addAlarmAction(...topics.map((topic) => new SnsAction(topic)));
+    this.alarm.addAlarmAction(...topics.map(topic => new SnsAction(topic)));
   }
 
   /**
@@ -62,7 +63,7 @@ export abstract class MetricAlarmBase<P extends MetricAlarmBaseProps> extends Co
    * @param topics the topics to notify
    */
   addOkTopic(...topics: ITopic[]): void {
-    this.alarm.addOkAction(...topics.map((topic) => new SnsAction(topic)));
+    this.alarm.addOkAction(...topics.map(topic => new SnsAction(topic)));
   }
 
   /**
@@ -71,7 +72,9 @@ export abstract class MetricAlarmBase<P extends MetricAlarmBaseProps> extends Co
    * @param topics the topics to notify
    */
   addInsufficientDataTopic(...topics: ITopic[]): void {
-    this.alarm.addInsufficientDataAction(...topics.map((topic) => new SnsAction(topic)));
+    this.alarm.addInsufficientDataAction(
+      ...topics.map(topic => new SnsAction(topic))
+    );
   }
 
   /**

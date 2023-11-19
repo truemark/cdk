@@ -1,12 +1,15 @@
-import {INotificationRuleTarget, NotificationRule} from "aws-cdk-lib/aws-codestarnotifications";
-import {Construct} from "constructs";
+import {
+  INotificationRuleTarget,
+  NotificationRule,
+} from 'aws-cdk-lib/aws-codestarnotifications';
+import {Construct} from 'constructs';
 import {
   IPipeline,
-  PipelineNotificationEvents
-} from "aws-cdk-lib/aws-codepipeline";
-import {SlackChannelConfiguration} from "aws-cdk-lib/aws-chatbot";
-import {ISlackChannelConfiguration} from "aws-cdk-lib/aws-chatbot";
-import {ITopic, Topic} from "aws-cdk-lib/aws-sns";
+  PipelineNotificationEvents,
+} from 'aws-cdk-lib/aws-codepipeline';
+import {SlackChannelConfiguration} from 'aws-cdk-lib/aws-chatbot';
+import {ISlackChannelConfiguration} from 'aws-cdk-lib/aws-chatbot';
+import {ITopic, Topic} from 'aws-cdk-lib/aws-sns';
 
 /**
  * Properties for PipelineNotificationRule.
@@ -30,12 +33,11 @@ export interface PipelineNotificationRuleProps {
  * Configures notifications for a pipeline to a ChatOps Slack channel.
  */
 export class PipelineNotificationRule extends Construct {
-
   static readonly ACTION_EXECUTION_EVENTS = [
     PipelineNotificationEvents.ACTION_EXECUTION_SUCCEEDED,
     PipelineNotificationEvents.ACTION_EXECUTION_FAILED,
     PipelineNotificationEvents.ACTION_EXECUTION_CANCELED,
-    PipelineNotificationEvents.ACTION_EXECUTION_STARTED
+    PipelineNotificationEvents.ACTION_EXECUTION_STARTED,
   ];
 
   static readonly STAGE_EXECUTION_EVENTS = [
@@ -43,7 +45,7 @@ export class PipelineNotificationRule extends Construct {
     PipelineNotificationEvents.STAGE_EXECUTION_SUCCEEDED,
     PipelineNotificationEvents.STAGE_EXECUTION_RESUMED,
     PipelineNotificationEvents.STAGE_EXECUTION_CANCELED,
-    PipelineNotificationEvents.STAGE_EXECUTION_FAILED
+    PipelineNotificationEvents.STAGE_EXECUTION_FAILED,
   ];
 
   static readonly PIPELINE_EXECUTION_EVENTS = [
@@ -52,41 +54,53 @@ export class PipelineNotificationRule extends Construct {
     PipelineNotificationEvents.PIPELINE_EXECUTION_STARTED,
     PipelineNotificationEvents.PIPELINE_EXECUTION_RESUMED,
     PipelineNotificationEvents.PIPELINE_EXECUTION_SUCCEEDED,
-    PipelineNotificationEvents.PIPELINE_EXECUTION_SUPERSEDED
+    PipelineNotificationEvents.PIPELINE_EXECUTION_SUPERSEDED,
   ];
 
   static readonly MANUAL_APPROVAL_EVENTS = [
     PipelineNotificationEvents.MANUAL_APPROVAL_NEEDED,
     PipelineNotificationEvents.MANUAL_APPROVAL_FAILED,
-    PipelineNotificationEvents.MANUAL_APPROVAL_SUCCEEDED
-  ]
+    PipelineNotificationEvents.MANUAL_APPROVAL_SUCCEEDED,
+  ];
 
   static readonly ALL_NOTIFICATION_EVENTS = [
     ...PipelineNotificationRule.ACTION_EXECUTION_EVENTS,
     ...PipelineNotificationRule.STAGE_EXECUTION_EVENTS,
     ...PipelineNotificationRule.PIPELINE_EXECUTION_EVENTS,
-    ...PipelineNotificationRule.MANUAL_APPROVAL_EVENTS
+    ...PipelineNotificationRule.MANUAL_APPROVAL_EVENTS,
   ];
 
   static readonly DEFAULT_EVENTS = [
     ...PipelineNotificationRule.PIPELINE_EXECUTION_EVENTS,
     ...PipelineNotificationRule.MANUAL_APPROVAL_EVENTS,
     PipelineNotificationEvents.STAGE_EXECUTION_SUCCEEDED,
-  ]
+  ];
 
   readonly notificationRule: NotificationRule;
   readonly targets: INotificationRuleTarget[] = [];
 
-  constructor(scope: Construct, id: string, props: PipelineNotificationRuleProps) {
+  constructor(
+    scope: Construct,
+    id: string,
+    props: PipelineNotificationRuleProps
+  ) {
     super(scope, id);
     this.notificationRule = new NotificationRule(this, 'Rule', {
       source: props.source,
-      events: props.events ?? PipelineNotificationRule.DEFAULT_EVENTS
+      events: props.events ?? PipelineNotificationRule.DEFAULT_EVENTS,
     });
   }
 
-  addSlackChannelArn(id: string, slackChannelArn: string): ISlackChannelConfiguration {
-    const slackChannel = SlackChannelConfiguration.fromSlackChannelConfigurationArn(this, id, slackChannelArn);
+  addSlackChannelArn(
+    id: string,
+    slackChannelArn: string
+  ): ISlackChannelConfiguration {
+    const slackChannel =
+      SlackChannelConfiguration.fromSlackChannelConfigurationArn(
+        this,
+        id,
+        slackChannelArn
+      );
     this.notificationRule.addTarget(slackChannel);
     return slackChannel;
   }

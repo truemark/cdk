@@ -4,14 +4,13 @@ import {
   ILambdaDeploymentConfig,
   LambdaDeploymentConfig,
   LambdaDeploymentGroup,
-} from "aws-cdk-lib/aws-codedeploy";
-import {Construct} from "constructs";
-import {Alias, IFunction, Function} from "aws-cdk-lib/aws-lambda";
-import {IAlarm} from "aws-cdk-lib/aws-cloudwatch";
-import {Grant, IGrantable, IRole} from "aws-cdk-lib/aws-iam";
+} from 'aws-cdk-lib/aws-codedeploy';
+import {Construct} from 'constructs';
+import {Alias, IFunction, Function} from 'aws-cdk-lib/aws-lambda';
+import {IAlarm} from 'aws-cdk-lib/aws-cloudwatch';
+import {Grant, IGrantable, IRole} from 'aws-cdk-lib/aws-iam';
 
 export interface FunctionDeploymentOptions {
-
   /**
    * The reference to the CodeDeploy Lambda Application that this Deployment Group belongs to.
    *
@@ -85,19 +84,16 @@ export interface FunctionDeploymentOptions {
  * Properties for FunctionDeployment
  */
 export interface FunctionDeploymentProps extends FunctionDeploymentOptions {
-
   /**
    * The function to deploy.
    */
   readonly function: Function;
-
 }
 
 /**
  * Creates an Alias and LambdaDeploymentGroup with reasonable defaults.
  */
 export class FunctionDeployment extends Construct {
-
   /**
    * The alias created for the deployment.
    */
@@ -113,13 +109,15 @@ export class FunctionDeployment extends Construct {
 
     this.alias = new Alias(this, 'Alias', {
       aliasName: props.aliasName ?? 'deploy',
-      version: props.function.currentVersion
+      version: props.function.currentVersion,
     });
 
     this.deploymentGroup = new LambdaDeploymentGroup(this, 'Group', {
       ...props,
       alias: this.alias,
-      deploymentConfig: props.deploymentConfig ?? LambdaDeploymentConfig.CANARY_10PERCENT_5MINUTES
+      deploymentConfig:
+        props.deploymentConfig ??
+        LambdaDeploymentConfig.CANARY_10PERCENT_5MINUTES,
     });
   }
 
@@ -138,7 +136,7 @@ export class FunctionDeployment extends Construct {
    * @param alarms the alarms to associate
    */
   addAlarms(...alarms: IAlarm[]): void {
-    alarms.forEach((alarm) => this.deploymentGroup.addAlarm(alarm));
+    alarms.forEach(alarm => this.deploymentGroup.addAlarm(alarm));
   }
 
   /**
@@ -165,7 +163,8 @@ export class FunctionDeployment extends Construct {
    * @param grantee resource to grant permission to
    */
   grantPutLifecycleEventHookExecutionStatus(grantee: IGrantable): Grant {
-    return this.deploymentGroup.grantPutLifecycleEventHookExecutionStatus(grantee);
+    return this.deploymentGroup.grantPutLifecycleEventHookExecutionStatus(
+      grantee
+    );
   }
-
 }

@@ -1,6 +1,6 @@
-import {ARecord, ARecordProps, CfnRecordSet} from "aws-cdk-lib/aws-route53";
-import {Construct} from "constructs";
-import {Stack} from "aws-cdk-lib";
+import {ARecord, ARecordProps, CfnRecordSet} from 'aws-cdk-lib/aws-route53';
+import {Construct} from 'constructs';
+import {Stack} from 'aws-cdk-lib';
 
 /**
  * Options for WeightedARecord
@@ -11,31 +11,32 @@ export interface WeightedARecordOptions {
    *
    * @default 0
    */
-  readonly weight?: number
+  readonly weight?: number;
 
   /**
    * The identifier to use for the record.
    *
    * @default Stack.of(this).region
    */
-  readonly setIdentifier?: string
+  readonly setIdentifier?: string;
 
   /**
    * ID of the health check to apply to this record.
    */
-  readonly healthCheckId?: string
+  readonly healthCheckId?: string;
 }
 
 /**
  * Properties for WeightedARecord.
  */
-export interface WeightedARecordProps extends ARecordProps, WeightedARecordOptions {}
+export interface WeightedARecordProps
+  extends ARecordProps,
+    WeightedARecordOptions {}
 
 /**
  * An extended ARecord that performs weight based routing.
  */
 export class WeightedARecord extends ARecord {
-
   /**
    * Creates a new WeightedARecord.
    */

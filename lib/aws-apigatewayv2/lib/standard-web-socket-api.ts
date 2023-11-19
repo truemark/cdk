@@ -1,10 +1,14 @@
-import {Construct} from "constructs";
-import {StandardDomainName} from "./standard-domain-name";
-import {SecurityPolicy, WebSocketApi, WebSocketStage} from "@aws-cdk/aws-apigatewayv2-alpha";
-import {ARecord} from "aws-cdk-lib/aws-route53";
-import {LatencyARecord, WeightedARecord} from "../../aws-route53";
-import {Stack, Stage} from "aws-cdk-lib";
-import {ExtendedConstruct, ExtendedConstructProps} from "../../aws-cdk";
+import {Construct} from 'constructs';
+import {StandardDomainName} from './standard-domain-name';
+import {
+  SecurityPolicy,
+  WebSocketApi,
+  WebSocketStage,
+} from '@aws-cdk/aws-apigatewayv2-alpha';
+import {ARecord} from 'aws-cdk-lib/aws-route53';
+import {LatencyARecord, WeightedARecord} from '../../aws-route53';
+import {Stack, Stage} from 'aws-cdk-lib';
+import {ExtendedConstruct, ExtendedConstructProps} from '../../aws-cdk';
 
 /**
  * Properties for StandardWebSocketApi.
@@ -62,7 +66,6 @@ export interface StandardWebSocketApiProps extends ExtendedConstructProps {
  * Abstraction that creates an WebSocketApi with support infrastructure.
  */
 export class StandardWebSocketApi extends ExtendedConstruct {
-
   readonly domainName: StandardDomainName;
   readonly record: ARecord | LatencyARecord | WeightedARecord | undefined;
   readonly webSocketApi: WebSocketApi;
@@ -71,20 +74,23 @@ export class StandardWebSocketApi extends ExtendedConstruct {
   constructor(scope: Construct, id: string, props: StandardWebSocketApiProps) {
     super(scope, id);
 
-    const domainName = new StandardDomainName(this, "DomainName", {
+    const domainName = new StandardDomainName(this, 'DomainName', {
       prefix: props.domainPrefix,
       zone: props.domainZone,
-      securityPolicy: SecurityPolicy.TLS_1_2 // TODO Should be an option
+      securityPolicy: SecurityPolicy.TLS_1_2, // TODO Should be an option
     });
 
     // TODO Need to add RecordOptions
     if (props.createRecord ?? true) {
       if (props.recordWeight) {
-        domainName.createWeightedARecord(props.recordWeight, props.evaluateTargetHealth ?? true)
+        domainName.createWeightedARecord(
+          props.recordWeight,
+          props.evaluateTargetHealth ?? true
+        );
       } else if (props.recordLatency) {
-        domainName.createLatencyARecord(true)
+        domainName.createLatencyARecord(true);
       } else {
-        domainName.createARecord()
+        domainName.createARecord();
       }
     } else {
       this.record = undefined;
@@ -93,17 +99,17 @@ export class StandardWebSocketApi extends ExtendedConstruct {
     const stage = Stage.of(this);
     const stack = Stack.of(this);
 
-    const webSocketApi = new WebSocketApi(this, "Default", {
+    const webSocketApi = new WebSocketApi(this, 'Default', {
       apiName: props.apiName ?? `${stage?.stageName}${stack?.stackName}Gateway`,
     });
 
-    const webSocketStage = new WebSocketStage(this, "DefaultStage", {
+    const webSocketStage = new WebSocketStage(this, 'DefaultStage', {
       webSocketApi,
-      stageName: "default",
+      stageName: 'default',
       autoDeploy: true,
       domainMapping: {
-        domainName: domainName.gatewayDomainName
-      }
+        domainName: domainName.gatewayDomainName,
+      },
     });
 
     this.webSocketApi = webSocketApi;

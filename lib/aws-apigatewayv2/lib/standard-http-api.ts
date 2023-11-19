@@ -1,20 +1,25 @@
-import {Construct} from "constructs";
-import {LatencyARecord, WeightedARecord} from "../../aws-route53";
-import {StandardDomainName} from "./standard-domain-name";
-import {CorsPreflightOptions, HttpApi, SecurityPolicy} from "@aws-cdk/aws-apigatewayv2-alpha";
-import {Stack, Stage} from "aws-cdk-lib";
-import {ARecord} from "aws-cdk-lib/aws-route53";
-import {ExtendedConstruct, ExtendedConstructProps, StandardTags} from "../../aws-cdk";
-import {LibStandardTags} from "../../truemark";
+import {Construct} from 'constructs';
+import {LatencyARecord, WeightedARecord} from '../../aws-route53';
+import {StandardDomainName} from './standard-domain-name';
 import {
-  IHttpRouteAuthorizer
-} from "@aws-cdk/aws-apigatewayv2-alpha/lib/http/authorizer";
+  CorsPreflightOptions,
+  HttpApi,
+  SecurityPolicy,
+} from '@aws-cdk/aws-apigatewayv2-alpha';
+import {Stack, Stage} from 'aws-cdk-lib';
+import {ARecord} from 'aws-cdk-lib/aws-route53';
+import {
+  ExtendedConstruct,
+  ExtendedConstructProps,
+  StandardTags,
+} from '../../aws-cdk';
+import {LibStandardTags} from '../../truemark';
+import {IHttpRouteAuthorizer} from '@aws-cdk/aws-apigatewayv2-alpha/lib/http/authorizer';
 
 /**
  * Properties for StandardHttpApi.
  */
 export interface StandardHttpApiProps extends ExtendedConstructProps {
-
   /**
    * The prefix of the domain to create the certificate and DNS record for.
    */
@@ -82,28 +87,32 @@ export interface StandardHttpApiProps extends ExtendedConstructProps {
  * Abstraction that creates an HttpApi with support infrastructure.
  */
 export class StandardHttpApi extends ExtendedConstruct {
-
   readonly domainName: StandardDomainName;
   readonly record: ARecord | LatencyARecord | WeightedARecord | undefined;
   readonly httpApi: HttpApi;
 
   constructor(scope: Construct, id: string, props: StandardHttpApiProps) {
-    super(scope, id, {standardTags: StandardTags.merge(props.standardTags, LibStandardTags)});
+    super(scope, id, {
+      standardTags: StandardTags.merge(props.standardTags, LibStandardTags),
+    });
 
-    const domainName = new StandardDomainName(this, "DomainName", {
+    const domainName = new StandardDomainName(this, 'DomainName', {
       prefix: props.domainPrefix,
       zone: props.domainZone,
-      securityPolicy: SecurityPolicy.TLS_1_2 // TODO Should be an option
+      securityPolicy: SecurityPolicy.TLS_1_2, // TODO Should be an option
     });
 
     // TODO Need to add RecordOptions
     if (props.createRecord ?? true) {
       if (props.recordWeight) {
-        domainName.createWeightedARecord(props.recordWeight, props.evaluateTargetHealth ?? true)
+        domainName.createWeightedARecord(
+          props.recordWeight,
+          props.evaluateTargetHealth ?? true
+        );
       } else if (props.recordLatency) {
-        domainName.createLatencyARecord(true)
+        domainName.createLatencyARecord(true);
       } else {
-        domainName.createARecord()
+        domainName.createARecord();
       }
     } else {
       this.record = undefined;
@@ -112,10 +121,10 @@ export class StandardHttpApi extends ExtendedConstruct {
     const stage = Stage.of(this);
     const stack = Stack.of(this);
 
-    const httpApi = new HttpApi(this, "Default", {
+    const httpApi = new HttpApi(this, 'Default', {
       apiName: props.apiName ?? `${stage?.stageName}${stack?.stackName}Gateway`,
       defaultDomainMapping: {
-        domainName: domainName.gatewayDomainName
+        domainName: domainName.gatewayDomainName,
       },
       corsPreflight: props.corsPreflight,
       defaultAuthorizer: props.defaultAuthorizer,

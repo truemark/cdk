@@ -1,34 +1,46 @@
-import {Construct} from "constructs";
-import {FunctionAlarms, FunctionAlarmsOptions} from "./function-alarms";
-import {FunctionDeployment} from "./function-deployment";
-import {DeployedFunctionOptions} from "./extended-function";
-import {RetentionDays} from "aws-cdk-lib/aws-logs";
-import {Architecture, Runtime} from "aws-cdk-lib/aws-lambda";
-import {Duration} from "aws-cdk-lib";
-import * as fs from "fs";
-import * as path from "path";
-import {NodejsFunction, NodejsFunctionProps} from "aws-cdk-lib/aws-lambda-nodejs";
+import {Construct} from 'constructs';
+import {FunctionAlarms, FunctionAlarmsOptions} from './function-alarms';
+import {FunctionDeployment} from './function-deployment';
+import {DeployedFunctionOptions} from './extended-function';
+import {RetentionDays} from 'aws-cdk-lib/aws-logs';
+import {Architecture, Runtime} from 'aws-cdk-lib/aws-lambda';
+import {Duration} from 'aws-cdk-lib';
+import * as fs from 'fs';
+import * as path from 'path';
+import {
+  NodejsFunction,
+  NodejsFunctionProps,
+} from 'aws-cdk-lib/aws-lambda-nodejs';
 
-export interface ExtendedNodejsFunctionProps extends NodejsFunctionProps, FunctionAlarmsOptions, DeployedFunctionOptions {
-}
+export interface ExtendedNodejsFunctionProps
+  extends NodejsFunctionProps,
+    FunctionAlarmsOptions,
+    DeployedFunctionOptions {}
 
 export class ExtendedNodejsFunction extends NodejsFunction {
-
   readonly alarms: FunctionAlarms;
   readonly deployment?: FunctionDeployment;
 
-  private static findDepsLockFile(entry: string | undefined): string | undefined {
+  private static findDepsLockFile(
+    entry: string | undefined
+  ): string | undefined {
     if (entry !== undefined) {
-      const depsLockFilePath = path.join(path.dirname(entry), "package-lock.json");
+      const depsLockFilePath = path.join(
+        path.dirname(entry),
+        'package-lock.json'
+      );
       if (fs.existsSync(depsLockFilePath)) {
         return depsLockFilePath;
       }
     }
-    return undefined
+    return undefined;
   }
 
-  constructor(scope: Construct, id: string, props: ExtendedNodejsFunctionProps) {
-
+  constructor(
+    scope: Construct,
+    id: string,
+    props: ExtendedNodejsFunctionProps
+  ) {
     super(scope, id, {
       logRetention: RetentionDays.THREE_DAYS, // change default from INFINITE
       architecture: Architecture.ARM_64, // change default from X86_64
@@ -39,25 +51,25 @@ export class ExtendedNodejsFunction extends NodejsFunction {
       ...props,
       bundling: {
         sourceMap: props.bundling?.sourceMap ?? true,
-        ...props.bundling
-      }
+        ...props.bundling,
+      },
     });
 
-    this.alarms = new FunctionAlarms(this, "Alarms", {
+    this.alarms = new FunctionAlarms(this, 'Alarms', {
       function: this,
       logGroup: this.logGroup,
-      ...props
+      ...props,
     });
 
-    if (props.deploymentOptions?.createDeployment??true) {
-      this.deployment = new FunctionDeployment(this, "Deployment", {
+    if (props.deploymentOptions?.createDeployment ?? true) {
+      this.deployment = new FunctionDeployment(this, 'Deployment', {
         ...props.deploymentOptions,
-        function: this
+        function: this,
       });
-      if (props.deploymentOptions?.includeCriticalAlarms??true) {
+      if (props.deploymentOptions?.includeCriticalAlarms ?? true) {
         this.deployment.addAlarms(...this.alarms.getCriticalAlarms());
       }
-      if (props.deploymentOptions?.includeWarningAlarms??false) {
+      if (props.deploymentOptions?.includeWarningAlarms ?? false) {
         this.deployment.addAlarms(...this.alarms.getWarningAlarms());
       }
     }

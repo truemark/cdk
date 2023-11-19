@@ -1,5 +1,5 @@
 export enum NodePackageManager {
-  NPM = "npm",
-  YARN = "yarn",
-  PNPM = "pnpm"
+  NPM = 'npm',
+  YARN = 'yarn',
+  PNPM = 'pnpm',
 }

@@ -1,21 +1,27 @@
-import {Alarm, ComparisonOperator, IAlarm, IAlarmAction, Metric, TreatMissingData} from "aws-cdk-lib/aws-cloudwatch";
-import {Construct} from "constructs";
-import {LogMetricFilter, LogMetricFilterProps} from "./log-metric-filter";
-import {Duration, RemovalPolicy, ResourceEnvironment, Stack} from "aws-cdk-lib";
-import {ITopic} from "aws-cdk-lib/aws-sns";
-import {SnsAction} from "aws-cdk-lib/aws-cloudwatch-actions";
+import {
+  Alarm,
+  ComparisonOperator,
+  IAlarm,
+  IAlarmAction,
+  Metric,
+  TreatMissingData,
+} from 'aws-cdk-lib/aws-cloudwatch';
+import {Construct} from 'constructs';
+import {LogMetricFilter, LogMetricFilterProps} from './log-metric-filter';
+import {Duration, RemovalPolicy, ResourceEnvironment, Stack} from 'aws-cdk-lib';
+import {ITopic} from 'aws-cdk-lib/aws-sns';
+import {SnsAction} from 'aws-cdk-lib/aws-cloudwatch-actions';
 
 /**
  * Properties for LogAlarm.
  */
 export interface LogMetricAlarmProps extends LogMetricFilterProps {
-
   /**
    * The period over which statistics are applied
    *
    * Default is 5 minutes.
    */
-  readonly period?: Duration
+  readonly period?: Duration;
 
   // Below are fields from CreateAlarmOptions which we need to override
 
@@ -94,7 +100,6 @@ export interface LogMetricAlarmProps extends LogMetricFilterProps {
  * construct than LogMetricAlarm and will create the filter and metric.
  */
 export class LogMetricAlarm extends Construct implements IAlarm {
-
   readonly filter: LogMetricFilter;
   readonly alarm: Alarm;
   readonly metric: Metric;
@@ -109,18 +114,18 @@ export class LogMetricAlarm extends Construct implements IAlarm {
     super(scope, id);
 
     this.filter = new LogMetricFilter(this, 'Filter', {
-      ...props
+      ...props,
     });
 
     this.metric = this.filter.sumMetric(props.period);
 
     this.alarm = new Alarm(this, 'Alarm', {
       ...props,
-      threshold: props.threshold??1,
-      evaluationPeriods: props.evaluationPeriods??2,
-      datapointsToAlarm: props.datapointsToAlarm??1,
+      threshold: props.threshold ?? 1,
+      evaluationPeriods: props.evaluationPeriods ?? 2,
+      datapointsToAlarm: props.datapointsToAlarm ?? 1,
       treatMissingData: props.treatMissingData ?? TreatMissingData.IGNORE,
-      metric: this.metric
+      metric: this.metric,
     });
 
     this.alarmArn = this.alarm.alarmArn;
@@ -135,7 +140,7 @@ export class LogMetricAlarm extends Construct implements IAlarm {
    * @param topics the topics to notify
    */
   addAlarmTopic(...topics: ITopic[]): void {
-    this.alarm.addAlarmAction(...topics.map((topic) => new SnsAction(topic)));
+    this.alarm.addAlarmAction(...topics.map(topic => new SnsAction(topic)));
   }
 
   /**
@@ -144,7 +149,7 @@ export class LogMetricAlarm extends Construct implements IAlarm {
    * @param topics the topics to notify
    */
   addOkTopic(...topics: ITopic[]): void {
-    this.alarm.addOkAction(...topics.map((topic) => new SnsAction(topic)));
+    this.alarm.addOkAction(...topics.map(topic => new SnsAction(topic)));
   }
 
   /**
@@ -153,7 +158,9 @@ export class LogMetricAlarm extends Construct implements IAlarm {
    * @param topics the topics to notify
    */
   addInsufficientDataTopic(...topics: ITopic[]): void {
-    this.alarm.addInsufficientDataAction(...topics.map((topic) => new SnsAction(topic)));
+    this.alarm.addInsufficientDataAction(
+      ...topics.map(topic => new SnsAction(topic))
+    );
   }
 
   /**

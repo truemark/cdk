@@ -1,17 +1,25 @@
-import {Construct} from "constructs";
-import {Connections, IVpc, Vpc} from "aws-cdk-lib/aws-ec2";
-import {Cluster, ExecuteCommandConfiguration, ExecuteCommandLogging, ICluster} from "aws-cdk-lib/aws-ecs";
-import {CloudMapNamespaceOptions} from "aws-cdk-lib/aws-ecs/lib/cluster";
-import {IKey} from "aws-cdk-lib/aws-kms";
-import {LogGroup, RetentionDays} from "aws-cdk-lib/aws-logs";
-import {RemovalPolicy, ResourceEnvironment, Stack} from "aws-cdk-lib";
-import {INamespace} from "aws-cdk-lib/aws-servicediscovery";
-import {IAutoScalingGroup} from "aws-cdk-lib/aws-autoscaling";
-import {ExtendedConstruct, ExtendedConstructProps, StandardTags} from "../../aws-cdk";
-import {LibStandardTags} from "../../truemark";
+import {Construct} from 'constructs';
+import {Connections, IVpc, Vpc} from 'aws-cdk-lib/aws-ec2';
+import {
+  Cluster,
+  ExecuteCommandConfiguration,
+  ExecuteCommandLogging,
+  ICluster,
+} from 'aws-cdk-lib/aws-ecs';
+import {CloudMapNamespaceOptions} from 'aws-cdk-lib/aws-ecs/lib/cluster';
+import {IKey} from 'aws-cdk-lib/aws-kms';
+import {LogGroup, RetentionDays} from 'aws-cdk-lib/aws-logs';
+import {RemovalPolicy, ResourceEnvironment, Stack} from 'aws-cdk-lib';
+import {INamespace} from 'aws-cdk-lib/aws-servicediscovery';
+import {IAutoScalingGroup} from 'aws-cdk-lib/aws-autoscaling';
+import {
+  ExtendedConstruct,
+  ExtendedConstructProps,
+  StandardTags,
+} from '../../aws-cdk';
+import {LibStandardTags} from '../../truemark';
 
 export interface StandardFargateClusterProps extends ExtendedConstructProps {
-
   // TODO I don't like what I did here
   /**
    * The VPC where your ECS instances will be running.
@@ -95,8 +103,10 @@ export interface StandardFargateClusterProps extends ExtendedConstructProps {
 /**
  * Standard ECS Cluster that sets up Fargate providers and execute command logging.
  */
-export class StandardFargateCluster extends ExtendedConstruct implements ICluster {
-
+export class StandardFargateCluster
+  extends ExtendedConstruct
+  implements ICluster
+{
   readonly vpc: IVpc;
   readonly cluster: Cluster;
   readonly logGroup?: LogGroup;
@@ -112,22 +122,37 @@ export class StandardFargateCluster extends ExtendedConstruct implements ICluste
   readonly stack: Stack;
   readonly env: ResourceEnvironment;
 
-  protected resolveVpc(scope: StandardFargateCluster, props: StandardFargateClusterProps): IVpc {
-    if (props.vpc === undefined && props.vpcId === undefined && props.vpcName === undefined) {
-      throw new Error("One of vpc, vpcId or vpcName is required");
+  protected resolveVpc(
+    scope: StandardFargateCluster,
+    props: StandardFargateClusterProps
+  ): IVpc {
+    if (
+      props.vpc === undefined &&
+      props.vpcId === undefined &&
+      props.vpcName === undefined
+    ) {
+      throw new Error('One of vpc, vpcId or vpcName is required');
     }
-    return props.vpc !== undefined ? props.vpc : Vpc.fromLookup(this, "Vpc", {
-      vpcId: props.vpcId,
-      vpcName: props.vpcName
-    });
+    return props.vpc !== undefined
+      ? props.vpc
+      : Vpc.fromLookup(this, 'Vpc', {
+          vpcId: props.vpcId,
+          vpcName: props.vpcName,
+        });
   }
 
-  protected resolveLogGroup(scope: StandardFargateCluster, props: StandardFargateClusterProps): LogGroup | undefined {
-    if ((props.enableExecuteCommandLog ?? true) && props.executeCommandConfigurationOverride === undefined) {
-      return new LogGroup(scope, "ExecuteCommandLogs", {
+  protected resolveLogGroup(
+    scope: StandardFargateCluster,
+    props: StandardFargateClusterProps
+  ): LogGroup | undefined {
+    if (
+      (props.enableExecuteCommandLog ?? true) &&
+      props.executeCommandConfigurationOverride === undefined
+    ) {
+      return new LogGroup(scope, 'ExecuteCommandLogs', {
         encryptionKey: props.kmsKey,
         retention: RetentionDays.ONE_MONTH,
-        removalPolicy: RemovalPolicy.DESTROY
+        removalPolicy: RemovalPolicy.DESTROY,
       });
     }
     return undefined;
@@ -136,8 +161,8 @@ export class StandardFargateCluster extends ExtendedConstruct implements ICluste
   protected resolveExecuteCommandConfiguration(
     scope: StandardFargateCluster,
     logGroup: LogGroup | undefined,
-    props: StandardFargateClusterProps):
-    ExecuteCommandConfiguration | undefined {
+    props: StandardFargateClusterProps
+  ): ExecuteCommandConfiguration | undefined {
     if (props.enableExecuteCommandLog ?? true) {
       if (props.executeCommandConfigurationOverride !== undefined) {
         return props.executeCommandConfigurationOverride;
@@ -146,27 +171,38 @@ export class StandardFargateCluster extends ExtendedConstruct implements ICluste
           kmsKey: props.kmsKey,
           logConfiguration: {
             cloudWatchEncryptionEnabled: true,
-            cloudWatchLogGroup: logGroup
+            cloudWatchLogGroup: logGroup,
           },
-          logging: ExecuteCommandLogging.OVERRIDE
-        }
+          logging: ExecuteCommandLogging.OVERRIDE,
+        };
       }
     }
     return undefined;
   }
 
-  constructor(scope: Construct, id: string, props: StandardFargateClusterProps) {
-    super(scope, id, {standardTags: StandardTags.merge(props.standardTags, LibStandardTags)});
+  constructor(
+    scope: Construct,
+    id: string,
+    props: StandardFargateClusterProps
+  ) {
+    super(scope, id, {
+      standardTags: StandardTags.merge(props.standardTags, LibStandardTags),
+    });
     const vpc = this.resolveVpc(this, props);
     const logGroup = this.resolveLogGroup(this, props);
-    const executeCommandConfiguration = this.resolveExecuteCommandConfiguration(this, logGroup, props);
-    const cluster = new Cluster(this, "Default", {
+    const executeCommandConfiguration = this.resolveExecuteCommandConfiguration(
+      this,
+      logGroup,
+      props
+    );
+    const cluster = new Cluster(this, 'Default', {
       vpc,
       clusterName: props.clusterName,
       containerInsights: props.containerInsights ?? true,
-      enableFargateCapacityProviders: props.enableFargateCapacityProviders ?? true,
+      enableFargateCapacityProviders:
+        props.enableFargateCapacityProviders ?? true,
       defaultCloudMapNamespace: props.defaultCloudMapNamespace,
-      executeCommandConfiguration
+      executeCommandConfiguration,
     });
     this.vpc = vpc;
     this.cluster = cluster;

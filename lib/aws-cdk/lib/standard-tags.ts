@@ -1,11 +1,10 @@
-import {Construct} from "constructs";
-import {Stack, Stage, TagProps, Tags} from "aws-cdk-lib";
+import {Construct} from 'constructs';
+import {Stack, Stage, TagProps, Tags} from 'aws-cdk-lib';
 
 /**
  * Properties for automation component tags.
  */
 export interface AutomationComponentTagsProps extends TagProps {
-
   /**
    * The ID of the component.
    */
@@ -26,7 +25,6 @@ export interface AutomationComponentTagsProps extends TagProps {
  * Properties for automation tags.
  */
 export interface AutomationTagsProps extends TagProps {
-
   /**
    * The ID of the stack. If one if not provided, the name of the stack is used.
    *
@@ -45,7 +43,6 @@ export interface AutomationTagsProps extends TagProps {
  * Properties for cost center tags.
  */
 export interface CostCenterTagsProps extends TagProps {
-
   /**
    * Name of the project responsible for creating the costs.
    */
@@ -118,60 +115,58 @@ export enum DataClassification {
    * Used when data may not leave the geographic region in which it is stored.
    * This is usually related to government restrictions applied to the data.
    */
-  ExportRestricted = "export-restricted",
+  ExportRestricted = 'export-restricted',
 
   /**
    * Used when unauthorized disclosure, alteration or destruction of data would
    * result in a significant risk to the organization. This includes PII, PHI
    * and PCI data.
    */
-  Restricted = "restricted",
+  Restricted = 'restricted',
 
   /**
    * Used when unauthorized disclosure, alteration or destruction of the data would
    * result in moderate risk. This includes all data that is not in one of the other
    * classifications.
    */
-  Controlled = "controlled",
+  Controlled = 'controlled',
 
   /**
    * Used when handled or stored data readily available to the public.
    */
-  Public = "public"
+  Public = 'public',
 }
 
 /**
  * Holds values that may be applied to the data-sensitivity security tag.
  */
 export enum DataSensitivity {
-
   /**
    * Used when resources are in PCI scope.
    */
-  PCI = "pci",
+  PCI = 'pci',
 
   /**
    * Used when resources handle or store personally identifiable information.
    */
-  PII = "pii",
+  PII = 'pii',
 
   /**
    * Used when resources handle or store personal health information and are
    * subject to HIPPA rules.
    */
-  PHI = "phi",
+  PHI = 'phi',
 
   /**
    * Used when there is no data sensitivity.
    */
-  NONE = "none"
+  NONE = 'none',
 }
 
 /**
  * Properties for security tags.
  */
 export interface SecurityTagsProps extends TagProps {
-
   /**
    * Data classification value. See the TrueMark AWS tagging strategy documentation.
    */
@@ -187,7 +182,6 @@ export interface SecurityTagsProps extends TagProps {
  * Properties for team tags.
  */
 export interface TeamTagsProps extends TagProps {
-
   /**
    * Name of the team.
    */
@@ -252,7 +246,6 @@ export interface TeamTagsProps extends TagProps {
  * Contains standard tagging properties.
  */
 export interface StandardTagsProps {
-
   /**
    * Automation component tags.
    */
@@ -296,7 +289,6 @@ export interface StandardTagsProps {
  * Provides convenience methods to tag resources following TrueMark's tagging strategy.
  */
 export class StandardTags {
-
   /**
    * The scope being tagged.
    */
@@ -322,14 +314,17 @@ export class StandardTags {
     this.scope = scope;
     this.tags = Tags.of(scope);
     this.suppressed = props?.suppressTagging ?? false;
-    const standardTagsProps = StandardTags.merge(scope.node.tryGetContext("standardTags"), props);
+    const standardTagsProps = StandardTags.merge(
+      scope.node.tryGetContext('standardTags'),
+      props
+    );
     this.addAutomationComponentTags(standardTagsProps.automationComponentTags);
     this.addAutomationTags(standardTagsProps.automationTags);
     this.addCostCenterTags(standardTagsProps.costCenterTags);
     this.addSecurityTags(standardTagsProps.securityTags);
     this.addTeamTags(standardTagsProps.teamTags);
     if (standardTagsProps?.mapMigrated) {
-      this.tags.add("map-migrated", standardTagsProps.mapMigrated)
+      this.tags.add('map-migrated', standardTagsProps.mapMigrated);
     }
   }
 
@@ -339,21 +334,31 @@ export class StandardTags {
    *
    * @param props optional properties for the tags
    */
-  addAutomationComponentTags(props?: AutomationComponentTagsProps): StandardTags {
+  addAutomationComponentTags(
+    props?: AutomationComponentTagsProps
+  ): StandardTags {
     if (props && !this.suppressed) {
-      if (props.id === "{{TMCDK}}") {
-        this.tags.add("automation:component-id", this.scope.constructor.name, props);
-        this.tags.add("automation:component-url", "https://github.com/truemark/cdk", props);
-        this.tags.add("automation:component-vendor", "TrueMark", props);
+      if (props.id === '{{TMCDK}}') {
+        this.tags.add(
+          'automation:component-id',
+          this.scope.constructor.name,
+          props
+        );
+        this.tags.add(
+          'automation:component-url',
+          'https://github.com/truemark/cdk',
+          props
+        );
+        this.tags.add('automation:component-vendor', 'TrueMark', props);
       } else {
         if (props.id) {
-          this.tags.add("automation:component-id", props.id, props);
+          this.tags.add('automation:component-id', props.id, props);
         }
         if (props.url) {
-          this.tags.add("automation:component-url", props.url, props);
+          this.tags.add('automation:component-url', props.url, props);
         }
         if (props.vendor) {
-          this.tags.add("automation:component-vendor", props.vendor, props);
+          this.tags.add('automation:component-vendor', props.vendor, props);
         }
       }
     }
@@ -367,15 +372,15 @@ export class StandardTags {
    */
   addAutomationTags(props?: AutomationTagsProps): StandardTags {
     if (!this.suppressed) {
-      let id: string | undefined = props?.id
+      let id: string | undefined = props?.id;
       if (!Stage.isStage(this.scope) && !id) {
-        id = Stack.of(this.scope).stackName
+        id = Stack.of(this.scope).stackName;
       }
       if (id) {
-        this.tags.add("automation:id", id, props);
+        this.tags.add('automation:id', id, props);
       }
       if (props?.url) {
-        this.tags.add("automation:url", props.url, props);
+        this.tags.add('automation:url', props.url, props);
       }
     }
     return this;
@@ -389,40 +394,52 @@ export class StandardTags {
   addCostCenterTags(props?: CostCenterTagsProps): StandardTags {
     if (props && !this.suppressed) {
       if (props.projectName) {
-        this.tags.add("cost-center:project-name", props.projectName, props);
+        this.tags.add('cost-center:project-name', props.projectName, props);
       }
       if (props.projectId) {
-        this.tags.add("cost-center:project-id", props.projectId, props);
+        this.tags.add('cost-center:project-id', props.projectId, props);
       }
       if (props.environment) {
-        this.tags.add("cost-center:environment", props.environment, props);
+        this.tags.add('cost-center:environment', props.environment, props);
       }
       if (props.contactName) {
-        this.tags.add("cost-center:contact-name", props.contactName, props);
+        this.tags.add('cost-center:contact-name', props.contactName, props);
       }
       if (props.contactEmail) {
-        this.tags.add("cost-center:contact-email", props.contactEmail, props);
+        this.tags.add('cost-center:contact-email', props.contactEmail, props);
       }
       if (props.contactPhone) {
-        this.tags.add("cost-center:contact-phone", props.contactPhone, props);
+        this.tags.add('cost-center:contact-phone', props.contactPhone, props);
       }
       if (props.businessUnitName) {
-        this.tags.add("cost-center:business-unit-name", props.businessUnitName, props);
+        this.tags.add(
+          'cost-center:business-unit-name',
+          props.businessUnitName,
+          props
+        );
       }
       if (props.businessUnitId) {
-        this.tags.add("cost-center:business-unit-id", props.businessUnitId, props);
+        this.tags.add(
+          'cost-center:business-unit-id',
+          props.businessUnitId,
+          props
+        );
       }
       if (props.divisionName) {
-        this.tags.add("cost-center:division-name", props.divisionName, props);
+        this.tags.add('cost-center:division-name', props.divisionName, props);
       }
       if (props.divisionId) {
-        this.tags.add("cost-center:division-id", props.divisionId, props);
+        this.tags.add('cost-center:division-id', props.divisionId, props);
       }
       if (props.departmentName) {
-        this.tags.add("cost-center:department-name", props.departmentName, props)
+        this.tags.add(
+          'cost-center:department-name',
+          props.departmentName,
+          props
+        );
       }
       if (props.departmentId) {
-        this.tags.add("cost-center:department-id", props.departmentId, props)
+        this.tags.add('cost-center:department-id', props.departmentId, props);
       }
     }
     return this;
@@ -436,10 +453,18 @@ export class StandardTags {
   addSecurityTags(props?: SecurityTagsProps): StandardTags {
     if (props && !this.suppressed) {
       if (props.dataClassification) {
-        this.tags.add("security:data-classification", props.dataClassification, props);
+        this.tags.add(
+          'security:data-classification',
+          props.dataClassification,
+          props
+        );
       }
       if (props.dataSensitivity) {
-        this.tags.add("security:data-sensitivity", props.dataSensitivity, props);
+        this.tags.add(
+          'security:data-sensitivity',
+          props.dataSensitivity,
+          props
+        );
       }
     }
     return this;
@@ -453,37 +478,37 @@ export class StandardTags {
   addTeamTags(props?: TeamTagsProps): StandardTags {
     if (props && !this.suppressed) {
       if (props.name) {
-        this.tags.add("team:name", props.name, props);
+        this.tags.add('team:name', props.name, props);
       }
       if (props.id) {
-        this.tags.add("team:id", props.id, props);
+        this.tags.add('team:id', props.id, props);
       }
       if (props.contactName) {
-        this.tags.add("team:contact-name", props.contactName, props);
+        this.tags.add('team:contact-name', props.contactName, props);
       }
       if (props.contactEmail) {
-        this.tags.add("team:contact-email", props.contactEmail, props);
+        this.tags.add('team:contact-email', props.contactEmail, props);
       }
       if (props.contactPhone) {
-        this.tags.add("team:contact-phone", props.contactPhone, props);
+        this.tags.add('team:contact-phone', props.contactPhone, props);
       }
       if (props.businessUnitName) {
-        this.tags.add("team:business-unit-name", props.businessUnitName, props);
+        this.tags.add('team:business-unit-name', props.businessUnitName, props);
       }
       if (props.businessUnitId) {
-        this.tags.add("team:business-unit-id", props.businessUnitId, props);
+        this.tags.add('team:business-unit-id', props.businessUnitId, props);
       }
       if (props.divisionName) {
-        this.tags.add("team:division-name", props.divisionName, props);
+        this.tags.add('team:division-name', props.divisionName, props);
       }
       if (props.divisionId) {
-        this.tags.add("team:division-id", props.divisionId, props);
+        this.tags.add('team:division-id', props.divisionId, props);
       }
       if (props.departmentName) {
-        this.tags.add("team:department-name", props.departmentName, props)
+        this.tags.add('team:department-name', props.departmentName, props);
       }
       if (props.departmentId) {
-        this.tags.add("team:department-id", props.departmentId, props)
+        this.tags.add('team:department-id', props.departmentId, props);
       }
     }
     return this;
@@ -495,47 +520,63 @@ export class StandardTags {
    * @param from properties to source from
    * @param to properties to source to
    */
-  static merge(from?: StandardTagsProps, to?: StandardTagsProps): StandardTagsProps {
-    let automationComponentTags: AutomationComponentTagsProps | undefined = undefined;
+  static merge(
+    from?: StandardTagsProps,
+    to?: StandardTagsProps
+  ): StandardTagsProps {
+    let automationComponentTags: AutomationComponentTagsProps | undefined =
+      undefined;
     if (from?.automationComponentTags || to?.automationComponentTags) {
       automationComponentTags = {
-        id: to?.automationComponentTags?.id ?? from?.automationComponentTags?.id ?? "",
+        id:
+          to?.automationComponentTags?.id ??
+          from?.automationComponentTags?.id ??
+          '',
         ...from?.automationComponentTags,
-        ...to?.automationComponentTags
-      }
+        ...to?.automationComponentTags,
+      };
     }
     let automationTags: AutomationTagsProps | undefined = undefined;
     if (from?.automationTags || to?.automationTags) {
       automationTags = {
-        id: to?.automationTags?.id ?? from?.automationTags?.id ?? "",
+        id: to?.automationTags?.id ?? from?.automationTags?.id ?? '',
         ...from?.automationTags,
-        ...to?.automationTags
-      }
+        ...to?.automationTags,
+      };
     }
     let costCenterTags: CostCenterTagsProps | undefined = undefined;
     if (from?.costCenterTags || to?.costCenterTags) {
       costCenterTags = {
-        businessUnitName: to?.costCenterTags?.businessUnitName ?? from?.costCenterTags?.businessUnitName ?? "",
-        projectName: to?.costCenterTags?.projectName ?? from?.costCenterTags?.projectName ?? "",
+        businessUnitName:
+          to?.costCenterTags?.businessUnitName ??
+          from?.costCenterTags?.businessUnitName ??
+          '',
+        projectName:
+          to?.costCenterTags?.projectName ??
+          from?.costCenterTags?.projectName ??
+          '',
         ...from?.costCenterTags,
-        ...to?.costCenterTags
-      }
+        ...to?.costCenterTags,
+      };
     }
     let securityTags: SecurityTagsProps | undefined = undefined;
     if (from?.securityTags || to?.securityTags) {
       securityTags = {
-        dataClassification: to?.securityTags?.dataClassification ?? from?.securityTags?.dataClassification ?? DataClassification.Controlled,
+        dataClassification:
+          to?.securityTags?.dataClassification ??
+          from?.securityTags?.dataClassification ??
+          DataClassification.Controlled,
         ...from?.securityTags,
-        ...to?.securityTags
-      }
+        ...to?.securityTags,
+      };
     }
     let teamTags: TeamTagsProps | undefined = undefined;
     if (from?.teamTags || to?.teamTags) {
       teamTags = {
-        name: to?.teamTags?.name ?? from?.teamTags?.name ?? "",
+        name: to?.teamTags?.name ?? from?.teamTags?.name ?? '',
         ...from?.teamTags,
-        ...to?.teamTags
-      }
+        ...to?.teamTags,
+      };
     }
     return {
       mapMigrated: to?.mapMigrated ?? from?.mapMigrated,
@@ -543,7 +584,7 @@ export class StandardTags {
       automationTags,
       costCenterTags,
       securityTags,
-      teamTags
-    }
+      teamTags,
+    };
   }
 }

@@ -1,22 +1,18 @@
-import {CfnOutput, Duration, Stack, StackProps, Stage} from "aws-cdk-lib";
-import {ParameterStore, ParameterStoreOptions} from "../../aws-ssm";
-import {Construct} from "constructs";
-import {StringParameter} from "aws-cdk-lib/aws-ssm";
+import {CfnOutput, Duration, Stack, StackProps, Stage} from 'aws-cdk-lib';
+import {ParameterStore, ParameterStoreOptions} from '../../aws-ssm';
+import {Construct} from 'constructs';
+import {StringParameter} from 'aws-cdk-lib/aws-ssm';
 import {
   DashboardRenderingPreference,
   DefaultDashboardFactory,
-  MonitoringFacade
-} from "cdk-monitoring-constructs";
-import {
-  StandardTags,
-  StandardTagsProps
-} from "./standard-tags";
+  MonitoringFacade,
+} from 'cdk-monitoring-constructs';
+import {StandardTags, StandardTagsProps} from './standard-tags';
 
 /**
  * Options for ExtStack.
  */
 export interface ExtendedStackOptions {
-
   /**
    * Prefix to be used by parameter exports to be stored in the
    * Systems Manager Parameter Store.
@@ -45,7 +41,7 @@ export interface ExtendedStackOptions {
    *
    * @default false
    */
-  readonly createDashboard?: boolean
+  readonly createDashboard?: boolean;
 
   /**
    * Flag to determine if the summary dashboard should be created.
@@ -107,7 +103,6 @@ export interface ExtendedStackProps extends ExtendedStackOptions, StackProps {}
  * Extended version of Stack providing functionality for parameter exports and monitoring.
  */
 export class ExtendedStack extends Stack {
-
   protected readonly parameterExports: ParameterStore;
   readonly parameterExportOptions: ParameterStoreOptions;
   readonly monitoringFacade?: MonitoringFacade;
@@ -119,30 +114,42 @@ export class ExtendedStack extends Stack {
     const stageName = Stage.of(this)?.stageName;
 
     this.parameterExportOptions = {
-      prefix: props?.parameterExportsPrefix ?? (stageName === undefined ? "" : `/${stageName}`) + `/${id}/Exports/`,
-      region: this.region
+      prefix:
+        props?.parameterExportsPrefix ??
+        (stageName === undefined ? '' : `/${stageName}`) + `/${id}/Exports/`,
+      region: this.region,
     };
-    this.parameterExports = new ParameterStore(this, "ParameterExports", this.parameterExportOptions);
+    this.parameterExports = new ParameterStore(
+      this,
+      'ParameterExports',
+      this.parameterExportOptions
+    );
 
     if (props?.createMonitoringFacade ?? true) {
-      const dashboardFactory = new DefaultDashboardFactory(this, "DashboardFactory", {
-        dashboardNamePrefix: props?.dashboardNamePrefix ?? this.stackName,
-        createAlarmDashboard: props?.createAlarmDashboard ?? false,
-        createDashboard: props?.createDashboard ?? false,
-        createSummaryDashboard: props?.createSummaryDashboard ?? false,
-        renderingPreference: props?.dashboardRenderingPreference ?? DashboardRenderingPreference.INTERACTIVE_ONLY
-      });
+      const dashboardFactory = new DefaultDashboardFactory(
+        this,
+        'DashboardFactory',
+        {
+          dashboardNamePrefix: props?.dashboardNamePrefix ?? this.stackName,
+          createAlarmDashboard: props?.createAlarmDashboard ?? false,
+          createDashboard: props?.createDashboard ?? false,
+          createSummaryDashboard: props?.createSummaryDashboard ?? false,
+          renderingPreference:
+            props?.dashboardRenderingPreference ??
+            DashboardRenderingPreference.INTERACTIVE_ONLY,
+        }
+      );
 
-      this.monitoringFacade = new MonitoringFacade(this, "Monitoring", {
+      this.monitoringFacade = new MonitoringFacade(this, 'Monitoring', {
         metricFactoryDefaults: {
           namespace: props?.metricNamespace,
-          period: props?.metricPeriod
+          period: props?.metricPeriod,
         },
         alarmFactoryDefaults: {
           actionsEnabled: props?.alarmActionsEnabled ?? true,
-          alarmNamePrefix: this.stackName
+          alarmNamePrefix: this.stackName,
         },
-        dashboardFactory: dashboardFactory
+        dashboardFactory: dashboardFactory,
       });
     }
 
@@ -168,7 +175,7 @@ export class ExtendedStack extends Stack {
    */
   outputParameter(name: string, value: string): CfnOutput {
     return new CfnOutput(this, name, {
-      value
+      value,
     });
   }
 }

@@ -1,7 +1,7 @@
-import {Construct} from "constructs";
-import {Pipeline} from "aws-cdk-lib/aws-codepipeline";
-import {Key} from "aws-cdk-lib/aws-kms";
-import {ArtifactBucket} from "./artifact-bucket";
+import {Construct} from 'constructs';
+import {Pipeline} from 'aws-cdk-lib/aws-codepipeline';
+import {Key} from 'aws-cdk-lib/aws-kms';
+import {ArtifactBucket} from './artifact-bucket';
 import {
   AddStageOpts,
   CodePipeline,
@@ -10,30 +10,30 @@ import {
   ShellStep,
   StageDeployment,
   Wave,
-  WaveOptions
-} from "aws-cdk-lib/pipelines";
+  WaveOptions,
+} from 'aws-cdk-lib/pipelines';
 import {
   BuildSpec,
   ComputeType,
   IBuildImage,
-  LinuxBuildImage
-} from "aws-cdk-lib/aws-codebuild";
-import {PipelineNotificationRule} from "./pipeline-notification-rule";
-import {Arn, Stack, Stage} from "aws-cdk-lib";
-import {Repository} from "aws-cdk-lib/aws-codecommit";
-import {NodePackageManager} from "./enums";
-import {Effect, PolicyStatement} from "aws-cdk-lib/aws-iam";
-import {ISlackChannelConfiguration} from "aws-cdk-lib/aws-chatbot";
-import {ITopic} from "aws-cdk-lib/aws-sns";
+  LinuxBuildImage,
+} from 'aws-cdk-lib/aws-codebuild';
+import {PipelineNotificationRule} from './pipeline-notification-rule';
+import {Arn, Stack, Stage} from 'aws-cdk-lib';
+import {Repository} from 'aws-cdk-lib/aws-codecommit';
+import {NodePackageManager} from './enums';
+import {Effect, PolicyStatement} from 'aws-cdk-lib/aws-iam';
+import {ISlackChannelConfiguration} from 'aws-cdk-lib/aws-chatbot';
+import {ITopic} from 'aws-cdk-lib/aws-sns';
 
 /**
  * Node runtimes supported by CodebBuild
  * See https://docs.aws.amazon.com/codebuild/latest/userguide/available-runtimes.html
  */
 export enum NodeVersion {
-  NODE_16 = "16",
-  NODE_18 = "18",
-  NODE_20 = "20"
+  NODE_16 = '16',
+  NODE_18 = '18',
+  NODE_20 = '20',
 }
 
 /**
@@ -41,15 +41,15 @@ export enum NodeVersion {
  * See https://docs.aws.amazon.com/codebuild/latest/userguide/available-runtimes.html
  */
 export enum GoVersion {
-  GO_1_12 = "1.12",
-  GO_1_13 = "1.13",
-  GO_1_14 = "1.14",
-  GO_1_15 = "1.15",
-  GO_1_16 = "1.16",
-  GO_1_17 = "1.17",
-  GO_1_18 = "1.18",
-  GO_1_20 = "1.20",
-  GO_1_21 = "1.21"
+  GO_1_12 = '1.12',
+  GO_1_13 = '1.13',
+  GO_1_14 = '1.14',
+  GO_1_15 = '1.15',
+  GO_1_16 = '1.16',
+  GO_1_17 = '1.17',
+  GO_1_18 = '1.18',
+  GO_1_20 = '1.20',
+  GO_1_21 = '1.21',
 }
 
 /**
@@ -57,10 +57,10 @@ export enum GoVersion {
  * See https://docs.aws.amazon.com/codebuild/latest/userguide/available-runtimes.html
  */
 export enum JavaVersion {
-  JAVA_8 = "corretto8",
-  JAVA_11 = "corretto11",
-  JAVA_16 = "corretto17",
-  JAVA_21 = "corretto21"
+  JAVA_8 = 'corretto8',
+  JAVA_11 = 'corretto11',
+  JAVA_16 = 'corretto17',
+  JAVA_21 = 'corretto21',
 }
 
 /**
@@ -68,16 +68,15 @@ export enum JavaVersion {
  * See https://docs.aws.amazon.com/codebuild/latest/userguide/available-runtimes.htmldotnet
  */
 export enum DotnetVersion {
-  DOTNET_3_1 = "3.1",
-  DOTNET_5_0 = "5.0",
-  DOTNET_6_0 = "6.0"
+  DOTNET_3_1 = '3.1',
+  DOTNET_5_0 = '5.0',
+  DOTNET_6_0 = '6.0',
 }
 
 /**
  * Properties for CdkPipeline
  */
 export interface CdkPipelineProps {
-
   /**
    * By default, CDK will name the pipeline. Set this to override the name.
    */
@@ -243,7 +242,6 @@ export interface CdkPipelineProps {
  * An abstraction to ease CDK pipeline creation and configuration.
  */
 export class CdkPipeline extends Construct {
-
   readonly pipeline: CodePipeline;
   readonly pipelineNotificationRule?: PipelineNotificationRule;
 
@@ -254,96 +252,117 @@ export class CdkPipeline extends Construct {
 
     const artifactBucket = new ArtifactBucket(this, 'ArtifactBucket', {
       encryptionKey,
-      accountIds: props.accountIds
+      accountIds: props.accountIds,
     });
 
     const underlyingPipeline = new Pipeline(this, 'Pipeline', {
       artifactBucket,
-      pipelineName: props.pipelineName
+      pipelineName: props.pipelineName,
     });
 
     let input: CodePipelineSource;
     if (props.connectionArn !== undefined) {
       input = CodePipelineSource.connection(props.repository, props.branch, {
-        connectionArn: props.connectionArn
+        connectionArn: props.connectionArn,
       });
     } else {
-      const repository = props.repository.startsWith("arn:")
-        ? Repository.fromRepositoryArn(this, "Repository", props.repository)
-        : Repository.fromRepositoryName(this, "Repository", props.repository)
+      const repository = props.repository.startsWith('arn:')
+        ? Repository.fromRepositoryArn(this, 'Repository', props.repository)
+        : Repository.fromRepositoryName(this, 'Repository', props.repository);
       input = CodePipelineSource.codeCommit(repository, props.branch);
     }
 
     const stackName = Stack.of(this).stackName;
-    const cdkDirectory = props.cdkDirectory ?? ".";
+    const cdkDirectory = props.cdkDirectory ?? '.';
 
     let commands: string[] | undefined = props.commands;
-    if (commands === undefined && props.packageManager === NodePackageManager.PNPM) {
+    if (
+      commands === undefined &&
+      props.packageManager === NodePackageManager.PNPM
+    ) {
       commands = [
-        `cd ${cdkDirectory ?? "."}`,
+        `cd ${cdkDirectory ?? '.'}`,
         'npm -g i pnpm',
         'pnpm i --frozen-lockfile --prefer-offline',
         'pnpm run build',
         'pnpm run test',
-        `pnpx cdk synth ${stackName}`
-      ]
+        `pnpx cdk synth ${stackName}`,
+      ];
     } else if (commands === undefined) {
       commands = [
-        `cd ${cdkDirectory ?? "."}`,
+        `cd ${cdkDirectory ?? '.'}`,
         'npm ci --prefer-offline',
         'npm run build',
         'npm run test',
-        `npx cdk synth ${stackName}`
-      ]
+        `npx cdk synth ${stackName}`,
+      ];
     }
 
     const stack = Stack.of(this);
 
     const codeArtifactDomains = props.codeArtifactDomains?.map(domain => {
-      return domain.startsWith("arn:aws") ? domain : Arn.format({
-        service: "codeartifact",
-        resource: "domain",
-        resourceName: domain
-      }, stack);
+      return domain.startsWith('arn:aws')
+        ? domain
+        : Arn.format(
+            {
+              service: 'codeartifact',
+              resource: 'domain',
+              resourceName: domain,
+            },
+            stack
+          );
     });
 
-    const codeArtifactRepositories = props.codeArtifactRepositories?.map(repository => {
-      return repository.startsWith("arn:aws") ? repository : Arn.format({
-        service: "codeartifact",
-        resource: "repository",
-        resourceName: repository,
-      }, stack);
-    });
+    const codeArtifactRepositories = props.codeArtifactRepositories?.map(
+      repository => {
+        return repository.startsWith('arn:aws')
+          ? repository
+          : Arn.format(
+              {
+                service: 'codeartifact',
+                resource: 'repository',
+                resourceName: repository,
+              },
+              stack
+            );
+      }
+    );
 
     const rolePolicy = props.rolePolicy ?? [];
     if (codeArtifactDomains) {
-      rolePolicy.push(new PolicyStatement({
-        resources: codeArtifactDomains,
-        actions: ["codeartifact:GetAuthorizationToken"],
-        effect: Effect.ALLOW
-      }));
-      rolePolicy.push(new PolicyStatement({
-        resources: ["*"],
-        actions: ["sts:GetServiceBearerToken"],
-        effect: Effect.ALLOW
-      }));
+      rolePolicy.push(
+        new PolicyStatement({
+          resources: codeArtifactDomains,
+          actions: ['codeartifact:GetAuthorizationToken'],
+          effect: Effect.ALLOW,
+        })
+      );
+      rolePolicy.push(
+        new PolicyStatement({
+          resources: ['*'],
+          actions: ['sts:GetServiceBearerToken'],
+          effect: Effect.ALLOW,
+        })
+      );
     }
     if (codeArtifactRepositories) {
-      rolePolicy.push(new PolicyStatement({
-        resources: codeArtifactRepositories,
-        actions: [
-          "codeartifact:DescribePackageVersion",
-          "codeartifact:DescribeRepository",
-          "codeartifact:GetPackageVersionReadme",
-          "codeartifact:GetRepositoryEndpoint",
-          "codeartifact:ListPackages",
-          "codeartifact:ListPackageVersions",
-          "codeartifact:ListPackageVersionAssets",
-          "codeartifact:ListPackageVersionDependencies",
-          "codeartifact:ReadFromRepository"
-        ],
-        effect: Effect.ALLOW
-      }));
+      rolePolicy.push(
+        new PolicyStatement({
+          resources: codeArtifactRepositories,
+          actions: [
+            'codeartifact:DescribePackageVersion',
+            'codeartifact:DescribeRepository',
+            'codeartifact:GetPackageVersionReadme',
+            'codeartifact:GetRepositoryEndpoint',
+            'codeartifact:ListPackages',
+            'codeartifact:ListPackageVersions',
+            'codeartifact:ListPackageVersionAssets',
+            'codeartifact:ListPackageVersionDependencies',
+            'codeartifact:ReadFromRepository',
+          ],
+          effect: Effect.ALLOW,
+        })
+      );
     }
 
     this.pipeline = new CodePipeline(this, 'CodePipeline', {
@@ -356,64 +375,79 @@ export class CdkPipeline extends Construct {
         primaryOutputDirectory: `${cdkDirectory}/cdk.out`,
         input,
         commands,
-        additionalInputs: props.additionalInputs??{}
+        additionalInputs: props.additionalInputs ?? {},
       }),
       synthCodeBuildDefaults: {
         partialBuildSpec: BuildSpec.fromObject({
           cache: {
-            paths: [
-              "/root/.npm/**/*",
-              "/root/.pnpm-store/**/*"
-            ]
+            paths: ['/root/.npm/**/*', '/root/.pnpm-store/**/*'],
           },
           phases: {
             install: {
-              "runtime-versions": {
+              'runtime-versions': {
                 nodejs: props.nodeVersion ?? NodeVersion.NODE_18,
                 go: props.goVersion,
                 java: props.javaVersion,
-                dotnet: props.dotnetVersion
+                dotnet: props.dotnetVersion,
               },
-              commands: [
-                "npm config set fund false",
-                "npm -g i esbuild",
-              ].concat(props.additionalInstallCommands ?? [])
-                .concat(["node --version"])
-            }
-          }
+              commands: ['npm config set fund false', 'npm -g i esbuild']
+                .concat(props.additionalInstallCommands ?? [])
+                .concat(['node --version']),
+            },
+          },
         }),
         buildEnvironment: {
           privileged: true,
           computeType: props.computeType ?? ComputeType.SMALL,
-          buildImage: props.buildImage ?? LinuxBuildImage.AMAZON_LINUX_2_5
+          buildImage: props.buildImage ?? LinuxBuildImage.AMAZON_LINUX_2_5,
         },
-        rolePolicy
-      }
+        rolePolicy,
+      },
     });
 
     // Handle pipeline notifications
     if (props.slackChannelConfiguration && props.slackChannelConfigurationArn) {
-      throw new Error("Only one of slackChannelConfiguration and slackChannelConfigurationArn can be specified");
+      throw new Error(
+        'Only one of slackChannelConfiguration and slackChannelConfigurationArn can be specified'
+      );
     }
     if (props.notificationTopic && props.notificationTopicArn) {
-      throw new Error("Only one of notificationTopic and notificationTopicArn can be specified");
+      throw new Error(
+        'Only one of notificationTopic and notificationTopicArn can be specified'
+      );
     }
-    if (props.slackChannelConfiguration || props.slackChannelConfigurationArn
-        || props.notificationTopicArn || props.notificationTopic) {
-      this.pipelineNotificationRule = new PipelineNotificationRule(this, 'Notification', {
-        events: props.notificationEvents,
-        source: underlyingPipeline,
-      });
+    if (
+      props.slackChannelConfiguration ||
+      props.slackChannelConfigurationArn ||
+      props.notificationTopicArn ||
+      props.notificationTopic
+    ) {
+      this.pipelineNotificationRule = new PipelineNotificationRule(
+        this,
+        'Notification',
+        {
+          events: props.notificationEvents,
+          source: underlyingPipeline,
+        }
+      );
       if (props.slackChannelConfiguration) {
-        this.pipelineNotificationRule.addSlackChannel(props.slackChannelConfiguration);
+        this.pipelineNotificationRule.addSlackChannel(
+          props.slackChannelConfiguration
+        );
       } else if (props.slackChannelConfigurationArn) {
-        this.pipelineNotificationRule.addSlackChannelArn('SlackChannel', props.slackChannelConfigurationArn);
+        this.pipelineNotificationRule.addSlackChannelArn(
+          'SlackChannel',
+          props.slackChannelConfigurationArn
+        );
       }
       if (props.notificationTopic) {
         this.pipelineNotificationRule.addTopic(props.notificationTopic);
         props.notificationTopic.grantPublish(underlyingPipeline.role);
       } else if (props.notificationTopicArn) {
-        const topic = this.pipelineNotificationRule.addTopicArn('NotificationTopic', props.notificationTopicArn)
+        const topic = this.pipelineNotificationRule.addTopicArn(
+          'NotificationTopic',
+          props.notificationTopicArn
+        );
         topic.grantPublish(underlyingPipeline.role);
       }
     }

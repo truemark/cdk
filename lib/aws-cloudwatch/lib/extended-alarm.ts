@@ -1,13 +1,12 @@
-import {Alarm, AlarmProps, IAlarmAction} from "aws-cdk-lib/aws-cloudwatch";
-import {ITopic} from "aws-cdk-lib/aws-sns";
-import {Construct} from "constructs";
-import {SnsAction} from "aws-cdk-lib/aws-cloudwatch-actions";
+import {Alarm, AlarmProps, IAlarmAction} from 'aws-cdk-lib/aws-cloudwatch';
+import {ITopic} from 'aws-cdk-lib/aws-sns';
+import {Construct} from 'constructs';
+import {SnsAction} from 'aws-cdk-lib/aws-cloudwatch-actions';
 
 /**
  * Extra options for ExtendedAlarmProps
  */
 export interface ExtendedCreateAlarmOptions {
-
   /**
    * Topics to notify if alarm is breached.
    */
@@ -37,19 +36,19 @@ export interface ExtendedCreateAlarmOptions {
    * Actions to take when an alarm has insufficient data.
    */
   readonly insufficientDataActions?: IAlarmAction[];
-
 }
 
 /**
  * Properties for ExtendedAlarm
  */
-export interface ExtendedAlarmProps extends ExtendedCreateAlarmOptions, AlarmProps {}
+export interface ExtendedAlarmProps
+  extends ExtendedCreateAlarmOptions,
+    AlarmProps {}
 
 /**
  * Adds convenience properties and methods to Alarm.
  */
 export class ExtendedAlarm extends Alarm {
-
   constructor(scope: Construct, id: string, props: ExtendedAlarmProps) {
     super(scope, id, props);
     if (props.alarmTopics) {
@@ -78,7 +77,7 @@ export class ExtendedAlarm extends Alarm {
    * @param topics the topics to notify
    */
   addAlarmTopic(...topics: ITopic[]): void {
-    this.addAlarmAction(...topics.map((topic) => new SnsAction(topic)));
+    this.addAlarmAction(...topics.map(topic => new SnsAction(topic)));
   }
 
   /**
@@ -87,7 +86,7 @@ export class ExtendedAlarm extends Alarm {
    * @param topics the topics to notify
    */
   addOkTopic(...topics: ITopic[]): void {
-    this.addOkAction(...topics.map((topic) => new SnsAction(topic)));
+    this.addOkAction(...topics.map(topic => new SnsAction(topic)));
   }
 
   /**
@@ -96,6 +95,8 @@ export class ExtendedAlarm extends Alarm {
    * @param topics the topics to notify
    */
   addInsufficientDataTopic(...topics: ITopic[]): void {
-    this.addInsufficientDataAction(...topics.map((topic) => new SnsAction(topic)));
+    this.addInsufficientDataAction(
+      ...topics.map(topic => new SnsAction(topic))
+    );
   }
 }

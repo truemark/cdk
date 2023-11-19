@@ -1,14 +1,17 @@
-import {AwsCustomResource, AwsSdkCall, PhysicalResourceId} from "aws-cdk-lib/custom-resources";
-import {Construct} from "constructs";
-import {Effect, PolicyStatement} from "aws-cdk-lib/aws-iam";
-import {Duration, Stack} from "aws-cdk-lib";
-import {RetentionDays} from "aws-cdk-lib/aws-logs";
+import {
+  AwsCustomResource,
+  AwsSdkCall,
+  PhysicalResourceId,
+} from 'aws-cdk-lib/custom-resources';
+import {Construct} from 'constructs';
+import {Effect, PolicyStatement} from 'aws-cdk-lib/aws-iam';
+import {Duration, Stack} from 'aws-cdk-lib';
+import {RetentionDays} from 'aws-cdk-lib/aws-logs';
 
 /**
  * Properties for Invalidation.
  */
 export interface InvalidationProps {
-
   /**
    * Distribution to submit invalidation for.
    */
@@ -41,7 +44,6 @@ export interface InvalidationProps {
  * Creates a CloudFront invalidation.
  */
 export class Invalidation extends Construct {
-
   readonly resource: AwsCustomResource;
 
   constructor(scope: Construct, id: string, props: InvalidationProps) {
@@ -50,34 +52,38 @@ export class Invalidation extends Construct {
     const now = Date.now().toString();
     // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CloudFront.html
     const call: AwsSdkCall = {
-      service: "CloudFront",
-      action: "createInvalidation",
+      service: 'CloudFront',
+      action: 'createInvalidation',
       parameters: {
         DistributionId: props.distributionId,
         InvalidationBatch: {
           CallerReference: props.callerReference ?? now,
           Paths: {
             Quantity: props.paths.length,
-            Items: props.paths
-          }
-        }
+            Items: props.paths,
+          },
+        },
       },
-      physicalResourceId: PhysicalResourceId.of(now)
+      physicalResourceId: PhysicalResourceId.of(now),
     };
-    this.resource = new AwsCustomResource(this, "Default", {
+    this.resource = new AwsCustomResource(this, 'Default', {
       onUpdate: call,
       logRetention: props.logRetention ?? RetentionDays.FIVE_DAYS,
       installLatestAwsSdk: false,
       policy: {
-        statements: [new PolicyStatement({
-          resources: [
-            `arn:aws:cloudfront::${Stack.of(this).account}:distribution/${props.distributionId}`
-          ],
-          actions: ["cloudfront:CreateInvalidation"],
-          effect: Effect.ALLOW
-        })]
+        statements: [
+          new PolicyStatement({
+            resources: [
+              `arn:aws:cloudfront::${Stack.of(this).account}:distribution/${
+                props.distributionId
+              }`,
+            ],
+            actions: ['cloudfront:CreateInvalidation'],
+            effect: Effect.ALLOW,
+          }),
+        ],
       },
-      timeout: props.timeout ?? Duration.minutes(2)
+      timeout: props.timeout ?? Duration.minutes(2),
     });
   }
 }

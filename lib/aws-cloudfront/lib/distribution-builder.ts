@@ -5,22 +5,22 @@ import {
   ErrorResponse,
   GeoRestriction,
   HttpVersion,
-  IOrigin, OriginAccessIdentity,
+  IOrigin,
+  OriginAccessIdentity,
   PriceClass,
   SecurityPolicyProtocol,
   SSLMethod,
-} from "aws-cdk-lib/aws-cloudfront";
-import {ICertificate} from "aws-cdk-lib/aws-certificatemanager";
-import {IBucket} from "aws-cdk-lib/aws-s3";
-import {Construct} from "constructs";
-import {BehaviorBuilder} from "./behavior-builder";
-import {DomainName} from "../../aws-route53";
-import {CloudFrontBucket} from "../../aws-s3";
-import {ExtendedConstruct} from "../../aws-cdk";
-import {HttpOrigin, S3Origin} from "aws-cdk-lib/aws-cloudfront-origins";
+} from 'aws-cdk-lib/aws-cloudfront';
+import {ICertificate} from 'aws-cdk-lib/aws-certificatemanager';
+import {IBucket} from 'aws-cdk-lib/aws-s3';
+import {Construct} from 'constructs';
+import {BehaviorBuilder} from './behavior-builder';
+import {DomainName} from '../../aws-route53';
+import {CloudFrontBucket} from '../../aws-s3';
+import {ExtendedConstruct} from '../../aws-cdk';
+import {HttpOrigin, S3Origin} from 'aws-cdk-lib/aws-cloudfront-origins';
 
 export class DistributionBuilder extends ExtendedConstruct {
-
   protected props: any = {};
   protected behaviors: Record<string, BehaviorBuilder> = {};
 
@@ -37,30 +37,51 @@ export class DistributionBuilder extends ExtendedConstruct {
   }
 
   behaviorFromBucket(bucket: IBucket, path?: string): BehaviorBuilder {
-    return new BehaviorBuilder(this, new S3Origin(bucket, {
-      originAccessIdentity: new OriginAccessIdentity(this, `Access${bucket.node.id}`, {
-        comment: `S3 bucket ${bucket.bucketName}`
-      })
-    }), path);
+    return new BehaviorBuilder(
+      this,
+      new S3Origin(bucket, {
+        originAccessIdentity: new OriginAccessIdentity(
+          this,
+          `Access${bucket.node.id}`,
+          {
+            comment: `S3 bucket ${bucket.bucketName}`,
+          }
+        ),
+      }),
+      path
+    );
   }
 
-  behaviorFromCloudFromBucket(bucket: CloudFrontBucket, path?: string): BehaviorBuilder {
+  behaviorFromCloudFromBucket(
+    bucket: CloudFrontBucket,
+    path?: string
+  ): BehaviorBuilder {
     return new BehaviorBuilder(this, bucket.toOrigin(), path);
   }
 
-  behaviorFromDomainName(domainName: string | DomainName, path?: string): BehaviorBuilder {
-    return new BehaviorBuilder(this, new HttpOrigin(domainName.toString()), path);
+  behaviorFromDomainName(
+    domainName: string | DomainName,
+    path?: string
+  ): BehaviorBuilder {
+    return new BehaviorBuilder(
+      this,
+      new HttpOrigin(domainName.toString()),
+      path
+    );
   }
 
-  addBehavior(builder: BehaviorBuilder, path: string | undefined): DistributionBuilder {
-    this.behaviors[path ?? ""] = builder;
+  addBehavior(
+    builder: BehaviorBuilder,
+    path: string | undefined
+  ): DistributionBuilder {
+    this.behaviors[path ?? ''] = builder;
     return this;
   }
 
   certificate(certificate?: ICertificate): DistributionBuilder {
     this.props = {
       ...this.props,
-      certificate
+      certificate,
     };
     return this;
   }
@@ -68,7 +89,7 @@ export class DistributionBuilder extends ExtendedConstruct {
   comment(comment?: string): DistributionBuilder {
     this.props = {
       ...this.props,
-      comment
+      comment,
     };
     return this;
   }
@@ -76,7 +97,7 @@ export class DistributionBuilder extends ExtendedConstruct {
   defaultRootObject(defaultRootObject?: string): DistributionBuilder {
     this.props = {
       ...this.props,
-      defaultRootObject
+      defaultRootObject,
     };
     return this;
   }
@@ -84,7 +105,7 @@ export class DistributionBuilder extends ExtendedConstruct {
   domainNames(domainNames?: string[]): DistributionBuilder {
     this.props = {
       ...this.props,
-      domainNames
+      domainNames,
     };
     return this;
   }
@@ -94,7 +115,7 @@ export class DistributionBuilder extends ExtendedConstruct {
     domainNames.push(domainName.toString());
     this.props = {
       ...this.props,
-      domainNames
+      domainNames,
     };
     return this;
   }
@@ -102,7 +123,7 @@ export class DistributionBuilder extends ExtendedConstruct {
   enabled(enabled?: boolean): DistributionBuilder {
     this.props = {
       ...this.props,
-      enabled
+      enabled,
     };
     return this;
   }
@@ -110,7 +131,7 @@ export class DistributionBuilder extends ExtendedConstruct {
   enableIpv6(enableIpv6?: boolean): DistributionBuilder {
     this.props = {
       ...this.props,
-      enableIpv6
+      enableIpv6,
     };
     return this;
   }
@@ -118,7 +139,7 @@ export class DistributionBuilder extends ExtendedConstruct {
   enableLogging(enableLogging?: boolean): DistributionBuilder {
     this.props = {
       ...this.props,
-      enableLogging
+      enableLogging,
     };
     return this;
   }
@@ -126,7 +147,7 @@ export class DistributionBuilder extends ExtendedConstruct {
   geoRestriction(geoRestriction?: GeoRestriction): DistributionBuilder {
     this.props = {
       ...this.props,
-      geoRestriction
+      geoRestriction,
     };
     return this;
   }
@@ -134,7 +155,7 @@ export class DistributionBuilder extends ExtendedConstruct {
   httpVersion(httpVersion?: HttpVersion): DistributionBuilder {
     this.props = {
       ...this.props,
-      httpVersion
+      httpVersion,
     };
     return this;
   }
@@ -142,7 +163,7 @@ export class DistributionBuilder extends ExtendedConstruct {
   logBucket(logBucket?: IBucket): DistributionBuilder {
     this.props = {
       ...this.props,
-      logBucket
+      logBucket,
     };
     return this;
   }
@@ -150,7 +171,7 @@ export class DistributionBuilder extends ExtendedConstruct {
   logIncludesCookies(logIncludesCookies?: boolean): DistributionBuilder {
     this.props = {
       ...this.props,
-      logIncludesCookies
+      logIncludesCookies,
     };
     return this;
   }
@@ -158,7 +179,7 @@ export class DistributionBuilder extends ExtendedConstruct {
   logFilePrefix(logFilePrefix?: string): DistributionBuilder {
     this.props = {
       ...this.props,
-      logFilePrefix
+      logFilePrefix,
     };
     return this;
   }
@@ -166,7 +187,7 @@ export class DistributionBuilder extends ExtendedConstruct {
   priceClass(priceClass?: PriceClass): DistributionBuilder {
     this.props = {
       ...this.props,
-      priceClass
+      priceClass,
     };
     return this;
   }
@@ -174,7 +195,7 @@ export class DistributionBuilder extends ExtendedConstruct {
   webAclId(webAclId?: string): DistributionBuilder {
     this.props = {
       ...this.props,
-      webAclId
+      webAclId,
     };
     return this;
   }
@@ -182,7 +203,7 @@ export class DistributionBuilder extends ExtendedConstruct {
   errorResponses(errorResponses?: ErrorResponse[]): DistributionBuilder {
     this.props = {
       ...this.props,
-      errorResponses
+      errorResponses,
     };
     return this;
   }
@@ -192,15 +213,17 @@ export class DistributionBuilder extends ExtendedConstruct {
     errorResponses.push(errorResponse);
     this.props = {
       ...this.props,
-      errorResponses
+      errorResponses,
     };
     return this;
   }
 
-  minimumProtocolVersion(minimumProtocolVersion?: SecurityPolicyProtocol): DistributionBuilder {
+  minimumProtocolVersion(
+    minimumProtocolVersion?: SecurityPolicyProtocol
+  ): DistributionBuilder {
     this.props = {
       ...this.props,
-      minimumProtocolVersion
+      minimumProtocolVersion,
     };
     return this;
   }
@@ -208,14 +231,14 @@ export class DistributionBuilder extends ExtendedConstruct {
   sslSupportMethod(sslSupportMethod?: SSLMethod): DistributionBuilder {
     this.props = {
       ...this.props,
-      sslSupportMethod
+      sslSupportMethod,
     };
     return this;
   }
 
   build(): DistributionProps {
-    if (this.behaviors[""] === undefined) {
-      throw new Error("Default behavior with no path is required");
+    if (this.behaviors[''] === undefined) {
+      throw new Error('Default behavior with no path is required');
     }
 
     if (this.props.enableIpv6 === undefined) {
@@ -234,22 +257,27 @@ export class DistributionBuilder extends ExtendedConstruct {
       this.minimumProtocolVersion(SecurityPolicyProtocol.TLS_V1_2_2021);
     }
 
-    const defaultBehavior = this.behaviors[""].buildBehavior();
-    const additionalBehaviors: Record<string, BehaviorOptions> = Object.values(this.behaviors)
-      .filter((behavior) => behavior.path !== undefined)
-      .reduce((behaviors, behavior) => {
-        behaviors[behavior.path ?? ""] = behavior.buildBehavior();
-        return behaviors;
-      }, {} as Record<string, BehaviorOptions>);
+    const defaultBehavior = this.behaviors[''].buildBehavior();
+    const additionalBehaviors: Record<string, BehaviorOptions> = Object.values(
+      this.behaviors
+    )
+      .filter(behavior => behavior.path !== undefined)
+      .reduce(
+        (behaviors, behavior) => {
+          behaviors[behavior.path ?? ''] = behavior.buildBehavior();
+          return behaviors;
+        },
+        {} as Record<string, BehaviorOptions>
+      );
 
     return {
       ...this.props,
       defaultBehavior,
-      additionalBehaviors
-    }
+      additionalBehaviors,
+    };
   }
 
   toDistribution(): Distribution {
-    return new Distribution(this, "Default", this.build());
+    return new Distribution(this, 'Default', this.build());
   }
 }

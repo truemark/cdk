@@ -1,19 +1,26 @@
-import {Construct} from "constructs";
-import {Bucket, BucketEncryption, RedirectTarget, RoutingRule} from "aws-cdk-lib/aws-s3";
-import {DomainName, LatencyARecord, WeightedARecord} from "../../aws-route53";
-import {ARecord, IHostedZone, RecordTarget} from "aws-cdk-lib/aws-route53";
-import {BucketWebsiteTarget} from "aws-cdk-lib/aws-route53-targets";
-import {RemovalPolicy, Duration} from "aws-cdk-lib";
-import {BucketDeployment, CacheControl, Source} from "aws-cdk-lib/aws-s3-deployment";
-import {Grant, IGrantable} from "aws-cdk-lib/aws-iam";
-import * as iam from "aws-cdk-lib/aws-iam";
-
+import {Construct} from 'constructs';
+import {
+  Bucket,
+  BucketEncryption,
+  RedirectTarget,
+  RoutingRule,
+} from 'aws-cdk-lib/aws-s3';
+import {DomainName, LatencyARecord, WeightedARecord} from '../../aws-route53';
+import {ARecord, IHostedZone, RecordTarget} from 'aws-cdk-lib/aws-route53';
+import {BucketWebsiteTarget} from 'aws-cdk-lib/aws-route53-targets';
+import {RemovalPolicy, Duration} from 'aws-cdk-lib';
+import {
+  BucketDeployment,
+  CacheControl,
+  Source,
+} from 'aws-cdk-lib/aws-s3-deployment';
+import {Grant, IGrantable} from 'aws-cdk-lib/aws-iam';
+import * as iam from 'aws-cdk-lib/aws-iam';
 
 /**
  * Domain name properties for a bucket based website.
  */
 export interface WebsiteDomainNameProps {
-
   readonly prefix?: string;
 
   readonly zone: string | IHostedZone;
@@ -23,14 +30,12 @@ export interface WebsiteDomainNameProps {
   readonly latency?: boolean;
 
   readonly create?: boolean;
-
 }
 
 /**
  * Properties for WebsiteBucket.
  */
 export interface WebsiteBucketProps {
-
   /**
    * Policy to apply when the bucket is removed from this stack.
    * @default RemovalPolicy.RETAIN
@@ -60,7 +65,6 @@ export interface WebsiteBucketProps {
  * Simple Construct for creating buckets that will be accessed directly as a website.
  */
 export class WebsiteBucket extends Construct {
-
   readonly bucket: Bucket;
   readonly bucketName: string;
   readonly bucketArn: string;
@@ -72,19 +76,24 @@ export class WebsiteBucket extends Construct {
     super(scope, id);
 
     const removalPolicy = props?.removalPolicy ?? RemovalPolicy.RETAIN;
-    const autoDeleteObjects = (props?.autoDeleteObjects ?? false) && removalPolicy === RemovalPolicy.DESTROY;
+    const autoDeleteObjects =
+      (props?.autoDeleteObjects ?? false) &&
+      removalPolicy === RemovalPolicy.DESTROY;
 
-    const domainName = props?.domainName === undefined ? undefined : new DomainName({
-      prefix: props.domainName.prefix,
-      zone: props.domainName.zone
-    });
+    const domainName =
+      props?.domainName === undefined
+        ? undefined
+        : new DomainName({
+            prefix: props.domainName.prefix,
+            zone: props.domainName.zone,
+          });
 
-    this.bucket = new Bucket(this, "Default", {
+    this.bucket = new Bucket(this, 'Default', {
       bucketName: domainName?.toString(),
       encryption: BucketEncryption.S3_MANAGED,
       publicReadAccess: true,
-      websiteIndexDocument: props?.websiteIndexDocument ?? "index.html",
-      websiteErrorDocument: props?.websiteErrorDocument ?? "error.html",
+      websiteIndexDocument: props?.websiteIndexDocument ?? 'index.html',
+      websiteErrorDocument: props?.websiteErrorDocument ?? 'error.html',
       websiteRedirect: props?.websiteRedirect,
       websiteRoutingRules: props?.websiteRoutingRules,
       removalPolicy,
@@ -96,12 +105,18 @@ export class WebsiteBucket extends Construct {
     this.bucketWebsiteDomainName = this.bucket.bucketWebsiteDomainName;
 
     if (domainName !== undefined && (props?.domainName?.create ?? true)) {
-      const target = RecordTarget.fromAlias(new BucketWebsiteTarget(this.bucket));
+      const target = RecordTarget.fromAlias(
+        new BucketWebsiteTarget(this.bucket)
+      );
       // TODO Evaluate
       if (props?.domainName?.latency !== undefined) {
         this.record = domainName.createLatencyARecord(this, target);
       } else if (props?.domainName?.weight !== undefined) {
-        this.record = domainName.createWeightedARecord(this, target, props.domainName.weight);
+        this.record = domainName.createWeightedARecord(
+          this,
+          target,
+          props.domainName.weight
+        );
       } else {
         this.record = domainName.createARecord(this, target);
       }
@@ -118,8 +133,13 @@ export class WebsiteBucket extends Construct {
    * @param sMaxAge the length of time CloudFront will cache files; default is Duration.days(7)
    * @param prune
    */
-  deploy(path: string, maxAge?: Duration, sMaxAge?: Duration, prune?: boolean): BucketDeployment {
-    return new BucketDeployment(this, "Deploy", {
+  deploy(
+    path: string,
+    maxAge?: Duration,
+    sMaxAge?: Duration,
+    prune?: boolean
+  ): BucketDeployment {
+    return new BucketDeployment(this, 'Deploy', {
       sources: [Source.asset(path)],
       destinationBucket: this.bucket,
       prune: prune ?? false,
@@ -127,8 +147,8 @@ export class WebsiteBucket extends Construct {
       cacheControl: [
         CacheControl.setPublic(),
         CacheControl.maxAge(maxAge ?? Duration.minutes(15)),
-        CacheControl.sMaxAge(sMaxAge ?? Duration.days(7))
-      ]
+        CacheControl.sMaxAge(sMaxAge ?? Duration.days(7)),
+      ],
     });
   }
 
@@ -164,8 +184,16 @@ export class WebsiteBucket extends Construct {
    * @param objectsKeyPattern Restrict the permission to a certain key pattern (default '*')
    * @param allowedActionPatterns Restrict the permissions to certain list of action patterns
    */
-  grantWrite(identity: IGrantable, objectsKeyPattern?: any, allowedActionPatterns?: string[]): Grant {
-    return this.bucket.grantWrite(identity, objectsKeyPattern, allowedActionPatterns);
+  grantWrite(
+    identity: IGrantable,
+    objectsKeyPattern?: any,
+    allowedActionPatterns?: string[]
+  ): Grant {
+    return this.bucket.grantWrite(
+      identity,
+      objectsKeyPattern,
+      allowedActionPatterns
+    );
   }
 
   /**
@@ -247,7 +275,9 @@ export class WebsiteBucket extends Construct {
    * actually carried out. Otherwise, synthesis and deploy will terminate
    * silently, which may be confusing.
    */
-  addToResourcePolicy(permission: iam.PolicyStatement): iam.AddToResourcePolicyResult {
+  addToResourcePolicy(
+    permission: iam.PolicyStatement
+  ): iam.AddToResourcePolicyResult {
     return this.bucket.addToResourcePolicy(permission);
   }
 }

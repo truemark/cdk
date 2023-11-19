@@ -1,19 +1,28 @@
-import {Architecture, FunctionOptions, Runtime, RuntimeFamily, Tracing} from 'aws-cdk-lib/aws-lambda';
-import {Construct} from "constructs";
-import {Duration} from "aws-cdk-lib";
-import {RetentionDays} from "aws-cdk-lib/aws-logs";
-import {ShellHelper} from "../../helpers";
-import {StandardFunction, StandardFunctionOptions} from "./standard-function";
-import {DeployedFunctionOptions} from "./extended-function";
-import {FunctionAlarmsOptions} from "./function-alarms";
+import {
+  Architecture,
+  FunctionOptions,
+  Runtime,
+  RuntimeFamily,
+  Tracing,
+} from 'aws-cdk-lib/aws-lambda';
+import {Construct} from 'constructs';
+import {Duration} from 'aws-cdk-lib';
+import {RetentionDays} from 'aws-cdk-lib/aws-logs';
+import {ShellHelper} from '../../helpers';
+import {StandardFunction, StandardFunctionOptions} from './standard-function';
+import {DeployedFunctionOptions} from './extended-function';
+import {FunctionAlarmsOptions} from './function-alarms';
 import * as path from 'path';
 import * as fs from 'fs';
 
 /**
  * Properties for BundledPythonFunction.
  */
-export interface BundledPythonFunctionProps extends FunctionOptions, FunctionAlarmsOptions, DeployedFunctionOptions, StandardFunctionOptions {
-
+export interface BundledPythonFunctionProps
+  extends FunctionOptions,
+    FunctionAlarmsOptions,
+    DeployedFunctionOptions,
+    StandardFunctionOptions {
   /**
    * The path (relative to entry) to the index file containing the exported handler.
    *
@@ -40,7 +49,6 @@ export interface BundledPythonFunctionProps extends FunctionOptions, FunctionAla
  * Python based Lambda Function
  */
 export class StandardPythonFunction extends StandardFunction {
-
   static isLocalBundlingSupported(): boolean {
     return ShellHelper.pythonVersion() !== null;
   }
@@ -49,14 +57,19 @@ export class StandardPythonFunction extends StandardFunction {
    * Creates a new Lambda Function
    */
   constructor(scope: Construct, id: string, props: BundledPythonFunctionProps) {
-
-    const runtime = props.runtime??Runtime.PYTHON_3_9
+    const runtime = props.runtime ?? Runtime.PYTHON_3_9;
     if (runtime.family !== RuntimeFamily.PYTHON) {
       throw new Error('Runtime must be a Python runtime');
     }
 
-    const handler = (props.index??'index.py').replace('.py', '') + '.' + (props.handler??'handler');
-    const defaultBundlingScript = fs.readFileSync(path.join(path.dirname(fs.realpathSync(__filename)), 'bundle-python.sh'), 'utf-8');
+    const handler =
+      (props.index ?? 'index.py').replace('.py', '') +
+      '.' +
+      (props.handler ?? 'handler');
+    const defaultBundlingScript = fs.readFileSync(
+      path.join(path.dirname(fs.realpathSync(__filename)), 'bundle-python.sh'),
+      'utf-8'
+    );
 
     super(scope, id, {
       // defaults which may be overridden by ...props
@@ -69,13 +82,13 @@ export class StandardPythonFunction extends StandardFunction {
       bundlingEnvironment: {
         PIP_PROGRESS_BAR: 'off',
         PIP_DISABLE_PIP_VERSION_CHECK: '1',
-        ...props.bundlingEnvironment
+        ...props.bundlingEnvironment,
       },
       runtime,
       handler,
       defaultBundlingScript,
       defaultBundlingImage: runtime.bundlingImage,
-      isLocalBundlingSupported: StandardPythonFunction.isLocalBundlingSupported
+      isLocalBundlingSupported: StandardPythonFunction.isLocalBundlingSupported,
     });
   }
 }

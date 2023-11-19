@@ -1,15 +1,22 @@
-import {Function, FunctionAssociation, FunctionCode, FunctionEventType} from "aws-cdk-lib/aws-cloudfront";
-import {Construct} from "constructs";
-import {DomainName} from "../../aws-route53";
+import {
+  Function,
+  FunctionAssociation,
+  FunctionCode,
+  FunctionEventType,
+} from 'aws-cdk-lib/aws-cloudfront';
+import {Construct} from 'constructs';
+import {DomainName} from '../../aws-route53';
 
-export type TrailingSlashBehavior = "None" | "ForwardToIndex" | "RedirectNoSlash";
+export type TrailingSlashBehavior =
+  | 'None'
+  | 'ForwardToIndex'
+  | 'RedirectNoSlash';
 
-export type NoFileIndexBehavior = "None" | "ForwardToIndex" | "RedirectToSlash";
+export type NoFileIndexBehavior = 'None' | 'ForwardToIndex' | 'RedirectToSlash';
 
-export type RobotsBehavior = "None" | "Allow" | "Disallow";
+export type RobotsBehavior = 'None' | 'Allow' | 'Disallow';
 
 export interface RedirectFunctionProps {
-
   /**
    * Optional domain to redirect to if the host header does not match.
    */
@@ -43,10 +50,10 @@ export interface RedirectFunctionProps {
 }
 
 export class RedirectFunction extends Function {
-
   constructor(scope: Construct, id: string, props: RedirectFunctionProps) {
     super(scope, id, {
-      code: FunctionCode.fromInline(`
+      code: FunctionCode.fromInline(
+        `
 function handler(event) {
   var host = event.request.headers.host.value;
   var uri = event.request.uri;
@@ -108,11 +115,18 @@ function handler(event) {
   }
   return event.request;
 }`
-        .replace(/APEX_DOMAIN/g, props.apexDomain?.toString() ?? "")
-        .replace(/INDEX_FILE/g, props.indexFile ?? "index.html")
-        .replace(/NO_FILE_EXTENSION_BEHAVIOR/g, props.noFileExtensionBehavior ?? "None")
-        .replace(/TRAILING_SLASH_BEHAVIOR/g, props.trailingSlashBehavior ?? "ForwardToIndex")
-        .replace(/ROBOTS_BEHAVIOR/g, props.robotsBehavior ?? "Allow"))
+          .replace(/APEX_DOMAIN/g, props.apexDomain?.toString() ?? '')
+          .replace(/INDEX_FILE/g, props.indexFile ?? 'index.html')
+          .replace(
+            /NO_FILE_EXTENSION_BEHAVIOR/g,
+            props.noFileExtensionBehavior ?? 'None'
+          )
+          .replace(
+            /TRAILING_SLASH_BEHAVIOR/g,
+            props.trailingSlashBehavior ?? 'ForwardToIndex'
+          )
+          .replace(/ROBOTS_BEHAVIOR/g, props.robotsBehavior ?? 'Allow')
+      ),
     });
   }
 }

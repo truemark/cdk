@@ -1,13 +1,19 @@
-import {Duration} from "aws-cdk-lib";
+import {Duration} from 'aws-cdk-lib';
 import {
   MaxIncomingMessagesCountThreshold,
   MaxMessageAgeThreshold,
-  MaxMessageCountThreshold, MaxTimeToDrainThreshold, MinIncomingMessagesCountThreshold,
-  MinMessageCountThreshold
-} from "cdk-monitoring-constructs";
-import {Queue} from "aws-cdk-lib/aws-sqs";
-import {Construct} from "constructs";
-import {AlarmsBase, AlarmsCategoryOptions, AlarmsOptions} from "../../aws-monitoring";
+  MaxMessageCountThreshold,
+  MaxTimeToDrainThreshold,
+  MinIncomingMessagesCountThreshold,
+  MinMessageCountThreshold,
+} from 'cdk-monitoring-constructs';
+import {Queue} from 'aws-cdk-lib/aws-sqs';
+import {Construct} from 'constructs';
+import {
+  AlarmsBase,
+  AlarmsCategoryOptions,
+  AlarmsOptions,
+} from '../../aws-monitoring';
 
 /**
  * Category options for CloudWatch alarms for Queues.
@@ -66,8 +72,8 @@ export interface QueueAlarmsCategoryOptions extends AlarmsCategoryOptions {
 /**
  * Options for CloudWatch alarms for Queues.
  */
-export interface QueueAlarmsOptions extends AlarmsOptions<QueueAlarmsCategoryOptions> {
-
+export interface QueueAlarmsOptions
+  extends AlarmsOptions<QueueAlarmsCategoryOptions> {
   /**
    * Flag to create alarms.
    *
@@ -94,8 +100,10 @@ export interface QueueAlarmsProps extends QueueAlarmsOptions {
 /**
  * Creates CloudWatch alarms for Queues.
  */
-export class QueueAlarms extends AlarmsBase<QueueAlarmsCategoryOptions, QueueAlarmsProps> {
-
+export class QueueAlarms extends AlarmsBase<
+  QueueAlarmsCategoryOptions,
+  QueueAlarmsProps
+> {
   private addQueueMonitoring() {
     if (this.props.queue.deadLetterQueue === undefined) {
       this.monitoringFacade.monitorSqsQueue({
@@ -103,10 +111,23 @@ export class QueueAlarms extends AlarmsBase<QueueAlarmsCategoryOptions, QueueAla
         queue: this.props.queue,
         addQueueMinSizeAlarm: this.toRecord('minSize', 'minMessageCount'),
         addQueueMaxSizeAlarm: this.toRecord('maxSize', 'maxMessageCount'),
-        addQueueMaxMessageAgeAlarm: this.toRecord('maxAgeInSeconds', 'maxAgeInSeconds', 15),
-        addQueueMaxTimeToDrainMessagesAlarm: this.toRecord('maxTimeToDrain', 'maxTimeToDrain'),
-        addQueueMinIncomingMessagesAlarm: this.toRecord('minIncoming', 'minIncomingMessagesCount'),
-        addQueueMaxIncomingMessagesAlarm: this.toRecord('maxIncoming', 'maxIncomingMessagesCount')
+        addQueueMaxMessageAgeAlarm: this.toRecord(
+          'maxAgeInSeconds',
+          'maxAgeInSeconds',
+          15
+        ),
+        addQueueMaxTimeToDrainMessagesAlarm: this.toRecord(
+          'maxTimeToDrain',
+          'maxTimeToDrain'
+        ),
+        addQueueMinIncomingMessagesAlarm: this.toRecord(
+          'minIncoming',
+          'minIncomingMessagesCount'
+        ),
+        addQueueMaxIncomingMessagesAlarm: this.toRecord(
+          'maxIncoming',
+          'maxIncomingMessagesCount'
+        ),
       });
     } else {
       this.monitoringFacade.monitorSqsQueueWithDlq({
@@ -115,14 +136,37 @@ export class QueueAlarms extends AlarmsBase<QueueAlarmsCategoryOptions, QueueAla
         deadLetterQueue: this.props.queue.deadLetterQueue.queue,
         addQueueMinSizeAlarm: this.toRecord('minSize', 'minMessageCount'),
         addQueueMaxSizeAlarm: this.toRecord('maxSize', 'maxMessageCount'),
-        addQueueMaxMessageAgeAlarm: this.toRecord('maxAgeInSeconds', 'maxAgeInSeconds', 15),
-        addQueueMaxTimeToDrainMessagesAlarm: this.toRecord('maxTimeToDrain', 'maxTimeToDrain'),
-        addQueueMinIncomingMessagesAlarm: this.toRecord('minIncoming', 'minIncomingMessagesCount'),
-        addQueueMaxIncomingMessagesAlarm: this.toRecord('maxIncoming', 'maxIncomingMessagesCount'),
-        addDeadLetterQueueMaxSizeAlarm: this.toRecord('deadLetterQueueMaxSize', 'maxMessageCount', 0),
-        addDeadLetterQueueMaxMessageAgeAlarm: this.toRecord('deadLetterQueueMaxAgeInSeconds', 'maxAgeInSeconds'),
-        addDeadLetterQueueMaxIncomingMessagesAlarm: this.toRecord('deadLetterQueueMaxIncoming', 'maxIncomingMessagesCount'),
-        addDeadLetterQueueToSummaryDashboard: true
+        addQueueMaxMessageAgeAlarm: this.toRecord(
+          'maxAgeInSeconds',
+          'maxAgeInSeconds',
+          15
+        ),
+        addQueueMaxTimeToDrainMessagesAlarm: this.toRecord(
+          'maxTimeToDrain',
+          'maxTimeToDrain'
+        ),
+        addQueueMinIncomingMessagesAlarm: this.toRecord(
+          'minIncoming',
+          'minIncomingMessagesCount'
+        ),
+        addQueueMaxIncomingMessagesAlarm: this.toRecord(
+          'maxIncoming',
+          'maxIncomingMessagesCount'
+        ),
+        addDeadLetterQueueMaxSizeAlarm: this.toRecord(
+          'deadLetterQueueMaxSize',
+          'maxMessageCount',
+          0
+        ),
+        addDeadLetterQueueMaxMessageAgeAlarm: this.toRecord(
+          'deadLetterQueueMaxAgeInSeconds',
+          'maxAgeInSeconds'
+        ),
+        addDeadLetterQueueMaxIncomingMessagesAlarm: this.toRecord(
+          'deadLetterQueueMaxIncoming',
+          'maxIncomingMessagesCount'
+        ),
+        addDeadLetterQueueToSummaryDashboard: true,
       });
     }
   }

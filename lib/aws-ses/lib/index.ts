@@ -1,1 +1,1 @@
-export * from "./receipt-rule-set-activator"
+export * from './receipt-rule-set-activator';

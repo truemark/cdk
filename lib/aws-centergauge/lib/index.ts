@@ -1,1 +1,1 @@
-export * from "./alerts-topic"
+export * from './alerts-topic';

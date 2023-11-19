@@ -1,14 +1,17 @@
-import {ExtendedTable} from "./extended-table";
-import {Construct} from "constructs";
-import {AttributeType, BillingMode, TableEncryption} from "aws-cdk-lib/aws-dynamodb";
-import {RemovalPolicy} from "aws-cdk-lib";
-import * as kms from "aws-cdk-lib/aws-kms";
+import {ExtendedTable} from './extended-table';
+import {Construct} from 'constructs';
+import {
+  AttributeType,
+  BillingMode,
+  TableEncryption,
+} from 'aws-cdk-lib/aws-dynamodb';
+import {RemovalPolicy} from 'aws-cdk-lib';
+import * as kms from 'aws-cdk-lib/aws-kms';
 
 /**
  * Properties for StandardTable.
  */
 export interface StandardTableProps {
-
   /**
    * Regions where replica tables will be created
    *
@@ -94,27 +97,30 @@ export interface StandardTableProps {
  * your requirements, use ExtendedTable directly.
  */
 export class StandardTable extends ExtendedTable {
-
   constructor(scope: Construct, id: string, props?: StandardTableProps) {
     super(scope, id, {
       timeToLiveAttribute: props?.timeToLiveAttribute,
       partitionKey: {
-        name: "Pk", type: AttributeType.STRING
+        name: 'Pk',
+        type: AttributeType.STRING,
       },
       sortKey: {
-        name: "Sk", type: AttributeType.STRING
+        name: 'Sk',
+        type: AttributeType.STRING,
       },
       ...props,
-      billingMode: props?.billingMode ?? BillingMode.PAY_PER_REQUEST
+      billingMode: props?.billingMode ?? BillingMode.PAY_PER_REQUEST,
     });
     this.addGlobalSecondaryIndex({
-      indexName: "Gs1",
+      indexName: 'Gs1',
       partitionKey: {
-        name: "Gs1Pk", type: AttributeType.STRING
+        name: 'Gs1Pk',
+        type: AttributeType.STRING,
       },
       sortKey: {
-        name: "Gs1Sk", type: AttributeType.STRING
-      }
+        name: 'Gs1Sk',
+        type: AttributeType.STRING,
+      },
     });
   }
 }

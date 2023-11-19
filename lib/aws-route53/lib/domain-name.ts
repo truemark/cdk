@@ -1,16 +1,23 @@
-import {ARecord, HostedZone, IHostedZone, RecordTarget} from "aws-cdk-lib/aws-route53";
-import {Construct} from "constructs";
-import {WeightedARecord} from "./weighted-a-record";
-import {LatencyARecord} from "./latency-a-record";
-import {Certificate, CertificateValidation} from "aws-cdk-lib/aws-certificatemanager";
-import {Duration} from "aws-cdk-lib";
-import {StringHelper} from "../../helpers";
+import {
+  ARecord,
+  HostedZone,
+  IHostedZone,
+  RecordTarget,
+} from 'aws-cdk-lib/aws-route53';
+import {Construct} from 'constructs';
+import {WeightedARecord} from './weighted-a-record';
+import {LatencyARecord} from './latency-a-record';
+import {
+  Certificate,
+  CertificateValidation,
+} from 'aws-cdk-lib/aws-certificatemanager';
+import {Duration} from 'aws-cdk-lib';
+import {StringHelper} from '../../helpers';
 
 /**
  * Properties for DomainName
  */
 export interface DomainNameProps {
-
   /**
    * Domain name prefix.
    *
@@ -42,7 +49,6 @@ export interface DomainNameProps {
  * ACM certificate options
  */
 export interface CertificateOptions {
-
   /**
    * The identifier to use.
    *
@@ -57,7 +63,6 @@ export interface CertificateOptions {
 }
 
 export interface ARecordOptions {
-
   /**
    * The identifier to use. One is generated if not provided.
    */
@@ -84,7 +89,6 @@ export interface ARecordOptions {
  * doing useful things with it.
  */
 export class DomainName {
-
   protected readonly prefix: string;
   protected readonly zone: string;
   protected hostedZone?: IHostedZone;
@@ -97,8 +101,8 @@ export class DomainName {
    * @param props the properties of the domain name
    */
   constructor(props: DomainNameProps) {
-    this.prefix = props.prefix ?? "";
-    if (typeof props.zone === "string") {
+    this.prefix = props.prefix ?? '';
+    if (typeof props.zone === 'string') {
       this.zone = props.zone;
     } else {
       this.hostedZone = props.zone;
@@ -135,27 +139,33 @@ export class DomainName {
    * @param props the props to compare
    */
   propsMatch(props: DomainNameProps): boolean {
-    let propZoneStr = typeof props.zone === "string" ? props.zone : props.zone.zoneName;
-    return this.prefix === (props.prefix ?? "")
-      && this.zone === propZoneStr
-      && this.privateZone === (props.privateZone ?? false)
-      && this.vpcId === props.vpcId
+    let propZoneStr =
+      typeof props.zone === 'string' ? props.zone : props.zone.zoneName;
+    return (
+      this.prefix === (props.prefix ?? '') &&
+      this.zone === propZoneStr &&
+      this.privateZone === (props.privateZone ?? false) &&
+      this.vpcId === props.vpcId
+    );
   }
 
   /**
    * Returns the string version of this domain name.
    */
   toString(): string {
-    return (this.prefix == "" ? "" : this.prefix + ".") + this.zone;
+    return (this.prefix == '' ? '' : this.prefix + '.') + this.zone;
   }
 
   /**
    * Returns a friendly identifier for this domain name. This function replaces wildcards with _ and periods with -
    */
   toIdentifier(): string {
-    return StringHelper.toPascalCase(this.toString().toLowerCase()
-      .replace(/\*/g, "wildcard")
-      .replace(/\./g, "-"));
+    return StringHelper.toPascalCase(
+      this.toString()
+        .toLowerCase()
+        .replace(/\*/g, 'wildcard')
+        .replace(/\./g, '-')
+    );
   }
 
   /**
@@ -172,19 +182,23 @@ export class DomainName {
    * @param scope the scope to use if a lookup is required
    * @param id an optional ID if a lookup is required; one is generated if not provided
    */
-  getHostedZone(scope: Construct, id?: string) : IHostedZone {
+  getHostedZone(scope: Construct, id?: string): IHostedZone {
     if (this.hostedZone === undefined) {
-      this.hostedZone = HostedZone.fromLookup(scope, id ?? `${this.toIdentifier()}-zone`, {
-        domainName: this.zone,
-        privateZone: this.privateZone,
-        vpcId: this.vpcId
-      });
+      this.hostedZone = HostedZone.fromLookup(
+        scope,
+        id ?? `${this.toIdentifier()}-zone`,
+        {
+          domainName: this.zone,
+          privateZone: this.privateZone,
+          vpcId: this.vpcId,
+        }
+      );
     }
     return this.hostedZone;
   }
 
   private scrubIdentifier(identifier: string): string {
-    return /^\d/.test(identifier) ? "x" + identifier : identifier;
+    return /^\d/.test(identifier) ? 'x' + identifier : identifier;
   }
 
   /**
@@ -194,15 +208,23 @@ export class DomainName {
    * @param target the target of the record
    * @param options additional options for creating the record
    */
-  createARecord(scope: Construct, target: RecordTarget, options?: ARecordOptions): ARecord {
-    return new ARecord(scope, options?.id ?? `${this.scrubIdentifier(this.toIdentifier())}ARecord`, {
-      zone: this.getHostedZone(scope),
-      recordName: this.toString(),
-      target,
-      ttl: options?.ttl,
-      comment: options?.comment,
-      deleteExisting: options?.deleteExisting
-    });
+  createARecord(
+    scope: Construct,
+    target: RecordTarget,
+    options?: ARecordOptions
+  ): ARecord {
+    return new ARecord(
+      scope,
+      options?.id ?? `${this.scrubIdentifier(this.toIdentifier())}ARecord`,
+      {
+        zone: this.getHostedZone(scope),
+        recordName: this.toString(),
+        target,
+        ttl: options?.ttl,
+        comment: options?.comment,
+        deleteExisting: options?.deleteExisting,
+      }
+    );
   }
 
   /**
@@ -213,16 +235,25 @@ export class DomainName {
    * @param weight the initial weight
    * @param options additional options for creating the record
    */
-  createWeightedARecord(scope: Construct, target: RecordTarget, weight: number, options?: ARecordOptions): WeightedARecord {
-    return new WeightedARecord(scope, options?.id ?? `${this.scrubIdentifier(this.toIdentifier())}ARecord`, {
-      zone: this.getHostedZone(scope),
-      recordName: this.toString(),
-      target,
-      weight,
-      ttl: options?.ttl,
-      comment: options?.comment,
-      deleteExisting: options?.deleteExisting
-    });
+  createWeightedARecord(
+    scope: Construct,
+    target: RecordTarget,
+    weight: number,
+    options?: ARecordOptions
+  ): WeightedARecord {
+    return new WeightedARecord(
+      scope,
+      options?.id ?? `${this.scrubIdentifier(this.toIdentifier())}ARecord`,
+      {
+        zone: this.getHostedZone(scope),
+        recordName: this.toString(),
+        target,
+        weight,
+        ttl: options?.ttl,
+        comment: options?.comment,
+        deleteExisting: options?.deleteExisting,
+      }
+    );
   }
 
   /**
@@ -232,15 +263,23 @@ export class DomainName {
    * @param target the target of the record
    * @param options additional options for creating the record
    */
-  createLatencyARecord(scope: Construct, target: RecordTarget, options?: ARecordOptions): LatencyARecord {
-    return new LatencyARecord(scope, options?.id ?? `${this.scrubIdentifier(this.toIdentifier())}ARecord`, {
-      zone: this.getHostedZone(scope),
-      recordName: this.toString(),
-      target,
-      ttl: options?.ttl,
-      comment: options?.comment,
-      deleteExisting: options?.deleteExisting
-    });
+  createLatencyARecord(
+    scope: Construct,
+    target: RecordTarget,
+    options?: ARecordOptions
+  ): LatencyARecord {
+    return new LatencyARecord(
+      scope,
+      options?.id ?? `${this.scrubIdentifier(this.toIdentifier())}ARecord`,
+      {
+        zone: this.getHostedZone(scope),
+        recordName: this.toString(),
+        target,
+        ttl: options?.ttl,
+        comment: options?.comment,
+        deleteExisting: options?.deleteExisting,
+      }
+    );
   }
 
   /**
@@ -250,11 +289,15 @@ export class DomainName {
    * @param opts additional options
    */
   createCertificate(scope: Construct, opts?: CertificateOptions): Certificate {
-    return new Certificate(scope, opts?.id ?? `${this.toIdentifier()}Certificate`, {
-      domainName: this.toString(),
-      validation: CertificateValidation.fromDns(this.getHostedZone(scope)),
-      subjectAlternativeNames: opts?.subjectAlternativeNames
-    });
+    return new Certificate(
+      scope,
+      opts?.id ?? `${this.toIdentifier()}Certificate`,
+      {
+        domainName: this.toString(),
+        validation: CertificateValidation.fromDns(this.getHostedZone(scope)),
+        subjectAlternativeNames: opts?.subjectAlternativeNames,
+      }
+    );
   }
 
   /**
@@ -263,8 +306,10 @@ export class DomainName {
    *
    * @param domainNameProps the DomainNameProps objects to convert
    */
-  static fromProps(domainNameProps?: DomainNameProps[]) : DomainName[] {
-    return domainNameProps === undefined ? [] : domainNameProps.map(p => new DomainName(p));
+  static fromProps(domainNameProps?: DomainNameProps[]): DomainName[] {
+    return domainNameProps === undefined
+      ? []
+      : domainNameProps.map(p => new DomainName(p));
   }
 
   /**
@@ -273,11 +318,20 @@ export class DomainName {
    * @param fqdn the fully qualified domain name
    * @param zone the zone
    */
-  static fromFqdn(fqdn: string, zone: IHostedZone | string, privateZone?: boolean, vpcId?: string): DomainName {
-    const prefix = fqdn.replace(typeof zone === "string" ? zone : zone.zoneName, "")
-      .replace(/\.$/, "");
+  static fromFqdn(
+    fqdn: string,
+    zone: IHostedZone | string,
+    privateZone?: boolean,
+    vpcId?: string
+  ): DomainName {
+    const prefix = fqdn
+      .replace(typeof zone === 'string' ? zone : zone.zoneName, '')
+      .replace(/\.$/, '');
     return new DomainName({
-      prefix, zone, privateZone, vpcId
+      prefix,
+      zone,
+      privateZone,
+      vpcId,
     });
   }
 
@@ -287,7 +341,7 @@ export class DomainName {
    *
    * @param domainNames the DomainName objects to convert
    */
-  static toStrings(domainNames?: DomainName[]) : string[] {
+  static toStrings(domainNames?: DomainName[]): string[] {
     return domainNames === undefined ? [] : domainNames.map(d => d.toString());
   }
 
@@ -297,8 +351,10 @@ export class DomainName {
    *
    * @param domainNameProps the DomainNameProps objects to convert
    */
-  static toStringsFromProps(domainNameProps?: DomainNameProps[]) : string[] {
-    return domainNameProps === undefined ? [] : DomainName.toStrings(DomainName.fromProps(domainNameProps));
+  static toStringsFromProps(domainNameProps?: DomainNameProps[]): string[] {
+    return domainNameProps === undefined
+      ? []
+      : DomainName.toStrings(DomainName.fromProps(domainNameProps));
   }
 
   /**
@@ -309,11 +365,14 @@ export class DomainName {
    * @param scope the scope used if a zone lookup is required
    * @param domainNames the DomainName objects to convert
    */
-  static toZoneMap(scope: Construct, domainNames?: DomainName[]) : { [domainName: string]: IHostedZone } {
-    const map: {[key: string]: IHostedZone} = {}
+  static toZoneMap(
+    scope: Construct,
+    domainNames?: DomainName[]
+  ): {[domainName: string]: IHostedZone} {
+    const map: {[key: string]: IHostedZone} = {};
     if (domainNames !== undefined) {
       domainNames.forEach(d => {
-        map[d.toString()] = d.getHostedZone(scope)
+        map[d.toString()] = d.getHostedZone(scope);
       });
     }
     return map;
@@ -327,7 +386,10 @@ export class DomainName {
    * @param scope the scope used if a zone lookup is required
    * @param domainNameProps the DomainNameProps objects to convert
    */
-  static toZoneMapFromProps(scope: Construct, domainNameProps: DomainNameProps[]) : { [domainName: string]: IHostedZone } {
+  static toZoneMapFromProps(
+    scope: Construct,
+    domainNameProps: DomainNameProps[]
+  ): {[domainName: string]: IHostedZone} {
     return DomainName.toZoneMap(scope, DomainName.fromProps(domainNameProps));
   }
 
@@ -338,7 +400,10 @@ export class DomainName {
    * @param domainNames the domain names to search
    * @return the matching domain name or undefined
    */
-  static findDomainName(props: DomainNameProps, domainNames?: DomainName[]): DomainName | undefined {
+  static findDomainName(
+    props: DomainNameProps,
+    domainNames?: DomainName[]
+  ): DomainName | undefined {
     for (let domainName of domainNames ?? []) {
       if (domainName.propsMatch(props)) {
         return domainName;
@@ -354,11 +419,19 @@ export class DomainName {
    * @param id the identifier to use in the scope for the certificate
    * @param domainNames the domain names to use in the certificate
    */
-  static createCertificate(scope: Construct, id: string, domainNames: DomainName[]): Certificate {
+  static createCertificate(
+    scope: Construct,
+    id: string,
+    domainNames: DomainName[]
+  ): Certificate {
     return new Certificate(scope, id, {
       domainName: domainNames[0].toString(),
-      subjectAlternativeNames: domainNames.slice(1).map(name => name.toString()),
-      validation: CertificateValidation.fromDnsMultiZone(DomainName.toZoneMap(scope, domainNames))
+      subjectAlternativeNames: domainNames
+        .slice(1)
+        .map(name => name.toString()),
+      validation: CertificateValidation.fromDnsMultiZone(
+        DomainName.toZoneMap(scope, domainNames)
+      ),
     });
   }
 }

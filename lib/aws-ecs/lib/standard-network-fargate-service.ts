@@ -1,20 +1,26 @@
-import {StandardFargateService, StandardFargateServiceProps} from "./standard-fargate-service";
-import {Construct} from "constructs";
 import {
-  INetworkListener, INetworkLoadBalancer, NetworkListener, NetworkLoadBalancer,
+  StandardFargateService,
+  StandardFargateServiceProps,
+} from './standard-fargate-service';
+import {Construct} from 'constructs';
+import {
+  INetworkListener,
+  INetworkLoadBalancer,
+  NetworkListener,
+  NetworkLoadBalancer,
   NetworkTargetGroup,
-  Protocol
-} from "aws-cdk-lib/aws-elasticloadbalancingv2";
-import {Duration} from "aws-cdk-lib";
-import {ARecord, IHostedZone, RecordTarget} from "aws-cdk-lib/aws-route53";
-import {DomainName} from "../../aws-route53";
-import {LoadBalancerTarget} from "aws-cdk-lib/aws-route53-targets";
+  Protocol,
+} from 'aws-cdk-lib/aws-elasticloadbalancingv2';
+import {Duration} from 'aws-cdk-lib';
+import {ARecord, IHostedZone, RecordTarget} from 'aws-cdk-lib/aws-route53';
+import {DomainName} from '../../aws-route53';
+import {LoadBalancerTarget} from 'aws-cdk-lib/aws-route53-targets';
 
 /**
  * Properties for StandardNetworkFargateService.
  */
-export interface StandardNetworkFargateServiceProps extends StandardFargateServiceProps {
-
+export interface StandardNetworkFargateServiceProps
+  extends StandardFargateServiceProps {
   /**
    * Indicates whether the load balancer terminates connections at the end of the deregistration timeout.
    *
@@ -114,16 +120,19 @@ export interface StandardNetworkFargateServiceProps extends StandardFargateServi
  * Creates an ECS Fargate service and maps it to a Network Load Balancer (NLB).
  */
 export class StandardNetworkFargateService extends StandardFargateService {
-
   readonly loadBalancer: INetworkLoadBalancer;
   readonly listener: INetworkListener;
   readonly domainName?: DomainName;
   readonly route53Record?: ARecord;
 
-  constructor(scope: Construct, id: string, props: StandardNetworkFargateServiceProps) {
+  constructor(
+    scope: Construct,
+    id: string,
+    props: StandardNetworkFargateServiceProps
+  ) {
     super(scope, id, props);
 
-    const targetGroup = new NetworkTargetGroup(this, "TargetGroup", {
+    const targetGroup = new NetworkTargetGroup(this, 'TargetGroup', {
       targets: [this.service],
       vpc: props.cluster.vpc,
       port: this.port,
@@ -135,43 +144,45 @@ export class StandardNetworkFargateService extends StandardFargateService {
         interval: props.healthCheckInterval ?? Duration.seconds(10),
         protocol: props.healthCheckProtocol ?? Protocol.TCP,
         timeout: props.healthCheckTimeout ?? Duration.seconds(3),
-        unhealthyThresholdCount: props.unhealthyThresholdCount ?? 2
+        unhealthyThresholdCount: props.unhealthyThresholdCount ?? 2,
       },
       protocol: props.networkProtocol ?? Protocol.TCP,
-      proxyProtocolV2: props.proxyProtocolV2 ?? false
+      proxyProtocolV2: props.proxyProtocolV2 ?? false,
     });
 
     let loadBalancer: INetworkLoadBalancer;
-    if (typeof props.loadBalancer === "string") {
-      if (props.loadBalancer.startsWith("arn:")) {
-        loadBalancer = NetworkLoadBalancer.fromLookup(this, "LoadBalancer", {
-          loadBalancerArn: props.loadBalancer
+    if (typeof props.loadBalancer === 'string') {
+      if (props.loadBalancer.startsWith('arn:')) {
+        loadBalancer = NetworkLoadBalancer.fromLookup(this, 'LoadBalancer', {
+          loadBalancerArn: props.loadBalancer,
         });
       } else {
-        loadBalancer = NetworkLoadBalancer.fromLookup(this, "LoadBalancer", {
+        loadBalancer = NetworkLoadBalancer.fromLookup(this, 'LoadBalancer', {
           loadBalancerTags: {
-            Name: props.loadBalancer
-          }
+            Name: props.loadBalancer,
+          },
         });
       }
     } else {
       loadBalancer = props.loadBalancer;
     }
 
-    const listener = NetworkListener.fromLookup(this, "Listener", {
+    const listener = NetworkListener.fromLookup(this, 'Listener', {
       loadBalancerArn: loadBalancer.loadBalancerArn,
-      listenerPort: props.listenerPort
+      listenerPort: props.listenerPort,
     });
 
     targetGroup.registerListener(listener);
 
     if (props.domainZone !== undefined) {
       this.domainName = new DomainName({
-        prefix: props.domainPrefix ?? "",
-        zone: props.domainZone
+        prefix: props.domainPrefix ?? '',
+        zone: props.domainZone,
       });
-      this.route53Record = this.domainName.createARecord(this,
-        RecordTarget.fromAlias(new LoadBalancerTarget(loadBalancer)));
+      this.route53Record = this.domainName.createARecord(
+        this,
+        RecordTarget.fromAlias(new LoadBalancerTarget(loadBalancer))
+      );
     }
     this.loadBalancer = loadBalancer;
     this.listener = listener;

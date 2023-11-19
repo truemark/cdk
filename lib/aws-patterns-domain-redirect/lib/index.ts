@@ -1,1 +1,1 @@
-export * from "./domain-redirect";
+export * from './domain-redirect';
