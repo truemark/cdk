@@ -74,7 +74,7 @@
     "constructs": ">=10.2.70"
   },
   "exports": {
-    "./lib": "./index.js",
+    "./lib": "./lib/index.js",
     "./package.json": "./package.json",
     "./aws-apigatewayv2": "./lib/aws-apigatewayv2/index.js",
     "./aws-cdk": "./lib/aws-cdk/index.js",
