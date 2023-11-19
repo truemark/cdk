@@ -7,6 +7,7 @@
       <excludeFolder url="file://$MODULE_DIR$/node_modules" />
       <excludePattern pattern="lib/**/*.js" />
       <excludePattern pattern="lib/**/*.d.ts" />
+      <excludePattern pattern="lib/**/*.map" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

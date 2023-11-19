@@ -2,13 +2,13 @@ notes.txt
 .hugo_build.lock
 .npmcache
 *.js
+*.js.map
 !jest.config.js
 *.d.ts
 *.d.ts.map
 node_modules
 *.bak?
 .sw?
-*.js.map
 
 !.prettierrc.js
 
