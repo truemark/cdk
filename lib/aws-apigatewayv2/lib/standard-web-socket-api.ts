@@ -66,7 +66,7 @@ export interface StandardWebSocketApiProps extends ExtendedConstructProps {
  * Abstraction that creates an WebSocketApi with support infrastructure.
  */
 export class StandardWebSocketApi extends ExtendedConstruct {
-  readonly domainName: StandardDomainName;
+  readonly domainName?: StandardDomainName;
   readonly record: ARecord | LatencyARecord | WeightedARecord | undefined;
   readonly webSocketApi: WebSocketApi;
   readonly webSocketStage: WebSocketStage;

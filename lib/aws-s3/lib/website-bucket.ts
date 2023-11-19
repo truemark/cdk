@@ -70,7 +70,7 @@ export class WebsiteBucket extends Construct {
   readonly bucketArn: string;
   readonly bucketWebsiteUrl: string;
   readonly bucketWebsiteDomainName: string;
-  readonly record: ARecord | WeightedARecord | LatencyARecord;
+  readonly record?: ARecord | WeightedARecord | LatencyARecord;
 
   constructor(scope: Construct, id: string, props?: WebsiteBucketProps) {
     super(scope, id);

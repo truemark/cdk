@@ -85,7 +85,7 @@ export abstract class AlarmsBase<
   /**
    * The MonitoringFacade instance either passed in or generated.
    */
-  readonly monitoringFacade: MonitoringFacade;
+  readonly monitoringFacade?: MonitoringFacade;
 
   /**
    * The properties passed into the constructor.
@@ -141,6 +141,11 @@ export abstract class AlarmsBase<
   }
 
   getAlarms(category: AlarmCategory): AlarmBase[] {
+    if (this.monitoringFacade === undefined) {
+      throw new Error(
+        'MonitoringFacade must be provided as a constructor property or as monitoringFacade property on parent Stack'
+      );
+    }
     return [
       ...this.monitoringFacade
         .createdAlarmsWithDisambiguator(category)

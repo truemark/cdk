@@ -20,7 +20,7 @@ export interface ExtendedPythonFunctionProps
  */
 export class ExtendedPythonFunction extends PythonFunction {
   readonly alarms: FunctionAlarms;
-  readonly deployment: FunctionDeployment;
+  readonly deployment?: FunctionDeployment;
 
   constructor(
     scope: Construct,

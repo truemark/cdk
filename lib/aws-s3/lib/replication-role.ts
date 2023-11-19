@@ -14,12 +14,12 @@ import {
 import {RemovalPolicy, Stack} from 'aws-cdk-lib';
 import {ResourceEnvironment} from 'aws-cdk-lib/core/lib/resource';
 
-export class DestinationBucketOptions {
+export interface DestinationBucketOptions {
   readonly bucketName: string;
   readonly region?: string;
   readonly account?: string;
 }
-export class ReplicationRoleProps {
+export interface ReplicationRoleProps {
   readonly sourceBucketName: string;
   readonly destinationBuckets: DestinationBucketOptions[];
 }

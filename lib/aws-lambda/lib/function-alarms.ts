@@ -218,6 +218,9 @@ export class FunctionAlarms extends AlarmsBase<
   static readonly BRACKET_LOG_INSIGHTS_PATTERN = '\\[ERROR\\]|\\[WARNING\\]';
 
   private addFunctionMonitoring() {
+    if (this.monitoringFacade === undefined) {
+      throw new Error('monitoringFacade is undefined');
+    }
     this.monitoringFacade.monitorLambdaFunction({
       alarmFriendlyName: this.props.alarmNamePrefix,
       lambdaFunction: this.props.function,
@@ -332,6 +335,9 @@ export class FunctionAlarms extends AlarmsBase<
       }
     }
     if (pattern !== '') {
+      if (this.monitoringFacade === undefined) {
+        throw new Error('monitoringFacade is undefined');
+      }
       this.monitoringFacade.monitorLog({
         alarmFriendlyName: 'Monitor{this.props.logGroup.logGroupName}',
         logGroupName: this.props.logGroup.logGroupName,

@@ -17,7 +17,7 @@ export interface ExtendedGoFunctionProps
  */
 export class ExtendedGoFunction extends GoFunction {
   readonly alarms: FunctionAlarms;
-  readonly deployment: FunctionDeployment;
+  readonly deployment?: FunctionDeployment;
 
   constructor(scope: Construct, id: string, props: ExtendedGoFunctionProps) {
     super(scope, id, props);

@@ -51,7 +51,7 @@ export interface ExtendedFunctionProps
  */
 export class ExtendedFunction extends Function {
   readonly alarms: FunctionAlarms;
-  readonly deployment: FunctionDeployment;
+  readonly deployment?: FunctionDeployment;
 
   constructor(scope: Construct, id: string, props: ExtendedFunctionProps) {
     super(scope, id, props);

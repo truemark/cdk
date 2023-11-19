@@ -97,6 +97,9 @@ export class QueueAlarms extends AlarmsBase<
   QueueAlarmsProps
 > {
   private addQueueMonitoring() {
+    if (this.monitoringFacade === undefined) {
+      throw new Error('monitoringFacade is undefined');
+    }
     if (this.props.queue.deadLetterQueue === undefined) {
       this.monitoringFacade.monitorSqsQueue({
         alarmFriendlyName: this.props.alarmFriendlyName,

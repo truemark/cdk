@@ -69,6 +69,9 @@ export class TableAlarms extends AlarmsBase<
     super(scope, id, props);
     this.createAlarms = props.createAlarms ?? true;
     if (this.createAlarms) {
+      if (this.monitoringFacade === undefined) {
+        throw new Error('monitoringFacade is undefined');
+      }
       this.monitoringFacade.monitorDynamoTable({
         table: props.table,
         addToSummaryDashboard: props.addToSummaryDashboard ?? true,
@@ -148,6 +151,9 @@ export class TableAlarms extends AlarmsBase<
 
   addGlobalSecondaryIndexMonitoring(indexName: string) {
     if (this.createAlarms) {
+      if (this.monitoringFacade === undefined) {
+        throw new Error('monitoringFacade is undefined');
+      }
       this.monitoringFacade.monitorDynamoTableGlobalSecondaryIndex({
         table: this.props.table,
         globalSecondaryIndexName: indexName,
