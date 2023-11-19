@@ -2,8 +2,8 @@
   "name": "truemark-cdk-lib",
   "description": "AWS CDK constructs created by TrueMark",
   "version": "1.9.0-alpha.9",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "index.js",
+  "types": "index.d.ts",
   "author": "TrueMark Technologies, Inc.",
   "publishConfig": {
     "access": "public"
@@ -14,10 +14,10 @@
     "url": "https://github.com/truemark/cdk.git"
   },
   "files": [
-    "/dist/**/*.d.ts",
-    "/dist/**/*.js",
-    "/dist/**/*.js.map",
-    "!/dist/**/*.test.*"
+    "/**/*.d.ts",
+    "/**/*.js",
+    "/**/*.js.map",
+    "!/**/*.test.*"
   ],
   "scripts": {
     "build": "tsc",
@@ -74,28 +74,28 @@
     "constructs": ">=10.2.70"
   },
   "exports": {
-    ".": "./dist/index.js",
+    ".": "./index.js",
     "./package.json": "./package.json",
-    "./aws-apigatewayv2": "./dist/aws-apigatewayv2/index.js",
-    "./aws-cdk": "./dist/aws-cdk/index.js",
-    "./aws-centergauge": "./dist/aws-centergauge/index.js",
-    "./aws-cloudfront": "./dist/aws-cloudfront/index.js",
-    "./aws-cloudwatch": "./dist/aws-cloudwatch/index.js",
-    "./aws-codepipeline": "./dist/aws-codepipeline/index.js",
-    "./aws-dynamodb": "./dist/aws-dynamodb/index.js",
-    "./aws-ecs": "./dist/aws-ecs/index.js",
-    "./aws-lambda": "./dist/aws-lambda/index.js",
-    "./aws-monitoring": "./dist/aws-monitoring/index.js",
-    "./aws-patterns-domain-redirect": "./dist/aws-patterns-domain-redirect/index.js",
-    "./aws-patterns-website": "./dist/aws-patterns-website/index.js",
-    "./aws-patterns-wordpress": "./dist/aws-patterns-wordpress/index.js",
-    "./aws-route53": "./dist/aws-route53/index.js",
-    "./aws-s3": "./dist/aws-s3/index.js",
-    "./aws-ses": "./dist/aws-ses/index.js",
-    "./aws-sqs": "./dist/aws-sqs/index.js",
-    "./aws-ssm": "./dist/aws-ssm/index.js",
-    "./aws-tags": "./dist/aws-tags/index.js",
-    "./aws-vpc": "./dist/aws-vpc/index.js",
-    "./helpers": "./dist/helpers/index.js"
+    "./aws-apigatewayv2": "./aws-apigatewayv2/index.js",
+    "./aws-cdk": "./aws-cdk/index.js",
+    "./aws-centergauge": "./aws-centergauge/index.js",
+    "./aws-cloudfront": "./aws-cloudfront/index.js",
+    "./aws-cloudwatch": "./aws-cloudwatch/index.js",
+    "./aws-codepipeline": "./aws-codepipeline/index.js",
+    "./aws-dynamodb": "./aws-dynamodb/index.js",
+    "./aws-ecs": "./aws-ecs/index.js",
+    "./aws-lambda": "./aws-lambda/index.js",
+    "./aws-monitoring": "./aws-monitoring/index.js",
+    "./aws-patterns-domain-redirect": "./aws-patterns-domain-redirect/index.js",
+    "./aws-patterns-website": "./aws-patterns-website/index.js",
+    "./aws-patterns-wordpress": "./aws-patterns-wordpress/index.js",
+    "./aws-route53": "./aws-route53/index.js",
+    "./aws-s3": "./aws-s3/index.js",
+    "./aws-ses": "./aws-ses/index.js",
+    "./aws-sqs": "./aws-sqs/index.js",
+    "./aws-ssm": "./aws-ssm/index.js",
+    "./aws-tags": "./aws-tags/index.js",
+    "./aws-vpc": "./aws-vpc/index.js",
+    "./helpers": "./helpers/index.js"
   }
 }
