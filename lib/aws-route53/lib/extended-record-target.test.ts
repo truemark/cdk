@@ -11,6 +11,7 @@ import {
 import {HelperTest} from '../../helper.test';
 
 class TestAliasRecordTarget implements IAliasRecordTarget {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   bind(record: IRecordSet, zone?: IHostedZone): AliasRecordTargetConfig {
     return {
       hostedZoneId: 'Z000000000000000O0000',

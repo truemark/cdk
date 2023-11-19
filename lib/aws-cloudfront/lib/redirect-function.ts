@@ -1,9 +1,4 @@
-import {
-  Function,
-  FunctionAssociation,
-  FunctionCode,
-  FunctionEventType,
-} from 'aws-cdk-lib/aws-cloudfront';
+import {Function, FunctionCode} from 'aws-cdk-lib/aws-cloudfront';
 import {Construct} from 'constructs';
 import {DomainName} from '../../aws-route53';
 

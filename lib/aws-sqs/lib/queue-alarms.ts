@@ -1,12 +1,4 @@
 import {Duration} from 'aws-cdk-lib';
-import {
-  MaxIncomingMessagesCountThreshold,
-  MaxMessageAgeThreshold,
-  MaxMessageCountThreshold,
-  MaxTimeToDrainThreshold,
-  MinIncomingMessagesCountThreshold,
-  MinMessageCountThreshold,
-} from 'cdk-monitoring-constructs';
 import {Queue} from 'aws-cdk-lib/aws-sqs';
 import {Construct} from 'constructs';
 import {

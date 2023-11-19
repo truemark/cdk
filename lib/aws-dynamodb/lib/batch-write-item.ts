@@ -9,10 +9,12 @@ import {RetentionDays} from 'aws-cdk-lib/aws-logs';
 import {Effect, PolicyStatement} from 'aws-cdk-lib/aws-iam';
 
 export type BatchWriteItemKey = {
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   Key: Record<string, any>;
 };
 
 export type BatchWriteItemItem = {
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   Item: Record<string, any>;
 };
 

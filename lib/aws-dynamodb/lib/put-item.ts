@@ -20,6 +20,7 @@ export interface PutItemProps {
   /**
    * The item to store.
    */
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   readonly item: any;
 
   /**

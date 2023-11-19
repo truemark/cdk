@@ -139,7 +139,7 @@ export class DomainName {
    * @param props the props to compare
    */
   propsMatch(props: DomainNameProps): boolean {
-    let propZoneStr =
+    const propZoneStr =
       typeof props.zone === 'string' ? props.zone : props.zone.zoneName;
     return (
       this.prefix === (props.prefix ?? '') &&
@@ -153,7 +153,7 @@ export class DomainName {
    * Returns the string version of this domain name.
    */
   toString(): string {
-    return (this.prefix == '' ? '' : this.prefix + '.') + this.zone;
+    return (this.prefix === '' ? '' : this.prefix + '.') + this.zone;
   }
 
   /**
@@ -404,7 +404,7 @@ export class DomainName {
     props: DomainNameProps,
     domainNames?: DomainName[]
   ): DomainName | undefined {
-    for (let domainName of domainNames ?? []) {
+    for (const domainName of domainNames ?? []) {
       if (domainName.propsMatch(props)) {
         return domainName;
       }

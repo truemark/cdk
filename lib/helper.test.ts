@@ -1,8 +1,7 @@
 import * as path from 'path';
 import {Template} from 'aws-cdk-lib/assertions';
 import {App, ResourceEnvironment, Stack, Stage} from 'aws-cdk-lib';
-import {ExtendedApp, ExtendedStack, ExtendedStage} from './aws-cdk/index';
-import {StringHelper} from './helpers';
+import {ExtendedApp, ExtendedStack, ExtendedStage} from './aws-cdk';
 
 export enum ResourceType {
   CODEPIPELINE = 'AWS::CodePipeline::Pipeline',
@@ -35,14 +34,14 @@ export class HelperTest {
   static resolveTestFiles(childPath?: string): string {
     const dir = path.join(__dirname, '..', 'test-files');
     return path.resolve(
-      childPath == undefined ? dir : path.join(dir, childPath)
+      childPath === undefined ? dir : path.join(dir, childPath)
     );
   }
 
   static logResources(
     template: Template,
     type: string | ResourceType,
-    props?: any
+    props?: Object
   ) {
     console.log(template.findResources(type, props));
   }

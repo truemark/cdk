@@ -1,12 +1,6 @@
-import {
-  ARecord,
-  ARecordProps,
-  CfnRecordSet,
-  RecordTarget,
-} from 'aws-cdk-lib/aws-route53';
+import {ARecord, ARecordProps, CfnRecordSet} from 'aws-cdk-lib/aws-route53';
 import {Construct} from 'constructs';
 import {Stack} from 'aws-cdk-lib';
-import {Route53RecordTarget} from 'aws-cdk-lib/aws-route53-targets';
 
 /**
  * Options for LatencyARecord.

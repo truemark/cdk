@@ -291,16 +291,16 @@ function handler(event) {
     });
 
     this.distributionUrl = `https://${
-      this.apexDomain != ''
+      this.apexDomain !== ''
         ? this.apexDomain
         : this.distribution.distributionDomainName
     }`;
 
     this.aRecords = [];
 
-    for (let domainNameProps of props.domainNames ?? []) {
+    for (const domainNameProps of props.domainNames ?? []) {
       if (domainNameProps.createRecord ?? true) {
-        let domainName = DomainName.findDomainName(
+        const domainName = DomainName.findDomainName(
           domainNameProps,
           domainNames
         );

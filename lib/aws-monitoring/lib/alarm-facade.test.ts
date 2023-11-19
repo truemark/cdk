@@ -1,8 +1,7 @@
-import {AlarmFacade, AlarmFacadeSet} from '../index';
+import {AlarmFacade} from '../index';
 import * as sns from 'aws-cdk-lib/aws-sns';
 import * as actions from 'aws-cdk-lib/aws-cloudwatch-actions';
 import {HelperTest} from '../../helper.test';
-import {Alarm} from 'aws-cdk-lib/aws-cloudwatch';
 import {Duration} from 'aws-cdk-lib';
 
 test('Create AlarmFacade', () => {
@@ -17,37 +16,37 @@ test('Create AlarmFacade', () => {
     actions: [action],
   });
   expect(facade.actions.length).toBe(2);
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   const threshold: any = facade.toCustomAlarmThreshold();
   expect(threshold?.actionsEnabled).toBe(true);
   expect(threshold?.['TestProp']).toBe(1);
 });
 
 test('Create AlarmFacade Default Number Threshold', () => {
-  const stack = HelperTest.stack();
   const facade = new AlarmFacade({
     prop: 'TestProp',
     threshold: undefined,
     defaultThreshold: 0,
   });
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   const threshold: any = facade.toCustomAlarmThreshold();
   expect(threshold?.actionsEnabled).toBe(true);
   expect(threshold?.['TestProp']).toBe(0);
 });
 
 test('Create AlarmFacade Default Duration Threshold', () => {
-  const stack = HelperTest.stack();
   const facade = new AlarmFacade({
     prop: 'TestProp',
     threshold: undefined,
     defaultThreshold: Duration.hours(1),
   });
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   const threshold: any = facade.toCustomAlarmThreshold();
   expect(threshold?.actionsEnabled).toBe(true);
   expect(threshold?.['TestProp']).toStrictEqual(Duration.hours(1));
 });
 
 test('Create AlarmFacade Disable Number Threshold', () => {
-  const stack = HelperTest.stack();
   const facade = new AlarmFacade({
     prop: 'TestProp',
     threshold: -1,
@@ -58,7 +57,6 @@ test('Create AlarmFacade Disable Number Threshold', () => {
 });
 
 test('Create AlarmFacade Disable Duration Threshold', () => {
-  const stack = HelperTest.stack();
   const facade = new AlarmFacade({
     prop: 'TestProp',
     threshold: Duration.hours(0),
@@ -69,7 +67,6 @@ test('Create AlarmFacade Disable Duration Threshold', () => {
 });
 
 test('Create Undefined AlarmFacade', () => {
-  const stack = HelperTest.stack();
   const facade = new AlarmFacade({
     prop: 'TestProp',
     threshold: undefined,

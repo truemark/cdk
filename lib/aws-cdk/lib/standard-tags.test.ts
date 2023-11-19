@@ -130,8 +130,8 @@ test('Test StandardTags', () => {
   });
   const testTemplate = Template.fromStack(testStage.stack);
   const prodTemplate = Template.fromStack(prodStage.stack);
-  // HelperTest.logTemplate(testTemplate);
-  // HelperTest.logTemplate(prodTemplate);
+  HelperTest.logTemplate(testTemplate);
+  HelperTest.logTemplate(prodTemplate);
   testTemplate.resourceCountIs(ResourceType.S3_BUCKET, 2);
   testTemplate.hasResourceProperties(ResourceType.S3_BUCKET, {
     Tags: Match.arrayWith([

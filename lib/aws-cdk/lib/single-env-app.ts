@@ -27,7 +27,7 @@ export class SingleEnvApp extends ExtendedApp {
     this.environmentName = this.node.tryGetContext(environmentPropertyName);
     if (!this.environmentName) {
       throw new Error(
-        `Environment is missing. Please add \"-c ${environmentPropertyName}=<name>\" to your CDK command`
+        `Environment is missing. Please add "-c ${environmentPropertyName}=<name>" to your CDK command`
       );
     }
     if (!StringHelper.isLowerAlphanumeric(this.environmentName)) {

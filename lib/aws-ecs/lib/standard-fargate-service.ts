@@ -342,7 +342,7 @@ export class StandardFargateService extends ExtendedConstruct {
   protected resolvedCapacityProviderStrategies(
     props: StandardFargateServiceProps
   ): CapacityProviderStrategy[] | undefined {
-    let strategies: CapacityProviderStrategy[] = [];
+    const strategies: CapacityProviderStrategy[] = [];
     if (
       props.capacityWeight !== undefined ||
       props.capacityBase !== undefined

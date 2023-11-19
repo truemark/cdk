@@ -162,6 +162,7 @@ export class WebsiteBucket extends Construct {
    * @param identity The principal
    * @param objectsKeyPattern Restrict the permission to a certain key pattern (default '*')
    */
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   grantRead(identity: IGrantable, objectsKeyPattern?: any): Grant {
     return this.bucket.grantRead(identity, objectsKeyPattern);
   }
@@ -186,6 +187,7 @@ export class WebsiteBucket extends Construct {
    */
   grantWrite(
     identity: IGrantable,
+    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
     objectsKeyPattern?: any,
     allowedActionPatterns?: string[]
   ): Grant {
@@ -204,6 +206,7 @@ export class WebsiteBucket extends Construct {
    * @param identity The principal
    * @param objectsKeyPattern Restrict the permission to a certain key pattern (default '*')
    */
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   grantPut(identity: IGrantable, objectsKeyPattern?: any): Grant {
     return this.bucket.grantPut(identity, objectsKeyPattern);
   }
@@ -229,6 +232,7 @@ export class WebsiteBucket extends Construct {
    * @param identity The principal
    * @param objectsKeyPattern Restrict the permission to a certain key pattern (default '*')
    */
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   grantDelete(identity: IGrantable, objectsKeyPattern?: any): Grant {
     return this.bucket.grantDelete(identity, objectsKeyPattern);
   }
@@ -251,6 +255,7 @@ export class WebsiteBucket extends Construct {
    * @param identity The principal
    * @param objectsKeyPattern Restrict the permission to a certain key pattern (default '*')
    */
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   grantReadWrite(identity: IGrantable, objectsKeyPattern?: any): Grant {
     return this.bucket.grantReadWrite(identity, objectsKeyPattern);
   }

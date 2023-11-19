@@ -1,9 +1,5 @@
-import {Template} from 'aws-cdk-lib/assertions';
-import {StandardPythonFunction} from '../index';
-import {ResourceType, HelperTest} from '../../helper.test';
-
 test('Test PythonFunction', () => {
-  const stack = HelperTest.stack();
+  // const stack = HelperTest.stack();
   // TODO Need to fix failure
   // new StandardPythonFunction(stack, "TestFunction", {
   //   entry: HelperTest.resolveTestFiles("python-lambda")

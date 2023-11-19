@@ -21,6 +21,7 @@ import {ExtendedConstruct} from '../../aws-cdk';
 import {HttpOrigin, S3Origin} from 'aws-cdk-lib/aws-cloudfront-origins';
 
 export class DistributionBuilder extends ExtendedConstruct {
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   protected props: any = {};
   protected behaviors: Record<string, BehaviorBuilder> = {};
 

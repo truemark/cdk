@@ -1,3 +1,4 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 import {Construct} from 'constructs';
 import {BlockPublicAccess, Bucket, BucketEncryption} from 'aws-cdk-lib/aws-s3';
 import {OriginAccessIdentity} from 'aws-cdk-lib/aws-cloudfront';
@@ -60,7 +61,7 @@ export interface CloudFrontBucketProps extends ExtendedConstructProps {
  * Simple Construct for creating buckets that will be accessed directly by CloudFront as an Origin.
  */
 export class CloudFrontBucket extends ExtendedConstruct {
-  private deployCount: number = 0;
+  private deployCount = 0;
 
   readonly bucket: Bucket;
   readonly bucketName: string;
@@ -69,7 +70,7 @@ export class CloudFrontBucket extends ExtendedConstruct {
   readonly originAccessIdentityId: string;
 
   private nextDeployCount(): string {
-    let current = this.deployCount++;
+    const current = this.deployCount++;
     return current === 0 ? '' : `${current}`;
   }
 

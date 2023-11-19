@@ -1,11 +1,5 @@
-import * as path from 'path';
-import {ResourceType, HelperTest} from '../../helper.test';
-import {ExtendedPythonFunction} from '../index';
-import {Runtime} from 'aws-cdk-lib/aws-lambda';
-import {Template} from 'aws-cdk-lib/assertions';
-
 test('Test PythonFunctionAlpha', () => {
-  const stack = HelperTest.stack();
+  // const stack = HelperTest.stack();
   // TODO Need to fix failure
   // new ExtendedPythonFunction(stack, "TestFunction", {
   //   entry: path.join(__dirname, "..", "..", "..", "..", "test-files", "python-lambda"),

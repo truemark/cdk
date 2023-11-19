@@ -253,7 +253,7 @@ export class WordPressInstance extends Construct {
   constructor(scope: Construct, id: string, props: WordPressInstanceProps) {
     super(scope, id);
 
-    for (let site of props.sites) {
+    for (const site of props.sites) {
       if (site.toLowerCase().startsWith('www')) {
         throw new Error('Remove "www." when specifying sites.');
       }

@@ -5,7 +5,7 @@ import {MetricHelper} from './metric-helper';
 
 export interface EstimatedChargesAlarmProps extends MetricAlarmBaseProps {
   /**
-   * Amount in USD the estimated charges must be greater than to tigger the alarm.
+   * Amount in USD the estimated charges must be greater than to trigger the alarm.
    */
   readonly maxMonthly: number;
 }
@@ -14,7 +14,7 @@ export interface EstimatedChargesAlarmProps extends MetricAlarmBaseProps {
  * Creates an alarm for estimated charges on an account.
  */
 export class EstimatedChargesAlarm extends MetricAlarmBase<EstimatedChargesAlarmProps> {
-  protected createMetric(props: EstimatedChargesAlarmProps): Metric {
+  protected createMetric(): Metric {
     return MetricHelper.billingEstimatedCharges();
   }
 
