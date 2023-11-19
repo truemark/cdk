@@ -30,8 +30,8 @@ dependencies:
     specifier: '>=2.99.0'
     version: 2.110.0(constructs@10.2.70)
   cdk-monitoring-constructs:
-    specifier: 6.0.4
-    version: 6.0.4(@aws-cdk/aws-apigatewayv2-alpha@2.99.0-alpha.0)(@aws-cdk/aws-redshift-alpha@2.99.0-alpha.0)(aws-cdk-lib@2.110.0)(constructs@10.2.70)
+    specifier: 6.5.0
+    version: 6.5.0(@aws-cdk/aws-apigatewayv2-alpha@2.99.0-alpha.0)(@aws-cdk/aws-redshift-alpha@2.99.0-alpha.0)(aws-cdk-lib@2.110.0)(constructs@10.2.70)
   constructs:
     specifier: 10.2.70
     version: 10.2.70
@@ -2243,8 +2243,8 @@ packages:
     resolution: {integrity: sha512-na2WUmOxnwIZtwnFI2CZ/3er0wdNzU7hN+cPYz/z2ajHThnkWjNBOpEPP4n+4r2WPM847JaMotaJE3bnfzjyKw==}
     dev: true
 
-  /cdk-monitoring-constructs@6.0.4(@aws-cdk/aws-apigatewayv2-alpha@2.99.0-alpha.0)(@aws-cdk/aws-redshift-alpha@2.99.0-alpha.0)(aws-cdk-lib@2.110.0)(constructs@10.2.70):
-    resolution: {integrity: sha512-9FXyQdSAJ8uvMI85v+waebdq+DS7ZTf4qeybmt9nqernmTsW3V+SOHMdXT8tEdZf3z4KbW8Gq9ZUoxn9dQtmyQ==}
+  /cdk-monitoring-constructs@6.5.0(@aws-cdk/aws-apigatewayv2-alpha@2.99.0-alpha.0)(@aws-cdk/aws-redshift-alpha@2.99.0-alpha.0)(aws-cdk-lib@2.110.0)(constructs@10.2.70):
+    resolution: {integrity: sha512-1N+K9GWEtFrNn76NhwBCDykhkRPBwOx6Ws/oO/mkdQlIqiqvQ5FamOq5rO9tQhCRh6VLkvIGJ5fB7ieHw8J0xg==}
     peerDependencies:
       '@aws-cdk/aws-apigatewayv2-alpha': ^2.99.0-alpha.0
       '@aws-cdk/aws-redshift-alpha': ^2.99.0-alpha.0
