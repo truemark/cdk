@@ -11,8 +11,7 @@ import {
   Role,
   ServicePrincipal,
 } from 'aws-cdk-lib/aws-iam';
-import {RemovalPolicy, Stack} from 'aws-cdk-lib';
-import {ResourceEnvironment} from 'aws-cdk-lib/core/lib/resource';
+import {ResourceEnvironment, RemovalPolicy, Stack} from 'aws-cdk-lib';
 
 export interface DestinationBucketOptions {
   readonly bucketName: string;

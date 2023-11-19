@@ -5,8 +5,8 @@ import {
   ExecuteCommandConfiguration,
   ExecuteCommandLogging,
   ICluster,
+  CloudMapNamespaceOptions,
 } from 'aws-cdk-lib/aws-ecs';
-import {CloudMapNamespaceOptions} from 'aws-cdk-lib/aws-ecs/lib/cluster';
 import {IKey} from 'aws-cdk-lib/aws-kms';
 import {LogGroup, RetentionDays} from 'aws-cdk-lib/aws-logs';
 import {RemovalPolicy, ResourceEnvironment, Stack} from 'aws-cdk-lib';
