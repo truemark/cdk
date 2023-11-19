@@ -1,21 +1,35 @@
 {
   "compilerOptions": {
+    "target": "ES2018",
     "module": "commonjs",
-    "declaration": true,
-    "noImplicitAny": false,
-    "removeComments": true,
-    "noLib": false,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "target": "es6",
-    "sourceMap": true,
     "lib": [
-      "es6"
+      "es2018",
+      "DOM"
+    ],
+    "declaration": true,
+    "declarationMap": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": false,
+    "inlineSourceMap": true,
+    "inlineSources": true,
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
+    "typeRoots": [
+      "./node_modules/@types"
     ]
   },
   "exclude": [
     "test-files",
     "node_modules",
-    "**/*.spec.ts"
+    "cdk.out",
+    "test/aws-website/angular-website",
+    "test/aws-lambda/typescript-lambda"
   ]
 }
