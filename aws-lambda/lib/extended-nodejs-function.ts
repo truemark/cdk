@@ -49,8 +49,13 @@ export class ExtendedNodejsFunction extends NodejsFunction {
       runtime: Runtime.NODEJS_20_X, // change default from NODEJS_20_X
       depsLockFilePath: ExtendedNodejsFunction.findDepsLockFile(props.entry),
       ...props,
+      environment: {
+        NODE_OPTIONS: '--enable-source-maps',
+        ...props.environment,
+      },
       bundling: {
         sourceMap: props.bundling?.sourceMap ?? true,
+        minify: true,
         ...props.bundling,
       },
     });
