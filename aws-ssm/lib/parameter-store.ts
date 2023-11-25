@@ -57,7 +57,7 @@ export class ParameterStore extends Construct {
   }
 
   protected readLocal(name: string): string {
-    return StringParameter.valueForStringParameter(
+    return StringParameter.valueFromLookup(
       this,
       this.prefix + name + this.suffix
     );
