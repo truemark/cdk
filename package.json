@@ -35,8 +35,6 @@
     "dryrun": "pnpm publish --dry-run --no-git-checks"
   },
   "devDependencies": {
-    "@aws-cdk/aws-lambda-go-alpha": "^2.110.0-alpha.0",
-    "@aws-cdk/aws-lambda-python-alpha": "^2.110.0-alpha.0",
     "@aws-sdk/client-dynamodb": "^3.181.0",
     "@aws-sdk/util-dynamodb": "^3.181.0",
     "@types/jest": "^29.5.11",
@@ -52,7 +50,7 @@
     "@aws-cdk/aws-appsync-alpha": "2.59.0-alpha.0",
     "@aws-cdk/aws-lambda-go-alpha": "2.112.0-alpha.0",
     "@aws-cdk/aws-lambda-python-alpha": "2.112.0-alpha.0",
-    "@aws-cdk/aws-redshift-alpha": "2.110.0-alpha.0",
+    "@aws-cdk/aws-redshift-alpha": "2.112.0-alpha.0",
     "aws-cdk-lib": "2.112.0",
     "cdk-monitoring-constructs": "7.1.1",
     "constructs": "10.3.0"
