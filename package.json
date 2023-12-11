@@ -58,7 +58,7 @@
     "@aws-cdk/aws-redshift-alpha": ">=2.110.0-alpha.0",
     "aws-cdk-lib": ">=2.110.0",
     "cdk-monitoring-constructs": "6.5.0",
-    "constructs": "10.2.70"
+    "constructs": "10.3.0"
   },
   "peerDependencies": {
     "@aws-cdk/aws-apigatewayv2-alpha": ">=2.110.0-alpha.0",
