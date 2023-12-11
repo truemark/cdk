@@ -1922,7 +1922,7 @@ packages:
       '@babel/types': 7.23.3
       '@types/babel__generator': 7.6.7
       '@types/babel__template': 7.4.4
-      '@types/babel__traverse': 7.14.2
+      '@types/babel__traverse': 7.20.4
     dev: true
 
   /@types/babel__generator@7.6.7:
@@ -1938,8 +1938,8 @@ packages:
       '@babel/types': 7.23.3
     dev: true
 
-  /@types/babel__traverse@7.14.2:
-    resolution: {integrity: sha512-K2waXdXBi2302XUdcHcR1jCeU0LL4TD9HRs/gk0N2Xvrht+G/BfJa4QObBQZfhMdxiCpV3COl5Nfq4uKTeTnJA==}
+  /@types/babel__traverse@7.20.4:
+    resolution: {integrity: sha512-mSM/iKUk5fDDrEV/e83qY+Cr3I1+Q3qqTuEn++HAWYjEa1+NxZr6CNrcJGf2ZTnq4HoFGC3zaTPZTobCzCFukA==}
     dependencies:
       '@babel/types': 7.23.3
     dev: true
@@ -2282,7 +2282,7 @@ packages:
       '@babel/template': 7.22.15
       '@babel/types': 7.23.3
       '@types/babel__core': 7.20.4
-      '@types/babel__traverse': 7.14.2
+      '@types/babel__traverse': 7.20.4
     dev: true
 
   /babel-preset-current-node-syntax@1.0.1(@babel/core@7.23.3):
