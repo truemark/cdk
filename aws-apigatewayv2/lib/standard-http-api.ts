@@ -5,7 +5,7 @@ import {
   CorsPreflightOptions,
   HttpApi,
   SecurityPolicy,
-} from '@aws-cdk/aws-apigatewayv2-alpha';
+} from 'aws-cdk-lib/aws-apigatewayv2';
 import {Stack, Stage} from 'aws-cdk-lib';
 import {ARecord} from 'aws-cdk-lib/aws-route53';
 import {
@@ -14,7 +14,7 @@ import {
   StandardTags,
 } from '../../aws-cdk';
 import {LibStandardTags} from '../../truemark';
-import {IHttpRouteAuthorizer} from '@aws-cdk/aws-apigatewayv2-alpha/lib/http/authorizer';
+import {IHttpRouteAuthorizer} from 'aws-cdk-lib/aws-apigatewayv2';
 
 /**
  * Properties for StandardHttpApi.

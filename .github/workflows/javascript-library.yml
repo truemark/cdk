@@ -88,8 +88,13 @@ jobs:
         run: |
           git tag -a "$VERSION" -m "$VERSION"
           git push origin "$VERSION"
-      - name: Publish ${{ env.VERSION }} to registry
-        if: matrix.node-version == inputs.publish-node-version
+      - name: Publish canary ${{ env.VERSION }} to registry
+        if : matrix.node-version == inputs.publish-node-version && github.ref == 'refs/heads/develop'
+        run: |
+          pnpm config set "$(npm config get registry | sed -e 's/https://g'):_authToken" "${{ secrets.npm-auth-token }}"
+          pnpm publish --publish-branch ${GITHUB_REF#refs/heads/} --tag canary
+      - name: Publish release ${{ env.VERSION }} to registry
+        if : matrix.node-version == inputs.publish-node-version && github.ref == 'refs/heads/main'
         run: |
           pnpm config set "$(npm config get registry | sed -e 's/https://g'):_authToken" "${{ secrets.npm-auth-token }}"
           pnpm publish --publish-branch ${GITHUB_REF#refs/heads/}

@@ -4,7 +4,7 @@ import {
   SecurityPolicy,
   WebSocketApi,
   WebSocketStage,
-} from '@aws-cdk/aws-apigatewayv2-alpha';
+} from 'aws-cdk-lib/aws-apigatewayv2';
 import {ARecord} from 'aws-cdk-lib/aws-route53';
 import {LatencyARecord, WeightedARecord} from '../../aws-route53';
 import {Stack, Stage} from 'aws-cdk-lib';
