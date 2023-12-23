@@ -103,10 +103,11 @@ export class DistributionBuilder extends ExtendedConstruct {
     return this;
   }
 
-  domainNames(domainNames?: string[]): DistributionBuilder {
+  domainNames(...domainNames: (string | DomainName)[]): DistributionBuilder {
+    const domainNameStrs = domainNames.map(domainName => domainName.toString());
     this.props = {
       ...this.props,
-      domainNames,
+      domainNames: domainNameStrs,
     };
     return this;
   }
