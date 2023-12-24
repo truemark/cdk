@@ -155,7 +155,9 @@ export class WordPressDistribution extends Construct {
       )
       .enableIpv6(props.enableIpv6 ?? true)
       .priceClass(props.priceClass ?? PriceClass.PRICE_CLASS_ALL)
-      .domainNames(...props.domainNames.map(domainName => domainName.domainName))
+      .domainNames(
+        ...props.domainNames.map(domainName => domainName.domainName)
+      )
       .certificate(certificate)
 
       .behavior(props.origin)
