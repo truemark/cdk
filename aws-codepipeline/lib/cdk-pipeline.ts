@@ -174,6 +174,11 @@ export interface CdkPipelineProps {
   readonly additionalInputs?: Record<string, IFileSetProducer>;
 
   /**
+   * Additional commands to run before install. If you override the commands property, this has no effect.
+   */
+  readonly preBuildCommands?: string[];
+
+  /**
    * Overrides default commands.
    */
   readonly commands?: string[];
@@ -284,6 +289,7 @@ export class CdkPipeline extends Construct {
         `cd ${cdkDirectory ?? '.'}`,
         'npm -g i pnpm',
         'pnpm i --frozen-lockfile --prefer-offline',
+        ...(props.preBuildCommands ?? []),
         'pnpm run build',
         'pnpm run test',
         `pnpx cdk synth ${stackName}`,
@@ -292,6 +298,7 @@ export class CdkPipeline extends Construct {
       commands = [
         `cd ${cdkDirectory ?? '.'}`,
         'npm ci --prefer-offline',
+        ...(props.preBuildCommands ?? []),
         'npm run build',
         'npm run test',
         `npx cdk synth ${stackName}`,
