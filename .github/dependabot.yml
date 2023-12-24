@@ -3,5 +3,6 @@ updates:
   - package-ecosystem: npm
     directory: /
     target-branch: develop
+    source-branch: develop
     schedule:
       interval: daily
