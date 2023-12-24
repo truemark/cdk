@@ -116,7 +116,7 @@ function handler(event) {
     const origin = new HttpOrigin('example.com');
     const distribution = new DistributionBuilder(this, 'Distribution')
       .comment(props.comment)
-      .domainNames(props.domainNames.map(d => d.toString()))
+      .domainNames(...props.domainNames.map(d => d.toString()))
       .certificate(certificate)
       .behavior(origin)
       .allowedMethods(AllowedMethods.ALLOW_GET_HEAD)
