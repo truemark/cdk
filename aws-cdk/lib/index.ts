@@ -4,3 +4,4 @@ export * from './extended-stack';
 export * from './extended-stage';
 export * from './single-env-app';
 export * from './standard-tags';
+export * from './single-stack-stage';
