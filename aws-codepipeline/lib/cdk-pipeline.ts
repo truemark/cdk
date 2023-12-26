@@ -241,6 +241,11 @@ export interface CdkPipelineProps {
    * Additional commands to run during the install phase.
    */
   readonly additionalInstallCommands?: string[];
+
+  /**
+   * Whether to clone the CodeCommit repository into the CodeBuild project.
+   */
+  readonly codeBuildCloneOutput?: boolean;
 }
 
 /**
@@ -270,7 +275,7 @@ export class CdkPipeline extends Construct {
       input = CodePipelineSource.connection(props.repository, props.branch, {
         connectionArn: props.connectionArn,
         // Used per workaround in https://github.com/aws/aws-cdk/issues/11399#issuecomment-1367180696
-        codeBuildCloneOutput: true,
+        codeBuildCloneOutput: props.codeBuildCloneOutput ?? false,
       });
     } else {
       const repository = props.repository.startsWith('arn:')
@@ -278,7 +283,7 @@ export class CdkPipeline extends Construct {
         : Repository.fromRepositoryName(this, 'Repository', props.repository);
       input = CodePipelineSource.codeCommit(repository, props.branch, {
         // Used per workaround in https://github.com/aws/aws-cdk/issues/11399#issuecomment-1367180696
-        codeBuildCloneOutput: true,
+        codeBuildCloneOutput: props.codeBuildCloneOutput ?? false,
       });
     }
 
