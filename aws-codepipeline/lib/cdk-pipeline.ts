@@ -269,12 +269,17 @@ export class CdkPipeline extends Construct {
     if (props.connectionArn !== undefined) {
       input = CodePipelineSource.connection(props.repository, props.branch, {
         connectionArn: props.connectionArn,
+        // Used per workaround in https://github.com/aws/aws-cdk/issues/11399#issuecomment-1367180696
+        codeBuildCloneOutput: true,
       });
     } else {
       const repository = props.repository.startsWith('arn:')
         ? Repository.fromRepositoryArn(this, 'Repository', props.repository)
         : Repository.fromRepositoryName(this, 'Repository', props.repository);
-      input = CodePipelineSource.codeCommit(repository, props.branch);
+      input = CodePipelineSource.codeCommit(repository, props.branch, {
+        // Used per workaround in https://github.com/aws/aws-cdk/issues/11399#issuecomment-1367180696
+        codeBuildCloneOutput: true,
+      });
     }
 
     const stackName = Stack.of(this).stackName;
