@@ -21,8 +21,8 @@ dependencies:
     specifier: 2.112.0
     version: 2.112.0(constructs@10.3.0)
   cdk-monitoring-constructs:
-    specifier: 7.1.1
-    version: 7.1.1(@aws-cdk/aws-redshift-alpha@2.112.0-alpha.0)(aws-cdk-lib@2.112.0)(constructs@10.3.0)
+    specifier: 7.3.0
+    version: 7.3.0(@aws-cdk/aws-redshift-alpha@2.112.0-alpha.0)(aws-cdk-lib@2.112.0)(constructs@10.3.0)
   constructs:
     specifier: 10.3.0
     version: 10.3.0
@@ -2376,8 +2376,8 @@ packages:
     resolution: {integrity: sha512-na2WUmOxnwIZtwnFI2CZ/3er0wdNzU7hN+cPYz/z2ajHThnkWjNBOpEPP4n+4r2WPM847JaMotaJE3bnfzjyKw==}
     dev: true
 
-  /cdk-monitoring-constructs@7.1.1(@aws-cdk/aws-redshift-alpha@2.112.0-alpha.0)(aws-cdk-lib@2.112.0)(constructs@10.3.0):
-    resolution: {integrity: sha512-RxsVM+y4fab9S0SCZ10NZK3qdvfC3n118KQIVmPaYZ9Ms96bOU15R7NcRhDgkj7sIPapsoFRXniNsvUIExGH9g==}
+  /cdk-monitoring-constructs@7.3.0(@aws-cdk/aws-redshift-alpha@2.112.0-alpha.0)(aws-cdk-lib@2.112.0)(constructs@10.3.0):
+    resolution: {integrity: sha512-E0tVT1l8uObbeOiyDhS2+GwcUB+KrZk8slEg6tsKDfNhZBqyOLRfGl0UBAUga7E17bkvw9av/KhduRupQ614qg==}
     peerDependencies:
       '@aws-cdk/aws-redshift-alpha': ^2.112.0-alpha.0
       aws-cdk-lib: ^2.112.0
