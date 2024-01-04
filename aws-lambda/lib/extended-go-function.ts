@@ -20,7 +20,7 @@ export interface ExtendedGoFunctionProps
  * Extended version of the GoFunction that supports alarms and deployments.
  */
 export class ExtendedGoFunction extends GoFunction {
-  // readonly alarms: FunctionAlarms;
+  readonly alarms: FunctionAlarms;
   readonly deployment?: FunctionDeployment;
 
   constructor(scope: Construct, id: string, props: ExtendedGoFunctionProps) {
@@ -41,23 +41,23 @@ export class ExtendedGoFunction extends GoFunction {
       },
     });
 
-    // this.alarms = new FunctionAlarms(this, 'Alarms', {
-    //   function: this,
-    //   logGroup: this.logGroup,
-    //   ...props,
-    // });
+    this.alarms = new FunctionAlarms(this, 'Alarms', {
+      function: this,
+      logGroup: this.logGroup,
+      ...props,
+    });
 
     if (props.deploymentOptions?.createDeployment ?? true) {
       this.deployment = new FunctionDeployment(this, 'Deployment', {
         ...props.deploymentOptions,
         function: this,
       });
-      // if (props.deploymentOptions?.includeCriticalAlarms ?? true) {
-      //   this.deployment.addAlarms(...this.alarms.getCriticalAlarms());
-      // }
-      // if (props.deploymentOptions?.includeWarningAlarms ?? false) {
-      //   this.deployment.addAlarms(...this.alarms.getWarningAlarms());
-      // }
+      if (props.deploymentOptions?.includeCriticalAlarms ?? true) {
+        this.deployment.addAlarms(...this.alarms.getCriticalAlarms());
+      }
+      if (props.deploymentOptions?.includeWarningAlarms ?? false) {
+        this.deployment.addAlarms(...this.alarms.getWarningAlarms());
+      }
     }
   }
 }
