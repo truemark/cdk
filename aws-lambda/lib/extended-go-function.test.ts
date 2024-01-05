@@ -10,7 +10,7 @@ test('Test GoFunctionAlpha', () => {
   });
   const template = Template.fromStack(stack);
   template.hasResourceProperties(ResourceType.LAMBDA_FUNCTION, {
-    Runtime: 'provided.al2',
+    Runtime: 'provided.al2023',
   });
   template.resourceCountIs(ResourceType.CLOUDWATCH_ALARM, 3);
 });
