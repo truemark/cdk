@@ -25,12 +25,12 @@ export class ExtendedGoFunction extends GoFunction {
 
   constructor(scope: Construct, id: string, props: ExtendedGoFunctionProps) {
     super(scope, id, {
-      ...props,
       logRetention: RetentionDays.THREE_DAYS,
       architecture: Architecture.ARM_64,
       memorySize: 768,
       timeout: Duration.seconds(30),
       runtime: Runtime.PROVIDED_AL2023,
+      ...props,
       bundling: {
         environment: {
           GOOS: process.env.GOOS || 'linux',
