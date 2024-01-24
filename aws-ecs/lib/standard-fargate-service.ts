@@ -81,6 +81,13 @@ export interface StandardFargateServiceProps extends ExtendedConstructProps {
   readonly disableXray?: boolean;
 
   /**
+   * Enables OTEL for this service. Default is true.
+   *
+   * @default - true
+   */
+    readonly enableOtel?: boolean;
+
+  /**
    * Enables the ability to push custom metrics to CloudWatch from the service.
    *
    * @default - true
@@ -414,7 +421,50 @@ export class StandardFargateService extends ExtendedConstruct {
       secrets: props.secrets,
     });
 
-    // TODO Otel Collector
+    // Otel Collector
+    if (props.enableOtel) {
+      taskDefinition.addToTaskRolePolicy(
+        new PolicyStatement({
+          sid: 'OTELCollectorPolicy',
+          resources: ['*'],
+          actions: [
+            'cloudwatch:PutMetricData',
+            'logs:PutLogEvents',
+            'logs:CreateLogGroup',
+            'logs:CreateLogStream',
+            'logs:DescribeLogStreams',
+            'logs:DescribeLogGroups',
+            'logs:PutRetentionPolicy',
+            'xray:PutTraceSegments',
+            'xray:PutTelemetryRecords',
+            'xray:GetSamplingRules',
+            'xray:GetSamplingTargets',
+            'xray:GetSamplingStatisticSummaries',
+          ],
+        })
+      );
+    }
+
+    taskDefinition.addContainer('aws-otel-collector', {
+      image: 'amazon/aws-otel-collector',
+      cpu: 256,
+      essential: true,
+      memoryLimitMiB: 512,
+      logging: LogDriver.awsLogs({
+        streamPrefix: 'aws-otel-collector',
+        logGroup: logGroup,
+      }),
+      healthCheck: {
+        command: ['/healthcheck'],
+        interval: Duration.seconds(10),
+        timeout: Duration.seconds(5),
+        retries: 5,
+        startPeriod: Duration.seconds(1),
+      },
+      command: [
+        '--config=/etc/ecs/ecs-default-config.yaml',
+      ],
+    });
 
     const vpcSubnets = this.resolveVpcSubnets(this, props);
     const desiredCount = props.desiredCount ?? props.minCapacity ?? 1;
