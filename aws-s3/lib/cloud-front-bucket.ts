@@ -1,6 +1,12 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 import {Construct} from 'constructs';
-import {BlockPublicAccess, Bucket, BucketEncryption} from 'aws-cdk-lib/aws-s3';
+import {
+  BlockPublicAccess,
+  Bucket,
+  BucketEncryption,
+  CorsRule,
+  HttpMethods,
+} from 'aws-cdk-lib/aws-s3';
 import {OriginAccessIdentity} from 'aws-cdk-lib/aws-cloudfront';
 import {
   BucketDeployment,
@@ -18,6 +24,20 @@ import {LibStandardTags} from '../../truemark';
 import {S3Origin} from 'aws-cdk-lib/aws-cloudfront-origins';
 import {Grant, IGrantable} from 'aws-cdk-lib/aws-iam';
 import * as iam from 'aws-cdk-lib/aws-iam';
+
+export const OPEN_CORS_RULES: CorsRule = {
+  allowedMethods: [
+    HttpMethods.GET,
+    HttpMethods.HEAD,
+    HttpMethods.DELETE,
+    HttpMethods.PUT,
+    HttpMethods.POST,
+  ],
+  allowedOrigins: ['*'],
+  allowedHeaders: ['*'],
+  exposedHeaders: ['ETag'],
+  maxAge: 3000,
+};
 
 /**
  * Properties for CloudFrontBucket.
@@ -55,6 +75,15 @@ export interface CloudFrontBucketProps extends ExtendedConstructProps {
    * Optional bucket name. If not provided, a name will be generated.
    */
   readonly bucketName?: string;
+
+  /**
+   * The CORS configuration of this bucket.
+   *
+   * @see https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-cors.html
+   *
+   * @default - No CORS configuration.
+   */
+  readonly cors?: CorsRule[];
 }
 
 /**
@@ -92,6 +121,7 @@ export class CloudFrontBucket extends ExtendedConstruct {
       versioned: props?.versioned ?? false,
       transferAcceleration: props?.transferAcceleration ?? false,
       bucketName: props?.bucketName,
+      cors: props?.cors,
     });
     this.bucketName = this.bucket.bucketName;
     this.bucketArn = this.bucket.bucketArn;
