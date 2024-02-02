@@ -25,7 +25,7 @@ import {S3Origin} from 'aws-cdk-lib/aws-cloudfront-origins';
 import {Grant, IGrantable} from 'aws-cdk-lib/aws-iam';
 import * as iam from 'aws-cdk-lib/aws-iam';
 
-export const OPEN_CORS_RULES: CorsRule = {
+export const OPEN_CORS_RULE: CorsRule = {
   allowedMethods: [
     HttpMethods.GET,
     HttpMethods.HEAD,
