@@ -27,6 +27,13 @@ export interface StandardTableProps {
   readonly removalPolicy?: RemovalPolicy;
 
   /**
+   * Enables or disables deletion protection. Default is true.
+   *
+   * @default true
+   */
+  readonly deletionProtect?: boolean;
+
+  /**
    * Whether point-in-time recovery is enabled.
    *
    * @default - point-in-time recovery is disabled
@@ -118,6 +125,7 @@ export class StandardTable extends ExtendedTable {
       },
       ...props,
       billingMode: props?.billingMode ?? BillingMode.PAY_PER_REQUEST,
+      deletionProtection: props?.deletionProtect ?? true,
     });
     const indexCount = props?.globalSecondaryIndexes ?? 1;
     for (let i = 0; i < indexCount; i++) {
