@@ -31,12 +31,12 @@ export interface StandardTableProps {
    *
    * @default true
    */
-  readonly deletionProtect?: boolean;
+  readonly deletionProtection?: boolean;
 
   /**
-   * Whether point-in-time recovery is enabled.
+   * Whether point-in-time recovery is enabled. Default is false
    *
-   * @default - point-in-time recovery is disabled
+   * @default false
    */
   readonly pointInTimeRecovery?: boolean;
 
@@ -125,7 +125,7 @@ export class StandardTable extends ExtendedTable {
       },
       ...props,
       billingMode: props?.billingMode ?? BillingMode.PAY_PER_REQUEST,
-      deletionProtection: props?.deletionProtect ?? true,
+      deletionProtection: props?.deletionProtection ?? true,
     });
     const indexCount = props?.globalSecondaryIndexes ?? 1;
     for (let i = 0; i < indexCount; i++) {
