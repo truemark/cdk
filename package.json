@@ -97,6 +97,23 @@
   "stability": "stable",
   "jsii": {
     "outdir": "dist",
-    "versionFormat": "full"
+    "versionFormat": "full",
+    "targets": {
+      "java": {
+        "package": "io.truemark.cdk.lib",
+        "maven": {
+          "groupId": "io.truemark",
+          "artifactId": "truemark-cdk-lib"
+        }
+      },
+      "python": {
+        "distName": "truemark-cdk-lib",
+        "module": "truemark-cdk-lib"
+      },
+      "dotnet": {
+        "namespace": "TruemarkCdkLib",
+        "packageId": "TruemarkCdkLib"
+      }
+    }
   }
 }
