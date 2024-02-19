@@ -1,6 +1,7 @@
 /**
  * Helper methods for use on Strings.
  */
+/** @internal */
 export class StringHelper {
   /**
    * Tests if a string is lower case alphanumeric

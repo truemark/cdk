@@ -13,6 +13,7 @@ export interface BashExecutionProps {
 /**
  * Simple helper class for executing shell scripts and commands
  */
+/** @internal */
 export class ShellHelper {
   static version(command: string, args: string[]): string | null {
     const res = spawnSync(command, args);
