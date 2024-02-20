@@ -40,7 +40,7 @@ export interface DomainRedirectProps extends ExtendedConstructProps {
    *
    * @default Permanent
    */
-  readonly type?: RedirectType;
+  readonly redirectType?: RedirectType;
 
   /**
    * The domain names to redirect.
@@ -90,7 +90,7 @@ export class DomainRedirect extends ExtendedConstruct {
       ),
     });
 
-    const redirectType = props.type || RedirectType.Permanent;
+    const redirectType = props.redirectType || RedirectType.Permanent;
 
     const redirectFunction = new Function(this, 'RedirectFunction', {
       code: FunctionCode.fromInline(`
