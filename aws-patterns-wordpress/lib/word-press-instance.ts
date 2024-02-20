@@ -217,9 +217,7 @@ export class WordPressInstance extends Construct {
     }
   }
 
-  resolveInstanceType(
-    props: WordPressInstanceProps
-  ): InstanceType {
+  resolveInstanceType(props: WordPressInstanceProps): InstanceType {
     return props.instanceType !== undefined
       ? props.instanceType
       : InstanceType.of(

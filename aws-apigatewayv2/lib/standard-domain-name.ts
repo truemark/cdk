@@ -52,7 +52,7 @@ export class StandardDomainName extends ExtendedConstruct {
     });
     this.domainName = new tmroute53.DomainName(props);
     this.certificate =
-      props.certificate ?? this.domainName.createCertificate(scope);
+      props.certificate ?? this.domainName.createCertificateForDomain(scope);
     this.gatewayDomainName = new DomainName(this, 'Default', {
       domainName: this.domainName.toString(),
       certificate: this.certificate,

@@ -288,7 +288,10 @@ export class DomainName {
    * @param scope the scope to create the record in
    * @param opts additional options
    */
-  createCertificate(scope: Construct, opts?: CertificateOptions): Certificate {
+  createCertificateForDomain(
+    scope: Construct,
+    opts?: CertificateOptions
+  ): Certificate {
     return new Certificate(
       scope,
       opts?.id ?? `${this.toIdentifier()}Certificate`,
@@ -419,7 +422,7 @@ export class DomainName {
    * @param id the identifier to use in the scope for the certificate
    * @param domainNames the domain names to use in the certificate
    */
-  static createCertificate(
+  static createCertificateForDomains(
     scope: Construct,
     id: string,
     domainNames: DomainName[]

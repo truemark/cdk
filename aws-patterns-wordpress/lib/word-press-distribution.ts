@@ -133,7 +133,7 @@ export class WordPressDistribution extends Construct {
 
     let certificate: ICertificate | Certificate | undefined = props.certificate;
     if (certificate === undefined) {
-      certificate = DomainName.createCertificate(
+      certificate = DomainName.createCertificateForDomains(
         this,
         'Certificate',
         hostedDomainNames
