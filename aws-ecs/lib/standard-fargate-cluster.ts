@@ -122,10 +122,7 @@ export class StandardFargateCluster
   readonly stack: Stack;
   readonly env: ResourceEnvironment;
 
-  protected resolveVpc(
-    scope: StandardFargateCluster,
-    props: StandardFargateClusterProps
-  ): IVpc {
+  protected resolveVpc(props: StandardFargateClusterProps): IVpc {
     if (
       props.vpc === undefined &&
       props.vpcId === undefined &&
@@ -159,7 +156,6 @@ export class StandardFargateCluster
   }
 
   protected resolveExecuteCommandConfiguration(
-    scope: StandardFargateCluster,
     logGroup: LogGroup | undefined,
     props: StandardFargateClusterProps
   ): ExecuteCommandConfiguration | undefined {
@@ -188,10 +184,9 @@ export class StandardFargateCluster
     super(scope, id, {
       standardTags: StandardTags.merge(props.standardTags, LibStandardTags),
     });
-    const vpc = this.resolveVpc(this, props);
+    const vpc = this.resolveVpc(props);
     const logGroup = this.resolveLogGroup(this, props);
     const executeCommandConfiguration = this.resolveExecuteCommandConfiguration(
-      this,
       logGroup,
       props
     );

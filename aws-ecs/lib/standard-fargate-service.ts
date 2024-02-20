@@ -328,7 +328,6 @@ export class StandardFargateService extends ExtendedConstruct {
   }
 
   protected resolveVpcSubnets(
-    scope: Construct,
     props: StandardFargateServiceProps
   ): SubnetSelection {
     if (props.vpcSubnets === undefined) {
@@ -416,7 +415,7 @@ export class StandardFargateService extends ExtendedConstruct {
 
     // TODO Otel Collector
 
-    const vpcSubnets = this.resolveVpcSubnets(this, props);
+    const vpcSubnets = this.resolveVpcSubnets(props);
     const desiredCount = props.desiredCount ?? props.minCapacity ?? 1;
     const capacityProviderStrategies =
       this.resolvedCapacityProviderStrategies(props);

@@ -3,6 +3,7 @@ import {
   AliasRecordTargetConfig,
   ARecord,
   CfnRecordSet,
+  CnameRecord,
   HostedZone,
   IAliasRecordTarget,
   IHostedZone,
@@ -11,11 +12,21 @@ import {
 import {HelperTest} from '../../helper.test';
 
 class TestAliasRecordTarget implements IAliasRecordTarget {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   bind(record: IRecordSet, zone?: IHostedZone): AliasRecordTargetConfig {
+    let dnsName: string | undefined;
+
+    // Field domainName is not yet resolved and is dependent on the deployment context thus the need to ignore it as it generates values like ${Token[TOKEN.16]}.
+    if (
+      record.domainName === undefined ||
+      record.domainName.includes('Token')
+    ) {
+      dnsName = 'example';
+    } else {
+      dnsName = record.domainName;
+    }
     return {
-      hostedZoneId: 'Z000000000000000O0000',
-      dnsName: 'example',
+      hostedZoneId: zone!.hostedZoneId,
+      dnsName: dnsName,
     };
   }
 }
@@ -23,14 +34,20 @@ class TestAliasRecordTarget implements IAliasRecordTarget {
 test('Test fromAlias', () => {
   const stack = HelperTest.stack();
 
-  const zone = new HostedZone(stack, 'Zone', {
+  const zone = HostedZone.fromHostedZoneAttributes(stack, 'Zone', {
+    hostedZoneId: 'Z000000000000000O0000',
     zoneName: 'example.com',
   });
 
-  const target = ExtendedRecordTarget.fromAlias(
-    new TestAliasRecordTarget(),
-    true
-  );
+  const recordSet: IRecordSet = new CnameRecord(stack, 'CnameRecord', {
+    zone: zone,
+    recordName: 'www',
+    domainName: 'example.com',
+  });
+  const recordTarget: IAliasRecordTarget = new TestAliasRecordTarget();
+  recordTarget.bind(recordSet, zone);
+
+  const target = ExtendedRecordTarget.fromAlias(recordTarget, true);
 
   const weightedRecord = new WeightedARecord(stack, 'Weighted', {
     target,

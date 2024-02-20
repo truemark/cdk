@@ -196,7 +196,7 @@ export class WordPressInstance extends Construct {
   readonly securityGroup: SecurityGroup;
   readonly asg: AutoScalingGroup;
 
-  resolveVpc(scope: Construct, props: WordPressInstanceProps): IVpc {
+  resolveVpc(props: WordPressInstanceProps): IVpc {
     if (
       props.vpc === undefined &&
       props.vpcId === undefined &&
@@ -218,7 +218,6 @@ export class WordPressInstance extends Construct {
   }
 
   resolveInstanceType(
-    scope: Construct,
     props: WordPressInstanceProps
   ): InstanceType {
     return props.instanceType !== undefined
@@ -261,7 +260,7 @@ export class WordPressInstance extends Construct {
 
     const stack = Stack.of(this);
     this.subnet = this.resolveSubnet(this, props);
-    this.vpc = this.resolveVpc(this, props);
+    this.vpc = this.resolveVpc(props);
     const vpcSubnets: SubnetSelection = {
       subnets: [this.subnet],
     };
@@ -298,7 +297,7 @@ export class WordPressInstance extends Construct {
       availabilityZone: props.availabilityZone,
     });
 
-    this.instanceType = this.resolveInstanceType(this, props);
+    this.instanceType = this.resolveInstanceType(props);
     this.machineImage = this.resolveMachineImage(this.instanceType);
     const osVolumeSize =
       props.osVolumeSize === undefined ? 10 : props.osVolumeSize.toGibibytes();
