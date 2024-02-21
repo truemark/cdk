@@ -517,69 +517,72 @@ export class StandardTags {
   /**
    * Returns a merged StandardTagsProps.
    *
-   * @param from properties to source from
-   * @param to properties to source to
+   * @param fromProps properties to source from
+   * @param toProps properties to source to
    */
   static merge(
-    from?: StandardTagsProps,
-    to?: StandardTagsProps
+    fromProps?: StandardTagsProps,
+    toProps?: StandardTagsProps
   ): StandardTagsProps {
     let automationComponentTags: AutomationComponentTagsProps | undefined =
       undefined;
-    if (from?.automationComponentTags || to?.automationComponentTags) {
+    if (
+      fromProps?.automationComponentTags ||
+      toProps?.automationComponentTags
+    ) {
       automationComponentTags = {
         id:
-          to?.automationComponentTags?.id ??
-          from?.automationComponentTags?.id ??
+          toProps?.automationComponentTags?.id ??
+          fromProps?.automationComponentTags?.id ??
           '',
-        ...from?.automationComponentTags,
-        ...to?.automationComponentTags,
+        ...fromProps?.automationComponentTags,
+        ...toProps?.automationComponentTags,
       };
     }
     let automationTags: AutomationTagsProps | undefined = undefined;
-    if (from?.automationTags || to?.automationTags) {
+    if (fromProps?.automationTags || toProps?.automationTags) {
       automationTags = {
-        id: to?.automationTags?.id ?? from?.automationTags?.id ?? '',
-        ...from?.automationTags,
-        ...to?.automationTags,
+        id: toProps?.automationTags?.id ?? fromProps?.automationTags?.id ?? '',
+        ...fromProps?.automationTags,
+        ...toProps?.automationTags,
       };
     }
     let costCenterTags: CostCenterTagsProps | undefined = undefined;
-    if (from?.costCenterTags || to?.costCenterTags) {
+    if (fromProps?.costCenterTags || toProps?.costCenterTags) {
       costCenterTags = {
         businessUnitName:
-          to?.costCenterTags?.businessUnitName ??
-          from?.costCenterTags?.businessUnitName ??
+          toProps?.costCenterTags?.businessUnitName ??
+          fromProps?.costCenterTags?.businessUnitName ??
           '',
         projectName:
-          to?.costCenterTags?.projectName ??
-          from?.costCenterTags?.projectName ??
+          toProps?.costCenterTags?.projectName ??
+          fromProps?.costCenterTags?.projectName ??
           '',
-        ...from?.costCenterTags,
-        ...to?.costCenterTags,
+        ...fromProps?.costCenterTags,
+        ...toProps?.costCenterTags,
       };
     }
     let securityTags: SecurityTagsProps | undefined = undefined;
-    if (from?.securityTags || to?.securityTags) {
+    if (fromProps?.securityTags || toProps?.securityTags) {
       securityTags = {
         dataClassification:
-          to?.securityTags?.dataClassification ??
-          from?.securityTags?.dataClassification ??
+          toProps?.securityTags?.dataClassification ??
+          fromProps?.securityTags?.dataClassification ??
           DataClassification.Controlled,
-        ...from?.securityTags,
-        ...to?.securityTags,
+        ...fromProps?.securityTags,
+        ...toProps?.securityTags,
       };
     }
     let teamTags: TeamTagsProps | undefined = undefined;
-    if (from?.teamTags || to?.teamTags) {
+    if (fromProps?.teamTags || toProps?.teamTags) {
       teamTags = {
-        name: to?.teamTags?.name ?? from?.teamTags?.name ?? '',
-        ...from?.teamTags,
-        ...to?.teamTags,
+        name: toProps?.teamTags?.name ?? fromProps?.teamTags?.name ?? '',
+        ...fromProps?.teamTags,
+        ...toProps?.teamTags,
       };
     }
     return {
-      mapMigrated: to?.mapMigrated ?? from?.mapMigrated,
+      mapMigrated: toProps?.mapMigrated ?? fromProps?.mapMigrated,
       automationComponentTags,
       automationTags,
       costCenterTags,
