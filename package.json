@@ -25,7 +25,8 @@
     "!/**/*.test.*"
   ],
   "scripts": {
-    "build": "jsii",
+    "build": "tsc",
+    "build:jsii": "jsii --generate-tsconfig tsconfig-jsii.json",
     "build:watch": "jsii --watch",
     "package": "jsii-pacmak",
     "postbuild": "prettier --check . && gts lint",
