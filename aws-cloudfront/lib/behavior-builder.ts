@@ -262,8 +262,8 @@ export class BehaviorBuilder extends ExtendedConstruct {
     return this.options;
   }
 
-  build(): DistributionProps {
-    return this.scope.build();
+  buildProps(): DistributionProps {
+    return this.scope.buildProps();
   }
 
   behavior(origin: IOrigin, path: string): BehaviorBuilder {

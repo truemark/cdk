@@ -238,7 +238,7 @@ export class DistributionBuilder extends ExtendedConstruct {
     return this;
   }
 
-  build(): DistributionProps {
+  buildProps(): DistributionProps {
     if (this.behaviors[''] === undefined) {
       throw new Error('Default behavior with no path is required');
     }
@@ -280,6 +280,6 @@ export class DistributionBuilder extends ExtendedConstruct {
   }
 
   toDistribution(): Distribution {
-    return new Distribution(this, 'Default', this.build());
+    return new Distribution(this, 'Default', this.buildProps());
   }
 }

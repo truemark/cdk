@@ -195,7 +195,11 @@ export class WordPressDistribution extends Construct {
       .originRequestPolicy(originRequestPolicy)
       .cachePolicy(CachePolicy.CACHING_DISABLED);
 
-    const distribution = new Distribution(this, 'Default', builder.build());
+    const distribution = new Distribution(
+      this,
+      'Default',
+      builder.buildProps()
+    );
 
     const dnsRecords: ARecord[] = [];
     if (props.createDnsRecords ?? true) {
