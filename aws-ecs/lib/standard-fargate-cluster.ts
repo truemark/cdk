@@ -156,8 +156,8 @@ export class StandardFargateCluster
   }
 
   protected resolveExecuteCommandConfiguration(
-    logGroup: LogGroup | undefined,
-    props: StandardFargateClusterProps
+    props: StandardFargateClusterProps,
+    logGroup: LogGroup | undefined
   ): ExecuteCommandConfiguration | undefined {
     if (props.enableExecuteCommandLog ?? true) {
       if (props.executeCommandConfigurationOverride !== undefined) {
@@ -187,8 +187,8 @@ export class StandardFargateCluster
     const vpc = this.resolveVpc(props);
     const logGroup = this.resolveLogGroup(this, props);
     const executeCommandConfiguration = this.resolveExecuteCommandConfiguration(
-      logGroup,
-      props
+      props,
+      logGroup
     );
     const cluster = new Cluster(this, 'Default', {
       vpc,
