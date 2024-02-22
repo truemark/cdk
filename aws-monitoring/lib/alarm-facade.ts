@@ -14,11 +14,11 @@ import {
  * Properties for AlarmFacade
  */
 export interface AlarmFacadeProps {
-  prop: string;
-  threshold?: number | Duration;
-  defaultThreshold?: number | Duration;
-  topics?: ITopic[];
-  actions?: IAlarmAction[];
+  readonly prop: string;
+  readonly threshold?: number | Duration;
+  readonly defaultThreshold?: number | Duration;
+  readonly topics?: ITopic[];
+  readonly actions?: IAlarmAction[];
 }
 
 /**
