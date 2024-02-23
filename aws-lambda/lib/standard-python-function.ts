@@ -66,6 +66,7 @@ export class StandardPythonFunction extends StandardFunction {
       (props.index ?? 'index.py').replace('.py', '') +
       '.' +
       (props.handler ?? 'handler');
+    // TODO This isn't working
     const defaultBundlingScript = fs.readFileSync(
       path.join(path.dirname(fs.realpathSync(__filename)), 'bundle-python.sh'),
       'utf-8'
