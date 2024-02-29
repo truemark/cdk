@@ -176,7 +176,7 @@ export class StandardRedisCluster extends ExtendedConstruct {
           },
           destinationType: 'cloudwatch-logs',
           logFormat: 'json',
-          logType: 'slow-log',
+          logType: 'engine-log',
         },
       ],
     };
