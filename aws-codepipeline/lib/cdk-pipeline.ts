@@ -1,5 +1,5 @@
 import {Construct} from 'constructs';
-import {Pipeline} from 'aws-cdk-lib/aws-codepipeline';
+import {Pipeline, PipelineType} from 'aws-cdk-lib/aws-codepipeline';
 import {Key} from 'aws-cdk-lib/aws-kms';
 import {ArtifactBucket} from './artifact-bucket';
 import {
@@ -81,6 +81,8 @@ export interface CdkPipelineProps {
    * By default, CDK will name the pipeline. Set this to override the name.
    */
   readonly pipelineName?: string;
+
+  readonly pipelineType?: PipelineType;
 
   /**
    * By default, CDK will create KMS keys for cross account deployments. This
@@ -266,6 +268,7 @@ export class CdkPipeline extends Construct {
     });
 
     const underlyingPipeline = new Pipeline(this, 'Pipeline', {
+      pipelineType: props.pipelineType ?? PipelineType.V2,
       artifactBucket,
       pipelineName: props.pipelineName,
     });
