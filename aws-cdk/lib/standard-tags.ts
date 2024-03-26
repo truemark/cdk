@@ -614,6 +614,7 @@ export class StandardTags {
       costCenterTags,
       securityTags,
       teamTags,
+      suppressTagging: to?.suppressTagging ?? from?.suppressTagging ?? false,
     };
   }
 }
