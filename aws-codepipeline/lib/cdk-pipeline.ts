@@ -1,5 +1,5 @@
 import {Construct} from 'constructs';
-import {Pipeline} from 'aws-cdk-lib/aws-codepipeline';
+import {Pipeline, PipelineType} from 'aws-cdk-lib/aws-codepipeline';
 import {Key} from 'aws-cdk-lib/aws-kms';
 import {ArtifactBucket} from './artifact-bucket';
 import {
@@ -73,6 +73,15 @@ export enum DotnetVersion {
   DOTNET_6_0 = '6.0',
 }
 
+export enum PythonVersion {
+  PYTHON_3_7 = '3.7',
+  PYTHON_3_8 = '3.8',
+  PYTHON_3_9 = '3.9',
+  PYTHON_3_10 = '3.10',
+  PYTHON_3_11 = '3.11',
+  PYTHON_3_12 = '3.12',
+}
+
 /**
  * Properties for CdkPipeline
  */
@@ -81,6 +90,8 @@ export interface CdkPipelineProps {
    * By default, CDK will name the pipeline. Set this to override the name.
    */
   readonly pipelineName?: string;
+
+  readonly pipelineType?: PipelineType;
 
   /**
    * By default, CDK will create KMS keys for cross account deployments. This
@@ -238,6 +249,11 @@ export interface CdkPipelineProps {
   readonly dotnetVersion?: DotnetVersion | string;
 
   /**
+   * Version of Python to install. Default is none.
+   */
+  readonly pythonVersion?: PythonVersion | string;
+
+  /**
    * Additional commands to run during the install phase.
    */
   readonly additionalInstallCommands?: string[];
@@ -266,6 +282,7 @@ export class CdkPipeline extends Construct {
     });
 
     const underlyingPipeline = new Pipeline(this, 'Pipeline', {
+      pipelineType: props.pipelineType ?? PipelineType.V2,
       artifactBucket,
       pipelineName: props.pipelineName,
     });
@@ -406,6 +423,7 @@ export class CdkPipeline extends Construct {
                 go: props.goVersion,
                 java: props.javaVersion,
                 dotnet: props.dotnetVersion,
+                python: props.pythonVersion,
               },
               commands: ['npm config set fund false', 'npm -g i esbuild']
                 .concat(props.additionalInstallCommands ?? [])

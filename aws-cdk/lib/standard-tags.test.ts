@@ -10,6 +10,7 @@ import {
 import {Construct} from 'constructs';
 import {Match, Template} from 'aws-cdk-lib/assertions';
 import {Bucket} from 'aws-cdk-lib/aws-s3';
+import * as oam from 'aws-cdk-lib/aws-oam';
 
 class TestSubConstruct extends ExtendedConstruct {
   constructor(scope: Construct, id: string) {
@@ -140,5 +141,21 @@ test('Test StandardTags', () => {
         Value: 'mig12345',
       },
     ]),
+  });
+});
+
+test('Test Global Exclusion', () => {
+  const app = new TestApp();
+  const stack = new ExtendedStack(app, 'SomeStack');
+  new oam.CfnLink(stack, 'SomeLink', {
+    resourceTypes: [ResourceType.CLOUDWATCH_ALARM],
+    sinkIdentifier: 'sink',
+  });
+  const template = Template.fromStack(stack);
+  HelperTest.logTemplate(template);
+  template.hasResource(ResourceType.OAM_LINK, {
+    Properties: {
+      Tags: Match.absent(),
+    },
   });
 });
