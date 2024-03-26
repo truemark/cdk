@@ -10,6 +10,7 @@ export enum ResourceType {
   DYNAMODB_TABLE = 'AWS::DynamoDB::Table',
   SSM_PARAMETER = 'AWS::SSM::Parameter',
   S3_BUCKET = 'AWS::S3::Bucket',
+  OAM_LINK = 'AWS::Oam::Link',
 }
 
 export class HelperTest {

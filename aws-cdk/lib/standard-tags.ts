@@ -1,8 +1,15 @@
 import {Construct} from 'constructs';
 import {Stack, Stage, TagProps, Tags} from 'aws-cdk-lib';
 
+export const EXCLUDED_RESOURCES = [
+  // OAM resources do not like : in the tag names. See https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-oam-link.html#cfn-oam-link-tags
+  'AWS::Oam::Link',
+  'AWS::Oam::Sink',
+];
+
 /**
  * Properties for automation component tags.
+ * You may exclude resources for all standard tags using the inherited property excludeResourceTypes.
  */
 export interface AutomationComponentTagsProps extends TagProps {
   /**
@@ -23,6 +30,7 @@ export interface AutomationComponentTagsProps extends TagProps {
 
 /**
  * Properties for automation tags.
+ * You may exclude resources using the inherited property excludeResourceTypes.
  */
 export interface AutomationTagsProps extends TagProps {
   /**
@@ -41,6 +49,7 @@ export interface AutomationTagsProps extends TagProps {
 
 /**
  * Properties for cost center tags.
+ * You may exclude resources using the inherited property excludeResourceTypes.
  */
 export interface CostCenterTagsProps extends TagProps {
   /**
@@ -165,6 +174,7 @@ export enum DataSensitivity {
 
 /**
  * Properties for security tags.
+ * You may exclude resources using the inherited property excludeResourceTypes.
  */
 export interface SecurityTagsProps extends TagProps {
   /**
@@ -180,6 +190,7 @@ export interface SecurityTagsProps extends TagProps {
 
 /**
  * Properties for team tags.
+ * You may exclude resources using the inherited property excludeResourceTypes.
  */
 export interface TeamTagsProps extends TagProps {
   /**
@@ -238,14 +249,11 @@ export interface TeamTagsProps extends TagProps {
   readonly departmentId?: string;
 }
 
-// TODO Need to support business unit, division and department
-// TODO Need to make tags consistent between elements
-// TODO Need to add title for people
-// TODO I hate how we have to override the environment tag
 /**
  * Contains standard tagging properties.
+ * You may exclude resources using the inherited property excludeResourceTypes.
  */
-export interface StandardTagsProps {
+export interface StandardTagsProps extends TagProps {
   /**
    * Automation component tags.
    */
@@ -311,6 +319,13 @@ export class StandardTags {
    * @param props the properties
    */
   constructor(scope: Construct, props?: StandardTagsProps) {
+    props = {
+      ...props,
+      excludeResourceTypes: [
+        ...EXCLUDED_RESOURCES, // Add globally excluded resource types so tags don't apply
+        ...(props?.excludeResourceTypes ?? []),
+      ],
+    };
     this.scope = scope;
     this.tags = Tags.of(scope);
     this.suppressed = props?.suppressTagging ?? false;
@@ -318,13 +333,28 @@ export class StandardTags {
       scope.node.tryGetContext('standardTags'),
       props
     );
-    this.addAutomationComponentTags(standardTagsProps.automationComponentTags);
-    this.addAutomationTags(standardTagsProps.automationTags);
-    this.addCostCenterTags(standardTagsProps.costCenterTags);
-    this.addSecurityTags(standardTagsProps.securityTags);
-    this.addTeamTags(standardTagsProps.teamTags);
+    this.addAutomationComponentTags({
+      ...props,
+      ...standardTagsProps.automationComponentTags,
+    });
+    this.addAutomationTags({
+      ...props,
+      ...standardTagsProps.automationTags,
+    });
+    this.addCostCenterTags({
+      ...props,
+      ...standardTagsProps.costCenterTags,
+    });
+    this.addSecurityTags({
+      ...props,
+      ...standardTagsProps.securityTags,
+    });
+    this.addTeamTags({
+      ...props,
+      ...standardTagsProps.teamTags,
+    });
     if (standardTagsProps?.mapMigrated) {
-      this.tags.add('map-migrated', standardTagsProps.mapMigrated);
+      this.tags.add('map-migrated', standardTagsProps.mapMigrated, props);
     }
   }
 
@@ -339,11 +369,10 @@ export class StandardTags {
   ): StandardTags {
     if (props && !this.suppressed) {
       if (props.id === '{{TMCDK}}') {
-        this.tags.add(
-          'automation:component-id',
-          this.scope.constructor.name,
-          props
-        );
+        this.tags.add('automation:component-id', this.scope.constructor.name, {
+          ...props,
+          excludeResourceTypes: [''],
+        });
         this.tags.add(
           'automation:component-url',
           'https://github.com/truemark/cdk',
