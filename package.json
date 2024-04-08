@@ -48,7 +48,7 @@
     "@aws-cdk/aws-lambda-go-alpha": "2.131.0-alpha.0",
     "@aws-cdk/aws-lambda-python-alpha": "2.131.0-alpha.0",
     "@aws-cdk/aws-redshift-alpha": "2.131.0-alpha.0",
-    "aws-cdk-lib": "2.131.0",
+    "aws-cdk-lib": "2.136.0",
     "cdk-monitoring-constructs": "7.7.0",
     "constructs": "10.3.0"
   },
