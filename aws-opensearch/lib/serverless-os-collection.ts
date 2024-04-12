@@ -62,6 +62,13 @@ export interface ServerlessOpensearchCollectionProps
    * @default - Encryption is enabled with AWS-managed keys if not specified.
    */
   readonly encryptionPolicy?: aoss.CfnSecurityPolicy;
+
+  /**
+   * Creates a lifecyle policy to be applied to OpenSearch Serverless indexes.
+   *
+   * @default - Encryption is enabled with AWS-managed keys if not specified.
+   */
+  readonly lifeCyclePolicies?: aoss.CfnLifecyclePolicy;
 }
 
 /**
@@ -104,6 +111,11 @@ export class ServerlessOsCollection extends ExtendedConstruct {
       description: props.description,
     });
 
+    if (props.encryptionPolicy) {
+      const encryptionPolicy = props.encryptionPolicy;
+      collection.addDependency(encryptionPolicy);
+    }
+
     if (props.accessPolicies) {
       const accessPolicies = props.accessPolicies;
     }
@@ -112,9 +124,8 @@ export class ServerlessOsCollection extends ExtendedConstruct {
       const networkPolicy = props.networkPolicies;
     }
 
-    if (props.encryptionPolicy) {
-      const encryptionPolicy = props.encryptionPolicy;
-      collection.addDependency(encryptionPolicy);
+    if (props.lifeCyclePolicies) {
+      const lifeCyclePolicy = props.lifeCyclePolicies;
     }
   }
 }
