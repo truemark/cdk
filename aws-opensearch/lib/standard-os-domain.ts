@@ -222,13 +222,6 @@ export interface StandardOpensearchDomainProps extends ExtendedConstructProps {
   readonly enforceHttps?: boolean;
 
   /**
-   * The minimum TLS version required for traffic to the domain.
-   *
-   * @default - TLSSecurityPolicy.TLS_1_0
-   */
-  readonly tlsSecurityPolicy?: TLSSecurityPolicy;
-
-  /**
    * Specifies options for fine-grained access control.
    * Requires Elasticsearch version 6.7 or later or OpenSearch version 1.0 or later. Enabling fine-grained access control
    * also requires encryption of data at rest and node-to-node encryption, along with
@@ -537,32 +530,6 @@ export interface StandardOpensearchDomainProps extends ExtendedConstructProps {
   };
 }
 
-/**
- * The minimum TLS version required for traffic to the domain.
- */
-export enum TLSSecurityPolicy {
-  /** Cipher suite TLS 1.0 */
-  TLS_1_0 = 'Policy-Min-TLS-1-0-2019-07',
-  /** Cipher suite TLS 1.2 */
-  TLS_1_2 = 'Policy-Min-TLS-1-2-2019-07',
-  /** Cipher suite TLS 1.2 to 1.3 with perfect forward secrecy (PFS) */
-  TLS_1_2_PFS = 'Policy-Min-TLS-1-2-PFS-2023-10',
-}
-
-/**
- * The IP address type for the domain.
- */
-export enum IpAddressType {
-  /**
-   * IPv4 addresses only
-   */
-  IPV4 = 'ipv4',
-  /**
-   * IPv4 and IPv6 addresses
-   */
-  DUAL_STACK = 'dualstack',
-}
-
 export class StandardOpensearchDomain extends ExtendedConstruct {
   public readonly domain: Domain;
 
@@ -574,6 +541,7 @@ export class StandardOpensearchDomain extends ExtendedConstruct {
     super(scope, id, {
       standardTags: StandardTags.merge(props.standardTags, LibStandardTags),
     });
+
     // Setup the advanced security options
     const fineGrainedAccessControl = props.fineGrainedAccessControl
       ? this.setupAdvancedSecurityOptions(props.fineGrainedAccessControl)
@@ -636,7 +604,7 @@ export class StandardOpensearchDomain extends ExtendedConstruct {
       advancedOptions: props.advancedOptions,
     };
 
-    this.domain = new Domain(this, 'Domain', domainProps);
+    this.domain = new Domain(this, 'Default', domainProps);
   }
   private setupCustomEndpoint(customEndpoint?: {
     domainName?: string;
@@ -644,16 +612,15 @@ export class StandardOpensearchDomain extends ExtendedConstruct {
     hostedZone?: IHostedZone;
   }) {
     if (!customEndpoint || !customEndpoint.domainName) {
-      return undefined; // Return undefined or throw an error depending on your design
+      return undefined;
     }
 
-    // Now we are sure that domainName is not undefined here
     const {domainName, certificate, hostedZone} = customEndpoint;
 
     return {
-      domainName, // We know this is not undefined
-      certificate, // This can still be undefined, it's optional
-      hostedZone, // This can also be undefined
+      domainName,
+      certificate,
+      hostedZone,
     };
   }
   private setupAdvancedSecurityOptions(options: {
