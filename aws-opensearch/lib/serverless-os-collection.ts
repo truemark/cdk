@@ -7,7 +7,6 @@ import {
 import {LibStandardTags} from '../../truemark';
 import {ICertificate} from 'aws-cdk-lib/aws-certificatemanager';
 import {IHostedZone} from 'aws-cdk-lib/aws-route53';
-import {PolicyStatement} from 'aws-cdk-lib/aws-iam';
 import * as aoss from 'aws-cdk-lib/aws-opensearchserverless';
 
 /**
@@ -18,18 +17,23 @@ export interface ServerlessOpensearchCollectionProps
   /**
    * The name to be used for the OpenSearch Serverless collection.
    */
-  collectionName: string;
+  readonly name: string;
+
+  /**
+   * The description to be used for the OpenSearch Serverless collection.
+   */
+  readonly description?: string;
 
   /**
    * The type of collection.
    * @default - SEARCH
    */
-  type?: CollectionType;
+  readonly type?: CollectionType;
 
   /**
    * Optional custom domain configuration for the OpenSearch Serverless collection.
    */
-  customEndpoint?: {
+  readonly customEndpoint?: {
     domainName: string;
     certificate?: ICertificate;
     hostedZone?: IHostedZone;
@@ -95,8 +99,9 @@ export class ServerlessOsCollection extends ExtendedConstruct {
     });
 
     const collection = new aoss.CfnCollection(this, 'OpensearchCollection', {
-      name: props.collectionName,
+      name: props.name,
       type: props.type || CollectionType.SEARCH,
+      description: props.description,
     });
 
     if (props.accessPolicies) {
