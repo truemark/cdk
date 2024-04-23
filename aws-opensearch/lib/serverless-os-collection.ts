@@ -64,11 +64,25 @@ export interface ServerlessOpensearchCollectionProps
   readonly encryptionPolicy?: aoss.CfnSecurityPolicy;
 
   /**
+   * Specifies a security configuration for OpenSearch Serverless. For more information, see [SAML authentication for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-saml.html) .
+   *
+   * @default - No security config will be added.
+   */
+  readonly securityConfig?: aoss.CfnSecurityConfig;
+
+  /**
    * Creates a lifecyle policy to be applied to OpenSearch Serverless indexes.
    *
    * @default - Encryption is enabled with AWS-managed keys if not specified.
    */
   readonly lifeCyclePolicies?: aoss.CfnLifecyclePolicy;
+
+  /**
+   * Creates an OpenSearch Serverless-managed interface VPC endpoint.
+   *
+   * @default - Collection will be public.
+   */
+  readonly vpcEndpoint?: aoss.CfnVpcEndpoint;
 }
 
 /**
@@ -124,8 +138,16 @@ export class ServerlessOsCollection extends ExtendedConstruct {
       const networkPolicy = props.networkPolicies;
     }
 
+    if (props.securityConfig) {
+      const securityConfig = props.securityConfig;
+    }
+
     if (props.lifeCyclePolicies) {
       const lifeCyclePolicy = props.lifeCyclePolicies;
+    }
+
+    if (props.vpcEndpoint) {
+      const vpcEndpoint = props.vpcEndpoint;
     }
   }
 }
