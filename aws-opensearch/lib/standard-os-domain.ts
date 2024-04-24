@@ -538,7 +538,12 @@ export interface StandardOpensearchDomainProps extends ExtendedConstructProps {
 
 export class StandardOpensearchDomain extends ExtendedConstruct {
   public readonly domain: Domain;
-
+  /**
+   * Creates a new StandardOpensearchDomain.
+   * @param scope The parent construct.
+   * @param id The construct ID.
+   * @param props The Domain properties.
+   */
   constructor(
     scope: Construct,
     id: string,
