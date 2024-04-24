@@ -132,22 +132,27 @@ export class ServerlessOsCollection extends ExtendedConstruct {
 
     if (props.accessPolicies) {
       const accessPolicies = props.accessPolicies;
+      accessPolicies.addDependency(collection);
     }
 
     if (props.networkPolicies) {
       const networkPolicy = props.networkPolicies;
+      networkPolicy.addDependency(collection);
     }
 
     if (props.securityConfig) {
       const securityConfig = props.securityConfig;
+      securityConfig.addDependency(collection);
     }
 
     if (props.lifeCyclePolicies) {
       const lifeCyclePolicy = props.lifeCyclePolicies;
+      lifeCyclePolicy.addDependency(collection);
     }
 
     if (props.vpcEndpoint) {
       const vpcEndpoint = props.vpcEndpoint;
+      vpcEndpoint.addDependency(collection);
     }
   }
 }
