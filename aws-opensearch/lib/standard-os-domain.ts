@@ -96,6 +96,12 @@ export interface StandardOpensearchDomainProps extends ExtendedConstructProps {
      * @default - ultrawarm1.medium.search
      */
     readonly warmInstanceType?: string;
+
+    /**
+     * A boolean that indicates whether a multi-AZ domain is turned on with a standby AZ.
+     * For more information, see Configuring a multi-AZ domain in Amazon OpenSearch Service.
+     */
+    readonly multiAZWithStandbyEnabled?: boolean;
   };
 
   /**
@@ -542,15 +548,11 @@ export class StandardOpensearchDomain extends ExtendedConstruct {
       standardTags: StandardTags.merge(props.standardTags, LibStandardTags),
     });
 
-    // Setup the advanced security options
-    const fineGrainedAccessControl = props.fineGrainedAccessControl
-      ? this.setupAdvancedSecurityOptions(props.fineGrainedAccessControl)
-      : undefined;
-
-    // Setup the custom endpoint
-    const customEndpoint = this.setupCustomEndpoint(props.customEndpoint);
-
-    const domainProps: DomainProps = {
+    const domainProps: DomainProps = this.setupDomainProps(props);
+    this.domain = new Domain(this, 'Default', domainProps);
+  }
+  private setupDomainProps(props: StandardOpensearchDomainProps): DomainProps {
+    return {
       version: props.version,
       domainName: props.domainName,
       enableVersionUpgrade: props.enableVersionUpgrade,
@@ -558,118 +560,86 @@ export class StandardOpensearchDomain extends ExtendedConstruct {
       removalPolicy: props.removalPolicy,
       capacity: {
         masterNodes: props.capacity?.masterNodes,
-        masterNodeInstanceType:
-          props.capacity?.masterNodeInstanceType ?? 'r5.large.search',
+        masterNodeInstanceType: props.capacity?.masterNodeInstanceType,
         dataNodes: props.capacity?.dataNodes,
-        dataNodeInstanceType:
-          props.capacity?.dataNodeInstanceType ?? 'r5.large.search',
+        dataNodeInstanceType: props.capacity?.dataNodeInstanceType,
         warmNodes: props.capacity?.warmNodes,
-        warmInstanceType:
-          props.capacity?.warmInstanceType ?? 'ultrawarm1.medium.search',
+        warmInstanceType: props.capacity?.warmInstanceType,
+        multiAzWithStandbyEnabled: props.capacity?.multiAZWithStandbyEnabled,
       },
-      ebs: {
-        enabled: props.ebs?.enabled,
-        iops: props.ebs?.iops,
-        throughput: props.ebs?.throughput,
-        volumeSize: props.ebs?.volumeSize,
-        volumeType: props.ebs?.volumeType,
-      },
+      ebs: props.ebs,
       vpc: props.vpc,
-      zoneAwareness: {
-        enabled: props.zoneAwareness?.enabled,
-        availabilityZoneCount: props.zoneAwareness?.availabilityZoneCount,
-      },
+      zoneAwareness: props.zoneAwareness,
       enforceHttps: props.enforceHttps,
       nodeToNodeEncryption: props.nodeToNodeEncryption,
       encryptionAtRest: {
-        enabled: props.encryptionAtRestOptions?.enabled,
+        enabled:
+          props.fineGrainedAccessControl?.masterUserPassword !== undefined,
         kmsKey: props.encryptionAtRestOptions?.kmsKey,
       },
-      customEndpoint,
-      fineGrainedAccessControl,
+      customEndpoint: this.setupCustomEndpoint(props.customEndpoint),
+      fineGrainedAccessControl: this.setupAdvancedSecurityOptions(
+        props.fineGrainedAccessControl
+      ),
       accessPolicies: props.accessPolicies,
+      logging: this.setupLoggingOptions(props.logging),
       offPeakWindowEnabled: props.offPeakWindowEnabled,
       offPeakWindowStart: props.offPeakWindowStart,
       automatedSnapshotStartHour: props.automatedSnapshotStartHour,
-      logging: {
-        appLogEnabled: props.logging?.appLogEnabled ?? false,
-        auditLogEnabled: props.logging?.auditLogEnabled ?? false,
-        slowIndexLogEnabled: props.logging?.slowIndexLogEnabled ?? false,
-        slowSearchLogEnabled: props.logging?.slowSearchLogEnabled ?? false,
-        appLogGroup: props.logging?.appLogGroup,
-        auditLogGroup: props.logging?.auditLogGroup,
-        slowIndexLogGroup: props.logging?.slowIndexLogGroup,
-        slowSearchLogGroup: props.logging?.slowSearchLogGroup,
-      },
       advancedOptions: props.advancedOptions,
     };
-
-    this.domain = new Domain(this, 'Default', domainProps);
   }
-  private setupCustomEndpoint(customEndpoint?: {
-    domainName?: string;
+
+  private setupCustomEndpoint(endpointConfig?: {
+    domainName: string;
     certificate?: ICertificate;
     hostedZone?: IHostedZone;
-  }) {
-    if (!customEndpoint || !customEndpoint.domainName) {
-      return undefined;
-    }
-
-    const {domainName, certificate, hostedZone} = customEndpoint;
-
+  }): DomainProps['customEndpoint'] {
+    if (!endpointConfig) return undefined;
     return {
-      domainName,
-      certificate,
-      hostedZone,
+      domainName: endpointConfig.domainName,
+      certificate: endpointConfig.certificate,
+      hostedZone: endpointConfig.hostedZone,
     };
   }
-  private setupAdvancedSecurityOptions(options: {
+
+  private setupAdvancedSecurityOptions(options?: {
     masterUserArn?: string;
     masterUserName?: string;
     masterUserPassword?: SecretValue;
     samlAuthenticationEnabled?: boolean;
-    samlAuthenticationOptions?: {
-      idpEntityId?: string;
-      idpMetadataContent?: string;
-      masterUserName?: string;
-      masterBackendRole?: string;
-      rolesKey?: string;
-      subjectKey?: string;
-      sessionTimeoutMinutes?: number;
-    };
-  }): AdvancedSecurityOptions {
+    samlAuthenticationOptions?: SAMLOptionsProperty;
+  }): AdvancedSecurityOptions | undefined {
+    if (!options) return undefined;
     return {
       masterUserArn: options.masterUserArn,
       masterUserName: options.masterUserName,
       masterUserPassword: options.masterUserPassword,
       samlAuthenticationEnabled: options.samlAuthenticationEnabled,
-      samlAuthenticationOptions: options.samlAuthenticationEnabled
-        ? this.setupSAMLOptions(options.samlAuthenticationOptions)
-        : undefined,
+      samlAuthenticationOptions: options.samlAuthenticationOptions,
     };
   }
 
-  private setupSAMLOptions(options?: {
-    idpEntityId?: string;
-    idpMetadataContent?: string;
-    masterUserName?: string;
-    masterBackendRole?: string;
-    rolesKey?: string;
-    subjectKey?: string;
-    sessionTimeoutMinutes?: number;
-  }): SAMLOptionsProperty | undefined {
-    if (!options) return undefined;
-    // Ensure all required fields are defined
-    if (!options.idpEntityId || !options.idpMetadataContent) return undefined;
-
+  private setupLoggingOptions(loggingConfig?: {
+    slowSearchLogEnabled?: boolean;
+    slowSearchLogGroup?: ILogGroup;
+    slowIndexLogEnabled?: boolean;
+    slowIndexLogGroup?: ILogGroup;
+    appLogEnabled?: boolean;
+    appLogGroup?: ILogGroup;
+    auditLogEnabled?: boolean;
+    auditLogGroup?: ILogGroup;
+  }): DomainProps['logging'] {
+    if (!loggingConfig) return undefined;
     return {
-      idpEntityId: options.idpEntityId,
-      idpMetadataContent: options.idpMetadataContent,
-      masterUserName: options.masterUserName || undefined,
-      masterBackendRole: options.masterBackendRole || undefined,
-      rolesKey: options.rolesKey || 'os-role-key',
-      subjectKey: options.subjectKey || 'os-subject-key',
-      sessionTimeoutMinutes: options.sessionTimeoutMinutes || 60,
+      slowSearchLogEnabled: loggingConfig.slowSearchLogEnabled,
+      slowSearchLogGroup: loggingConfig.slowSearchLogGroup,
+      slowIndexLogEnabled: loggingConfig.slowIndexLogEnabled,
+      slowIndexLogGroup: loggingConfig.slowIndexLogGroup,
+      appLogEnabled: loggingConfig.appLogEnabled,
+      appLogGroup: loggingConfig.appLogGroup,
+      auditLogEnabled: loggingConfig.auditLogEnabled,
+      auditLogGroup: loggingConfig.auditLogGroup,
     };
   }
 }
