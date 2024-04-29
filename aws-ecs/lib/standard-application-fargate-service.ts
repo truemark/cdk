@@ -147,11 +147,11 @@ export interface StandardApplicationFargateServiceProps
   readonly loadBalancer: IApplicationLoadBalancer | string;
 
   /**
-   * The listener protocol to attach this service to.
+   * The listener to attach this service to. If one is not provided an HTTPS listener is obtained from a lookup.
    *
    * @default - ApplicationProtocol.HTTPS
    */
-  readonly listenerProtocol?: ApplicationProtocol;
+  readonly listener?: IApplicationListener;
 
   /**
    * The priority to give the target group on the ALB.
@@ -270,10 +270,12 @@ export class StandardApplicationFargateService extends StandardFargateService {
       loadBalancer = props.loadBalancer;
     }
 
-    const listener = ApplicationListener.fromLookup(this, 'Listener', {
-      loadBalancerArn: loadBalancer.loadBalancerArn,
-      listenerProtocol: props.listenerProtocol ?? ApplicationProtocol.HTTPS,
-    });
+    const listener =
+      props.listener ??
+      ApplicationListener.fromLookup(this, 'Listener', {
+        loadBalancerArn: loadBalancer.loadBalancerArn,
+        listenerProtocol: ApplicationProtocol.HTTPS,
+      });
 
     listener.addTargetGroups(`${id}TargetGroups`, {
       targetGroups: [targetGroup],
