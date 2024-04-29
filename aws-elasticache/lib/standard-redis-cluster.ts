@@ -7,6 +7,7 @@ import {
   ExtendedConstructProps,
 } from '../../aws-cdk';
 import {LibStandardTags} from '../../truemark';
+import {StringParameter} from 'aws-cdk-lib/aws-ssm';
 
 /**
  * Properties for creating a Standard Redis Cluster.
@@ -61,6 +62,11 @@ export interface StandardRedisClusterProps extends ExtendedConstructProps {
    * The network type you choose when modifying a cluster, either ipv4 or ipv6
    */
   readonly ipDiscovery?: string;
+
+  /**
+   * The ssm param path to store the endpoint.
+   */
+  readonly endPointSSMParamPath?: string;
 
   /**
    * Must be either ipv4 or ipv6 or	dual_stack.
@@ -216,6 +222,19 @@ export class StandardRedisCluster extends ExtendedConstruct {
       cacheClusterProps.atRestEncryptionEnabled = props.atRestEncryptionEnabled;
 
     //Pass the config
-    new CfnCacheCluster(this, 'RedisCluster', cacheClusterProps);
+    const cacheCluster = new CfnCacheCluster(
+      this,
+      'RedisCluster',
+      cacheClusterProps
+    );
+
+    //Create SSM parameter to store the endpoint
+    if (props.atRestEncryptionEnabled) {
+      new StringParameter(this, 'RedisEnpointParamter', {
+        parameterName: props.endPointSSMParamPath,
+        stringValue: cacheCluster.getAtt('RedisEndpoint.Address').toString(),
+        description: `This is a secure string parameter to store endopoint of cluserId ${cacheClusterProps.cacheClusterId}`,
+      });
+    }
   }
 }
