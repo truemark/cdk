@@ -6,9 +6,11 @@ echo "--------------------------------------------------------------------------
 
 set -euo pipefail
 
-export PHP_VERSION="8.1"
+export PHP_VERSION="{{PHP_VERSION}}"
 export DATA_MOUNT="/srv"
 export DEBIAN_FRONTEND="noninteractive"
+
+
 
 # Add motd
 cat <<-EOF > /etc/motd

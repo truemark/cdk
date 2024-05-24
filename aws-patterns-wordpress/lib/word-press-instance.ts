@@ -174,6 +174,13 @@ export interface WordPressInstanceProps {
    * @default - false
    */
   readonly createTargetGroup?: boolean;
+
+  /**
+   * Set the version of PHP to use.
+   *
+   * @default - "8.1"
+   */
+  readonly phpVersion?: string;
 }
 
 export const DEFAULT_ARM_IMAGE_SSM_PARAMETER =
@@ -307,6 +314,10 @@ export class WordPressInstance extends Construct {
       path.join(__dirname, 'init.sh'),
       'utf-8'
     );
+    const modifiedUserDataScript = userDataScript.replace(
+      '{{PHP_VERSION}}',
+      props.phpVersion ?? '8.1'
+    );
 
     this.securityGroup = new SecurityGroup(this, 'SecurityGroup', {
       description: 'Default security group for WordPress',
@@ -346,7 +357,7 @@ export class WordPressInstance extends Construct {
           }),
         },
       ],
-      userData: UserData.custom(userDataScript),
+      userData: UserData.custom(modifiedUserDataScript),
       updatePolicy: UpdatePolicy.rollingUpdate(),
       requireImdsv2: true,
     });
