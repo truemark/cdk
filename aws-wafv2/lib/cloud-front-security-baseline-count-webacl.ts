@@ -4,9 +4,15 @@ import {Construct} from 'constructs';
 import {Stack, StackProps} from 'aws-cdk-lib';
 import * as logs from 'aws-cdk-lib/aws-logs';
 
+export interface CloudFrontSecurityBaselineCountWebaclProps extends StackProps {
+  readonly countryCodes: string[];
+  readonly searchString: string;
+  readonly limit: number;
+}
+
 export class CloudFrontSecurityBaselineCountWebacl extends Construct {
-  constructor(scope: Construct, id: string, countryCodes: string[], searchString: string, limit: number) {
-    super(scope, id);
+  constructor(scope: Construct, id: string, props: CloudFrontSecurityBaselineCountWebaclProps) {
+    super(scope, id, props);
 
     const ruleGroup = new wafv2.CfnRuleGroup(this, 'MyRuleGroup', {
       name: 'SecurityBaselineCountRuleGroup',
@@ -49,7 +55,7 @@ export class CloudFrontSecurityBaselineCountWebacl extends Construct {
                     },
                     {
                       geoMatchStatement: {
-                        countryCodes: countryCodes,
+                        countryCodes: props.countryCodes,
                       },
                     },
                   ],
@@ -71,12 +77,12 @@ export class CloudFrontSecurityBaselineCountWebacl extends Construct {
           },
           statement: {
             rateBasedStatement: {
-              limit: limit,
+              limit: props.limit,
               aggregateKeyType: 'IP',
               evaluationWindowSec: 300,
               scopeDownStatement: {
                 byteMatchStatement: {
-                  searchString: searchString,
+                  searchString: props.searchString,
                   fieldToMatch: {
                     uriPath: {},
                   },
