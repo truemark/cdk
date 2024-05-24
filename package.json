@@ -53,13 +53,13 @@
     "constructs": "10.3.0"
   },
   "peerDependencies": {
-    "@aws-cdk/aws-appsync-alpha": "^2.59.0-alpha.0",
-    "@aws-cdk/aws-lambda-go-alpha": "^2.143.0-alpha.0",
-    "@aws-cdk/aws-lambda-python-alpha": "^2.143.0-alpha.0",
-    "@aws-cdk/aws-redshift-alpha": "^2.143.0-alpha.0",
-    "aws-cdk-lib": "^2.143.0",
-    "cdk-monitoring-constructs": "~7.10.1",
-    "constructs": "^10.3.0"
+    "@aws-cdk/aws-appsync-alpha": ">=2.59.0-alpha.0",
+    "@aws-cdk/aws-lambda-go-alpha": ">=2.143.0-alpha.0",
+    "@aws-cdk/aws-lambda-python-alpha": ">=2.143.0-alpha.0",
+    "@aws-cdk/aws-redshift-alpha": ">=2.143.0-alpha.0",
+    "aws-cdk-lib": ">=2.143.0",
+    "cdk-monitoring-constructs": ">=7.10.1",
+    "constructs": ">=10.3.0"
   },
   "exports": {
     ".": "./index.js",
