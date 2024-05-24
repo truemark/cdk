@@ -6,10 +6,13 @@
   name: ci
   jobs:
     publish:
-      uses: ./.github/workflows/javascript-library.yml
+      uses: truemark/github-workflows/.github/workflows/javascript-library.yml@main
       with:
         github-email: "365211+erikrj@users.noreply.github.com"
         github-name: "Erik Jensen"
+        pnpm-version: "9"
+        node-versions: "[18,20,22]"
+        publish-node-version: "22"
       secrets:
         deploy-key: ${{ secrets.DEPLOY_KEY }}
         npm-auth-token: ${{ secrets.NPM_AUTH_TOKEN }}
