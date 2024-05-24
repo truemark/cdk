@@ -5,7 +5,7 @@ import {Stack, StackProps} from 'aws-cdk-lib';
 import * as logs from 'aws-cdk-lib/aws-logs';
 
 export class CloudFrontSecurityBaselineCountWebacl extends Construct {
-  constructor(scope: Construct, id: string) {
+  constructor(scope: Construct, id: string, countryCodes: string[], searchString: string, limit: number) {
     super(scope, id);
 
     const ruleGroup = new wafv2.CfnRuleGroup(this, 'MyRuleGroup', {
@@ -49,7 +49,7 @@ export class CloudFrontSecurityBaselineCountWebacl extends Construct {
                     },
                     {
                       geoMatchStatement: {
-                        countryCodes: ['CN', 'RU'],
+                        countryCodes: countryCodes,
                       },
                     },
                   ],
@@ -71,12 +71,12 @@ export class CloudFrontSecurityBaselineCountWebacl extends Construct {
           },
           statement: {
             rateBasedStatement: {
-              limit: 300,
+              limit: limit,
               aggregateKeyType: 'IP',
               evaluationWindowSec: 300,
               scopeDownStatement: {
                 byteMatchStatement: {
-                  searchString: '/api/login',
+                  searchString: searchString,
                   fieldToMatch: {
                     uriPath: {},
                   },
