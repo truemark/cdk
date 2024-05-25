@@ -308,6 +308,12 @@ export class CdkPipeline extends Construct {
     const stackName = Stack.of(this).stackName;
     const cdkDirectory = props.cdkDirectory ?? '.';
 
+    const buildxCommands = [
+      "echo '#!/bin/bash' > /usr/local/bin/buildx.sh",
+      'echo \'[[ "$1" == "build" ]] && docker buildx build --load "${@:2}" || docker "$@"\' >> /usr/local/bin/buildx.sh',
+      'chmod +x /usr/local/bin/buildx.sh',
+    ];
+
     let commands: string[] | undefined = props.commands;
     if (
       commands === undefined &&
@@ -438,6 +444,20 @@ export class CdkPipeline extends Construct {
           buildImage: props.buildImage ?? LinuxBuildImage.AMAZON_LINUX_2_5,
         },
         rolePolicy,
+      },
+      assetPublishingCodeBuildDefaults: {
+        partialBuildSpec: BuildSpec.fromObject({
+          env: {
+            variables: {
+              CDK_DOCKER: '/usr/local/bin/buildx.sh',
+            },
+          },
+          phases: {
+            install: {
+              commands: buildxCommands,
+            },
+          },
+        }),
       },
     });
 
