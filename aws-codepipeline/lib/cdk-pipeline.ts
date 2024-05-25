@@ -308,12 +308,20 @@ export class CdkPipeline extends Construct {
     const stackName = Stack.of(this).stackName;
     const cdkDirectory = props.cdkDirectory ?? '.';
 
+    const buildxCommands = [
+      "echo '#!/bin/bash' > /usr/local/bin/buildx.sh",
+      'echo \'[[ "$1" == "build" ]] && docker buildx build --load "${@:2}" || docker "$@"\' >> /usr/local/bin/buildx.sh',
+      'chmod +x /usr/local/bin/buildx.sh',
+    ];
+
     let commands: string[] | undefined = props.commands;
+    commands?.push();
     if (
       commands === undefined &&
       props.packageManager === NodePackageManager.PNPM
     ) {
       commands = [
+        ...buildxCommands,
         `cd ${cdkDirectory ?? '.'}`,
         'npm -g i pnpm',
         'pnpm i --frozen-lockfile --prefer-offline',
@@ -324,6 +332,9 @@ export class CdkPipeline extends Construct {
       ];
     } else if (commands === undefined) {
       commands = [
+        ...buildxCommands,
+        "echo '#!/bin/bash' > /usr/local/bin/buildx.sh",
+        'echo \'[[ "$1" == "build" ]] && docker buildx build --load "${@:2}" || docker "$@"\' >> /usr/local/bin/buildx.sh',
         `cd ${cdkDirectory ?? '.'}`,
         'npm ci --prefer-offline',
         ...(props.preBuildCommands ?? []),
@@ -414,6 +425,11 @@ export class CdkPipeline extends Construct {
       }),
       synthCodeBuildDefaults: {
         partialBuildSpec: BuildSpec.fromObject({
+          env: {
+            variables: {
+              CDK_DOCKER: '/usr/local/bin/buildx.sh',
+            },
+          },
           cache: {
             paths: ['/root/.npm/**/*', '/root/.pnpm-store/**/*'],
           },
