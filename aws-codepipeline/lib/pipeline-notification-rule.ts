@@ -19,7 +19,7 @@ export interface PipelineNotificationRuleProps {
    * The events to notify on.
    *
    * @see https://docs.aws.amazon.com/dtconsole/latest/userguide/concepts.html#events-ref-pipeline
-   * @default PipelineNotificationRule.PIPELINE_EXECUTION_EVENTS
+   * @default PipelineNotificationRule.DEFAULT_EVENTS
    */
   readonly events?: string[];
 

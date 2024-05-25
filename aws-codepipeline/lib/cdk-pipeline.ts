@@ -183,8 +183,7 @@ export interface CdkPipelineProps {
   readonly notificationTopic?: ITopic;
 
   /**
-   * The list of notification events to receive. Default is PipelineNotificationRule.PIPELINE_EXECUTION_EVENTS.
-   * @default PipelineNotificationRule.PIPELINE_EXECUTION_EVENTS
+   * The list of notification events to receive.Default is DEFAULT_EVENTS
    * @see https://docs.aws.amazon.com/dtconsole/latest/userguide/concepts.html#events-ref-pipeline
    */
   readonly notificationEvents?: string[];
