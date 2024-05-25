@@ -312,6 +312,9 @@ export class CdkPipeline extends Construct {
       "echo '#!/bin/bash' > /usr/local/bin/buildx.sh",
       'echo \'[[ "$1" == "build" ]] && docker buildx build --load "${@:2}" || docker "$@"\' >> /usr/local/bin/buildx.sh',
       'chmod +x /usr/local/bin/buildx.sh',
+      'uname -m',
+      'docker buildx create --use --name multi-arch-builder',
+      'docker buildx ls',
     ];
 
     let commands: string[] | undefined = props.commands;
