@@ -34,6 +34,7 @@ export enum NodeVersion {
   NODE_16 = '16',
   NODE_18 = '18',
   NODE_20 = '20',
+  NODE_22 = '22',
 }
 
 /**
@@ -229,7 +230,7 @@ export interface CdkPipelineProps {
   readonly codeArtifactRepositories?: string[];
 
   /**
-   * Version of Node to use in the pipeline. Default is NODE_18
+   * Version of Node to use in the pipeline. Default is NODE_20
    */
   readonly nodeVersion?: NodeVersion | string;
 
@@ -419,7 +420,7 @@ export class CdkPipeline extends Construct {
           phases: {
             install: {
               'runtime-versions': {
-                nodejs: props.nodeVersion ?? NodeVersion.NODE_18,
+                nodejs: props.nodeVersion ?? NodeVersion.NODE_22,
                 go: props.goVersion,
                 java: props.javaVersion,
                 dotnet: props.dotnetVersion,
