@@ -83,6 +83,15 @@ export enum PythonVersion {
   PYTHON_3_12 = '3.12',
 }
 
+const DOCKER_BUILDX_SETUP_COMMANDS = [
+  "echo '#!/bin/bash' > /usr/local/bin/buildx.sh",
+  'echo \'[[ "$1" == "build" ]] && docker buildx build --load "${@:2}" || docker "$@"\' >> /usr/local/bin/buildx.sh',
+  'chmod +x /usr/local/bin/buildx.sh',
+  'echo "Architecture: $(uname -m)"',
+  'docker buildx create --use --name multi-arch-builder',
+  'docker buildx ls',
+];
+
 /**
  * Properties for CdkPipeline
  */
@@ -263,6 +272,11 @@ export interface CdkPipelineProps {
    * Whether to clone the CodeCommit repository into the CodeBuild project.
    */
   readonly codeBuildCloneOutput?: boolean;
+
+  /**
+   * Enables the use of "docker buildx" in the asset publishing step. Default is true.
+   */
+  readonly enableDockerBuildxOnAssetPublish?: boolean;
 }
 
 /**
@@ -307,15 +321,6 @@ export class CdkPipeline extends Construct {
 
     const stackName = Stack.of(this).stackName;
     const cdkDirectory = props.cdkDirectory ?? '.';
-
-    const buildxCommands = [
-      "echo '#!/bin/bash' > /usr/local/bin/buildx.sh",
-      'echo \'[[ "$1" == "build" ]] && docker buildx build --load "${@:2}" || docker "$@"\' >> /usr/local/bin/buildx.sh',
-      'chmod +x /usr/local/bin/buildx.sh',
-      'uname -m',
-      'docker buildx create --use --name multi-arch-builder',
-      'docker buildx ls',
-    ];
 
     let commands: string[] | undefined = props.commands;
     if (
@@ -452,12 +457,17 @@ export class CdkPipeline extends Construct {
         partialBuildSpec: BuildSpec.fromObject({
           env: {
             variables: {
-              CDK_DOCKER: '/usr/local/bin/buildx.sh',
+              ...(props.enableDockerBuildxOnAssetPublish ?? true
+                ? {CDK_DOCKER: '/usr/local/bin/buildx.sh'}
+                : {}),
             },
           },
           phases: {
             install: {
-              commands: buildxCommands,
+              commands:
+                props.enableDockerBuildxOnAssetPublish ?? true
+                  ? DOCKER_BUILDX_SETUP_COMMANDS
+                  : [],
             },
           },
         }),
