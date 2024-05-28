@@ -10,7 +10,11 @@ export interface CloudFrontSecurityBaselineCountWebaclProps extends StackProps {
 }
 
 export class CloudFrontSecurityBaselineCountWebacl extends Construct {
-  constructor(scope: Construct, id: string, props: CloudFrontSecurityBaselineCountWebaclProps) {
+  constructor(
+    scope: Construct,
+    id: string,
+    props: CloudFrontSecurityBaselineCountWebaclProps
+  ) {
     super(scope, id);
 
     const ruleGroup = new wafv2.CfnRuleGroup(this, 'MyRuleGroup', {
