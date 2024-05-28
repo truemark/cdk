@@ -1,5 +1,10 @@
 import {Construct} from 'constructs/lib/construct';
-import {aws_wafv2 as wafv2} from 'aws-cdk-lib';
+import {
+  CfnLoggingConfiguration,
+  CfnRuleGroup,
+  CfnWebACL,
+} from 'aws-cdk-lib/aws-wafv2';
+import {LogGroup, RetentionDays} from 'aws-cdk-lib/aws-logs';
 
 export type Mode = 'count' | 'active';
 
@@ -9,14 +14,18 @@ export type Mode = 'count' | 'active';
 export interface CloudFrontSecurityBaselineWebAclProps {
   readonly mode?: Mode;
   readonly name?: string;
+  /**
+   * The number of days log events are kept in CloudWatch Logs. Default is 1 year.
+   */
+  readonly logRetention?: RetentionDays;
 }
 
 /**
  * Creates a rule group and web ACL for CloudFront distributions to use.
  */
 export class CloudFrontSecurityBaselineWebAcl extends Construct {
-  readonly ruleGroup: wafv2.CfnRuleGroup;
-  readonly webAcl: wafv2.CfnWebACL;
+  readonly ruleGroup: CfnRuleGroup;
+  readonly webAcl: CfnWebACL;
   constructor(
     scope: Construct,
     id: string,
@@ -24,7 +33,7 @@ export class CloudFrontSecurityBaselineWebAcl extends Construct {
   ) {
     super(scope, id);
 
-    this.ruleGroup = new wafv2.CfnRuleGroup(this, 'RuleGroup', {
+    this.ruleGroup = new CfnRuleGroup(this, 'RuleGroup', {
       name: props?.name ?? 'SecurityBaselineRuleGroup',
       scope: 'CLOUDFRONT',
       capacity: 500,
@@ -116,7 +125,7 @@ export class CloudFrontSecurityBaselineWebAcl extends Construct {
       ],
     });
 
-    this.webAcl = new wafv2.CfnWebACL(this, 'WebAcl', {
+    this.webAcl = new CfnWebACL(this, 'WebAcl', {
       name: 'SecurityBaselineWebACL',
       defaultAction: {allow: {}},
       scope: 'CLOUDFRONT',
@@ -206,6 +215,16 @@ export class CloudFrontSecurityBaselineWebAcl extends Construct {
           },
         },
       ],
+    });
+
+    const wafLogGroup = new LogGroup(this, 'WafLogGroup', {
+      logGroupName: `aws-waf-logs-global-waf-acl-logs-${this.node.addr}`,
+      retention: props?.logRetention ?? RetentionDays.ONE_YEAR,
+    });
+
+    new CfnLoggingConfiguration(this, 'LoggingConfig', {
+      resourceArn: this.webAcl.attrArn,
+      logDestinationConfigs: [wafLogGroup.logGroupArn],
     });
   }
 }
