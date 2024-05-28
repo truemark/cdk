@@ -1,6 +1,5 @@
 import {Construct} from 'constructs/lib/construct';
 import {aws_wafv2 as wafv2} from 'aws-cdk-lib';
-import {Construct} from 'constructs';
 import {Stack, StackProps} from 'aws-cdk-lib';
 import * as logs from 'aws-cdk-lib/aws-logs';
 
@@ -12,7 +11,7 @@ export interface CloudFrontSecurityBaselineCountWebaclProps extends StackProps {
 
 export class CloudFrontSecurityBaselineCountWebacl extends Construct {
   constructor(scope: Construct, id: string, props: CloudFrontSecurityBaselineCountWebaclProps) {
-    super(scope, id, props);
+    super(scope, id);
 
     const ruleGroup = new wafv2.CfnRuleGroup(this, 'MyRuleGroup', {
       name: 'SecurityBaselineCountRuleGroup',

@@ -1,6 +1,5 @@
 import {Construct} from 'constructs/lib/construct';
 import {aws_wafv2 as wafv2} from 'aws-cdk-lib';
-import {Construct} from 'constructs';
 
 export class RegionalSecurityBaselineCountWebacl extends Construct {
   constructor(scope: Construct, id: string) {
