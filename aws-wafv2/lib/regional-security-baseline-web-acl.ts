@@ -1,12 +1,17 @@
 import {Construct} from 'constructs/lib/construct';
 import {aws_wafv2 as wafv2} from 'aws-cdk-lib';
 
-export class RegionalSecurityBaselineWebacl extends Construct {
+// TODO Add a props class and have a property that puts this into active or count mode
+
+/**
+ * TODO You need to add documentation to your classes
+ */
+export class RegionalSecurityBaselineWebAcl extends Construct {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    const ruleGroup = new wafv2.CfnRuleGroup(this, 'MyRuleGroup', {
-      name: 'SecurityBaselineRuleGroup',
+    const ruleGroup = new wafv2.CfnRuleGroup(this, 'Default', {
+      name: 'SecurityBaselineRuleGroup', // TODO Optional input parameter on props
       scope: 'REGIONAL',
       capacity: 500,
       visibilityConfig: {

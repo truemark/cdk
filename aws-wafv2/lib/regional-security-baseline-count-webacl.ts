@@ -1,3 +1,4 @@
+// TODO Get rid of this
 import {Construct} from 'constructs/lib/construct';
 import {aws_wafv2 as wafv2} from 'aws-cdk-lib';
 

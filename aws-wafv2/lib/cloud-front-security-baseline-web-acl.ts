@@ -1,14 +1,31 @@
 import {Construct} from 'constructs/lib/construct';
 import {aws_wafv2 as wafv2} from 'aws-cdk-lib';
-import {Stack, StackProps} from 'aws-cdk-lib';
-import * as logs from 'aws-cdk-lib/aws-logs';
 
-export class CloudFrontSecurityBaselineWebacl extends Construct {
-  constructor(scope: Construct, id: string) {
+export type Mode = 'count' | 'active';
+
+/**
+ * Properties for CloudFrontSecurityBaselineWebAcl.
+ */
+export interface CloudFrontSecurityBaselineWebAclProps {
+  readonly mode?: Mode;
+  readonly name?: string;
+}
+
+/**
+ * Creates a rule group and web ACL for CloudFront distributions to use.
+ */
+export class CloudFrontSecurityBaselineWebAcl extends Construct {
+  readonly ruleGroup: wafv2.CfnRuleGroup;
+  readonly webAcl: wafv2.CfnWebACL;
+  constructor(
+    scope: Construct,
+    id: string,
+    props?: CloudFrontSecurityBaselineWebAclProps
+  ) {
     super(scope, id);
 
-    const ruleGroup = new wafv2.CfnRuleGroup(this, 'MyRuleGroup', {
-      name: 'SecurityBaselineRuleGroup',
+    this.ruleGroup = new wafv2.CfnRuleGroup(this, 'RuleGroup', {
+      name: props?.name ?? 'SecurityBaselineRuleGroup',
       scope: 'CLOUDFRONT',
       capacity: 500,
       visibilityConfig: {
@@ -99,7 +116,7 @@ export class CloudFrontSecurityBaselineWebacl extends Construct {
       ],
     });
 
-    const myGlobalWebACL = new wafv2.CfnWebACL(this, 'MyGlobalWebACL', {
+    this.webAcl = new wafv2.CfnWebACL(this, 'WebAcl', {
       name: 'SecurityBaselineWebACL',
       defaultAction: {allow: {}},
       scope: 'CLOUDFRONT',
@@ -112,7 +129,7 @@ export class CloudFrontSecurityBaselineWebacl extends Construct {
         {
           name: 'AWS-AWSManagedRulesCommonRuleSet',
           priority: 0,
-          overrideAction: {none: {}},
+          overrideAction: props?.mode === 'active' ? {none: {}} : {count: {}},
           statement: {
             managedRuleGroupStatement: {
               vendorName: 'AWS',
@@ -128,10 +145,10 @@ export class CloudFrontSecurityBaselineWebacl extends Construct {
         {
           name: 'SecurityBaselineRuleGroup',
           priority: 1,
-          overrideAction: {none: {}},
+          overrideAction: props?.mode === 'active' ? {none: {}} : {count: {}},
           statement: {
             ruleGroupReferenceStatement: {
-              arn: ruleGroup.attrArn,
+              arn: this.ruleGroup.attrArn,
             },
           },
           visibilityConfig: {
@@ -159,7 +176,7 @@ export class CloudFrontSecurityBaselineWebacl extends Construct {
         {
           name: 'AWS-AWSManagedRulesAnonymousIpList',
           priority: 3,
-          overrideAction: {none: {}},
+          overrideAction: props?.mode === 'active' ? {none: {}} : {count: {}},
           statement: {
             managedRuleGroupStatement: {
               vendorName: 'AWS',
@@ -175,7 +192,7 @@ export class CloudFrontSecurityBaselineWebacl extends Construct {
         {
           name: 'AWS-AWSManagedRulesAmazonIpReputationList',
           priority: 4,
-          overrideAction: {none: {}},
+          overrideAction: props?.mode === 'active' ? {none: {}} : {count: {}},
           statement: {
             managedRuleGroupStatement: {
               vendorName: 'AWS',
