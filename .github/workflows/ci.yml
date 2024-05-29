@@ -4,9 +4,9 @@
         - main
         - develop
     pull_request:
-        branches:
-            - main
-            - develop
+      branches:
+        - main
+        - develop
   name: ci
   jobs:
     publish:
