@@ -15,6 +15,7 @@ export * as aws_sqs from './aws-sqs';
 export * as aws_ssm from './aws-ssm';
 export * as aws_vpc from './aws-vpc';
 export * as domain_redirect from './aws-patterns-domain-redirect';
+export * as aws_wafv2 from './aws-wafv2';
 export * as website from './aws-patterns-website';
 export * as wordpress from './aws-patterns-wordpress';
 export * as helpers from './helpers';

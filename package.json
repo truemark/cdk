@@ -84,6 +84,7 @@
     "./aws-ssm": "./aws-ssm/index.js",
     "./aws-tags": "./aws-tags/index.js",
     "./aws-vpc": "./aws-vpc/index.js",
+    "./aws-wafv2": "./aws-wafv2/index.js",
     "./helpers": "./helpers/index.js"
   }
 }
