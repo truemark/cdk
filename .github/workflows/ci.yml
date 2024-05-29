@@ -16,5 +16,6 @@
         node-versions: "[18,20,22]"
         publish-node-version: "22"
       secrets:
-        deploy-key: ${{ secrets.DEPLOY_KEY }}
         npm-auth-token: ${{ secrets.NPM_AUTH_TOKEN }}
+        app-id: ${{ secrets.RELEASE_BOT_ID }}
+        private-key: ${{ secrets.RELEASE_BOT_KEY }}
