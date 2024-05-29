@@ -30,6 +30,24 @@ export interface StandardQueueProps
   extends QueueAlarmsOptions,
     ExtendedConstructProps {
   /**
+   * A name for the queue.
+   *
+   * If specified and this is a FIFO queue, must end in the string '.fifo'.
+   *
+   * @default CloudFormation-generated name
+   */
+  readonly queueName?: string;
+
+  /**
+   * A name for the dead letter queue.
+   *
+   * If specified and this is a FIFO queue, must end in the string '.fifo'.
+   *
+   * @default CloudFormation-generated name
+   */
+  readonly deadLetterQueueName?: string;
+
+  /**
    * The number of seconds Amazon SQS retains a message. Value must be between
    * 60 and 1209600 seconds (14 days).
    *
@@ -146,6 +164,7 @@ export class StandardQueue extends ExtendedConstruct implements IQueue {
         ? undefined
         : {
             queue: new Queue(this, 'Dlq', {
+              queueName: props?.deadLetterQueueName,
               encryption,
               encryptionMasterKey,
               dataKeyReuse,

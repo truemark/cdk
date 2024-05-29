@@ -19,7 +19,7 @@ export interface PipelineNotificationRuleProps {
    * The events to notify on.
    *
    * @see https://docs.aws.amazon.com/dtconsole/latest/userguide/concepts.html#events-ref-pipeline
-   * @default PipelineNotificationRule.PIPELINE_EXECUTION_EVENTS
+   * @default PipelineNotificationRule.DEFAULT_EVENTS
    */
   readonly events?: string[];
 
@@ -73,7 +73,6 @@ export class PipelineNotificationRule extends Construct {
   static readonly DEFAULT_EVENTS = [
     ...PipelineNotificationRule.PIPELINE_EXECUTION_EVENTS,
     ...PipelineNotificationRule.MANUAL_APPROVAL_EVENTS,
-    PipelineNotificationEvents.STAGE_EXECUTION_SUCCEEDED,
   ];
 
   readonly notificationRule: NotificationRule;

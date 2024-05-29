@@ -34,6 +34,7 @@ export enum NodeVersion {
   NODE_16 = '16',
   NODE_18 = '18',
   NODE_20 = '20',
+  NODE_22 = '22',
 }
 
 /**
@@ -81,6 +82,15 @@ export enum PythonVersion {
   PYTHON_3_11 = '3.11',
   PYTHON_3_12 = '3.12',
 }
+
+const DOCKER_BUILDX_SETUP_COMMANDS = [
+  "echo '#!/bin/bash' > /usr/local/bin/buildx.sh",
+  'echo \'[[ "$1" == "build" ]] && docker buildx build --load "${@:2}" || docker "$@"\' >> /usr/local/bin/buildx.sh',
+  'chmod +x /usr/local/bin/buildx.sh',
+  'echo "Architecture: $(uname -m)"',
+  'docker buildx create --use --name multi-arch-builder',
+  'docker buildx ls',
+];
 
 /**
  * Properties for CdkPipeline
@@ -173,8 +183,7 @@ export interface CdkPipelineProps {
   readonly notificationTopic?: ITopic;
 
   /**
-   * The list of notification events to receive. Default is PipelineNotificationRule.PIPELINE_EXECUTION_EVENTS.
-   * @default PipelineNotificationRule.PIPELINE_EXECUTION_EVENTS
+   * The list of notification events to receive.Default is DEFAULT_EVENTS
    * @see https://docs.aws.amazon.com/dtconsole/latest/userguide/concepts.html#events-ref-pipeline
    */
   readonly notificationEvents?: string[];
@@ -229,7 +238,7 @@ export interface CdkPipelineProps {
   readonly codeArtifactRepositories?: string[];
 
   /**
-   * Version of Node to use in the pipeline. Default is NODE_18
+   * Version of Node to use in the pipeline. Default is NODE_20
    */
   readonly nodeVersion?: NodeVersion | string;
 
@@ -262,6 +271,11 @@ export interface CdkPipelineProps {
    * Whether to clone the CodeCommit repository into the CodeBuild project.
    */
   readonly codeBuildCloneOutput?: boolean;
+
+  /**
+   * Enables the use of "docker buildx" in the asset publishing step. Default is true.
+   */
+  readonly enableDockerBuildxOnAssetPublish?: boolean;
 }
 
 /**
@@ -419,7 +433,7 @@ export class CdkPipeline extends Construct {
           phases: {
             install: {
               'runtime-versions': {
-                nodejs: props.nodeVersion ?? NodeVersion.NODE_18,
+                nodejs: props.nodeVersion ?? NodeVersion.NODE_20,
                 go: props.goVersion,
                 java: props.javaVersion,
                 dotnet: props.dotnetVersion,
@@ -437,6 +451,25 @@ export class CdkPipeline extends Construct {
           buildImage: props.buildImage ?? LinuxBuildImage.AMAZON_LINUX_2_5,
         },
         rolePolicy,
+      },
+      assetPublishingCodeBuildDefaults: {
+        partialBuildSpec: BuildSpec.fromObject({
+          env: {
+            variables: {
+              ...(props.enableDockerBuildxOnAssetPublish ?? true
+                ? {CDK_DOCKER: '/usr/local/bin/buildx.sh'}
+                : {}),
+            },
+          },
+          phases: {
+            install: {
+              commands:
+                props.enableDockerBuildxOnAssetPublish ?? true
+                  ? DOCKER_BUILDX_SETUP_COMMANDS
+                  : [],
+            },
+          },
+        }),
       },
     });
 
