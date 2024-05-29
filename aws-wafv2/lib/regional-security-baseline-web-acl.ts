@@ -5,6 +5,7 @@ import {
   CfnRuleGroup,
   CfnWebACL,
 } from 'aws-cdk-lib/aws-wafv2';
+import {ExtendedConstruct} from '../../aws-cdk';
 
 export type regionalBlockMode = 'count' | 'active';
 
@@ -52,7 +53,7 @@ export interface RegionalSecurityBaselineWebAclProps {
  * This WebACL is designed to provide a baseline level of security for your regional resources.
  * It includes rules for blocking or counting requests based on various conditions such as the country of origin and the request rate.
  */
-export class RegionalSecurityBaselineWebAcl extends Construct {
+export class RegionalSecurityBaselineWebAcl extends ExtendedConstruct {
   readonly regionalRuleGroup: CfnRuleGroup;
   readonly regionalWebAcl: CfnWebACL;
   constructor(

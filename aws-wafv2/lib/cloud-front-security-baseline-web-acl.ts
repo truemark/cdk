@@ -5,6 +5,7 @@ import {
   CfnWebACL,
 } from 'aws-cdk-lib/aws-wafv2';
 import {LogGroup, RetentionDays} from 'aws-cdk-lib/aws-logs';
+import {ExtendedConstruct} from '../../aws-cdk';
 
 export type cloudFrontBlockMode = 'count' | 'active';
 
@@ -53,7 +54,7 @@ export interface CloudFrontSecurityBaselineWebAclProps {
 /**
  * Creates a rule group and web ACL for CloudFront distributions to use.
  */
-export class CloudFrontSecurityBaselineWebAcl extends Construct {
+export class CloudFrontSecurityBaselineWebAcl extends ExtendedConstruct {
   readonly ruleGroup: CfnRuleGroup;
   readonly webAcl: CfnWebACL;
   constructor(
