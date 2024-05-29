@@ -1,17 +1,69 @@
 import {Construct} from 'constructs/lib/construct';
-import {aws_wafv2 as wafv2} from 'aws-cdk-lib';
+import {LogGroup, RetentionDays} from 'aws-cdk-lib/aws-logs';
+import {
+  CfnLoggingConfiguration,
+  CfnRuleGroup,
+  CfnWebACL,
+} from 'aws-cdk-lib/aws-wafv2';
 
-// TODO Add a props class and have a property that puts this into active or count mode
+export type Mode = 'count' | 'active';
+
+export interface RegionalSecurityBaselineWebAclProps {
+  /**
+   * The mode of the rule group. To Block or to Count. By default it is set to count.
+   */
+  readonly mode?: Mode;
+  /**
+   * The name of the webAcl.
+   */
+  readonly webAclName?: string;
+  /**
+   * The name of the rule group.
+   */
+  readonly name?: string;
+  /**
+   * The number of days log events are kept in CloudWatch Logs. Default is 1 year.
+   */
+  readonly logRetention?: RetentionDays;
+  /**
+   * The country codes to match against.
+   */
+  readonly countryCodes: string[];
+  /**
+   * The string to search for in the request.
+   */
+  readonly searchString: string;
+  /**
+   * This is the limit for country based rate based rule.
+   */
+  readonly uriCountryRuleLimit: number;
+  /**
+   * The action to take on the URI country rule.
+   */
+  readonly uriCountryAction?: 'count' | 'block';
+  /**
+   * The limit for the rate based rule.
+   */
+  readonly rateBasedRuleLimit: number;
+}
 
 /**
- * TODO You need to add documentation to your classes
+ * The `RegionalSecurityBaselineWebAcl` class represents a regional security baseline Web Access Control List (WebACL).
+ * This WebACL is designed to provide a baseline level of security for your regional resources.
+ * It includes rules for blocking or counting requests based on various conditions such as the country of origin and the request rate.
  */
 export class RegionalSecurityBaselineWebAcl extends Construct {
-  constructor(scope: Construct, id: string) {
+  readonly regionalRuleGroup: CfnRuleGroup;
+  readonly regionalWebAcl: CfnWebACL;
+  constructor(
+    scope: Construct,
+    id: string,
+    props?: RegionalSecurityBaselineWebAclProps
+  ) {
     super(scope, id);
 
-    const ruleGroup = new wafv2.CfnRuleGroup(this, 'Default', {
-      name: 'SecurityBaselineRuleGroup', // TODO Optional input parameter on props
+    this.regionalRuleGroup = new CfnRuleGroup(this, 'RegionalRuleGroup', {
+      name: props?.name ?? 'SecurityBaselineRuleGroup',
       scope: 'REGIONAL',
       capacity: 500,
       visibilityConfig: {
@@ -24,11 +76,11 @@ export class RegionalSecurityBaselineWebAcl extends Construct {
           name: 'UriCountryBased',
           priority: 1,
           action: {
-            count: {},
+            [props?.uriCountryAction ?? 'count']: {},
           },
           statement: {
             rateBasedStatement: {
-              limit: 200,
+              limit: props?.uriCountryRuleLimit ?? 200,
               aggregateKeyType: 'IP',
               evaluationWindowSec: 300,
               scopeDownStatement: {
@@ -36,7 +88,7 @@ export class RegionalSecurityBaselineWebAcl extends Construct {
                   statements: [
                     {
                       byteMatchStatement: {
-                        searchString: '/api/login',
+                        searchString: props?.searchString ?? '/api/login',
                         fieldToMatch: {
                           uriPath: {},
                         },
@@ -51,7 +103,7 @@ export class RegionalSecurityBaselineWebAcl extends Construct {
                     },
                     {
                       geoMatchStatement: {
-                        countryCodes: ['CN', 'RU'],
+                        countryCodes: props?.countryCodes ?? ['CN', 'RU'],
                       },
                     },
                   ],
@@ -73,7 +125,7 @@ export class RegionalSecurityBaselineWebAcl extends Construct {
           },
           statement: {
             rateBasedStatement: {
-              limit: 300,
+              limit: props?.rateBasedRuleLimit ?? 300,
               aggregateKeyType: 'FORWARDED_IP',
               evaluationWindowSec: 300,
               forwardedIpConfig: {
@@ -82,7 +134,7 @@ export class RegionalSecurityBaselineWebAcl extends Construct {
               },
               scopeDownStatement: {
                 byteMatchStatement: {
-                  searchString: '/api/login',
+                  searchString: props?.searchString ?? '/api/login',
                   fieldToMatch: {
                     uriPath: {},
                   },
@@ -106,8 +158,8 @@ export class RegionalSecurityBaselineWebAcl extends Construct {
       ],
     });
 
-    const myGlobalWebACL = new wafv2.CfnWebACL(this, 'MyGlobalWebACL', {
-      name: 'RegionalSecurityBaselineWebACL',
+    this.regionalWebAcl = new CfnWebACL(this, 'WebAcl', {
+      name: props?.webAclName ?? 'RegionalSecurityBaselineWebACL',
       defaultAction: {allow: {}},
       scope: 'REGIONAL',
       visibilityConfig: {
@@ -119,7 +171,7 @@ export class RegionalSecurityBaselineWebAcl extends Construct {
         {
           name: 'AWS-AWSManagedRulesCommonRuleSet',
           priority: 0,
-          overrideAction: {none: {}},
+          overrideAction: props?.mode === 'active' ? {none: {}} : {count: {}},
           statement: {
             managedRuleGroupStatement: {
               vendorName: 'AWS',
@@ -135,10 +187,10 @@ export class RegionalSecurityBaselineWebAcl extends Construct {
         {
           name: 'SecurityBaselineRuleGroup',
           priority: 1,
-          overrideAction: {none: {}},
+          overrideAction: props?.mode === 'active' ? {none: {}} : {count: {}},
           statement: {
             ruleGroupReferenceStatement: {
-              arn: ruleGroup.attrArn,
+              arn: this.regionalRuleGroup.attrArn,
             },
           },
           visibilityConfig: {
@@ -150,7 +202,7 @@ export class RegionalSecurityBaselineWebAcl extends Construct {
         {
           name: 'AWS-AWSManagedRulesKnownBadInputsRuleSet',
           priority: 2,
-          overrideAction: {none: {}},
+          overrideAction: props?.mode === 'active' ? {none: {}} : {count: {}},
           statement: {
             managedRuleGroupStatement: {
               vendorName: 'AWS',
@@ -166,7 +218,7 @@ export class RegionalSecurityBaselineWebAcl extends Construct {
         {
           name: 'AWS-AWSManagedRulesAnonymousIpList',
           priority: 3,
-          overrideAction: {none: {}},
+          overrideAction: props?.mode === 'active' ? {none: {}} : {count: {}},
           statement: {
             managedRuleGroupStatement: {
               vendorName: 'AWS',
@@ -182,7 +234,7 @@ export class RegionalSecurityBaselineWebAcl extends Construct {
         {
           name: 'AWS-AWSManagedRulesAmazonIpReputationList',
           priority: 4,
-          overrideAction: {none: {}},
+          overrideAction: props?.mode === 'active' ? {none: {}} : {count: {}},
           statement: {
             managedRuleGroupStatement: {
               vendorName: 'AWS',
@@ -196,6 +248,21 @@ export class RegionalSecurityBaselineWebAcl extends Construct {
           },
         },
       ],
+    });
+
+    this.regionalWebAcl.addPropertyOverride(
+      'Rules.3.Statement.ManagedRuleGroupStatement.RuleActionOverrides',
+      [{Name: 'HostingProviderIPList', ActionToUse: {Count: {}}}]
+    );
+
+    const wafRegionalLogGroup = new LogGroup(this, 'RegionalWafLogGroup', {
+      logGroupName: `aws-waf-logs-regional-waf-acl-logs-${this.node.addr}`,
+      retention: props?.logRetention ?? RetentionDays.ONE_YEAR,
+    });
+
+    new CfnLoggingConfiguration(this, 'RegionalLoggingConfig', {
+      resourceArn: this.regionalWebAcl.attrArn,
+      logDestinationConfigs: [wafRegionalLogGroup.logGroupArn],
     });
   }
 }
