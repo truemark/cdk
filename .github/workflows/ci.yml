@@ -16,7 +16,6 @@
     publish:
       uses: truemark/github-workflows/.github/workflows/javascript-library.yml@main
       with:
-        pnpm-version: "9"
         node-versions: "[18,20,22]"
         publish-node-version: "22"
       secrets:
