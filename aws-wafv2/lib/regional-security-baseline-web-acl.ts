@@ -6,13 +6,13 @@ import {
   CfnWebACL,
 } from 'aws-cdk-lib/aws-wafv2';
 
-export type Mode = 'count' | 'active';
+export type regionalBlockMode = 'count' | 'active';
 
 export interface RegionalSecurityBaselineWebAclProps {
   /**
    * The mode of the rule group. To Block or to Count. By default it is set to count.
    */
-  readonly mode?: Mode;
+  readonly mode?: regionalBlockMode;
   /**
    * The name of the webAcl.
    */

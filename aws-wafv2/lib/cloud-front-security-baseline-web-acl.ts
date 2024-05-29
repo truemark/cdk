@@ -6,7 +6,7 @@ import {
 } from 'aws-cdk-lib/aws-wafv2';
 import {LogGroup, RetentionDays} from 'aws-cdk-lib/aws-logs';
 
-export type Mode = 'count' | 'active';
+export type cloudFrontBlockMode = 'count' | 'active';
 
 /**
  * Properties for CloudFrontSecurityBaselineWebAcl.
@@ -15,7 +15,7 @@ export interface CloudFrontSecurityBaselineWebAclProps {
   /**
    * The mode of the rule group. To Block or to Count. By default it is set to count.
    */
-  readonly mode?: Mode;
+  readonly mode?: cloudFrontBlockMode;
   /**
    * The name of the webAcl.
    */
