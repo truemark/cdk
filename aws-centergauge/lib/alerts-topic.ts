@@ -48,6 +48,7 @@ export interface AlertsTopicProps extends ExtendedConstructProps {
  * Sets up an SNS Topic that will send notifications to CenterGauge.
  */
 export class AlertsTopic extends ExtendedConstruct {
+  public readonly topic: Topic;
   constructor(scope: Construct, id: string, props: AlertsTopicProps) {
     super(scope, id, {
       standardTags: StandardTags.merge(props.standardTags, LibStandardTags),
@@ -63,7 +64,7 @@ export class AlertsTopic extends ExtendedConstruct {
       },
     });
 
-    const topic = new Topic(this, 'Default', {
+    this.topic = new Topic(this, 'Default', {
       displayName: props.displayName ?? 'CenterGaugeAlerts',
       fifo: false,
       masterKey,
@@ -77,14 +78,14 @@ export class AlertsTopic extends ExtendedConstruct {
         actions: ['sqs:SendMessage'],
         conditions: {
           ArnEquals: {
-            'aws:SourceArn': topic.topicArn,
+            'aws:SourceArn': this.topic.topicArn,
           },
         },
       })
     );
 
     new CfnSubscription(this, 'Subscription', {
-      topicArn: topic.topicArn,
+      topicArn: this.topic.topicArn,
       protocol: 'https',
       endpoint: props.url ?? 'https://alerts.centergauge.com/',
       rawMessageDelivery: false,
