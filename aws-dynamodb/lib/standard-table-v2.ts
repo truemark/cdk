@@ -102,7 +102,7 @@ export class StandardTableV2 extends ExtendedTableV2 {
     super.addGlobalSecondaryIndex({
       indexName,
       partitionKey: {
-        name: `Gs${this.secondaryIndexCount}Pk`,
+        name: `Gs${this.secondaryIndexCount + 1}Pk`,
         type: AttributeType.STRING,
       },
       sortKey: {
