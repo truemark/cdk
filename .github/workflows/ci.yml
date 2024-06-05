@@ -6,7 +6,7 @@
     workflow_dispatch:
   name: ci
   jobs:
-    publish:
+    ci:
       uses: truemark/github-workflows/.github/workflows/javascript-library-build.yml@develop
       with:
         node-versions: "[18,20,22]"
