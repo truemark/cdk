@@ -7,7 +7,7 @@ on:
 name: ci
 jobs:
   ci:
-    uses: nr1e/github-workflows/.github/workflows/javascript-library-build.yml@develop
+    uses: nr1etech/github-workflows/.github/workflows/javascript-library-build.yml@develop
     with:
       node-versions: "[18,20,22]"
       publish-node-version: "22"
