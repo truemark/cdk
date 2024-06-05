@@ -80,11 +80,11 @@ export class StandardTable extends ExtendedTable {
     super.addGlobalSecondaryIndex({
       indexName,
       partitionKey: {
-        name: `Gs${this.secondaryIndexCount + 1}Pk`,
+        name: `Gs${this.secondaryIndexCount}Pk`,
         type: AttributeType.STRING,
       },
       sortKey: {
-        name: `Gs${this.secondaryIndexCount + 1}Sk`,
+        name: `Gs${this.secondaryIndexCount}Sk`,
         type: AttributeType.STRING,
       },
       ...props,
