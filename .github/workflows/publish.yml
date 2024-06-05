@@ -3,7 +3,7 @@
       branches:
         - main
         - develop
-  name: ci
+  name: publish
   permissions:
     contents: write
     pages: write
