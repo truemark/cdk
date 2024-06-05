@@ -3,6 +3,7 @@
       branches:
         - main
         - develop
+    workflow_dispatch:
   name: ci
   jobs:
     publish:
