@@ -7,22 +7,22 @@ settings:
 dependencies:
   '@aws-cdk/aws-appsync-alpha':
     specifier: 2.59.0-alpha.0
-    version: 2.59.0-alpha.0(aws-cdk-lib@2.143.0)(constructs@10.3.0)
+    version: 2.59.0-alpha.0(aws-cdk-lib@2.144.0)(constructs@10.3.0)
   '@aws-cdk/aws-lambda-go-alpha':
     specifier: 2.143.0-alpha.0
-    version: 2.143.0-alpha.0(aws-cdk-lib@2.143.0)(constructs@10.3.0)
+    version: 2.143.0-alpha.0(aws-cdk-lib@2.144.0)(constructs@10.3.0)
   '@aws-cdk/aws-lambda-python-alpha':
     specifier: 2.143.0-alpha.0
-    version: 2.143.0-alpha.0(aws-cdk-lib@2.143.0)(constructs@10.3.0)
+    version: 2.143.0-alpha.0(aws-cdk-lib@2.144.0)(constructs@10.3.0)
   '@aws-cdk/aws-redshift-alpha':
     specifier: 2.143.0-alpha.0
-    version: 2.143.0-alpha.0(aws-cdk-lib@2.143.0)(constructs@10.3.0)
+    version: 2.143.0-alpha.0(aws-cdk-lib@2.144.0)(constructs@10.3.0)
   aws-cdk-lib:
-    specifier: 2.143.0
-    version: 2.143.0(constructs@10.3.0)
+    specifier: 2.144.0
+    version: 2.144.0(constructs@10.3.0)
   cdk-monitoring-constructs:
     specifier: 7.10.1
-    version: 7.10.1(@aws-cdk/aws-redshift-alpha@2.143.0-alpha.0)(aws-cdk-lib@2.143.0)(constructs@10.3.0)
+    version: 7.10.1(@aws-cdk/aws-redshift-alpha@2.143.0-alpha.0)(aws-cdk-lib@2.144.0)(constructs@10.3.0)
   constructs:
     specifier: 10.3.0
     version: 10.3.0
@@ -78,47 +78,47 @@ packages:
     resolution: {integrity: sha512-twhuEG+JPOYCYPx/xy5uH2+VUsIEhPTzDY0F1KuB+ocjWWB/KEDiOVL19nHvbPCB6fhWnkykXEMJ4HHcKvjtvg==}
     dev: false
 
-  /@aws-cdk/aws-appsync-alpha@2.59.0-alpha.0(aws-cdk-lib@2.143.0)(constructs@10.3.0):
+  /@aws-cdk/aws-appsync-alpha@2.59.0-alpha.0(aws-cdk-lib@2.144.0)(constructs@10.3.0):
     resolution: {integrity: sha512-6Q1SpTw7F3TTrip7h7DHOqeCCPBeg0YveZZoWElHgYyi1LyVdMOvK8f2gxmrG9Z0mUpSeo2/FKkxUUC/+SJCLw==}
     engines: {node: '>= 14.15.0'}
     peerDependencies:
       aws-cdk-lib: ^2.59.0
       constructs: ^10.0.0
     dependencies:
-      aws-cdk-lib: 2.143.0(constructs@10.3.0)
+      aws-cdk-lib: 2.144.0(constructs@10.3.0)
       constructs: 10.3.0
     dev: false
 
-  /@aws-cdk/aws-lambda-go-alpha@2.143.0-alpha.0(aws-cdk-lib@2.143.0)(constructs@10.3.0):
+  /@aws-cdk/aws-lambda-go-alpha@2.143.0-alpha.0(aws-cdk-lib@2.144.0)(constructs@10.3.0):
     resolution: {integrity: sha512-KQoIO3QpXeUaUQxBqHsixHcAamtRwPbTVwkCy2ZjaECl3bfzpj7oO7uTypHdfOXgdrM35WoDKbgkUGQvQW4jtA==}
     engines: {node: '>= 14.15.0'}
     peerDependencies:
       aws-cdk-lib: ^2.143.0
       constructs: ^10.0.0
     dependencies:
-      aws-cdk-lib: 2.143.0(constructs@10.3.0)
+      aws-cdk-lib: 2.144.0(constructs@10.3.0)
       constructs: 10.3.0
     dev: false
 
-  /@aws-cdk/aws-lambda-python-alpha@2.143.0-alpha.0(aws-cdk-lib@2.143.0)(constructs@10.3.0):
+  /@aws-cdk/aws-lambda-python-alpha@2.143.0-alpha.0(aws-cdk-lib@2.144.0)(constructs@10.3.0):
     resolution: {integrity: sha512-XZlhwxmcpXQxW7vGl8W7wAwC0zuDwtBrLVHbuBL79U6wcJSz/sXCD7BaaFkKbY86PngCwyQ57WMHlclYl28xFg==}
     engines: {node: '>= 14.15.0'}
     peerDependencies:
       aws-cdk-lib: ^2.143.0
       constructs: ^10.0.0
     dependencies:
-      aws-cdk-lib: 2.143.0(constructs@10.3.0)
+      aws-cdk-lib: 2.144.0(constructs@10.3.0)
       constructs: 10.3.0
     dev: false
 
-  /@aws-cdk/aws-redshift-alpha@2.143.0-alpha.0(aws-cdk-lib@2.143.0)(constructs@10.3.0):
+  /@aws-cdk/aws-redshift-alpha@2.143.0-alpha.0(aws-cdk-lib@2.144.0)(constructs@10.3.0):
     resolution: {integrity: sha512-sJreQQjsG+DzDcAKZC7sLil61hnW7kPcUGBkscNW4K6ilXQcHpLL/Z2GkXkllWnip/Q4t+yLlakKa1WYAUQBSg==}
     engines: {node: '>= 14.15.0'}
     peerDependencies:
       aws-cdk-lib: ^2.143.0
       constructs: ^10.0.0
     dependencies:
-      aws-cdk-lib: 2.143.0(constructs@10.3.0)
+      aws-cdk-lib: 2.144.0(constructs@10.3.0)
       constructs: 10.3.0
     dev: false
 
@@ -2207,8 +2207,8 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
-  /aws-cdk-lib@2.143.0(constructs@10.3.0):
-    resolution: {integrity: sha512-mIu+ftBt1OvDEMxpbMNQPZIPtb7ucp+z01xrtaB/3EqZRUXLha2W1/3JodW9X5h7IliFi4oBeMmzH3wWtvHbog==}
+  /aws-cdk-lib@2.144.0(constructs@10.3.0):
+    resolution: {integrity: sha512-DpyIyTs8NHX6WgAyYM2mGorirIk+eTjWzXGQRfzAe40qkwcqsb5Ax4JEl5gz1OEo9QIJIgWDtmImgWN0tUbILA==}
     engines: {node: '>= 14.15.0'}
     peerDependencies:
       constructs: ^10.0.0
@@ -2217,7 +2217,6 @@ packages:
       '@aws-cdk/asset-kubectl-v20': 2.1.2
       '@aws-cdk/asset-node-proxy-agent-v6': 2.0.3
       constructs: 10.3.0
-    dev: false
     bundledDependencies:
       - '@balena/dockerignore'
       - case
@@ -2381,15 +2380,15 @@ packages:
     resolution: {integrity: sha512-X/XhAVKlpIxWPpgRTnlgZssJrF0m6YtRA0QDWgsBNT12uZM6LPRydR7ip405Y3t1LamD8cP2TZFEDZFBf5ApcA==}
     dev: true
 
-  /cdk-monitoring-constructs@7.10.1(@aws-cdk/aws-redshift-alpha@2.143.0-alpha.0)(aws-cdk-lib@2.143.0)(constructs@10.3.0):
+  /cdk-monitoring-constructs@7.10.1(@aws-cdk/aws-redshift-alpha@2.143.0-alpha.0)(aws-cdk-lib@2.144.0)(constructs@10.3.0):
     resolution: {integrity: sha512-iFj1JykoZaxJPZinyb7obKOVZBTw8EbUmcbrt15Bd4rY0rGB8VlZ2ZqtCTlHCudlRn60Gy54JO3VxT63/aCVWg==}
     peerDependencies:
       '@aws-cdk/aws-redshift-alpha': ^2.112.0-alpha.0
       aws-cdk-lib: ^2.112.0
       constructs: ^10.0.5
     dependencies:
-      '@aws-cdk/aws-redshift-alpha': 2.143.0-alpha.0(aws-cdk-lib@2.143.0)(constructs@10.3.0)
-      aws-cdk-lib: 2.143.0(constructs@10.3.0)
+      '@aws-cdk/aws-redshift-alpha': 2.143.0-alpha.0(aws-cdk-lib@2.144.0)(constructs@10.3.0)
+      aws-cdk-lib: 2.144.0(constructs@10.3.0)
       constructs: 10.3.0
     dev: false
 
