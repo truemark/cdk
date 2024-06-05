@@ -49,7 +49,7 @@
     "@aws-cdk/aws-lambda-python-alpha": "2.143.0-alpha.0",
     "@aws-cdk/aws-redshift-alpha": "2.143.0-alpha.0",
     "aws-cdk-lib": "2.144.0",
-    "cdk-monitoring-constructs": "7.10.1",
+    "cdk-monitoring-constructs": "7.11.0",
     "constructs": "10.3.0"
   },
   "peerDependencies": {
