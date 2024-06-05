@@ -21,8 +21,8 @@ dependencies:
     specifier: 2.144.0
     version: 2.144.0(constructs@10.3.0)
   cdk-monitoring-constructs:
-    specifier: 7.10.1
-    version: 7.10.1(@aws-cdk/aws-redshift-alpha@2.143.0-alpha.0)(aws-cdk-lib@2.144.0)(constructs@10.3.0)
+    specifier: 7.11.0
+    version: 7.11.0(@aws-cdk/aws-redshift-alpha@2.143.0-alpha.0)(aws-cdk-lib@2.144.0)(constructs@10.3.0)
   constructs:
     specifier: 10.3.0
     version: 10.3.0
@@ -2217,6 +2217,7 @@ packages:
       '@aws-cdk/asset-kubectl-v20': 2.1.2
       '@aws-cdk/asset-node-proxy-agent-v6': 2.0.3
       constructs: 10.3.0
+    dev: false
     bundledDependencies:
       - '@balena/dockerignore'
       - case
@@ -2380,8 +2381,8 @@ packages:
     resolution: {integrity: sha512-X/XhAVKlpIxWPpgRTnlgZssJrF0m6YtRA0QDWgsBNT12uZM6LPRydR7ip405Y3t1LamD8cP2TZFEDZFBf5ApcA==}
     dev: true
 
-  /cdk-monitoring-constructs@7.10.1(@aws-cdk/aws-redshift-alpha@2.143.0-alpha.0)(aws-cdk-lib@2.144.0)(constructs@10.3.0):
-    resolution: {integrity: sha512-iFj1JykoZaxJPZinyb7obKOVZBTw8EbUmcbrt15Bd4rY0rGB8VlZ2ZqtCTlHCudlRn60Gy54JO3VxT63/aCVWg==}
+  /cdk-monitoring-constructs@7.11.0(@aws-cdk/aws-redshift-alpha@2.143.0-alpha.0)(aws-cdk-lib@2.144.0)(constructs@10.3.0):
+    resolution: {integrity: sha512-oGMHiR4ODCuGNoNj/YAX9MywujB+EOqN4MQFfFfJnCyMeSym1uShWkcaK0BOK06KFpRyYe34+EqW4LHfdULIow==}
     peerDependencies:
       '@aws-cdk/aws-redshift-alpha': ^2.112.0-alpha.0
       aws-cdk-lib: ^2.112.0
