@@ -44,7 +44,7 @@ export interface StandardTableProps
  * your requirements, use ExtendedTable directly.
  */
 export class StandardTable extends ExtendedTable {
-  protected secondaryIndexCount: number;
+  protected secondaryIndexCount = 0;
   constructor(scope: Construct, id: string, props?: StandardTableProps) {
     const {globalSecondaryIndexes, ...rest} = props ?? {};
     super(scope, id, {
@@ -61,8 +61,7 @@ export class StandardTable extends ExtendedTable {
       billingMode: props?.billingMode ?? BillingMode.PAY_PER_REQUEST,
       deletionProtection: props?.deletionProtection ?? true,
     });
-    this.secondaryIndexCount = globalSecondaryIndexes ?? 1;
-    for (let i = 0; i < this.secondaryIndexCount; i++) {
+    for (let i = 0; i < (globalSecondaryIndexes ?? 1); i++) {
       this.addGlobalSecondaryIndex({
         readCapacity: props?.readCapacity,
         writeCapacity: props?.writeCapacity,

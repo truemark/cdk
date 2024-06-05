@@ -61,7 +61,7 @@ export interface StandardTablePropsV2
  * Standard DynamoDB Table V2 with a defined primary key and sort key.
  */
 export class StandardTableV2 extends ExtendedTableV2 {
-  protected secondaryIndexCount: number;
+  protected secondaryIndexCount = 0;
   constructor(scope: Construct, id: string, props?: StandardTablePropsV2) {
     const {
       globalSecondaryIndexes,
@@ -83,8 +83,7 @@ export class StandardTableV2 extends ExtendedTableV2 {
       removalPolicy: props?.removalPolicy ?? RemovalPolicy.RETAIN,
       ...rest,
     });
-    this.secondaryIndexCount = globalSecondaryIndexes ?? 1;
-    for (let i = 0; i < this.secondaryIndexCount; i++) {
+    for (let i = 0; i < (globalSecondaryIndexes ?? 1); i++) {
       this.addGlobalSecondaryIndex({
         readCapacity: globalSecondaryIndexReadCapacity,
         writeCapacity: globalSecondaryIndexWriteCapacity,
