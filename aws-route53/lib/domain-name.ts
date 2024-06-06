@@ -233,7 +233,7 @@ export class DomainName {
   createCnameRecord(
     scope: Construct,
     domainName: string,
-    options: CnameRecordOptions
+    options?: CnameRecordOptions
   ): CnameRecord {
     return new CnameRecord(
       scope,
