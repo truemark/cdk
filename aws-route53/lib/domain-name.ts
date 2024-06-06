@@ -1,5 +1,6 @@
 import {
   ARecord,
+  CnameRecord,
   HostedZone,
   IHostedZone,
   RecordTarget,
@@ -62,6 +63,34 @@ export interface CertificateOptions {
   readonly subjectAlternativeNames?: string[];
 }
 
+/**
+ * Cname record options.
+ */
+export interface CnameRecordOptions {
+  /**
+   * The identifier to use. One is generated if not provided.
+   */
+  readonly id?: string;
+
+  /**
+   * The resource record cache time to live (TTL).
+   */
+  readonly ttl?: Duration;
+
+  /**
+   * A comment to add on the record.
+   */
+  readonly comment?: string;
+
+  /**
+   * Whether to delete the same record set in the hosted zone if it already exists.
+   */
+  readonly deleteExisting?: boolean;
+}
+
+/**
+ * A record options.
+ */
 export interface ARecordOptions {
   /**
    * The identifier to use. One is generated if not provided.
@@ -201,6 +230,22 @@ export class DomainName {
     return /^\d/.test(identifier) ? 'x' + identifier : identifier;
   }
 
+  createCnameRecord(
+    scope: Construct,
+    domainName: string,
+    options: CnameRecordOptions
+  ): CnameRecord {
+    return new CnameRecord(
+      scope,
+      options?.id ?? `${this.scrubIdentifier(this.toIdentifier())}CnameRecord`,
+      {
+        zone: this.getHostedZone(scope),
+        recordName: this.toString(),
+        domainName,
+      }
+    );
+  }
+
   /**
    * Creates a Route53 ARecord for this domain name.
    *
@@ -317,6 +362,8 @@ export class DomainName {
    *
    * @param fqdn the fully qualified domain name
    * @param zone the zone
+   * @param privateZone whether the zone is private
+   * @param vpcId the VPC ID
    */
   static fromFqdn(
     fqdn: string,
