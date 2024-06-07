@@ -86,6 +86,11 @@ export interface CnameRecordOptions {
    * Whether to delete the same record set in the hosted zone if it already exists.
    */
   readonly deleteExisting?: boolean;
+
+  /**
+   * The region the resource behind this cname is located.
+   */
+  readonly region?: string;
 }
 
 /**
@@ -242,6 +247,7 @@ export class DomainName {
         zone: this.getHostedZone(scope),
         recordName: this.toString(),
         domainName,
+        region: options?.region,
       }
     );
   }
