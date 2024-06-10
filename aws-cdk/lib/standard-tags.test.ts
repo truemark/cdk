@@ -130,9 +130,6 @@ test('Test StandardTags', () => {
     environment: 'prod',
   });
   const testTemplate = Template.fromStack(testStage.stack);
-  const prodTemplate = Template.fromStack(prodStage.stack);
-  HelperTest.logTemplate(testTemplate);
-  HelperTest.logTemplate(prodTemplate);
   testTemplate.resourceCountIs(ResourceType.S3_BUCKET, 2);
   testTemplate.hasResourceProperties(ResourceType.S3_BUCKET, {
     Tags: Match.arrayWith([
@@ -142,6 +139,8 @@ test('Test StandardTags', () => {
       },
     ]),
   });
+  const prodTemplate = Template.fromStack(prodStage.stack);
+  prodTemplate.resourceCountIs(ResourceType.S3_BUCKET, 2);
 });
 
 test('Test Global Exclusion', () => {
@@ -152,7 +151,6 @@ test('Test Global Exclusion', () => {
     sinkIdentifier: 'sink',
   });
   const template = Template.fromStack(stack);
-  HelperTest.logTemplate(template);
   template.hasResource(ResourceType.OAM_LINK, {
     Properties: {
       Tags: Match.absent(),

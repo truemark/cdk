@@ -8,6 +8,7 @@ export enum ResourceType {
   CLOUDWATCH_ALARM = 'AWS::CloudWatch::Alarm',
   LAMBDA_FUNCTION = 'AWS::Lambda::Function',
   DYNAMODB_TABLE = 'AWS::DynamoDB::Table',
+  DYNAMODB_GLOBAL_TABLE = 'AWS::DynamoDB::GlobalTable',
   SSM_PARAMETER = 'AWS::SSM::Parameter',
   S3_BUCKET = 'AWS::S3::Bucket',
   OAM_LINK = 'AWS::Oam::Link',

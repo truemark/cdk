@@ -9,7 +9,7 @@ export interface WrapperStageProps<
   T extends ExtendedStack,
   P extends ExtendedStackProps,
 > extends ExtendedStageProps {
-  readonly id?: string;
+  readonly id: string;
   readonly cls: new (scope: Construct, id: string, props: P) => T;
   readonly props: P;
 }
@@ -26,7 +26,7 @@ export class SingleStackStage<
 
   constructor(scope: Construct, id: string, props: WrapperStageProps<T, P>) {
     super(scope, id, props);
-    this.stack = new props.cls(this, props.id ?? 'Stack', {
+    this.stack = new props.cls(this, props.id, {
       ...props.props,
     });
   }

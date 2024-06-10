@@ -1,33 +1,30 @@
-import {TableAlarms, TableAlarmsOptions} from './table-alarms';
 import {
-  GlobalSecondaryIndexProps,
-  Table,
-  TableProps,
+  GlobalSecondaryIndexPropsV2,
+  TablePropsV2,
+  TableV2,
 } from 'aws-cdk-lib/aws-dynamodb';
+import {ExtendedConstructProps} from '../../aws-cdk';
+import {TableAlarms, TableAlarmsOptions} from './table-alarms';
 import {Construct} from 'constructs';
-import {ExtendedConstructProps, StandardTags} from '../../aws-cdk';
 
 /**
- * Properties for ExtendedTable.
+ * Properties for ExtendedTableV2.
  */
-export interface ExtendedTableProps
-  extends TableProps,
+export interface ExtendedTablePropsV2
+  extends TablePropsV2,
     TableAlarmsOptions,
     ExtendedConstructProps {}
 
 /**
  * DynamoDB Table with CloudWatch Alarms.
  */
-export class ExtendedTable extends Table {
+export class ExtendedTableV2 extends TableV2 {
   readonly tableAlarms?: TableAlarms;
-
-  constructor(scope: Construct, id: string, props: ExtendedTableProps) {
+  constructor(scope: Construct, id: string, props: ExtendedTablePropsV2) {
     super(scope, id, props);
 
-    new StandardTags(this, props.standardTags);
-
     if (props.createAlarms ?? true) {
-      this.tableAlarms = new TableAlarms(this, 'Alarms', {
+      new TableAlarms(this, 'Alarms', {
         table: this,
         ...props,
       });
@@ -39,7 +36,7 @@ export class ExtendedTable extends Table {
    *
    * @param props the property of global secondary index
    */
-  addGlobalSecondaryIndex(props: GlobalSecondaryIndexProps) {
+  addGlobalSecondaryIndex(props: GlobalSecondaryIndexPropsV2) {
     super.addGlobalSecondaryIndex(props);
     if (this.tableAlarms) {
       this.tableAlarms.addGlobalSecondaryIndexMonitoring(props.indexName);

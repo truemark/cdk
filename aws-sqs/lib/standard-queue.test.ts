@@ -8,7 +8,7 @@ test('Standard Queue Test', () => {
   new StandardQueue(stack, 'Test2');
   const template = Template.fromStack(stack);
   template.hasResourceProperties('AWS::SQS::Queue', {});
-  HelperTest.logResources(template, 'AWS::CloudWatch::Alarm');
+  // HelperTest.logResources(template, 'AWS::CloudWatch::Alarm');
   // console.log(template.findResources("AWS::CloudWatch::Alarm"));
   // console.log(template.findResources("AWS::SQS::Queue"));
 });
