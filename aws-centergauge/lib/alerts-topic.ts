@@ -55,7 +55,8 @@ export class AlertsTopic extends ExtendedConstruct {
     });
 
     const masterKey =
-      props.masterKey ?? Alias.fromAliasName(this, 'AwsSnsKey', 'aws/sns');
+      props.masterKey ??
+      Alias.fromAliasName(this, 'AwsSnsKey', 'alias/aws/sns');
 
     const dlq = new StandardQueue(this, 'Dlq', {
       maxReceiveCount: -1,
