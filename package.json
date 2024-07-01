@@ -35,7 +35,7 @@
     "@aws-sdk/client-dynamodb": "^3.590.0",
     "@aws-sdk/util-dynamodb": "^3.590.0",
     "@types/jest": "^29.5.12",
-    "@types/node": "20.14.2",
+    "@types/node": "20.14.9",
     "aws-cdk-lib": "^2.144.0",
     "esbuild": "^0.21.4",
     "gts": "^5.3.0",
