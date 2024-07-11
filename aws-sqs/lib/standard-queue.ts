@@ -1,11 +1,6 @@
 import {Construct} from 'constructs';
 import {Duration, RemovalPolicy, ResourceEnvironment, Stack} from 'aws-cdk-lib';
-import {
-  DeadLetterQueue,
-  IQueue,
-  Queue,
-  QueueEncryption,
-} from 'aws-cdk-lib/aws-sqs';
+import {DeadLetterQueue, IQueue, QueueEncryption} from 'aws-cdk-lib/aws-sqs';
 import * as kms from 'aws-cdk-lib/aws-kms';
 import {QueueAlarmsOptions} from './queue-alarms';
 import {ExtendedQueue} from './extended-queue';
@@ -22,6 +17,7 @@ import {
   StandardTags,
 } from '../../aws-cdk';
 import {LibStandardTags} from '../../truemark';
+import {StandardDeadLetterQueue} from './standard-dead-letter-queue';
 
 /**
  * Properties for a StandardQueue
@@ -163,16 +159,24 @@ export class StandardQueue extends ExtendedConstruct implements IQueue {
       maxReceiveCount <= 0
         ? undefined
         : {
-            queue: new Queue(this, 'Dlq', {
+            queue: new StandardDeadLetterQueue(this, 'Dlq', {
               queueName: props?.deadLetterQueueName,
               encryption,
               encryptionMasterKey,
               dataKeyReuse,
-              fifo: props?.fifo,
-              receiveMessageWaitTime:
-                props?.receiveMessageWaitTime ?? Duration.seconds(20),
-              retentionPeriod: StandardQueue.DEFAULT_RETENTION_PERIOD,
+              receiveMessageWaitTime: props?.receiveMessageWaitTime,
+              retentionPeriod: props?.retentionPeriod,
             }),
+            // queue: new Queue(this, 'Dlq', {
+            //   queueName: props?.deadLetterQueueName,
+            //   encryption,
+            //   encryptionMasterKey,
+            //   dataKeyReuse,
+            //   fifo: props?.fifo,
+            //   receiveMessageWaitTime:
+            //     props?.receiveMessageWaitTime ?? Duration.seconds(20),
+            //   retentionPeriod: StandardQueue.DEFAULT_RETENTION_PERIOD,
+            // }),
             maxReceiveCount,
           };
 
