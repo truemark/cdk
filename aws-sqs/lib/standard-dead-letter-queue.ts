@@ -69,23 +69,23 @@ export class StandardDeadLetterQueue extends Queue {
   constructor(
     scope: Construct,
     id: string,
-    props: StandardDeadLetterQueueProps
+    props?: StandardDeadLetterQueueProps
   ) {
     super(scope, id, {
-      queueName: props.queueName,
-      retentionPeriod: props.retentionPeriod ?? Duration.minutes(14),
-      encryption: props.encryption ?? QueueEncryption.SQS_MANAGED,
-      encryptionMasterKey: props.encryptionMasterKey,
-      dataKeyReuse: props.dataKeyReuse,
-      removalPolicy: props.removalPolicy ?? RemovalPolicy.DESTROY,
-      enforceSSL: props.enforceSSL ?? true,
+      queueName: props?.queueName,
+      retentionPeriod: props?.retentionPeriod ?? Duration.minutes(14),
+      encryption: props?.encryption ?? QueueEncryption.SQS_MANAGED,
+      encryptionMasterKey: props?.encryptionMasterKey,
+      dataKeyReuse: props?.dataKeyReuse,
+      removalPolicy: props?.removalPolicy ?? RemovalPolicy.DESTROY,
+      enforceSSL: props?.enforceSSL ?? true,
       receiveMessageWaitTime:
-        props.receiveMessageWaitTime ?? Duration.seconds(20),
+        props?.receiveMessageWaitTime ?? Duration.seconds(20),
     });
 
     this.alarm = new Alarm(this, 'Alarm', {
       metric: this.metricApproximateNumberOfMessagesVisible(),
-      threshold: props.alarmThreshold ?? 1,
+      threshold: props?.alarmThreshold ?? 1,
       evaluationPeriods: 1,
       treatMissingData: TreatMissingData.IGNORE,
       comparisonOperator: ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
