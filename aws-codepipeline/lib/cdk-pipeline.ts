@@ -153,7 +153,7 @@ export interface CdkPipelineProps {
   readonly dockerEnabledForSelfMutation?: boolean;
 
   /**
-   * Type of compute to use for this build. If not set, the default defined in AWS CDK is used.
+   * Type of compute to use for this build. Default is ComputeType.SMALL.
    */
   readonly computeType?: ComputeType;
 
