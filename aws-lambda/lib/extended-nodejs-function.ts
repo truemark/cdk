@@ -10,12 +10,21 @@ import * as path from 'path';
 import {
   NodejsFunction,
   NodejsFunctionProps,
+  OutputFormat,
 } from 'aws-cdk-lib/aws-lambda-nodejs';
 
+/**
+ * Properties for ExtendedNodejsFunction.
+ */
 export interface ExtendedNodejsFunctionProps
   extends NodejsFunctionProps,
     FunctionAlarmsOptions,
-    DeployedFunctionOptions {}
+    DeployedFunctionOptions {
+  /**
+   * Whether to use ESM (ECMAScript Modules) for bundling. This will add ESM options to the bundling configuration and allows for functionality such as top level awaits.
+   */
+  readonly esm?: boolean;
+}
 
 export class ExtendedNodejsFunction extends NodejsFunction {
   readonly alarms: FunctionAlarms;
@@ -56,6 +65,15 @@ export class ExtendedNodejsFunction extends NodejsFunction {
       bundling: {
         sourceMap: props.bundling?.sourceMap ?? true,
         minify: true,
+        ...(props.esm
+          ? {
+              format: OutputFormat.ESM,
+              mainFields: ['module', 'main'],
+              esbuildArgs: {
+                '--conditions': 'module',
+              },
+            }
+          : {}),
         ...props.bundling,
       },
     });
