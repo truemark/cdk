@@ -116,7 +116,9 @@ export class ExtendedStack extends Stack {
     this.parameterExportOptions = {
       prefix:
         props?.parameterExportsPrefix ??
-        (stageName === undefined ? '' : `/${stageName}`) + `/${id}/Exports/`,
+        (stageName === undefined || stageName === null || stageName === ''
+          ? ''
+          : `/${stageName}`) + `/${id}/Exports/`,
       region: this.region,
     };
     this.parameterExports = new ParameterStore(
