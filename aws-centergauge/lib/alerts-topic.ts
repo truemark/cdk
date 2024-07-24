@@ -15,11 +15,9 @@ import {LibStandardTags} from '../../truemark';
  */
 export interface AlertsTopicProps extends ExtendedConstructProps {
   /**
-   * Overrides default topic display name.
-   *
-   * @default "CenterGaugeAlerts"
+   * Overrides the default topic name.
    */
-  readonly displayName?: string;
+  readonly topicName?: string;
 
   /**
    * Overrides the use of the default aws/sns KMS key for encryption
@@ -45,7 +43,7 @@ export interface AlertsTopicProps extends ExtendedConstructProps {
 }
 
 /**
- * Sets up an SNS Topic that will send notifications to CenterGauge.
+ * Sets up an SNS Topic that will send notifications to the CenterGauge platform.
  */
 export class AlertsTopic extends ExtendedConstruct {
   public readonly topic: Topic;
@@ -66,7 +64,7 @@ export class AlertsTopic extends ExtendedConstruct {
     });
 
     this.topic = new Topic(this, 'Default', {
-      displayName: props.displayName ?? 'CenterGaugeAlerts',
+      topicName: props.topicName ?? 'CenterGaugeAlerts',
       fifo: false,
       masterKey,
     });
@@ -88,7 +86,7 @@ export class AlertsTopic extends ExtendedConstruct {
     new CfnSubscription(this, 'Subscription', {
       topicArn: this.topic.topicArn,
       protocol: 'https',
-      endpoint: props.url ?? 'https://alerts.centergauge.com/',
+      endpoint: props.url ?? 'https://ingest.centergauge.com/',
       rawMessageDelivery: false,
       deliveryPolicy: {
         healthyRetryPolicy: {
