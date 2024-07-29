@@ -23,14 +23,8 @@ fi
 
 # Check if requirements.txt exists and install dependencies
 if [ -f requirements.txt ]; then
-    echo "Installing Python dependencies..."
     pip install --target "${CDK_BUNDLING_OUTPUT_DIR}" -r requirements.txt
-else
-    echo "requirements.txt does not exist"
 fi
 
 # Copy all files to the output directory
-echo "Copying files to output directory..."
 cp -a ./* "${CDK_BUNDLING_OUTPUT_DIR}"
-
-echo "Bundling completed successfully"
