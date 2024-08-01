@@ -65,6 +65,14 @@ export interface StandardNetworkFargateServiceProps
   readonly healthCheckProtocol?: Protocol;
 
   /**
+   * The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy
+   * Elastic Load Balancing target health checks after a task has first started.
+   *
+   * @default - defaults to 60 seconds if at least one load balancer is in-use and it is not already set
+   */
+  readonly healthCheckGracePeriod?: Duration;
+
+  /**
    * The amount of time, in seconds, during which no response from a target means a failed health check.
    *
    * @default - Duration.seconds(3)
