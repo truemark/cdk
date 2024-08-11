@@ -50,7 +50,7 @@ export interface StandardTablePropsV2
    * Creates additional global secondary indexes on the table with the partition key Gs#Pk and sort key Gs#Sk of string types. Default is 1.
    * Be aware you may only add one index at a time if the table already exists. This is a limitation of the DynamoDB API.
    *
-   * @default 1
+   * @default 0
    */
   readonly globalSecondaryIndexes?: number;
 
@@ -112,11 +112,13 @@ export class StandardTableV2 extends ExtendedTableV2 {
       removalPolicy: props?.removalPolicy ?? RemovalPolicy.RETAIN,
       ...rest,
     });
-    for (let i = 0; i < (globalSecondaryIndexes ?? 1); i++) {
-      this.addGlobalSecondaryIndex({
-        readCapacity: globalSecondaryIndexReadCapacity,
-        writeCapacity: globalSecondaryIndexWriteCapacity,
-      });
+    if (globalSecondaryIndexes && globalSecondaryIndexes > 0) {
+      for (let i = 0; i < globalSecondaryIndexes; i++) {
+        this.addGlobalSecondaryIndex({
+          readCapacity: globalSecondaryIndexReadCapacity,
+          writeCapacity: globalSecondaryIndexWriteCapacity,
+        });
+      }
     }
   }
 
