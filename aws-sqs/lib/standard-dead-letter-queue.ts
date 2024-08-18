@@ -59,6 +59,13 @@ export interface StandardDeadLetterQueueProps {
    * The duration of the wait time for receiving messages. Default is Duration.seconds(20).
    */
   readonly receiveMessageWaitTime?: Duration;
+
+  /**
+   * Sets the queue as a fifo queue. Default is false.
+   *
+   * @default false
+   */
+  readonly fifo?: boolean;
 }
 
 /**
@@ -81,6 +88,7 @@ export class StandardDeadLetterQueue extends Queue {
       enforceSSL: props?.enforceSSL ?? true,
       receiveMessageWaitTime:
         props?.receiveMessageWaitTime ?? Duration.seconds(20),
+      fifo: props?.fifo ?? false,
     });
 
     this.alarm = new Alarm(this, 'Alarm', {

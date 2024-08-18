@@ -102,14 +102,14 @@ export interface StandardQueueProps
    * Setting this to true will suppress the creation of default tags on resources
    * created by this construct. Default is false.
    *
-   * @default - false
+   * @default false
    */
   readonly suppressTagging?: boolean;
 
   /**
    * Sets the queue as a fifo queue. Default is false.
    *
-   * @default - false
+   * @default false
    */
   readonly fifo?: boolean;
 
@@ -166,17 +166,8 @@ export class StandardQueue extends ExtendedConstruct implements IQueue {
               dataKeyReuse,
               receiveMessageWaitTime: props?.receiveMessageWaitTime,
               retentionPeriod: props?.retentionPeriod,
+              fifo: props?.fifo,
             }),
-            // queue: new Queue(this, 'Dlq', {
-            //   queueName: props?.deadLetterQueueName,
-            //   encryption,
-            //   encryptionMasterKey,
-            //   dataKeyReuse,
-            //   fifo: props?.fifo,
-            //   receiveMessageWaitTime:
-            //     props?.receiveMessageWaitTime ?? Duration.seconds(20),
-            //   retentionPeriod: StandardQueue.DEFAULT_RETENTION_PERIOD,
-            // }),
             maxReceiveCount,
           };
 
