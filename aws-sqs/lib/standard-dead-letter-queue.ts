@@ -88,7 +88,7 @@ export class StandardDeadLetterQueue extends Queue {
       enforceSSL: props?.enforceSSL ?? true,
       receiveMessageWaitTime:
         props?.receiveMessageWaitTime ?? Duration.seconds(20),
-      fifo: props?.fifo ?? false,
+      ...(props?.fifo && {fifo: true}),
     });
 
     this.alarm = new Alarm(this, 'Alarm', {
