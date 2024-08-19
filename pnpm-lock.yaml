@@ -10,19 +10,19 @@ importers:
     dependencies:
       '@aws-cdk/aws-lambda-go-alpha':
         specifier: 2.149.0-alpha.0
-        version: 2.149.0-alpha.0(aws-cdk-lib@2.149.0(constructs@10.3.0))(constructs@10.3.0)
+        version: 2.149.0-alpha.0(aws-cdk-lib@2.152.0(constructs@10.3.0))(constructs@10.3.0)
       '@aws-cdk/aws-lambda-python-alpha':
         specifier: 2.149.0-alpha.0
-        version: 2.149.0-alpha.0(aws-cdk-lib@2.149.0(constructs@10.3.0))(constructs@10.3.0)
+        version: 2.149.0-alpha.0(aws-cdk-lib@2.152.0(constructs@10.3.0))(constructs@10.3.0)
       '@aws-cdk/aws-redshift-alpha':
         specifier: 2.149.0-alpha.0
-        version: 2.149.0-alpha.0(aws-cdk-lib@2.149.0(constructs@10.3.0))(constructs@10.3.0)
+        version: 2.149.0-alpha.0(aws-cdk-lib@2.152.0(constructs@10.3.0))(constructs@10.3.0)
       aws-cdk-lib:
-        specifier: 2.149.0
-        version: 2.149.0(constructs@10.3.0)
+        specifier: 2.152.0
+        version: 2.152.0(constructs@10.3.0)
       cdk-monitoring-constructs:
         specifier: 7.13.1
-        version: 7.13.1(aws-cdk-lib@2.149.0(constructs@10.3.0))(constructs@10.3.0)
+        version: 7.13.1(aws-cdk-lib@2.152.0(constructs@10.3.0))(constructs@10.3.0)
       constructs:
         specifier: 10.3.0
         version: 10.3.0
@@ -1015,8 +1015,8 @@ packages:
   async@3.2.5:
     resolution: {integrity: sha512-baNZyqaaLhyLVKm/DlvdW051MSgO6b8eVfIezl9E5PqWxFgzLm/wQntEW4zOytVburDEr0JlALEpdOFwvErLsg==}
 
-  aws-cdk-lib@2.149.0:
-    resolution: {integrity: sha512-bmbgnF2dEYlsZlVaNoSfcjyIUirnvmsvNXJwBMmUCZn2IZ+YWvkMv+rr4e/GO3gPKrdNzew1jNVvHSYxlun6rA==}
+  aws-cdk-lib@2.152.0:
+    resolution: {integrity: sha512-w8Dn92xYCUWSRL9ncoXzpGzyDAHbljnrhXFm/pTR1YZTxdbLHvIOdh7D9b9qhtghUnq2i522I6/z2NJggPcNWQ==}
     engines: {node: '>= 14.15.0'}
     peerDependencies:
       constructs: ^10.0.0
@@ -2422,19 +2422,19 @@ snapshots:
 
   '@aws-cdk/asset-node-proxy-agent-v6@2.0.3': {}
 
-  '@aws-cdk/aws-lambda-go-alpha@2.149.0-alpha.0(aws-cdk-lib@2.149.0(constructs@10.3.0))(constructs@10.3.0)':
+  '@aws-cdk/aws-lambda-go-alpha@2.149.0-alpha.0(aws-cdk-lib@2.152.0(constructs@10.3.0))(constructs@10.3.0)':
     dependencies:
-      aws-cdk-lib: 2.149.0(constructs@10.3.0)
+      aws-cdk-lib: 2.152.0(constructs@10.3.0)
       constructs: 10.3.0
 
-  '@aws-cdk/aws-lambda-python-alpha@2.149.0-alpha.0(aws-cdk-lib@2.149.0(constructs@10.3.0))(constructs@10.3.0)':
+  '@aws-cdk/aws-lambda-python-alpha@2.149.0-alpha.0(aws-cdk-lib@2.152.0(constructs@10.3.0))(constructs@10.3.0)':
     dependencies:
-      aws-cdk-lib: 2.149.0(constructs@10.3.0)
+      aws-cdk-lib: 2.152.0(constructs@10.3.0)
       constructs: 10.3.0
 
-  '@aws-cdk/aws-redshift-alpha@2.149.0-alpha.0(aws-cdk-lib@2.149.0(constructs@10.3.0))(constructs@10.3.0)':
+  '@aws-cdk/aws-redshift-alpha@2.149.0-alpha.0(aws-cdk-lib@2.152.0(constructs@10.3.0))(constructs@10.3.0)':
     dependencies:
-      aws-cdk-lib: 2.149.0(constructs@10.3.0)
+      aws-cdk-lib: 2.152.0(constructs@10.3.0)
       constructs: 10.3.0
 
   '@aws-crypto/sha256-browser@5.2.0':
@@ -3827,7 +3827,7 @@ snapshots:
 
   async@3.2.5: {}
 
-  aws-cdk-lib@2.149.0(constructs@10.3.0):
+  aws-cdk-lib@2.152.0(constructs@10.3.0):
     dependencies:
       '@aws-cdk/asset-awscli-v1': 2.2.202
       '@aws-cdk/asset-kubectl-v20': 2.1.2
@@ -3938,9 +3938,9 @@ snapshots:
 
   caniuse-lite@1.0.30001642: {}
 
-  cdk-monitoring-constructs@7.13.1(aws-cdk-lib@2.149.0(constructs@10.3.0))(constructs@10.3.0):
+  cdk-monitoring-constructs@7.13.1(aws-cdk-lib@2.152.0(constructs@10.3.0))(constructs@10.3.0):
     dependencies:
-      aws-cdk-lib: 2.149.0(constructs@10.3.0)
+      aws-cdk-lib: 2.152.0(constructs@10.3.0)
       constructs: 10.3.0
 
   chalk@2.4.2:
