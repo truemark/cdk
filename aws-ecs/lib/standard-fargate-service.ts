@@ -14,10 +14,11 @@ import {
   ScalableTaskCount,
   Secret,
 } from 'aws-cdk-lib/aws-ecs';
+import {StringParameter} from 'aws-cdk-lib/aws-ssm';
 import {LogConfiguration} from './log-configuration';
 import {SecurityGroup, SubnetSelection, SubnetType} from 'aws-cdk-lib/aws-ec2';
 import {LogGroup, RetentionDays} from 'aws-cdk-lib/aws-logs';
-import {Duration, RemovalPolicy} from 'aws-cdk-lib';
+import {Duration, RemovalPolicy, Stack} from 'aws-cdk-lib';
 import {PolicyStatement} from 'aws-cdk-lib/aws-iam';
 import {BasicStepScalingPolicyProps} from 'aws-cdk-lib/aws-autoscaling';
 import {IMetric} from 'aws-cdk-lib/aws-cloudwatch';
@@ -274,6 +275,33 @@ export interface StandardFargateServiceProps extends ExtendedConstructProps {
    * @default - false
    */
   readonly allowAllIpv6Outbound?: boolean;
+
+  /**
+   * Optional: Enables or disables the OpenTelemetry (OTEL) container for this service.
+   *
+   * @default - false
+   */
+  readonly enableOtel?: boolean;
+
+  /**
+   * SSM Parameter content path for OTEL configuration.
+   */
+  readonly otelSsmConfigContentParam?: string;
+
+  /**
+   * Environment variables specific to the OTEL container.
+   */
+  readonly otelEnvironmentVariables?: Record<string, string>;
+
+  /**
+   * Path to the OTEL configuration file or URL.
+   */
+  readonly otelConfig?: string;
+
+  /**
+   * APS (Amazon Managed Prometheus) workspace ID for remote write.
+   */
+  readonly apsWorkspaceId?: string;
 }
 
 /**
@@ -406,6 +434,77 @@ export class StandardFargateService extends ExtendedConstruct {
       dockerLabels: props.dockerLabels,
       secrets: props.secrets,
     });
+
+    if (props.enableOtel) {
+      taskDefinition.addContainer('OtelContainer', {
+        containerName: 'aws-otel-collector',
+        image: ContainerImage.fromRegistry('amazon/aws-otel-collector'),
+        cpu: 256,
+        memoryLimitMiB: 512,
+        essential: true,
+        logging: LogDriver.awsLogs({
+          streamPrefix: 'aws-otel-collector',
+          logGroup: logGroup,
+        }),
+        ...(props.otelSsmConfigContentParam
+          ? {
+              secrets: {
+                AOT_CONFIG_CONTENT: Secret.fromSsmParameter(
+                  StringParameter.fromStringParameterName(
+                    this,
+                    'OtelSSMConfigParam',
+                    props.otelSsmConfigContentParam
+                  )
+                ),
+              },
+            }
+          : {
+              command: [
+                props.otelConfig ??
+                  '--config=/etc/ecs/container-insights/otel-task-metrics-config.yaml',
+              ],
+            }),
+        environment: {
+          AWS_PROMETHEUS_ENDPOINT: `https://aps-workspaces.${
+            Stack.of(this).region
+          }.amazonaws.com/workspaces/${
+            props.apsWorkspaceId
+          }/api/v1/remote_write`,
+          CLUSTER_NAME: props.cluster.clusterName,
+          SERVICE_NAME: props.serviceName ?? '',
+          ENVIRONMENT_NAME: this.node.tryGetContext('env'),
+          REGION: Stack.of(this).region,
+          ...(props.otelEnvironmentVariables ?? {}),
+        },
+      });
+
+      // Add SSM permissions to read parameters
+      taskDefinition.addToTaskRolePolicy(
+        new PolicyStatement({
+          resources: [
+            `arn:aws:ssm:${Stack.of(this).region}:${
+              Stack.of(this).account
+            }:parameter${
+              props.otelSsmConfigContentParam ??
+              '/overwatch/otel/ecs-default-config'
+            }`,
+          ],
+          actions: ['ssm:GetParameter', 'ssm:GetParametersByPath'],
+        })
+      );
+
+      // Add AMP permissions for remote write to Prometheus
+      taskDefinition.addToTaskRolePolicy(
+        new PolicyStatement({
+          resources: [
+            `arn:aws:aps:${Stack.of(this).region}:${
+              Stack.of(this).account
+            }:workspace/${props.apsWorkspaceId}`,
+          ],
+          actions: ['aps:RemoteWrite'],
+        })
+      );
+    }
 
     // TODO Otel Collector
 
