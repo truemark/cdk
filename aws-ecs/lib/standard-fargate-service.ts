@@ -435,13 +435,13 @@ export class StandardFargateService extends ExtendedConstruct {
       secrets: props.secrets,
     });
 
+    //Add Otel container if enabled
     if (props.enableOtel) {
       taskDefinition.addContainer('OtelContainer', {
         containerName: 'aws-otel-collector',
         image: ContainerImage.fromRegistry('amazon/aws-otel-collector'),
         cpu: 256,
         memoryLimitMiB: 512,
-        essential: true,
         logging: LogDriver.awsLogs({
           streamPrefix: 'aws-otel-collector',
           logGroup: logGroup,
@@ -489,7 +489,7 @@ export class StandardFargateService extends ExtendedConstruct {
               '/overwatch/otel/ecs-default-config'
             }`,
           ],
-          actions: ['ssm:GetParameter', 'ssm:GetParametersByPath'],
+          actions: ['ssm:GetParameters', 'ssm:GetParametersByPath'],
         })
       );
 
@@ -505,8 +505,6 @@ export class StandardFargateService extends ExtendedConstruct {
         })
       );
     }
-
-    // TODO Otel Collector
 
     const vpcSubnets = this.resolveVpcSubnets(this, props);
     const desiredCount = props.desiredCount ?? props.minCapacity ?? 1;
