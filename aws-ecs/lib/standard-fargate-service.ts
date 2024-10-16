@@ -301,7 +301,7 @@ export interface StandardFargateServiceProps extends ExtendedConstructProps {
   /**
    * APS (Amazon Managed Prometheus) workspace ID for remote write.
    */
-  readonly apsWorkspaceId?: string;
+  readonly otelApsWorkspaceId?: string;
 }
 
 /**
@@ -468,7 +468,7 @@ export class StandardFargateService extends ExtendedConstruct {
           AWS_PROMETHEUS_ENDPOINT: `https://aps-workspaces.${
             Stack.of(this).region
           }.amazonaws.com/workspaces/${
-            props.apsWorkspaceId
+            props.otelApsWorkspaceId
           }/api/v1/remote_write`,
           CLUSTER_NAME: props.cluster.clusterName,
           SERVICE_NAME: props.serviceName ?? '',
@@ -499,7 +499,7 @@ export class StandardFargateService extends ExtendedConstruct {
           resources: [
             `arn:aws:aps:${Stack.of(this).region}:${
               Stack.of(this).account
-            }:workspace/${props.apsWorkspaceId}`,
+            }:workspace/${props.otelApsWorkspaceId}`,
           ],
           actions: ['aps:RemoteWrite'],
         })
