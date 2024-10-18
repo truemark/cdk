@@ -464,18 +464,7 @@ export class StandardFargateService extends ExtendedConstruct {
                   '--config=/etc/ecs/container-insights/otel-task-metrics-config.yaml',
               ],
             }),
-        environment: {
-          AWS_PROMETHEUS_ENDPOINT: `https://aps-workspaces.${
-            Stack.of(this).region
-          }.amazonaws.com/workspaces/${
-            props.otelApsWorkspaceId
-          }/api/v1/remote_write`,
-          CLUSTER_NAME: props.cluster.clusterName,
-          SERVICE_NAME: props.serviceName ?? '',
-          ENVIRONMENT_NAME: this.node.tryGetContext('env'),
-          REGION: Stack.of(this).region,
-          ...(props.otelEnvironmentVariables ?? {}),
-        },
+        environment: props.otelEnvironmentVariables ?? {},
       });
 
       // Add SSM permissions to read parameters
