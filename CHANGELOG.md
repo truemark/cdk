@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 -   Fixed issue where fallback origins cause errors of duplicate origins inside CloudFront when using DistributionBuilder.
+-   Fixed issue where dead letter queues alarms were breaching on missing data.
 
 ### Removed
 
