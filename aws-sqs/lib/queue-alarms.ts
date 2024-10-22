@@ -6,6 +6,7 @@ import {
   AlarmsCategoryOptions,
   AlarmsOptions,
 } from '../../aws-monitoring';
+import {TreatMissingData} from 'aws-cdk-lib/aws-cloudwatch';
 
 /**
  * Category options for CloudWatch alarms for Queues.
@@ -155,11 +156,17 @@ export class QueueAlarms extends AlarmsBase<
         ),
         addDeadLetterQueueMaxMessageAgeAlarm: this.toRecord(
           'deadLetterQueueMaxAgeInSeconds',
-          'maxAgeInSeconds'
+          'maxAgeInSeconds',
+          undefined,
+          undefined,
+          TreatMissingData.NOT_BREACHING
         ),
         addDeadLetterQueueMaxIncomingMessagesAlarm: this.toRecord(
           'deadLetterQueueMaxIncoming',
-          'maxIncomingMessagesCount'
+          'maxIncomingMessagesCount',
+          undefined,
+          undefined,
+          TreatMissingData.NOT_BREACHING
         ),
         addDeadLetterQueueToSummaryDashboard: true,
       });

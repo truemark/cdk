@@ -1,5 +1,9 @@
 import {Construct} from 'constructs';
-import {AlarmBase, IAlarmAction} from 'aws-cdk-lib/aws-cloudwatch';
+import {
+  AlarmBase,
+  IAlarmAction,
+  TreatMissingData,
+} from 'aws-cdk-lib/aws-cloudwatch';
 import {
   CustomAlarmThreshold,
   MonitoringFacade,
@@ -101,20 +105,23 @@ export abstract class AlarmsBase<
    * @param tprop property from the CustomAlarmThreshold instance
    * @param defaultCriticalThreshold optional default value for the critical threshold
    * @param defaultWarningThreshold optional default value for the warning threshold
+   * @param treatMissingDataOverride optional override for the treat missing data setting
    * @protected
    */
   protected toRecord<T extends CustomAlarmThreshold>(
     oprop: keyof C,
     tprop: keyof T,
-    defaultCriticalThreshold?: number | Duration,
-    defaultWarningThreshold?: number | Duration
+    defaultCriticalThreshold?: number | Duration | undefined,
+    defaultWarningThreshold?: number | Duration | undefined,
+    treatMissingDataOverride?: TreatMissingData
   ) {
     return AlarmHelper.toRecord<C, T>(
       this.props,
       oprop,
       tprop,
       defaultCriticalThreshold,
-      defaultWarningThreshold
+      defaultWarningThreshold,
+      treatMissingDataOverride
     );
   }
 

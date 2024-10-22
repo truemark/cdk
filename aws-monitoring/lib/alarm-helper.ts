@@ -1,4 +1,4 @@
-import {IAlarmAction} from 'aws-cdk-lib/aws-cloudwatch';
+import {IAlarmAction, TreatMissingData} from 'aws-cdk-lib/aws-cloudwatch';
 import {ITopic} from 'aws-cdk-lib/aws-sns';
 import {SnsAction} from 'aws-cdk-lib/aws-cloudwatch-actions';
 import {CustomAlarmThreshold} from 'cdk-monitoring-constructs';
@@ -31,6 +31,7 @@ export class AlarmHelper {
    * @param tprop property from the CustomAlarmThreshold instance
    * @param defaultCriticalThreshold optional default value for the critical threshold
    * @param defaultWarningThreshold optional default value for the warning threshold
+   * @param treatMissingDataOverride optional override for the treat missing data setting
    */
   static toRecord<
     O extends AlarmsCategoryOptions,
@@ -40,14 +41,16 @@ export class AlarmHelper {
     oprop: keyof O,
     tprop: keyof T,
     defaultCriticalThreshold?: number | Duration,
-    defaultWarningThreshold?: number | Duration
+    defaultWarningThreshold?: number | Duration,
+    treatMissingDataOverride?: TreatMissingData
   ): Record<string, T> | undefined {
     return new AlarmFacadeSet<O, T>(options)
       .addAlarms(
         oprop,
         tprop,
         defaultCriticalThreshold,
-        defaultWarningThreshold
+        defaultWarningThreshold,
+        treatMissingDataOverride
       )
       .toRecord();
   }
