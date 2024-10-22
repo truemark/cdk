@@ -33,6 +33,14 @@ export class DistributionBuilder extends ExtendedConstruct {
     return this.behaviors[path];
   }
 
+  getBehaviorPaths(): string[] {
+    return Object.keys(this.behaviors);
+  }
+
+  getOrigins(): IOrigin[] {
+    return Object.values(this.behaviors).map(behavior => behavior.getOrigin());
+  }
+
   behavior(origin: IOrigin, path?: string): BehaviorBuilder {
     return new BehaviorBuilder(this, origin, path);
   }
