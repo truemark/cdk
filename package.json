@@ -43,19 +43,19 @@
     "typescript": "~5.5.3"
   },
   "dependencies": {
-    "@aws-cdk/aws-lambda-go-alpha": "2.149.0-alpha.0",
-    "@aws-cdk/aws-lambda-python-alpha": "2.149.0-alpha.0",
-    "@aws-cdk/aws-redshift-alpha": "2.149.0-alpha.0",
-    "aws-cdk-lib": "2.149.0",
-    "cdk-monitoring-constructs": "7.13.1",
+    "@aws-cdk/aws-lambda-go-alpha": "2.163.0-alpha.0",
+    "@aws-cdk/aws-lambda-python-alpha": "2.163.0-alpha.0",
+    "@aws-cdk/aws-redshift-alpha": "2.163.0-alpha.0",
+    "aws-cdk-lib": "2.163.0",
+    "cdk-monitoring-constructs": "8.3.2",
     "constructs": "10.3.0"
   },
   "peerDependencies": {
-    "@aws-cdk/aws-lambda-go-alpha": "^2.149.0-alpha.0",
-    "@aws-cdk/aws-lambda-python-alpha": "^2.149.0-alpha.0",
-    "@aws-cdk/aws-redshift-alpha": "^2.149.0-alpha.0",
-    "aws-cdk-lib": "^2.149.0",
-    "cdk-monitoring-constructs": "^7.13.1",
+    "@aws-cdk/aws-lambda-go-alpha": "^2.163.0-alpha.0",
+    "@aws-cdk/aws-lambda-python-alpha": "^2.163.0-alpha.0",
+    "@aws-cdk/aws-redshift-alpha": "^2.163.0-alpha.0",
+    "aws-cdk-lib": "^2.163.0",
+    "cdk-monitoring-constructs": "^8.3.2",
     "constructs": "^10.3.0"
   },
   "exports": {
