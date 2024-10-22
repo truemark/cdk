@@ -18,7 +18,6 @@ import {
   ViewerProtocolPolicy,
 } from 'aws-cdk-lib/aws-cloudfront';
 import {RedirectFunction, RedirectFunctionProps} from './redirect-function';
-import {OriginGroup} from 'aws-cdk-lib/aws-cloudfront-origins';
 import {DistributionBuilder} from './distribution-builder';
 import {IBucket} from 'aws-cdk-lib/aws-s3';
 import {CloudFrontBucket} from '../../aws-s3';
@@ -27,6 +26,10 @@ import {StandardApiOriginRequestPolicy} from './standard-api-origin-request-poli
 import {ExtendedConstruct} from '../../aws-cdk';
 import {StringHelper} from '../../helpers';
 import {DomainName} from '../../aws-route53';
+import {
+  ExtendedOriginGroup,
+  isExtendedOriginGroup,
+} from './extended-origin-group';
 function pathToIdentifier(path: string): string {
   return StringHelper.toPascalCase(
     path.replace(/\*/g, 'wildcard').replace(/\//g, '-')
@@ -61,12 +64,30 @@ export class BehaviorBuilder extends ExtendedConstruct {
     };
   }
 
+  getOrigin(): IOrigin {
+    return this.options.origin;
+  }
+
   fallbackOrigin(
     fallbackOrigin?: IOrigin,
     fallbackStatusCodes?: number[]
   ): BehaviorBuilder {
     if (fallbackOrigin) {
-      const originGroup = new OriginGroup({
+      // We need to reuse OriginGroups or it will complain about duplicate origins
+      for (const origin of this.scope.getOrigins()) {
+        if (
+          isExtendedOriginGroup(origin) &&
+          origin.primaryOrigin === this.options.origin &&
+          origin.fallbackOrigin === fallbackOrigin
+        ) {
+          this.options = {
+            ...this.options,
+            origin,
+          };
+          return this;
+        }
+      }
+      const originGroup = new ExtendedOriginGroup({
         primaryOrigin: this.options.origin,
         fallbackOrigin,
         fallbackStatusCodes:

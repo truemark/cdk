@@ -1,6 +1,6 @@
 import {ExtendedTablePropsV2, ExtendedTableV2} from './extended-table-v2';
 import {Construct} from 'constructs';
-import {AttributeType, Capacity} from 'aws-cdk-lib/aws-dynamodb';
+import {Attribute, AttributeType, Capacity} from 'aws-cdk-lib/aws-dynamodb';
 import {RemovalPolicy} from 'aws-cdk-lib';
 import {GlobalSecondaryIndexPropsV2} from 'aws-cdk-lib/aws-dynamodb/lib/table-v2';
 
@@ -9,10 +9,26 @@ type StandardGlobalSecondaryIndexPropsV2OmitFields =
   | 'sortKey'
   | 'indexName';
 
-type StandardGlobalSecondaryIndexPropsV2 = Omit<
-  GlobalSecondaryIndexPropsV2,
-  StandardGlobalSecondaryIndexPropsV2OmitFields
->;
+export interface StandardGlobalSecondaryIndexPropsV2
+  extends Omit<
+    GlobalSecondaryIndexPropsV2,
+    StandardGlobalSecondaryIndexPropsV2OmitFields
+  > {
+  /**
+   * Defines the partition key on the index. Default is Gs#Pk of string type.
+   */
+  partitionKey?: Attribute;
+
+  /**
+   * Defines the sort key on the index. Default is Gs#Sk of string type. Set to null instead of undefined to remove the sort key.
+   */
+  sortKey?: Attribute;
+
+  /**
+   * The name of the global secondary index. Default is Gs#.
+   */
+  indexName?: string;
+}
 
 type StandardTablePropsV2OmitFields =
   | 'tableName'
@@ -34,7 +50,7 @@ export interface StandardTablePropsV2
    * Creates additional global secondary indexes on the table with the partition key Gs#Pk and sort key Gs#Sk of string types. Default is 1.
    * Be aware you may only add one index at a time if the table already exists. This is a limitation of the DynamoDB API.
    *
-   * @default 1
+   * @default 0
    */
   readonly globalSecondaryIndexes?: number;
 
@@ -55,6 +71,16 @@ export interface StandardTablePropsV2
    * @default is to inherit from the primary table
    */
   readonly globalSecondaryIndexWriteCapacity?: Capacity;
+
+  /**
+   * Defines the partition key of the table. Default is Pk of string type.
+   */
+  readonly partitionKey?: Attribute;
+
+  /**
+   * Defines the sort key of the table. Default is Sk of string type. Set to null instead of undefined to remove the sort key.
+   */
+  readonly sortKey?: Attribute;
 }
 
 /**
@@ -71,23 +97,28 @@ export class StandardTableV2 extends ExtendedTableV2 {
     } = props || {};
     super(scope, id, {
       timeToLiveAttribute: props?.timeToLiveAttribute,
-      partitionKey: {
+      partitionKey: props?.partitionKey ?? {
         name: 'Pk',
         type: AttributeType.STRING,
       },
-      sortKey: {
-        name: 'Sk',
-        type: AttributeType.STRING,
-      },
+      sortKey:
+        props?.sortKey === null
+          ? undefined
+          : props?.sortKey ?? {
+              name: 'Sk',
+              type: AttributeType.STRING,
+            },
       deletionProtection: props?.deletionProtection ?? true,
       removalPolicy: props?.removalPolicy ?? RemovalPolicy.RETAIN,
       ...rest,
     });
-    for (let i = 0; i < (globalSecondaryIndexes ?? 1); i++) {
-      this.addGlobalSecondaryIndex({
-        readCapacity: globalSecondaryIndexReadCapacity,
-        writeCapacity: globalSecondaryIndexWriteCapacity,
-      });
+    if (globalSecondaryIndexes && globalSecondaryIndexes > 0) {
+      for (let i = 0; i < globalSecondaryIndexes; i++) {
+        this.addGlobalSecondaryIndex({
+          readCapacity: globalSecondaryIndexReadCapacity,
+          writeCapacity: globalSecondaryIndexWriteCapacity,
+        });
+      }
     }
   }
 
@@ -98,17 +129,20 @@ export class StandardTableV2 extends ExtendedTableV2 {
    */
   addGlobalSecondaryIndex(props: StandardGlobalSecondaryIndexPropsV2) {
     this.secondaryIndexCount++;
-    const indexName = `Gs${this.secondaryIndexCount}`;
+    const indexName = props.indexName ?? `Gs${this.secondaryIndexCount}`;
     super.addGlobalSecondaryIndex({
       indexName,
-      partitionKey: {
+      partitionKey: props.partitionKey ?? {
         name: `Gs${this.secondaryIndexCount}Pk`,
         type: AttributeType.STRING,
       },
-      sortKey: {
-        name: `Gs${this.secondaryIndexCount}Sk`,
-        type: AttributeType.STRING,
-      },
+      sortKey:
+        props.sortKey === null
+          ? undefined
+          : props.sortKey ?? {
+              name: `Gs${this.secondaryIndexCount}Sk`,
+              type: AttributeType.STRING,
+            },
       ...props,
     });
     if (this.tableAlarms) {
