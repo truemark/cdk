@@ -284,6 +284,14 @@ export interface StandardFargateServiceProps extends ExtendedConstructProps {
   readonly enableOtel?: boolean;
 
   /**
+   * The container image to use for the OTEL (OpenTelemetry) container.
+   * This allows the user to override the default image.
+   *
+   * @default - 'public.ecr.aws/aws-observability/aws-otel-collector:latest'
+   */
+  readonly otelImage?: string;
+
+  /**
    * SSM Parameter content path for OTEL configuration.
    */
   readonly otelSsmConfigContentParam?: string;
@@ -439,7 +447,10 @@ export class StandardFargateService extends ExtendedConstruct {
     if (props.enableOtel) {
       taskDefinition.addContainer('OtelContainer', {
         containerName: 'aws-otel-collector',
-        image: ContainerImage.fromRegistry('amazon/aws-otel-collector'),
+        image: ContainerImage.fromRegistry(
+          props.otelImage ??
+            'public.ecr.aws/aws-observability/aws-otel-collector:latest'
+        ),
         cpu: 256,
         memoryLimitMiB: 512,
         logging: LogDriver.awsLogs({
@@ -465,6 +476,13 @@ export class StandardFargateService extends ExtendedConstruct {
               ],
             }),
         environment: props.otelEnvironmentVariables ?? {},
+        healthCheck: {
+          command: ['/healthcheck'],
+          interval: Duration.seconds(10),
+          timeout: Duration.seconds(5),
+          retries: 5,
+          startPeriod: Duration.seconds(60),
+        },
       });
 
       // Add SSM permissions to read parameters
