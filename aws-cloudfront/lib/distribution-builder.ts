@@ -1,4 +1,5 @@
 import {
+  AccessLevel,
   BehaviorOptions,
   Distribution,
   DistributionProps,
@@ -6,7 +7,6 @@ import {
   GeoRestriction,
   HttpVersion,
   IOrigin,
-  OriginAccessIdentity,
   PriceClass,
   SecurityPolicyProtocol,
   SSLMethod,
@@ -18,7 +18,7 @@ import {BehaviorBuilder} from './behavior-builder';
 import {DomainName} from '../../aws-route53';
 import {CloudFrontBucket} from '../../aws-s3';
 import {ExtendedConstruct} from '../../aws-cdk';
-import {HttpOrigin, S3Origin} from 'aws-cdk-lib/aws-cloudfront-origins';
+import {HttpOrigin, S3BucketOrigin} from 'aws-cdk-lib/aws-cloudfront-origins';
 
 export class DistributionBuilder extends ExtendedConstruct {
   // eslint-disable-next-line  @typescript-eslint/no-explicit-any
@@ -48,14 +48,8 @@ export class DistributionBuilder extends ExtendedConstruct {
   behaviorFromBucket(bucket: IBucket, path?: string): BehaviorBuilder {
     return new BehaviorBuilder(
       this,
-      new S3Origin(bucket, {
-        originAccessIdentity: new OriginAccessIdentity(
-          this,
-          `Access${bucket.node.id}`,
-          {
-            comment: `S3 bucket ${bucket.bucketName}`,
-          }
-        ),
+      S3BucketOrigin.withOriginAccessControl(bucket, {
+        originAccessLevels: [AccessLevel.READ],
       }),
       path
     );
