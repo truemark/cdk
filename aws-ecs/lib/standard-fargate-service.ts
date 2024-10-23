@@ -481,7 +481,7 @@ export class StandardFargateService extends ExtendedConstruct {
           interval: Duration.seconds(10),
           timeout: Duration.seconds(5),
           retries: 5,
-          startPeriod: Duration.seconds(60),
+          startPeriod: Duration.seconds(30),
         },
       });
 
