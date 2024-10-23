@@ -1,4 +1,4 @@
-import {IAlarmAction} from 'aws-cdk-lib/aws-cloudwatch';
+import {IAlarmAction, TreatMissingData} from 'aws-cdk-lib/aws-cloudwatch';
 import {AlarmHelper} from './alarm-helper';
 import {Duration} from 'aws-cdk-lib';
 import {ITopic} from 'aws-cdk-lib/aws-sns';
@@ -19,6 +19,7 @@ export interface AlarmFacadeProps {
   defaultThreshold?: number | Duration;
   topics?: ITopic[];
   actions?: IAlarmAction[];
+  treatMissingDataOverride?: TreatMissingData;
 }
 
 /**
@@ -84,12 +85,14 @@ export class AlarmFacadeSet<
    * @param oprop property from the AlarmsCategoryOptions instance
    * @param tprop property from the CustomAlarmThreshold instance
    * @param defaultThreshold optional default value for the threshold
+   * @param treatMissingDataOverride optional override for the treat missing data setting
    */
   addAlarm(
     category: AlarmCategory,
     oprop: keyof O,
     tprop: keyof T,
-    defaultThreshold?: number | Duration
+    defaultThreshold?: number | Duration | undefined,
+    treatMissingDataOverride?: TreatMissingData
   ): AlarmFacadeSet<O, T> {
     const options =
       category === AlarmCategory.Critical
@@ -101,6 +104,7 @@ export class AlarmFacadeSet<
       defaultThreshold,
       topics: options?.notifyTopics,
       actions: options?.notifyActions,
+      treatMissingDataOverride,
     }).toCustomAlarmThreshold();
     if (customAlarmThreshold) {
       this.record[category] = customAlarmThreshold as T;
@@ -114,17 +118,20 @@ export class AlarmFacadeSet<
    * @param oprop property from the AlarmsCategoryOptions instance
    * @param tprop property from the CustomAlarmThreshold instance
    * @param defaultThreshold optional default value for the threshold
+   * @param treatMissingDataOverride optional override for the treat missing data setting
    */
   addCriticalAlarm(
     oprop: keyof O,
     tprop: keyof T,
-    defaultThreshold?: number | Duration
+    defaultThreshold?: number | Duration | undefined,
+    treatMissingDataOverride?: TreatMissingData
   ): AlarmFacadeSet<O, T> {
     return this.addAlarm(
       AlarmCategory.Critical,
       oprop,
       tprop,
-      defaultThreshold
+      defaultThreshold,
+      treatMissingDataOverride
     );
   }
 
@@ -134,13 +141,21 @@ export class AlarmFacadeSet<
    * @param oprop property from the AlarmsCategoryOptions instance
    * @param tprop property from the CustomAlarmThreshold instance
    * @param defaultThreshold optional default value for the threshold
+   * @param treatMissingDataOverride optional override for the treat missing data setting
    */
   addWarningAlarm(
     oprop: keyof O,
     tprop: keyof T,
-    defaultThreshold?: number | Duration
+    defaultThreshold?: number | Duration | undefined,
+    treatMissingDataOverride?: TreatMissingData
   ): AlarmFacadeSet<O, T> {
-    return this.addAlarm(AlarmCategory.Warning, oprop, tprop, defaultThreshold);
+    return this.addAlarm(
+      AlarmCategory.Warning,
+      oprop,
+      tprop,
+      defaultThreshold,
+      treatMissingDataOverride
+    );
   }
 
   /**
@@ -150,15 +165,27 @@ export class AlarmFacadeSet<
    * @param tprop property from the CustomAlarmThreshold instance
    * @param defaultCriticalThreshold optional default value for the critical threshold
    * @param defaultWarningThreshold optional default value for the warning threshold
+   * @param treatMissingDataOverride optional override for the treat missing data setting
    */
   addAlarms(
     oprop: keyof O,
     tprop: keyof T,
     defaultCriticalThreshold?: number | Duration,
-    defaultWarningThreshold?: number | Duration
+    defaultWarningThreshold?: number | Duration,
+    treatMissingDataOverride?: TreatMissingData
   ): AlarmFacadeSet<O, T> {
-    this.addCriticalAlarm(oprop, tprop, defaultCriticalThreshold);
-    this.addWarningAlarm(oprop, tprop, defaultWarningThreshold);
+    this.addCriticalAlarm(
+      oprop,
+      tprop,
+      defaultCriticalThreshold,
+      treatMissingDataOverride
+    );
+    this.addWarningAlarm(
+      oprop,
+      tprop,
+      defaultWarningThreshold,
+      treatMissingDataOverride
+    );
     return this;
   }
 
