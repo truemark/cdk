@@ -107,6 +107,9 @@ export interface CdkPipelineProps {
    * By default, CDK will create KMS keys for cross account deployments. This
    * can be costly if you have a large number of pipelines. This property
    * allows a common key to be shared across pipelines.
+   *
+   * You must change @aws-cdk/aws-codepipeline:crossAccountKeysDefaultValueToFalse to false in your cdk.json
+   * file to avoid errors.
    */
   readonly keyArn: string;
 
