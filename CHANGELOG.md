@@ -9,9 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-### Changed
+ - Added CloudFrontBucketV2 and support for Origin Access Control
 
--   Modified AWS CloudFront DistributionBuilder to use S3BucketOrigin instead of deprecated S3Origin
+### Changed
 
 ### Fixed
 

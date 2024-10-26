@@ -7,6 +7,7 @@ import {
   GeoRestriction,
   HttpVersion,
   IOrigin,
+  OriginAccessIdentity,
   PriceClass,
   SecurityPolicyProtocol,
   SSLMethod,
@@ -16,9 +17,13 @@ import {IBucket} from 'aws-cdk-lib/aws-s3';
 import {Construct} from 'constructs';
 import {BehaviorBuilder} from './behavior-builder';
 import {DomainName} from '../../aws-route53';
-import {CloudFrontBucket} from '../../aws-s3';
+import {CloudFrontBucket, CloudFrontBucketV2} from '../../aws-s3';
 import {ExtendedConstruct} from '../../aws-cdk';
-import {HttpOrigin, S3BucketOrigin} from 'aws-cdk-lib/aws-cloudfront-origins';
+import {
+  HttpOrigin,
+  S3BucketOrigin,
+  S3Origin,
+} from 'aws-cdk-lib/aws-cloudfront-origins';
 
 export class DistributionBuilder extends ExtendedConstruct {
   // eslint-disable-next-line  @typescript-eslint/no-explicit-any
@@ -45,18 +50,74 @@ export class DistributionBuilder extends ExtendedConstruct {
     return new BehaviorBuilder(this, origin, path);
   }
 
+  /**
+   * Creates a behavior from a bucket using an OriginAccessIdentity.
+   *
+   * @deprecated use behaviorFromBucketV2
+   *
+   * @param bucket the bucket
+   * @param path the path for the behavior
+   */
   behaviorFromBucket(bucket: IBucket, path?: string): BehaviorBuilder {
     return new BehaviorBuilder(
       this,
-      S3BucketOrigin.withOriginAccessControl(bucket, {
-        originAccessLevels: [AccessLevel.READ],
+      new S3Origin(bucket, {
+        originAccessIdentity: new OriginAccessIdentity(
+          this,
+          `Access${bucket.node.id}`,
+          {
+            comment: `S3 bucket ${bucket.bucketName}`,
+          }
+        ),
       }),
       path
     );
   }
 
+  /**
+   * Creates a behavior from a bucket using an OriginAccessControl.
+   *
+   * @param bucket the bucket
+   * @param path the path for the behavior
+   * @param originAccessLevels The access levels for the origin. Default is [AccessLevel.READ]
+   */
+  behaviorFromBucketV2(
+    bucket: IBucket,
+    path?: string,
+    originAccessLevels?: AccessLevel[]
+  ): BehaviorBuilder {
+    return new BehaviorBuilder(
+      this,
+      S3BucketOrigin.withOriginAccessControl(bucket, {
+        originAccessLevels: originAccessLevels ?? [AccessLevel.READ],
+      }),
+      path
+    );
+  }
+
+  /**
+   * Creates a behavior from a CloudFrontBucket.
+   *
+   * @deprecated use behaviorFromCloudFromBucketV2
+   *
+   * @param bucket the bucket
+   * @param path the path for the behavior
+   */
   behaviorFromCloudFromBucket(
     bucket: CloudFrontBucket,
+    path?: string
+  ): BehaviorBuilder {
+    return new BehaviorBuilder(this, bucket.toOrigin(), path);
+  }
+
+  /**
+   * Creates a behavior from a CloudFrontBucketV2.
+   *
+   * @param bucket the bucket
+   * @param path the path for the behavior
+   */
+  behaviorFromCloudFromBucketV2(
+    bucket: CloudFrontBucketV2,
     path?: string
   ): BehaviorBuilder {
     return new BehaviorBuilder(this, bucket.toOrigin(), path);
