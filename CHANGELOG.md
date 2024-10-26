@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
- - Added CloudFrontBucketV2 and support for Origin Access Control
+-   Added CloudFrontBucketV2 and support for Origin Access Control
 
 ### Changed
 
