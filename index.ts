@@ -8,6 +8,7 @@ export * as aws_dynamodb from './aws-dynamodb';
 export * as aws_ecs from './aws-ecs';
 export * as aws_lambda from './aws-lambda';
 export * as aws_monitoring from './aws-monitoring';
+export * as aws_opensearchserverless from './aws-opensearchserverless';
 export * as aws_route53 from './aws-route53';
 export * as aws_s3 from './aws-s3';
 export * as aws_ses from './aws-ses';
