@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
- - Added custom resource to add indexes to OpenSearch Serverless collections 
+ - Added resource to add indexes to OpenSearch Serverless collections 
 
 ## v1.15.1
 
