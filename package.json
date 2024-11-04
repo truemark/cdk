@@ -26,7 +26,7 @@
     "watch": "tsc -w",
     "test": "jest",
     "lint": "gts lint",
-    "clean": "gts clean",
+    "clean": "./clean.sh",
     "fix": "gts fix",
     "fmt": "prettier --write .",
     "dryrun": "pnpm publish --dry-run --no-git-checks"
