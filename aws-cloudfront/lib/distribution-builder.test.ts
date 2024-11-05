@@ -6,7 +6,7 @@ test('Test DistributionBuilder', () => {
   const stack = HelperTest.stack();
   const bucket = new Bucket(stack, 'TestBucket');
   new DistributionBuilder(stack, 'TestDistribution')
-    .behaviorFromBucket(bucket)
+    .behaviorFromBucketV2(bucket)
     .s3Defaults()
     .behaviorFromDomainName('test.example.com', '/api/*')
     .apiDefaults()

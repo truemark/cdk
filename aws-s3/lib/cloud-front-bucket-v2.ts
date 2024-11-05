@@ -4,29 +4,71 @@ import {
   Bucket,
   BucketEncryption,
   CorsRule,
+  ObjectOwnership,
 } from 'aws-cdk-lib/aws-s3';
-import {OriginAccessIdentity} from 'aws-cdk-lib/aws-cloudfront';
+import {
+  IOrigin,
+  S3OriginAccessControl,
+  Signing,
+} from 'aws-cdk-lib/aws-cloudfront';
 import {
   BucketDeployment,
   CacheControl,
   ISource,
   Source,
 } from 'aws-cdk-lib/aws-s3-deployment';
-import {Duration, RemovalPolicy} from 'aws-cdk-lib';
+import {Duration, RemovalPolicy, Stack} from 'aws-cdk-lib';
 import {
   ExtendedConstruct,
   ExtendedConstructProps,
   StandardTags,
 } from '../../aws-cdk';
 import {LibStandardTags} from '../../truemark';
-import {S3Origin} from 'aws-cdk-lib/aws-cloudfront-origins';
-import {Grant, IGrantable} from 'aws-cdk-lib/aws-iam';
+import {S3BucketOrigin} from 'aws-cdk-lib/aws-cloudfront-origins';
+import {Effect, Grant, IGrantable, PolicyStatement} from 'aws-cdk-lib/aws-iam';
 import * as iam from 'aws-cdk-lib/aws-iam';
 
+export interface CloudFrontBucketV2DeploymentConfig {
+  /**
+   * The paths or sources to deploy.
+   */
+  readonly source: string | string[] | ISource | ISource[];
+
+  /**
+   * Prefix to add to the deployment path in the bucket.
+   */
+  readonly prefix?: string;
+
+  /**
+   * Paths to exclude from the deployment.
+   */
+  readonly exclude?: string | string[];
+
+  /**
+   * Sets the max-age in the Cache-Control header. Default is 15 minutes.
+   */
+  readonly maxAge?: Duration;
+
+  /**
+   * Sets the s-maxage in the Cache-Control header. Default is 7 days.
+   */
+  readonly sMaxAge?: Duration;
+
+  /**
+   * Additional Cache-Control directives to set. Default is none.
+   */
+  readonly cacheControl?: CacheControl[];
+
+  /**
+   * Whether to prune objects that exist in the bucket but not in the assets. Default is false.
+   */
+  readonly prune?: boolean;
+}
+
 /**
- * Properties for CloudFrontBucket.
+ * Properties for CloudFrontBucketV2.
  */
-export interface CloudFrontBucketProps extends ExtendedConstructProps {
+export interface CloudFrontBucketV2Props extends ExtendedConstructProps {
   /**
    * Policy to apply when the bucket is removed from this stack.
    * @default RemovalPolicy.RETAIN
@@ -68,28 +110,35 @@ export interface CloudFrontBucketProps extends ExtendedConstructProps {
    * @default - No CORS configuration.
    */
   readonly cors?: CorsRule[];
+
+  /**
+   * Whether to enable EventBridge for this bucket. Default is false.
+   */
+  readonly eventBridgeEnabled?: boolean;
+
+  /**
+   * Set how CloudFront signs requests. Default is Signing.SIGV4_NO_OVERRIDE.
+   */
+  readonly signing?: Signing;
 }
 
 /**
- * Simple Construct for creating buckets that will be accessed directly by CloudFront as an Origin.
- *
- * @deprecated use CloudFrontBucketV2
+ * Creates a bucket for use with CloudFront using Origin Access Control (OAC).
  */
-export class CloudFrontBucket extends ExtendedConstruct {
+export class CloudFrontBucketV2 extends ExtendedConstruct {
   private deployCount = 0;
 
   readonly bucket: Bucket;
   readonly bucketName: string;
   readonly bucketArn: string;
-  readonly originAccessIdentity: OriginAccessIdentity;
-  readonly originAccessIdentityId: string;
+  readonly originAccessControlId: string;
 
   private nextDeployCount(): string {
     const current = this.deployCount++;
     return current === 0 ? '' : `${current}`;
   }
 
-  constructor(scope: Construct, id: string, props?: CloudFrontBucketProps) {
+  constructor(scope: Construct, id: string, props?: CloudFrontBucketV2Props) {
     super(scope, id, {
       standardTags: StandardTags.merge(props?.standardTags, LibStandardTags),
     });
@@ -100,125 +149,90 @@ export class CloudFrontBucket extends ExtendedConstruct {
       removalPolicy === RemovalPolicy.DESTROY;
 
     this.bucket = new Bucket(this, 'Default', {
-      encryption: BucketEncryption.S3_MANAGED, // CloudFront cannot use KMS with S3
+      bucketName: props?.bucketName,
+
+      // Do not allow public access
       blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
+
+      // Disables ACLs on the bucket and we use policies to define access
+      objectOwnership: ObjectOwnership.BUCKET_OWNER_ENFORCED,
+
+      // CloudFront cannot use KMS with S3
+      encryption: BucketEncryption.S3_MANAGED,
+
       removalPolicy,
       autoDeleteObjects,
       versioned: props?.versioned ?? false,
       transferAcceleration: props?.transferAcceleration ?? false,
-      bucketName: props?.bucketName,
+      eventBridgeEnabled: props?.eventBridgeEnabled ?? false,
       cors: props?.cors,
     });
     this.bucketName = this.bucket.bucketName;
     this.bucketArn = this.bucket.bucketArn;
-    this.originAccessIdentity = new OriginAccessIdentity(this, 'Access', {
-      comment: `S3 bucket ${this.bucket.bucketName}`,
+
+    // Grant read access to CloudFront distributions in this account
+    this.bucket.addToResourcePolicy(
+      new PolicyStatement({
+        effect: Effect.ALLOW,
+        principals: [new iam.ServicePrincipal('cloudfront.amazonaws.com')],
+        actions: ['s3:GetObject'],
+        resources: [this.bucket.arnForObjects('*')],
+        conditions: {
+          ArnLike: {
+            'aws:SourceArn': `arn:aws:cloudfront::${Stack.of(this).account}:distribution/*`,
+          },
+        },
+      })
+    );
+
+    const oac = new S3OriginAccessControl(this, 'AccessControl', {
+      signing: props?.signing ?? Signing.SIGV4_NO_OVERRIDE,
     });
-    this.originAccessIdentityId =
-      this.originAccessIdentity.originAccessIdentityId;
-    this.bucket.grantRead(this.originAccessIdentity);
+    this.originAccessControlId = oac.originAccessControlId;
   }
 
-  /**
-   * Helper method to deploy local assets to the created bucket. Ths function assumes
-   * CloudFront invalidation requests will be sent for mutable files to serve new content.
-   * For more complicated deployments, use BucketDeployment directly.
-   *
-   * @param paths the paths to the local assets
-   * @param maxAge the length of time to browsers will cache files; default is Duration.minutes(15)
-   * @param sMaxAge the length of time CloudFront will cache files; default is Duration.days(7)
-   * @param prune true to prune old files; default is false
-   */
-  deployPaths(
-    paths: string[],
-    maxAge?: Duration,
-    sMaxAge?: Duration,
-    prune?: boolean
-  ): BucketDeployment {
-    return new BucketDeployment(this, `Deploy${this.nextDeployCount()}`, {
-      sources: paths.map(path => Source.asset(path)),
-      destinationBucket: this.bucket,
-      prune: prune ?? false,
-      cacheControl: [
-        CacheControl.setPublic(),
-        CacheControl.maxAge(maxAge ?? Duration.minutes(15)),
-        CacheControl.sMaxAge(sMaxAge ?? Duration.days(7)),
-      ],
-    });
-  }
+  deploy(
+    config:
+      | CloudFrontBucketV2DeploymentConfig
+      | CloudFrontBucketV2DeploymentConfig[]
+  ) {
+    const configs = Array.isArray(config) ? config : [config];
+    for (const c of configs) {
+      const sources = (Array.isArray(c.source) ? c.source : [c.source]).map(
+        s => (typeof s === 'string' ? Source.asset(s) : s)
+      );
 
-  /**
-   * Helper method to deploy local assets to the created bucket. Ths function assumes
-   * CloudFront invalidation requests will be sent for mutable files to serve new content.
-   * For more complicated deployments, use BucketDeployment directly.
-   *
-   * @param path the path to the local assets
-   * @param maxAge the length of time to browsers will cache files; default is Duration.minutes(15)
-   * @param sMaxAge the length of time CloudFront will cache files; default is Duration.days(7)
-   * @param prune true to prune old files; default is false
-   */
-  deployPath(
-    path: string,
-    maxAge?: Duration,
-    sMaxAge?: Duration,
-    prune?: boolean
-  ): BucketDeployment {
-    return this.deployPaths([path], maxAge, sMaxAge, prune);
-  }
-
-  /**
-   * Helper method to assets to the created bucket. This function assumes CloudFront invalidation
-   * requests will be sent for mutable files to serve new content.
-   * For more complicated deployments, use BucketDeployment directly.
-   *
-   * @param sources the sources to deploy
-   * @param maxAge the length of time to browsers will cache files; default is Duration.minutes(15)
-   * @param sMaxAge the length of time CloudFront will cache files; default is Duration.days(7)
-   * @param prune true to prune old files; default is false
-   */
-  deploySources(
-    sources: ISource[],
-    maxAge?: Duration,
-    sMaxAge?: Duration,
-    prune?: boolean
-  ): BucketDeployment {
-    return new BucketDeployment(this, `Deploy${this.nextDeployCount()}`, {
-      sources: sources,
-      destinationBucket: this.bucket,
-      prune: prune ?? false,
-      cacheControl: [
-        CacheControl.setPublic(),
-        CacheControl.maxAge(maxAge ?? Duration.minutes(15)),
-        CacheControl.sMaxAge(sMaxAge ?? Duration.days(7)),
-      ],
-    });
-  }
-
-  /**
-   * Helper method to assets to the created bucket. This function assumes CloudFront invalidation
-   * requests will be sent for mutable files to serve new content.
-   * For more complicated deployments, use BucketDeployment directly.
-   *
-   * @param source the source to deploy
-   * @param maxAge the length of time to browsers will cache files; default is Duration.minutes(15)
-   * @param sMaxAge the length of time CloudFront will cache files; default is Duration.days(7)
-   * @param prune true to prune old files; default is false
-   */
-  deploySource(
-    source: ISource,
-    maxAge?: Duration,
-    sMaxAge?: Duration,
-    prune?: boolean
-  ): BucketDeployment {
-    return this.deploySources([source], maxAge, sMaxAge, prune);
+      const exclude = c.exclude
+        ? Array.isArray(c.exclude)
+          ? c.exclude
+          : [c.exclude]
+        : [];
+      const cacheControl = c.cacheControl ?? [
+        CacheControl.maxAge(c.maxAge ?? Duration.minutes(15)),
+        CacheControl.sMaxAge(c.sMaxAge ?? Duration.days(7)),
+      ];
+      const deploy = new BucketDeployment(
+        this,
+        `Deploy${this.nextDeployCount()}`,
+        {
+          sources,
+          destinationBucket: this.bucket,
+          destinationKeyPrefix: c.prefix,
+          prune: c.prune,
+          cacheControl,
+          exclude,
+        }
+      );
+      deploy.node.addDependency(this.bucket);
+    }
   }
 
   /**
    * Helper method to return a CloudFront Origin for this bucket.
    */
-  toOrigin(): S3Origin {
-    return new S3Origin(this.bucket, {
-      originAccessIdentity: this.originAccessIdentity,
+  toOrigin(): IOrigin {
+    return S3BucketOrigin.withOriginAccessControl(this.bucket, {
+      originAccessControlId: this.originAccessControlId,
     });
   }
 
@@ -276,20 +290,6 @@ export class CloudFrontBucket extends ExtendedConstruct {
    */
   grantPut(identity: IGrantable, objectsKeyPattern?: unknown): Grant {
     return this.bucket.grantPut(identity, objectsKeyPattern);
-  }
-
-  /**
-   * Grant the given IAM identity permissions to modify the ACLs of objects in the given Bucket.
-   *
-   * If your application has the '@aws-cdk/aws-s3:grantWriteWithoutAcl' feature flag set,
-   * calling `grantWrite` or `grantReadWrite` no longer grants permissions to modify the ACLs of the objects;
-   * in this case, if you need to modify object ACLs, call this method explicitly.
-   *
-   * @param identity The principal
-   * @param objectsKeyPattern Restrict the permission to a certain key pattern (default '*')
-   */
-  grantPutAcl(identity: IGrantable, objectsKeyPattern?: string): Grant {
-    return this.bucket.grantPutAcl(identity, objectsKeyPattern);
   }
 
   /**
