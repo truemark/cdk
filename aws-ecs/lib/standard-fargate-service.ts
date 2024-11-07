@@ -484,7 +484,10 @@ export class StandardFargateService extends ExtendedConstruct {
             }),
         environment: props.otelEnvironmentVariables ?? {},
         healthCheck: {
-          command: ['CMD-SHELL', 'curl -f http://localhost:13133/ || exit 1'],
+          command: [
+            'CMD-SHELL',
+            'curl -f http://localhost:13133/healthz || exit 1',
+          ],
           interval: Duration.seconds(10),
           timeout: Duration.seconds(5),
           retries: 5,
