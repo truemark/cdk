@@ -32,7 +32,7 @@ import {
 } from './extended-origin-group';
 function pathToIdentifier(path: string): string {
   return StringHelper.toPascalCase(
-    path.replace(/\*/g, 'wildcard').replace(/\//g, '-')
+    path.replace(/\*/g, 'wildcard').replace(/\//g, '-').replace(/\?/g, 'q')
   );
 }
 
