@@ -24,16 +24,15 @@ import {CloudFrontBucket} from '../../aws-s3';
 import {StandardApiCachePolicy} from './standard-api-cache-policy';
 import {StandardApiOriginRequestPolicy} from './standard-api-origin-request-policy';
 import {ExtendedConstruct} from '../../aws-cdk';
-import {StringHelper} from '../../helpers';
 import {DomainName} from '../../aws-route53';
 import {
   ExtendedOriginGroup,
   isExtendedOriginGroup,
 } from './extended-origin-group';
-function pathToIdentifier(path: string): string {
-  return StringHelper.toPascalCase(
-    path.replace(/\*/g, 'wildcard').replace(/\//g, '-').replace(/\?/g, 'q')
-  );
+import {createHash} from 'crypto';
+
+function sha1sum(input: string): string {
+  return createHash('sha1').update(input).digest('hex');
 }
 
 export const ALL_FALLBACK_STATUS_CODES = [
@@ -53,7 +52,7 @@ export class BehaviorBuilder extends ExtendedConstruct {
   ) {
     super(
       scope,
-      (path === undefined || path === '' ? 'Default' : pathToIdentifier(path)) +
+      (path === undefined || path === '' ? 'Default' : sha1sum(path)) +
         'Behavior'
     );
     this.path = path;
