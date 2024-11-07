@@ -486,7 +486,7 @@ export class StandardFargateService extends ExtendedConstruct {
         healthCheck: {
           command: [
             'CMD-SHELL',
-            'curl -s http://localhost:13133/ | grep -q "Server available" || exit 1',
+            'curl -s http://localhost:13133/healthz | grep -q "Server available" || exit 1',
           ],
           interval: Duration.seconds(10),
           timeout: Duration.seconds(5),
