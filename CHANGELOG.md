@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changes
 
 -   Changes hashing algorithm used for identifiers on BehaviorBuilder.
+-   Dependency updates
 
 ## v1.15.2
 
