@@ -11,7 +11,7 @@ export class ParameterPaths {
 
   constructor(scope: Construct, ...paths: string[]) {
     this.stack = Stack.of(scope);
-    paths.forEach(path => this.validatePath(path));
+    paths.forEach((path) => this.validatePath(path));
     this.paths = paths;
   }
 
@@ -39,8 +39,8 @@ export class ParameterPaths {
         'ssm:GetParameterHistory',
       ],
       resourceArns: this.paths.map(
-        path =>
-          `arn:aws:ssm:${this.stack.region}:${this.stack.account}:parameter${path}`
+        (path) =>
+          `arn:aws:ssm:${this.stack.region}:${this.stack.account}:parameter${path}`,
       ),
     });
   }
@@ -54,8 +54,8 @@ export class ParameterPaths {
         'ssm:DeleteParameters',
       ],
       resourceArns: this.paths.map(
-        path =>
-          `arn:aws:ssm:${this.stack.region}:${this.stack.account}:parameter${path}`
+        (path) =>
+          `arn:aws:ssm:${this.stack.region}:${this.stack.account}:parameter${path}`,
       ),
     });
   }
@@ -73,8 +73,8 @@ export class ParameterPaths {
         'ssm:DeleteParameters',
       ],
       resourceArns: this.paths.map(
-        path =>
-          `arn:aws:ssm:${this.stack.region}:${this.stack.account}:parameter${path}`
+        (path) =>
+          `arn:aws:ssm:${this.stack.region}:${this.stack.account}:parameter${path}`,
       ),
     });
   }

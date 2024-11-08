@@ -81,7 +81,7 @@ export class PipelineNotificationRule extends Construct {
   constructor(
     scope: Construct,
     id: string,
-    props: PipelineNotificationRuleProps
+    props: PipelineNotificationRuleProps,
   ) {
     super(scope, id);
     this.notificationRule = new NotificationRule(this, 'Rule', {
@@ -92,13 +92,13 @@ export class PipelineNotificationRule extends Construct {
 
   addSlackChannelArn(
     id: string,
-    slackChannelArn: string
+    slackChannelArn: string,
   ): ISlackChannelConfiguration {
     const slackChannel =
       SlackChannelConfiguration.fromSlackChannelConfigurationArn(
         this,
         id,
-        slackChannelArn
+        slackChannelArn,
       );
     this.notificationRule.addTarget(slackChannel);
     return slackChannel;

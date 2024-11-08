@@ -123,10 +123,10 @@ export class WordPressDistribution extends Construct {
     super(scope, id);
 
     const hostedDomainNames: DomainName[] = [];
-    props.domainNames.forEach(name => {
+    props.domainNames.forEach((name) => {
       if (name.hostedZone !== undefined) {
         hostedDomainNames.push(
-          DomainName.fromFqdn(name.domainName, name.hostedZone)
+          DomainName.fromFqdn(name.domainName, name.hostedZone),
         );
       }
     });
@@ -136,14 +136,14 @@ export class WordPressDistribution extends Construct {
       certificate = DomainName.createCertificate(
         this,
         'Certificate',
-        hostedDomainNames
+        hostedDomainNames,
       );
     }
 
     const originRequestPolicy = new OriginRequestPolicy(this, 'AllViewerPlus', {
       cookieBehavior: OriginRequestCookieBehavior.all(),
       headerBehavior: OriginRequestHeaderBehavior.all(
-        'CloudFront-Forwarded-Proto'
+        'CloudFront-Forwarded-Proto',
       ),
       queryStringBehavior: OriginRequestQueryStringBehavior.all(),
     });
@@ -151,12 +151,12 @@ export class WordPressDistribution extends Construct {
     const builder = new DistributionBuilder(this, 'Default')
       .httpVersion(props.httpVersion ?? HttpVersion.HTTP2_AND_3)
       .minimumProtocolVersion(
-        props.minimumProtocolVersion ?? SecurityPolicyProtocol.TLS_V1_2_2021
+        props.minimumProtocolVersion ?? SecurityPolicyProtocol.TLS_V1_2_2021,
       )
       .enableIpv6(props.enableIpv6 ?? true)
       .priceClass(props.priceClass ?? PriceClass.PRICE_CLASS_ALL)
       .domainNames(
-        ...props.domainNames.map(domainName => domainName.domainName)
+        ...props.domainNames.map((domainName) => domainName.domainName),
       )
       .certificate(certificate)
 
@@ -200,9 +200,9 @@ export class WordPressDistribution extends Construct {
     const dnsRecords: ARecord[] = [];
     if (props.createDnsRecords ?? true) {
       const recordTarget = RecordTarget.fromAlias(
-        new CloudFrontTarget(distribution)
+        new CloudFrontTarget(distribution),
       );
-      hostedDomainNames.forEach(name => {
+      hostedDomainNames.forEach((name) => {
         dnsRecords.push(name.createARecord(this, recordTarget));
       });
     }

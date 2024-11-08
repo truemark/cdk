@@ -63,7 +63,7 @@ export class StandardDomainName extends ExtendedConstruct {
   toRecordTarget(evaluateTargetHealth?: boolean): RecordTarget {
     const domainProperties = new targets.ApiGatewayv2DomainProperties(
       this.gatewayDomainName.regionalDomainName,
-      this.gatewayDomainName.regionalHostedZoneId
+      this.gatewayDomainName.regionalHostedZoneId,
     );
     return evaluateTargetHealth
       ? ExtendedRecordTarget.fromAlias(domainProperties, evaluateTargetHealth)
@@ -78,12 +78,12 @@ export class StandardDomainName extends ExtendedConstruct {
    */
   createARecord(
     evaluateTargetHealth?: boolean,
-    options?: ARecordOptions
+    options?: ARecordOptions,
   ): ARecord {
     return this.domainName.createARecord(
       this,
       this.toRecordTarget(evaluateTargetHealth ?? true),
-      options
+      options,
     );
   }
 
@@ -97,13 +97,13 @@ export class StandardDomainName extends ExtendedConstruct {
   createWeightedARecord(
     weight: number,
     evaluateTargetHealth?: boolean,
-    options?: ARecordOptions
+    options?: ARecordOptions,
   ): ARecord {
     return this.domainName.createWeightedARecord(
       this,
       this.toRecordTarget(evaluateTargetHealth ?? true),
       weight,
-      options
+      options,
     );
   }
 
@@ -115,12 +115,12 @@ export class StandardDomainName extends ExtendedConstruct {
    */
   createLatencyARecord(
     evaluateTargetHealth?: boolean,
-    options?: ARecordOptions
+    options?: ARecordOptions,
   ): ARecord {
     return this.domainName.createLatencyARecord(
       this,
       this.toRecordTarget(evaluateTargetHealth ?? true),
-      options
+      options,
     );
   }
 

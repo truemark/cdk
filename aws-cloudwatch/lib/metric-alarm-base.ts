@@ -54,7 +54,7 @@ export abstract class MetricAlarmBase<P extends MetricAlarmBaseProps>
    * @param topics the topics to notify
    */
   addAlarmTopic(...topics: ITopic[]): void {
-    this.alarm.addAlarmAction(...topics.map(topic => new SnsAction(topic)));
+    this.alarm.addAlarmAction(...topics.map((topic) => new SnsAction(topic)));
   }
 
   /**
@@ -63,7 +63,7 @@ export abstract class MetricAlarmBase<P extends MetricAlarmBaseProps>
    * @param topics the topics to notify
    */
   addOkTopic(...topics: ITopic[]): void {
-    this.alarm.addOkAction(...topics.map(topic => new SnsAction(topic)));
+    this.alarm.addOkAction(...topics.map((topic) => new SnsAction(topic)));
   }
 
   /**
@@ -73,7 +73,7 @@ export abstract class MetricAlarmBase<P extends MetricAlarmBaseProps>
    */
   addInsufficientDataTopic(...topics: ITopic[]): void {
     this.alarm.addInsufficientDataAction(
-      ...topics.map(topic => new SnsAction(topic))
+      ...topics.map((topic) => new SnsAction(topic)),
     );
   }
 

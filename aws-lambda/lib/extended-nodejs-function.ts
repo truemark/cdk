@@ -31,12 +31,12 @@ export class ExtendedNodejsFunction extends NodejsFunction {
   readonly deployment?: FunctionDeployment;
 
   private static findDepsLockFile(
-    entry: string | undefined
+    entry: string | undefined,
   ): string | undefined {
     if (entry !== undefined) {
       const depsLockFilePath = path.join(
         path.dirname(entry),
-        'package-lock.json'
+        'package-lock.json',
       );
       if (fs.existsSync(depsLockFilePath)) {
         return depsLockFilePath;
@@ -48,7 +48,7 @@ export class ExtendedNodejsFunction extends NodejsFunction {
   constructor(
     scope: Construct,
     id: string,
-    props: ExtendedNodejsFunctionProps
+    props: ExtendedNodejsFunctionProps,
   ) {
     super(scope, id, {
       logRetention: RetentionDays.THREE_DAYS, // change default from INFINITE

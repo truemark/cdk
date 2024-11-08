@@ -20,7 +20,7 @@ export class EstimatedChargesAlarm extends MetricAlarmBase<EstimatedChargesAlarm
 
   protected createAlarm(
     metric: Metric,
-    props: EstimatedChargesAlarmProps
+    props: EstimatedChargesAlarmProps,
   ): ExtendedAlarm {
     return new ExtendedAlarm(this, 'Alarm', {
       ...props,

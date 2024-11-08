@@ -79,71 +79,71 @@ export class TableAlarms extends AlarmsBase<
         addToAlarmDashboard: props.addToAlarmDashboard ?? true,
         addConsumedReadCapacityAlarm: this.toRecord<ConsumedCapacityThreshold>(
           'maxConsumedReadCapacity',
-          'maxConsumedCapacityUnits'
+          'maxConsumedCapacityUnits',
         ),
         addConsumedWriteCapacityAlarm: this.toRecord<ConsumedCapacityThreshold>(
           'maxConsumedWriteCapacity',
-          'maxConsumedCapacityUnits'
+          'maxConsumedCapacityUnits',
         ),
         addReadThrottledEventsCountAlarm:
           this.toRecord<ThrottledEventsThreshold>(
             'maxReadThrottledEventsCount',
             'maxThrottledEventsThreshold',
-            0
+            0,
           ),
         addWriteThrottledEventsCountAlarm:
           this.toRecord<ThrottledEventsThreshold>(
             'maxWriteThrottledEventsCount',
             'maxThrottledEventsThreshold',
-            0
+            0,
           ),
         addSystemErrorCountAlarm: this.toRecord<ErrorCountThreshold>(
           'maxSystemErrorCount',
           'maxErrorCount',
-          0
+          0,
         ),
         addAverageSuccessfulGetRecordsLatencyAlarm:
           this.toRecord<LatencyThreshold>(
             'averageSuccessfulGetRecordsLatency',
-            'maxLatency'
+            'maxLatency',
           ),
         addAverageSuccessfulQueryLatencyAlarm: this.toRecord<LatencyThreshold>(
           'averageSuccessfulQueryLatency',
-          'maxLatency'
+          'maxLatency',
         ),
         addAverageSuccessfulScanLatencyAlarm: this.toRecord<LatencyThreshold>(
           'averageSuccessfulScanLatency',
-          'maxLatency'
+          'maxLatency',
         ),
         addAverageSuccessfulPutItemLatencyAlarm:
           this.toRecord<LatencyThreshold>(
             'averageSuccessfulPutItemLatency',
-            'maxLatency'
+            'maxLatency',
           ),
         addAverageSuccessfulGetItemLatencyAlarm:
           this.toRecord<LatencyThreshold>(
             'averageSuccessfulGetItemLatency',
-            'maxLatency'
+            'maxLatency',
           ),
         addAverageSuccessfulUpdateItemLatencyAlarm:
           this.toRecord<LatencyThreshold>(
             'averageSuccessfulUpdateItemLatency',
-            'maxLatency'
+            'maxLatency',
           ),
         addAverageSuccessfulDeleteItemLatencyAlarm:
           this.toRecord<LatencyThreshold>(
             'averageSuccessfulDeleteItemLatency',
-            'maxLatency'
+            'maxLatency',
           ),
         addAverageSuccessfulBatchGetItemLatencyAlarm:
           this.toRecord<LatencyThreshold>(
             'averageSuccessfulBatchGetItemLatency',
-            'maxLatency'
+            'maxLatency',
           ),
         addAverageSuccessfulBatchWriteItemLatencyAlarm:
           this.toRecord<LatencyThreshold>(
             'averageSuccessfulBatchWriteItemLatency',
-            'maxLatency'
+            'maxLatency',
           ),
       });
     }

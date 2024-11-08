@@ -136,7 +136,7 @@ export class StandardNetworkFargateService extends StandardFargateService {
   constructor(
     scope: Construct,
     id: string,
-    props: StandardNetworkFargateServiceProps
+    props: StandardNetworkFargateServiceProps,
   ) {
     super(scope, id, props);
 
@@ -189,7 +189,7 @@ export class StandardNetworkFargateService extends StandardFargateService {
       });
       this.route53Record = this.domainName.createARecord(
         this,
-        RecordTarget.fromAlias(new LoadBalancerTarget(loadBalancer))
+        RecordTarget.fromAlias(new LoadBalancerTarget(loadBalancer)),
       );
     }
     this.loadBalancer = loadBalancer;

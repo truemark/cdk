@@ -22,7 +22,7 @@ export class StandardAlarmActionsStrategy implements IAlarmActionStrategy {
   }
 
   addAlarmActions(props: AlarmActionStrategyProps): void {
-    this.actions?.forEach(action => {
+    this.actions?.forEach((action) => {
       props.alarm.addAlarmAction(action);
     });
   }

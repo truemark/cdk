@@ -12,6 +12,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Added Collection construct for OpenSearch serverless
 -   Added CollectionIndex to add indexes to OpenSearch serverless collections
 
+## v1.16.0
+
+### Changed
+
+-   Changes hashing algorithm used for identifiers on BehaviorBuilder.
+-   Dependency updates
+-   Replaced GTS with standard prettier and eslint configuration
+
+## v1.15.2
+
+### Fixed
+
+-   Fixed bug where healthCheckGracePeriod wasn't being applied correctly with StandardApplicationFargateService.
+>>>>>>> develop
+
 ## v1.15.1
 
 ### Added

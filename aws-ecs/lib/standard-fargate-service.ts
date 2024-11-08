@@ -274,6 +274,13 @@ export interface StandardFargateServiceProps extends ExtendedConstructProps {
    * @default - false
    */
   readonly allowAllIpv6Outbound?: boolean;
+
+  /**
+   * The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy
+   * Elastic Load Balancing target health checks after a task has first started. Do not use this
+   * property unless you are working with an Application Load Balancer. Default is undefined.
+   */
+  readonly healthCheckGracePeriod?: Duration;
 }
 
 /**
@@ -292,7 +299,7 @@ export class StandardFargateService extends ExtendedConstruct {
 
   protected resolveLogGroup(
     scope: Construct,
-    props: StandardFargateServiceProps
+    props: StandardFargateServiceProps,
   ): LogGroup | undefined {
     if (props.logConfiguration?.enabled ?? true) {
       return new LogGroup(scope, 'LogGroup', {
@@ -309,7 +316,7 @@ export class StandardFargateService extends ExtendedConstruct {
   protected resolveLogDriver(
     scope: Construct,
     props: StandardFargateServiceProps,
-    logGroup: LogGroup | undefined
+    logGroup: LogGroup | undefined,
   ): LogDriver | undefined {
     if (props.logConfiguration?.enabled ?? true) {
       return LogDriver.awsLogs({
@@ -322,7 +329,7 @@ export class StandardFargateService extends ExtendedConstruct {
 
   protected resolveVpcSubnets(
     scope: Construct,
-    props: StandardFargateServiceProps
+    props: StandardFargateServiceProps,
   ): SubnetSelection {
     if (props.vpcSubnets === undefined) {
       return {
@@ -333,7 +340,7 @@ export class StandardFargateService extends ExtendedConstruct {
   }
 
   protected resolvedCapacityProviderStrategies(
-    props: StandardFargateServiceProps
+    props: StandardFargateServiceProps,
   ): CapacityProviderStrategy[] | undefined {
     const strategies: CapacityProviderStrategy[] = [];
     if (
@@ -362,7 +369,7 @@ export class StandardFargateService extends ExtendedConstruct {
   constructor(
     scope: Construct,
     id: string,
-    props: StandardFargateServiceProps
+    props: StandardFargateServiceProps,
   ) {
     super(scope, id, {
       standardTags: StandardTags.merge(props.standardTags, LibStandardTags),
@@ -383,7 +390,7 @@ export class StandardFargateService extends ExtendedConstruct {
         new PolicyStatement({
           resources: ['*'],
           actions: ['cloudwatch:PutMetricData'],
-        })
+        }),
       );
     }
 
@@ -438,6 +445,7 @@ export class StandardFargateService extends ExtendedConstruct {
       enableExecuteCommand: props.enableExecuteCommand ?? true,
       assignPublicIp: props.assignPublicIp ?? false,
       enableECSManagedTags: props.enableECSManagedTags ?? true,
+      healthCheckGracePeriod: props.healthCheckGracePeriod,
       capacityProviderStrategies,
       securityGroups: [securityGroup],
     });

@@ -71,7 +71,7 @@ export interface StandardApplicationFargateServiceProps
    * The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy
    * Elastic Load Balancing target health checks after a task has first started.
    *
-   * @default - defaults to 60 seconds if at least one load balancer is in-use and it is not already set
+   * @default - defaults to 60 seconds
    */
   readonly healthCheckGracePeriod?: Duration;
 
@@ -187,9 +187,13 @@ export class StandardApplicationFargateService extends StandardFargateService {
   constructor(
     scope: Construct,
     id: string,
-    props: StandardApplicationFargateServiceProps
+    props: StandardApplicationFargateServiceProps,
   ) {
-    super(scope, id, props);
+    super(scope, id, {
+      ...props,
+      healthCheckGracePeriod:
+        props.healthCheckGracePeriod ?? Duration.seconds(60),
+    });
 
     let stickinessCookieDuration: Duration | undefined =
       props.stickinessCookieDuration ?? Duration.days(1);
@@ -242,14 +246,14 @@ export class StandardApplicationFargateService extends StandardFargateService {
 
     const targetGroupConditions: ListenerCondition[] = [];
     targetGroupConditions.push(
-      ListenerCondition.pathPatterns(props.pathPattern ?? ['/*'])
+      ListenerCondition.pathPatterns(props.pathPattern ?? ['/*']),
     );
     if (props.domainName !== undefined) {
       targetGroupConditions.push(
         ListenerCondition.hostHeaders([
           props.domainName,
           ...(props.domainNames ?? []),
-        ])
+        ]),
       );
     }
 
@@ -261,7 +265,7 @@ export class StandardApplicationFargateService extends StandardFargateService {
           'LoadBalancer',
           {
             loadBalancerArn: props.loadBalancer,
-          }
+          },
         );
       } else {
         loadBalancer = ApplicationLoadBalancer.fromLookup(
@@ -271,7 +275,7 @@ export class StandardApplicationFargateService extends StandardFargateService {
             loadBalancerTags: {
               Name: props.loadBalancer,
             },
-          }
+          },
         );
       }
     } else {
@@ -299,7 +303,7 @@ export class StandardApplicationFargateService extends StandardFargateService {
       this.domainName = DomainName.fromFqdn(props.domainName, props.domainZone);
       this.route53Record = this.domainName.createARecord(
         this,
-        RecordTarget.fromAlias(new LoadBalancerTarget(loadBalancer))
+        RecordTarget.fromAlias(new LoadBalancerTarget(loadBalancer)),
       );
     }
 

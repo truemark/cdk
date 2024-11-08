@@ -70,7 +70,7 @@ export class BatchWriteItem extends Construct {
       policy: {
         statements: [
           new PolicyStatement({
-            resources: tableNames.map(name => {
+            resources: tableNames.map((name) => {
               return Stack.of(this).formatArn({
                 service: 'dynamodb',
                 resource: 'table',

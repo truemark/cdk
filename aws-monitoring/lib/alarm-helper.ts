@@ -15,11 +15,11 @@ export class AlarmHelper {
    */
   static combineActions(
     actions?: IAlarmAction[],
-    topics?: ITopic[]
+    topics?: ITopic[],
   ): IAlarmAction[] {
     const combined: IAlarmAction[] = [];
-    actions?.forEach(action => combined.push(action));
-    topics?.forEach(topic => combined.push(new SnsAction(topic)));
+    actions?.forEach((action) => combined.push(action));
+    topics?.forEach((topic) => combined.push(new SnsAction(topic)));
     return combined;
   }
 
@@ -42,7 +42,7 @@ export class AlarmHelper {
     tprop: keyof T,
     defaultCriticalThreshold?: number | Duration,
     defaultWarningThreshold?: number | Duration,
-    treatMissingDataOverride?: TreatMissingData
+    treatMissingDataOverride?: TreatMissingData,
   ): Record<string, T> | undefined {
     return new AlarmFacadeSet<O, T>(options)
       .addAlarms(
@@ -50,7 +50,7 @@ export class AlarmHelper {
         tprop,
         defaultCriticalThreshold,
         defaultWarningThreshold,
-        treatMissingDataOverride
+        treatMissingDataOverride,
       )
       .toRecord();
   }

@@ -45,7 +45,7 @@ test('Test findDomainName', () => {
   });
   const foundDomainName = DomainName.findDomainName(
     {prefix: 'test2', zone: 'example.com'},
-    [domainName1, domainName2, domainName3]
+    [domainName1, domainName2, domainName3],
   );
   expect(foundDomainName).toBeDefined();
   expect(foundDomainName?.getPrefix()).toEqual('test2');

@@ -33,7 +33,7 @@ export class ExtendedQueue extends Queue {
   static fromQueueName(
     scope: Construct,
     id: string,
-    queueName: string
+    queueName: string,
   ): IQueue {
     return Queue.fromQueueArn(
       scope,
@@ -41,7 +41,7 @@ export class ExtendedQueue extends Queue {
       Arn.format({
         service: 'sqs',
         resource: queueName,
-      })
+      }),
     );
   }
 }

@@ -331,7 +331,7 @@ export class StandardTags {
     this.suppressed = props?.suppressTagging ?? false;
     const standardTagsProps = StandardTags.merge(
       scope.node.tryGetContext('standardTags'),
-      props
+      props,
     );
     this.addAutomationComponentTags({
       ...props,
@@ -365,7 +365,7 @@ export class StandardTags {
    * @param props optional properties for the tags
    */
   addAutomationComponentTags(
-    props?: AutomationComponentTagsProps
+    props?: AutomationComponentTagsProps,
   ): StandardTags {
     if (props && !this.suppressed) {
       if (props.id === '{{TMCDK}}') {
@@ -376,7 +376,7 @@ export class StandardTags {
         this.tags.add(
           'automation:component-url',
           'https://github.com/truemark/cdk',
-          props
+          props,
         );
         this.tags.add('automation:component-vendor', 'TrueMark', props);
       } else {
@@ -444,14 +444,14 @@ export class StandardTags {
         this.tags.add(
           'cost-center:business-unit-name',
           props.businessUnitName,
-          props
+          props,
         );
       }
       if (props.businessUnitId) {
         this.tags.add(
           'cost-center:business-unit-id',
           props.businessUnitId,
-          props
+          props,
         );
       }
       if (props.divisionName) {
@@ -464,7 +464,7 @@ export class StandardTags {
         this.tags.add(
           'cost-center:department-name',
           props.departmentName,
-          props
+          props,
         );
       }
       if (props.departmentId) {
@@ -485,14 +485,14 @@ export class StandardTags {
         this.tags.add(
           'security:data-classification',
           props.dataClassification,
-          props
+          props,
         );
       }
       if (props.dataSensitivity) {
         this.tags.add(
           'security:data-sensitivity',
           props.dataSensitivity,
-          props
+          props,
         );
       }
     }
@@ -551,7 +551,7 @@ export class StandardTags {
    */
   static merge(
     from?: StandardTagsProps,
-    to?: StandardTagsProps
+    to?: StandardTagsProps,
   ): StandardTagsProps {
     let automationComponentTags: AutomationComponentTagsProps | undefined =
       undefined;

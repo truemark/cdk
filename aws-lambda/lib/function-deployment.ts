@@ -136,7 +136,7 @@ export class FunctionDeployment extends Construct {
    * @param alarms the alarms to associate
    */
   addAlarms(...alarms: IAlarm[]): void {
-    alarms.forEach(alarm => this.deploymentGroup.addAlarm(alarm));
+    alarms.forEach((alarm) => this.deploymentGroup.addAlarm(alarm));
   }
 
   /**
@@ -164,7 +164,7 @@ export class FunctionDeployment extends Construct {
    */
   grantPutLifecycleEventHookExecutionStatus(grantee: IGrantable): Grant {
     return this.deploymentGroup.grantPutLifecycleEventHookExecutionStatus(
-      grantee
+      grantee,
     );
   }
 }
