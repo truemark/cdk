@@ -24,7 +24,7 @@ export class StandardApiCachePolicy extends CachePolicy {
       cookieBehavior: CacheCookieBehavior.all(),
       headerBehavior: CacheHeaderBehavior.allowList(
         ...DEFAULT_API_CACHE_HEADERS,
-        ...(additionalHeaders ?? [])
+        ...(additionalHeaders ?? []),
       ),
       queryStringBehavior: CacheQueryStringBehavior.all(),
       enableAcceptEncodingBrotli: true,

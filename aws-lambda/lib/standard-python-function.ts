@@ -69,7 +69,7 @@ export class StandardPythonFunction extends StandardFunction {
     // TODO This isn't working
     const defaultBundlingScript = fs.readFileSync(
       path.join(path.dirname(fs.realpathSync(__filename)), 'bundle-python.sh'),
-      'utf-8'
+      'utf-8',
     );
 
     super(scope, id, {

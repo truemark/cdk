@@ -113,7 +113,7 @@ export abstract class AlarmsBase<
     tprop: keyof T,
     defaultCriticalThreshold?: number | Duration | undefined,
     defaultWarningThreshold?: number | Duration | undefined,
-    treatMissingDataOverride?: TreatMissingData
+    treatMissingDataOverride?: TreatMissingData,
   ) {
     return AlarmHelper.toRecord<C, T>(
       this.props,
@@ -121,7 +121,7 @@ export abstract class AlarmsBase<
       tprop,
       defaultCriticalThreshold,
       defaultWarningThreshold,
-      treatMissingDataOverride
+      treatMissingDataOverride,
     );
   }
 
@@ -142,7 +142,7 @@ export abstract class AlarmsBase<
     }
     if (this.monitoringFacade === undefined) {
       throw new Error(
-        'MonitoringFacade must be provided as a constructor property or as monitoringFacade property on parent Stack'
+        'MonitoringFacade must be provided as a constructor property or as monitoringFacade property on parent Stack',
       );
     }
   }
@@ -150,13 +150,13 @@ export abstract class AlarmsBase<
   getAlarms(category: AlarmCategory): AlarmBase[] {
     if (this.monitoringFacade === undefined) {
       throw new Error(
-        'MonitoringFacade must be provided as a constructor property or as monitoringFacade property on parent Stack'
+        'MonitoringFacade must be provided as a constructor property or as monitoringFacade property on parent Stack',
       );
     }
     return [
       ...this.monitoringFacade
         .createdAlarmsWithDisambiguator(category)
-        .map(awa => awa.alarm)
+        .map((awa) => awa.alarm)
         .values(),
     ];
   }

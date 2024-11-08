@@ -10,7 +10,7 @@ export class ReceiptRuleSetActivator extends AwsCustomResource {
   constructor(
     scope: Construct,
     id: string,
-    props: ReceiptRuleSetActivatorProps
+    props: ReceiptRuleSetActivatorProps,
   ) {
     const call: AwsSdkCall = {
       service: 'SES',

@@ -3,6 +3,7 @@ notes.txt
 .npmcache
 *.js
 *.js.map
+!.prettierrc.js
 !jest.config.js
 *.d.ts
 *.d.ts.map

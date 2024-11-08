@@ -46,7 +46,7 @@ export class StringHelper {
   static isCamelCase(str?: string | null) {
     if (str) {
       return /^[a-z][a-z0-9]*(([A-Z][a-z0-9]+)*[A-Z]?|([a-z0-9]+[A-Z])*|[A-Z])$/.test(
-        str
+        str,
       );
     }
     return false;
@@ -60,10 +60,10 @@ export class StringHelper {
   static toSnakeCase(str: string): string {
     return (
       str.match(
-        /[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g
+        /[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g,
       ) || []
     )
-      .map(x => x.toLowerCase())
+      .map((x) => x.toLowerCase())
       .join('_');
   }
 
@@ -75,10 +75,10 @@ export class StringHelper {
   static toKebabCase(str: string): string {
     return (
       str.match(
-        /[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g
+        /[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g,
       ) || []
     )
-      .map(x => x.toLowerCase())
+      .map((x) => x.toLowerCase())
       .join('-');
   }
 
@@ -99,7 +99,7 @@ export class StringHelper {
    */
   static toPascalCase(str: string): string {
     return (str.match(/[a-zA-Z0-9]+/g) || [])
-      .map(x => `${x.charAt(0).toUpperCase()}${x.slice(1)}`)
+      .map((x) => `${x.charAt(0).toUpperCase()}${x.slice(1)}`)
       .join('');
   }
 }

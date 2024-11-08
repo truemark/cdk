@@ -182,7 +182,7 @@ export class CloudFrontBucketV2 extends ExtendedConstruct {
             'aws:SourceArn': `arn:aws:cloudfront::${Stack.of(this).account}:distribution/*`,
           },
         },
-      })
+      }),
     );
 
     const oac = new S3OriginAccessControl(this, 'AccessControl', {
@@ -194,12 +194,12 @@ export class CloudFrontBucketV2 extends ExtendedConstruct {
   deploy(
     config:
       | CloudFrontBucketV2DeploymentConfig
-      | CloudFrontBucketV2DeploymentConfig[]
+      | CloudFrontBucketV2DeploymentConfig[],
   ) {
     const configs = Array.isArray(config) ? config : [config];
     for (const c of configs) {
       const sources = (Array.isArray(c.source) ? c.source : [c.source]).map(
-        s => (typeof s === 'string' ? Source.asset(s) : s)
+        (s) => (typeof s === 'string' ? Source.asset(s) : s),
       );
 
       const exclude = c.exclude
@@ -221,7 +221,7 @@ export class CloudFrontBucketV2 extends ExtendedConstruct {
           prune: c.prune,
           cacheControl,
           exclude,
-        }
+        },
       );
       deploy.node.addDependency(this.bucket);
     }
@@ -271,12 +271,12 @@ export class CloudFrontBucketV2 extends ExtendedConstruct {
   grantWrite(
     identity: IGrantable,
     objectsKeyPattern?: unknown,
-    allowedActionPatterns?: string[]
+    allowedActionPatterns?: string[],
   ): Grant {
     return this.bucket.grantWrite(
       identity,
       objectsKeyPattern,
-      allowedActionPatterns
+      allowedActionPatterns,
     );
   }
 
@@ -346,7 +346,7 @@ export class CloudFrontBucketV2 extends ExtendedConstruct {
    * silently, which may be confusing.
    */
   addToResourcePolicy(
-    permission: iam.PolicyStatement
+    permission: iam.PolicyStatement,
   ): iam.AddToResourcePolicyResult {
     return this.bucket.addToResourcePolicy(permission);
   }

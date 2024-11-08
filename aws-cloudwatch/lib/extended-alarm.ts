@@ -77,7 +77,7 @@ export class ExtendedAlarm extends Alarm {
    * @param topics the topics to notify
    */
   addAlarmTopic(...topics: ITopic[]): void {
-    this.addAlarmAction(...topics.map(topic => new SnsAction(topic)));
+    this.addAlarmAction(...topics.map((topic) => new SnsAction(topic)));
   }
 
   /**
@@ -86,7 +86,7 @@ export class ExtendedAlarm extends Alarm {
    * @param topics the topics to notify
    */
   addOkTopic(...topics: ITopic[]): void {
-    this.addOkAction(...topics.map(topic => new SnsAction(topic)));
+    this.addOkAction(...topics.map((topic) => new SnsAction(topic)));
   }
 
   /**
@@ -96,7 +96,7 @@ export class ExtendedAlarm extends Alarm {
    */
   addInsufficientDataTopic(...topics: ITopic[]): void {
     this.addInsufficientDataAction(
-      ...topics.map(topic => new SnsAction(topic))
+      ...topics.map((topic) => new SnsAction(topic)),
     );
   }
 }

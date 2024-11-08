@@ -39,9 +39,9 @@ export class ArtifactBucket extends Bucket {
         new PolicyStatement({
           effect: Effect.ALLOW,
           actions: ['s3:Get*', 's3:List*'],
-          principals: props.accountIds.map(id => new AccountPrincipal(id)),
+          principals: props.accountIds.map((id) => new AccountPrincipal(id)),
           resources: [this.arnForObjects('*'), this.bucketArn],
-        })
+        }),
       );
     }
   }

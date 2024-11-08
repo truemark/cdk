@@ -198,7 +198,7 @@ export class DomainName {
       this.toString()
         .toLowerCase()
         .replace(/\*/g, 'wildcard')
-        .replace(/\./g, '-')
+        .replace(/\./g, '-'),
     );
   }
 
@@ -225,7 +225,7 @@ export class DomainName {
           domainName: this.zone,
           privateZone: this.privateZone,
           vpcId: this.vpcId,
-        }
+        },
       );
     }
     return this.hostedZone;
@@ -238,7 +238,7 @@ export class DomainName {
   createCnameRecord(
     scope: Construct,
     domainName: string,
-    options?: CnameRecordOptions
+    options?: CnameRecordOptions,
   ): CnameRecord {
     return new CnameRecord(
       scope,
@@ -248,7 +248,7 @@ export class DomainName {
         recordName: this.toString(),
         domainName,
         region: options?.region,
-      }
+      },
     );
   }
 
@@ -262,7 +262,7 @@ export class DomainName {
   createARecord(
     scope: Construct,
     target: RecordTarget,
-    options?: ARecordOptions
+    options?: ARecordOptions,
   ): ARecord {
     return new ARecord(
       scope,
@@ -274,7 +274,7 @@ export class DomainName {
         ttl: options?.ttl,
         comment: options?.comment,
         deleteExisting: options?.deleteExisting,
-      }
+      },
     );
   }
 
@@ -290,7 +290,7 @@ export class DomainName {
     scope: Construct,
     target: RecordTarget,
     weight: number,
-    options?: ARecordOptions
+    options?: ARecordOptions,
   ): WeightedARecord {
     return new WeightedARecord(
       scope,
@@ -303,7 +303,7 @@ export class DomainName {
         ttl: options?.ttl,
         comment: options?.comment,
         deleteExisting: options?.deleteExisting,
-      }
+      },
     );
   }
 
@@ -317,7 +317,7 @@ export class DomainName {
   createLatencyARecord(
     scope: Construct,
     target: RecordTarget,
-    options?: ARecordOptions
+    options?: ARecordOptions,
   ): LatencyARecord {
     return new LatencyARecord(
       scope,
@@ -329,7 +329,7 @@ export class DomainName {
         ttl: options?.ttl,
         comment: options?.comment,
         deleteExisting: options?.deleteExisting,
-      }
+      },
     );
   }
 
@@ -347,7 +347,7 @@ export class DomainName {
         domainName: this.toString(),
         validation: CertificateValidation.fromDns(this.getHostedZone(scope)),
         subjectAlternativeNames: opts?.subjectAlternativeNames,
-      }
+      },
     );
   }
 
@@ -360,7 +360,7 @@ export class DomainName {
   static fromProps(domainNameProps?: DomainNameProps[]): DomainName[] {
     return domainNameProps === undefined
       ? []
-      : domainNameProps.map(p => new DomainName(p));
+      : domainNameProps.map((p) => new DomainName(p));
   }
 
   /**
@@ -375,7 +375,7 @@ export class DomainName {
     fqdn: string,
     zone: IHostedZone | string,
     privateZone?: boolean,
-    vpcId?: string
+    vpcId?: string,
   ): DomainName {
     const prefix = fqdn
       .replace(typeof zone === 'string' ? zone : zone.zoneName, '')
@@ -395,7 +395,9 @@ export class DomainName {
    * @param domainNames the DomainName objects to convert
    */
   static toStrings(domainNames?: DomainName[]): string[] {
-    return domainNames === undefined ? [] : domainNames.map(d => d.toString());
+    return domainNames === undefined
+      ? []
+      : domainNames.map((d) => d.toString());
   }
 
   /**
@@ -420,11 +422,11 @@ export class DomainName {
    */
   static toZoneMap(
     scope: Construct,
-    domainNames?: DomainName[]
+    domainNames?: DomainName[],
   ): {[domainName: string]: IHostedZone} {
     const map: {[key: string]: IHostedZone} = {};
     if (domainNames !== undefined) {
-      domainNames.forEach(d => {
+      domainNames.forEach((d) => {
         map[d.toString()] = d.getHostedZone(scope);
       });
     }
@@ -441,7 +443,7 @@ export class DomainName {
    */
   static toZoneMapFromProps(
     scope: Construct,
-    domainNameProps: DomainNameProps[]
+    domainNameProps: DomainNameProps[],
   ): {[domainName: string]: IHostedZone} {
     return DomainName.toZoneMap(scope, DomainName.fromProps(domainNameProps));
   }
@@ -455,7 +457,7 @@ export class DomainName {
    */
   static findDomainName(
     props: DomainNameProps,
-    domainNames?: DomainName[]
+    domainNames?: DomainName[],
   ): DomainName | undefined {
     for (const domainName of domainNames ?? []) {
       if (domainName.propsMatch(props)) {
@@ -475,15 +477,15 @@ export class DomainName {
   static createCertificate(
     scope: Construct,
     id: string,
-    domainNames: DomainName[]
+    domainNames: DomainName[],
   ): Certificate {
     return new Certificate(scope, id, {
       domainName: domainNames[0].toString(),
       subjectAlternativeNames: domainNames
         .slice(1)
-        .map(name => name.toString()),
+        .map((name) => name.toString()),
       validation: CertificateValidation.fromDnsMultiZone(
-        DomainName.toZoneMap(scope, domainNames)
+        DomainName.toZoneMap(scope, domainNames),
       ),
     });
   }

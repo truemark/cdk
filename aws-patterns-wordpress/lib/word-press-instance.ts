@@ -226,13 +226,13 @@ export class WordPressInstance extends Construct {
 
   resolveInstanceType(
     scope: Construct,
-    props: WordPressInstanceProps
+    props: WordPressInstanceProps,
   ): InstanceType {
     return props.instanceType !== undefined
       ? props.instanceType
       : InstanceType.of(
           props.instanceClass ?? InstanceClass.BURSTABLE4_GRAVITON,
-          props.instanceSize ?? InstanceSize.MICRO
+          props.instanceSize ?? InstanceSize.MICRO,
         );
   }
 
@@ -253,7 +253,7 @@ export class WordPressInstance extends Construct {
         : DEFAULT_AMD64_IMAGE_SSM_PARAMETER,
       {
         os: OperatingSystemType.LINUX,
-      }
+      },
     );
   }
 
@@ -290,7 +290,7 @@ export class WordPressInstance extends Construct {
         this.eipARecord = hostName.createARecord(
           this,
           RecordTarget.fromIpAddresses(this.eip.ref),
-          {ttl: props.hostRecordTtl ?? Duration.seconds(300)}
+          {ttl: props.hostRecordTtl ?? Duration.seconds(300)},
         );
       }
     }
@@ -312,11 +312,11 @@ export class WordPressInstance extends Construct {
 
     const userDataScript = fs.readFileSync(
       path.join(__dirname, 'init.sh'),
-      'utf-8'
+      'utf-8',
     );
     const modifiedUserDataScript = userDataScript.replace(
       '{{PHP_VERSION}}',
-      props.phpVersion ?? '8.1'
+      props.phpVersion ?? '8.1',
     );
 
     this.securityGroup = new SecurityGroup(this, 'SecurityGroup', {
@@ -330,7 +330,7 @@ export class WordPressInstance extends Construct {
     this.securityGroup.addIngressRule(Peer.ipv4('172.16.0.0/12'), Port.tcp(22));
     this.securityGroup.addIngressRule(
       Peer.ipv4('192.168.0.0/16'),
-      Port.tcp(22)
+      Port.tcp(22),
     );
     this.securityGroup.addIngressRule(Peer.ipv6('fc00::/7'), Port.tcp(22));
     this.securityGroup.addIngressRule(Peer.ipv6('fd00::/8'), Port.tcp(22));
@@ -365,24 +365,24 @@ export class WordPressInstance extends Construct {
     Tags.of(this.asg).add('wordpress:data-volume', this.volume.volumeId);
     Tags.of(this.asg).add(
       'wordpress:sites',
-      props.sites.join(' ').toLowerCase()
+      props.sites.join(' ').toLowerCase(),
     );
 
     this.asg.role.addManagedPolicy(
-      ManagedPolicy.fromAwsManagedPolicyName('AmazonSSMManagedInstanceCore')
+      ManagedPolicy.fromAwsManagedPolicyName('AmazonSSMManagedInstanceCore'),
     );
     this.asg.addToRolePolicy(
       new PolicyStatement({
         effect: Effect.ALLOW,
         actions: ['ec2:DescribeTags', 'ec2:DescribeVolumes'],
         resources: ['*'],
-      })
+      }),
     );
 
     if (this.eip !== undefined) {
       Tags.of(this.asg).add(
         'wordpress:eip-allocation-id',
-        this.eip.attrAllocationId
+        this.eip.attrAllocationId,
       );
       this.asg.addToRolePolicy(
         new PolicyStatement({
@@ -395,7 +395,7 @@ export class WordPressInstance extends Construct {
                 resource: 'elastic-ip',
                 resourceName: this.eip.attrAllocationId,
               },
-              stack
+              stack,
             ),
             Arn.format(
               {
@@ -403,10 +403,10 @@ export class WordPressInstance extends Construct {
                 resource: 'instance',
                 resourceName: '*',
               },
-              stack
+              stack,
             ),
           ],
-        })
+        }),
       );
     }
 
@@ -454,7 +454,7 @@ export class WordPressInstance extends Construct {
   addListenerRule(
     listener: IApplicationListener,
     priority: number,
-    conditions: ListenerCondition[]
+    conditions: ListenerCondition[],
   ): ApplicationListenerRule {
     if (!this.targetGroup) {
       throw new Error('No target group exists');
