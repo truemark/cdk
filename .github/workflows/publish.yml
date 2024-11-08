@@ -1,8 +1,7 @@
 on:
   push:
     branches:
-      - main
-      - develop
+      - '**'
   workflow_dispatch:
 name: publish
 permissions:
@@ -15,6 +14,8 @@ jobs:
     with:
       node-versions: "[18,20,22]"
       publish-node-version: "22"
+      develop-preid: "beta"
+      branch-preid: "alpha"
     secrets:
       npm-auth-token: ${{ secrets.NPM_AUTH_TOKEN }}
       app-id: ${{ secrets.RELEASE_BOT_ID }}

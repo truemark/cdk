@@ -71,7 +71,7 @@ export interface StandardApplicationFargateServiceProps
    * The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy
    * Elastic Load Balancing target health checks after a task has first started.
    *
-   * @default - defaults to 60 seconds if at least one load balancer is in-use and it is not already set
+   * @default - defaults to 60 seconds
    */
   readonly healthCheckGracePeriod?: Duration;
 
@@ -189,7 +189,11 @@ export class StandardApplicationFargateService extends StandardFargateService {
     id: string,
     props: StandardApplicationFargateServiceProps
   ) {
-    super(scope, id, props);
+    super(scope, id, {
+      ...props,
+      healthCheckGracePeriod:
+        props.healthCheckGracePeriod ?? Duration.seconds(60),
+    });
 
     let stickinessCookieDuration: Duration | undefined =
       props.stickinessCookieDuration ?? Duration.days(1);

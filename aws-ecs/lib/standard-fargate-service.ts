@@ -274,6 +274,13 @@ export interface StandardFargateServiceProps extends ExtendedConstructProps {
    * @default - false
    */
   readonly allowAllIpv6Outbound?: boolean;
+
+  /**
+   * The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy
+   * Elastic Load Balancing target health checks after a task has first started. Do not use this
+   * property unless you are working with an Application Load Balancer. Default is undefined.
+   */
+  readonly healthCheckGracePeriod?: Duration;
 }
 
 /**
@@ -438,6 +445,7 @@ export class StandardFargateService extends ExtendedConstruct {
       enableExecuteCommand: props.enableExecuteCommand ?? true,
       assignPublicIp: props.assignPublicIp ?? false,
       enableECSManagedTags: props.enableECSManagedTags ?? true,
+      healthCheckGracePeriod: props.healthCheckGracePeriod,
       capacityProviderStrategies,
       securityGroups: [securityGroup],
     });
