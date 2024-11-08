@@ -484,10 +484,7 @@ export class StandardFargateService extends ExtendedConstruct {
             }),
         environment: props.otelEnvironmentVariables ?? {},
         healthCheck: {
-          command: [
-            'CMD-SHELL',
-            'curl http://localhost:13133/healthz || exit 1',
-          ],
+          command: ['CMD', '/healthcheck'],
           interval: Duration.seconds(10),
           timeout: Duration.seconds(5),
           retries: 5,
@@ -519,6 +516,29 @@ export class StandardFargateService extends ExtendedConstruct {
             }:workspace/${props.otelApsWorkspaceId}`,
           ],
           actions: ['aps:RemoteWrite'],
+        })
+      );
+
+      // Add permission to permit otel events
+      taskDefinition.addToTaskRolePolicy(
+        new PolicyStatement({
+          resources: ['*'],
+          actions: [
+            'logs:PutLogEvents',
+            'logs:CreateLogGroup',
+            'logs:CreateLogStream',
+            'logs:DescribeLogStreams',
+            'logs:DescribeLogGroups',
+            'logs:PutRetentionPolicy',
+            'xray:PutTraceSegments',
+            'xray:PutTelemetryRecords',
+            'xray:GetSamplingRules',
+            'xray:GetSamplingTargets',
+            'xray:GetSamplingStatisticSummaries',
+            'aps:PutMetricData',
+            'aps:GetSeries',
+            'aps:GetLabels',
+          ],
         })
       );
     }
