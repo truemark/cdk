@@ -20,9 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
--   Changes hashing algorithm used for identifiers on BehaviorBuilder.
+-   Changed hashing algorithm used for identifiers on BehaviorBuilder.
 -   Dependency updates
 -   Replaced GTS with standard prettier and eslint configuration
+-   Changed hashing algorithm used for identifiers on BehaviorBuilder.
 
 ## v1.15.2
 
