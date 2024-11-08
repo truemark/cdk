@@ -84,9 +84,9 @@ export class DomainRedirect extends ExtendedConstruct {
       domainName: props.domainNames[0].toString(),
       subjectAlternativeNames: props.domainNames
         .slice(1)
-        .map(d => d.toString()),
+        .map((d) => d.toString()),
       validation: CertificateValidation.fromDnsMultiZone(
-        DomainName.toZoneMap(this, props.domainNames)
+        DomainName.toZoneMap(this, props.domainNames),
       ),
     });
 
@@ -116,7 +116,7 @@ function handler(event) {
     const origin = new HttpOrigin('example.com');
     const distribution = new DistributionBuilder(this, 'Distribution')
       .comment(props.comment)
-      .domainNames(...props.domainNames.map(d => d.toString()))
+      .domainNames(...props.domainNames.map((d) => d.toString()))
       .certificate(certificate)
       .behavior(origin)
       .allowedMethods(AllowedMethods.ALLOW_GET_HEAD)
@@ -134,8 +134,8 @@ function handler(event) {
       .toDistribution();
 
     const target = new CloudFrontTarget(distribution);
-    const records = props.domainNames.map(domainName =>
-      domainName.createARecord(this, RecordTarget.fromAlias(target))
+    const records = props.domainNames.map((domainName) =>
+      domainName.createARecord(this, RecordTarget.fromAlias(target)),
     );
 
     this.certificate = certificate;

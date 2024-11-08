@@ -104,10 +104,10 @@ export class StandardTableV2 extends ExtendedTableV2 {
       sortKey:
         props?.sortKey === null
           ? undefined
-          : props?.sortKey ?? {
+          : (props?.sortKey ?? {
               name: 'Sk',
               type: AttributeType.STRING,
-            },
+            }),
       deletionProtection: props?.deletionProtection ?? true,
       removalPolicy: props?.removalPolicy ?? RemovalPolicy.RETAIN,
       ...rest,
@@ -139,10 +139,10 @@ export class StandardTableV2 extends ExtendedTableV2 {
       sortKey:
         props.sortKey === null
           ? undefined
-          : props.sortKey ?? {
+          : (props.sortKey ?? {
               name: `Gs${this.secondaryIndexCount}Sk`,
               type: AttributeType.STRING,
-            },
+            }),
       ...props,
     });
     if (this.tableAlarms) {

@@ -351,7 +351,7 @@ export class CdkPipeline extends Construct {
 
     const stack = Stack.of(this);
 
-    const codeArtifactDomains = props.codeArtifactDomains?.map(domain => {
+    const codeArtifactDomains = props.codeArtifactDomains?.map((domain) => {
       return domain.startsWith('arn:aws')
         ? domain
         : Arn.format(
@@ -360,12 +360,12 @@ export class CdkPipeline extends Construct {
               resource: 'domain',
               resourceName: domain,
             },
-            stack
+            stack,
           );
     });
 
     const codeArtifactRepositories = props.codeArtifactRepositories?.map(
-      repository => {
+      (repository) => {
         return repository.startsWith('arn:aws')
           ? repository
           : Arn.format(
@@ -374,9 +374,9 @@ export class CdkPipeline extends Construct {
                 resource: 'repository',
                 resourceName: repository,
               },
-              stack
+              stack,
             );
-      }
+      },
     );
 
     const rolePolicy = props.rolePolicy ?? [];
@@ -386,14 +386,14 @@ export class CdkPipeline extends Construct {
           resources: codeArtifactDomains,
           actions: ['codeartifact:GetAuthorizationToken'],
           effect: Effect.ALLOW,
-        })
+        }),
       );
       rolePolicy.push(
         new PolicyStatement({
           resources: ['*'],
           actions: ['sts:GetServiceBearerToken'],
           effect: Effect.ALLOW,
-        })
+        }),
       );
     }
     if (codeArtifactRepositories) {
@@ -412,7 +412,7 @@ export class CdkPipeline extends Construct {
             'codeartifact:ReadFromRepository',
           ],
           effect: Effect.ALLOW,
-        })
+        }),
       );
     }
 
@@ -442,7 +442,7 @@ export class CdkPipeline extends Construct {
                 dotnet: props.dotnetVersion,
                 python: props.pythonVersion,
               },
-              commands: ['npm config set fund false', 'npm -g i esbuild']
+              'commands': ['npm config set fund false', 'npm -g i esbuild']
                 .concat(props.additionalInstallCommands ?? [])
                 .concat(['node --version']),
             },
@@ -459,7 +459,7 @@ export class CdkPipeline extends Construct {
         partialBuildSpec: BuildSpec.fromObject({
           env: {
             variables: {
-              ...(props.enableDockerBuildxOnAssetPublish ?? true
+              ...((props.enableDockerBuildxOnAssetPublish ?? true)
                 ? {CDK_DOCKER: '/usr/local/bin/buildx.sh'}
                 : {}),
             },
@@ -467,7 +467,7 @@ export class CdkPipeline extends Construct {
           phases: {
             install: {
               commands:
-                props.enableDockerBuildxOnAssetPublish ?? true
+                (props.enableDockerBuildxOnAssetPublish ?? true)
                   ? DOCKER_BUILDX_SETUP_COMMANDS
                   : [],
             },
@@ -479,12 +479,12 @@ export class CdkPipeline extends Construct {
     // Handle pipeline notifications
     if (props.slackChannelConfiguration && props.slackChannelConfigurationArn) {
       throw new Error(
-        'Only one of slackChannelConfiguration and slackChannelConfigurationArn can be specified'
+        'Only one of slackChannelConfiguration and slackChannelConfigurationArn can be specified',
       );
     }
     if (props.notificationTopic && props.notificationTopicArn) {
       throw new Error(
-        'Only one of notificationTopic and notificationTopicArn can be specified'
+        'Only one of notificationTopic and notificationTopicArn can be specified',
       );
     }
     if (
@@ -499,16 +499,16 @@ export class CdkPipeline extends Construct {
         {
           events: props.notificationEvents,
           source: underlyingPipeline,
-        }
+        },
       );
       if (props.slackChannelConfiguration) {
         this.pipelineNotificationRule.addSlackChannel(
-          props.slackChannelConfiguration
+          props.slackChannelConfiguration,
         );
       } else if (props.slackChannelConfigurationArn) {
         this.pipelineNotificationRule.addSlackChannelArn(
           'SlackChannel',
-          props.slackChannelConfigurationArn
+          props.slackChannelConfigurationArn,
         );
       }
       if (props.notificationTopic) {
@@ -517,7 +517,7 @@ export class CdkPipeline extends Construct {
       } else if (props.notificationTopicArn) {
         const topic = this.pipelineNotificationRule.addTopicArn(
           'NotificationTopic',
-          props.notificationTopicArn
+          props.notificationTopicArn,
         );
         topic.grantPublish(underlyingPipeline.role);
       }

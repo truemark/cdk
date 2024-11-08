@@ -36,14 +36,14 @@ export class HelperTest {
   static resolveTestFiles(childPath?: string): string {
     const dir = path.join(__dirname, 'test-files');
     return path.resolve(
-      childPath === undefined ? dir : path.join(dir, childPath)
+      childPath === undefined ? dir : path.join(dir, childPath),
     );
   }
 
   static logResources(
     template: Template,
     type: string | ResourceType,
-    props?: Object
+    props?: object,
   ) {
     console.log(template.findResources(type, props));
   }

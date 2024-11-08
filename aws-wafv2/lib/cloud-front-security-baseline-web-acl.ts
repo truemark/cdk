@@ -60,7 +60,7 @@ export class CloudFrontSecurityBaselineWebAcl extends ExtendedConstruct {
   constructor(
     scope: Construct,
     id: string,
-    props?: CloudFrontSecurityBaselineWebAclProps
+    props?: CloudFrontSecurityBaselineWebAclProps,
   ) {
     super(scope, id);
 
@@ -250,7 +250,7 @@ export class CloudFrontSecurityBaselineWebAcl extends ExtendedConstruct {
 
     this.webAcl.addPropertyOverride(
       'Rules.3.Statement.ManagedRuleGroupStatement.RuleActionOverrides',
-      [{Name: 'HostingProviderIPList', ActionToUse: {Count: {}}}]
+      [{Name: 'HostingProviderIPList', ActionToUse: {Count: {}}}],
     );
 
     const wafLogGroup = new LogGroup(this, 'WafLogGroup', {

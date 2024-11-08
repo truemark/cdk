@@ -59,7 +59,7 @@ export class RegionalSecurityBaselineWebAcl extends ExtendedConstruct {
   constructor(
     scope: Construct,
     id: string,
-    props?: RegionalSecurityBaselineWebAclProps
+    props?: RegionalSecurityBaselineWebAclProps,
   ) {
     super(scope, id);
 
@@ -253,7 +253,7 @@ export class RegionalSecurityBaselineWebAcl extends ExtendedConstruct {
 
     this.regionalWebAcl.addPropertyOverride(
       'Rules.3.Statement.ManagedRuleGroupStatement.RuleActionOverrides',
-      [{Name: 'HostingProviderIPList', ActionToUse: {Count: {}}}]
+      [{Name: 'HostingProviderIPList', ActionToUse: {Count: {}}}],
     );
 
     const wafRegionalLogGroup = new LogGroup(this, 'RegionalWafLogGroup', {

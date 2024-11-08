@@ -22,7 +22,7 @@ export class ExtendedDockerImageFunction extends DockerImageFunction {
   constructor(
     scope: Construct,
     id: string,
-    props: ExtendedDockerImageFunctionProps
+    props: ExtendedDockerImageFunctionProps,
   ) {
     super(scope, id, {
       logRetention: RetentionDays.THREE_DAYS, // change default from INFINITE

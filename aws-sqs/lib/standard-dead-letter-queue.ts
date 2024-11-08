@@ -76,7 +76,7 @@ export class StandardDeadLetterQueue extends Queue {
   constructor(
     scope: Construct,
     id: string,
-    props?: StandardDeadLetterQueueProps
+    props?: StandardDeadLetterQueueProps,
   ) {
     super(scope, id, {
       queueName: props?.queueName,

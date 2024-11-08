@@ -335,7 +335,7 @@ export class StandardFargateService extends ExtendedConstruct {
 
   protected resolveLogGroup(
     scope: Construct,
-    props: StandardFargateServiceProps
+    props: StandardFargateServiceProps,
   ): LogGroup | undefined {
     if (props.logConfiguration?.enabled ?? true) {
       return new LogGroup(scope, 'LogGroup', {
@@ -352,7 +352,7 @@ export class StandardFargateService extends ExtendedConstruct {
   protected resolveLogDriver(
     scope: Construct,
     props: StandardFargateServiceProps,
-    logGroup: LogGroup | undefined
+    logGroup: LogGroup | undefined,
   ): LogDriver | undefined {
     if (props.logConfiguration?.enabled ?? true) {
       return LogDriver.awsLogs({
@@ -365,7 +365,7 @@ export class StandardFargateService extends ExtendedConstruct {
 
   protected resolveVpcSubnets(
     scope: Construct,
-    props: StandardFargateServiceProps
+    props: StandardFargateServiceProps,
   ): SubnetSelection {
     if (props.vpcSubnets === undefined) {
       return {
@@ -376,7 +376,7 @@ export class StandardFargateService extends ExtendedConstruct {
   }
 
   protected resolvedCapacityProviderStrategies(
-    props: StandardFargateServiceProps
+    props: StandardFargateServiceProps,
   ): CapacityProviderStrategy[] | undefined {
     const strategies: CapacityProviderStrategy[] = [];
     if (
@@ -405,7 +405,7 @@ export class StandardFargateService extends ExtendedConstruct {
   constructor(
     scope: Construct,
     id: string,
-    props: StandardFargateServiceProps
+    props: StandardFargateServiceProps,
   ) {
     super(scope, id, {
       standardTags: StandardTags.merge(props.standardTags, LibStandardTags),
@@ -426,7 +426,7 @@ export class StandardFargateService extends ExtendedConstruct {
         new PolicyStatement({
           resources: ['*'],
           actions: ['cloudwatch:PutMetricData'],
-        })
+        }),
       );
     }
 

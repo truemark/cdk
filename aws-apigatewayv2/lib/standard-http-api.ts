@@ -107,7 +107,7 @@ export class StandardHttpApi extends ExtendedConstruct {
       if (props.recordWeight) {
         domainName.createWeightedARecord(
           props.recordWeight,
-          props.evaluateTargetHealth ?? true
+          props.evaluateTargetHealth ?? true,
         );
       } else if (props.recordLatency) {
         domainName.createLatencyARecord(true);
