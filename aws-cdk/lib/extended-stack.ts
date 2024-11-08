@@ -124,7 +124,7 @@ export class ExtendedStack extends Stack {
     this.parameterExports = new ParameterStore(
       this,
       'ParameterExports',
-      this.parameterExportOptions
+      this.parameterExportOptions,
     );
 
     if (props?.createMonitoringFacade ?? true) {
@@ -139,7 +139,7 @@ export class ExtendedStack extends Stack {
           renderingPreference:
             props?.dashboardRenderingPreference ??
             DashboardRenderingPreference.INTERACTIVE_ONLY,
-        }
+        },
       );
 
       this.monitoringFacade = new MonitoringFacade(this, 'Monitoring', {

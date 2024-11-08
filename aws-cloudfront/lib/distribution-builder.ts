@@ -43,7 +43,9 @@ export class DistributionBuilder extends ExtendedConstruct {
   }
 
   getOrigins(): IOrigin[] {
-    return Object.values(this.behaviors).map(behavior => behavior.getOrigin());
+    return Object.values(this.behaviors).map((behavior) =>
+      behavior.getOrigin(),
+    );
   }
 
   behavior(origin: IOrigin, path?: string): BehaviorBuilder {
@@ -67,10 +69,10 @@ export class DistributionBuilder extends ExtendedConstruct {
           `Access${bucket.node.id}`,
           {
             comment: `S3 bucket ${bucket.bucketName}`,
-          }
+          },
         ),
       }),
-      path
+      path,
     );
   }
 
@@ -84,14 +86,14 @@ export class DistributionBuilder extends ExtendedConstruct {
   behaviorFromBucketV2(
     bucket: IBucket,
     path?: string,
-    originAccessLevels?: AccessLevel[]
+    originAccessLevels?: AccessLevel[],
   ): BehaviorBuilder {
     return new BehaviorBuilder(
       this,
       S3BucketOrigin.withOriginAccessControl(bucket, {
         originAccessLevels: originAccessLevels ?? [AccessLevel.READ],
       }),
-      path
+      path,
     );
   }
 
@@ -105,7 +107,7 @@ export class DistributionBuilder extends ExtendedConstruct {
    */
   behaviorFromCloudFromBucket(
     bucket: CloudFrontBucket,
-    path?: string
+    path?: string,
   ): BehaviorBuilder {
     return new BehaviorBuilder(this, bucket.toOrigin(), path);
   }
@@ -118,25 +120,25 @@ export class DistributionBuilder extends ExtendedConstruct {
    */
   behaviorFromCloudFromBucketV2(
     bucket: CloudFrontBucketV2,
-    path?: string
+    path?: string,
   ): BehaviorBuilder {
     return new BehaviorBuilder(this, bucket.toOrigin(), path);
   }
 
   behaviorFromDomainName(
     domainName: string | DomainName,
-    path?: string
+    path?: string,
   ): BehaviorBuilder {
     return new BehaviorBuilder(
       this,
       new HttpOrigin(domainName.toString()),
-      path
+      path,
     );
   }
 
   addBehavior(
     builder: BehaviorBuilder,
-    path: string | undefined
+    path: string | undefined,
   ): DistributionBuilder {
     this.behaviors[path ?? ''] = builder;
     return this;
@@ -167,7 +169,9 @@ export class DistributionBuilder extends ExtendedConstruct {
   }
 
   domainNames(...domainNames: (string | DomainName)[]): DistributionBuilder {
-    const domainNameStrs = domainNames.map(domainName => domainName.toString());
+    const domainNameStrs = domainNames.map((domainName) =>
+      domainName.toString(),
+    );
     this.props = {
       ...this.props,
       domainNames: domainNameStrs,
@@ -284,7 +288,7 @@ export class DistributionBuilder extends ExtendedConstruct {
   }
 
   minimumProtocolVersion(
-    minimumProtocolVersion?: SecurityPolicyProtocol
+    minimumProtocolVersion?: SecurityPolicyProtocol,
   ): DistributionBuilder {
     this.props = {
       ...this.props,
@@ -324,15 +328,15 @@ export class DistributionBuilder extends ExtendedConstruct {
 
     const defaultBehavior = this.behaviors[''].buildBehavior();
     const additionalBehaviors: Record<string, BehaviorOptions> = Object.values(
-      this.behaviors
+      this.behaviors,
     )
-      .filter(behavior => behavior.path !== undefined)
+      .filter((behavior) => behavior.path !== undefined)
       .reduce(
         (behaviors, behavior) => {
           behaviors[behavior.path ?? ''] = behavior.buildBehavior();
           return behaviors;
         },
-        {} as Record<string, BehaviorOptions>
+        {} as Record<string, BehaviorOptions>,
       );
 
     return {

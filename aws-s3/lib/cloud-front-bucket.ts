@@ -133,10 +133,10 @@ export class CloudFrontBucket extends ExtendedConstruct {
     paths: string[],
     maxAge?: Duration,
     sMaxAge?: Duration,
-    prune?: boolean
+    prune?: boolean,
   ): BucketDeployment {
     return new BucketDeployment(this, `Deploy${this.nextDeployCount()}`, {
-      sources: paths.map(path => Source.asset(path)),
+      sources: paths.map((path) => Source.asset(path)),
       destinationBucket: this.bucket,
       prune: prune ?? false,
       cacheControl: [
@@ -161,7 +161,7 @@ export class CloudFrontBucket extends ExtendedConstruct {
     path: string,
     maxAge?: Duration,
     sMaxAge?: Duration,
-    prune?: boolean
+    prune?: boolean,
   ): BucketDeployment {
     return this.deployPaths([path], maxAge, sMaxAge, prune);
   }
@@ -180,7 +180,7 @@ export class CloudFrontBucket extends ExtendedConstruct {
     sources: ISource[],
     maxAge?: Duration,
     sMaxAge?: Duration,
-    prune?: boolean
+    prune?: boolean,
   ): BucketDeployment {
     return new BucketDeployment(this, `Deploy${this.nextDeployCount()}`, {
       sources: sources,
@@ -208,7 +208,7 @@ export class CloudFrontBucket extends ExtendedConstruct {
     source: ISource,
     maxAge?: Duration,
     sMaxAge?: Duration,
-    prune?: boolean
+    prune?: boolean,
   ): BucketDeployment {
     return this.deploySources([source], maxAge, sMaxAge, prune);
   }
@@ -257,12 +257,12 @@ export class CloudFrontBucket extends ExtendedConstruct {
   grantWrite(
     identity: IGrantable,
     objectsKeyPattern?: unknown,
-    allowedActionPatterns?: string[]
+    allowedActionPatterns?: string[],
   ): Grant {
     return this.bucket.grantWrite(
       identity,
       objectsKeyPattern,
-      allowedActionPatterns
+      allowedActionPatterns,
     );
   }
 
@@ -346,7 +346,7 @@ export class CloudFrontBucket extends ExtendedConstruct {
    * silently, which may be confusing.
    */
   addToResourcePolicy(
-    permission: iam.PolicyStatement
+    permission: iam.PolicyStatement,
   ): iam.AddToResourcePolicyResult {
     return this.bucket.addToResourcePolicy(permission);
   }

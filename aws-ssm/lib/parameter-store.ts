@@ -59,7 +59,7 @@ export class ParameterStore extends Construct {
   protected readLocal(name: string): string {
     return StringParameter.valueForStringParameter(
       this,
-      this.prefix + name + this.suffix
+      this.prefix + name + this.suffix,
     );
   }
 
@@ -70,7 +70,7 @@ export class ParameterStore extends Construct {
       {
         parameterName: this.prefix + name + this.suffix,
         region: this.region,
-      }
+      },
     ).getStringValue();
   }
 
@@ -99,7 +99,7 @@ export class ParameterStore extends Construct {
       {
         parameterName: this.prefix + name + this.suffix,
         stringValue: value,
-      }
+      },
     );
   }
 }

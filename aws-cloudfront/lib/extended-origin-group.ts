@@ -17,7 +17,7 @@ export class ExtendedOriginGroup extends OriginGroup {
 }
 
 export function isExtendedOriginGroup(
-  origin: IOrigin
+  origin: IOrigin,
 ): origin is ExtendedOriginGroup {
   return (
     (origin as ExtendedOriginGroup).primaryOrigin !== undefined &&

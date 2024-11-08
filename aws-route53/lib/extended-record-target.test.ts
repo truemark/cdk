@@ -29,7 +29,7 @@ test('Test fromAlias', () => {
 
   const target = ExtendedRecordTarget.fromAlias(
     new TestAliasRecordTarget(),
-    true
+    true,
   );
 
   const weightedRecord = new WeightedARecord(stack, 'Weighted', {

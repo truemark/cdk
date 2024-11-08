@@ -80,7 +80,7 @@ export class AlertsTopic extends ExtendedConstruct {
             'aws:SourceArn': this.topic.topicArn,
           },
         },
-      })
+      }),
     );
 
     new CfnSubscription(this, 'Subscription', {

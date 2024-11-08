@@ -23,7 +23,7 @@ export class StandardApiOriginRequestPolicy extends OriginRequestPolicy {
       queryStringBehavior: OriginRequestQueryStringBehavior.all(),
       headerBehavior: OriginRequestHeaderBehavior.allowList(
         ...DEFAULT_API_ORIGIN_HEADERS,
-        ...(additionalHeaders ?? [])
+        ...(additionalHeaders ?? []),
       ),
     });
   }

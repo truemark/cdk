@@ -8,7 +8,7 @@ test('Test NodejsFunction', () => {
   const stack = HelperTest.stack();
   new ExtendedNodejsFunction(stack, 'TestFunction', {
     entry: HelperTest.resolveTestFiles(
-      path.join('typescript-lambda', 'index.ts')
+      path.join('typescript-lambda', 'index.ts'),
     ),
     runtime: Runtime.NODEJS_16_X,
     // bundling: {

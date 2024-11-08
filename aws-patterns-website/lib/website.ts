@@ -183,14 +183,14 @@ export class Website extends ExtendedConstruct {
       certificate = Certificate.fromCertificateArn(
         this,
         'Certificate',
-        props.certificateArn
+        props.certificateArn,
       );
     } else if (domainNames.length > 0) {
       certificate = new Certificate(this, 'Certificate', {
         domainName: domainNames[0].toString(),
         subjectAlternativeNames: DomainName.toStrings(domainNames).slice(1),
         validation: CertificateValidation.fromDnsMultiZone(
-          DomainName.toZoneMap(this, domainNames)
+          DomainName.toZoneMap(this, domainNames),
         ),
       });
     }
@@ -238,8 +238,8 @@ function handler(event) {
             /MATCH_APEX/g,
             this.apexDomain !== '' && (props.redirectToApexDomain ?? true)
               ? 'true'
-              : 'false'
-          )
+              : 'false',
+          ),
       ),
     });
 
@@ -302,14 +302,14 @@ function handler(event) {
       if (domainNameProps.createRecord ?? true) {
         const domainName = DomainName.findDomainName(
           domainNameProps,
-          domainNames
+          domainNames,
         );
         if (domainName !== undefined) {
           this.aRecords.push(
             domainName.createARecord(
               this,
-              RecordTarget.fromAlias(new CloudFrontTarget(this.distribution))
-            )
+              RecordTarget.fromAlias(new CloudFrontTarget(this.distribution)),
+            ),
           );
         }
       }
@@ -320,7 +320,7 @@ function handler(event) {
     if (props.sourceType === SourceType.Custom) {
       if (!props.sourceBundlingOptions) {
         throw new Error(
-          'sourceBundlingOptions is required if source type is Custom'
+          'sourceBundlingOptions is required if source type is Custom',
         );
       }
       bundlingOptions = props.sourceBundlingOptions;
@@ -329,7 +329,7 @@ function handler(event) {
     if (props.sourceType === SourceType.Static) {
       if (props.sourceBundlingOptions) {
         throw new Error(
-          'Cannot use sourceBundlingOptions with source type Static'
+          'Cannot use sourceBundlingOptions with source type Static',
         );
       }
     }
@@ -338,14 +338,14 @@ function handler(event) {
       bundlingOptions = Website.HUGO_BUNDLING_OPTIONS;
       if (props.sourceBundlingOptions) {
         throw new Error(
-          'Cannot use sourceBundlingOptions with source type Hugo'
+          'Cannot use sourceBundlingOptions with source type Hugo',
         );
       }
     } else if (props.sourceType === SourceType.NpmDist) {
       bundlingOptions = Website.NPM_DIST_BUNDLING_OPTIONS;
       if (props.sourceBundlingOptions) {
         throw new Error(
-          'Cannot use sourceBundlingOptions with source type NpmDist'
+          'Cannot use sourceBundlingOptions with source type NpmDist',
         );
       }
     }

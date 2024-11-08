@@ -110,19 +110,19 @@ export class QueueAlarms extends AlarmsBase<
         addQueueMaxMessageAgeAlarm: this.toRecord(
           'maxAgeInSeconds',
           'maxAgeInSeconds',
-          15
+          15,
         ),
         addQueueMaxTimeToDrainMessagesAlarm: this.toRecord(
           'maxTimeToDrain',
-          'maxTimeToDrain'
+          'maxTimeToDrain',
         ),
         addQueueMinIncomingMessagesAlarm: this.toRecord(
           'minIncoming',
-          'minIncomingMessagesCount'
+          'minIncomingMessagesCount',
         ),
         addQueueMaxIncomingMessagesAlarm: this.toRecord(
           'maxIncoming',
-          'maxIncomingMessagesCount'
+          'maxIncomingMessagesCount',
         ),
       });
     } else {
@@ -135,38 +135,38 @@ export class QueueAlarms extends AlarmsBase<
         addQueueMaxMessageAgeAlarm: this.toRecord(
           'maxAgeInSeconds',
           'maxAgeInSeconds',
-          15
+          15,
         ),
         addQueueMaxTimeToDrainMessagesAlarm: this.toRecord(
           'maxTimeToDrain',
-          'maxTimeToDrain'
+          'maxTimeToDrain',
         ),
         addQueueMinIncomingMessagesAlarm: this.toRecord(
           'minIncoming',
-          'minIncomingMessagesCount'
+          'minIncomingMessagesCount',
         ),
         addQueueMaxIncomingMessagesAlarm: this.toRecord(
           'maxIncoming',
-          'maxIncomingMessagesCount'
+          'maxIncomingMessagesCount',
         ),
         addDeadLetterQueueMaxSizeAlarm: this.toRecord(
           'deadLetterQueueMaxSize',
           'maxMessageCount',
-          0
+          0,
         ),
         addDeadLetterQueueMaxMessageAgeAlarm: this.toRecord(
           'deadLetterQueueMaxAgeInSeconds',
           'maxAgeInSeconds',
           undefined,
           undefined,
-          TreatMissingData.NOT_BREACHING
+          TreatMissingData.NOT_BREACHING,
         ),
         addDeadLetterQueueMaxIncomingMessagesAlarm: this.toRecord(
           'deadLetterQueueMaxIncoming',
           'maxIncomingMessagesCount',
           undefined,
           undefined,
-          TreatMissingData.NOT_BREACHING
+          TreatMissingData.NOT_BREACHING,
         ),
         addDeadLetterQueueToSummaryDashboard: true,
       });

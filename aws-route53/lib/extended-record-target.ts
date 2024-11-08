@@ -34,13 +34,13 @@ export class ExtendedRecordTarget extends RecordTarget {
   protected constructor(
     values?: string[],
     aliasTarget?: IAliasRecordTarget,
-    evaluateTargetHealth?: boolean
+    evaluateTargetHealth?: boolean,
   ) {
     super(
       values,
       aliasTarget
         ? new AliasRecordTargetWrapper(aliasTarget, evaluateTargetHealth)
-        : undefined
+        : undefined,
     );
   }
 
@@ -52,12 +52,12 @@ export class ExtendedRecordTarget extends RecordTarget {
    */
   static fromAlias(
     aliasTarget: IAliasRecordTarget,
-    evaluateTargetHealth?: boolean
+    evaluateTargetHealth?: boolean,
   ): RecordTarget {
     return new ExtendedRecordTarget(
       undefined,
       aliasTarget,
-      evaluateTargetHealth
+      evaluateTargetHealth,
     );
   }
 }

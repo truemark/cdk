@@ -58,13 +58,13 @@ export class ReplicationRole extends Construct implements IRole {
           `arn:aws:s3:::${props.sourceBucketName}`,
           `arn:aws:s3:::${props.sourceBucketName}/*`,
           ...props.destinationBuckets.map(
-            dest => `arn:aws:s3:::${dest.bucketName}`
+            (dest) => `arn:aws:s3:::${dest.bucketName}`,
           ),
           ...props.destinationBuckets.map(
-            dest => `arn:aws:s3:::${dest.bucketName}/*`
+            (dest) => `arn:aws:s3:::${dest.bucketName}/*`,
           ),
         ],
-      })
+      }),
     );
     replicationRole.addToPolicy(
       new PolicyStatement({
@@ -72,27 +72,27 @@ export class ReplicationRole extends Construct implements IRole {
         resources: [
           `arn:aws:s3:::${props.sourceBucketName}/*`,
           ...props.destinationBuckets.map(
-            dest => `arn:aws:s3:::${dest.bucketName}/*`
+            (dest) => `arn:aws:s3:::${dest.bucketName}/*`,
           ),
         ],
-      })
+      }),
     );
     replicationRole.addToPolicy(
       new PolicyStatement({
         actions: ['kms:Encrypt'],
         resources: props.destinationBuckets.map(
-          dest =>
+          (dest) =>
             `arn:aws:kms:${dest.region ?? stack.region}:${
               dest.account ?? stack.account
-            }:key/*`
+            }:key/*`,
         ),
-      })
+      }),
     );
     replicationRole.addToPolicy(
       new PolicyStatement({
         actions: ['kms:Decrypt'],
         resources: [`arn:aws:kms:${stack.region}:${stack.account}:key/*`],
-      })
+      }),
     );
 
     this.role = replicationRole;

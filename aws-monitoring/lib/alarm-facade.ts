@@ -92,7 +92,7 @@ export class AlarmFacadeSet<
     oprop: keyof O,
     tprop: keyof T,
     defaultThreshold?: number | Duration | undefined,
-    treatMissingDataOverride?: TreatMissingData
+    treatMissingDataOverride?: TreatMissingData,
   ): AlarmFacadeSet<O, T> {
     const options =
       category === AlarmCategory.Critical
@@ -124,14 +124,14 @@ export class AlarmFacadeSet<
     oprop: keyof O,
     tprop: keyof T,
     defaultThreshold?: number | Duration | undefined,
-    treatMissingDataOverride?: TreatMissingData
+    treatMissingDataOverride?: TreatMissingData,
   ): AlarmFacadeSet<O, T> {
     return this.addAlarm(
       AlarmCategory.Critical,
       oprop,
       tprop,
       defaultThreshold,
-      treatMissingDataOverride
+      treatMissingDataOverride,
     );
   }
 
@@ -147,14 +147,14 @@ export class AlarmFacadeSet<
     oprop: keyof O,
     tprop: keyof T,
     defaultThreshold?: number | Duration | undefined,
-    treatMissingDataOverride?: TreatMissingData
+    treatMissingDataOverride?: TreatMissingData,
   ): AlarmFacadeSet<O, T> {
     return this.addAlarm(
       AlarmCategory.Warning,
       oprop,
       tprop,
       defaultThreshold,
-      treatMissingDataOverride
+      treatMissingDataOverride,
     );
   }
 
@@ -172,19 +172,19 @@ export class AlarmFacadeSet<
     tprop: keyof T,
     defaultCriticalThreshold?: number | Duration,
     defaultWarningThreshold?: number | Duration,
-    treatMissingDataOverride?: TreatMissingData
+    treatMissingDataOverride?: TreatMissingData,
   ): AlarmFacadeSet<O, T> {
     this.addCriticalAlarm(
       oprop,
       tprop,
       defaultCriticalThreshold,
-      treatMissingDataOverride
+      treatMissingDataOverride,
     );
     this.addWarningAlarm(
       oprop,
       tprop,
       defaultWarningThreshold,
-      treatMissingDataOverride
+      treatMissingDataOverride,
     );
     return this;
   }

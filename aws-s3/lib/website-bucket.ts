@@ -106,7 +106,7 @@ export class WebsiteBucket extends Construct {
 
     if (domainName !== undefined && (props?.domainName?.create ?? true)) {
       const target = RecordTarget.fromAlias(
-        new BucketWebsiteTarget(this.bucket)
+        new BucketWebsiteTarget(this.bucket),
       );
       // TODO Evaluate
       if (props?.domainName?.latency !== undefined) {
@@ -115,7 +115,7 @@ export class WebsiteBucket extends Construct {
         this.record = domainName.createWeightedARecord(
           this,
           target,
-          props.domainName.weight
+          props.domainName.weight,
         );
       } else {
         this.record = domainName.createARecord(this, target);
@@ -137,7 +137,7 @@ export class WebsiteBucket extends Construct {
     path: string,
     maxAge?: Duration,
     sMaxAge?: Duration,
-    prune?: boolean
+    prune?: boolean,
   ): BucketDeployment {
     return new BucketDeployment(this, 'Deploy', {
       sources: [Source.asset(path)],
@@ -189,12 +189,12 @@ export class WebsiteBucket extends Construct {
     identity: IGrantable,
     // eslint-disable-next-line  @typescript-eslint/no-explicit-any
     objectsKeyPattern?: any,
-    allowedActionPatterns?: string[]
+    allowedActionPatterns?: string[],
   ): Grant {
     return this.bucket.grantWrite(
       identity,
       objectsKeyPattern,
-      allowedActionPatterns
+      allowedActionPatterns,
     );
   }
 
@@ -281,7 +281,7 @@ export class WebsiteBucket extends Construct {
    * silently, which may be confusing.
    */
   addToResourcePolicy(
-    permission: iam.PolicyStatement
+    permission: iam.PolicyStatement,
   ): iam.AddToResourcePolicyResult {
     return this.bucket.addToResourcePolicy(permission);
   }

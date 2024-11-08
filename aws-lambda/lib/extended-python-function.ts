@@ -25,7 +25,7 @@ export class ExtendedPythonFunction extends PythonFunction {
   constructor(
     scope: Construct,
     id: string,
-    props: ExtendedPythonFunctionProps
+    props: ExtendedPythonFunctionProps,
   ) {
     super(scope, id, props);
 

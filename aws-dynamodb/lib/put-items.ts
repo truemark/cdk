@@ -39,7 +39,7 @@ export interface PutItemsProps {
  */
 export class PutItems extends BatchWriteItem {
   constructor(scope: Construct, id: string, props: PutItemsProps) {
-    const items: BatchWriteItemRequest[] = props.items.map(item => {
+    const items: BatchWriteItemRequest[] = props.items.map((item) => {
       return {
         PutRequest: {
           Item: item,

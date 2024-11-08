@@ -124,7 +124,7 @@ export class StandardFargateCluster
 
   protected resolveVpc(
     scope: StandardFargateCluster,
-    props: StandardFargateClusterProps
+    props: StandardFargateClusterProps,
   ): IVpc {
     if (
       props.vpc === undefined &&
@@ -143,7 +143,7 @@ export class StandardFargateCluster
 
   protected resolveLogGroup(
     scope: StandardFargateCluster,
-    props: StandardFargateClusterProps
+    props: StandardFargateClusterProps,
   ): LogGroup | undefined {
     if (
       (props.enableExecuteCommandLog ?? true) &&
@@ -161,7 +161,7 @@ export class StandardFargateCluster
   protected resolveExecuteCommandConfiguration(
     scope: StandardFargateCluster,
     logGroup: LogGroup | undefined,
-    props: StandardFargateClusterProps
+    props: StandardFargateClusterProps,
   ): ExecuteCommandConfiguration | undefined {
     if (props.enableExecuteCommandLog ?? true) {
       if (props.executeCommandConfigurationOverride !== undefined) {
@@ -183,7 +183,7 @@ export class StandardFargateCluster
   constructor(
     scope: Construct,
     id: string,
-    props: StandardFargateClusterProps
+    props: StandardFargateClusterProps,
   ) {
     super(scope, id, {
       standardTags: StandardTags.merge(props.standardTags, LibStandardTags),
@@ -193,7 +193,7 @@ export class StandardFargateCluster
     const executeCommandConfiguration = this.resolveExecuteCommandConfiguration(
       this,
       logGroup,
-      props
+      props,
     );
     const cluster = new Cluster(this, 'Default', {
       vpc,

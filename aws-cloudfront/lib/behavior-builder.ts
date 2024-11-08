@@ -24,16 +24,15 @@ import {CloudFrontBucket} from '../../aws-s3';
 import {StandardApiCachePolicy} from './standard-api-cache-policy';
 import {StandardApiOriginRequestPolicy} from './standard-api-origin-request-policy';
 import {ExtendedConstruct} from '../../aws-cdk';
-import {StringHelper} from '../../helpers';
 import {DomainName} from '../../aws-route53';
 import {
   ExtendedOriginGroup,
   isExtendedOriginGroup,
 } from './extended-origin-group';
-function pathToIdentifier(path: string): string {
-  return StringHelper.toPascalCase(
-    path.replace(/\*/g, 'wildcard').replace(/\//g, '-')
-  );
+import {createHash} from 'crypto';
+
+function sha1sum(input: string): string {
+  return createHash('sha1').update(input).digest('hex');
 }
 
 export const ALL_FALLBACK_STATUS_CODES = [
@@ -49,12 +48,12 @@ export class BehaviorBuilder extends ExtendedConstruct {
   constructor(
     scope: DistributionBuilder,
     origin: IOrigin,
-    path: string | undefined
+    path: string | undefined,
   ) {
     super(
       scope,
-      (path === undefined || path === '' ? 'Default' : pathToIdentifier(path)) +
-        'Behavior'
+      (path === undefined || path === '' ? 'Default' : sha1sum(path)) +
+        'Behavior',
     );
     this.path = path;
     scope.addBehavior(this, path);
@@ -70,7 +69,7 @@ export class BehaviorBuilder extends ExtendedConstruct {
 
   fallbackOrigin(
     fallbackOrigin?: IOrigin,
-    fallbackStatusCodes?: number[]
+    fallbackStatusCodes?: number[],
   ): BehaviorBuilder {
     if (fallbackOrigin) {
       // We need to reuse OriginGroups or it will complain about duplicate origins
@@ -134,7 +133,7 @@ export class BehaviorBuilder extends ExtendedConstruct {
   }
 
   originRequestPolicy(
-    originRequestPolicy?: IOriginRequestPolicy
+    originRequestPolicy?: IOriginRequestPolicy,
   ): BehaviorBuilder {
     this.options = {
       ...this.options,
@@ -144,7 +143,7 @@ export class BehaviorBuilder extends ExtendedConstruct {
   }
 
   responseHeadersPolicy(
-    responseHeadersPolicy?: IResponseHeadersPolicy
+    responseHeadersPolicy?: IResponseHeadersPolicy,
   ): BehaviorBuilder {
     this.options = {
       ...this.options,
@@ -162,7 +161,7 @@ export class BehaviorBuilder extends ExtendedConstruct {
   }
 
   viewerProtocolPolicy(
-    viewerProtocolPolicy?: ViewerProtocolPolicy
+    viewerProtocolPolicy?: ViewerProtocolPolicy,
   ): BehaviorBuilder {
     this.options = {
       ...this.options,
@@ -172,7 +171,7 @@ export class BehaviorBuilder extends ExtendedConstruct {
   }
 
   functionAssociations(
-    functionAssociations?: FunctionAssociation[]
+    functionAssociations?: FunctionAssociation[],
   ): BehaviorBuilder {
     this.options = {
       ...this.options,
@@ -199,7 +198,7 @@ export class BehaviorBuilder extends ExtendedConstruct {
     const redirectFunction = new RedirectFunction(
       this,
       'RedirectFunction',
-      props
+      props,
     );
     this.viewerRequestFunction(redirectFunction);
     return this;
@@ -243,12 +242,12 @@ export class BehaviorBuilder extends ExtendedConstruct {
     const cachePolicy = new StandardApiCachePolicy(
       this,
       'ApiCachePolicy',
-      additionalHeaders
+      additionalHeaders,
     );
     const originRequestPolicy = new StandardApiOriginRequestPolicy(
       this,
       'ApiOriginRequestPolicy',
-      additionalHeaders
+      additionalHeaders,
     );
     return this.allowedMethods(AllowedMethods.ALLOW_ALL)
       .cachePolicy(cachePolicy)
@@ -297,14 +296,14 @@ export class BehaviorBuilder extends ExtendedConstruct {
 
   behaviorFromCloudFromBucket(
     bucket: CloudFrontBucket,
-    path: string
+    path: string,
   ): BehaviorBuilder {
     return this.scope.behaviorFromCloudFromBucket(bucket, path);
   }
 
   behaviorFromDomainName(
     domainName: string | DomainName,
-    path: string
+    path: string,
   ): BehaviorBuilder {
     return this.scope.behaviorFromDomainName(domainName, path);
   }

@@ -229,44 +229,44 @@ export class FunctionAlarms extends AlarmsBase<
       addToSummaryDashboard: this.props.addToSummaryDashboard ?? true,
       addLatencyP50Alarm: this.toRecord<LatencyThreshold>(
         'p50Latency',
-        'maxLatency'
+        'maxLatency',
       ),
       addLatencyP90Alarm: this.toRecord<LatencyThreshold>(
         'p90Latency',
-        'maxLatency'
+        'maxLatency',
       ),
       addLatencyP99Alarm: this.toRecord<LatencyThreshold>(
         'p99Latency',
-        'maxLatency'
+        'maxLatency',
       ),
       addFaultCountAlarm: this.toRecord<ErrorCountThreshold>(
         'maxFaults',
         'maxErrorCount',
-        0
+        0,
       ),
       addFaultRateAlarm: this.toRecord<ErrorRateThreshold>(
         'avgFaults',
-        'maxErrorRate'
+        'maxErrorRate',
       ),
       addLowTpsAlarm: this.toRecord<LowTpsThreshold>('minTps', 'minTps'),
       addHighTpsAlarm: this.toRecord<HighTpsThreshold>('maxTps', 'maxTps'),
       addThrottlesCountAlarm: this.toRecord<ErrorCountThreshold>(
         'maxThrottles',
         'maxErrorCount',
-        0
+        0,
       ),
       addThrottlesRateAlarm: this.toRecord<ErrorRateThreshold>(
         'avgThrottles',
-        'maxErrorRate'
+        'maxErrorRate',
       ),
       addConcurrentExecutionsCountAlarm:
         this.toRecord<RunningTaskCountThreshold>(
           'maxConcurrentExecutions',
-          'maxRunningTasks'
+          'maxRunningTasks',
         ),
       addMaxIteratorAgeAlarm: this.toRecord<MaxAgeThreshold>(
         'maxIteratorAge',
-        'maxAgeInMillis'
+        'maxAgeInMillis',
       ),
       addEnhancedMonitoringMaxCpuTotalTimeAlarm:
         this.toRecord<DurationThreshold>('maxCpuTime', 'maxDuration'),
@@ -295,7 +295,7 @@ export class FunctionAlarms extends AlarmsBase<
         : this.props.warningAlarmOptions;
     const threshold = fprops?.maxLogCount ?? defaultThreshold;
     const pattern =
-      fprops?.metricLogPattern ?? category === AlarmCategory.Critical
+      (fprops?.metricLogPattern ?? category === AlarmCategory.Critical)
         ? FunctionAlarms.DEFAULT_CRITICAL_LOG_METRIC_PATTERN
         : FunctionAlarms.DEFAULT_WARNING_LOG_METRIC_PATTERN;
     const evaluationPeriods = fprops?.logEvaluationPeriods ?? 2;
