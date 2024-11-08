@@ -25,7 +25,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 -   Fixed bug where healthCheckGracePeriod wasn't being applied correctly with StandardApplicationFargateService.
->>>>>>> develop
 
 ## v1.15.1
 
