@@ -1,63 +1,72 @@
-import {StringHelper} from './string-helper';
+import {
+  isCamelCase,
+  isPascalCase,
+  toSnakeCase,
+  toKebabCase,
+  toCamelCase,
+  toPascalCase,
+  isLowerAlphanumeric,
+  isUpperAlphanumeric,
+} from './string-helper';
 
 test('Test StringHelper#isCamelCase', () => {
-  expect(StringHelper.isCamelCase(undefined)).toBe(false);
-  expect(StringHelper.isCamelCase(null)).toBe(false);
-  expect(StringHelper.isCamelCase('testThis')).toBe(true);
-  expect(StringHelper.isCamelCase('testThis01')).toBe(true);
-  expect(StringHelper.isCamelCase('TestThis')).toBe(false);
-  expect(StringHelper.isCamelCase('test-this')).toBe(false);
+  expect(isCamelCase(undefined)).toBe(false);
+  expect(isCamelCase(null)).toBe(false);
+  expect(isCamelCase('testThis')).toBe(true);
+  expect(isCamelCase('testThis01')).toBe(true);
+  expect(isCamelCase('TestThis')).toBe(false);
+  expect(isCamelCase('test-this')).toBe(false);
 });
 
 test('Test StringHelper#isPascalCase', () => {
-  expect(StringHelper.isPascalCase(undefined)).toBe(false);
-  expect(StringHelper.isPascalCase(null)).toBe(false);
-  expect(StringHelper.isPascalCase('TestThis')).toBe(true);
-  expect(StringHelper.isPascalCase('TestThis01')).toBe(true);
-  expect(StringHelper.isPascalCase('testThis')).toBe(false);
-  expect(StringHelper.isPascalCase('Test-This')).toBe(false);
+  expect(isPascalCase(undefined)).toBe(false);
+  expect(isPascalCase(null)).toBe(false);
+  expect(isPascalCase('TestThis')).toBe(true);
+  expect(isPascalCase('TestThis01')).toBe(true);
+  expect(isPascalCase('testThis')).toBe(false);
+  expect(isPascalCase('Test-This')).toBe(false);
 });
 
-test('Test StringHelper.toSnakeCase', () => {
-  expect(StringHelper.toSnakeCase('ThisIsATest')).toBe('this_is_a_test');
-  expect(StringHelper.toSnakeCase('This_Is_A_Test')).toBe('this_is_a_test');
-  expect(StringHelper.toSnakeCase('This-Is-A-Test')).toBe('this_is_a_test');
-  expect(StringHelper.toSnakeCase('This Is A Test')).toBe('this_is_a_test');
+test('Test toSnakeCase', () => {
+  expect(toSnakeCase('ThisIsATest')).toBe('this_is_a_test');
+  expect(toSnakeCase('This_Is_A_Test')).toBe('this_is_a_test');
+  expect(toSnakeCase('This-Is-A-Test')).toBe('this_is_a_test');
+  expect(toSnakeCase('This Is A Test')).toBe('this_is_a_test');
 });
 
-test('Test StringHelper.toKebabCase', () => {
-  expect(StringHelper.toKebabCase('ThisIsATest')).toBe('this-is-a-test');
-  expect(StringHelper.toKebabCase('This_Is_A_Test')).toBe('this-is-a-test');
-  expect(StringHelper.toKebabCase('This-Is-A-Test')).toBe('this-is-a-test');
-  expect(StringHelper.toKebabCase('This Is A Test')).toBe('this-is-a-test');
+test('Test toKebabCase', () => {
+  expect(toKebabCase('ThisIsATest')).toBe('this-is-a-test');
+  expect(toKebabCase('This_Is_A_Test')).toBe('this-is-a-test');
+  expect(toKebabCase('This-Is-A-Test')).toBe('this-is-a-test');
+  expect(toKebabCase('This Is A Test')).toBe('this-is-a-test');
 });
 
-test('Test StringHelper.toCamelCase', () => {
-  expect(StringHelper.toCamelCase('this-is-a-test')).toBe('thisIsATest');
-  expect(StringHelper.toCamelCase('this_is_a_Test')).toBe('thisIsATest');
-  expect(StringHelper.toCamelCase('ThisIsATest')).toBe('thisIsATest');
-  expect(StringHelper.toCamelCase('This Is A Test')).toBe('thisIsATest');
+test('Test toCamelCase', () => {
+  expect(toCamelCase('this-is-a-test')).toBe('thisIsATest');
+  expect(toCamelCase('this_is_a_Test')).toBe('thisIsATest');
+  expect(toCamelCase('ThisIsATest')).toBe('thisIsATest');
+  expect(toCamelCase('This Is A Test')).toBe('thisIsATest');
 });
 
-test('Test StringHelper.toPascalCase', () => {
-  expect(StringHelper.toPascalCase('this_is_a_test')).toBe('ThisIsATest');
-  expect(StringHelper.toPascalCase('this_is_a_Test')).toBe('ThisIsATest');
-  expect(StringHelper.toPascalCase('ThisIsATest')).toBe('ThisIsATest');
-  expect(StringHelper.toPascalCase('this is a test')).toBe('ThisIsATest');
-  expect(StringHelper.toPascalCase('dev')).toBe('Dev');
+test('Test toPascalCase', () => {
+  expect(toPascalCase('this_is_a_test')).toBe('ThisIsATest');
+  expect(toPascalCase('this_is_a_Test')).toBe('ThisIsATest');
+  expect(toPascalCase('ThisIsATest')).toBe('ThisIsATest');
+  expect(toPascalCase('this is a test')).toBe('ThisIsATest');
+  expect(toPascalCase('dev')).toBe('Dev');
 });
 
-test('Test StringHelper.isLowerAlphanumeric', () => {
-  expect(StringHelper.isLowerAlphanumeric(undefined)).toBe(false);
-  expect(StringHelper.isLowerAlphanumeric(null)).toBe(false);
-  expect(StringHelper.isLowerAlphanumeric('test1234')).toBe(true);
-  expect(StringHelper.isLowerAlphanumeric('Test1234')).toBe(false);
+test('Test isLowerAlphanumeric', () => {
+  expect(isLowerAlphanumeric(undefined)).toBe(false);
+  expect(isLowerAlphanumeric(null)).toBe(false);
+  expect(isLowerAlphanumeric('test1234')).toBe(true);
+  expect(isLowerAlphanumeric('Test1234')).toBe(false);
 });
 
-test('Test StringHelper.isUpperAlphaNumeric', () => {
-  expect(StringHelper.isUpperAlphanumeric(undefined)).toBe(false);
-  expect(StringHelper.isUpperAlphanumeric(null)).toBe(false);
-  expect(StringHelper.isUpperAlphanumeric('test1234')).toBe(false);
-  expect(StringHelper.isUpperAlphanumeric('Test1234')).toBe(false);
-  expect(StringHelper.isUpperAlphanumeric('TEST1234')).toBe(true);
+test('Test isUpperAlphaNumeric', () => {
+  expect(isUpperAlphanumeric(undefined)).toBe(false);
+  expect(isUpperAlphanumeric(null)).toBe(false);
+  expect(isUpperAlphanumeric('test1234')).toBe(false);
+  expect(isUpperAlphanumeric('Test1234')).toBe(false);
+  expect(isUpperAlphanumeric('TEST1234')).toBe(true);
 });

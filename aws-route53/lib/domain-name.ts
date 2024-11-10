@@ -13,7 +13,7 @@ import {
   CertificateValidation,
 } from 'aws-cdk-lib/aws-certificatemanager';
 import {Duration} from 'aws-cdk-lib';
-import {StringHelper} from '../../helpers';
+import {toPascalCase} from '../../helpers';
 
 /**
  * Properties for DomainName
@@ -194,7 +194,7 @@ export class DomainName {
    * Returns a friendly identifier for this domain name. This function replaces wildcards with _ and periods with -
    */
   toIdentifier(): string {
-    return StringHelper.toPascalCase(
+    return toPascalCase(
       this.toString()
         .toLowerCase()
         .replace(/\*/g, 'wildcard')
