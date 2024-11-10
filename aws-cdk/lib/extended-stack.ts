@@ -180,4 +180,20 @@ export class ExtendedStack extends Stack {
       value,
     });
   }
+
+  /**
+   * Helper method to export and output a parameter.
+   *
+   * @param name the parameter name
+   * @param value the parameter value
+   */
+  exportAndOutputParameter(
+    name: string,
+    value: string,
+  ): [StringParameter, CfnOutput] {
+    return [
+      this.exportParameter(name, value),
+      this.outputParameter(name, value),
+    ];
+  }
 }
