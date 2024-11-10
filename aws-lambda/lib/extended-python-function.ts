@@ -6,6 +6,7 @@ import {FunctionAlarms, FunctionAlarmsOptions} from './function-alarms';
 import {DeployedFunctionOptions} from './extended-function';
 import {FunctionDeployment} from './function-deployment';
 import {Construct} from 'constructs';
+import {LoggingFormat} from 'aws-cdk-lib/aws-lambda';
 
 /**
  * Properties for PythonFunctionAlpha
@@ -27,7 +28,10 @@ export class ExtendedPythonFunction extends PythonFunction {
     id: string,
     props: ExtendedPythonFunctionProps,
   ) {
-    super(scope, id, props);
+    super(scope, id, {
+      ...props,
+      loggingFormat: props.loggingFormat ?? LoggingFormat.JSON,
+    });
 
     this.alarms = new FunctionAlarms(this, 'Alarms', {
       function: this,

@@ -2,6 +2,7 @@ import {
   Architecture,
   DockerImageFunction,
   DockerImageFunctionProps,
+  LoggingFormat,
 } from 'aws-cdk-lib/aws-lambda';
 import {Construct} from 'constructs';
 import {FunctionAlarms, FunctionAlarmsOptions} from './function-alarms';
@@ -30,6 +31,7 @@ export class ExtendedDockerImageFunction extends DockerImageFunction {
       memorySize: 768, // change from default 128
       timeout: Duration.seconds(30), // change default from 3
       ...props,
+      loggingFormat: props.loggingFormat ?? LoggingFormat.JSON,
     });
     this.alarms = new FunctionAlarms(this, 'Alarms', {
       function: this,
