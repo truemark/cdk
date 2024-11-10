@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   Added exportAndOutputParameter to ExtendedStack to allow for exporting and outputting parameters in the stack with one call
 
+### Removed
+
+-   StringHelper has been removed and all functions are now exported directly from the helpers module
+
 ## v1.16.0
 
 ### Changed

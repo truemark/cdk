@@ -1,6 +1,6 @@
-import {StringHelper} from '../../helpers';
 import {ExtendedApp, ExtendedAppProps} from './extended-app';
 import {StandardTags} from './standard-tags';
+import {isLowerAlphanumeric, toPascalCase} from '../../helpers';
 
 /**
  * Properties for SingleEnvApp
@@ -30,7 +30,7 @@ export class SingleEnvApp extends ExtendedApp {
         `Environment is missing. Please add "-c ${environmentPropertyName}=<name>" to your CDK command`,
       );
     }
-    if (!StringHelper.isLowerAlphanumeric(this.environmentName)) {
+    if (!isLowerAlphanumeric(this.environmentName)) {
       throw new Error('Environment name must be lower case alpha numeric');
     }
     // Add environment to cost center tags
@@ -53,6 +53,6 @@ export class SingleEnvApp extends ExtendedApp {
    * Returns the name of the environment in title case.
    */
   getEnvironmentNameTitleCase(): string {
-    return StringHelper.toPascalCase(this.environmentName);
+    return toPascalCase(this.environmentName);
   }
 }
