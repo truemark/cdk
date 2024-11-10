@@ -4,7 +4,7 @@ import {
   FunctionDeployment,
   FunctionDeploymentOptions,
 } from './function-deployment';
-import {Function, FunctionProps} from 'aws-cdk-lib/aws-lambda';
+import {Function, FunctionProps, LoggingFormat} from 'aws-cdk-lib/aws-lambda';
 
 export interface DeployedFunctionDeploymentOptions
   extends FunctionDeploymentOptions {
@@ -47,14 +47,17 @@ export interface ExtendedFunctionProps
     DeployedFunctionOptions {}
 
 /**
- * Extended version of Function that supports alarms and deployments.
+ * Extended version of Function adding alarms, deployment and setting loggingFormat to JSON.
  */
 export class ExtendedFunction extends Function {
   readonly alarms: FunctionAlarms;
   readonly deployment?: FunctionDeployment;
 
   constructor(scope: Construct, id: string, props: ExtendedFunctionProps) {
-    super(scope, id, props);
+    super(scope, id, {
+      ...props,
+      loggingFormat: props.loggingFormat ?? LoggingFormat.JSON,
+    });
 
     this.alarms = new FunctionAlarms(this, 'Alarms', {
       function: this,

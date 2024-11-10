@@ -4,7 +4,7 @@ import {Construct} from 'constructs';
 import {DeployedFunctionOptions} from './extended-function';
 import {GoFunction, GoFunctionProps} from '@aws-cdk/aws-lambda-go-alpha';
 import {RetentionDays} from 'aws-cdk-lib/aws-logs';
-import {Architecture, Runtime} from 'aws-cdk-lib/aws-lambda';
+import {Architecture, LoggingFormat, Runtime} from 'aws-cdk-lib/aws-lambda';
 import {Duration} from 'aws-cdk-lib';
 import * as process from 'process';
 
@@ -31,6 +31,7 @@ export class ExtendedGoFunction extends GoFunction {
       timeout: Duration.seconds(30),
       runtime: Runtime.PROVIDED_AL2023,
       ...props,
+      loggingFormat: props.loggingFormat ?? LoggingFormat.JSON,
       bundling: {
         environment: {
           GOOS: process.env.GOOS || 'linux',
