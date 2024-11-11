@@ -21,8 +21,8 @@ importers:
         specifier: 2.166.0
         version: 2.166.0(constructs@10.3.0)
       cdk-monitoring-constructs:
-        specifier: 8.3.5
-        version: 8.3.5(aws-cdk-lib@2.166.0(constructs@10.3.0))(constructs@10.3.0)
+        specifier: 8.3.6
+        version: 8.3.6(aws-cdk-lib@2.166.0(constructs@10.3.0))(constructs@10.3.0)
       constructs:
         specifier: 10.3.0
         version: 10.3.0
@@ -1145,8 +1145,8 @@ packages:
   caniuse-lite@1.0.30001678:
     resolution: {integrity: sha512-RR+4U/05gNtps58PEBDZcPWTgEO2MBeoPZ96aQcjmfkBWRIDfN451fW2qyDA9/+HohLLIL5GqiMwA+IB1pWarw==}
 
-  cdk-monitoring-constructs@8.3.5:
-    resolution: {integrity: sha512-uIOibgjzP/+ideLn0KyaxNZAq4MlsXan+yqvEkgWFGLzyXcPyIHq2BAFBQqzuUgD+ruSNmj+jLWmhKBMD/pmNg==}
+  cdk-monitoring-constructs@8.3.6:
+    resolution: {integrity: sha512-QA6CSN/bNMMwsUUPJWi2VL+qygPG0tDGbavrP4hQaLXaHFz8QFELP3HHrBolcho6K17+V2GlympW/nDjq/gtOQ==}
     peerDependencies:
       aws-cdk-lib: ^2.112.0
       constructs: ^10.0.5
@@ -3709,7 +3709,7 @@ snapshots:
 
   caniuse-lite@1.0.30001678: {}
 
-  cdk-monitoring-constructs@8.3.5(aws-cdk-lib@2.166.0(constructs@10.3.0))(constructs@10.3.0):
+  cdk-monitoring-constructs@8.3.6(aws-cdk-lib@2.166.0(constructs@10.3.0))(constructs@10.3.0):
     dependencies:
       aws-cdk-lib: 2.166.0(constructs@10.3.0)
       constructs: 10.3.0
