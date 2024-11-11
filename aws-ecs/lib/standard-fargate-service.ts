@@ -283,6 +283,8 @@ export interface StandardFargateServiceProps extends ExtendedConstructProps {
    */
   readonly healthCheckGracePeriod?: Duration;
 
+  // TODO Create an OtelConfig interface and move these properties to it. Create a new "otel" property in this interface to hold the OtelConfig.
+
   /**
    * Optional: Enables or disables the OpenTelemetry (OTEL) container for this service.
    *
@@ -311,12 +313,12 @@ export interface StandardFargateServiceProps extends ExtendedConstructProps {
   /**
    * Path to the OTEL configuration file or URL.
    */
-  readonly otelConfig?: string;
+  readonly otelConfig?: string; // TODO This should be otelConfigPath. The jsdoc comment also needs to explain this and otelSsmConfigContentParam conflict and which takes precedence if both are set.
 
   /**
    * APS (Amazon Managed Prometheus) workspace ID for remote write.
    */
-  readonly otelApsWorkspaceId?: string;
+  readonly otelApsWorkspaceId?: string; // TODO This should be otelAmpWorkSpaceId
 }
 
 /**
@@ -452,16 +454,17 @@ export class StandardFargateService extends ExtendedConstruct {
 
     //Add Otel container if enabled
     if (props.enableOtel) {
+      // TODO Just change this to "Otel"
       taskDefinition.addContainer('OtelContainer', {
-        containerName: 'aws-otel-collector',
+        containerName: 'aws-otel-collector', // TODO Allow this to be overridden and the default to be just "otel-collector"
         image: ContainerImage.fromRegistry(
           props.otelImage ??
             'public.ecr.aws/aws-observability/aws-otel-collector:latest',
         ),
-        cpu: 256,
-        memoryLimitMiB: 512,
+        cpu: 256, // TODO Should thgis be allowed to be overridden from props?
+        memoryLimitMiB: 512, // TODO Should thgis be allowed to be overridden from props?
         logging: LogDriver.awsLogs({
-          streamPrefix: 'aws-otel-collector',
+          streamPrefix: 'aws-otel-collector', // TODO Should be the same as containerName
           logGroup: logGroup,
         }),
         ...(props.otelSsmConfigContentParam
@@ -479,7 +482,7 @@ export class StandardFargateService extends ExtendedConstruct {
           : {
               command: [
                 props.otelConfig ??
-                  '--config=/etc/ecs/container-insights/otel-task-metrics-config.yaml',
+                  '--config=/etc/ecs/container-insights/otel-task-metrics-config.yaml', // TODO Is this a good default? Where did it come from? Please add a comment to help people when reading the code.
               ],
             }),
         environment: props.otelEnvironmentVariables ?? {},
@@ -492,6 +495,7 @@ export class StandardFargateService extends ExtendedConstruct {
         },
       });
 
+      // TODO If otelSsmConfigContentParam, this shouldn't be added
       // Add SSM permissions to read parameters
       taskDefinition.addToTaskRolePolicy(
         new PolicyStatement({
@@ -500,7 +504,7 @@ export class StandardFargateService extends ExtendedConstruct {
               Stack.of(this).account
             }:parameter${
               props.otelSsmConfigContentParam ??
-              '/overwatch/otel/ecs-default-config'
+              '/overwatch/otel/ecs-default-config' // TODO The CDK library should know nothing of overwatch. Don't supply a default.
             }`,
           ],
           actions: ['ssm:GetParameters', 'ssm:GetParametersByPath'],
@@ -508,6 +512,7 @@ export class StandardFargateService extends ExtendedConstruct {
       );
 
       // Add AMP permissions for remote write to Prometheus
+      // TODO If otelApsWorkspaceId is not set, don't added this
       taskDefinition.addToTaskRolePolicy(
         new PolicyStatement({
           resources: [
