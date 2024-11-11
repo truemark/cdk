@@ -456,7 +456,7 @@ export class StandardFargateService extends ExtendedConstruct {
         containerName: 'aws-otel-collector',
         image: ContainerImage.fromRegistry(
           props.otelImage ??
-            'public.ecr.aws/aws-observability/aws-otel-collector:latest'
+            'public.ecr.aws/aws-observability/aws-otel-collector:latest',
         ),
         cpu: 256,
         memoryLimitMiB: 512,
@@ -471,8 +471,8 @@ export class StandardFargateService extends ExtendedConstruct {
                   StringParameter.fromStringParameterName(
                     this,
                     'OtelSSMConfigParam',
-                    props.otelSsmConfigContentParam
-                  )
+                    props.otelSsmConfigContentParam,
+                  ),
                 ),
               },
             }
@@ -504,7 +504,7 @@ export class StandardFargateService extends ExtendedConstruct {
             }`,
           ],
           actions: ['ssm:GetParameters', 'ssm:GetParametersByPath'],
-        })
+        }),
       );
 
       // Add AMP permissions for remote write to Prometheus
@@ -516,7 +516,7 @@ export class StandardFargateService extends ExtendedConstruct {
             }:workspace/${props.otelApsWorkspaceId}`,
           ],
           actions: ['aps:RemoteWrite'],
-        })
+        }),
       );
 
       // Add permission to permit otel events
@@ -539,7 +539,7 @@ export class StandardFargateService extends ExtendedConstruct {
             'aps:GetSeries',
             'aps:GetLabels',
           ],
-        })
+        }),
       );
     }
 
