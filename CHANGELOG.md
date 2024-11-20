@@ -22,13 +22,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   StringHelper has been removed and all functions are now exported directly from the helpers module
 
+### Removed
+
+-   StringHelper has been removed and all functions are now exported directly from the helpers module
+
 ## v1.16.0
 
 ### Changed
 
--   Changes hashing algorithm used for identifiers on BehaviorBuilder.
+-   Changed hashing algorithm used for identifiers on BehaviorBuilder.
 -   Dependency updates
 -   Replaced GTS with standard prettier and eslint configuration
+-   Changed hashing algorithm used for identifiers on BehaviorBuilder.
 
 ## v1.15.2
 

@@ -14,10 +14,11 @@ import {
   ScalableTaskCount,
   Secret,
 } from 'aws-cdk-lib/aws-ecs';
+import {StringParameter} from 'aws-cdk-lib/aws-ssm';
 import {LogConfiguration} from './log-configuration';
 import {SecurityGroup, SubnetSelection, SubnetType} from 'aws-cdk-lib/aws-ec2';
 import {LogGroup, RetentionDays} from 'aws-cdk-lib/aws-logs';
-import {Duration, RemovalPolicy} from 'aws-cdk-lib';
+import {Duration, RemovalPolicy, Stack} from 'aws-cdk-lib';
 import {PolicyStatement} from 'aws-cdk-lib/aws-iam';
 import {BasicStepScalingPolicyProps} from 'aws-cdk-lib/aws-autoscaling';
 import {IMetric} from 'aws-cdk-lib/aws-cloudwatch';
@@ -281,6 +282,43 @@ export interface StandardFargateServiceProps extends ExtendedConstructProps {
    * property unless you are working with an Application Load Balancer. Default is undefined.
    */
   readonly healthCheckGracePeriod?: Duration;
+
+  // TODO Create an OtelConfig interface and move these properties to it. Create a new "otel" property in this interface to hold the OtelConfig.
+
+  /**
+   * Optional: Enables or disables the OpenTelemetry (OTEL) container for this service.
+   *
+   * @default - false
+   */
+  readonly enableOtel?: boolean;
+
+  /**
+   * The container image to use for the OTEL (OpenTelemetry) container.
+   * This allows the user to override the default image.
+   *
+   * @default - 'public.ecr.aws/aws-observability/aws-otel-collector:latest'
+   */
+  readonly otelImage?: string;
+
+  /**
+   * SSM Parameter content path for OTEL configuration.
+   */
+  readonly otelSsmConfigContentParam?: string;
+
+  /**
+   * Environment variables specific to the OTEL container.
+   */
+  readonly otelEnvironmentVariables?: Record<string, string>;
+
+  /**
+   * Path to the OTEL configuration file or URL.
+   */
+  readonly otelConfig?: string; // TODO This should be otelConfigPath. The jsdoc comment also needs to explain this and otelSsmConfigContentParam conflict and which takes precedence if both are set.
+
+  /**
+   * APS (Amazon Managed Prometheus) workspace ID for remote write.
+   */
+  readonly otelApsWorkspaceId?: string; // TODO This should be otelAmpWorkSpaceId
 }
 
 /**
@@ -414,7 +452,101 @@ export class StandardFargateService extends ExtendedConstruct {
       secrets: props.secrets,
     });
 
-    // TODO Otel Collector
+    //Add Otel container if enabled
+    if (props.enableOtel) {
+      // TODO Just change this to "Otel"
+      taskDefinition.addContainer('OtelContainer', {
+        containerName: 'aws-otel-collector', // TODO Allow this to be overridden and the default to be just "otel-collector"
+        image: ContainerImage.fromRegistry(
+          props.otelImage ??
+            'public.ecr.aws/aws-observability/aws-otel-collector:latest',
+        ),
+        cpu: 256, // TODO Should thgis be allowed to be overridden from props?
+        memoryLimitMiB: 512, // TODO Should thgis be allowed to be overridden from props?
+        logging: LogDriver.awsLogs({
+          streamPrefix: 'aws-otel-collector', // TODO Should be the same as containerName
+          logGroup: logGroup,
+        }),
+        ...(props.otelSsmConfigContentParam
+          ? {
+              secrets: {
+                AOT_CONFIG_CONTENT: Secret.fromSsmParameter(
+                  StringParameter.fromStringParameterName(
+                    this,
+                    'OtelSSMConfigParam',
+                    props.otelSsmConfigContentParam,
+                  ),
+                ),
+              },
+            }
+          : {
+              command: [
+                props.otelConfig ??
+                  '--config=/etc/ecs/container-insights/otel-task-metrics-config.yaml', // TODO Is this a good default? Where did it come from? Please add a comment to help people when reading the code.
+              ],
+            }),
+        environment: props.otelEnvironmentVariables ?? {},
+        healthCheck: {
+          command: ['CMD', '/healthcheck'],
+          interval: Duration.seconds(10),
+          timeout: Duration.seconds(5),
+          retries: 5,
+          startPeriod: Duration.seconds(30),
+        },
+      });
+
+      // TODO If otelSsmConfigContentParam, this shouldn't be added
+      // Add SSM permissions to read parameters
+      taskDefinition.addToTaskRolePolicy(
+        new PolicyStatement({
+          resources: [
+            `arn:aws:ssm:${Stack.of(this).region}:${
+              Stack.of(this).account
+            }:parameter${
+              props.otelSsmConfigContentParam ??
+              '/overwatch/otel/ecs-default-config' // TODO The CDK library should know nothing of overwatch. Don't supply a default.
+            }`,
+          ],
+          actions: ['ssm:GetParameters', 'ssm:GetParametersByPath'],
+        }),
+      );
+
+      // Add AMP permissions for remote write to Prometheus
+      // TODO If otelApsWorkspaceId is not set, don't added this
+      taskDefinition.addToTaskRolePolicy(
+        new PolicyStatement({
+          resources: [
+            `arn:aws:aps:${Stack.of(this).region}:${
+              Stack.of(this).account
+            }:workspace/${props.otelApsWorkspaceId}`,
+          ],
+          actions: ['aps:RemoteWrite'],
+        }),
+      );
+
+      // Add permission to permit otel events
+      taskDefinition.addToTaskRolePolicy(
+        new PolicyStatement({
+          resources: ['*'],
+          actions: [
+            'logs:PutLogEvents',
+            'logs:CreateLogGroup',
+            'logs:CreateLogStream',
+            'logs:DescribeLogStreams',
+            'logs:DescribeLogGroups',
+            'logs:PutRetentionPolicy',
+            'xray:PutTraceSegments',
+            'xray:PutTelemetryRecords',
+            'xray:GetSamplingRules',
+            'xray:GetSamplingTargets',
+            'xray:GetSamplingStatisticSummaries',
+            'aps:PutMetricData',
+            'aps:GetSeries',
+            'aps:GetLabels',
+          ],
+        }),
+      );
+    }
 
     const vpcSubnets = this.resolveVpcSubnets(this, props);
     const desiredCount = props.desiredCount ?? props.minCapacity ?? 1;
