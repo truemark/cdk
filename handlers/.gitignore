@@ -1,0 +1,17 @@
+.idea
+notes.txt
+*.zip
+*.js
+!jest.config.js
+*.map
+*.mjs
+!eslint.config.mjs
+!prettier.config.mjs
+*.d.*
+node_modules
+dist
+!.prettierrc.js
+src/one-off.test.ts
+site
+coverage
+schema.graphql

@@ -1,0 +1,27 @@
+{
+  "name": "opensearch-index-handler",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "prebuild": "prettier --check . && eslint .",
+    "build": "tsc",
+    "watch": "tsc -w",
+    "clean": "find ./src -type f \\( -name \"*.mjs\" -o -name \"*.d.mts\" -o -name \"*.map\" \\) -exec rm -f {} \\;",
+    "fmt": "prettier --write .",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@opensearch-project/opensearch": "^2.12.0"
+  },
+  "devDependencies": {
+    "@aws-sdk/credential-provider-node": "^3.682.0",
+    "@eslint/js": "^8.57.0",
+    "@types/eslint__js": "^8.42.3",
+    "@types/node": "20.12.7",
+    "eslint": "^8.57.0",
+    "prettier": "^3.3.3",
+    "source-map-support": "^0.5.21",
+    "typescript": "~5.4.5",
+    "typescript-eslint": "^7.16.0"
+  }
+}

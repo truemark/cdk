@@ -1,4 +1,5 @@
 export * as aws_apigatewayv2 from './aws-apigatewayv2';
+export * as aws_bedrock from './aws-bedrock';
 export * as aws_cdk from './aws-cdk';
 export * as aws_centergauge from './aws-centergauge';
 export * as aws_cloudfront from './aws-cloudfront';
