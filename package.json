@@ -84,5 +84,10 @@
     "./aws-vpc": "./aws-vpc/index.js",
     "./aws-wafv2": "./aws-wafv2/index.js",
     "./helpers": "./helpers/index.js"
-  }
+  },
+  "exclude": [
+    "node_modules",
+    "coverage",
+    "test-files"
+  ]
 }
