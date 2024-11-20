@@ -13,6 +13,6 @@ test('Test KnowledgeBaseCollectionIndex', () => {
     vectorFieldDimension: 1024,
   });
   const template = Template.fromStack(stack);
-  HelperTest.logTemplate(template);
+  // HelperTest.logTemplate(template);
   template.resourceCountIs('AWS::CloudFormation::CustomResource', 1);
 });
