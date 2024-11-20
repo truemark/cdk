@@ -70,7 +70,9 @@ export class KnowledgeBaseCollectionIndex extends Construct {
       ),
       depsLockFilePath: path.join(
         __dirname,
-        'opensearch-index-handler',
+        '..',
+        '..',
+        'handlers',
         'pnpm-lock.yaml',
       ),
       timeout: Duration.minutes(5),
