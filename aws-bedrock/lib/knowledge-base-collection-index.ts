@@ -60,21 +60,7 @@ export class KnowledgeBaseCollectionIndex extends Construct {
       role,
       runtime: Runtime.NODEJS_20_X,
       handler: 'handler',
-      entry: path.join(
-        __dirname,
-        '..',
-        '..',
-        'handlers',
-        'src',
-        'bedrock-knowledge-base-collection-index-handler.mts',
-      ),
-      depsLockFilePath: path.join(
-        __dirname,
-        '..',
-        '..',
-        'handlers',
-        'pnpm-lock.yaml',
-      ),
+      entry: path.join(__dirname, 'knowledge-base-collection-index-handler.ts'),
       timeout: Duration.minutes(5),
     });
 
