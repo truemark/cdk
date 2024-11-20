@@ -60,7 +60,7 @@ export class KnowledgeBaseCollectionIndex extends Construct {
       role,
       runtime: Runtime.NODEJS_20_X,
       handler: 'handler',
-      entry: path.join(__dirname, 'knowledge-base-collection-index-handler.ts'),
+      entry: path.join(__dirname, 'knowledge-base-collection-index-handler.js'),
       timeout: Duration.minutes(5),
     });
 
