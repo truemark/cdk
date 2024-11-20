@@ -62,9 +62,11 @@ export class KnowledgeBaseCollectionIndex extends Construct {
       handler: 'handler',
       entry: path.join(
         __dirname,
-        'opensearch-index-handler',
+        '..',
+        '..',
+        'handlers',
         'src',
-        'index.mts',
+        'bedrock-knowledge-base-collection-index-handler.mts',
       ),
       depsLockFilePath: path.join(
         __dirname,
