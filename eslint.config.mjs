@@ -12,6 +12,7 @@ const config = [
       '**/*.d.*',
       '**/*.map',
       'test-files',
+      'handlers',
     ],
   },
   ...tseslint.config(
