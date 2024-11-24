@@ -5,18 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v18.0.0
-
-### Changed
-
--   Updated dependencies to newer versions
-
 ## v1.17.0
 
 ### Changed
 
 -   Added exportAndOutputParameter to ExtendedStack to allow for exporting and outputting parameters in the stack with one call
 -   Default logging for all extended lambda functions is now JSON instead of TEXT
+-   Updated dependencies to newer versions
 
 ### Removed
 
