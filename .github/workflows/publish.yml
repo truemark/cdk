@@ -10,8 +10,7 @@ permissions:
   id-token: write
 jobs:
   publish:
-#    uses: truemark/github-workflows/.github/workflows/javascript-library.yml@main
-    uses: nr1etech/github-workflows/.github/workflows/javascript-library.yml@develop
+    uses: truemark/github-workflows/.github/workflows/javascript-library.yml@main
     if: github.actor != 'dependabot[bot]'
     with:
       node-versions: "[18,20,22]"
