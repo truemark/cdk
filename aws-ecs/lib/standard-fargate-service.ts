@@ -29,6 +29,8 @@ import {
   StandardTags,
 } from '../../aws-cdk';
 import {LibStandardTags} from '../../truemark';
+import * as path from 'node:path';
+import {OtelConfig} from './otel-configuration';
 
 /**
  * Properties for StandardFargateService.
@@ -283,42 +285,11 @@ export interface StandardFargateServiceProps extends ExtendedConstructProps {
    */
   readonly healthCheckGracePeriod?: Duration;
 
-  // TODO Create an OtelConfig interface and move these properties to it. Create a new "otel" property in this interface to hold the OtelConfig.
-
   /**
-   * Optional: Enables or disables the OpenTelemetry (OTEL) container for this service.
+   * Setting the Standard OpenTelemetry (OTEL) configuration for ECS services.
    *
-   * @default - false
    */
-  readonly enableOtel?: boolean;
-
-  /**
-   * The container image to use for the OTEL (OpenTelemetry) container.
-   * This allows the user to override the default image.
-   *
-   * @default - 'public.ecr.aws/aws-observability/aws-otel-collector:latest'
-   */
-  readonly otelImage?: string;
-
-  /**
-   * SSM Parameter content path for OTEL configuration.
-   */
-  readonly otelSsmConfigContentParam?: string;
-
-  /**
-   * Environment variables specific to the OTEL container.
-   */
-  readonly otelEnvironmentVariables?: Record<string, string>;
-
-  /**
-   * Path to the OTEL configuration file or URL.
-   */
-  readonly otelConfig?: string; // TODO This should be otelConfigPath. The jsdoc comment also needs to explain this and otelSsmConfigContentParam conflict and which takes precedence if both are set.
-
-  /**
-   * APS (Amazon Managed Prometheus) workspace ID for remote write.
-   */
-  readonly otelApsWorkspaceId?: string; // TODO This should be otelAmpWorkSpaceId
+  readonly otel?: OtelConfig;
 }
 
 /**
@@ -452,40 +423,48 @@ export class StandardFargateService extends ExtendedConstruct {
       secrets: props.secrets,
     });
 
-    //Add Otel container if enabled
-    if (props.enableOtel) {
-      // TODO Just change this to "Otel"
-      taskDefinition.addContainer('OtelContainer', {
-        containerName: 'aws-otel-collector', // TODO Allow this to be overridden and the default to be just "otel-collector"
+    // Add Otel container if enabled
+    const otel = props.otel;
+    if (otel && otel.enabled) {
+      let otelConfigPathLocal: string;
+      if (otel.configPath) {
+        otelConfigPathLocal = otel.configPath;
+      } else {
+        otelConfigPathLocal = path.resolve(
+          __dirname,
+          '../../resources/ecs-otel-task-metrics-config.yaml',
+        );
+      }
+
+      const otelContainerName = otel.containerName ?? 'otel-collector';
+      taskDefinition.addContainer('Otel', {
+        containerName: otelContainerName,
         image: ContainerImage.fromRegistry(
-          props.otelImage ??
+          otel.collectorImage ??
             'public.ecr.aws/aws-observability/aws-otel-collector:latest',
         ),
-        cpu: 256, // TODO Should thgis be allowed to be overridden from props?
-        memoryLimitMiB: 512, // TODO Should thgis be allowed to be overridden from props?
+        cpu: otel.containerCpu ?? 256,
+        memoryLimitMiB: otel.containerMemoryLimitMiB ?? 512,
         logging: LogDriver.awsLogs({
-          streamPrefix: 'aws-otel-collector', // TODO Should be the same as containerName
+          streamPrefix: otelContainerName,
           logGroup: logGroup,
         }),
-        ...(props.otelSsmConfigContentParam
+        ...(otel.ssmConfigContentParam
           ? {
               secrets: {
                 AOT_CONFIG_CONTENT: Secret.fromSsmParameter(
                   StringParameter.fromStringParameterName(
                     this,
                     'OtelSSMConfigParam',
-                    props.otelSsmConfigContentParam,
+                    otel.ssmConfigContentParam,
                   ),
                 ),
               },
             }
           : {
-              command: [
-                props.otelConfig ??
-                  '--config=/etc/ecs/container-insights/otel-task-metrics-config.yaml', // TODO Is this a good default? Where did it come from? Please add a comment to help people when reading the code.
-              ],
+              command: [`--config=${otelConfigPathLocal}`],
             }),
-        environment: props.otelEnvironmentVariables ?? {},
+        environment: otel.environmentVariables ?? {},
         healthCheck: {
           command: ['CMD', '/healthcheck'],
           interval: Duration.seconds(10),
@@ -495,34 +474,33 @@ export class StandardFargateService extends ExtendedConstruct {
         },
       });
 
-      // TODO If otelSsmConfigContentParam, this shouldn't be added
       // Add SSM permissions to read parameters
-      taskDefinition.addToTaskRolePolicy(
-        new PolicyStatement({
-          resources: [
-            `arn:aws:ssm:${Stack.of(this).region}:${
-              Stack.of(this).account
-            }:parameter${
-              props.otelSsmConfigContentParam ??
-              '/overwatch/otel/ecs-default-config' // TODO The CDK library should know nothing of overwatch. Don't supply a default.
-            }`,
-          ],
-          actions: ['ssm:GetParameters', 'ssm:GetParametersByPath'],
-        }),
-      );
+      if (otel.ssmConfigContentParam) {
+        taskDefinition.addToTaskRolePolicy(
+          new PolicyStatement({
+            resources: [
+              `arn:aws:ssm:${Stack.of(this).region}:${
+                Stack.of(this).account
+              }:parameter${otel.ssmConfigContentParam}`,
+            ],
+            actions: ['ssm:GetParameters', 'ssm:GetParametersByPath'],
+          }),
+        );
+      }
 
       // Add AMP permissions for remote write to Prometheus
-      // TODO If otelApsWorkspaceId is not set, don't added this
-      taskDefinition.addToTaskRolePolicy(
-        new PolicyStatement({
-          resources: [
-            `arn:aws:aps:${Stack.of(this).region}:${
-              Stack.of(this).account
-            }:workspace/${props.otelApsWorkspaceId}`,
-          ],
-          actions: ['aps:RemoteWrite'],
-        }),
-      );
+      if (otel.ampWorkSpaceId) {
+        taskDefinition.addToTaskRolePolicy(
+          new PolicyStatement({
+            resources: [
+              `arn:aws:aps:${Stack.of(this).region}:${
+                Stack.of(this).account
+              }:workspace/${otel.ampWorkSpaceId}`,
+            ],
+            actions: ['aps:RemoteWrite'],
+          }),
+        );
+      }
 
       // Add permission to permit otel events
       taskDefinition.addToTaskRolePolicy(
