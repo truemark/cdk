@@ -3,12 +3,7 @@ import {FunctionAlarms, FunctionAlarmsOptions} from './function-alarms';
 import {FunctionDeployment} from './function-deployment';
 import {DeployedFunctionOptions} from './extended-function';
 import {RetentionDays} from 'aws-cdk-lib/aws-logs';
-import {
-  Architecture,
-  LoggingFormat,
-  Runtime,
-  SystemLogLevel,
-} from 'aws-cdk-lib/aws-lambda';
+import {Architecture, LoggingFormat, Runtime} from 'aws-cdk-lib/aws-lambda';
 import {Duration} from 'aws-cdk-lib';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -64,7 +59,6 @@ export class ExtendedNodejsFunction extends NodejsFunction {
       depsLockFilePath: ExtendedNodejsFunction.findDepsLockFile(props.entry),
       ...props,
       loggingFormat: props.loggingFormat ?? LoggingFormat.JSON,
-      systemLogLevelV2: SystemLogLevel.INFO,
       environment: {
         NODE_OPTIONS: '--enable-source-maps',
         ...props.environment,
