@@ -55,7 +55,7 @@ export class ExtendedNodejsFunction extends NodejsFunction {
       architecture: Architecture.ARM_64, // change default from X86_64
       memorySize: 768, // change default from 128
       timeout: Duration.seconds(30), // change default from 3
-      runtime: Runtime.NODEJS_22_X, // change default from NODEJS_20_X
+      runtime: Runtime.NODEJS_22_X,
       depsLockFilePath: ExtendedNodejsFunction.findDepsLockFile(props.entry),
       ...props,
       loggingFormat: props.loggingFormat ?? LoggingFormat.JSON,
