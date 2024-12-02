@@ -5,6 +5,7 @@ export const EXCLUDED_RESOURCES = [
   // OAM resources do not like : in the tag names. See https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-oam-link.html#cfn-oam-link-tags
   'AWS::Oam::Link',
   'AWS::Oam::Sink',
+  'AWS::OpenSearchServerless::Collection',
 ];
 
 /**
