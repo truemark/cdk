@@ -4,31 +4,7 @@ import {Attribute, AttributeType, Capacity} from 'aws-cdk-lib/aws-dynamodb';
 import {RemovalPolicy} from 'aws-cdk-lib';
 import {GlobalSecondaryIndexPropsV2} from 'aws-cdk-lib/aws-dynamodb/lib/table-v2';
 
-type StandardGlobalSecondaryIndexPropsV2OmitFields =
-  | 'partitionKey'
-  | 'sortKey'
-  | 'indexName';
-
-export interface StandardGlobalSecondaryIndexPropsV2
-  extends Omit<
-    GlobalSecondaryIndexPropsV2,
-    StandardGlobalSecondaryIndexPropsV2OmitFields
-  > {
-  /**
-   * Defines the partition key on the index. Default is Gs#Pk of string type.
-   */
-  partitionKey?: Attribute;
-
-  /**
-   * Defines the sort key on the index. Default is Gs#Sk of string type. Set to null instead of undefined to remove the sort key.
-   */
-  sortKey?: Attribute;
-
-  /**
-   * The name of the global secondary index. Default is Gs#.
-   */
-  indexName?: string;
-}
+type StandardGlobalSecondaryIndexPropsV2 = Partial<GlobalSecondaryIndexPropsV2>;
 
 type StandardTablePropsV2OmitFields =
   | 'tableName'
