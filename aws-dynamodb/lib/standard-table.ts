@@ -7,14 +7,13 @@ import {
   TableProps,
 } from 'aws-cdk-lib/aws-dynamodb';
 
-type StandardGlobalSecondaryIndexPropsOmitFields =
-  | 'partitionKey'
-  | 'sortKey'
-  | 'indexName';
+type Merge<T, U> = {[P in Exclude<keyof T, keyof U>]: T[P]} & U;
 
-type StandardGlobalSecondaryIndexProps = Omit<
-  GlobalSecondaryIndexProps,
-  StandardGlobalSecondaryIndexPropsOmitFields
+type StandardGlobalSecondaryIndexProps = Merge<
+  Omit<GlobalSecondaryIndexProps, 'partitionKey' | 'sortKey' | 'indexName'>,
+  Partial<
+    Omit<GlobalSecondaryIndexProps, 'indexName' | 'sortKey' | 'partitionKey'>
+  >
 >;
 
 type StandardTablePropsOmitFields = 'tableName' | 'partitionKey' | 'sortKey';

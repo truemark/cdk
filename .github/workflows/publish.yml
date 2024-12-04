@@ -3,7 +3,6 @@ on:
     branches:
       - '**'
   workflow_dispatch:
-name: publish
 permissions:
   contents: write
   pages: write
