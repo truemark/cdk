@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 -   Update ExtendedNodejsFunction and CdkPipeline to use Node 22 runtime as the default
--   Modified StandardTable.addGlobalSecondaryIndex to allow for more flexible index definitions 
+-   Modified StandardTable.addGlobalSecondaryIndex to allow for more flexible index definitions
 
 ## v1.17.2
 
