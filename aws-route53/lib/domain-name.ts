@@ -14,6 +14,7 @@ import {
 } from 'aws-cdk-lib/aws-certificatemanager';
 import {Duration} from 'aws-cdk-lib';
 import {toPascalCase} from '../../helpers';
+import {LatencyCnameRecord} from './latency-cname-record';
 
 /**
  * Properties for DomainName
@@ -248,6 +249,25 @@ export class DomainName {
         recordName: this.toString(),
         domainName,
         region: options?.region,
+      },
+    );
+  }
+
+  createLatencyCnameRecord(
+    scope: Construct,
+    domainName: string,
+    options?: CnameRecordOptions,
+  ): LatencyCnameRecord {
+    return new LatencyCnameRecord(
+      scope,
+      options?.id ?? `${this.scrubIdentifier(this.toIdentifier())}CnameRecord`,
+      {
+        zone: this.getHostedZone(scope),
+        recordName: this.toString(),
+        domainName,
+        ttl: options?.ttl,
+        comment: options?.comment,
+        deleteExisting: options?.deleteExisting,
       },
     );
   }

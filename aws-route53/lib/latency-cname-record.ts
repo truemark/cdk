@@ -1,11 +1,15 @@
-import {ARecord, ARecordProps, CfnRecordSet} from 'aws-cdk-lib/aws-route53';
-import {Construct} from 'constructs';
 import {Stack} from 'aws-cdk-lib';
+import {
+  CfnRecordSet,
+  CnameRecord,
+  CnameRecordProps,
+} from 'aws-cdk-lib/aws-route53';
+import {Construct} from 'constructs';
 
 /**
- * Options for LatencyARecord.
+ * Options for LatencyCnameRecord.
  */
-export interface LatencyARecordOptions {
+export interface LatencyCnameRecordOptions {
   /**
    * The region to use for the record. Default is the region of the stack.
    */
@@ -23,20 +27,20 @@ export interface LatencyARecordOptions {
 }
 
 /**
- * Properties for LatencyARecord.
+ * Properties for LatencyCnameRecord.
  */
-export interface LatencyARecordProps
-  extends ARecordProps,
-    LatencyARecordOptions {}
+export interface LatencyCnameRecordProps
+  extends CnameRecordProps,
+    LatencyCnameRecordOptions {}
 
 /**
- * An extended ARecord that performs latency based routing.
+ * An extended CnameRecord that performs latency based routing.
  */
-export class LatencyARecord extends ARecord {
+export class LatencyCnameRecord extends CnameRecord {
   /**
-   * Creates a new LatencyARecord.
+   * Creates a new LatencyCnameRecord.
    */
-  constructor(scope: Construct, id: string, props: LatencyARecordProps) {
+  constructor(scope: Construct, id: string, props: LatencyCnameRecordProps) {
     super(scope, id, props);
     const rs = this.node.defaultChild as CfnRecordSet;
     rs.region = props.region ?? Stack.of(this).region;
