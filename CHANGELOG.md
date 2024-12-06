@@ -8,8 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## v1.18.0
 
 ### Added
-  
-- Latency based Cname records to aws-route53
+
+-   Latency based Cname records to aws-route53
 
 ### Changed
 
