@@ -89,7 +89,7 @@ export class WebsiteBucket extends ExtendedConstruct {
       bucketName: domainName?.toString(),
       blockPublicAccess: new BlockPublicAccess({
         blockPublicAcls: true,
-        blockPublicPolicy: true,
+        blockPublicPolicy: false,
         ignorePublicAcls: true,
         restrictPublicBuckets: false,
       }),
