@@ -76,6 +76,7 @@ export class ExtendedBucket extends Bucket {
   deploy(config: BucketDeploymentConfig | BucketDeploymentConfig[]) {
     const configs = Array.isArray(config) ? config : [config];
     for (const c of configs) {
+      console.log('Source', c.source);
       const sources = (Array.isArray(c.source) ? c.source : [c.source]).map(
         (s) => (typeof s === 'string' ? Source.asset(s) : s),
       );
