@@ -1,22 +1,11 @@
 import {Construct} from 'constructs';
-import {
-  BlockPublicAccess,
-  Bucket,
-  BucketEncryption,
-  CorsRule,
-  ObjectOwnership,
-} from 'aws-cdk-lib/aws-s3';
+import {CorsRule} from 'aws-cdk-lib/aws-s3';
 import {
   IOrigin,
   S3OriginAccessControl,
   Signing,
 } from 'aws-cdk-lib/aws-cloudfront';
-import {
-  BucketDeployment,
-  CacheControl,
-  ISource,
-  Source,
-} from 'aws-cdk-lib/aws-s3-deployment';
+import {CacheControl, ISource} from 'aws-cdk-lib/aws-s3-deployment';
 import {Duration, RemovalPolicy, Stack} from 'aws-cdk-lib';
 import {
   ExtendedConstruct,
@@ -27,6 +16,7 @@ import {LibStandardTags} from '../../truemark';
 import {S3BucketOrigin} from 'aws-cdk-lib/aws-cloudfront-origins';
 import {Effect, Grant, IGrantable, PolicyStatement} from 'aws-cdk-lib/aws-iam';
 import * as iam from 'aws-cdk-lib/aws-iam';
+import {ExtendedBucket} from './extended-bucket';
 
 export interface CloudFrontBucketV2DeploymentConfig {
   /**
@@ -126,17 +116,10 @@ export interface CloudFrontBucketV2Props extends ExtendedConstructProps {
  * Creates a bucket for use with CloudFront using Origin Access Control (OAC).
  */
 export class CloudFrontBucketV2 extends ExtendedConstruct {
-  private deployCount = 0;
-
-  readonly bucket: Bucket;
+  readonly bucket: ExtendedBucket;
   readonly bucketName: string;
   readonly bucketArn: string;
   readonly originAccessControlId: string;
-
-  private nextDeployCount(): string {
-    const current = this.deployCount++;
-    return current === 0 ? '' : `${current}`;
-  }
 
   constructor(scope: Construct, id: string, props?: CloudFrontBucketV2Props) {
     super(scope, id, {
@@ -148,18 +131,7 @@ export class CloudFrontBucketV2 extends ExtendedConstruct {
       (props?.autoDeleteObjects ?? false) &&
       removalPolicy === RemovalPolicy.DESTROY;
 
-    this.bucket = new Bucket(this, 'Default', {
-      bucketName: props?.bucketName,
-
-      // Do not allow public access
-      blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
-
-      // Disables ACLs on the bucket and we use policies to define access
-      objectOwnership: ObjectOwnership.BUCKET_OWNER_ENFORCED,
-
-      // CloudFront cannot use KMS with S3
-      encryption: BucketEncryption.S3_MANAGED,
-
+    this.bucket = new ExtendedBucket(this, 'Default', {
       removalPolicy,
       autoDeleteObjects,
       versioned: props?.versioned ?? false,
@@ -198,32 +170,13 @@ export class CloudFrontBucketV2 extends ExtendedConstruct {
   ) {
     const configs = Array.isArray(config) ? config : [config];
     for (const c of configs) {
-      const sources = (Array.isArray(c.source) ? c.source : [c.source]).map(
-        (s) => (typeof s === 'string' ? Source.asset(s) : s),
-      );
-
-      const exclude = c.exclude
-        ? Array.isArray(c.exclude)
-          ? c.exclude
-          : [c.exclude]
-        : [];
-      const cacheControl = c.cacheControl ?? [
-        CacheControl.maxAge(c.maxAge ?? Duration.minutes(15)),
-        CacheControl.sMaxAge(c.sMaxAge ?? Duration.days(7)),
-      ];
-      const deploy = new BucketDeployment(
-        this,
-        `Deploy${this.nextDeployCount()}`,
-        {
-          sources,
-          destinationBucket: this.bucket,
-          destinationKeyPrefix: c.prefix,
-          prune: c.prune,
-          cacheControl,
-          exclude,
-        },
-      );
-      deploy.node.addDependency(this.bucket);
+      this.bucket.deploy({
+        ...config,
+        cacheControl: c.cacheControl ?? [
+          CacheControl.maxAge(c.maxAge ?? Duration.minutes(15)),
+          CacheControl.sMaxAge(c.sMaxAge ?? Duration.days(7)),
+        ],
+      });
     }
   }
 

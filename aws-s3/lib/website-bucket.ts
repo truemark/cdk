@@ -1,10 +1,5 @@
 import {Construct} from 'constructs';
-import {
-  Bucket,
-  BucketEncryption,
-  RedirectTarget,
-  RoutingRule,
-} from 'aws-cdk-lib/aws-s3';
+import {RedirectTarget, RoutingRule} from 'aws-cdk-lib/aws-s3';
 import {DomainName, LatencyARecord, WeightedARecord} from '../../aws-route53';
 import {ARecord, IHostedZone, RecordTarget} from 'aws-cdk-lib/aws-route53';
 import {BucketWebsiteTarget} from 'aws-cdk-lib/aws-route53-targets';
@@ -16,19 +11,31 @@ import {
 } from 'aws-cdk-lib/aws-s3-deployment';
 import {Grant, IGrantable} from 'aws-cdk-lib/aws-iam';
 import * as iam from 'aws-cdk-lib/aws-iam';
+import {ExtendedConstruct} from '../../aws-cdk';
+import {ExtendedBucket} from './extended-bucket';
 
 /**
  * Domain name properties for a bucket based website.
  */
 export interface WebsiteDomainNameProps {
+  /**
+   * Domain name prefix for the site.
+   */
   readonly prefix?: string;
 
+  /**
+   * Base domain name of the site.
+   */
   readonly zone: string | IHostedZone;
 
-  readonly weight?: number;
-
+  /**
+   * Weather to create latency based routing record. Default is true.
+   */
   readonly latency?: boolean;
 
+  /**
+   * Whether to create the domain name record. Default is true.
+   */
   readonly create?: boolean;
 }
 
@@ -64,8 +71,8 @@ export interface WebsiteBucketProps {
 /**
  * Simple Construct for creating buckets that will be accessed directly as a website.
  */
-export class WebsiteBucket extends Construct {
-  readonly bucket: Bucket;
+export class WebsiteBucket extends ExtendedConstruct {
+  readonly bucket: ExtendedBucket;
   readonly bucketName: string;
   readonly bucketArn: string;
   readonly bucketWebsiteUrl: string;
@@ -75,11 +82,6 @@ export class WebsiteBucket extends Construct {
   constructor(scope: Construct, id: string, props?: WebsiteBucketProps) {
     super(scope, id);
 
-    const removalPolicy = props?.removalPolicy ?? RemovalPolicy.RETAIN;
-    const autoDeleteObjects =
-      (props?.autoDeleteObjects ?? false) &&
-      removalPolicy === RemovalPolicy.DESTROY;
-
     const domainName =
       props?.domainName === undefined
         ? undefined
@@ -88,16 +90,13 @@ export class WebsiteBucket extends Construct {
             zone: props.domainName.zone,
           });
 
-    this.bucket = new Bucket(this, 'Default', {
+    this.bucket = new ExtendedBucket(this, 'Default', {
       bucketName: domainName?.toString(),
-      encryption: BucketEncryption.S3_MANAGED,
       publicReadAccess: true,
       websiteIndexDocument: props?.websiteIndexDocument ?? 'index.html',
       websiteErrorDocument: props?.websiteErrorDocument ?? 'error.html',
       websiteRedirect: props?.websiteRedirect,
       websiteRoutingRules: props?.websiteRoutingRules,
-      removalPolicy,
-      autoDeleteObjects,
     });
     this.bucketName = this.bucket.bucketName;
     this.bucketArn = this.bucket.bucketArn;
@@ -105,20 +104,13 @@ export class WebsiteBucket extends Construct {
     this.bucketWebsiteDomainName = this.bucket.bucketWebsiteDomainName;
 
     if (domainName !== undefined && (props?.domainName?.create ?? true)) {
-      const target = RecordTarget.fromAlias(
+      const recordTarget = RecordTarget.fromAlias(
         new BucketWebsiteTarget(this.bucket),
       );
-      // TODO Evaluate
-      if (props?.domainName?.latency !== undefined) {
-        this.record = domainName.createLatencyARecord(this, target);
-      } else if (props?.domainName?.weight !== undefined) {
-        this.record = domainName.createWeightedARecord(
-          this,
-          target,
-          props.domainName.weight,
-        );
+      if (props?.domainName?.latency ?? true) {
+        domainName.createLatencyARecord(this, recordTarget);
       } else {
-        this.record = domainName.createARecord(this, target);
+        domainName.createARecord(this, recordTarget);
       }
     }
   }
