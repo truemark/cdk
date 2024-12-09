@@ -73,6 +73,13 @@ export class ExtendedBucket extends Bucket {
     return current === 0 ? '' : `${current}`;
   }
 
+  /**
+   * Deploys files to the bucket.
+   *
+   * @param scope the scope to create the BucketDeployment in.
+   *
+   * @param config the deployment configurations
+   */
   deploy(
     scope: Construct,
     config: BucketDeploymentConfig | BucketDeploymentConfig[],
