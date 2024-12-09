@@ -10,11 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 -   Latency based Cname records to aws-route53
+-   Added ExtendedBucket and refactored WebsiteBucket and CloudFrontBucketV2 to use it
 
 ### Changed
 
 -   Update ExtendedNodejsFunction and CdkPipeline to use Node 22 runtime as the default
 -   Modified StandardTable.addGlobalSecondaryIndex to allow for more flexible index definitions
+-   Simplified deploy methods on WebsiteBucket and CloudFrontBucketV2
 
 ## v1.17.2
 
