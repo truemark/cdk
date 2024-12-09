@@ -73,7 +73,10 @@ export class ExtendedBucket extends Bucket {
     return current === 0 ? '' : `${current}`;
   }
 
-  deploy(config: BucketDeploymentConfig | BucketDeploymentConfig[]) {
+  deploy(
+    scope: Construct,
+    config: BucketDeploymentConfig | BucketDeploymentConfig[],
+  ) {
     const configs = Array.isArray(config) ? config : [config];
     for (const c of configs) {
       const sources = (Array.isArray(c.source) ? c.source : [c.source]).map(
@@ -84,7 +87,7 @@ export class ExtendedBucket extends Bucket {
           ? c.exclude
           : [c.exclude]
         : [];
-      new BucketDeployment(this, `Deploy${this.nextDeployCount()}`, {
+      new BucketDeployment(scope, `Deploy${this.nextDeployCount()}`, {
         sources,
         destinationBucket: this,
         destinationKeyPrefix: c.prefix,
