@@ -28,11 +28,6 @@ export interface WebsiteDomainNameProps {
    * Weather to create latency based routing record. Default is true.
    */
   readonly latency?: boolean;
-
-  /**
-   * Whether to create the domain name record. Default is true.
-   */
-  readonly create?: boolean;
 }
 
 /**
@@ -99,7 +94,7 @@ export class WebsiteBucket extends ExtendedConstruct {
     this.bucketWebsiteUrl = this.bucket.bucketWebsiteUrl;
     this.bucketWebsiteDomainName = this.bucket.bucketWebsiteDomainName;
 
-    if (domainName !== undefined && (props?.domainName?.create ?? true)) {
+    if (domainName !== undefined) {
       const recordTarget = RecordTarget.fromAlias(
         new BucketWebsiteTarget(this.bucket),
       );
