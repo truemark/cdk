@@ -96,7 +96,6 @@ export class ExtendedBucket extends Bucket {
           exclude,
         },
       );
-      deploy.node.addDependency(this);
     }
   }
 }
