@@ -1,5 +1,9 @@
 import {Construct} from 'constructs';
-import {RedirectTarget, RoutingRule} from 'aws-cdk-lib/aws-s3';
+import {
+  BlockPublicAccess,
+  RedirectTarget,
+  RoutingRule,
+} from 'aws-cdk-lib/aws-s3';
 import {DomainName, LatencyARecord, WeightedARecord} from '../../aws-route53';
 import {ARecord, IHostedZone, RecordTarget} from 'aws-cdk-lib/aws-route53';
 import {BucketWebsiteTarget} from 'aws-cdk-lib/aws-route53-targets';
@@ -83,7 +87,8 @@ export class WebsiteBucket extends ExtendedConstruct {
 
     this.bucket = new ExtendedBucket(this, 'Default', {
       bucketName: domainName?.toString(),
-      blockPublicAccess: undefined,
+      blockPublicAccess: BlockPublicAccess.BLOCK_ACLS,
+      publicReadAccess: true,
       websiteIndexDocument: props?.websiteIndexDocument ?? 'index.html',
       websiteErrorDocument: props?.websiteErrorDocument ?? 'error.html',
       websiteRedirect: props?.websiteRedirect,
