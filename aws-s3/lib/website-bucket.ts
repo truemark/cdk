@@ -83,7 +83,7 @@ export class WebsiteBucket extends ExtendedConstruct {
 
     this.bucket = new ExtendedBucket(this, 'Default', {
       bucketName: domainName?.toString(),
-      publicReadAccess: true,
+      blockPublicAccess: undefined,
       websiteIndexDocument: props?.websiteIndexDocument ?? 'index.html',
       websiteErrorDocument: props?.websiteErrorDocument ?? 'error.html',
       websiteRedirect: props?.websiteRedirect,
