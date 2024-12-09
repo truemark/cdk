@@ -84,18 +84,14 @@ export class ExtendedBucket extends Bucket {
           ? c.exclude
           : [c.exclude]
         : [];
-      const deploy = new BucketDeployment(
-        this,
-        `Deploy${this.nextDeployCount()}`,
-        {
-          sources,
-          destinationBucket: this,
-          destinationKeyPrefix: c.prefix,
-          prune: c.prune,
-          cacheControl: c.cacheControl,
-          exclude,
-        },
-      );
+      new BucketDeployment(this, `Deploy${this.nextDeployCount()}`, {
+        sources,
+        destinationBucket: this,
+        destinationKeyPrefix: c.prefix,
+        prune: c.prune,
+        cacheControl: c.cacheControl,
+        exclude,
+      });
     }
   }
 }
