@@ -87,7 +87,12 @@ export class WebsiteBucket extends ExtendedConstruct {
 
     this.bucket = new ExtendedBucket(this, 'Default', {
       bucketName: domainName?.toString(),
-      blockPublicAccess: BlockPublicAccess.BLOCK_ACLS,
+      blockPublicAccess: new BlockPublicAccess({
+        blockPublicAcls: true,
+        blockPublicPolicy: false,
+        ignorePublicAcls: false,
+        restrictPublicBuckets: false,
+      }),
       publicReadAccess: true,
       websiteIndexDocument: props?.websiteIndexDocument ?? 'index.html',
       websiteErrorDocument: props?.websiteErrorDocument ?? 'error.html',
