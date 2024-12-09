@@ -4,15 +4,11 @@ import {DomainName, LatencyARecord, WeightedARecord} from '../../aws-route53';
 import {ARecord, IHostedZone, RecordTarget} from 'aws-cdk-lib/aws-route53';
 import {BucketWebsiteTarget} from 'aws-cdk-lib/aws-route53-targets';
 import {RemovalPolicy, Duration} from 'aws-cdk-lib';
-import {
-  BucketDeployment,
-  CacheControl,
-  Source,
-} from 'aws-cdk-lib/aws-s3-deployment';
+import {CacheControl} from 'aws-cdk-lib/aws-s3-deployment';
 import {Grant, IGrantable} from 'aws-cdk-lib/aws-iam';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import {ExtendedConstruct} from '../../aws-cdk';
-import {ExtendedBucket} from './extended-bucket';
+import {BucketDeploymentConfig, ExtendedBucket} from './extended-bucket';
 
 /**
  * Domain name properties for a bucket based website.
@@ -116,32 +112,21 @@ export class WebsiteBucket extends ExtendedConstruct {
   }
 
   /**
-   * Helper method to deploy local assets to the created bucket. Ths function assumes
-   * CloudFront invalidation requests will be sent for mutable files to serve new content.
-   * For more complicated deployments, use BucketDeployment directly.
+   * See `ExtendedBucket.deploy. This method adds a default max-age of 15 days and s-maxage of 7 days.
    *
-   * @param path the path to the local assets
-   * @param maxAge the length of time to browsers will cache files; default is Duration.minutes(15)
-   * @param sMaxAge the length of time CloudFront will cache files; default is Duration.days(7)
-   * @param prune
+   * @param config the deployment configurations
    */
-  deploy(
-    path: string,
-    maxAge?: Duration,
-    sMaxAge?: Duration,
-    prune?: boolean,
-  ): BucketDeployment {
-    return new BucketDeployment(this, 'Deploy', {
-      sources: [Source.asset(path)],
-      destinationBucket: this.bucket,
-      prune: prune ?? false,
-      memoryLimit: 512,
-      cacheControl: [
-        CacheControl.setPublic(),
-        CacheControl.maxAge(maxAge ?? Duration.minutes(15)),
-        CacheControl.sMaxAge(sMaxAge ?? Duration.days(7)),
-      ],
-    });
+  deploy(config: BucketDeploymentConfig | BucketDeploymentConfig[]) {
+    const configs = Array.isArray(config) ? config : [config];
+    for (const c of configs) {
+      this.bucket.deploy({
+        ...config,
+        cacheControl: c.cacheControl ?? [
+          CacheControl.maxAge(Duration.minutes(15)),
+          CacheControl.sMaxAge(Duration.days(7)),
+        ],
+      });
+    }
   }
 
   /**

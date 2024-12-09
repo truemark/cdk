@@ -5,7 +5,7 @@ import {
   S3OriginAccessControl,
   Signing,
 } from 'aws-cdk-lib/aws-cloudfront';
-import {CacheControl, ISource} from 'aws-cdk-lib/aws-s3-deployment';
+import {CacheControl} from 'aws-cdk-lib/aws-s3-deployment';
 import {Duration, RemovalPolicy, Stack} from 'aws-cdk-lib';
 import {
   ExtendedConstruct,
@@ -16,44 +16,7 @@ import {LibStandardTags} from '../../truemark';
 import {S3BucketOrigin} from 'aws-cdk-lib/aws-cloudfront-origins';
 import {Effect, Grant, IGrantable, PolicyStatement} from 'aws-cdk-lib/aws-iam';
 import * as iam from 'aws-cdk-lib/aws-iam';
-import {ExtendedBucket} from './extended-bucket';
-
-export interface CloudFrontBucketV2DeploymentConfig {
-  /**
-   * The paths or sources to deploy.
-   */
-  readonly source: string | string[] | ISource | ISource[];
-
-  /**
-   * Prefix to add to the deployment path in the bucket.
-   */
-  readonly prefix?: string;
-
-  /**
-   * Paths to exclude from the deployment.
-   */
-  readonly exclude?: string | string[];
-
-  /**
-   * Sets the max-age in the Cache-Control header. Default is 15 minutes.
-   */
-  readonly maxAge?: Duration;
-
-  /**
-   * Sets the s-maxage in the Cache-Control header. Default is 7 days.
-   */
-  readonly sMaxAge?: Duration;
-
-  /**
-   * Additional Cache-Control directives to set. Default is none.
-   */
-  readonly cacheControl?: CacheControl[];
-
-  /**
-   * Whether to prune objects that exist in the bucket but not in the assets. Default is false.
-   */
-  readonly prune?: boolean;
-}
+import {BucketDeploymentConfig, ExtendedBucket} from './extended-bucket';
 
 /**
  * Properties for CloudFrontBucketV2.
@@ -163,18 +126,19 @@ export class CloudFrontBucketV2 extends ExtendedConstruct {
     this.originAccessControlId = oac.originAccessControlId;
   }
 
-  deploy(
-    config:
-      | CloudFrontBucketV2DeploymentConfig
-      | CloudFrontBucketV2DeploymentConfig[],
-  ) {
+  /**
+   * See `ExtendedBucket.deploy. This method adds a default max-age of 15 days and s-maxage of 7 days.
+   *
+   * @param config the deployment configurations
+   */
+  deploy(config: BucketDeploymentConfig | BucketDeploymentConfig[]) {
     const configs = Array.isArray(config) ? config : [config];
     for (const c of configs) {
       this.bucket.deploy({
         ...config,
         cacheControl: c.cacheControl ?? [
-          CacheControl.maxAge(c.maxAge ?? Duration.minutes(15)),
-          CacheControl.sMaxAge(c.sMaxAge ?? Duration.days(7)),
+          CacheControl.maxAge(Duration.minutes(15)),
+          CacheControl.sMaxAge(Duration.days(7)),
         ],
       });
     }
