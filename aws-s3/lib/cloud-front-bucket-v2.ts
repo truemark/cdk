@@ -135,7 +135,7 @@ export class CloudFrontBucketV2 extends ExtendedConstruct {
     const configs = Array.isArray(config) ? config : [config];
     for (const c of configs) {
       this.bucket.deploy({
-        ...config,
+        ...c,
         cacheControl: c.cacheControl ?? [
           CacheControl.maxAge(Duration.minutes(15)),
           CacheControl.sMaxAge(Duration.days(7)),
