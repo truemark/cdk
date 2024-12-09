@@ -79,6 +79,7 @@ export class ExtendedBucket extends Bucket {
       const sources = (Array.isArray(c.source) ? c.source : [c.source]).map(
         (s) => (typeof s === 'string' ? Source.asset(s) : s),
       );
+      console.log('Sources', sources);
       const exclude = c.exclude
         ? Array.isArray(c.exclude)
           ? c.exclude
