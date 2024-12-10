@@ -3,17 +3,14 @@
  */
 export interface OtelConfig {
   /**
-   * Optional: Enables or disables the OpenTelemetry (OTEL) container for this service.
-   *
-   * @default - false
+   * Optional: Enables or disables the OpenTelemetry (OTEL) container for this service. Defaults to false.
    */
   readonly enabled?: boolean;
 
   /**
    * The container image to use for the OTEL (OpenTelemetry) container.
    * This allows the user to override the default image.
-   *
-   * @default - 'public.ecr.aws/aws-observability/aws-otel-collector:latest'
+   * Defaults 'public.ecr.aws/aws-observability/aws-otel-collector:latest'
    */
   readonly collectorImage?: string;
 
@@ -40,8 +37,7 @@ export interface OtelConfig {
 
   /**
    * Otel Collector side-car container name.
-   *
-   * @default otel-collector
+   * Defaults to 'otel-collector'.
    */
   readonly containerName?: string;
 
@@ -53,9 +49,7 @@ export interface OtelConfig {
   readonly containerCpu?: number;
 
   /**
-   * The memory allocated to the otel container.
-   *
-   * @default - 512
+   * The memory allocated to the otel container. Defaults to 512.
    */
   readonly containerMemoryLimitMiB?: number;
 }
