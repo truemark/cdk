@@ -4,7 +4,6 @@ on:
       - main
       - develop
   workflow_dispatch:
-name: ci
 jobs:
   ci:
     uses: truemark/github-workflows/.github/workflows/javascript-library-build.yml@main

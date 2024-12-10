@@ -7,15 +7,7 @@ import {
   TableProps,
 } from 'aws-cdk-lib/aws-dynamodb';
 
-type StandardGlobalSecondaryIndexPropsOmitFields =
-  | 'partitionKey'
-  | 'sortKey'
-  | 'indexName';
-
-type StandardGlobalSecondaryIndexProps = Omit<
-  GlobalSecondaryIndexProps,
-  StandardGlobalSecondaryIndexPropsOmitFields
->;
+type StandardGlobalSecondaryIndexProps = Partial<GlobalSecondaryIndexProps>;
 
 type StandardTablePropsOmitFields = 'tableName' | 'partitionKey' | 'sortKey';
 
@@ -76,17 +68,20 @@ export class StandardTable extends ExtendedTable {
    */
   addGlobalSecondaryIndex(props: StandardGlobalSecondaryIndexProps) {
     this.secondaryIndexCount++;
-    const indexName = `Gs${this.secondaryIndexCount}`;
+    const indexName = props.indexName ?? `Gs${this.secondaryIndexCount}`;
     super.addGlobalSecondaryIndex({
       indexName,
-      partitionKey: {
+      partitionKey: props.partitionKey ?? {
         name: `Gs${this.secondaryIndexCount}Pk`,
         type: AttributeType.STRING,
       },
-      sortKey: {
-        name: `Gs${this.secondaryIndexCount}Sk`,
-        type: AttributeType.STRING,
-      },
+      sortKey:
+        props.sortKey === null
+          ? undefined
+          : (props.sortKey ?? {
+              name: `Gs${this.secondaryIndexCount}Sk`,
+              type: AttributeType.STRING,
+            }),
       ...props,
     });
     if (this.tableAlarms) {

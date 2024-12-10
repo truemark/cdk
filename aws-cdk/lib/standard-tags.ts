@@ -5,6 +5,7 @@ export const EXCLUDED_RESOURCES = [
   // OAM resources do not like : in the tag names. See https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-oam-link.html#cfn-oam-link-tags
   'AWS::Oam::Link',
   'AWS::Oam::Sink',
+  'AWS::OpenSearchServerless::Collection',
 ];
 
 /**
@@ -553,6 +554,13 @@ export class StandardTags {
     from?: StandardTagsProps,
     to?: StandardTagsProps,
   ): StandardTagsProps {
+    let excludeResourceTypes: string[] | undefined = undefined;
+    if (from?.excludeResourceTypes || to?.excludeResourceTypes) {
+      excludeResourceTypes = [
+        ...(from?.excludeResourceTypes ?? []),
+        ...(to?.excludeResourceTypes ?? []),
+      ];
+    }
     let automationComponentTags: AutomationComponentTagsProps | undefined =
       undefined;
     if (from?.automationComponentTags || to?.automationComponentTags) {
@@ -615,6 +623,7 @@ export class StandardTags {
       securityTags,
       teamTags,
       suppressTagging: to?.suppressTagging ?? from?.suppressTagging ?? false,
+      excludeResourceTypes,
     };
   }
 }

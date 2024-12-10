@@ -436,7 +436,7 @@ export class CdkPipeline extends Construct {
           phases: {
             install: {
               'runtime-versions': {
-                nodejs: props.nodeVersion ?? NodeVersion.NODE_20,
+                nodejs: props.nodeVersion ?? NodeVersion.NODE_22,
                 go: props.goVersion,
                 java: props.javaVersion,
                 dotnet: props.dotnetVersion,

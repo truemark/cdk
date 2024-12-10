@@ -1,7 +1,6 @@
 import {Construct} from 'constructs';
 import {
-  Bucket,
-  BucketEncryption,
+  BlockPublicAccess,
   RedirectTarget,
   RoutingRule,
 } from 'aws-cdk-lib/aws-s3';
@@ -9,27 +8,30 @@ import {DomainName, LatencyARecord, WeightedARecord} from '../../aws-route53';
 import {ARecord, IHostedZone, RecordTarget} from 'aws-cdk-lib/aws-route53';
 import {BucketWebsiteTarget} from 'aws-cdk-lib/aws-route53-targets';
 import {RemovalPolicy, Duration} from 'aws-cdk-lib';
-import {
-  BucketDeployment,
-  CacheControl,
-  Source,
-} from 'aws-cdk-lib/aws-s3-deployment';
+import {CacheControl} from 'aws-cdk-lib/aws-s3-deployment';
 import {Grant, IGrantable} from 'aws-cdk-lib/aws-iam';
 import * as iam from 'aws-cdk-lib/aws-iam';
+import {ExtendedConstruct} from '../../aws-cdk';
+import {BucketDeploymentConfig, ExtendedBucket} from './extended-bucket';
 
 /**
  * Domain name properties for a bucket based website.
  */
 export interface WebsiteDomainNameProps {
+  /**
+   * Domain name prefix for the site.
+   */
   readonly prefix?: string;
 
+  /**
+   * Base domain name of the site.
+   */
   readonly zone: string | IHostedZone;
 
-  readonly weight?: number;
-
+  /**
+   * Weather to create latency based routing record. Default is true.
+   */
   readonly latency?: boolean;
-
-  readonly create?: boolean;
 }
 
 /**
@@ -64,8 +66,8 @@ export interface WebsiteBucketProps {
 /**
  * Simple Construct for creating buckets that will be accessed directly as a website.
  */
-export class WebsiteBucket extends Construct {
-  readonly bucket: Bucket;
+export class WebsiteBucket extends ExtendedConstruct {
+  readonly bucket: ExtendedBucket;
   readonly bucketName: string;
   readonly bucketArn: string;
   readonly bucketWebsiteUrl: string;
@@ -75,11 +77,6 @@ export class WebsiteBucket extends Construct {
   constructor(scope: Construct, id: string, props?: WebsiteBucketProps) {
     super(scope, id);
 
-    const removalPolicy = props?.removalPolicy ?? RemovalPolicy.RETAIN;
-    const autoDeleteObjects =
-      (props?.autoDeleteObjects ?? false) &&
-      removalPolicy === RemovalPolicy.DESTROY;
-
     const domainName =
       props?.domainName === undefined
         ? undefined
@@ -88,68 +85,53 @@ export class WebsiteBucket extends Construct {
             zone: props.domainName.zone,
           });
 
-    this.bucket = new Bucket(this, 'Default', {
+    this.bucket = new ExtendedBucket(this, 'Default', {
       bucketName: domainName?.toString(),
-      encryption: BucketEncryption.S3_MANAGED,
+      blockPublicAccess: new BlockPublicAccess({
+        blockPublicAcls: true,
+        blockPublicPolicy: false,
+        ignorePublicAcls: true,
+        restrictPublicBuckets: false,
+      }),
       publicReadAccess: true,
       websiteIndexDocument: props?.websiteIndexDocument ?? 'index.html',
       websiteErrorDocument: props?.websiteErrorDocument ?? 'error.html',
       websiteRedirect: props?.websiteRedirect,
       websiteRoutingRules: props?.websiteRoutingRules,
-      removalPolicy,
-      autoDeleteObjects,
     });
     this.bucketName = this.bucket.bucketName;
     this.bucketArn = this.bucket.bucketArn;
     this.bucketWebsiteUrl = this.bucket.bucketWebsiteUrl;
     this.bucketWebsiteDomainName = this.bucket.bucketWebsiteDomainName;
 
-    if (domainName !== undefined && (props?.domainName?.create ?? true)) {
-      const target = RecordTarget.fromAlias(
+    if (domainName !== undefined) {
+      const recordTarget = RecordTarget.fromAlias(
         new BucketWebsiteTarget(this.bucket),
       );
-      // TODO Evaluate
-      if (props?.domainName?.latency !== undefined) {
-        this.record = domainName.createLatencyARecord(this, target);
-      } else if (props?.domainName?.weight !== undefined) {
-        this.record = domainName.createWeightedARecord(
-          this,
-          target,
-          props.domainName.weight,
-        );
+      if (props?.domainName?.latency ?? true) {
+        domainName.createLatencyARecord(this, recordTarget);
       } else {
-        this.record = domainName.createARecord(this, target);
+        domainName.createARecord(this, recordTarget);
       }
     }
   }
 
   /**
-   * Helper method to deploy local assets to the created bucket. Ths function assumes
-   * CloudFront invalidation requests will be sent for mutable files to serve new content.
-   * For more complicated deployments, use BucketDeployment directly.
+   * See `ExtendedBucket.deploy. This method adds a default max-age of 15 days and s-maxage of 7 days.
    *
-   * @param path the path to the local assets
-   * @param maxAge the length of time to browsers will cache files; default is Duration.minutes(15)
-   * @param sMaxAge the length of time CloudFront will cache files; default is Duration.days(7)
-   * @param prune
+   * @param config the deployment configurations
    */
-  deploy(
-    path: string,
-    maxAge?: Duration,
-    sMaxAge?: Duration,
-    prune?: boolean,
-  ): BucketDeployment {
-    return new BucketDeployment(this, 'Deploy', {
-      sources: [Source.asset(path)],
-      destinationBucket: this.bucket,
-      prune: prune ?? false,
-      memoryLimit: 512,
-      cacheControl: [
-        CacheControl.setPublic(),
-        CacheControl.maxAge(maxAge ?? Duration.minutes(15)),
-        CacheControl.sMaxAge(sMaxAge ?? Duration.days(7)),
-      ],
-    });
+  deploy(config: BucketDeploymentConfig | BucketDeploymentConfig[]) {
+    const configs = Array.isArray(config) ? config : [config];
+    for (const c of configs) {
+      this.bucket.deploy(this, {
+        ...c,
+        cacheControl: c.cacheControl ?? [
+          CacheControl.maxAge(Duration.minutes(15)),
+          CacheControl.sMaxAge(Duration.days(7)),
+        ],
+      });
+    }
   }
 
   /**
