@@ -14,10 +14,11 @@ import {
   ScalableTaskCount,
   Secret,
 } from 'aws-cdk-lib/aws-ecs';
+import {StringParameter} from 'aws-cdk-lib/aws-ssm';
 import {LogConfiguration} from './log-configuration';
 import {SecurityGroup, SubnetSelection, SubnetType} from 'aws-cdk-lib/aws-ec2';
 import {LogGroup, RetentionDays} from 'aws-cdk-lib/aws-logs';
-import {Duration, RemovalPolicy} from 'aws-cdk-lib';
+import {Duration, RemovalPolicy, Stack} from 'aws-cdk-lib';
 import {PolicyStatement} from 'aws-cdk-lib/aws-iam';
 import {BasicStepScalingPolicyProps} from 'aws-cdk-lib/aws-autoscaling';
 import {IMetric} from 'aws-cdk-lib/aws-cloudwatch';
@@ -28,6 +29,8 @@ import {
   StandardTags,
 } from '../../aws-cdk';
 import {LibStandardTags} from '../../truemark';
+import * as path from 'node:path';
+import {OtelConfig} from './otel-configuration';
 
 /**
  * Properties for StandardFargateService.
@@ -281,6 +284,12 @@ export interface StandardFargateServiceProps extends ExtendedConstructProps {
    * property unless you are working with an Application Load Balancer. Default is undefined.
    */
   readonly healthCheckGracePeriod?: Duration;
+
+  /**
+   * Setting the Standard OpenTelemetry (OTEL) configuration for ECS services.
+   *
+   */
+  readonly otel?: OtelConfig;
 }
 
 /**
@@ -414,7 +423,108 @@ export class StandardFargateService extends ExtendedConstruct {
       secrets: props.secrets,
     });
 
-    // TODO Otel Collector
+    // Add Otel container if enabled
+    const otel = props.otel;
+    if (otel && otel.enabled) {
+      let otelConfigPathLocal: string;
+      if (otel.configPath) {
+        otelConfigPathLocal = otel.configPath;
+      } else {
+        otelConfigPathLocal = path.resolve(
+          __dirname,
+          '../../resources/ecs-otel-task-metrics-config.yaml',
+        );
+      }
+
+      const otelContainerName = otel.containerName ?? 'otel-collector';
+      taskDefinition.addContainer('Otel', {
+        containerName: otelContainerName,
+        image: ContainerImage.fromRegistry(
+          otel.collectorImage ??
+            'public.ecr.aws/aws-observability/aws-otel-collector:latest',
+        ),
+        cpu: otel.containerCpu ?? 256,
+        memoryLimitMiB: otel.containerMemoryLimitMiB ?? 512,
+        logging: LogDriver.awsLogs({
+          streamPrefix: otelContainerName,
+          logGroup: logGroup,
+        }),
+        ...(otel.ssmConfigContentParam
+          ? {
+              secrets: {
+                AOT_CONFIG_CONTENT: Secret.fromSsmParameter(
+                  StringParameter.fromStringParameterName(
+                    this,
+                    'OtelSSMConfigParam',
+                    otel.ssmConfigContentParam,
+                  ),
+                ),
+              },
+            }
+          : {
+              command: [`--config=${otelConfigPathLocal}`],
+            }),
+        environment: otel.environmentVariables ?? {},
+        healthCheck: {
+          command: ['CMD', '/healthcheck'],
+          interval: Duration.seconds(10),
+          timeout: Duration.seconds(5),
+          retries: 5,
+          startPeriod: Duration.seconds(30),
+        },
+      });
+
+      // Add SSM permissions to read parameters
+      if (otel.ssmConfigContentParam) {
+        taskDefinition.addToTaskRolePolicy(
+          new PolicyStatement({
+            resources: [
+              `arn:aws:ssm:${Stack.of(this).region}:${
+                Stack.of(this).account
+              }:parameter${otel.ssmConfigContentParam}`,
+            ],
+            actions: ['ssm:GetParameters', 'ssm:GetParametersByPath'],
+          }),
+        );
+      }
+
+      // Add AMP permissions for remote write to Prometheus
+      if (otel.ampWorkSpaceId) {
+        taskDefinition.addToTaskRolePolicy(
+          new PolicyStatement({
+            resources: [
+              `arn:aws:aps:${Stack.of(this).region}:${
+                Stack.of(this).account
+              }:workspace/${otel.ampWorkSpaceId}`,
+            ],
+            actions: ['aps:RemoteWrite'],
+          }),
+        );
+      }
+
+      // Add permission to permit otel events
+      taskDefinition.addToTaskRolePolicy(
+        new PolicyStatement({
+          resources: ['*'],
+          actions: [
+            'logs:PutLogEvents',
+            'logs:CreateLogGroup',
+            'logs:CreateLogStream',
+            'logs:DescribeLogStreams',
+            'logs:DescribeLogGroups',
+            'logs:PutRetentionPolicy',
+            'xray:PutTraceSegments',
+            'xray:PutTelemetryRecords',
+            'xray:GetSamplingRules',
+            'xray:GetSamplingTargets',
+            'xray:GetSamplingStatisticSummaries',
+            'aps:PutMetricData',
+            'aps:GetSeries',
+            'aps:GetLabels',
+          ],
+        }),
+      );
+    }
 
     const vpcSubnets = this.resolveVpcSubnets(this, props);
     const desiredCount = props.desiredCount ?? props.minCapacity ?? 1;

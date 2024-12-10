@@ -17,6 +17,12 @@ importers:
       '@aws-cdk/aws-redshift-alpha':
         specifier: 2.170.0-alpha.0
         version: 2.170.0-alpha.0(aws-cdk-lib@2.170.0(constructs@10.4.2))(constructs@10.4.2)
+      '@aws-sdk/client-dynamodb':
+        specifier: ^3.699.0
+        version: 3.699.0
+      '@aws-sdk/util-dynamodb':
+        specifier: ^3.699.0
+        version: 3.699.0(@aws-sdk/client-dynamodb@3.699.0)
       aws-cdk-lib:
         specifier: 2.170.0
         version: 2.170.0(constructs@10.4.2)
@@ -26,13 +32,13 @@ importers:
       constructs:
         specifier: 10.4.2
         version: 10.4.2
+      typescript:
+        specifier: ~5.7.2
+        version: 5.7.2
+      typescript-eslint:
+        specifier: ^8.15.0
+        version: 8.15.0(eslint@9.15.0)(typescript@5.7.2)
     devDependencies:
-      '@aws-sdk/client-dynamodb':
-        specifier: ^3.699.0
-        version: 3.699.0
-      '@aws-sdk/util-dynamodb':
-        specifier: ^3.699.0
-        version: 3.699.0(@aws-sdk/client-dynamodb@3.699.0)
       '@types/jest':
         specifier: ^29.5.14
         version: 29.5.14
@@ -57,12 +63,6 @@ importers:
       ts-node:
         specifier: ^10.9.2
         version: 10.9.2(@types/node@22.9.3)(typescript@5.7.2)
-      typescript:
-        specifier: ~5.7.2
-        version: 5.7.2
-      typescript-eslint:
-        specifier: ^8.15.0
-        version: 8.15.0(eslint@9.15.0)(typescript@5.7.2)
 
 packages:
 

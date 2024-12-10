@@ -6,9 +6,7 @@ import {IKey} from 'aws-cdk-lib/aws-kms';
  * Standard log configuration for ECS services.
  */
 export interface LogConfiguration {
-  /** Enables logging to CloudWatch.
-   *
-   * @default - true
+  /** Enables logging to CloudWatch. Defaults to true.
    */
   readonly enabled?: boolean;
 
@@ -23,16 +21,12 @@ export interface LogConfiguration {
   readonly logGroupName?: string;
 
   /**
-   * How long, in days, the log contents will be retained.
-   *
-   * @default - RetentionDays.FIVE_DAYS
+   * How long, in days, the log contents will be retained. Defaults to five days.
    */
   readonly retention?: RetentionDays;
 
   /**
-   * Determine the removal policy of this log group
-   *
-   * @default - RemovalPolicy.DESTROY
+   * Determine the removal policy of this log group. Defaults to destroy.
    */
   readonly removalPolicy?: RemovalPolicy;
 }

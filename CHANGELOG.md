@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Update ExtendedNodejsFunction and CdkPipeline to use Node 22 runtime as the default
 -   Modified StandardTable.addGlobalSecondaryIndex to allow for more flexible index definitions
 -   Simplified deploy methods on WebsiteBucket and CloudFrontBucketV2
+-   Updated dependencies to newer versions
 
 ## v1.17.2
 
@@ -46,13 +47,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   StringHelper has been removed and all functions are now exported directly from the helpers module
 
+### Removed
+
+-   StringHelper has been removed and all functions are now exported directly from the helpers module
+
 ## v1.16.0
 
 ### Changed
 
--   Changes hashing algorithm used for identifiers on BehaviorBuilder.
+-   Changed hashing algorithm used for identifiers on BehaviorBuilder.
 -   Dependency updates
 -   Replaced GTS with standard prettier and eslint configuration
+-   Changed hashing algorithm used for identifiers on BehaviorBuilder.
 
 ## v1.15.2
 
