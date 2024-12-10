@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   Latency based Cname records to aws-route53
 -   Added ExtendedBucket and refactored WebsiteBucket and CloudFrontBucketV2 to use it
+-   Added support for creating vector indexes in OpenSearch to support Bedrock knowledge bases
 
 ### Changed
 
