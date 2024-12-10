@@ -20,9 +20,15 @@ importers:
       '@aws-sdk/client-dynamodb':
         specifier: ^3.705.0
         version: 3.705.0
+      '@aws-sdk/credential-provider-node':
+        specifier: ^3.699.0
+        version: 3.699.0(@aws-sdk/client-sso-oidc@3.699.0(@aws-sdk/client-sts@3.699.0))(@aws-sdk/client-sts@3.699.0)
       '@aws-sdk/util-dynamodb':
         specifier: ^3.705.0
         version: 3.705.0(@aws-sdk/client-dynamodb@3.705.0)
+      '@opensearch-project/opensearch':
+        specifier: ^2.13.0
+        version: 2.13.0
       aws-cdk-lib:
         specifier: 2.172.0
         version: 2.172.0(constructs@10.4.2)
@@ -39,12 +45,6 @@ importers:
         specifier: ^8.18.0
         version: 8.18.0(eslint@9.16.0)(typescript@5.7.2)
     devDependencies:
-      '@aws-sdk/credential-provider-node':
-        specifier: ^3.699.0
-        version: 3.699.0(@aws-sdk/client-sso-oidc@3.699.0(@aws-sdk/client-sts@3.699.0))(@aws-sdk/client-sts@3.699.0)
-      '@opensearch-project/opensearch':
-        specifier: ^2.13.0
-        version: 2.13.0
       '@types/jest':
         specifier: ^29.5.14
         version: 29.5.14
