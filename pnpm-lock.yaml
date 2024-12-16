@@ -10,13 +10,13 @@ importers:
     dependencies:
       '@aws-cdk/aws-lambda-go-alpha':
         specifier: ^2.172.0-alpha.0
-        version: 2.172.0-alpha.0(aws-cdk-lib@2.172.0(constructs@10.4.2))(constructs@10.4.2)
+        version: 2.172.0-alpha.0(aws-cdk-lib@2.173.1(constructs@10.4.2))(constructs@10.4.2)
       '@aws-cdk/aws-lambda-python-alpha':
         specifier: ^2.172.0-alpha.0
-        version: 2.172.0-alpha.0(aws-cdk-lib@2.172.0(constructs@10.4.2))(constructs@10.4.2)
+        version: 2.172.0-alpha.0(aws-cdk-lib@2.173.1(constructs@10.4.2))(constructs@10.4.2)
       '@aws-cdk/aws-redshift-alpha':
         specifier: ^2.172.0-alpha.0
-        version: 2.172.0-alpha.0(aws-cdk-lib@2.172.0(constructs@10.4.2))(constructs@10.4.2)
+        version: 2.172.0-alpha.0(aws-cdk-lib@2.173.1(constructs@10.4.2))(constructs@10.4.2)
       '@aws-sdk/client-dynamodb':
         specifier: ^3.705.0
         version: 3.705.0
@@ -30,11 +30,11 @@ importers:
         specifier: ^2.13.0
         version: 2.13.0
       aws-cdk-lib:
-        specifier: 2.172.0
-        version: 2.172.0(constructs@10.4.2)
+        specifier: 2.173.1
+        version: 2.173.1(constructs@10.4.2)
       cdk-monitoring-constructs:
         specifier: 9.1.2
-        version: 9.1.2(aws-cdk-lib@2.172.0(constructs@10.4.2))(constructs@10.4.2)
+        version: 9.1.2(aws-cdk-lib@2.173.1(constructs@10.4.2))(constructs@10.4.2)
       constructs:
         specifier: 10.4.2
         version: 10.4.2
@@ -1050,8 +1050,8 @@ packages:
   async@3.2.6:
     resolution: {integrity: sha512-htCUDlxyyCLMgaM3xXg0C0LW2xqfuQ6p05pCEIsXuyQ+a1koYKTuBMzRNwmybfLgvJDMd0r1LTn4+E0Ti6C2AA==}
 
-  aws-cdk-lib@2.172.0:
-    resolution: {integrity: sha512-SbFn2FyKhsHQpS7M3qeMWnRKtBHELkY3rmejk07cPlJ/BCJk/af8eKyeiNEEB0AZSfIeP4ImZCLNy9JS34mlPw==}
+  aws-cdk-lib@2.173.1:
+    resolution: {integrity: sha512-xlbom4s3sbJDoHzIQmvunTufDQoJHQK8PTh653TE3338PysMX3liZ7efET9/FSQn50S2U3nINDGhrMvjkMBoKw==}
     engines: {node: '>= 14.15.0'}
     peerDependencies:
       constructs: ^10.0.0
@@ -2180,19 +2180,19 @@ snapshots:
 
   '@aws-cdk/asset-node-proxy-agent-v6@2.1.0': {}
 
-  '@aws-cdk/aws-lambda-go-alpha@2.172.0-alpha.0(aws-cdk-lib@2.172.0(constructs@10.4.2))(constructs@10.4.2)':
+  '@aws-cdk/aws-lambda-go-alpha@2.172.0-alpha.0(aws-cdk-lib@2.173.1(constructs@10.4.2))(constructs@10.4.2)':
     dependencies:
-      aws-cdk-lib: 2.172.0(constructs@10.4.2)
+      aws-cdk-lib: 2.173.1(constructs@10.4.2)
       constructs: 10.4.2
 
-  '@aws-cdk/aws-lambda-python-alpha@2.172.0-alpha.0(aws-cdk-lib@2.172.0(constructs@10.4.2))(constructs@10.4.2)':
+  '@aws-cdk/aws-lambda-python-alpha@2.172.0-alpha.0(aws-cdk-lib@2.173.1(constructs@10.4.2))(constructs@10.4.2)':
     dependencies:
-      aws-cdk-lib: 2.172.0(constructs@10.4.2)
+      aws-cdk-lib: 2.173.1(constructs@10.4.2)
       constructs: 10.4.2
 
-  '@aws-cdk/aws-redshift-alpha@2.172.0-alpha.0(aws-cdk-lib@2.172.0(constructs@10.4.2))(constructs@10.4.2)':
+  '@aws-cdk/aws-redshift-alpha@2.172.0-alpha.0(aws-cdk-lib@2.173.1(constructs@10.4.2))(constructs@10.4.2)':
     dependencies:
-      aws-cdk-lib: 2.172.0(constructs@10.4.2)
+      aws-cdk-lib: 2.173.1(constructs@10.4.2)
       constructs: 10.4.2
 
   '@aws-cdk/cloud-assembly-schema@38.0.1': {}
@@ -3613,7 +3613,7 @@ snapshots:
 
   async@3.2.6: {}
 
-  aws-cdk-lib@2.172.0(constructs@10.4.2):
+  aws-cdk-lib@2.173.1(constructs@10.4.2):
     dependencies:
       '@aws-cdk/asset-awscli-v1': 2.2.214
       '@aws-cdk/asset-kubectl-v20': 2.1.3
@@ -3720,9 +3720,9 @@ snapshots:
 
   caniuse-lite@1.0.30001687: {}
 
-  cdk-monitoring-constructs@9.1.2(aws-cdk-lib@2.172.0(constructs@10.4.2))(constructs@10.4.2):
+  cdk-monitoring-constructs@9.1.2(aws-cdk-lib@2.173.1(constructs@10.4.2))(constructs@10.4.2):
     dependencies:
-      aws-cdk-lib: 2.172.0(constructs@10.4.2)
+      aws-cdk-lib: 2.173.1(constructs@10.4.2)
       constructs: 10.4.2
 
   chalk@4.1.2:
