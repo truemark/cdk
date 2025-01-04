@@ -40,26 +40,35 @@ export interface WebsiteDomainNameProps {
 export interface WebsiteBucketProps {
   /**
    * Policy to apply when the bucket is removed from this stack.
+   * Setting this to RemovalPolicy.DESTROY will also auto delete objects.
+   *
    * @default RemovalPolicy.RETAIN
    */
   readonly removalPolicy?: RemovalPolicy;
 
   /**
-   * Whether all objects should be automatically deleted when the bucket is removed from the stack or when the stack is deleted.
-   * Requires the removalPolicy to be set to RemovalPolicy.DESTROY.
-   *
-   * @default false
+   * Optional domain name properties for the bucket based website.
    */
-  readonly autoDeleteObjects?: boolean;
-
   readonly domainName?: WebsiteDomainNameProps;
 
+  /**
+   * The index document for the site. Default is 'index.html'.
+   */
   readonly websiteIndexDocument?: string;
 
+  /**
+   * The error document for the site. Default is 'error.html'.
+   */
   readonly websiteErrorDocument?: string;
 
+  /**
+   * Redirect all requests to another host. This could be another domain or a specific URL.
+   */
   readonly websiteRedirect?: RedirectTarget;
 
+  /**
+   * Routing rules for the website.
+   */
   readonly websiteRoutingRules?: RoutingRule[];
 }
 
@@ -98,6 +107,8 @@ export class WebsiteBucket extends ExtendedConstruct {
       websiteErrorDocument: props?.websiteErrorDocument ?? 'error.html',
       websiteRedirect: props?.websiteRedirect,
       websiteRoutingRules: props?.websiteRoutingRules,
+      removalPolicy: props?.removalPolicy ?? RemovalPolicy.RETAIN,
+      autoDeleteObjects: props?.removalPolicy === RemovalPolicy.DESTROY,
     });
     this.bucketName = this.bucket.bucketName;
     this.bucketArn = this.bucket.bucketArn;
