@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
- - Bug with WebsiteBucket where bucket would be retained when stack was deleted even if removal policy was set to DESTROY
+- Bug with WebsiteBucket where bucket would be retained when stack was deleted even if removal policy was set to DESTROY
 
 ## v1.18.0
 
