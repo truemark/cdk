@@ -52,4 +52,16 @@ export interface OtelConfig {
    * The memory allocated to the otel container. Defaults to 512.
    */
   readonly containerMemoryLimitMiB?: number;
+
+  /**
+   * This is a destination namespace for metrics. By default, it is not set - thus no metrics stream to any namespace.
+   * It has to be specified together with applicationMetricsLogGroup.
+   */
+  readonly applicationMetricsNamespace?: string;
+
+  /**
+   * This is a destination log group for metrics. By default, it is not set - thus no metrics stream to any log group.
+   * It has to be specified together with applicationMetricsNamespace.
+   */
+  readonly applicationMetricsLogGroup?: string;
 }
