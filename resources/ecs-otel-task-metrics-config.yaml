@@ -22,13 +22,11 @@ receivers:
     aggregation_interval: 60s
   awsecscontainermetrics:
 
-
-
 processors:
   resource/otel:
     attributes:
       - key: test.inject
-        value: "added by resource processor"
+        value: 'added by resource processor'
         action: insert
   resourcedetection:
     detectors:
@@ -81,7 +79,6 @@ processors:
       - include: ecs.task.storage.write_bytes
         action: update
         new_name: StorageWriteBytes
-
 
   resource:
     attributes:
@@ -206,16 +203,20 @@ exporters:
     resource_to_telemetry_conversion:
       enabled: true
 
-
   awsemf/ecs:
     namespace: ECS/ContainerInsights
     log_group_name: /aws/ecs/containerinsights/{ClusterName}/performance
-    log_stream_name: "{TaskId}"
+    log_stream_name: '{TaskId}'
     resource_to_telemetry_conversion:
       enabled: true
     dimension_rollup_option: NoDimensionRollup
     metric_declarations:
-      - dimensions: [[ClusterName], [ClusterName, TaskDefinitionFamily], [ClusterName, TaskDefinitionFamily, TaskId]]
+      - dimensions:
+          [
+            [ClusterName],
+            [ClusterName, TaskDefinitionFamily],
+            [ClusterName, TaskDefinitionFamily, TaskId],
+          ]
         metric_name_selectors:
           - MemoryUtilized
           - MemoryReserved
@@ -231,23 +232,21 @@ exporters:
     endpoint: ${AWS_PROMETHEUS_ENDPOINT}
     auth:
       authenticator: sigv4auth
-    namespace: "adot"
+    namespace: 'adot'
     resource_to_telemetry_conversion:
       enabled: true
     external_labels:
       cluster: ${CLUSTER_NAME}
       namespace: ${SERVICE_NAME}-application
 
-
   prometheusremotewrite/ecs:
     endpoint: ${AWS_PROMETHEUS_ENDPOINT}
     auth:
       authenticator: sigv4auth
-    namespace: "ecs"
+    namespace: 'ecs'
     external_labels:
       cluster: ${CLUSTER_NAME}
       namespace: ${SERVICE_NAME}-ecs
-
 
 service:
   telemetry:
@@ -255,16 +254,16 @@ service:
       level: info
   pipelines:
     traces:
-      receivers: [otlp,awsxray]
+      receivers: [otlp, awsxray]
       processors: [resourcedetection, batch/metrics]
       exporters: [awsxray]
     metrics/application:
       receivers: [otlp, statsd]
-      processors: [resourcedetection,batch/metrics]
+      processors: [resourcedetection, batch/metrics]
       exporters: [prometheusremotewrite/application, awsemf/application]
     metrics/ecs:
       receivers: [awsecscontainermetrics]
       processors: [filter, metricstransform, resource]
       exporters: [prometheusremotewrite/ecs]
 
-  extensions: [health_check,sigv4auth]
+  extensions: [health_check, sigv4auth]
