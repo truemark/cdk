@@ -509,6 +509,14 @@ export class StandardFargateService extends ExtendedConstruct {
             actions: ['aps:RemoteWrite'],
           }),
         );
+      } else {
+        // More to be done, to check if the workspace is already set in the config file
+        taskDefinition.addToTaskRolePolicy(
+          new PolicyStatement({
+            resources: ['*'],
+            actions: ['aps:RemoteWrite'],
+          }),
+        );
       }
 
       // Add permission to permit otel events
