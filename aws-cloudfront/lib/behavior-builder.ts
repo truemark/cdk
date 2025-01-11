@@ -240,6 +240,7 @@ export class BehaviorBuilder extends ExtendedConstruct {
   }
 
   apiDefaults(additionalHeaders?: string[]): BehaviorBuilder {
+    // TODO Need a way to re-use the cache policy and originRequestPolicy on subsequent calls to apiDefaults since they would be identical
     const cachePolicy = new StandardApiCachePolicy(
       this,
       'ApiCachePolicy',
