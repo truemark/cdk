@@ -509,6 +509,13 @@ export class StandardFargateService extends ExtendedConstruct {
             actions: ['aps:RemoteWrite'],
           }),
         );
+      } else {
+        taskDefinition.addToTaskRolePolicy(
+          new PolicyStatement({
+            resources: ['*'],
+            actions: ['aps:RemoteWrite'],
+          }),
+        );
       }
 
       // Add permission to permit otel events

@@ -194,13 +194,11 @@ processors:
         action: delete
 
 exporters:
-  logging:
-    loglevel: info
   awsxray:
     index_all_attributes: true
   awsemf/application:
-    namespace: ${ECS_APPLICATION_LOGS_NAMESPACE}
-    log_group_name: ${ECS_APPLICATION_LOG_GROUP}
+    namespace: ${ECS_APPLICATION_METRICS_NAMESPACE}
+    log_group_name: ${ECS_APPLICATION_METRICS_LOG_GROUP}
     dimension_rollup_option: NoDimensionRollup
     resource_to_telemetry_conversion:
       enabled: true
@@ -262,11 +260,10 @@ service:
     metrics/application:
       receivers: [otlp, statsd]
       processors: [resourcedetection, batch/metrics]
-      exporters:
-        [prometheusremotewrite/application, awsemf/application, logging]
+      exporters: [prometheusremotewrite/application, awsemf/application]
     metrics/ecs:
       receivers: [awsecscontainermetrics]
       processors: [filter, metricstransform, resource]
-      exporters: [prometheusremotewrite/ecs, logging]
+      exporters: [prometheusremotewrite/ecs]
 
   extensions: [health_check, sigv4auth]
