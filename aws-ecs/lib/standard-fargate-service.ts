@@ -464,7 +464,16 @@ export class StandardFargateService extends ExtendedConstruct {
           : {
               command: [`--config=${otelConfigPathLocal}`],
             }),
-        environment: otel.environmentVariables ?? {},
+        environment: {
+          ...(otel.environmentVariables ?? {}),
+          ...(props.otel?.applicationMetricsNamespace &&
+            props.otel?.applicationMetricsLogGroup && {
+              ECS_APPLICATION_METRICS_NAMESPACE:
+                props.otel?.applicationMetricsNamespace,
+              ECS_APPLICATION_METRICS_LOG_GROUP:
+                props.otel?.applicationMetricsLogGroup,
+            }),
+        },
         healthCheck: {
           command: ['CMD', '/healthcheck'],
           interval: Duration.seconds(10),
@@ -497,6 +506,13 @@ export class StandardFargateService extends ExtendedConstruct {
                 Stack.of(this).account
               }:workspace/${otel.ampWorkSpaceId}`,
             ],
+            actions: ['aps:RemoteWrite'],
+          }),
+        );
+      } else {
+        taskDefinition.addToTaskRolePolicy(
+          new PolicyStatement({
+            resources: ['*'],
             actions: ['aps:RemoteWrite'],
           }),
         );
