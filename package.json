@@ -75,6 +75,7 @@
     "./aws-codepipeline": "./aws-codepipeline/index.js",
     "./aws-dynamodb": "./aws-dynamodb/index.js",
     "./aws-ecs": "./aws-ecs/index.js",
+    "./aws-grafana": "./aws-grafana/index.js",
     "./aws-lambda": "./aws-lambda/index.js",
     "./aws-monitoring": "./aws-monitoring/index.js",
     "./aws-patterns-domain-redirect": "./aws-patterns-domain-redirect/index.js",
