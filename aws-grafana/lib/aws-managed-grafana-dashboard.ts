@@ -1,11 +1,6 @@
 import {Construct} from 'constructs';
 import {Stack} from 'aws-cdk-lib';
-import {
-  Role,
-  PolicyStatement,
-  ServicePrincipal,
-  AccountPrincipal,
-} from 'aws-cdk-lib/aws-iam';
+import {Role, PolicyStatement, ServicePrincipal} from 'aws-cdk-lib/aws-iam';
 import {
   AwsCustomResource,
   AwsCustomResourcePolicy,

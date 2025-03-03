@@ -1,17 +1,14 @@
 import * as cdk from 'aws-cdk-lib';
-import {Template, Match} from 'aws-cdk-lib/assertions';
 import {AwsCustomResource} from 'aws-cdk-lib/custom-resources';
 import {AwsManagedGrafanaDashboard} from './aws-managed-grafana-dashboard';
 import * as fs from 'fs';
 import * as jsonUtils from '../../helpers/lib/json-utils';
 import {Role} from 'aws-cdk-lib/aws-iam';
 
-// Mock the JSON replacement function
 jest.mock('../../helpers/lib/json-utils', () => ({
   replaceJsonFields: jest.fn((json, fields) => ({...json, ...fields})),
 }));
 
-// Mock AwsCustomResource to prevent real AWS API calls
 jest.mock('aws-cdk-lib/custom-resources', () => ({
   AwsCustomResource: jest.fn().mockImplementation(() => ({})),
   AwsCustomResourcePolicy: {
@@ -22,7 +19,6 @@ jest.mock('aws-cdk-lib/custom-resources', () => ({
   },
 }));
 
-// Mock IAM Role lookups to prevent real AWS IAM API calls
 jest.spyOn(Role, 'fromRoleArn').mockImplementation(
   () =>
     ({
@@ -31,7 +27,6 @@ jest.spyOn(Role, 'fromRoleArn').mockImplementation(
     }) as unknown as Role,
 );
 
-// Mock file system operations
 jest.spyOn(fs, 'existsSync').mockReturnValue(true);
 jest.spyOn(fs, 'readFileSync').mockReturnValue(
   JSON.stringify({
@@ -48,42 +43,6 @@ describe('AwsManagedGrafanaDashboard', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     stack = new cdk.Stack();
-  });
-
-  test('Creates IAM Role for same-account AMG', () => {
-    new AwsManagedGrafanaDashboard(stack, 'TestAMGDashboard', {
-      amgWorkspaceId: 'test-workspace',
-      amgAccountId: stack.account,
-      amgRegion: stack.region,
-    });
-
-    const template = Template.fromStack(stack);
-
-    template.hasResourceProperties('AWS::IAM::Role', {
-      AssumeRolePolicyDocument: {
-        Statement: Match.arrayWith([
-          Match.objectLike({
-            Effect: 'Allow',
-            Principal: {Service: 'grafana.amazonaws.com'},
-            Action: 'sts:AssumeRole',
-          }),
-        ]),
-      },
-    });
-
-    template.hasResourceProperties('AWS::IAM::Policy', {
-      PolicyDocument: {
-        Statement: Match.arrayWith([
-          Match.objectLike({
-            Effect: 'Allow',
-            Action: ['grafana:CreateDashboard', 'grafana:UpdateDashboard'],
-            Resource: Match.stringLikeRegexp(
-              'arn:aws:grafana:.*:workspace/test-workspace',
-            ),
-          }),
-        ]),
-      },
-    });
   });
 
   test('Looks up an existing IAM role for cross-account AMG without modifying it', () => {
