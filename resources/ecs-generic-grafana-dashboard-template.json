@@ -1190,9 +1190,7 @@
               "id": "byNames",
               "options": {
                 "mode": "exclude",
-                "names": [
-                  "Current Data"
-                ],
+                "names": ["Current Data"],
                 "prefix": "All except:",
                 "readOnly": true
               }

@@ -47,10 +47,12 @@ describe('AwsManagedGrafanaDashboard', () => {
 
   test('Looks up an existing IAM role for cross-account AMG without modifying it', () => {
     new AwsManagedGrafanaDashboard(stack, 'TestAMGDashboard', {
-      amgWorkspaceId: 'test-workspace',
-      amgAccountId: '123456789012', // Different account
-      amgRegion: stack.region,
-      amgRoleArn: 'arn:aws:iam::123456789012:role/ExistingGrafanaRole',
+      grafanaConfig: {
+        amgWorkspaceId: 'test-workspace',
+        amgAccountId: '123456789012', // Different account
+        amgRegion: stack.region,
+        amgRoleArn: 'arn:aws:iam::123456789012:role/ExistingGrafanaRole',
+      },
     });
 
     expect(Role.fromRoleArn).toHaveBeenCalledWith(
@@ -63,9 +65,11 @@ describe('AwsManagedGrafanaDashboard', () => {
   test('Fails if cross-account AMG does not provide amgRoleArn', () => {
     expect(() => {
       new AwsManagedGrafanaDashboard(stack, 'TestAMGDashboard', {
-        amgWorkspaceId: 'test-workspace',
-        amgAccountId: '123456789012', // Different account
-        amgRegion: stack.region,
+        grafanaConfig: {
+          amgWorkspaceId: 'test-workspace',
+          amgAccountId: '123456789012', // Different account
+          amgRegion: stack.region,
+        },
       });
     }).toThrowError(
       `Cross-account AMG requires an existing IAM role ARN to assume. Provide 'amgRoleArn'.`,
@@ -77,10 +81,12 @@ describe('AwsManagedGrafanaDashboard', () => {
 
     expect(() => {
       new AwsManagedGrafanaDashboard(stack, 'TestAMGDashboard', {
-        amgWorkspaceId: 'test-workspace',
-        amgAccountId: stack.account,
-        amgRegion: stack.region,
-        dashboardFilePath: '/non/existent/file.json',
+        grafanaConfig: {
+          amgWorkspaceId: 'test-workspace',
+          amgAccountId: stack.account,
+          amgRegion: stack.region,
+          dashboardFilePath: '/non/existent/file.json',
+        },
       });
     }).toThrowError('Dashboard JSON file not found: /non/existent/file.json');
   });
@@ -94,10 +100,12 @@ describe('AwsManagedGrafanaDashboard', () => {
     };
 
     new AwsManagedGrafanaDashboard(stack, 'TestAMGDashboard', {
-      amgWorkspaceId: 'test-workspace',
-      amgAccountId: stack.account,
-      amgRegion: stack.region,
-      dashboardFields,
+      grafanaConfig: {
+        amgWorkspaceId: 'test-workspace',
+        amgAccountId: stack.account,
+        amgRegion: stack.region,
+        dashboardFields,
+      },
     });
 
     expect(replaceJsonFieldsSpy).toHaveBeenCalledWith(
@@ -108,9 +116,11 @@ describe('AwsManagedGrafanaDashboard', () => {
 
   test('Creates Custom Resource for AMG Dashboard', () => {
     new AwsManagedGrafanaDashboard(stack, 'TestAMGDashboard', {
-      amgWorkspaceId: 'test-workspace',
-      amgAccountId: stack.account,
-      amgRegion: stack.region,
+      grafanaConfig: {
+        amgWorkspaceId: 'test-workspace',
+        amgAccountId: stack.account,
+        amgRegion: stack.region,
+      },
     });
 
     const mockedAwsCustomResource = AwsCustomResource as unknown as jest.Mock;

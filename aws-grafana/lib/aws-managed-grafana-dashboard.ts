@@ -10,6 +10,7 @@ import {ExtendedConstructProps} from '../../aws-cdk';
 import * as fs from 'fs';
 import * as path from 'path';
 import {replaceJsonFields} from '../../helpers/lib/json-utils';
+import {GrafanaDashboardConfig} from './grafana-configuration';
 
 /**
  * Properties for AWS Managed Grafana Dashboard.
@@ -17,34 +18,9 @@ import {replaceJsonFields} from '../../helpers/lib/json-utils';
 export interface AwsManagedGrafanaDashboardProps
   extends ExtendedConstructProps {
   /**
-   * AWS Managed Grafana workspace id.
+   * AWS Managed Grafana dashboard configuration.
    */
-  readonly amgWorkspaceId: string;
-
-  /**
-   * AWS Managed Grafana account id.
-   */
-  readonly amgAccountId: string;
-
-  /**
-   * AWS Managed Grafana region.
-   */
-  readonly amgRegion: string;
-
-  /**
-   * AWS Managed Grafana role ARN for cross-account access to Grafana.
-   */
-  readonly amgRoleArn?: string;
-
-  /**
-   * Grafana template file path. If not provided, a default JSON template will be used.
-   */
-  readonly dashboardFilePath?: string;
-
-  /**
-   * Dashboard fields to replace in the JSON template.
-   */
-  readonly dashboardFields?: {[key: string]: string};
+  readonly grafanaConfig?: GrafanaDashboardConfig;
 }
 
 export class AwsManagedGrafanaDashboard extends Construct {
@@ -57,8 +33,13 @@ export class AwsManagedGrafanaDashboard extends Construct {
 
     const currentAccountId = Stack.of(this).account;
 
-    const dashboardJsonPath = props.dashboardFilePath
-      ? path.resolve(props.dashboardFilePath)
+    if (!props.grafanaConfig) {
+      return;
+    }
+
+    const grafanaConfig = props.grafanaConfig!;
+    const dashboardJsonPath = grafanaConfig.dashboardFilePath
+      ? path.resolve(grafanaConfig.dashboardFilePath)
       : path.join(
           __dirname,
           '../../resources/ecs-generic-grafana-dashboard-template.json',
@@ -70,15 +51,18 @@ export class AwsManagedGrafanaDashboard extends Construct {
 
     let dashboardJson = JSON.parse(fs.readFileSync(dashboardJsonPath, 'utf8'));
 
-    if (props.dashboardFields) {
-      dashboardJson = replaceJsonFields(dashboardJson, props.dashboardFields);
+    if (grafanaConfig.dashboardFields) {
+      dashboardJson = replaceJsonFields(
+        dashboardJson,
+        grafanaConfig.dashboardFields,
+      );
     }
 
     let amgRole: Role;
 
     // If AMG is in a different account, assume a cross-account IAM role
-    if (props.amgAccountId !== currentAccountId) {
-      if (!props.amgRoleArn) {
+    if (grafanaConfig.amgAccountId !== currentAccountId) {
+      if (!grafanaConfig.amgRoleArn) {
         throw new Error(
           `Cross-account AMG requires an existing IAM role ARN to assume. Provide 'amgRoleArn'.`,
         );
@@ -86,7 +70,7 @@ export class AwsManagedGrafanaDashboard extends Construct {
       amgRole = Role.fromRoleArn(
         this,
         'AMGCrossAccountRole',
-        props.amgRoleArn,
+        grafanaConfig.amgRoleArn,
       ) as Role;
     } else {
       // Use a normal IAM role if AMG is in the same account
@@ -99,7 +83,7 @@ export class AwsManagedGrafanaDashboard extends Construct {
         new PolicyStatement({
           actions: ['grafana:CreateDashboard', 'grafana:UpdateDashboard'],
           resources: [
-            `arn:aws:grafana:${props.amgRegion}:${props.amgAccountId}:workspace/${props.amgWorkspaceId}`,
+            `arn:aws:grafana:${grafanaConfig.amgRegion}:${grafanaConfig.amgAccountId}:workspace/${grafanaConfig.amgWorkspaceId}`,
           ],
         }),
       );
@@ -111,7 +95,7 @@ export class AwsManagedGrafanaDashboard extends Construct {
         service: 'Grafana',
         action: 'createDashboard',
         parameters: {
-          workspaceId: props.amgWorkspaceId,
+          workspaceId: grafanaConfig.amgWorkspaceId,
           dashboard: dashboardJson,
           overwrite: true,
         },
@@ -122,7 +106,7 @@ export class AwsManagedGrafanaDashboard extends Construct {
         new PolicyStatement({
           actions: ['grafana:CreateDashboard', 'grafana:UpdateDashboard'],
           resources: [
-            `arn:aws:grafana:${props.amgRegion}:${props.amgAccountId}:workspace/${props.amgWorkspaceId}`,
+            `arn:aws:grafana:${grafanaConfig.amgRegion}:${grafanaConfig.amgAccountId}:workspace/${grafanaConfig.amgWorkspaceId}`,
           ],
         }),
       ]),
