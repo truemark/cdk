@@ -27,14 +27,17 @@ jest.spyOn(Role, 'fromRoleArn').mockImplementation(
     }) as unknown as Role,
 );
 
-jest.spyOn(fs, 'existsSync').mockReturnValue(true);
-jest.spyOn(fs, 'readFileSync').mockImplementation(() => {
-  return `{
-    "title": "{{title}}",
-    "panels": [
-      {"title": "{{panelTitle}}", "type": "graph", "datasource": "Prometheus"}
-    ]
-  }`;
+jest.mock('fs', () => {
+  const actualFs = jest.requireActual('fs');
+
+  return {
+    ...actualFs,
+    existsSync: jest.fn(() => true),
+    readFileSync: jest.fn(
+      () =>
+        `{"title": "{{title}}", "panels": [{"title": "{{panelTitle}}", "type": "graph", "datasource": "Prometheus"}]}`,
+    ),
+  };
 });
 
 describe('AwsManagedGrafanaDashboard', () => {
