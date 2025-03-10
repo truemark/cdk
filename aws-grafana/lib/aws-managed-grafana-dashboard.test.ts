@@ -28,14 +28,14 @@ jest.spyOn(Role, 'fromRoleArn').mockImplementation(
 );
 
 jest.spyOn(fs, 'existsSync').mockReturnValue(true);
-jest.spyOn(fs, 'readFileSync').mockReturnValue(
-  JSON.stringify({
-    title: '{{title}}',
-    panels: [
-      {title: '{{panelTitle}}', type: 'graph', datasource: 'Prometheus'},
-    ],
-  }),
-);
+jest.spyOn(fs, 'readFileSync').mockImplementation(() => {
+  return `{
+    "title": "{{title}}",
+    "panels": [
+      {"title": "{{panelTitle}}", "type": "graph", "datasource": "Prometheus"}
+    ]
+  }`;
+});
 
 describe('AwsManagedGrafanaDashboard', () => {
   let stack: cdk.Stack;
