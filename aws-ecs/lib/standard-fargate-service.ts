@@ -30,6 +30,7 @@ import {
 } from '../../aws-cdk';
 import {LibStandardTags} from '../../truemark';
 import * as path from 'node:path';
+import * as fs from 'fs';
 import {OtelConfig} from './otel-configuration';
 
 /**
@@ -449,21 +450,17 @@ export class StandardFargateService extends ExtendedConstruct {
           streamPrefix: otelContainerName,
           logGroup: logGroup,
         }),
-        ...(otel.ssmConfigContentParam
-          ? {
-              secrets: {
-                AOT_CONFIG_CONTENT: Secret.fromSsmParameter(
-                  StringParameter.fromStringParameterName(
-                    this,
-                    'OtelSSMConfigParam',
-                    otel.ssmConfigContentParam,
-                  ),
-                ),
-              },
-            }
-          : {
-              command: [`--config=${otelConfigPathLocal}`],
-            }),
+        ...(otel.ssmConfigContentParam && {
+          secrets: {
+            AOT_CONFIG_CONTENT: Secret.fromSsmParameter(
+              StringParameter.fromStringParameterName(
+                this,
+                'OtelSSMConfigParam',
+                otel.ssmConfigContentParam,
+              ),
+            ),
+          },
+        }),
         environment: {
           ...(otel.environmentVariables ?? {}),
           ...(props.otel?.applicationMetricsNamespace &&
@@ -472,6 +469,10 @@ export class StandardFargateService extends ExtendedConstruct {
                 props.otel?.applicationMetricsNamespace,
               ECS_APPLICATION_METRICS_LOG_GROUP:
                 props.otel?.applicationMetricsLogGroup,
+            }),
+          ...(!otel.ssmConfigContentParam &&
+            otelConfigPathLocal && {
+              AOT_CONFIG_CONTENT: fs.readFileSync(otelConfigPathLocal, 'utf8'),
             }),
         },
         healthCheck: {
