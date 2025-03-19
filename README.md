@@ -35,3 +35,9 @@ This project follows a [semantic versioning](https://semver.org/) pattern.
 [npm-image]: https://img.shields.io/npm/v/truemark-cdk-lib.svg
 [gts-image]: https://img.shields.io/badge/code%20style-google-blueviolet.svg
 [gts-url]: https://github.com/google/gts
+
+## Library supported features
+
+Among other features, this library supports the following features:
+
+1. [CDK Open Telemetry Support](README_otel.md)
