@@ -19,6 +19,17 @@ import {
  */
 export interface BucketDeploymentConfig {
   /**
+   * The amount of memory (in MiB) to allocate to the AWS Lambda function which
+   * replicates the files from the CDK bucket to the destination bucket.
+   *
+   * If you are deploying large files, you will need to increase this number
+   * accordingly.
+   *
+   * @default 512
+   */
+  readonly memoryLimit?: number;
+
+  /**
    * The paths or sources to deploy.
    */
   readonly source: string | string[] | ISource | ISource[];
@@ -101,6 +112,7 @@ export class ExtendedBucket extends Bucket {
         prune: c.prune,
         cacheControl: c.cacheControl,
         exclude,
+        memoryLimit: c.memoryLimit ?? 512,
       });
     }
   }
