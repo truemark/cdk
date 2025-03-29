@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v1.18.4
+
+### Changed
+
+- Modified ExtendedBucket to set the memory by default to 512MB for bucket deployments and allow overriding the memory size
+
 ## v1.18.3
 
 ### Fixed
