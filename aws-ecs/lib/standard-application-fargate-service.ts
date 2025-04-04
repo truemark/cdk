@@ -11,6 +11,7 @@ import {
   ApplicationTargetGroup,
   IApplicationListener,
   IApplicationLoadBalancer,
+  IApplicationTargetGroup,
   ListenerCondition,
   TargetGroupLoadBalancingAlgorithmType,
 } from 'aws-cdk-lib/aws-elasticloadbalancingv2';
@@ -183,6 +184,7 @@ export class StandardApplicationFargateService extends StandardFargateService {
   readonly listener: IApplicationListener;
   readonly domainName?: DomainName;
   readonly route53Record?: ARecord;
+  readonly targetGroup: IApplicationTargetGroup;
 
   constructor(
     scope: Construct,
@@ -309,5 +311,6 @@ export class StandardApplicationFargateService extends StandardFargateService {
 
     this.loadBalancer = loadBalancer;
     this.listener = listener;
+    this.targetGroup = targetGroup;
   }
 }
