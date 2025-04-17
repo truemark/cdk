@@ -19,7 +19,7 @@ import {LogConfiguration} from './log-configuration';
 import {SecurityGroup, SubnetSelection, SubnetType} from 'aws-cdk-lib/aws-ec2';
 import {LogGroup, RetentionDays} from 'aws-cdk-lib/aws-logs';
 import {Duration, RemovalPolicy, Stack} from 'aws-cdk-lib';
-import {PolicyStatement} from 'aws-cdk-lib/aws-iam';
+import {IRole, PolicyStatement} from 'aws-cdk-lib/aws-iam';
 import {BasicStepScalingPolicyProps} from 'aws-cdk-lib/aws-autoscaling';
 import {IMetric} from 'aws-cdk-lib/aws-cloudwatch';
 import {ScalingSchedule} from 'aws-cdk-lib/aws-applicationautoscaling';
@@ -291,6 +291,14 @@ export interface StandardFargateServiceProps extends ExtendedConstructProps {
    *
    */
   readonly otel?: OtelConfig;
+
+  /**
+   * The name of the IAM role that grants containers in the task permission to call other AWS resources.
+   * Best practice is not to assign a value to this field, and let the CDK create a role for you.
+   *
+   * @default - A task role is automatically created for you.
+   */
+  readonly taskRole?: IRole;
 }
 
 /**
@@ -386,6 +394,9 @@ export class StandardFargateService extends ExtendedConstruct {
     });
 
     const taskDefinition = new FargateTaskDefinition(this, 'Resource', {
+      ...(props.taskRole && {
+        taskRole: props.taskRole,
+      }),
       cpu: props.cpu ?? 2048,
       memoryLimitMiB: props.memoryLimitMiB ?? 4096,
       ephemeralStorageGiB: props.ephemeralStorageGiB,
