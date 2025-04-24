@@ -19,7 +19,7 @@ import {LogConfiguration} from './log-configuration';
 import {SecurityGroup, SubnetSelection, SubnetType} from 'aws-cdk-lib/aws-ec2';
 import {LogGroup, RetentionDays} from 'aws-cdk-lib/aws-logs';
 import {Duration, RemovalPolicy, Stack} from 'aws-cdk-lib';
-import {IRole, PolicyStatement} from 'aws-cdk-lib/aws-iam';
+import {Role, PolicyStatement, ServicePrincipal} from 'aws-cdk-lib/aws-iam';
 import {BasicStepScalingPolicyProps} from 'aws-cdk-lib/aws-autoscaling';
 import {IMetric} from 'aws-cdk-lib/aws-cloudwatch';
 import {ScalingSchedule} from 'aws-cdk-lib/aws-applicationautoscaling';
@@ -298,7 +298,7 @@ export interface StandardFargateServiceProps extends ExtendedConstructProps {
    *
    * @default - A task role is automatically created for you.
    */
-  readonly taskRole?: IRole;
+  readonly taskRoleName?: string;
 }
 
 /**
@@ -394,8 +394,11 @@ export class StandardFargateService extends ExtendedConstruct {
     });
 
     const taskDefinition = new FargateTaskDefinition(this, 'Resource', {
-      ...(props.taskRole && {
-        taskRole: props.taskRole,
+      ...(props.taskRoleName && {
+        taskRole: new Role(this, 'TaskRole', {
+          roleName: props.taskRoleName,
+          assumedBy: new ServicePrincipal('ecs-tasks.amazonaws.com'),
+        }),
       }),
       cpu: props.cpu ?? 2048,
       memoryLimitMiB: props.memoryLimitMiB ?? 4096,
