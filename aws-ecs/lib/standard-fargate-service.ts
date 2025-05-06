@@ -32,6 +32,7 @@ import {LibStandardTags} from '../../truemark';
 import * as path from 'node:path';
 import * as fs from 'fs';
 import {OtelConfig} from './otel-configuration';
+import {AwsManagedGrafanaDashboard} from '../../aws-grafana';
 
 /**
  * Properties for StandardFargateService.
@@ -532,6 +533,10 @@ export class StandardFargateService extends ExtendedConstruct {
           }),
         );
       }
+
+      new AwsManagedGrafanaDashboard(this, 'AwsManagedGrafanaForOtel', {
+        grafanaConfig: otel.grafanaConfig,
+      });
 
       // Add permission to permit otel events
       taskDefinition.addToTaskRolePolicy(

@@ -1,3 +1,5 @@
+import {GrafanaDashboardConfig} from '../../aws-grafana/lib/grafana-configuration';
+
 /**
  * Standard OpenTelemetry (OTEL) configuration for ECS services.
  */
@@ -64,4 +66,9 @@ export interface OtelConfig {
    * It has to be specified together with applicationMetricsNamespace.
    */
   readonly applicationMetricsLogGroup?: string;
+
+  /**
+   * AWS Managed Grafana dashboard configuration.
+   */
+  readonly grafanaConfig?: GrafanaDashboardConfig;
 }
