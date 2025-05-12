@@ -19,7 +19,12 @@ import {LogConfiguration} from './log-configuration';
 import {SecurityGroup, SubnetSelection, SubnetType} from 'aws-cdk-lib/aws-ec2';
 import {LogGroup, RetentionDays} from 'aws-cdk-lib/aws-logs';
 import {Duration, RemovalPolicy, Stack} from 'aws-cdk-lib';
-import {Role, PolicyStatement, ServicePrincipal} from 'aws-cdk-lib/aws-iam';
+import {
+  Role,
+  PolicyStatement,
+  ServicePrincipal,
+  IRole,
+} from 'aws-cdk-lib/aws-iam';
 import {BasicStepScalingPolicyProps} from 'aws-cdk-lib/aws-autoscaling';
 import {IMetric} from 'aws-cdk-lib/aws-cloudwatch';
 import {ScalingSchedule} from 'aws-cdk-lib/aws-applicationautoscaling';
@@ -294,11 +299,20 @@ export interface StandardFargateServiceProps extends ExtendedConstructProps {
 
   /**
    * The name of the IAM role that grants containers in the task permission to call other AWS resources.
-   * Best practice is not to assign a value to this field, and let the CDK create a role for you.
+   * Best practice is not to assign a value to this field, and let the CDK create a role for you. This field is
+   * ignored if taskRole is specified.
    *
    * @default - A task role is automatically created for you.
    */
   readonly taskRoleName?: string;
+
+  /**
+   * The IAM role that grants containers in the task permission to call other AWS resources.
+   * Best practice is not to assign a value to this field, and let the CDK create a role for you.
+   *
+   * @default - A task role is automatically created for you.
+   */
+  readonly taskRole?: IRole;
 }
 
 /**
@@ -393,13 +407,16 @@ export class StandardFargateService extends ExtendedConstruct {
       standardTags: StandardTags.merge(props.standardTags, LibStandardTags),
     });
 
+    let taskRole = props.taskRole;
+    if (!taskRole && props.taskRoleName) {
+      taskRole = new Role(this, 'TaskRole', {
+        roleName: props.taskRoleName,
+        assumedBy: new ServicePrincipal('ecs-tasks.amazonaws.com'),
+      });
+    }
+
     const taskDefinition = new FargateTaskDefinition(this, 'Resource', {
-      ...(props.taskRoleName && {
-        taskRole: new Role(this, 'TaskRole', {
-          roleName: props.taskRoleName,
-          assumedBy: new ServicePrincipal('ecs-tasks.amazonaws.com'),
-        }),
-      }),
+      taskRole,
       cpu: props.cpu ?? 2048,
       memoryLimitMiB: props.memoryLimitMiB ?? 4096,
       ephemeralStorageGiB: props.ephemeralStorageGiB,
