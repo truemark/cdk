@@ -18,7 +18,6 @@ import {
 import {ARecord, IHostedZone, RecordTarget} from 'aws-cdk-lib/aws-route53';
 import {DomainName} from '../../aws-route53';
 import {LoadBalancerTarget} from 'aws-cdk-lib/aws-route53-targets';
-import {Metric} from 'aws-cdk-lib/aws-cloudwatch';
 
 /**
  * Properties for StandardApplicationFargateService
@@ -324,26 +323,11 @@ export class StandardApplicationFargateService extends StandardFargateService {
     this.targetGroup = targetGroup;
 
     if (props.scaleOnTargetResponseTime) {
-      const thresholdSeconds = props.scaleOnTargetResponseTime.threshold;
-      const metric = new Metric({
-        namespace: 'AWS/ApplicationELB',
-        metricName: 'TargetResponseTime',
-        dimensionsMap: {
-          TargetGroup: targetGroup.targetGroupFullName,
-          LoadBalancer: loadBalancer.loadBalancerArn
-            .split(':')
-            .pop()!
-            .replace(/^loadbalancer\//, ''),
-        },
-        statistic: 'Average',
-        period: Duration.minutes(1),
-      });
-
       // Attach scaling policy to the service
       this.scaleToTrackCustomMetric(
         'TargetResponseTimeScaling',
-        metric,
-        thresholdSeconds,
+        targetGroup.metrics.targetResponseTime(),
+        props.scaleOnTargetResponseTime.threshold,
       );
     }
   }
