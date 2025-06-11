@@ -152,6 +152,14 @@ export interface WordPressInstanceProps {
   readonly createEip?: boolean;
 
   /**
+   * Prefix list for allowing cloudfront IPs.
+   * aws ec2 describe-managed-prefix-lists \
+   * --query 'PrefixLists[?PrefixListName==`com.amazonaws.global.cloudfront.origin-facing`]' \
+   * --region <insert region name>
+   */
+  readonly cloudfrontPrefixList?: string;
+
+  /**
    * Prefix for the DNS record pointing to the elastic IP address for the EC2 instance.
    */
   readonly hostPrefix?: string;
@@ -201,6 +209,7 @@ export class WordPressInstance extends Construct {
   readonly targetGroup?: ApplicationTargetGroup;
   readonly volume: Volume;
   readonly securityGroup: SecurityGroup;
+  readonly cloudFrontSecurityGroup?: SecurityGroup;
   readonly asg: AutoScalingGroup;
 
   resolveVpc(scope: Construct, props: WordPressInstanceProps): IVpc {
@@ -332,10 +341,37 @@ export class WordPressInstance extends Construct {
       Peer.ipv4('192.168.0.0/16'),
       Port.tcp(22),
     );
+
+    this.securityGroup.addIngressRule(
+      Peer.ipv4(this.vpc.vpcCidrBlock),
+      Port.tcp(22),
+    );
     this.securityGroup.addIngressRule(Peer.ipv6('fc00::/7'), Port.tcp(22));
     this.securityGroup.addIngressRule(Peer.ipv6('fd00::/8'), Port.tcp(22));
     this.securityGroup.addIngressRule(Peer.ipv6('fec0::/10'), Port.tcp(22));
-    this.securityGroup.addIngressRule(Peer.anyIpv4(), Port.tcp(80));
+    if (!props.cloudfrontPrefixList) {
+      this.securityGroup.addIngressRule(Peer.anyIpv4(), Port.tcp(80));
+    } else {
+      // Create a dedicated security group for CloudFront access
+      this.cloudFrontSecurityGroup = new SecurityGroup(this, 'CloudFrontSG', {
+        vpc: this.vpc,
+        description: 'Allow HTTP from CloudFront prefix list',
+        allowAllOutbound: true,
+      });
+
+      this.cloudFrontSecurityGroup.addIngressRule(
+        Peer.prefixList(props.cloudfrontPrefixList),
+        Port.tcp(80),
+        'Allow HTTP from CloudFront',
+      );
+
+      // Add VPC ingress to original SG
+      this.securityGroup.addIngressRule(
+        Peer.ipv4(this.vpc.vpcCidrBlock),
+        Port.tcp(80),
+        'Allow HTTP from VPC',
+      );
+    }
     // TODO Later on we want to whitelist cloudfront http://d7uri8nf7uskq.cloudfront.net/tools/list-cloudfront-ips
 
     this.asg = new AutoScalingGroup(this, 'Scaling', {
@@ -361,6 +397,9 @@ export class WordPressInstance extends Construct {
       updatePolicy: UpdatePolicy.rollingUpdate(),
       requireImdsv2: true,
     });
+    if (props.cloudfrontPrefixList) {
+      this.asg.addSecurityGroup(this.cloudFrontSecurityGroup!);
+    }
 
     Tags.of(this.asg).add('wordpress:data-volume', this.volume.volumeId);
     Tags.of(this.asg).add(
