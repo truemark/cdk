@@ -335,6 +335,13 @@ export class WordPressInstance extends Construct {
       allowAllIpv6Outbound: true,
     });
     this.securityGroup.addIngressRule(Peer.anyIpv4(), Port.tcp(2020));
+    this.securityGroup.addIngressRule(Peer.ipv4('10.0.0.0/8'), Port.tcp(22));
+    this.securityGroup.addIngressRule(Peer.ipv4('172.16.0.0/12'), Port.tcp(22));
+    this.securityGroup.addIngressRule(
+      Peer.ipv4('192.168.0.0/16'),
+      Port.tcp(22),
+    );
+
     this.securityGroup.addIngressRule(
       Peer.ipv4(this.vpc.vpcCidrBlock),
       Port.tcp(22),
