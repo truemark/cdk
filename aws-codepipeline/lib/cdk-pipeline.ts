@@ -279,6 +279,11 @@ export interface CdkPipelineProps {
    * Enables the use of "docker buildx" in the asset publishing step. Default is true.
    */
   readonly enableDockerBuildxOnAssetPublish?: boolean;
+
+  /**
+   * Additional commands to run before "docker buildx".
+   */
+  readonly preDockerBuildxCommands?: string[];
 }
 
 /**
@@ -466,10 +471,12 @@ export class CdkPipeline extends Construct {
           },
           phases: {
             install: {
-              commands:
-                (props.enableDockerBuildxOnAssetPublish ?? true)
+              commands: [
+                ...(props.preDockerBuildxCommands ?? []),
+                ...((props.enableDockerBuildxOnAssetPublish ?? true)
                   ? DOCKER_BUILDX_SETUP_COMMANDS
-                  : [],
+                  : []),
+              ],
             },
           },
         }),
