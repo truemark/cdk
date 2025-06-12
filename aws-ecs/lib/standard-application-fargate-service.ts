@@ -126,6 +126,15 @@ export interface StandardApplicationFargateServiceProps
   readonly scaleRequestPerTarget?: number;
 
   /**
+   * Target response time for scaling
+   * Disabled by default
+   */
+  readonly scaleOnTargetResponseTime?: {
+    /** Threshold in seconds */
+    threshold: number;
+  };
+
+  /**
    * Domain name associated with this service.
    */
   readonly domainName?: string;
@@ -312,5 +321,14 @@ export class StandardApplicationFargateService extends StandardFargateService {
     this.loadBalancer = loadBalancer;
     this.listener = listener;
     this.targetGroup = targetGroup;
+
+    if (props.scaleOnTargetResponseTime) {
+      // Attach scaling policy to the service
+      this.scaleToTrackCustomMetric(
+        'TargetResponseTimeScaling',
+        targetGroup.metrics.targetResponseTime(),
+        props.scaleOnTargetResponseTime.threshold,
+      );
+    }
   }
 }
