@@ -142,6 +142,7 @@ export class StandardQueue extends ExtendedConstruct implements IQueue {
   readonly queueArn: string;
   readonly queueUrl: string;
   readonly queueName: string;
+  readonly encryption: QueueEncryption | undefined;
   readonly encryptionMasterKey?: kms.IKey | undefined;
   readonly fifo: boolean;
   readonly stack: Stack;
@@ -155,9 +156,10 @@ export class StandardQueue extends ExtendedConstruct implements IQueue {
     const maxReceiveCount =
       props?.maxReceiveCount ?? StandardQueue.DEFAULT_MAX_RECEIVE_COUNT;
     const encryption =
-      (props?.encryption ?? props?.encryptionMasterKey === undefined)
+      props?.encryption ??
+      (props?.encryptionMasterKey === undefined
         ? QueueEncryption.KMS_MANAGED
-        : QueueEncryption.KMS;
+        : QueueEncryption.KMS);
     const encryptionMasterKey = props?.encryptionMasterKey;
     const dataKeyReuse = props?.dataKeyReuse ?? Duration.minutes(15);
 
@@ -197,6 +199,7 @@ export class StandardQueue extends ExtendedConstruct implements IQueue {
     this.queueArn = this.queue.queueArn;
     this.queueUrl = this.queue.queueUrl;
     this.queueName = this.queue.queueName;
+    this.encryption = this.queue.encryptionType;
     this.encryptionMasterKey = this.queue.encryptionMasterKey;
     this.fifo = this.queue.fifo;
     this.stack = this.queue.stack;
