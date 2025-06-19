@@ -62,6 +62,12 @@ export interface StandardQueueProps
   readonly visibilityTimeout?: Duration;
 
   /**
+   * The encryption method to use for the queue. Default is QueueEncryption.KMS_MANAGED
+   * unless a master key is provided, this will use the AWS managed key for SQS.
+   */
+  readonly encryption?: QueueEncryption;
+
+  /**
    * The KMS key to use for encryption. If not set, the AWS master key for SQS
    * will be used.
    */
@@ -149,7 +155,7 @@ export class StandardQueue extends ExtendedConstruct implements IQueue {
     const maxReceiveCount =
       props?.maxReceiveCount ?? StandardQueue.DEFAULT_MAX_RECEIVE_COUNT;
     const encryption =
-      props?.encryptionMasterKey === undefined
+      (props?.encryption ?? props?.encryptionMasterKey === undefined)
         ? QueueEncryption.KMS_MANAGED
         : QueueEncryption.KMS;
     const encryptionMasterKey = props?.encryptionMasterKey;
