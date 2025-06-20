@@ -18,6 +18,7 @@ import {
 import {ARecord, IHostedZone, RecordTarget} from 'aws-cdk-lib/aws-route53';
 import {DomainName} from '../../aws-route53';
 import {LoadBalancerTarget} from 'aws-cdk-lib/aws-route53-targets';
+import {MetricOptions} from 'aws-cdk-lib/aws-cloudwatch';
 
 /**
  * Properties for StandardApplicationFargateService
@@ -124,6 +125,16 @@ export interface StandardApplicationFargateServiceProps
    * Disabled by default.
    */
   readonly scaleRequestPerTarget?: number;
+
+  /**
+   * Target response time for scaling
+   * Disabled by default
+   */
+  readonly scaleOnTargetResponseTime?: {
+    /** Threshold in seconds */
+    threshold: number;
+    metricOptions?: MetricOptions;
+  };
 
   /**
    * Domain name associated with this service.
@@ -312,5 +323,16 @@ export class StandardApplicationFargateService extends StandardFargateService {
     this.loadBalancer = loadBalancer;
     this.listener = listener;
     this.targetGroup = targetGroup;
+
+    if (props.scaleOnTargetResponseTime) {
+      // Attach scaling policy to the service
+      this.scaleToTrackCustomMetric(
+        'TargetResponseTimeScaling',
+        targetGroup.metrics.targetResponseTime(
+          props.scaleOnTargetResponseTime.metricOptions,
+        ),
+        props.scaleOnTargetResponseTime.threshold,
+      );
+    }
   }
 }
