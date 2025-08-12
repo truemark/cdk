@@ -18,6 +18,11 @@ export interface OtelLambdaConfig {
   readonly enabled?: boolean;
 
   /**
+   * Optional: Enables or disables the OpenTelemetry (OTel) layer wrapper use. Defaults to false.
+   */
+  readonly useOtelWrapper?: boolean;
+
+  /**
    * The collector or wrapper to use for the OTel (OpenTelemetry) lambda layer.
    * This allows the user to override the default layer version.
    * Defaults to the one set in the lambda implementation

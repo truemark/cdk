@@ -18,11 +18,11 @@ import {
   NodejsFunctionProps,
   OutputFormat,
 } from 'aws-cdk-lib/aws-lambda-nodejs';
-import {OtelLambdaConfig} from './otel-types';
+import {OtelLambdaConfig} from './otel/otel-types';
 import {
   DEFAULT_APPLICATION_METRICS_NAMESPACE,
   initializeOtelConfigDataFromSSM,
-} from './otel-collector-layer-utils';
+} from './otel/otel-collector-layer-utils';
 
 /**
  * Properties for ExtendedNodejsFunction.
@@ -67,24 +67,25 @@ export class ExtendedNodejsFunction extends NodejsFunction {
   ) {
     const stack = Stack.of(scope);
     const region = stack.region;
+    const architecture = props.architecture ?? Architecture.ARM_64;
     const otelConfig = props.otel;
     const otelLayerVersionArn = otelConfig?.layerVersionArn;
-    const isOtelEnabled = otelConfig?.enabled;
+    const isOtelEnabled = otelConfig?.enabled || false;
     let telemetryLayers;
     let prometheusWorkspaceId;
 
     if (isOtelEnabled) {
       const collectorInstanceLayer = LayerVersion.fromLayerVersionArn(
         scope,
-        'OpenTelemetry',
+        `${id}OpenTelemetryNodeJsLayer`,
         otelLayerVersionArn ??
-          `arn:aws:lambda:${region}:901920570463:layer:aws-otel-nodejs-arm64-ver-1-30-2:1`,
+          `arn:aws:lambda:${region}:901920570463:layer:aws-otel-nodejs-${architecture.name}-ver-1-30-2:1`,
       );
       const {otelSsmCollectorConfigLayer, workspaceId} =
         otelConfig?.ssmConfigContentParam
           ? initializeOtelConfigDataFromSSM(
               scope,
-              'Otel',
+              `${id}OtelNodeJsParam`,
               otelConfig.ssmConfigContentParam,
               otelConfig.serviceName,
               otelConfig?.applicationMetricsNamespace,
@@ -98,7 +99,7 @@ export class ExtendedNodejsFunction extends NodejsFunction {
 
     super(scope, id, {
       logRetention: RetentionDays.THREE_DAYS, // change default from INFINITE
-      architecture: Architecture.ARM_64, // change default from X86_64
+      architecture,
       memorySize: 768, // change default from 128
       timeout: Duration.seconds(30), // change default from 3
       runtime: Runtime.NODEJS_22_X,
@@ -108,16 +109,23 @@ export class ExtendedNodejsFunction extends NodejsFunction {
       ...(telemetryLayers && {layers: telemetryLayers}),
       environment: {
         NODE_OPTIONS: '--enable-source-maps',
-        ...(isOtelEnabled && {
-          AWS_LAMBDA_EXEC_WRAPPER: '/opt/otel-handler',
-          OTEL_RESOURCE_ATTRIBUTES: `service.name=${otelConfig?.serviceName}-${otelConfig.environmentName}`,
-          OTEL_METRICS_EXPORTER: 'otlp',
-          OPENTELEMETRY_EXTENSION_LOG_LEVEL: otelConfig?.logLevel ?? 'info',
-          OPENTELEMETRY_COLLECTOR_CONFIG_URI: otelConfig?.ssmConfigContentParam
-            ? '/opt/collector.yaml'
-            : '/var/task/collector.yaml',
-          METRICS_SERVICE_NAME: `${otelConfig?.serviceName}-${otelConfig.environmentName}`,
-        }),
+        OTEL_ENABLED: isOtelEnabled ? 'true' : 'false',
+        ...(isOtelEnabled &&
+          otelConfig && {
+            OTEL_RESOURCE_ATTRIBUTES: `service.name=${otelConfig?.serviceName}-${otelConfig.environmentName}`,
+            OTEL_METRICS_EXPORTER: 'otlp',
+            OTEL_EXPORTER_OTLP_PROTOCOL: 'http/protobuf',
+            OTEL_EXPORTER_OTLP_ENDPOINT: 'http://localhost:4318',
+            OPENTELEMETRY_EXTENSION_LOG_LEVEL: otelConfig?.logLevel ?? 'info',
+            OPENTELEMETRY_COLLECTOR_CONFIG_URI:
+              otelConfig?.ssmConfigContentParam
+                ? '/opt/collector.yaml'
+                : '/var/task/collector.yaml',
+            METRICS_SERVICE_NAME: `${otelConfig?.serviceName}-${otelConfig.environmentName}`,
+            ...(otelConfig?.useOtelWrapper && {
+              AWS_LAMBDA_EXEC_WRAPPER: '/opt/otel-handler',
+            }),
+          }),
         ...props.environment,
         ...(otelConfig?.environmentVariables ?? {}),
       },
@@ -151,6 +159,25 @@ export class ExtendedNodejsFunction extends NodejsFunction {
         },
       });
       this.addToRolePolicy(cloudWatchMetricsPolicy);
+
+      this.addToRolePolicy(
+        new PolicyStatement({
+          resources: ['*'],
+          actions: [
+            'logs:PutLogEvents',
+            'logs:CreateLogGroup',
+            'logs:CreateLogStream',
+            'logs:DescribeLogStreams',
+            'logs:DescribeLogGroups',
+            'logs:PutRetentionPolicy',
+            'xray:PutTraceSegments',
+            'xray:PutTelemetryRecords',
+            'xray:GetSamplingRules',
+            'xray:GetSamplingTargets',
+            'xray:GetSamplingStatisticSummaries',
+          ],
+        }),
+      );
     }
 
     if (prometheusWorkspaceId) {
