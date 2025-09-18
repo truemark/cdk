@@ -84,11 +84,6 @@ export interface CnameRecordOptions {
   readonly comment?: string;
 
   /**
-   * Whether to delete the same record set in the hosted zone if it already exists.
-   */
-  readonly deleteExisting?: boolean;
-
-  /**
    * The region the resource behind this cname is located.
    */
   readonly region?: string;
@@ -112,11 +107,6 @@ export interface ARecordOptions {
    * A comment to add on the record.
    */
   readonly comment?: string;
-
-  /**
-   * Whether to delete the same record set in the hosted zone if it already exists.
-   */
-  readonly deleteExisting?: boolean;
 }
 
 /**
@@ -267,7 +257,6 @@ export class DomainName {
         domainName,
         ttl: options?.ttl,
         comment: options?.comment,
-        deleteExisting: options?.deleteExisting,
       },
     );
   }
@@ -293,7 +282,6 @@ export class DomainName {
         target,
         ttl: options?.ttl,
         comment: options?.comment,
-        deleteExisting: options?.deleteExisting,
       },
     );
   }
@@ -322,7 +310,6 @@ export class DomainName {
         weight,
         ttl: options?.ttl,
         comment: options?.comment,
-        deleteExisting: options?.deleteExisting,
       },
     );
   }
@@ -348,7 +335,6 @@ export class DomainName {
         target,
         ttl: options?.ttl,
         comment: options?.comment,
-        deleteExisting: options?.deleteExisting,
       },
     );
   }
