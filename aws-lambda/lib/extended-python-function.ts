@@ -9,6 +9,7 @@ import {Construct} from 'constructs';
 import {LoggingFormat} from 'aws-cdk-lib/aws-lambda';
 import {LogGroup, RetentionDays} from 'aws-cdk-lib/aws-logs';
 import {RemovalPolicy} from 'aws-cdk-lib';
+import {FunctionLogOptions} from './function-log-options';
 
 /**
  * Properties for PythonFunctionAlpha
@@ -16,7 +17,8 @@ import {RemovalPolicy} from 'aws-cdk-lib';
 export interface ExtendedPythonFunctionProps
   extends PythonFunctionProps,
     FunctionAlarmsOptions,
-    DeployedFunctionOptions {}
+    DeployedFunctionOptions,
+    FunctionLogOptions {}
 
 /**
  * Extended version of the alpha PythonFunction that supports alarms and deployments.
@@ -30,10 +32,19 @@ export class ExtendedPythonFunction extends PythonFunction {
     id: string,
     props: ExtendedPythonFunctionProps,
   ) {
+    if (props.logGroup && props.logConfig) {
+      throw new Error('Cannot specify both logGroup and logConfig.');
+    }
+
+    if (props.logRetention && props.logConfig) {
+      throw new Error('Cannot specify both logRetention and logConfig.');
+    }
+
     let logGroup = props.logGroup;
     if (!logGroup && !props.logRetention) {
       logGroup = new LogGroup(scope, `${id}LogGroup`, {
-        retention: RetentionDays.THREE_DAYS,
+        retention: props.logConfig?.retention ?? RetentionDays.THREE_DAYS,
+        logGroupName: props.logConfig?.logGroupName,
         removalPolicy: RemovalPolicy.DESTROY,
       });
     }

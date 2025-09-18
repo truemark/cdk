@@ -23,6 +23,7 @@ import {
   DEFAULT_APPLICATION_METRICS_NAMESPACE,
   initializeOtelConfigDataFromSSM,
 } from './otel/otel-collector-layer-utils';
+import {FunctionLogOptions} from './function-log-options';
 
 /**
  * Properties for ExtendedNodejsFunction.
@@ -30,7 +31,8 @@ import {
 export interface ExtendedNodejsFunctionProps
   extends NodejsFunctionProps,
     FunctionAlarmsOptions,
-    DeployedFunctionOptions {
+    DeployedFunctionOptions,
+    FunctionLogOptions {
   /**
    * Whether to use ESM (ECMAScript Modules) for bundling. This will add ESM options to the bundling configuration and allows for functionality such as top level awaits.
    */
@@ -97,10 +99,19 @@ export class ExtendedNodejsFunction extends NodejsFunction {
         : [collectorInstanceLayer];
     }
 
+    if (props.logGroup && props.logConfig) {
+      throw new Error('Cannot specify both logGroup and logConfig.');
+    }
+
+    if (props.logRetention && props.logConfig) {
+      throw new Error('Cannot specify both logRetention and logConfig.');
+    }
+
     let logGroup = props.logGroup;
     if (!logGroup && !props.logRetention) {
       logGroup = new LogGroup(scope, `${id}LogGroup`, {
-        retention: RetentionDays.THREE_DAYS,
+        retention: props.logConfig?.retention ?? RetentionDays.THREE_DAYS,
+        logGroupName: props.logConfig?.logGroupName,
         removalPolicy: RemovalPolicy.DESTROY,
       });
     }

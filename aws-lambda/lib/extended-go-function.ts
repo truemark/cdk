@@ -7,6 +7,7 @@ import {LogGroup, RetentionDays} from 'aws-cdk-lib/aws-logs';
 import {Architecture, LoggingFormat, Runtime} from 'aws-cdk-lib/aws-lambda';
 import {Duration, RemovalPolicy} from 'aws-cdk-lib';
 import * as process from 'process';
+import {FunctionLogOptions} from './function-log-options';
 
 /**
  * Properties for ExtendedGoFunction.
@@ -14,7 +15,8 @@ import * as process from 'process';
 export interface ExtendedGoFunctionProps
   extends GoFunctionProps,
     FunctionAlarmsOptions,
-    DeployedFunctionOptions {}
+    DeployedFunctionOptions,
+    FunctionLogOptions {}
 
 /**
  * Extended version of the GoFunction that supports alarms and deployments.
@@ -24,10 +26,19 @@ export class ExtendedGoFunction extends GoFunction {
   readonly deployment?: FunctionDeployment;
 
   constructor(scope: Construct, id: string, props: ExtendedGoFunctionProps) {
+    if (props.logGroup && props.logConfig) {
+      throw new Error('Cannot specify both logGroup and logConfig.');
+    }
+
+    if (props.logRetention && props.logConfig) {
+      throw new Error('Cannot specify both logRetention and logConfig.');
+    }
+
     let logGroup = props.logGroup;
     if (!logGroup && !props.logRetention) {
       logGroup = new LogGroup(scope, `${id}LogGroup`, {
-        retention: RetentionDays.THREE_DAYS,
+        retention: props.logConfig?.retention ?? RetentionDays.THREE_DAYS,
+        logGroupName: props.logConfig?.logGroupName,
         removalPolicy: RemovalPolicy.DESTROY,
       });
     }
