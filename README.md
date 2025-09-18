@@ -40,4 +40,4 @@ This project follows a [semantic versioning](https://semver.org/) pattern.
 
 Among other features, this library supports the following features:
 
-1. [CDK Open Telemetry Support](README_otel.md)
+1. [CDK Open Telemetry Support](README_OTEL.md)
