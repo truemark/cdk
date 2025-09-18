@@ -5,8 +5,8 @@ import {
 } from 'aws-cdk-lib/custom-resources';
 import {Construct} from 'constructs';
 import {Effect, PolicyStatement} from 'aws-cdk-lib/aws-iam';
-import {Duration, Stack} from 'aws-cdk-lib';
-import {RetentionDays} from 'aws-cdk-lib/aws-logs';
+import {Duration, RemovalPolicy, Stack} from 'aws-cdk-lib';
+import {LogGroup, RetentionDays} from 'aws-cdk-lib/aws-logs';
 
 /**
  * Properties for PutItem.
@@ -56,9 +56,14 @@ export class PutItem extends Construct {
       physicalResourceId: PhysicalResourceId.of(Date.now().toString()),
     };
 
+    const logGroup = new LogGroup(scope, `${id}LogGroup`, {
+      retention: props.logRetention ?? RetentionDays.FIVE_DAYS,
+      removalPolicy: RemovalPolicy.DESTROY,
+    });
+
     this.resource = new AwsCustomResource(this, 'Default', {
+      logGroup,
       onUpdate: call,
-      logRetention: props.logRetention ?? RetentionDays.FIVE_DAYS,
       installLatestAwsSdk: false,
       policy: {
         statements: [

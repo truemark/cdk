@@ -7,6 +7,8 @@ import {DeployedFunctionOptions} from './extended-function';
 import {FunctionDeployment} from './function-deployment';
 import {Construct} from 'constructs';
 import {LoggingFormat} from 'aws-cdk-lib/aws-lambda';
+import {LogGroup, RetentionDays} from 'aws-cdk-lib/aws-logs';
+import {RemovalPolicy} from 'aws-cdk-lib';
 
 /**
  * Properties for PythonFunctionAlpha
@@ -28,7 +30,16 @@ export class ExtendedPythonFunction extends PythonFunction {
     id: string,
     props: ExtendedPythonFunctionProps,
   ) {
+    let logGroup = props.logGroup;
+    if (!logGroup && !props.logRetention) {
+      logGroup = new LogGroup(scope, `${id}LogGroup`, {
+        retention: RetentionDays.THREE_DAYS,
+        removalPolicy: RemovalPolicy.DESTROY,
+      });
+    }
+
     super(scope, id, {
+      logGroup,
       ...props,
       loggingFormat: props.loggingFormat ?? LoggingFormat.JSON,
     });

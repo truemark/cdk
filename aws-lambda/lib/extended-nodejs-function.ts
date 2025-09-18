@@ -2,14 +2,14 @@ import {Construct} from 'constructs';
 import {FunctionAlarms, FunctionAlarmsOptions} from './function-alarms';
 import {FunctionDeployment} from './function-deployment';
 import {DeployedFunctionOptions} from './extended-function';
-import {RetentionDays} from 'aws-cdk-lib/aws-logs';
+import {LogGroup, RetentionDays} from 'aws-cdk-lib/aws-logs';
 import {
   Architecture,
   LayerVersion,
   LoggingFormat,
   Runtime,
 } from 'aws-cdk-lib/aws-lambda';
-import {Duration, Stack} from 'aws-cdk-lib';
+import {Duration, RemovalPolicy, Stack} from 'aws-cdk-lib';
 import {Effect, PolicyStatement} from 'aws-cdk-lib/aws-iam';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -97,8 +97,16 @@ export class ExtendedNodejsFunction extends NodejsFunction {
         : [collectorInstanceLayer];
     }
 
+    let logGroup = props.logGroup;
+    if (!logGroup && !props.logRetention) {
+      logGroup = new LogGroup(scope, `${id}LogGroup`, {
+        retention: RetentionDays.THREE_DAYS,
+        removalPolicy: RemovalPolicy.DESTROY,
+      });
+    }
+
     super(scope, id, {
-      logRetention: RetentionDays.THREE_DAYS, // change default from INFINITE
+      logGroup,
       architecture,
       memorySize: 768, // change default from 128
       timeout: Duration.seconds(30), // change default from 3

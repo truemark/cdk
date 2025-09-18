@@ -6,6 +6,7 @@ import {ExtendedApp, ExtendedStack, ExtendedStage} from './aws-cdk';
 export enum ResourceType {
   CODEPIPELINE = 'AWS::CodePipeline::Pipeline',
   CLOUDWATCH_ALARM = 'AWS::CloudWatch::Alarm',
+  CLOUDWATCH_LOG_GROUP = 'AWS::Logs::LogGroup',
   LAMBDA_FUNCTION = 'AWS::Lambda::Function',
   DYNAMODB_TABLE = 'AWS::DynamoDB::Table',
   DYNAMODB_GLOBAL_TABLE = 'AWS::DynamoDB::GlobalTable',

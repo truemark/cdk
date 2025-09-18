@@ -1,11 +1,11 @@
 import {Construct} from 'constructs';
-import {Duration, Stack} from 'aws-cdk-lib';
+import {Duration, RemovalPolicy, Stack} from 'aws-cdk-lib';
 import {
   AwsCustomResource,
   AwsSdkCall,
   PhysicalResourceId,
 } from 'aws-cdk-lib/custom-resources';
-import {RetentionDays} from 'aws-cdk-lib/aws-logs';
+import {LogGroup, RetentionDays} from 'aws-cdk-lib/aws-logs';
 import {Effect, PolicyStatement} from 'aws-cdk-lib/aws-iam';
 
 export type BatchWriteItemKey = {
@@ -63,9 +63,14 @@ export class BatchWriteItem extends Construct {
 
     const tableNames = Object.keys(props.items.RequestItems);
 
+    const logGroup = new LogGroup(scope, `${id}LogGroup`, {
+      retention: props.logRetention ?? RetentionDays.FIVE_DAYS,
+      removalPolicy: RemovalPolicy.DESTROY,
+    });
+
     this.resource = new AwsCustomResource(this, 'Default', {
+      logGroup,
       onUpdate: call,
-      logRetention: props.logRetention ?? RetentionDays.FIVE_DAYS,
       installLatestAwsSdk: false,
       policy: {
         statements: [

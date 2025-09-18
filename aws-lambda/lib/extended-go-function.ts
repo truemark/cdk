@@ -3,9 +3,9 @@ import {FunctionDeployment} from './function-deployment';
 import {Construct} from 'constructs';
 import {DeployedFunctionOptions} from './extended-function';
 import {GoFunction, GoFunctionProps} from '@aws-cdk/aws-lambda-go-alpha';
-import {RetentionDays} from 'aws-cdk-lib/aws-logs';
+import {LogGroup, RetentionDays} from 'aws-cdk-lib/aws-logs';
 import {Architecture, LoggingFormat, Runtime} from 'aws-cdk-lib/aws-lambda';
-import {Duration} from 'aws-cdk-lib';
+import {Duration, RemovalPolicy} from 'aws-cdk-lib';
 import * as process from 'process';
 
 /**
@@ -24,8 +24,16 @@ export class ExtendedGoFunction extends GoFunction {
   readonly deployment?: FunctionDeployment;
 
   constructor(scope: Construct, id: string, props: ExtendedGoFunctionProps) {
+    let logGroup = props.logGroup;
+    if (!logGroup && !props.logRetention) {
+      logGroup = new LogGroup(scope, `${id}LogGroup`, {
+        retention: RetentionDays.THREE_DAYS,
+        removalPolicy: RemovalPolicy.DESTROY,
+      });
+    }
+
     super(scope, id, {
-      logRetention: RetentionDays.THREE_DAYS,
+      logGroup,
       architecture: Architecture.ARM_64,
       memorySize: 768,
       timeout: Duration.seconds(30),

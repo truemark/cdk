@@ -10,14 +10,19 @@ test('Test NodejsFunction', () => {
     entry: HelperTest.resolveTestFiles(
       path.join('typescript-lambda', 'index.ts'),
     ),
-    runtime: Runtime.NODEJS_16_X,
+    runtime: Runtime.NODEJS_22_X,
     // bundling: {
     //   forceDockerBundling: true
     // }
   });
   const template = Template.fromStack(stack);
+  // HelperTest.logTemplate(template);
   template.hasResourceProperties(ResourceType.LAMBDA_FUNCTION, {
-    Runtime: 'nodejs16.x',
+    Runtime: 'nodejs22.x',
   });
   template.resourceCountIs(ResourceType.CLOUDWATCH_ALARM, 3);
+  template.resourceCountIs(ResourceType.CLOUDWATCH_LOG_GROUP, 1);
+  template.hasResourceProperties(ResourceType.CLOUDWATCH_LOG_GROUP, {
+    RetentionInDays: 3,
+  });
 });
