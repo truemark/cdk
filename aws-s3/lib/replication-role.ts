@@ -9,6 +9,7 @@ import {
   PolicyStatement,
   PrincipalPolicyFragment,
   Role,
+  RoleReference,
   ServicePrincipal,
 } from 'aws-cdk-lib/aws-iam';
 import {ResourceEnvironment, RemovalPolicy, Stack} from 'aws-cdk-lib';
@@ -24,6 +25,7 @@ export interface ReplicationRoleProps {
 }
 
 export class ReplicationRole extends Construct implements IRole {
+  readonly roleRef: RoleReference;
   readonly role: Role;
   readonly roleArn: string;
   readonly roleName: string;
@@ -95,6 +97,7 @@ export class ReplicationRole extends Construct implements IRole {
       }),
     );
 
+    this.roleRef = replicationRole.roleRef;
     this.role = replicationRole;
     this.roleArn = replicationRole.roleArn;
     this.roleName = replicationRole.roleName;
