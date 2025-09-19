@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v1.20.0
+
+### Changed
+
+- Function deployments are now turned off my default. You can opt-in my setting createDeployment on deploymentOptions.
+- LogGroups for Lambda Functions are now created for extended lambda functions with the default removal policy set to DESTROY.
+- Updated dependencies to newer versions.
+
+### Removed
+
+- Removed deprecated use of logRetention on extended lambda functions.
+- Removed deprecated use of logRetention on DynamoDB PutItem and BatchWriteItem.
+- Removed deprecated use of logRetention on CloudFront Invalidation.
+- Removed deprecated use of aws-cdk-lib.aws_route53.RecordSetOptions#deleteExisting from DomainName.
+
+### Added
+
+- Support for roleRef to S3 ReplicationRole.
+
 ## v1.19.4
 
 ### Changed
