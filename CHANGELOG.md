@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Support for roleRef to S3 ReplicationRole.
+- Additional runtimes for CdkPipeline.
 
 ## v1.19.4
 
