@@ -213,12 +213,12 @@ export class ExtendedNodejsFunction extends NodejsFunction {
       ...props,
     });
 
-    if (props.deploymentOptions?.createDeployment ?? true) {
+    if (props.deploymentOptions?.createDeployment ?? false) {
       this.deployment = new FunctionDeployment(this, 'Deployment', {
         ...props.deploymentOptions,
         function: this,
       });
-      if (props.deploymentOptions?.includeCriticalAlarms ?? true) {
+      if (props.deploymentOptions?.includeCriticalAlarms ?? false) {
         this.deployment.addAlarms(...this.alarms.getCriticalAlarms());
       }
       if (props.deploymentOptions?.includeWarningAlarms ?? false) {
