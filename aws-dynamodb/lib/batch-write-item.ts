@@ -63,8 +63,12 @@ export class BatchWriteItem extends Construct {
 
     const tableNames = Object.keys(props.items.RequestItems);
 
+    // Calculate the function name that CDK will generate for the custom resource
+    const functionName = `${Stack.of(scope).stackName}-${id}Default`;
+
     const logGroup = new LogGroup(scope, `${id}LogGroup`, {
       retention: props.logRetention ?? RetentionDays.FIVE_DAYS,
+      logGroupName: `/aws/lambda/${functionName}`,
       removalPolicy: RemovalPolicy.DESTROY,
     });
 

@@ -109,9 +109,14 @@ export class ExtendedNodejsFunction extends NodejsFunction {
 
     let logGroup = props.logGroup;
     if (!logGroup && !props.logRetention) {
+      // Calculate the function name that CDK will generate
+      const functionName =
+        props.functionName ?? `${Stack.of(scope).stackName}-${id}`;
+
       logGroup = new LogGroup(scope, `${id}LogGroup`, {
         retention: props.logConfig?.retention ?? RetentionDays.THREE_DAYS,
-        logGroupName: props.logConfig?.logGroupName,
+        logGroupName:
+          props.logConfig?.logGroupName ?? `/aws/lambda/${functionName}`,
         removalPolicy: RemovalPolicy.DESTROY,
       });
     }

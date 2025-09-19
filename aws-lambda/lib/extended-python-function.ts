@@ -8,7 +8,7 @@ import {FunctionDeployment} from './function-deployment';
 import {Construct} from 'constructs';
 import {LoggingFormat} from 'aws-cdk-lib/aws-lambda';
 import {LogGroup, RetentionDays} from 'aws-cdk-lib/aws-logs';
-import {RemovalPolicy} from 'aws-cdk-lib';
+import {RemovalPolicy, Stack} from 'aws-cdk-lib';
 import {FunctionLogOptions} from './function-log-options';
 
 /**
@@ -42,9 +42,14 @@ export class ExtendedPythonFunction extends PythonFunction {
 
     let logGroup = props.logGroup;
     if (!logGroup && !props.logRetention) {
+      // Calculate the function name that CDK will generate
+      const functionName =
+        props.functionName ?? `${Stack.of(scope).stackName}-${id}`;
+
       logGroup = new LogGroup(scope, `${id}LogGroup`, {
         retention: props.logConfig?.retention ?? RetentionDays.THREE_DAYS,
-        logGroupName: props.logConfig?.logGroupName,
+        logGroupName:
+          props.logConfig?.logGroupName ?? `/aws/lambda/${functionName}`,
         removalPolicy: RemovalPolicy.DESTROY,
       });
     }

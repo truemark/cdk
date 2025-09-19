@@ -66,8 +66,12 @@ export class Invalidation extends Construct {
       },
       physicalResourceId: PhysicalResourceId.of(now),
     };
+    // Calculate the function name that CDK will generate for the custom resource
+    const functionName = `${Stack.of(scope).stackName}-${id}Default`;
+
     const logGroup = new LogGroup(scope, `${id}LogGroup`, {
       retention: props.logRetention ?? RetentionDays.FIVE_DAYS,
+      logGroupName: `/aws/lambda/${functionName}`,
       removalPolicy: RemovalPolicy.DESTROY,
     });
     this.resource = new AwsCustomResource(this, 'Default', {
