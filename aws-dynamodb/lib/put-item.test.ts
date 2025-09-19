@@ -1,4 +1,4 @@
-import {HelperTest} from '../../helper.test';
+import {HelperTest, ResourceType} from '../../helper.test';
 
 import {marshall} from '@aws-sdk/util-dynamodb';
 import {PutItem} from './put-item';
@@ -25,4 +25,8 @@ test('Test PutItem', () => {
   });
   const template = Template.fromStack(stack);
   template.hasResourceProperties('Custom::AWS', {});
+  template.resourceCountIs(ResourceType.CLOUDWATCH_LOG_GROUP, 1);
+  template.hasResourceProperties(ResourceType.CLOUDWATCH_LOG_GROUP, {
+    RetentionInDays: 3,
+  });
 });

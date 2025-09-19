@@ -5,8 +5,10 @@ import {
   FunctionDeploymentOptions,
 } from './function-deployment';
 import {Function, FunctionProps, LoggingFormat} from 'aws-cdk-lib/aws-lambda';
-import {LogGroup, RetentionDays} from 'aws-cdk-lib/aws-logs';
-import {RemovalPolicy} from 'aws-cdk-lib';
+import {
+  configureLogGroupForFunction,
+  FunctionLogOptions,
+} from './function-log-options';
 
 export interface DeployedFunctionDeploymentOptions
   extends FunctionDeploymentOptions {
@@ -46,7 +48,8 @@ export interface DeployedFunctionOptions {
 export interface ExtendedFunctionProps
   extends FunctionProps,
     FunctionAlarmsOptions,
-    DeployedFunctionOptions {}
+    DeployedFunctionOptions,
+    FunctionLogOptions {}
 
 /**
  * Extended version of Function adding alarms, deployment and setting loggingFormat to JSON.
@@ -56,13 +59,12 @@ export class ExtendedFunction extends Function {
   readonly deployment?: FunctionDeployment;
 
   constructor(scope: Construct, id: string, props: ExtendedFunctionProps) {
-    let logGroup = props.logGroup;
-    if (!logGroup && !props.logRetention) {
-      logGroup = new LogGroup(scope, `${id}LogGroup`, {
-        retention: RetentionDays.THREE_DAYS,
-        removalPolicy: RemovalPolicy.DESTROY,
-      });
-    }
+    const logGroup = configureLogGroupForFunction(
+      scope,
+      `${id}LogGroup`,
+      props,
+    );
+
     super(scope, id, {
       logGroup,
       ...props,

@@ -1,12 +1,12 @@
 import {Construct} from 'constructs';
-import {Duration, RemovalPolicy, Stack} from 'aws-cdk-lib';
+import {Duration, Stack} from 'aws-cdk-lib';
 import {
   AwsCustomResource,
   AwsSdkCall,
   PhysicalResourceId,
 } from 'aws-cdk-lib/custom-resources';
-import {LogGroup, RetentionDays} from 'aws-cdk-lib/aws-logs';
 import {Effect, PolicyStatement} from 'aws-cdk-lib/aws-iam';
+import {configureLogGroupForFunction} from '../../aws-lambda/lib/function-log-options';
 
 export type BatchWriteItemKey = {
   // eslint-disable-next-line  @typescript-eslint/no-explicit-any
@@ -63,14 +63,11 @@ export class BatchWriteItem extends Construct {
 
     const tableNames = Object.keys(props.items.RequestItems);
 
-    // Calculate the function name that CDK will generate for the custom resource
-    const functionName = `${Stack.of(scope).stackName}-${id}Default`;
-
-    const logGroup = new LogGroup(scope, `${id}LogGroup`, {
-      retention: props.logRetention ?? RetentionDays.FIVE_DAYS,
-      logGroupName: `/aws/lambda/${functionName}`,
-      removalPolicy: RemovalPolicy.DESTROY,
-    });
+    const logGroup = configureLogGroupForFunction(
+      scope,
+      `${id}LogGroup`,
+      props,
+    );
 
     this.resource = new AwsCustomResource(this, 'Default', {
       logGroup,

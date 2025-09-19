@@ -3,11 +3,13 @@ import {FunctionDeployment} from './function-deployment';
 import {Construct} from 'constructs';
 import {DeployedFunctionOptions} from './extended-function';
 import {GoFunction, GoFunctionProps} from '@aws-cdk/aws-lambda-go-alpha';
-import {LogGroup, RetentionDays} from 'aws-cdk-lib/aws-logs';
 import {Architecture, LoggingFormat, Runtime} from 'aws-cdk-lib/aws-lambda';
-import {Duration, RemovalPolicy, Stack} from 'aws-cdk-lib';
+import {Duration} from 'aws-cdk-lib';
 import * as process from 'process';
-import {FunctionLogOptions} from './function-log-options';
+import {
+  configureLogGroupForFunction,
+  FunctionLogOptions,
+} from './function-log-options';
 
 /**
  * Properties for ExtendedGoFunction.
@@ -26,27 +28,11 @@ export class ExtendedGoFunction extends GoFunction {
   readonly deployment?: FunctionDeployment;
 
   constructor(scope: Construct, id: string, props: ExtendedGoFunctionProps) {
-    if (props.logGroup && props.logConfig) {
-      throw new Error('Cannot specify both logGroup and logConfig.');
-    }
-
-    if (props.logRetention && props.logConfig) {
-      throw new Error('Cannot specify both logRetention and logConfig.');
-    }
-
-    let logGroup = props.logGroup;
-    if (!logGroup && !props.logRetention) {
-      // Calculate the function name that CDK will generate
-      const functionName =
-        props.functionName ?? `${Stack.of(scope).stackName}-${id}`;
-
-      logGroup = new LogGroup(scope, `${id}LogGroup`, {
-        retention: props.logConfig?.retention ?? RetentionDays.THREE_DAYS,
-        logGroupName:
-          props.logConfig?.logGroupName ?? `/aws/lambda/${functionName}`,
-        removalPolicy: RemovalPolicy.DESTROY,
-      });
-    }
+    const logGroup = configureLogGroupForFunction(
+      scope,
+      `${id}LogGroup`,
+      props,
+    );
 
     super(scope, id, {
       logGroup,

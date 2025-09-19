@@ -7,9 +7,10 @@ import {DeployedFunctionOptions} from './extended-function';
 import {FunctionDeployment} from './function-deployment';
 import {Construct} from 'constructs';
 import {LoggingFormat} from 'aws-cdk-lib/aws-lambda';
-import {LogGroup, RetentionDays} from 'aws-cdk-lib/aws-logs';
-import {RemovalPolicy, Stack} from 'aws-cdk-lib';
-import {FunctionLogOptions} from './function-log-options';
+import {
+  configureLogGroupForFunction,
+  FunctionLogOptions,
+} from './function-log-options';
 
 /**
  * Properties for PythonFunctionAlpha
@@ -32,27 +33,11 @@ export class ExtendedPythonFunction extends PythonFunction {
     id: string,
     props: ExtendedPythonFunctionProps,
   ) {
-    if (props.logGroup && props.logConfig) {
-      throw new Error('Cannot specify both logGroup and logConfig.');
-    }
-
-    if (props.logRetention && props.logConfig) {
-      throw new Error('Cannot specify both logRetention and logConfig.');
-    }
-
-    let logGroup = props.logGroup;
-    if (!logGroup && !props.logRetention) {
-      // Calculate the function name that CDK will generate
-      const functionName =
-        props.functionName ?? `${Stack.of(scope).stackName}-${id}`;
-
-      logGroup = new LogGroup(scope, `${id}LogGroup`, {
-        retention: props.logConfig?.retention ?? RetentionDays.THREE_DAYS,
-        logGroupName:
-          props.logConfig?.logGroupName ?? `/aws/lambda/${functionName}`,
-        removalPolicy: RemovalPolicy.DESTROY,
-      });
-    }
+    const logGroup = configureLogGroupForFunction(
+      scope,
+      `${id}LogGroup`,
+      props,
+    );
 
     super(scope, id, {
       logGroup,
