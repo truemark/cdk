@@ -24,17 +24,11 @@ import {BucketDeploymentConfig, ExtendedBucket} from './extended-bucket';
 export interface CloudFrontBucketV2Props extends ExtendedConstructProps {
   /**
    * Policy to apply when the bucket is removed from this stack.
+   * Setting this to RemovalPolicy.DESTROY will also auto delete objects.
+   *
    * @default RemovalPolicy.RETAIN
    */
   readonly removalPolicy?: RemovalPolicy;
-
-  /**
-   * Whether all objects should be automatically deleted when the bucket is removed from the stack or when the stack is deleted.
-   * Requires the removalPolicy to be set to RemovalPolicy.DESTROY. Default is false.
-   *
-   * @default false
-   */
-  readonly autoDeleteObjects?: boolean;
 
   /**
    * Whether this bucket should have versioning turned on or not. Default is false.
@@ -89,14 +83,9 @@ export class CloudFrontBucketV2 extends ExtendedConstruct {
       standardTags: StandardTags.merge(props?.standardTags, LibStandardTags),
     });
 
-    const removalPolicy = props?.removalPolicy ?? RemovalPolicy.RETAIN;
-    const autoDeleteObjects =
-      (props?.autoDeleteObjects ?? false) &&
-      removalPolicy === RemovalPolicy.DESTROY;
-
     this.bucket = new ExtendedBucket(this, 'Default', {
-      removalPolicy,
-      autoDeleteObjects,
+      removalPolicy: props?.removalPolicy ?? RemovalPolicy.RETAIN,
+      autoDeleteObjects: props?.removalPolicy === RemovalPolicy.DESTROY,
       versioned: props?.versioned ?? false,
       transferAcceleration: props?.transferAcceleration ?? false,
       eventBridgeEnabled: props?.eventBridgeEnabled ?? false,
