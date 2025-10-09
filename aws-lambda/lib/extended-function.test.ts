@@ -15,4 +15,8 @@ test('Test Function', () => {
     Runtime: 'python3.9',
   });
   template.resourceCountIs(ResourceType.CLOUDWATCH_ALARM, 3);
+  template.resourceCountIs(ResourceType.CLOUDWATCH_LOG_GROUP, 1);
+  template.hasResourceProperties(ResourceType.CLOUDWATCH_LOG_GROUP, {
+    RetentionInDays: 3,
+  });
 });

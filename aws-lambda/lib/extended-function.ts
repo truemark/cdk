@@ -5,6 +5,10 @@ import {
   FunctionDeploymentOptions,
 } from './function-deployment';
 import {Function, FunctionProps, LoggingFormat} from 'aws-cdk-lib/aws-lambda';
+import {
+  configureLogGroupForFunction,
+  FunctionLogOptions,
+} from './function-log-options';
 
 export interface DeployedFunctionDeploymentOptions
   extends FunctionDeploymentOptions {
@@ -44,7 +48,8 @@ export interface DeployedFunctionOptions {
 export interface ExtendedFunctionProps
   extends FunctionProps,
     FunctionAlarmsOptions,
-    DeployedFunctionOptions {}
+    DeployedFunctionOptions,
+    FunctionLogOptions {}
 
 /**
  * Extended version of Function adding alarms, deployment and setting loggingFormat to JSON.
@@ -54,7 +59,14 @@ export class ExtendedFunction extends Function {
   readonly deployment?: FunctionDeployment;
 
   constructor(scope: Construct, id: string, props: ExtendedFunctionProps) {
+    const logGroup = configureLogGroupForFunction(
+      scope,
+      `${id}LogGroup`,
+      props,
+    );
+
     super(scope, id, {
+      logGroup,
       ...props,
       loggingFormat: props.loggingFormat ?? LoggingFormat.JSON,
     });
@@ -65,12 +77,12 @@ export class ExtendedFunction extends Function {
       ...props,
     });
 
-    if (props.deploymentOptions?.createDeployment ?? true) {
+    if (props.deploymentOptions?.createDeployment ?? false) {
       this.deployment = new FunctionDeployment(this, 'Deployment', {
         ...props.deploymentOptions,
         function: this,
       });
-      if (props.deploymentOptions?.includeCriticalAlarms ?? true) {
+      if (props.deploymentOptions?.includeCriticalAlarms ?? false) {
         this.deployment.addAlarms(...this.alarms.getCriticalAlarms());
       }
       if (props.deploymentOptions?.includeWarningAlarms ?? false) {

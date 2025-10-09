@@ -2,7 +2,6 @@ import {Construct} from 'constructs';
 import {FunctionAlarms, FunctionAlarmsOptions} from './function-alarms';
 import {FunctionDeployment} from './function-deployment';
 import {DeployedFunctionOptions} from './extended-function';
-import {RetentionDays} from 'aws-cdk-lib/aws-logs';
 import {
   Architecture,
   LayerVersion,
@@ -23,6 +22,10 @@ import {
   DEFAULT_APPLICATION_METRICS_NAMESPACE,
   initializeOtelConfigDataFromSSM,
 } from './otel/otel-collector-layer-utils';
+import {
+  configureLogGroupForFunction,
+  FunctionLogOptions,
+} from './function-log-options';
 
 /**
  * Properties for ExtendedNodejsFunction.
@@ -30,7 +33,8 @@ import {
 export interface ExtendedNodejsFunctionProps
   extends NodejsFunctionProps,
     FunctionAlarmsOptions,
-    DeployedFunctionOptions {
+    DeployedFunctionOptions,
+    FunctionLogOptions {
   /**
    * Whether to use ESM (ECMAScript Modules) for bundling. This will add ESM options to the bundling configuration and allows for functionality such as top level awaits.
    */
@@ -97,8 +101,14 @@ export class ExtendedNodejsFunction extends NodejsFunction {
         : [collectorInstanceLayer];
     }
 
+    const logGroup = configureLogGroupForFunction(
+      scope,
+      `${id}LogGroup`,
+      props,
+    );
+
     super(scope, id, {
-      logRetention: RetentionDays.THREE_DAYS, // change default from INFINITE
+      logGroup,
       architecture,
       memorySize: 768, // change default from 128
       timeout: Duration.seconds(30), // change default from 3
@@ -203,12 +213,12 @@ export class ExtendedNodejsFunction extends NodejsFunction {
       ...props,
     });
 
-    if (props.deploymentOptions?.createDeployment ?? true) {
+    if (props.deploymentOptions?.createDeployment ?? false) {
       this.deployment = new FunctionDeployment(this, 'Deployment', {
         ...props.deploymentOptions,
         function: this,
       });
-      if (props.deploymentOptions?.includeCriticalAlarms ?? true) {
+      if (props.deploymentOptions?.includeCriticalAlarms ?? false) {
         this.deployment.addAlarms(...this.alarms.getCriticalAlarms());
       }
       if (props.deploymentOptions?.includeWarningAlarms ?? false) {

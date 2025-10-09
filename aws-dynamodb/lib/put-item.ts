@@ -6,7 +6,7 @@ import {
 import {Construct} from 'constructs';
 import {Effect, PolicyStatement} from 'aws-cdk-lib/aws-iam';
 import {Duration, Stack} from 'aws-cdk-lib';
-import {RetentionDays} from 'aws-cdk-lib/aws-logs';
+import {configureLogGroupForFunction} from '../../aws-lambda/lib/function-log-options';
 
 /**
  * Properties for PutItem.
@@ -56,9 +56,15 @@ export class PutItem extends Construct {
       physicalResourceId: PhysicalResourceId.of(Date.now().toString()),
     };
 
+    const logGroup = configureLogGroupForFunction(
+      scope,
+      `${id}LogGroup`,
+      props,
+    );
+
     this.resource = new AwsCustomResource(this, 'Default', {
+      logGroup,
       onUpdate: call,
-      logRetention: props.logRetention ?? RetentionDays.FIVE_DAYS,
       installLatestAwsSdk: false,
       policy: {
         statements: [

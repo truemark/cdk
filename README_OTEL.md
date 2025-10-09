@@ -14,7 +14,6 @@ readonly otel?: OtelConfig;
 ```
 
 - Use of the SSM parameter or the configuration file
-
     1. Example enabling otel pointing to an aws ssm parameter:
 
     ```typescript
@@ -24,20 +23,18 @@ readonly otel?: OtelConfig;
     },
     ```
 
-    Where `context.otelSsmConfigContentParam` is the ssm parameter name in aws.
+    Where `context.otelSsmConfigContentParam` is the ssm parameter name in aws. 2. Using your own otel collector configuration file
 
-    2. Using your own otel collector configuration file
+          The code should look like the below example:
 
-        The code should look like the below example:
+          ```typescript
+              otel: {
+                  enabled: true,
+                  configPath: './resources/collector-ecs.yaml',
+              },
+          ```
 
-        ```typescript
-            otel: {
-                enabled: true,
-                configPath: './resources/collector-ecs.yaml',
-            },
-        ```
-
-        When using your own otel collector configuration file, it must have the health check endpoints like the below example:
+          When using your own otel collector configuration file, it must have the health check endpoints like the below example:
 
     ```yaml
     extensions:

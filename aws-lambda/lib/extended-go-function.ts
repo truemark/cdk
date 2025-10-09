@@ -3,10 +3,13 @@ import {FunctionDeployment} from './function-deployment';
 import {Construct} from 'constructs';
 import {DeployedFunctionOptions} from './extended-function';
 import {GoFunction, GoFunctionProps} from '@aws-cdk/aws-lambda-go-alpha';
-import {RetentionDays} from 'aws-cdk-lib/aws-logs';
 import {Architecture, LoggingFormat, Runtime} from 'aws-cdk-lib/aws-lambda';
 import {Duration} from 'aws-cdk-lib';
 import * as process from 'process';
+import {
+  configureLogGroupForFunction,
+  FunctionLogOptions,
+} from './function-log-options';
 
 /**
  * Properties for ExtendedGoFunction.
@@ -14,7 +17,8 @@ import * as process from 'process';
 export interface ExtendedGoFunctionProps
   extends GoFunctionProps,
     FunctionAlarmsOptions,
-    DeployedFunctionOptions {}
+    DeployedFunctionOptions,
+    FunctionLogOptions {}
 
 /**
  * Extended version of the GoFunction that supports alarms and deployments.
@@ -24,8 +28,14 @@ export class ExtendedGoFunction extends GoFunction {
   readonly deployment?: FunctionDeployment;
 
   constructor(scope: Construct, id: string, props: ExtendedGoFunctionProps) {
+    const logGroup = configureLogGroupForFunction(
+      scope,
+      `${id}LogGroup`,
+      props,
+    );
+
     super(scope, id, {
-      logRetention: RetentionDays.THREE_DAYS,
+      logGroup,
       architecture: Architecture.ARM_64,
       memorySize: 768,
       timeout: Duration.seconds(30),
@@ -48,12 +58,12 @@ export class ExtendedGoFunction extends GoFunction {
       ...props,
     });
 
-    if (props.deploymentOptions?.createDeployment ?? true) {
+    if (props.deploymentOptions?.createDeployment ?? false) {
       this.deployment = new FunctionDeployment(this, 'Deployment', {
         ...props.deploymentOptions,
         function: this,
       });
-      if (props.deploymentOptions?.includeCriticalAlarms ?? true) {
+      if (props.deploymentOptions?.includeCriticalAlarms ?? false) {
         this.deployment.addAlarms(...this.alarms.getCriticalAlarms());
       }
       if (props.deploymentOptions?.includeWarningAlarms ?? false) {

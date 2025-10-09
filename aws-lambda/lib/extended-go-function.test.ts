@@ -13,4 +13,8 @@ test('Test GoFunctionAlpha', () => {
     Runtime: 'provided.al2023',
   });
   template.resourceCountIs(ResourceType.CLOUDWATCH_ALARM, 3);
+  template.resourceCountIs(ResourceType.CLOUDWATCH_LOG_GROUP, 1);
+  template.hasResourceProperties(ResourceType.CLOUDWATCH_LOG_GROUP, {
+    RetentionInDays: 3,
+  });
 });

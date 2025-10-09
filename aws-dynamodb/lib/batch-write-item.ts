@@ -5,8 +5,8 @@ import {
   AwsSdkCall,
   PhysicalResourceId,
 } from 'aws-cdk-lib/custom-resources';
-import {RetentionDays} from 'aws-cdk-lib/aws-logs';
 import {Effect, PolicyStatement} from 'aws-cdk-lib/aws-iam';
+import {configureLogGroupForFunction} from '../../aws-lambda/lib/function-log-options';
 
 export type BatchWriteItemKey = {
   // eslint-disable-next-line  @typescript-eslint/no-explicit-any
@@ -63,9 +63,15 @@ export class BatchWriteItem extends Construct {
 
     const tableNames = Object.keys(props.items.RequestItems);
 
+    const logGroup = configureLogGroupForFunction(
+      scope,
+      `${id}LogGroup`,
+      props,
+    );
+
     this.resource = new AwsCustomResource(this, 'Default', {
+      logGroup,
       onUpdate: call,
-      logRetention: props.logRetention ?? RetentionDays.FIVE_DAYS,
       installLatestAwsSdk: false,
       policy: {
         statements: [

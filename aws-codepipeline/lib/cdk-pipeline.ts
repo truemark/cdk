@@ -51,6 +51,9 @@ export enum GoVersion {
   GO_1_18 = '1.18',
   GO_1_20 = '1.20',
   GO_1_21 = '1.21',
+  GO_1_22 = '1.22',
+  GO_1_23 = '1.23',
+  GO_1_24 = '1.24',
 }
 
 /**
@@ -72,6 +75,7 @@ export enum DotnetVersion {
   DOTNET_3_1 = '3.1',
   DOTNET_5_0 = '5.0',
   DOTNET_6_0 = '6.0',
+  DOTNET_8_0 = '8.0',
 }
 
 export enum PythonVersion {
@@ -81,6 +85,7 @@ export enum PythonVersion {
   PYTHON_3_10 = '3.10',
   PYTHON_3_11 = '3.11',
   PYTHON_3_12 = '3.12',
+  PYTHON_3_13 = '3.13',
 }
 
 const DOCKER_BUILDX_SETUP_COMMANDS = [

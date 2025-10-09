@@ -7,6 +7,10 @@ import {DeployedFunctionOptions} from './extended-function';
 import {FunctionDeployment} from './function-deployment';
 import {Construct} from 'constructs';
 import {LoggingFormat} from 'aws-cdk-lib/aws-lambda';
+import {
+  configureLogGroupForFunction,
+  FunctionLogOptions,
+} from './function-log-options';
 
 /**
  * Properties for PythonFunctionAlpha
@@ -14,7 +18,8 @@ import {LoggingFormat} from 'aws-cdk-lib/aws-lambda';
 export interface ExtendedPythonFunctionProps
   extends PythonFunctionProps,
     FunctionAlarmsOptions,
-    DeployedFunctionOptions {}
+    DeployedFunctionOptions,
+    FunctionLogOptions {}
 
 /**
  * Extended version of the alpha PythonFunction that supports alarms and deployments.
@@ -28,7 +33,14 @@ export class ExtendedPythonFunction extends PythonFunction {
     id: string,
     props: ExtendedPythonFunctionProps,
   ) {
+    const logGroup = configureLogGroupForFunction(
+      scope,
+      `${id}LogGroup`,
+      props,
+    );
+
     super(scope, id, {
+      logGroup,
       ...props,
       loggingFormat: props.loggingFormat ?? LoggingFormat.JSON,
     });
@@ -39,12 +51,12 @@ export class ExtendedPythonFunction extends PythonFunction {
       ...props,
     });
 
-    if (props.deploymentOptions?.createDeployment ?? true) {
+    if (props.deploymentOptions?.createDeployment ?? false) {
       this.deployment = new FunctionDeployment(this, 'Deployment', {
         ...props.deploymentOptions,
         function: this,
       });
-      if (props.deploymentOptions?.includeCriticalAlarms ?? true) {
+      if (props.deploymentOptions?.includeCriticalAlarms ?? false) {
         this.deployment.addAlarms(...this.alarms.getCriticalAlarms());
       }
       if (props.deploymentOptions?.includeWarningAlarms ?? false) {
