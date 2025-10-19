@@ -1,8 +1,12 @@
 import {ExtendedTablePropsV2, ExtendedTableV2} from './extended-table-v2';
 import {Construct} from 'constructs';
-import {Attribute, AttributeType, Capacity} from 'aws-cdk-lib/aws-dynamodb';
+import {
+  Attribute,
+  AttributeType,
+  Capacity,
+  GlobalSecondaryIndexPropsV2,
+} from 'aws-cdk-lib/aws-dynamodb';
 import {RemovalPolicy} from 'aws-cdk-lib';
-import {GlobalSecondaryIndexPropsV2} from 'aws-cdk-lib/aws-dynamodb/lib/table-v2';
 
 type StandardGlobalSecondaryIndexPropsV2 = Partial<GlobalSecondaryIndexPropsV2>;
 
