@@ -9,13 +9,13 @@ importers:
   .:
     dependencies:
       '@aws-cdk/aws-lambda-go-alpha':
-        specifier: 2.220.0-alpha.0
+        specifier: ^2.220.0-alpha.0
         version: 2.220.0-alpha.0(aws-cdk-lib@2.220.0(constructs@10.4.2))(constructs@10.4.2)
       '@aws-cdk/aws-lambda-python-alpha':
-        specifier: 2.220.0-alpha.0
+        specifier: ^2.220.0-alpha.0
         version: 2.220.0-alpha.0(aws-cdk-lib@2.220.0(constructs@10.4.2))(constructs@10.4.2)
       '@aws-cdk/aws-redshift-alpha':
-        specifier: 2.220.0-alpha.0
+        specifier: ^2.220.0-alpha.0
         version: 2.220.0-alpha.0(aws-cdk-lib@2.220.0(constructs@10.4.2))(constructs@10.4.2)
       '@aws-sdk/credential-provider-node':
         specifier: ^3.891.0
