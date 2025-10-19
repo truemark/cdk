@@ -7,7 +7,6 @@ import {GlobalSecondaryIndexPropsV2} from 'aws-cdk-lib/aws-dynamodb/lib/table-v2
 type StandardGlobalSecondaryIndexPropsV2 = Partial<GlobalSecondaryIndexPropsV2>;
 
 type StandardTablePropsV2OmitFields =
-  | 'tableName'
   | 'partitionKey'
   | 'sortKey'
   | 'globalSecondaryIndexes';
