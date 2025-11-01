@@ -1,4 +1,4 @@
-import {RemovalPolicy, Stack} from 'aws-cdk-lib';
+import {Names, RemovalPolicy, Stack} from 'aws-cdk-lib';
 import {FunctionOptions} from 'aws-cdk-lib/aws-lambda';
 import {LogGroup, RetentionDays} from 'aws-cdk-lib/aws-logs';
 import {Construct} from 'constructs';
@@ -55,11 +55,18 @@ export function configureLogGroupForFunction(
     throw new Error('Cannot specify both logRetention and logConfig.');
   }
   if (!props.logGroup && !props.logRetention) {
-    // Calculate the function name that CDK will generate
+    // Calculate the function name that CDK will generate with hash suffix
+    // Strip 'LogGroup' suffix from id if present to get the Lambda function's id
+    const lambdaId = id.endsWith('LogGroup') ? id.slice(0, -8) : id;
     const functionName =
-      props.functionName ?? `${Stack.of(scope).stackName}-${id}`;
+      props.functionName ??
+      Names.uniqueResourceName(scope, {
+        maxLength: 64,
+        separator: '-',
+        allowedSpecialCharacters: '_-',
+      }).replace(/^.*?-/, `${Stack.of(scope).stackName}-${lambdaId}-`);
 
-    return new LogGroup(scope, `${id}LogGroup`, {
+    return new LogGroup(scope, id, {
       retention: logConfig?.retention ?? RetentionDays.THREE_DAYS,
       logGroupName: logConfig?.logGroupName ?? `/aws/lambda/${functionName}`,
       removalPolicy: RemovalPolicy.DESTROY,
