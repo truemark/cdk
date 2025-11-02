@@ -1,5 +1,9 @@
 import {Construct} from 'constructs';
-import {Pipeline, PipelineType} from 'aws-cdk-lib/aws-codepipeline';
+import {
+  CfnPipeline,
+  Pipeline,
+  PipelineType,
+} from 'aws-cdk-lib/aws-codepipeline';
 import {Key} from 'aws-cdk-lib/aws-kms';
 import {ArtifactBucket} from './artifact-bucket';
 import {
@@ -284,6 +288,14 @@ export interface CdkPipelineProps {
    * Enables the use of "docker buildx" in the asset publishing step. Default is true.
    */
   readonly enableDockerBuildxOnAssetPublish?: boolean;
+
+  /**
+   * Disable automatic triggering on source code changes. When true, the pipeline
+   * must be manually started. Useful for development environments.
+   *
+   * @default false (auto-trigger enabled)
+   */
+  readonly disableAutoTrigger?: boolean;
 }
 
 /**
@@ -480,6 +492,18 @@ export class CdkPipeline extends Construct {
         }),
       },
     });
+
+    // Disable automatic triggering if requested
+    if (props.disableAutoTrigger) {
+      const cfnPipeline = underlyingPipeline.node.defaultChild as CfnPipeline;
+      cfnPipeline.addPropertyOverride(
+        'Stages.0.Actions.0.Configuration.TriggerConfiguration',
+        {
+          ProviderType: 'CodeStarSourceConnection',
+          TriggerEvents: 'NONE',
+        },
+      );
+    }
 
     // Handle pipeline notifications
     if (props.slackChannelConfiguration && props.slackChannelConfigurationArn) {
