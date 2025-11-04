@@ -25,6 +25,8 @@ import * as iam from 'aws-cdk-lib/aws-iam';
 
 /**
  * Properties for CloudFrontBucket.
+ *
+ * @deprecated use ExtendedBucket instead
  */
 export interface CloudFrontBucketProps extends ExtendedConstructProps {
   /**

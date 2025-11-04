@@ -13,6 +13,12 @@ import {
   ISource,
   Source,
 } from 'aws-cdk-lib/aws-s3-deployment';
+import {S3BucketOrigin} from 'aws-cdk-lib/aws-cloudfront-origins';
+import {
+  IOrigin,
+  S3OriginAccessControl,
+  Signing,
+} from 'aws-cdk-lib/aws-cloudfront';
 
 /**
  * Properties for convenience deploy method in ExtendedBucket.
@@ -65,6 +71,8 @@ export type ExtendedBucketProps = BucketProps;
  */
 export class ExtendedBucket extends Bucket {
   protected deployCount = 0;
+  public originAccessControl: S3OriginAccessControl | undefined = undefined;
+  public origin: IOrigin | undefined = undefined;
   constructor(scope: Construct, id: string, props: ExtendedBucketProps) {
     super(scope, id, {
       // Do not allow public access
@@ -87,14 +95,9 @@ export class ExtendedBucket extends Bucket {
   /**
    * Deploys files to the bucket.
    *
-   * @param scope the scope to create the BucketDeployment in.
-   *
    * @param config the deployment configurations
    */
-  deploy(
-    scope: Construct,
-    config: BucketDeploymentConfig | BucketDeploymentConfig[],
-  ) {
+  deploy(config: BucketDeploymentConfig | BucketDeploymentConfig[]) {
     const configs = Array.isArray(config) ? config : [config];
     for (const c of configs) {
       const sources = (Array.isArray(c.source) ? c.source : [c.source]).map(
@@ -105,7 +108,7 @@ export class ExtendedBucket extends Bucket {
           ? c.exclude
           : [c.exclude]
         : [];
-      new BucketDeployment(scope, `Deploy${this.nextDeployCount()}`, {
+      new BucketDeployment(this, `Deploy${this.nextDeployCount()}`, {
         sources,
         destinationBucket: this,
         destinationKeyPrefix: c.prefix,
@@ -115,5 +118,29 @@ export class ExtendedBucket extends Bucket {
         memoryLimit: c.memoryLimit ?? 512,
       });
     }
+  }
+
+  /**
+   * Helper method to return a CloudFront Origin for this bucket. On repeated
+   * calls to this function, the same origin will be returned.
+   *
+   * @param signing Set how CloudFront signs requests. Default is Signing.SIGV4_NO_OVERRIDE.
+   */
+  toOrigin(signing?: Signing): IOrigin {
+    if (!this.origin) {
+      if (!this.originAccessControl) {
+        this.originAccessControl = new S3OriginAccessControl(
+          this,
+          'AccessControl',
+          {
+            signing: signing ?? Signing.SIGV4_NO_OVERRIDE,
+          },
+        );
+      }
+      this.origin = S3BucketOrigin.withOriginAccessControl(this, {
+        originAccessControlId: this.originAccessControl.originAccessControlId,
+      });
+    }
+    return this.origin;
   }
 }

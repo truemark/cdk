@@ -20,6 +20,8 @@ import {BucketDeploymentConfig, ExtendedBucket} from './extended-bucket';
 
 /**
  * Properties for CloudFrontBucketV2.
+ *
+ * @deprecated use ExtendedBucket instead
  */
 export interface CloudFrontBucketV2Props extends ExtendedConstructProps {
   /**
@@ -123,7 +125,7 @@ export class CloudFrontBucketV2 extends ExtendedConstruct {
   deploy(config: BucketDeploymentConfig | BucketDeploymentConfig[]) {
     const configs = Array.isArray(config) ? config : [config];
     for (const c of configs) {
-      this.bucket.deploy(this, {
+      this.bucket.deploy({
         ...c,
         cacheControl: c.cacheControl ?? [
           CacheControl.maxAge(Duration.minutes(15)),

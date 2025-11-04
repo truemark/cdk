@@ -135,7 +135,7 @@ export class WebsiteBucket extends ExtendedConstruct {
   deploy(config: BucketDeploymentConfig | BucketDeploymentConfig[]) {
     const configs = Array.isArray(config) ? config : [config];
     for (const c of configs) {
-      this.bucket.deploy(this, {
+      this.bucket.deploy({
         ...c,
         cacheControl: c.cacheControl ?? [
           CacheControl.maxAge(Duration.minutes(15)),
