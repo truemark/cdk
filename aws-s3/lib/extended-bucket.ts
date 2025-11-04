@@ -13,9 +13,9 @@ import {
   ISource,
   Source,
 } from 'aws-cdk-lib/aws-s3-deployment';
-import {S3BucketOrigin} from 'aws-cdk-lib/aws-cloudfront-origins';
 import {
   IOrigin,
+  OriginAccessIdentity,
   S3OriginAccessControl,
   Signing,
 } from 'aws-cdk-lib/aws-cloudfront';
@@ -72,6 +72,7 @@ export type ExtendedBucketProps = BucketProps;
 export class ExtendedBucket extends Bucket {
   protected deployCount = 0;
   public originAccessControl: S3OriginAccessControl | undefined = undefined;
+  public originAccessIdentity: OriginAccessIdentity | undefined = undefined;
   public origin: IOrigin | undefined = undefined;
   constructor(scope: Construct, id: string, props: ExtendedBucketProps) {
     super(scope, id, {
@@ -121,26 +122,42 @@ export class ExtendedBucket extends Bucket {
   }
 
   /**
-   * Helper method to return a CloudFront Origin for this bucket. On repeated
-   * calls to this function, the same origin will be returned.
+   * Helper method to return a CloudFront Origin Access Control for this bucket.
+   * On repeated calls to this function, the same origin access control will be returned.
+   *
+   * @deprecated use addOriginAccessIdentity instead
    *
    * @param signing Set how CloudFront signs requests. Default is Signing.SIGV4_NO_OVERRIDE.
    */
-  toOrigin(signing?: Signing): IOrigin {
-    if (!this.origin) {
-      if (!this.originAccessControl) {
-        this.originAccessControl = new S3OriginAccessControl(
-          this,
-          'AccessControl',
-          {
-            signing: signing ?? Signing.SIGV4_NO_OVERRIDE,
-          },
-        );
-      }
-      this.origin = S3BucketOrigin.withOriginAccessControl(this, {
-        originAccessControlId: this.originAccessControl.originAccessControlId,
-      });
+  addOriginAccessControl(signing?: Signing): S3OriginAccessControl {
+    if (!this.originAccessControl) {
+      this.originAccessControl = new S3OriginAccessControl(
+        this,
+        'OriginAccessControl',
+        {
+          signing: signing ?? Signing.SIGV4_NO_OVERRIDE,
+        },
+      );
     }
-    return this.origin;
+    return this.originAccessControl;
+  }
+
+  /**
+   * Helper method to return a CloudFront Origin Access Identity for this bucket.
+   * On repeated calls to this function, the same origin access identity will be returned.
+   *
+   * @param comment Optional comment to add to the OAI.
+   */
+  addOriginAccessIdentity(comment?: string): OriginAccessIdentity {
+    if (!this.originAccessIdentity) {
+      this.originAccessIdentity = new OriginAccessIdentity(
+        this,
+        'OriginAccessIdentity',
+        {
+          comment,
+        },
+      );
+    }
+    return this.originAccessIdentity;
   }
 }
