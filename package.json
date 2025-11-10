@@ -49,7 +49,7 @@
     "@aws-cdk/aws-lambda-python-alpha": "^2.220.0-alpha.0",
     "@aws-cdk/aws-redshift-alpha": "^2.220.0-alpha.0",
     "@aws-sdk/credential-provider-node": "^3.891.0",
-    "@opensearch-project/opensearch": "^2.13.0",
+    "@opensearch-project/opensearch": "^3.5.1",
     "aws-cdk-lib": "2.220.0",
     "cdk-monitoring-constructs": "9.15.2",
     "constructs": "10.4.2",
