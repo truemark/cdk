@@ -5,6 +5,7 @@ import {
   CfnRuleGroup,
   CfnWebACL,
 } from 'aws-cdk-lib/aws-wafv2';
+import {IKey} from 'aws-cdk-lib/aws-kms';
 import {ExtendedConstruct} from '../../aws-cdk';
 
 export type regionalBlockMode = 'count' | 'active';
@@ -26,6 +27,10 @@ export interface RegionalSecurityBaselineWebAclProps {
    * The number of days log events are kept in CloudWatch Logs. Default is 1 year.
    */
   readonly logRetention?: RetentionDays;
+  /**
+   * The KMS key to use for encrypting the log group. If not provided, the log group will not be encrypted.
+   */
+  readonly encryptionKey?: IKey;
   /**
    * The country codes to match against.
    */
@@ -259,6 +264,7 @@ export class RegionalSecurityBaselineWebAcl extends ExtendedConstruct {
     const wafRegionalLogGroup = new LogGroup(this, 'RegionalWafLogGroup', {
       logGroupName: `aws-waf-logs-regional-waf-acl-logs-${this.node.addr}`,
       retention: props?.logRetention ?? RetentionDays.ONE_YEAR,
+      encryptionKey: props?.encryptionKey,
     });
 
     new CfnLoggingConfiguration(this, 'RegionalLoggingConfig', {
