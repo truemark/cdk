@@ -21,7 +21,7 @@ export interface StandardDeadLetterQueueProps {
    * The number of seconds that Amazon SQS retains a message. Default is 14 days.
    *
    * You can specify an integer value from 60 seconds (1 minute) to 1209600
-   * seconds (14 days). The default value is 345600 seconds (4 days).
+   * seconds (14 days). The default value is 14 days.
    */
   readonly retentionPeriod?: Duration;
 
@@ -80,7 +80,7 @@ export class StandardDeadLetterQueue extends Queue {
   ) {
     super(scope, id, {
       queueName: props?.queueName,
-      retentionPeriod: props?.retentionPeriod ?? Duration.minutes(14),
+      retentionPeriod: props?.retentionPeriod ?? Duration.days(14),
       encryption: props?.encryption ?? QueueEncryption.SQS_MANAGED,
       encryptionMasterKey: props?.encryptionMasterKey,
       dataKeyReuse: props?.dataKeyReuse,

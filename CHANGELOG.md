@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CloudFrontBucket and CloudFrontBucketV2 are deprecated in favor of ExtendedBucket.
 - ExtendedBucket now supports creating origins for CloudFront.
 - The deploy method on \*Bucket types no longer accepts a scope.
+- Dead letter queues now default to 14 days of retention.
 
 ### Removed
 

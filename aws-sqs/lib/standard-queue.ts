@@ -44,6 +44,13 @@ export interface StandardQueueProps
   readonly deadLetterQueueName?: string;
 
   /**
+   * The retention period for the dead letter queue.
+   *
+   * If not provided, the default is the maximum time allowed which is 14 days.
+   */
+  readonly deadLetterQueueRetentionPeriod?: Duration;
+
+  /**
    * The number of seconds Amazon SQS retains a message. Value must be between
    * 60 and 1209600 seconds (14 days).
    *
@@ -173,7 +180,8 @@ export class StandardQueue extends ExtendedConstruct implements IQueue {
               encryptionMasterKey,
               dataKeyReuse,
               receiveMessageWaitTime: props?.receiveMessageWaitTime,
-              retentionPeriod: props?.retentionPeriod,
+              retentionPeriod:
+                props?.deadLetterQueueRetentionPeriod ?? Duration.days(14),
               fifo: props?.fifo,
             }),
             maxReceiveCount,
