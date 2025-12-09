@@ -16,7 +16,8 @@ import {
  * Properties for PythonFunctionAlpha
  */
 export interface ExtendedPythonFunctionProps
-  extends PythonFunctionProps,
+  extends
+    PythonFunctionProps,
     FunctionAlarmsOptions,
     DeployedFunctionOptions,
     FunctionLogOptions {}

@@ -31,7 +31,8 @@ import {
  * Properties for ExtendedNodejsFunction.
  */
 export interface ExtendedNodejsFunctionProps
-  extends NodejsFunctionProps,
+  extends
+    NodejsFunctionProps,
     FunctionAlarmsOptions,
     DeployedFunctionOptions,
     FunctionLogOptions {

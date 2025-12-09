@@ -2,6 +2,7 @@ import {Construct} from 'constructs';
 import {Connections, IVpc, Vpc} from 'aws-cdk-lib/aws-ec2';
 import {
   Cluster,
+  ClusterReference,
   ExecuteCommandConfiguration,
   ExecuteCommandLogging,
   ICluster,
@@ -114,6 +115,7 @@ export class StandardFargateCluster
   // Carry over from ICluster
   readonly clusterName: string;
   readonly clusterArn: string;
+  readonly clusterRef: ClusterReference;
   readonly connections: Connections;
   readonly hasEc2Capacity: boolean;
   readonly defaultCloudMapNamespace?: INamespace;
@@ -209,6 +211,7 @@ export class StandardFargateCluster
     this.logGroup = logGroup;
     this.clusterName = this.cluster.clusterName;
     this.clusterArn = this.cluster.clusterArn;
+    this.clusterRef = this.cluster.clusterRef;
     this.connections = this.cluster.connections;
     this.hasEc2Capacity = this.cluster.hasEc2Capacity;
     this.defaultCloudMapNamespace = this.cluster.defaultCloudMapNamespace;

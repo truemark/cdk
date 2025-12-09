@@ -23,8 +23,7 @@ import {MetricOptions} from 'aws-cdk-lib/aws-cloudwatch';
 /**
  * Properties for StandardApplicationFargateService
  */
-export interface StandardApplicationFargateServiceProps
-  extends StandardFargateServiceProps {
+export interface StandardApplicationFargateServiceProps extends StandardFargateServiceProps {
   /**
    * The name of an application-based stickiness cookie.
    *

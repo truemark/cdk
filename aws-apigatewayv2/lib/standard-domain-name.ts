@@ -13,8 +13,7 @@ import {
 import {LibStandardTags} from '../../truemark';
 
 export interface StandardDomainNameProps
-  extends tmroute53.DomainNameProps,
-    ExtendedConstructProps {
+  extends tmroute53.DomainNameProps, ExtendedConstructProps {
   /**
    * The optional ACM certificate for this domain name.
    *

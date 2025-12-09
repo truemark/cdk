@@ -11,8 +11,10 @@ type StandardGlobalSecondaryIndexProps = Partial<GlobalSecondaryIndexProps>;
 
 type StandardTablePropsOmitFields = 'tableName' | 'partitionKey' | 'sortKey';
 
-export interface StandardTableProps
-  extends Omit<TableProps, StandardTablePropsOmitFields> {
+export interface StandardTableProps extends Omit<
+  TableProps,
+  StandardTablePropsOmitFields
+> {
   /**
    * Setting this to true will suppress the creation of default tags on resources
    * created by this construct. Default is false.

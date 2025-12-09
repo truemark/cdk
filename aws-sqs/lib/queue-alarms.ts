@@ -65,8 +65,7 @@ export interface QueueAlarmsCategoryOptions extends AlarmsCategoryOptions {
 /**
  * Options for CloudWatch alarms for Queues.
  */
-export interface QueueAlarmsOptions
-  extends AlarmsOptions<QueueAlarmsCategoryOptions> {
+export interface QueueAlarmsOptions extends AlarmsOptions<QueueAlarmsCategoryOptions> {
   /**
    * Flag to create alarms.
    *

@@ -1,6 +1,11 @@
 import {Construct} from 'constructs';
 import {Duration, RemovalPolicy, ResourceEnvironment, Stack} from 'aws-cdk-lib';
-import {DeadLetterQueue, IQueue, QueueEncryption} from 'aws-cdk-lib/aws-sqs';
+import {
+  DeadLetterQueue,
+  IQueue,
+  QueueEncryption,
+  QueueReference,
+} from 'aws-cdk-lib/aws-sqs';
 import * as kms from 'aws-cdk-lib/aws-kms';
 import {QueueAlarmsOptions} from './queue-alarms';
 import {ExtendedQueue} from './extended-queue';
@@ -23,8 +28,7 @@ import {StandardDeadLetterQueue} from './standard-dead-letter-queue';
  * Properties for a StandardQueue
  */
 export interface StandardQueueProps
-  extends QueueAlarmsOptions,
-    ExtendedConstructProps {
+  extends QueueAlarmsOptions, ExtendedConstructProps {
   /**
    * A name for the queue.
    *
@@ -149,6 +153,7 @@ export class StandardQueue extends ExtendedConstruct implements IQueue {
   readonly queueArn: string;
   readonly queueUrl: string;
   readonly queueName: string;
+  readonly queueRef: QueueReference;
   readonly encryption: QueueEncryption | undefined;
   readonly encryptionMasterKey?: kms.IKey | undefined;
   readonly fifo: boolean;
@@ -207,6 +212,7 @@ export class StandardQueue extends ExtendedConstruct implements IQueue {
     this.queueArn = this.queue.queueArn;
     this.queueUrl = this.queue.queueUrl;
     this.queueName = this.queue.queueName;
+    this.queueRef = this.queue.queueRef;
     this.encryption = this.queue.encryptionType;
     this.encryptionMasterKey = this.queue.encryptionMasterKey;
     this.fifo = this.queue.fifo;

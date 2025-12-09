@@ -26,8 +26,7 @@ export interface LatencyARecordOptions {
  * Properties for LatencyARecord.
  */
 export interface LatencyARecordProps
-  extends ARecordProps,
-    LatencyARecordOptions {}
+  extends ARecordProps, LatencyARecordOptions {}
 
 /**
  * An extended ARecord that performs latency based routing.

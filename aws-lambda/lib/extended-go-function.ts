@@ -15,7 +15,8 @@ import {
  * Properties for ExtendedGoFunction.
  */
 export interface ExtendedGoFunctionProps
-  extends GoFunctionProps,
+  extends
+    GoFunctionProps,
     FunctionAlarmsOptions,
     DeployedFunctionOptions,
     FunctionLogOptions {}

@@ -11,9 +11,7 @@ import {Construct} from 'constructs';
  * Properties for ExtendedTableV2.
  */
 export interface ExtendedTablePropsV2
-  extends TablePropsV2,
-    TableAlarmsOptions,
-    ExtendedConstructProps {}
+  extends TablePropsV2, TableAlarmsOptions, ExtendedConstructProps {}
 
 /**
  * DynamoDB Table with CloudWatch Alarms.

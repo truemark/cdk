@@ -30,8 +30,7 @@ export interface WeightedARecordOptions {
  * Properties for WeightedARecord.
  */
 export interface WeightedARecordProps
-  extends ARecordProps,
-    WeightedARecordOptions {}
+  extends ARecordProps, WeightedARecordOptions {}
 
 /**
  * An extended ARecord that performs weight based routing.

@@ -19,8 +19,7 @@ import {LoadBalancerTarget} from 'aws-cdk-lib/aws-route53-targets';
 /**
  * Properties for StandardNetworkFargateService.
  */
-export interface StandardNetworkFargateServiceProps
-  extends StandardFargateServiceProps {
+export interface StandardNetworkFargateServiceProps extends StandardFargateServiceProps {
   /**
    * Indicates whether the load balancer terminates connections at the end of the deregistration timeout.
    *

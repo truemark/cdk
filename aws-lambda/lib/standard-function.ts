@@ -60,7 +60,8 @@ export interface StandardFunctionOptions {
  * Properties for BundledFunction
  */
 export interface BundledFunctionProps
-  extends FunctionOptions,
+  extends
+    FunctionOptions,
     FunctionAlarmsOptions,
     DeployedFunctionOptions,
     StandardFunctionOptions {

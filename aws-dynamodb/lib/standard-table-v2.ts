@@ -15,8 +15,10 @@ type StandardTablePropsV2OmitFields =
   | 'sortKey'
   | 'globalSecondaryIndexes';
 
-export interface StandardTablePropsV2
-  extends Omit<ExtendedTablePropsV2, StandardTablePropsV2OmitFields> {
+export interface StandardTablePropsV2 extends Omit<
+  ExtendedTablePropsV2,
+  StandardTablePropsV2OmitFields
+> {
   /**
    * Setting this to true will suppress the creation of default tags on resources
    * created by this construct. Default is false.

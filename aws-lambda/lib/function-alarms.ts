@@ -155,8 +155,7 @@ export interface FunctionAlarmsCategoryOptions extends AlarmsCategoryOptions {
 /**
  * Options for CloudWatch alarms for Lambda Functions
  */
-export interface FunctionAlarmsOptions
-  extends AlarmsOptions<FunctionAlarmsCategoryOptions> {
+export interface FunctionAlarmsOptions extends AlarmsOptions<FunctionAlarmsCategoryOptions> {
   /**
    * Flag to create alarms.
    *

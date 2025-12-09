@@ -11,9 +11,7 @@ import {ExtendedConstructProps, StandardTags} from '../../aws-cdk';
  * Properties for ExtendedTable.
  */
 export interface ExtendedTableProps
-  extends TableProps,
-    TableAlarmsOptions,
-    ExtendedConstructProps {}
+  extends TableProps, TableAlarmsOptions, ExtendedConstructProps {}
 
 /**
  * DynamoDB Table with CloudWatch Alarms.

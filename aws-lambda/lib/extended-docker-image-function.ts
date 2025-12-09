@@ -12,7 +12,8 @@ import {Duration} from 'aws-cdk-lib';
 import {DeployedFunctionOptions} from './extended-function';
 
 export interface ExtendedDockerImageFunctionProps
-  extends DockerImageFunctionProps,
+  extends
+    DockerImageFunctionProps,
     FunctionAlarmsOptions,
     DeployedFunctionOptions {}
 

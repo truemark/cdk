@@ -19,7 +19,8 @@ import * as fs from 'fs';
  * Properties for BundledPythonFunction.
  */
 export interface BundledPythonFunctionProps
-  extends FunctionOptions,
+  extends
+    FunctionOptions,
     FunctionAlarmsOptions,
     DeployedFunctionOptions,
     StandardFunctionOptions {

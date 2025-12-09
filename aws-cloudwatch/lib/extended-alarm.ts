@@ -42,8 +42,7 @@ export interface ExtendedCreateAlarmOptions {
  * Properties for ExtendedAlarm
  */
 export interface ExtendedAlarmProps
-  extends ExtendedCreateAlarmOptions,
-    AlarmProps {}
+  extends ExtendedCreateAlarmOptions, AlarmProps {}
 
 /**
  * Adds convenience properties and methods to Alarm.

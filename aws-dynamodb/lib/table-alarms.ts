@@ -36,8 +36,7 @@ export interface TableAlarmsCategoryOptions extends AlarmsCategoryOptions {
 /**
  * Options for TableAlarms
  */
-export interface TableAlarmsOptions
-  extends AlarmsOptions<TableAlarmsCategoryOptions> {
+export interface TableAlarmsOptions extends AlarmsOptions<TableAlarmsCategoryOptions> {
   /**
    * Flag to create alarms.
    *

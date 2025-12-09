@@ -30,8 +30,7 @@ export interface LatencyCnameRecordOptions {
  * Properties for LatencyCnameRecord.
  */
 export interface LatencyCnameRecordProps
-  extends CnameRecordProps,
-    LatencyCnameRecordOptions {}
+  extends CnameRecordProps, LatencyCnameRecordOptions {}
 
 /**
  * An extended CnameRecord that performs latency based routing.

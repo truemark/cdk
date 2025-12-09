@@ -10,8 +10,7 @@ import {
   FunctionLogOptions,
 } from './function-log-options';
 
-export interface DeployedFunctionDeploymentOptions
-  extends FunctionDeploymentOptions {
+export interface DeployedFunctionDeploymentOptions extends FunctionDeploymentOptions {
   /**
    * Include Warning CloudWatch alarms.
    *
@@ -46,7 +45,8 @@ export interface DeployedFunctionOptions {
  * Properties for Function
  */
 export interface ExtendedFunctionProps
-  extends FunctionProps,
+  extends
+    FunctionProps,
     FunctionAlarmsOptions,
     DeployedFunctionOptions,
     FunctionLogOptions {}
