@@ -1,5 +1,5 @@
 import {Names, RemovalPolicy, Stack} from 'aws-cdk-lib';
-import {FunctionOptions} from 'aws-cdk-lib/aws-lambda';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
 import {LogGroup, RetentionDays} from 'aws-cdk-lib/aws-logs';
 import {Construct} from 'constructs';
 
@@ -34,15 +34,15 @@ export interface FunctionLogOptions {
 /**
  * Configure the log group for a Lambda function.
  *
- * @param scope The scope in which to create the log group.
- * @param id The ID of the log group.
+ * @param scope The parent scope in which to create the log group.
+ * @param id The ID of the Lambda function construct.
  * @param props The properties of the function.
  * @returns The log group, or undefined if it was not configured.
  */
 export function configureLogGroupForFunction(
   scope: Construct,
   id: string,
-  props: FunctionOptions,
+  props: lambda.FunctionOptions,
 ) {
   let logConfig: FunctionLogConfig | undefined;
   if ((props as FunctionLogOptions).logConfig) {
@@ -55,20 +55,16 @@ export function configureLogGroupForFunction(
     throw new Error('Cannot specify both logRetention and logConfig.');
   }
   if (!props.logGroup && !props.logRetention) {
-    // Calculate the function name that CDK will generate with hash suffix
-    // Strip 'LogGroup' suffix from id if present to get the Lambda function's id
-    const lambdaId = id.endsWith('LogGroup') ? id.slice(0, -8) : id;
+    // Calculate the function name that CDK will generate
+    // This mimics CDK's default naming: {StackName}-{ConstructId}-{UniqueHash}
+    const uniqueId = Names.uniqueId(scope).substring(0, 8);
     const functionName =
       props.functionName ??
-      Names.uniqueResourceName(scope, {
-        maxLength: 64,
-        separator: '-',
-        allowedSpecialCharacters: '_-',
-      }).replace(/^.*?-/, `${Stack.of(scope).stackName}-${lambdaId}-`);
+      `${Stack.of(scope).stackName}-${id}-${uniqueId}`.substring(0, 64);
 
-    return new LogGroup(scope, id, {
+    return new LogGroup(scope, `${id}LogGroup`, {
+      logGroupName: `/aws/lambda/${functionName}`,
       retention: logConfig?.retention ?? RetentionDays.THREE_DAYS,
-      logGroupName: logConfig?.logGroupName ?? `/aws/lambda/${functionName}`,
       removalPolicy: RemovalPolicy.DESTROY,
     });
   }

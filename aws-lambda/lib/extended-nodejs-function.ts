@@ -102,11 +102,7 @@ export class ExtendedNodejsFunction extends NodejsFunction {
         : [collectorInstanceLayer];
     }
 
-    const logGroup = configureLogGroupForFunction(
-      scope,
-      `${id}LogGroup`,
-      props,
-    );
+    const logGroup = configureLogGroupForFunction(scope, id, props);
 
     super(scope, id, {
       logGroup,

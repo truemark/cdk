@@ -34,11 +34,7 @@ export class ExtendedPythonFunction extends PythonFunction {
     id: string,
     props: ExtendedPythonFunctionProps,
   ) {
-    const logGroup = configureLogGroupForFunction(
-      scope,
-      `${id}LogGroup`,
-      props,
-    );
+    const logGroup = configureLogGroupForFunction(scope, id, props);
 
     super(scope, id, {
       logGroup,

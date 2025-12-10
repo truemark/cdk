@@ -59,11 +59,7 @@ export class ExtendedFunction extends Function {
   readonly deployment?: FunctionDeployment;
 
   constructor(scope: Construct, id: string, props: ExtendedFunctionProps) {
-    const logGroup = configureLogGroupForFunction(
-      scope,
-      `${id}LogGroup`,
-      props,
-    );
+    const logGroup = configureLogGroupForFunction(scope, id, props);
 
     super(scope, id, {
       logGroup,

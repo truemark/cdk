@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated dependencies
 - Moved to using .prettierrc file
 
+### Fixed
+
+- Fixed log group naming issues with Lambda functions
+
 ### Removed
 
 ### Added
