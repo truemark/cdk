@@ -17,6 +17,5 @@ jobs:
       develop-preid: "beta"
       branch-preid: "alpha"
     secrets:
-      npm-auth-token: ${{ secrets.NPM_AUTH_TOKEN }}
       app-id: ${{ secrets.RELEASE_BOT_ID }}
       private-key: ${{ secrets.RELEASE_BOT_KEY }}
