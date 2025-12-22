@@ -39,6 +39,7 @@ export enum NodeVersion {
   NODE_18 = '18',
   NODE_20 = '20',
   NODE_22 = '22',
+  NODE_24 = '24',
 }
 
 /**
@@ -453,7 +454,7 @@ export class CdkPipeline extends Construct {
           phases: {
             install: {
               'runtime-versions': {
-                nodejs: props.nodeVersion ?? NodeVersion.NODE_22,
+                nodejs: props.nodeVersion ?? NodeVersion.NODE_24,
                 go: props.goVersion,
                 java: props.javaVersion,
                 dotnet: props.dotnetVersion,

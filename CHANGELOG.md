@@ -25,6 +25,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Node version 24 to CdkPipeline and made it the default version
+
 ## v1.20.0
 
 ### Changed
