@@ -48,25 +48,36 @@ export function configureLogGroupForFunction(
   if ((props as FunctionLogOptions).logConfig) {
     logConfig = (props as FunctionLogOptions).logConfig;
   }
+  if (logConfig && props.logGroup) {
+    throw new Error('Cannot specify both logGroup and logConfig.');
+  }
+  if (logConfig && props.logRetention) {
+    throw new Error('Cannot specify both logRetention and logConfig.');
+  }
   if (props.logGroup && logConfig) {
     throw new Error('Cannot specify both logGroup and logConfig.');
   }
   if (props.logRetention && logConfig) {
     throw new Error('Cannot specify both logRetention and logConfig.');
   }
-  if (!props.logGroup && !props.logRetention) {
-    // Calculate the function name that CDK will generate
-    // This mimics CDK's default naming: {StackName}-{ConstructId}-{UniqueHash}
-    const uniqueId = Names.uniqueId(scope).substring(0, 8);
-    const functionName =
-      props.functionName ??
-      `${Stack.of(scope).stackName}-${id}-${uniqueId}`.substring(0, 64);
-
-    return new LogGroup(scope, `${id}LogGroup`, {
-      logGroupName: `/aws/lambda/${functionName}`,
-      retention: logConfig?.retention ?? RetentionDays.THREE_DAYS,
-      removalPolicy: RemovalPolicy.DESTROY,
-    });
+  // Use the logGroup is one is passed in
+  if (props.logGroup) {
+    return props.logGroup;
   }
-  return undefined;
+  // If log retention is defined, fallback to deprecated behavior
+  if (props.logRetention) {
+    return undefined;
+  }
+  // Calculate the function name that CDK will generate
+  // This mimics CDK's default naming: {StackName}-{ConstructId}-{UniqueHash}
+  const uniqueId = Names.uniqueId(scope).substring(0, 8);
+  const functionName =
+    props.functionName ??
+    `${Stack.of(scope).stackName}-${id}-${uniqueId}`.substring(0, 64);
+
+  return new LogGroup(scope, `${id}LogGroup`, {
+    logGroupName: logConfig?.logGroupName ?? `/aws/lambda/${functionName}`,
+    retention: logConfig?.retention ?? RetentionDays.THREE_DAYS,
+    removalPolicy: RemovalPolicy.DESTROY,
+  });
 }
