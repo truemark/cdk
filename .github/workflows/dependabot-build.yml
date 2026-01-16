@@ -13,6 +13,7 @@ jobs:
     if: github.actor == 'dependabot[bot]'
     with:
       node-versions: "[18,20,22]"
+      pnpm-version: "10.19.0"
     secrets:
       app-id: ${{ secrets.RELEASE_BOT_ID }}
       private-key: ${{ secrets.RELEASE_BOT_KEY }}

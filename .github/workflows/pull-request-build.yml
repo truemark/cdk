@@ -9,3 +9,4 @@ jobs:
     uses: truemark/github-workflows/.github/workflows/javascript-library-build.yml@main
     with:
       node-versions: "[18,20,22]"
+      pnpm-version: "10.19.0"
