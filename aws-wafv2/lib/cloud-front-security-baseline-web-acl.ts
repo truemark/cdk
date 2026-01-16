@@ -5,6 +5,7 @@ import {
   CfnWebACL,
 } from 'aws-cdk-lib/aws-wafv2';
 import {LogGroup, RetentionDays} from 'aws-cdk-lib/aws-logs';
+import {IKey} from 'aws-cdk-lib/aws-kms';
 import {ExtendedConstruct} from '../../aws-cdk';
 
 export type cloudFrontBlockMode = 'count' | 'active';
@@ -29,6 +30,10 @@ export interface CloudFrontSecurityBaselineWebAclProps {
    * The number of days log events are kept in CloudWatch Logs. Default is 1 year.
    */
   readonly logRetention?: RetentionDays;
+  /**
+   * The KMS key to use for encrypting the log group. If not provided, the log group will not be encrypted.
+   */
+  readonly encryptionKey?: IKey;
   /**
    * The country codes to match against.
    */
@@ -256,6 +261,7 @@ export class CloudFrontSecurityBaselineWebAcl extends ExtendedConstruct {
     const wafLogGroup = new LogGroup(this, 'WafLogGroup', {
       logGroupName: `aws-waf-logs-global-waf-acl-logs-${this.node.addr}`,
       retention: props?.logRetention ?? RetentionDays.ONE_YEAR,
+      encryptionKey: props?.encryptionKey,
     });
 
     new CfnLoggingConfiguration(this, 'LoggingConfig', {
