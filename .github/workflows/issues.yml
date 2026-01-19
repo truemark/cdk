@@ -1,3 +1,4 @@
+name: 'Issues'
 on:
   pull_request:
   issues:
