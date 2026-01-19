@@ -11,9 +11,6 @@ jobs:
   publish:
     uses: ./.github/workflows/javascript-library-v2.yml
     if: github.actor != 'dependabot[bot]'
-    with:
-      node-versions: "[20,22,24]"
-      publish-node-version: "24"
     secrets:
       app-id: ${{ secrets.RELEASE_BOT_ID }}
       private-key: ${{ secrets.RELEASE_BOT_KEY }}

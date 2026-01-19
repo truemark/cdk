@@ -19,6 +19,11 @@ on:
         required: false
         default: '[20,22,24]'
         type: string
+      publish:
+        description: 'Whether to publish packages'
+        required: false
+        default: 'true'
+        type: boolean
       publish-node-version:
         description: 'Node version to use for publish'
         required: false
@@ -102,28 +107,28 @@ jobs:
       - name: "Install dependencies"
         run: pnpm ${{ env.PNPM_RECURSIVE }} i --frozen-lockfile --prefer-offline
       - name: "Snapshot version packages"
-        if: matrix.node-version == inputs.publish-node-version && github.ref == 'refs/heads/develop' && github.event_name != 'pull_request'
+        if: matrix.node-version == inputs.publish-node-version && github.ref == 'refs/heads/develop' && github.event_name != 'pull_request' && inputs.publish
         run: npx @changesets/cli version --snapshot snapshot
       - name: "Release version packages"
-        if: matrix.node-version == inputs.publish-node-version && github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        if: matrix.node-version == inputs.publish-node-version && github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && inputs.publish
         run: npx @changesets/cli version
       - name: "Build"
         run: pnpm ${{ env.PNPM_RECURSIVE }} build
       - name: "Test"
         run: pnpm ${{ env.PNPM_RECURSIVE }} test
       - name: "Publish snapshot packages"
-        if: matrix.node-version == inputs.publish-node-version && github.ref == 'refs/heads/develop' && github.event_name != 'pull_request'
+        if: matrix.node-version == inputs.publish-node-version && github.ref == 'refs/heads/develop' && github.event_name != 'pull_request' && inputs.publish
         run: pnpx @changesets/cli publish --tag snapshot --no-git-tag
       - name: "Commit and push release version bump"
-        if: matrix.node-version == inputs.publish-node-version && github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        if: matrix.node-version == inputs.publish-node-version && github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && inputs.publish
         run: |
           git config user.email "${{ inputs.github-email }}"
           git config user.name "${{ inputs.github-name }}"
           git commit -a -m "Publish packages" -m "[skip ci]"
           git push
       - name: "Publish release packages"
-        if: matrix.node-version == inputs.publish-node-version && github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        if: matrix.node-version == inputs.publish-node-version && github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && inputs.publish
         run: pnpx @changesets/cli publish
       - name: "Push release tags"
-        if: matrix.node-version == inputs.publish-node-version && github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        if: matrix.node-version == inputs.publish-node-version && github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && inputs.publish
         run: git push --follow-tags

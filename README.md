@@ -1,8 +1,6 @@
 # TrueMark CDK Library
 
 [![NPM Version][npm-image]][npm-url]
-[![TypeScript Style Guide][gts-image]][gts-url]
-[![GitHub Actions][github-image]][github-url]
 
 This library provides common constructs and functionality to ease CDK development.
 
@@ -29,12 +27,8 @@ This project follows a [semantic versioning](https://semver.org/) pattern.
 <major>.<minor>.<patch>
 ```
 
-[github-url]: https://github.com/truemark/cdk/actions
-[github-image]: https://github.com/truemark/cdk/workflows/ci/badge.svg
-[npm-url]: https://npmjs.org/package/@ncryptyr/client
+[npm-url]: https://npmjs.org/package/truemark-cdk-lib
 [npm-image]: https://img.shields.io/npm/v/truemark-cdk-lib.svg
-[gts-image]: https://img.shields.io/badge/code%20style-google-blueviolet.svg
-[gts-url]: https://github.com/google/gts
 
 ## Library supported features
 
