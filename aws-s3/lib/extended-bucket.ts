@@ -51,6 +51,12 @@ export interface BucketDeploymentConfig {
   readonly exclude?: string | string[];
 
   /**
+   * Paths to include in the deployment. If specified, only these paths will be deployed.
+   * If exclude is also specified, the intersection of the two sets will be deployed.
+   */
+  readonly include?: string | string[];
+
+  /**
    * Additional Cache-Control directives to set. Default is none.
    */
   readonly cacheControl?: CacheControl[];
@@ -108,7 +114,12 @@ export class ExtendedBucket extends Bucket {
         ? Array.isArray(c.exclude)
           ? c.exclude
           : [c.exclude]
-        : [];
+        : undefined;
+      const include = c.include
+        ? Array.isArray(c.include)
+          ? c.include
+          : [c.include]
+        : undefined;
       new BucketDeployment(this, `Deploy${this.nextDeployCount()}`, {
         sources,
         destinationBucket: this,
@@ -116,6 +127,7 @@ export class ExtendedBucket extends Bucket {
         prune: c.prune,
         cacheControl: c.cacheControl,
         exclude,
+        include,
         memoryLimit: c.memoryLimit ?? 512,
       });
     }
