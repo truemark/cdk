@@ -113,7 +113,7 @@ jobs:
         run: pnpm ${{ env.PNPM_RECURSIVE }} test
       - name: "Publish snapshot packages"
         if: matrix.node-version == inputs.publish-node-version && github.ref == 'refs/heads/develop' && github.event_name != 'pull_request'
-        run: npx @changesets/cli publish --tag snapshot --no-git-tag
+        run: pnpx @changesets/cli publish --tag snapshot --no-git-tag
       - name: "Commit and push release version bump"
         if: matrix.node-version == inputs.publish-node-version && github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         run: |
@@ -123,7 +123,7 @@ jobs:
           git push
       - name: "Publish release packages"
         if: matrix.node-version == inputs.publish-node-version && github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-        run: npx @changesets/cli publish
+        run: pnpx @changesets/cli publish
       - name: "Push release tags"
         if: matrix.node-version == inputs.publish-node-version && github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         run: git push --follow-tags
