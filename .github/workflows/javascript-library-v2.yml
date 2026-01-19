@@ -22,7 +22,7 @@ on:
       publish:
         description: 'Whether to publish packages'
         required: false
-        default: 'true'
+        default: true
         type: boolean
       publish-node-version:
         description: 'Node version to use for publish'
