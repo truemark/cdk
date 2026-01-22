@@ -1,5 +1,10 @@
 # TrueMark CDK Library Changelog
 
+## 1.21.2
+### Patch Changes
+
+- 3f5248e: Added cors support to WebsiteBucket
+
 ## 1.21.1
 ### Patch Changes
 
