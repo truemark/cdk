@@ -1,6 +1,7 @@
 import {Construct} from 'constructs';
 import {
   BlockPublicAccess,
+  CorsRule,
   RedirectTarget,
   RoutingRule,
 } from 'aws-cdk-lib/aws-s3';
@@ -70,6 +71,11 @@ export interface WebsiteBucketProps {
    * Routing rules for the website.
    */
   readonly websiteRoutingRules?: RoutingRule[];
+
+  /**
+   * Cors rules
+   */
+  readonly cors?: CorsRule[];
 }
 
 /**
@@ -109,6 +115,7 @@ export class WebsiteBucket extends ExtendedConstruct {
       websiteRoutingRules: props?.websiteRoutingRules,
       removalPolicy: props?.removalPolicy ?? RemovalPolicy.RETAIN,
       autoDeleteObjects: props?.removalPolicy === RemovalPolicy.DESTROY,
+      cors: props?.cors,
     });
     this.bucketName = this.bucket.bucketName;
     this.bucketArn = this.bucket.bucketArn;
